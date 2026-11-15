@@ -1,6 +1,6 @@
 # Art cleanup report
 
-Made by tools/art_cleanup.py. palette from art/palette.json (25 colors).
+Made by tools/art_cleanup.py. palette from art/palette.json (33 colors).
 130 images passed, 1 failed.
 
 

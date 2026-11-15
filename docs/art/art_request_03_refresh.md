@@ -16,9 +16,9 @@ Your sheets are drawn large (about 1254 pixels), and the lab shrinks each item t
 
    The game picks these as it draws, so the land itself stays exactly the same.
 
-## The brighter palette: please approve
+## The brighter palette (approved)
 
-The lab lifted the mid-tones, made the greens and warm colours a little richer, and kept the darkest colours dark for outlines. Seven bright accents were added: sunny green, new leaf, sky blue, buttercup yellow, wildflower pink, fresh-cut wood and pale stone. That makes 32 colours.
+The lab lifted the mid-tones, made the greens and warm colours a little richer, and kept the darkest colours dark for outlines. Seven bright accents were added: sunny green, new leaf, sky blue, buttercup yellow, wildflower pink, fresh-cut wood and pale stone. That makes 32 colours, plus the original deep-water blue (1f4e6b), kept so deep water stays blue: 33 in all.
 
 ![Palette before and after](palette_bright_preview.png)
 
@@ -29,11 +29,11 @@ How to read the preview:
 - **Pictures:** game art as it is today, then the same art recoloured with the new palette.
 - **Ground swatches:** before, then after.
 
-**The 32 colours (hex):**
+**The 33 colours (hex):**
 
-`286143 388e4c 61bb61 a7da85 d6f1a2 5d3e30 9d663e c7905f e1bd8e f6e0b4 556072 959daa c6ccd2 26709d 5faccf b9e4e8 e8735f fbb171 fde696 fcf8ed 819f45 b6a26e a68fdb a1f1da 1a1620 96d660 c4ec7e 70baec ffe066 f08096 e8b674 ced4da`
+`286143 388e4c 61bb61 a7da85 d6f1a2 5d3e30 9d663e c7905f e1bd8e f6e0b4 556072 959daa c6ccd2 26709d 5faccf b9e4e8 e8735f fbb171 fde696 fcf8ed 819f45 b6a26e a68fdb a1f1da 1a1620 96d660 c4ec7e 70baec ffe066 f08096 e8b674 ced4da 1f4e6b`
 
-- [ ] Use this brighter palette
+- [x] Use this brighter palette (approved 15 November 2026)
 - [ ] Brighter still
 - [ ] Not this bright
 
@@ -218,7 +218,7 @@ Four columns are four walking frames. The rows face down (toward the viewer), ri
 
 ## When you send it back
 
-- [ ] Palette choice ticked
+- [x] Palette choice ticked
 - [ ] Sheets 1 to 12 (sheet 5 is optional)
 
 Name the files exactly as in the table, and tell the lab "art is in".

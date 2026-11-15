@@ -1,5 +1,5 @@
 {
- "note": "Proposal: the forest palette brightened, with seven new accents. Not in use until the designer approves.",
+ "note": "The brighter forest palette, approved 15 November 2026 (33 colours, with the original deep-water blue kept).",
  "colors": [
   [
    40,
@@ -160,6 +160,11 @@
    206,
    212,
    218
+  ],
+  [
+   31,
+   78,
+   107
   ]
  ]
 }
