@@ -1,7 +1,7 @@
 # Art cleanup report
 
-Made by tools/art_cleanup.py. stand-in palette of 62 colors made from the raw art (art/palette.json).
-86 images passed, 1 failed.
+Made by tools/art_cleanup.py. palette from art/palette.json (25 colors).
+103 images passed, 1 failed.
 
 
 ## ChatGPT Image Nov 15, 2026, 07_04_59 AM.png (ground tiles)
@@ -55,7 +55,7 @@ Made by tools/art_cleanup.py. stand-in palette of 62 colors made from the raw ar
 - obj_outlook_post: **pass** 16x32
 - obj_sign_arrow: **pass** 16x32
 - obj_firepit: **pass** 16x16
-- obj_campfire: **FAIL** 4 separate pieces, expected 1
+- obj_campfire_v1: **FAIL** 4 separate pieces, expected 1
 - obj_mushrooms: **pass** 16x16
 - obj_flowers: **pass** 16x16
 - furniture_chest: **pass** 16x16
@@ -118,3 +118,33 @@ Made by tools/art_cleanup.py. stand-in palette of 62 colors made from the raw ar
 - item_backpack: **pass** 16x16
 - item_bedroll: **pass** 16x16
 - furniture_woodpile: **pass** 32x24
+
+## art_request_01_items.png (art request 01: items)
+
+- item_hot_soup: **pass** 16x16
+- item_planks: **pass** 16x16
+- item_nails: **pass** 16x16
+- item_roofing: **pass** 16x16
+- item_window_glass: **pass** 16x16
+- obj_camp_bedroll: **pass** 16x16
+- furniture_note_board: **pass** 16x16
+
+## art_request_01_fire_gate.png (art request 01: fire, stove and gate)
+
+- obj_campfire: **pass** 16x16
+- furniture_stove: **pass** 16x24
+- obj_gate: **pass** 16x32
+
+## art_request_01_weather.png (art request 01: weather symbols)
+
+- weather_clear: **pass** 16x16
+- weather_overcast: **pass** 16x16
+- weather_rain: **pass** 16x16
+- weather_fog: **pass** 16x16
+- weather_storm: **pass** 16x16
+- weather_snow: **pass** 16x16
+- weather_blizzard: **pass** 16x16
+
+## strange_ranger_palette.png (forest palette)
+
+- -: **SKIPPED** the palette sheet; its colours are in art/palette.json

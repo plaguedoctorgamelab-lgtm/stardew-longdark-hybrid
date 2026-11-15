@@ -231,6 +231,9 @@ def main():
         listed.add(entry["file"])
         if args.only and args.only not in entry["file"]:
             continue
+        if entry.get("reference"):
+            report.append(("%s (%s)" % (entry["file"], entry["label"]), [("-", "SKIPPED", entry["reference"])]))
+            continue
         if entry.get("duplicate_of"):
             report.append(("%s (%s)" % (entry["file"], entry["label"]), [("-", "SKIPPED", "byte-identical copy of %s" % entry["duplicate_of"])]))
             continue
