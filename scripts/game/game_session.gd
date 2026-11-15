@@ -92,6 +92,8 @@ func new_game(new_seed: int = -1) -> void:
 	structures.place_found_supplies(seed_value)
 	structures.restock_shelves()
 	map.wipe()
+	# The ground around the station starts mapped, so home is never lost.
+	map.reveal_circle(door_front("ranger_station"), tuning.num("map.home_reveal_radius"))
 	location = ""
 	outdoor_pos = world.spawn("station")
 	facing = FACING_DOWN

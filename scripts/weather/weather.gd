@@ -107,6 +107,11 @@ func generate_day(abs_day: int, prev: String) -> Array[String]:
 func new_game(new_seed: int, abs_day: int) -> void:
 	seed_value = new_seed
 	today = generate_day(abs_day, "")
+	# The first day of a new game is fixed (clear), so the ranger can learn
+	# the map before the weather turns.
+	var first: String = str(tuning.value("weather.first_day"))
+	if first != "":
+		today.assign([first, first, first])
 	tomorrow = generate_day(abs_day + 1, today[2])
 	_last_reported = ""
 

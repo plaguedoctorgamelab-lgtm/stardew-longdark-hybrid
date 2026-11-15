@@ -28,6 +28,7 @@ func test_trace_while_walking(t: TestCase) -> void:
 
 func test_survey_reveals_its_radius(t: TestCase) -> void:
 	var s := TestCase.new_session()
+	s.debug_wipe_map()
 	s.debug_force_weather("clear")
 	s.debug_set_time(9 * 60)
 	s.debug_teleport("fork")
@@ -44,6 +45,7 @@ func test_survey_reveals_its_radius(t: TestCase) -> void:
 
 func test_survey_takes_thirty_minutes_and_moving_cancels(t: TestCase) -> void:
 	var s := TestCase.new_session()
+	s.debug_wipe_map()
 	s.debug_force_weather("overcast")
 	s.debug_set_time(9 * 60)
 	s.debug_teleport("fork")
@@ -84,6 +86,7 @@ func test_survey_refused_at_night_and_in_bad_weather(t: TestCase) -> void:
 
 func test_map_location_reveals_landmark(t: TestCase) -> void:
 	var s := TestCase.new_session()
+	s.debug_wipe_map()
 	s.debug_force_weather("blizzard")
 	s.debug_set_time(23 * 60)
 	s.debug_teleport("cabin")
@@ -97,6 +100,7 @@ func test_map_location_reveals_landmark(t: TestCase) -> void:
 
 func test_outlook_survey_reveals_forty(t: TestCase) -> void:
 	var s := TestCase.new_session()
+	s.debug_wipe_map()
 	s.debug_force_weather("clear")
 	s.debug_set_time(9 * 60)
 	s.debug_teleport("outlook")
@@ -173,8 +177,18 @@ func test_hidden_trace_appears_when_marker_returns(t: TestCase) -> void:
 
 func test_map_share_and_debug(t: TestCase) -> void:
 	var s := TestCase.new_session()
+	s.debug_wipe_map()
 	t.equal(s.map.percent_revealed(), 0.0, "blank at the start")
 	s.debug_reveal_map()
 	t.equal(s.map.percent_revealed(), 100.0, "debug reveal")
 	s.debug_wipe_map()
 	t.equal(s.map.percent_revealed(), 0.0, "debug wipe")
+
+
+func test_home_area_starts_mapped(t: TestCase) -> void:
+	var s := TestCase.new_session()
+	var r := s.tuning.num("map.home_reveal_radius")
+	t.check(s.map.is_revealed(s.ranger_tile()), "the station door is on mapped ground")
+	t.near(float(s.map.revealed_count), _area(r), _area(r) * 0.08, "home area of radius %d revealed" % r)
+	t.check(s.marker_visible(), "the marker shows at the start")
+	t.check(not s.map.is_revealed(Vector2i(s.world.spawn("fork"))), "the rest of the map starts blank")

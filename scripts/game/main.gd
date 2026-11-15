@@ -3,6 +3,9 @@ extends Node
 ## input map by action name, and keeps the camera on the ranger.
 
 const TILE := 16
+const VIEW := Vector2i(480, 270)
+
+var world: SubViewport
 
 var session: GameSession
 var world_view: WorldView
@@ -28,18 +31,19 @@ func _ready() -> void:
 	ui_theme = _make_theme()
 	session = GameSession.new()
 	ranger = RangerSprite.new()
+	world = _make_world_viewport()
 	world_view = WorldView.new()
-	add_child(world_view)
+	world.add_child(world_view)
 	world_view.setup(session, ranger)
 	interior_view = InteriorView.new()
 	interior_view.visible = false
-	add_child(interior_view)
+	world.add_child(interior_view)
 	interior_view.setup(session)
 	camera = Camera2D.new()
-	add_child(camera)
+	world.add_child(camera)
 	camera.make_current()
 	effects = ScreenEffects.new()
-	add_child(effects)
+	world.add_child(effects)
 	effects.setup(session)
 	hud = Hud.new()
 	add_child(hud)
@@ -55,6 +59,27 @@ func _ready() -> void:
 			interior_view.refresh())
 	session.collapsed.connect(func(text: String) -> void: _show_dialog("notice", text))
 	_show_title()
+
+
+## The world is drawn into its own 480 by 270 picture with nearest filtering,
+## then shown scaled up by a whole number, so it stays pixel-perfect. Text and
+## menus are drawn outside it at the screen's full resolution, so they stay
+## sharp.
+func _make_world_viewport() -> SubViewport:
+	var holder := SubViewportContainer.new()
+	holder.stretch = true
+	holder.size = Vector2(VIEW)
+	holder.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(holder)
+	var vp := SubViewport.new()
+	vp.size = VIEW
+	vp.canvas_item_default_texture_filter = Viewport.DEFAULT_CANVAS_ITEM_TEXTURE_FILTER_NEAREST
+	vp.snap_2d_transforms_to_pixel = true
+	vp.snap_2d_vertices_to_pixel = true
+	vp.handle_input_locally = false
+	holder.add_child(vp)
+	return vp
 
 
 func _make_theme() -> Theme:
@@ -185,6 +210,12 @@ func _show_dialog(kind: String, text: String) -> void:
 	_dialog_kind = kind
 	dialog_label.text = text
 	dialog.visible = true
+	# Grow the box to fit the text, and keep it centred.
+	var line_h := dialog_label.get_line_height() + dialog_label.get_theme_constant("line_spacing")
+	var h := dialog_label.get_line_count() * line_h + 14
+	dialog_label.size.y = h - 12
+	dialog.size.y = maxi(40, h)
+	dialog.position.y = (VIEW.y - dialog.size.y) / 2.0
 
 
 func _close_dialog(yes: bool) -> void:

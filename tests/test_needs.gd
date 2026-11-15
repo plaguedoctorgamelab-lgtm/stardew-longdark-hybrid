@@ -159,7 +159,7 @@ func test_blizzard_drains_full_warmth_in_under_two_hours(t: TestCase) -> void:
 		s.debug_set_needs(270, 100)
 		var steps := 0
 		while s.collapse_count == 0 and steps < 50:
-			s.debug_force_weather("blizzard")
+			s.weather.today.assign(["blizzard", "blizzard", "blizzard"])
 			s.clock.advance_step()
 			steps += 1
 		var limit := 110 if start > 18 * 60 else 120

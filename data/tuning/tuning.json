@@ -67,7 +67,8 @@
     "warning_minutes": 60,
     "blocks": [360, 720, 1080],
     "shoulder_snow_share": 0.5,
-    "shoulder_days": 7
+    "shoulder_days": 7,
+    "first_day": "clear"
   },
   "map": {
     "survey_radius": 12,
@@ -76,7 +77,8 @@
     "location_minutes": 20,
     "location_reach_tiles": 3,
     "outlook_radius": 40,
-    "outlook_reach_tiles": 3
+    "outlook_reach_tiles": 3,
+    "home_reveal_radius": 20
   },
   "repair": {
     "actions_per_step": 3,
