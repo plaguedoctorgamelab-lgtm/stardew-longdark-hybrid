@@ -1,0 +1,391 @@
+{
+ "note": "Hand-placed layout of the phase one test area. The bake tool turns this into chunks. Hand-placed things always win over generated terrain. Units are tiles; y grows southward.",
+ "seed": 20261115,
+ "size_chunks": [
+  12,
+  8
+ ],
+ "chunk_size": 32,
+ "border": {
+  "rock": 3,
+  "trees": 4
+ },
+ "forest_edge": {
+  "x": 96,
+  "wobble": 4
+ },
+ "station": {
+  "id": "ranger_station",
+  "pos": [
+   14,
+   220
+  ]
+ },
+ "cabin": {
+  "id": "test_cabin",
+  "pos": [
+   352,
+   36
+  ]
+ },
+ "gate": {
+  "pos": [
+   2,
+   226
+  ],
+  "trail_to": [
+   17.5,
+   225.5
+  ]
+ },
+ "outlook": {
+  "id": "scenic_outlook",
+  "center": [
+   280.5,
+   24.5
+  ],
+  "top_radius": 7,
+  "rock_radius": 10,
+  "post": [
+   280,
+   21
+  ]
+ },
+ "dead_tree": {
+  "pos": [
+   243,
+   96
+  ]
+ },
+ "cabin_clearing_radius": 7,
+ "station_clearing_radius": 14,
+ "trail_radius": 1.25,
+ "trail_segments": [
+  {
+   "id": "yard",
+   "from": [
+    17.5,
+    225.5
+   ],
+   "to": [
+    30.5,
+    225.5
+   ],
+   "length": 0,
+   "side": 0
+  },
+  {
+   "id": "meadow",
+   "from": "yard",
+   "to": [
+    "forest_edge",
+    150.5
+   ],
+   "length": 176,
+   "side": 0,
+   "via": [
+    [
+     58,
+     205
+    ],
+    [
+     52,
+     178
+    ]
+   ],
+   "wave_len": 36
+  },
+  {
+   "id": "forest",
+   "from": "meadow",
+   "to": [
+    218.5,
+    106.5
+   ],
+   "length": 254,
+   "side": 0,
+   "via": [
+    [
+     122,
+     172
+    ],
+    [
+     162,
+     160
+    ],
+    [
+     160,
+     128
+    ],
+    [
+     190,
+     116
+    ]
+   ],
+   "wave_len": 36
+  },
+  {
+   "id": "ford",
+   "from": "forest",
+   "to": [
+    246.5,
+    100.5
+   ],
+   "length": 0,
+   "side": 0
+  },
+  {
+   "id": "north_branch",
+   "from": "ford",
+   "to": [
+    280.5,
+    24.5
+   ],
+   "length": 189,
+   "side": 0,
+   "via": [
+    [
+     262,
+     86
+    ],
+    [
+     250,
+     64
+    ],
+    [
+     258,
+     44
+    ]
+   ],
+   "wave_len": 36
+  },
+  {
+   "id": "east_branch",
+   "from": "ford",
+   "to": [
+    354.5,
+    40.5
+   ],
+   "length": 283,
+   "side": 0,
+   "via": [
+    [
+     275,
+     108
+    ],
+    [
+     305,
+     92
+    ],
+    [
+     330,
+     100
+    ],
+    [
+     346,
+     72
+    ]
+   ],
+   "wave_len": 36
+  }
+ ],
+ "routes": {
+  "forest_edge": [
+   "yard",
+   "meadow"
+  ],
+  "fork": [
+   "yard",
+   "meadow",
+   "forest",
+   "ford"
+  ],
+  "outlook": [
+   "yard",
+   "meadow",
+   "forest",
+   "ford",
+   "north_branch"
+  ],
+  "cabin": [
+   "yard",
+   "meadow",
+   "forest",
+   "ford",
+   "east_branch"
+  ]
+ },
+ "route_targets_minutes": {
+  "forest_edge": 60,
+  "fork": 150,
+  "outlook": 210,
+  "cabin": 240
+ },
+ "stream": {
+  "points": [
+   [
+    222,
+    -2
+   ],
+   [
+    219,
+    40
+   ],
+   [
+    222,
+    80
+   ],
+   [
+    228,
+    104
+   ],
+   [
+    233,
+    150
+   ],
+   [
+    227,
+    200
+   ],
+   [
+    236,
+    258
+   ]
+  ],
+  "deep_radius": 1.6,
+  "shallow_radius": 3.2,
+  "ford_center": [
+   228,
+   104
+  ],
+  "ford_radius": 9,
+  "pool": {
+   "center": [
+    221,
+    62
+   ],
+   "deep_radius": 9,
+   "shallow_radius": 11
+  }
+ },
+ "thick_forest": {
+  "min_x": 250,
+  "max_y": 90
+ },
+ "density": {
+  "meadow_bush": 0.025,
+  "meadow_boulder": 0.008,
+  "tall_grass_cover": 0.3,
+  "forest_tree": 0.16,
+  "thick_tree": 0.24,
+  "forest_boulder": 0.01
+ },
+ "shortcut": {
+  "from": [
+   280.5,
+   24.5
+  ],
+  "to": [
+   354.5,
+   40.5
+  ],
+  "waves": 2,
+  "amplitude": 10,
+  "trunk_every": 22,
+  "trunk_offset": 3
+ },
+ "spawns": {
+  "station": [
+   17.5,
+   225.5
+  ],
+  "fork": [
+   246.5,
+   101.5
+  ],
+  "outlook": [
+   280.5,
+   25.5
+  ],
+  "cabin": [
+   354.5,
+   40.5
+  ]
+ },
+ "object_types": {
+  "tree_pine": {
+   "size": [
+    1,
+    1
+   ],
+   "sprite": "obj_tree_pine",
+   "solid": true
+  },
+  "tree_fir": {
+   "size": [
+    1,
+    1
+   ],
+   "sprite": "obj_tree_fir",
+   "solid": true
+  },
+  "tree_oak": {
+   "size": [
+    1,
+    1
+   ],
+   "sprite": "obj_tree_oak",
+   "solid": true
+  },
+  "tree_dead": {
+   "size": [
+    1,
+    1
+   ],
+   "sprite": "obj_tree_dead",
+   "solid": true
+  },
+  "bush": {
+   "size": [
+    1,
+    1
+   ],
+   "sprite": "obj_bush",
+   "solid": true
+  },
+  "boulder": {
+   "size": [
+    1,
+    1
+   ],
+   "sprite": "obj_boulder",
+   "solid": true
+  },
+  "fallen_trunk": {
+   "size": [
+    3,
+    1
+   ],
+   "sprite": "obj_fallen_trunk",
+   "solid": true
+  },
+  "gate": {
+   "size": [
+    1,
+    2
+   ],
+   "sprite": "obj_gate",
+   "solid": true,
+   "interact": "gate"
+  },
+  "outlook_post": {
+   "size": [
+    1,
+    1
+   ],
+   "sprite": "obj_outlook_post",
+   "solid": true,
+   "interact": "landmark:scenic_outlook"
+  }
+ }
+}

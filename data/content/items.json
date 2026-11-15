@@ -1,0 +1,18 @@
+{
+  "rows": [
+    {"id": "hammer", "name": "item_hammer", "kind": "tool", "stack": 1, "icon": "item_hammer"},
+    {"id": "lantern", "name": "item_lantern", "kind": "tool", "stack": 1, "icon": "item_lantern"},
+    {"id": "map", "name": "item_map", "kind": "tool", "stack": 1, "icon": "item_map"},
+    {"id": "compass", "name": "item_compass", "kind": "tool", "stack": 1, "icon": "item_compass"},
+    {"id": "pencil", "name": "item_pencil", "kind": "tool", "stack": 1, "icon": "item_pencil"},
+    {"id": "tin_of_beans", "name": "item_tin_of_beans", "kind": "food", "stack": 5, "icon": "item_tin_of_beans"},
+    {"id": "apple", "name": "item_apple", "kind": "food", "stack": 5, "icon": "item_apple"},
+    {"id": "sandwich", "name": "item_sandwich", "kind": "food", "stack": 5, "icon": "item_sandwich"},
+    {"id": "hot_soup", "name": "item_hot_soup", "kind": "food", "stack": 3, "icon": "item_hot_soup"},
+    {"id": "firewood", "name": "item_firewood", "kind": "fuel", "stack": 5, "icon": "item_firewood"},
+    {"id": "planks", "name": "item_planks", "kind": "material", "stack": 10, "icon": "item_planks"},
+    {"id": "nails", "name": "item_nails", "kind": "material", "stack": 30, "icon": "item_nails"},
+    {"id": "roofing", "name": "item_roofing", "kind": "material", "stack": 5, "icon": "item_roofing"},
+    {"id": "window_glass", "name": "item_window_glass", "kind": "material", "stack": 2, "icon": "item_window_glass"}
+  ]
+}

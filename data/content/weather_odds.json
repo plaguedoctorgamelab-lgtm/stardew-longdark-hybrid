@@ -1,0 +1,8 @@
+{
+  "rows": [
+    {"id": "spring", "odds": {"clear": 40, "overcast": 25, "rain": 20, "fog": 10, "storm": 5, "snow": 0, "blizzard": 0}},
+    {"id": "summer", "odds": {"clear": 55, "overcast": 20, "rain": 10, "fog": 5, "storm": 10, "snow": 0, "blizzard": 0}},
+    {"id": "autumn", "odds": {"clear": 30, "overcast": 30, "rain": 20, "fog": 15, "storm": 5, "snow": 0, "blizzard": 0}},
+    {"id": "winter", "odds": {"clear": 25, "overcast": 25, "rain": 0, "fog": 5, "storm": 0, "snow": 30, "blizzard": 15}}
+  ]
+}

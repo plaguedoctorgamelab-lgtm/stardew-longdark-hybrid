@@ -1,0 +1,15 @@
+# Godot
+.godot/
+*.import.tmp
+/export/
+/build/
+
+# Python
+__pycache__/
+*.pyc
+
+# The designer's drop folder; its contents are copied into docs/ and art/raw/.
+/ref/
+
+# Local previews
+/map_preview.png

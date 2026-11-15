@@ -1,0 +1,420 @@
+{
+ "note": "All player-facing text. Every line is placeholder wording written by the lab until the designer replaces it.",
+ "rows": [
+  {
+   "id": "item_hammer",
+   "text": "Hammer",
+   "placeholder": true
+  },
+  {
+   "id": "item_lantern",
+   "text": "Lantern",
+   "placeholder": true
+  },
+  {
+   "id": "item_map",
+   "text": "Map",
+   "placeholder": true
+  },
+  {
+   "id": "item_compass",
+   "text": "Compass",
+   "placeholder": true
+  },
+  {
+   "id": "item_pencil",
+   "text": "Pencil",
+   "placeholder": true
+  },
+  {
+   "id": "item_tin_of_beans",
+   "text": "Tin of beans",
+   "placeholder": true
+  },
+  {
+   "id": "item_apple",
+   "text": "Apple",
+   "placeholder": true
+  },
+  {
+   "id": "item_sandwich",
+   "text": "Sandwich",
+   "placeholder": true
+  },
+  {
+   "id": "item_hot_soup",
+   "text": "Hot soup",
+   "placeholder": true
+  },
+  {
+   "id": "item_firewood",
+   "text": "Firewood",
+   "placeholder": true
+  },
+  {
+   "id": "item_planks",
+   "text": "Planks",
+   "placeholder": true
+  },
+  {
+   "id": "item_nails",
+   "text": "Nails",
+   "placeholder": true
+  },
+  {
+   "id": "item_roofing",
+   "text": "Roofing",
+   "placeholder": true
+  },
+  {
+   "id": "item_window_glass",
+   "text": "Window glass",
+   "placeholder": true
+  },
+  {
+   "id": "weather_clear",
+   "text": "Clear",
+   "placeholder": true
+  },
+  {
+   "id": "weather_overcast",
+   "text": "Overcast",
+   "placeholder": true
+  },
+  {
+   "id": "weather_rain",
+   "text": "Rain",
+   "placeholder": true
+  },
+  {
+   "id": "weather_fog",
+   "text": "Fog",
+   "placeholder": true
+  },
+  {
+   "id": "weather_storm",
+   "text": "Storm",
+   "placeholder": true
+  },
+  {
+   "id": "weather_snow",
+   "text": "Snow",
+   "placeholder": true
+  },
+  {
+   "id": "weather_blizzard",
+   "text": "Blizzard",
+   "placeholder": true
+  },
+  {
+   "id": "season_spring",
+   "text": "Spring",
+   "placeholder": true
+  },
+  {
+   "id": "season_summer",
+   "text": "Summer",
+   "placeholder": true
+  },
+  {
+   "id": "season_autumn",
+   "text": "Autumn",
+   "placeholder": true
+  },
+  {
+   "id": "season_winter",
+   "text": "Winter",
+   "placeholder": true
+  },
+  {
+   "id": "structure_ranger_station",
+   "text": "Ranger Station",
+   "placeholder": true
+  },
+  {
+   "id": "structure_test_cabin",
+   "text": "Old Cabin",
+   "placeholder": true
+  },
+  {
+   "id": "landmark_test_cabin",
+   "text": "Old Cabin",
+   "placeholder": true
+  },
+  {
+   "id": "landmark_scenic_outlook",
+   "text": "Scenic Outlook",
+   "placeholder": true
+  },
+  {
+   "id": "repair_step_door",
+   "text": "door",
+   "placeholder": true
+  },
+  {
+   "id": "repair_step_walls",
+   "text": "walls",
+   "placeholder": true
+  },
+  {
+   "id": "repair_step_roof",
+   "text": "roof",
+   "placeholder": true
+  },
+  {
+   "id": "repair_step_window",
+   "text": "window",
+   "placeholder": true
+  },
+  {
+   "id": "hud_date",
+   "text": "{season} {day}, Year {year}",
+   "placeholder": true
+  },
+  {
+   "id": "hud_energy",
+   "text": "Energy",
+   "placeholder": true
+  },
+  {
+   "id": "hud_warmth",
+   "text": "Warmth",
+   "placeholder": true
+  },
+  {
+   "id": "hud_exhausted",
+   "text": "Exhausted",
+   "placeholder": true
+  },
+  {
+   "id": "hud_chilled",
+   "text": "Chilled",
+   "placeholder": true
+  },
+  {
+   "id": "radio_header",
+   "text": "Ranger radio, morning forecast:",
+   "placeholder": true
+  },
+  {
+   "id": "radio_block_morning",
+   "text": "Morning: {weather}",
+   "placeholder": true
+  },
+  {
+   "id": "radio_block_afternoon",
+   "text": "Afternoon: {weather}",
+   "placeholder": true
+  },
+  {
+   "id": "radio_block_evening",
+   "text": "Evening: {weather}",
+   "placeholder": true
+  },
+  {
+   "id": "radio_tomorrow",
+   "text": "Tomorrow looks like {weather}.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_cabin_locked",
+   "text": "The cabin is too run-down to enter. Still needed: {steps}.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_repair_need_hammer",
+   "text": "You need the hammer in your backpack.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_repair_need_materials",
+   "text": "You don't have the materials for any repair step here.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_repair_progress",
+   "text": "You work on the {step} ({done}/{total}).",
+   "placeholder": true
+  },
+  {
+   "id": "msg_repair_step_done",
+   "text": "The {step} is fixed.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_cabin_repaired",
+   "text": "The cabin is repaired. The door opens.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_too_tired",
+   "text": "You are too tired for that.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_ate",
+   "text": "You eat the {item}.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_survey_start",
+   "text": "You unfold the map and start surveying. Stand still...",
+   "placeholder": true
+  },
+  {
+   "id": "msg_survey_done",
+   "text": "Survey complete.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_survey_cancelled",
+   "text": "You moved, so the survey stopped.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_survey_need_tools",
+   "text": "Surveying needs the map, compass and pencil in your backpack.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_survey_dark",
+   "text": "It is too dark to survey.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_survey_weather",
+   "text": "You can't survey in this weather.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_map_location",
+   "text": "You map the {name}.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_outlook_survey",
+   "text": "From the outlook you can see for miles.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_stove_lit",
+   "text": "You light the stove.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_stove_fed",
+   "text": "You add firewood to the stove.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_stove_no_wood",
+   "text": "You need firewood for the stove.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_backpack_full",
+   "text": "Your backpack is full.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_sleep_confirm",
+   "text": "Go to sleep for the night? (Y / N)",
+   "placeholder": true
+  },
+  {
+   "id": "msg_shelf_restocked",
+   "text": "The supply shelf is stocked.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_rescue_station",
+   "text": "A hiker found you and helped you back to the station.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_rescue_cabin",
+   "text": "A hiker found you and helped you to the old cabin.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_saved",
+   "text": "Game saved.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_save_too_new",
+   "text": "This save was made by a newer version of the game and cannot be loaded.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_save_broken",
+   "text": "This save file could not be read.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_gate_closed",
+   "text": "Beyond the gate, the road isn't open yet.",
+   "placeholder": true
+  },
+  {
+   "id": "map_title",
+   "text": "Map",
+   "placeholder": true
+  },
+  {
+   "id": "map_revealed",
+   "text": "{percent}% mapped",
+   "placeholder": true
+  },
+  {
+   "id": "map_lost",
+   "text": "You aren't sure where you are.",
+   "placeholder": true
+  },
+  {
+   "id": "ui_backpack",
+   "text": "Backpack",
+   "placeholder": true
+  },
+  {
+   "id": "ui_chest",
+   "text": "Chest",
+   "placeholder": true
+  },
+  {
+   "id": "ui_shelf",
+   "text": "Supply shelf",
+   "placeholder": true
+  },
+  {
+   "id": "ui_title",
+   "text": "Strange Ranger",
+   "placeholder": true
+  },
+  {
+   "id": "ui_new_game",
+   "text": "New game",
+   "placeholder": true
+  },
+  {
+   "id": "ui_continue",
+   "text": "Continue",
+   "placeholder": true
+  },
+  {
+   "id": "ui_quit",
+   "text": "Quit",
+   "placeholder": true
+  },
+  {
+   "id": "ui_close_hint",
+   "text": "E / Esc to close",
+   "placeholder": true
+  },
+  {
+   "id": "ui_debug_title",
+   "text": "Debug",
+   "placeholder": true
+  }
+ ]
+}

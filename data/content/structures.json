@@ -1,0 +1,79 @@
+{
+  "rows": [
+    {
+      "id": "ranger_station",
+      "name": "structure_ranger_station",
+      "kind": "station",
+      "sprite": "building_station",
+      "sprite_repaired": "building_station",
+      "footprint": [6, 4],
+      "door": [3, 3],
+      "starts_repaired": true,
+      "has_bed": true,
+      "interior": {
+        "size": [12, 8],
+        "floor": "interior_floor",
+        "wall": "interior_wall",
+        "entry": [6, 6],
+        "furniture": [
+          {"id": "bed", "kind": "bed", "pos": [1, 1], "size": [2, 2], "sprite": "furniture_bed"},
+          {"id": "radio", "kind": "radio", "pos": [5, 1], "size": [1, 1], "sprite": "furniture_radio"},
+          {"id": "shelf", "kind": "shelf", "pos": [8, 1], "size": [2, 1], "sprite": "furniture_shelf"},
+          {"id": "chest", "kind": "chest", "pos": [10, 1], "size": [1, 1], "sprite": "furniture_chest"},
+          {"id": "door", "kind": "exit", "pos": [6, 7], "size": [1, 1], "sprite": "furniture_door"}
+        ]
+      },
+      "repair_steps": [],
+      "shelf_stock": [
+        {"item": "tin_of_beans", "count": 5},
+        {"item": "apple", "count": 5},
+        {"item": "sandwich", "count": 5},
+        {"item": "hot_soup", "count": 3},
+        {"item": "firewood", "count": 5},
+        {"item": "planks", "count": 10},
+        {"item": "nails", "count": 30},
+        {"item": "roofing", "count": 5},
+        {"item": "window_glass", "count": 2}
+      ],
+      "found_supplies": []
+    },
+    {
+      "id": "test_cabin",
+      "name": "structure_test_cabin",
+      "kind": "cabin",
+      "sprite": "building_cabin_broken",
+      "sprite_repaired": "building_cabin_repaired",
+      "footprint": [4, 3],
+      "door": [2, 2],
+      "starts_repaired": false,
+      "has_bed": true,
+      "interior": {
+        "size": [9, 7],
+        "floor": "interior_floor",
+        "wall": "interior_wall",
+        "entry": [4, 5],
+        "furniture": [
+          {"id": "bed", "kind": "bed", "pos": [1, 1], "size": [2, 2], "sprite": "furniture_bed"},
+          {"id": "stove", "kind": "stove", "pos": [5, 1], "size": [1, 1], "sprite": "furniture_stove"},
+          {"id": "chest", "kind": "chest", "pos": [7, 1], "size": [1, 1], "sprite": "furniture_chest"},
+          {"id": "door", "kind": "exit", "pos": [4, 6], "size": [1, 1], "sprite": "furniture_door"}
+        ]
+      },
+      "repair_steps": [
+        {"id": "door", "name": "repair_step_door", "materials": {"planks": 2, "nails": 4}},
+        {"id": "walls", "name": "repair_step_walls", "materials": {"planks": 4, "nails": 8}},
+        {"id": "roof", "name": "repair_step_roof", "materials": {"roofing": 4, "nails": 8}},
+        {"id": "window", "name": "repair_step_window", "materials": {"window_glass": 1, "planks": 2}}
+      ],
+      "repair_tool": "hammer",
+      "shelf_stock": [],
+      "found_supplies": [
+        {"item": "tin_of_beans", "min": 0, "max": 2},
+        {"item": "apple", "min": 0, "max": 3},
+        {"item": "firewood", "min": 1, "max": 3},
+        {"item": "nails", "min": 0, "max": 6},
+        {"item": "hot_soup", "min": 0, "max": 1}
+      ]
+    }
+  ]
+}
