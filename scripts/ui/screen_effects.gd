@@ -12,11 +12,16 @@ uniform vec4 tint : source_color = vec4(1.0);
 uniform vec4 lamp : source_color = vec4(1.0);
 uniform vec2 center = vec2(240.0, 135.0);
 uniform float radius = 0.0;
+uniform vec2 center2 = vec2(240.0, 135.0);
+uniform float radius2 = 0.0;
 uniform vec2 size = vec2(480.0, 270.0);
 void fragment() {
 	vec2 p = UV * size;
 	float d = distance(p, center);
 	float lit = radius > 0.0 ? 1.0 - smoothstep(radius * 0.55, radius, d) : 0.0;
+	float d2 = distance(p, center2);
+	float lit2 = radius2 > 0.0 ? 1.0 - smoothstep(radius2 * 0.4, radius2, d2) : 0.0;
+	lit = max(lit, lit2);
 	vec3 lamp_c = max(tint.rgb, lamp.rgb);
 	COLOR = vec4(mix(tint.rgb, lamp_c, lit), 1.0);
 }
@@ -49,6 +54,7 @@ var _effect: String = "none"
 var _wind: float = 0.0
 var _rng := RandomNumberGenerator.new()
 var ranger_screen: Vector2 = VIEW / 2.0
+var fire_screen: Vector2 = Vector2(-1000, -1000)
 var last_tint: Color = Color.WHITE
 var last_visibility_px: float = 0.0
 
@@ -116,6 +122,9 @@ func _process(delta: float) -> void:
 	tm.set_shader_parameter("center", ranger_screen)
 	var lantern := session.lantern_lit() and not session.is_indoors()
 	tm.set_shader_parameter("radius", t.num("light.lantern_radius_tiles") * 16.0 if lantern else 0.0)
+	var fire_on := session.campfire_lit() and not session.is_indoors()
+	tm.set_shader_parameter("center2", fire_screen)
+	tm.set_shader_parameter("radius2", t.num("camp.fire_light_tiles") * 16.0 * (0.95 + 0.05 * sin(Time.get_ticks_msec() / 90.0)) if fire_on else 0.0)
 	var fm: ShaderMaterial = fog_rect.material
 	var vis := visibility_tiles()
 	last_visibility_px = vis * 16.0

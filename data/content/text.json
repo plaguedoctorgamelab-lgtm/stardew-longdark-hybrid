@@ -415,6 +415,121 @@
    "id": "ui_debug_title",
    "text": "Debug",
    "placeholder": true
+  },
+  {
+   "id": "item_axe",
+   "text": "Axe",
+   "placeholder": true
+  },
+  {
+   "id": "item_bedroll",
+   "text": "Bedroll",
+   "placeholder": true
+  },
+  {
+   "id": "landmark_hint_test_cabin",
+   "text": "Old cabin?",
+   "placeholder": true
+  },
+  {
+   "id": "job_fix_cabin_title",
+   "text": "Fix up the old cabin",
+   "placeholder": true
+  },
+  {
+   "id": "job_fix_cabin_offer",
+   "text": "A note pinned to the board, in the last ranger's hand: \"There's an old cabin out past the stream, northeast, by my reckoning. Roof's gone, door's off. If you ever fancy fixing it up, it'd make a fine place to sleep out there. I've marked roughly where on your map. The axe and bedroll in the chest are yours.\"",
+   "placeholder": true
+  },
+  {
+   "id": "job_list_title",
+   "text": "Jobs (J to close)",
+   "placeholder": true
+  },
+  {
+   "id": "job_none",
+   "text": "No jobs yet. Try the note board in the station.",
+   "placeholder": true
+  },
+  {
+   "id": "job_bring",
+   "text": "Bring: {list}",
+   "placeholder": true
+  },
+  {
+   "id": "job_steps",
+   "text": "Repairs: {list}",
+   "placeholder": true
+  },
+  {
+   "id": "job_also",
+   "text": "Handy: {list}",
+   "placeholder": true
+  },
+  {
+   "id": "job_done",
+   "text": "Done!",
+   "placeholder": true
+  },
+  {
+   "id": "job_have",
+   "text": "{name} {have}/{need}",
+   "placeholder": true
+  },
+  {
+   "id": "job_step_done",
+   "text": "{name} done",
+   "placeholder": true
+  },
+  {
+   "id": "msg_job_added",
+   "text": "Job added. Press J to see it.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_camp_made",
+   "text": "You lay out the bedroll and light a small fire.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_camp_need_wood",
+   "text": "You need firewood to make camp.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_camp_bad_spot",
+   "text": "You can't make camp here.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_camp_fire_fed",
+   "text": "You put more wood on the fire.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_camp_sleep_confirm",
+   "text": "Sleep here by the fire for the night? (Y / N)",
+   "placeholder": true
+  },
+  {
+   "id": "msg_camp_woke",
+   "text": "You wake stiff and a little cold, but rested.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_chopped",
+   "text": "You chop the tree down and get {n} firewood.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_no_tree",
+   "text": "There's no tree close enough to chop.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_chop_need_axe",
+   "text": "You need an axe.",
+   "placeholder": true
   }
  ]
 }

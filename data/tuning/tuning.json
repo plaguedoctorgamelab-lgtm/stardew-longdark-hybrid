@@ -1,101 +1,159 @@
 {
-  "time": {
-    "real_seconds_per_step": 7.0,
-    "minutes_per_step": 10,
-    "day_start_minute": 360,
-    "day_end_minute": 1560,
-    "days_per_season": 28,
-    "debug_fast_multiplier": 10.0
+ "time": {
+  "real_seconds_per_step": 7.0,
+  "minutes_per_step": 10,
+  "day_start_minute": 360,
+  "day_end_minute": 1560,
+  "days_per_season": 28,
+  "debug_fast_multiplier": 10.0
+ },
+ "light": {
+  "sun": {
+   "spring": [
+    390,
+    1140
+   ],
+   "summer": [
+    330,
+    1230
+   ],
+   "autumn": [
+    390,
+    1110
+   ],
+   "winter": [
+    450,
+    1020
+   ]
   },
-  "light": {
-    "sun": {
-      "spring": [390, 1140],
-      "summer": [330, 1230],
-      "autumn": [390, 1110],
-      "winter": [450, 1020]
-    },
-    "twilight_minutes": 60,
-    "lantern_radius_tiles": 5,
-    "night_tint": [0.16, 0.2, 0.42],
-    "twilight_tint": [1.0, 0.72, 0.52],
-    "day_tint": [1.0, 1.0, 1.0],
-    "lantern_tint": [0.95, 0.85, 0.65]
+  "twilight_minutes": 60,
+  "lantern_radius_tiles": 5,
+  "night_tint": [
+   0.16,
+   0.2,
+   0.42
+  ],
+  "twilight_tint": [
+   1.0,
+   0.72,
+   0.52
+  ],
+  "day_tint": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "lantern_tint": [
+   0.95,
+   0.85,
+   0.65
+  ]
+ },
+ "movement": {
+  "trail_speed_tiles": 4.5,
+  "ground_speed": {
+   "trail": 1.0,
+   "grass": 0.9,
+   "forest_floor": 0.8,
+   "tall_grass": 0.65,
+   "shallows": 0.5
   },
-  "movement": {
-    "trail_speed_tiles": 4.5,
-    "ground_speed": {
-      "trail": 1.0,
-      "grass": 0.9,
-      "forest_floor": 0.8,
-      "tall_grass": 0.65,
-      "shallows": 0.5
-    },
-    "exhausted_speed": 0.6,
-    "ranger_box_tiles": [0.6, 0.4]
+  "exhausted_speed": 0.6,
+  "ranger_box_tiles": [
+   0.6,
+   0.4
+  ]
+ },
+ "energy": {
+  "max": 270,
+  "walk_per_step": 1.0,
+  "rough_ground_multiplier": 1.5,
+  "rough_grounds": [
+   "tall_grass",
+   "shallows"
+  ],
+  "bad_weather_multiplier": 1.5,
+  "repair_action": 8,
+  "survey": 4,
+  "map_location": 2,
+  "exhausted_below": 20,
+  "collapse_wake_fraction": 0.5
+ },
+ "warmth": {
+  "max": 100,
+  "season": {
+   "spring": -1,
+   "summer": 1,
+   "autumn": -1,
+   "winter": -3
   },
-  "energy": {
-    "max": 270,
-    "walk_per_step": 1.0,
-    "rough_ground_multiplier": 1.5,
-    "rough_grounds": ["tall_grass", "shallows"],
-    "bad_weather_multiplier": 1.5,
-    "repair_action": 8,
-    "survey": 4,
-    "map_location": 2,
-    "exhausted_below": 20,
-    "collapse_wake_fraction": 0.5
-  },
-  "warmth": {
-    "max": 100,
-    "season": {
-      "spring": -1,
-      "summer": 1,
-      "autumn": -1,
-      "winter": -3
-    },
-    "night": -2,
-    "clothing": 1,
-    "indoors": 10,
-    "indoors_stove": 25,
-    "stove_minutes_per_firewood": 180,
-    "chilled_below": 25,
-    "chilled_energy_multiplier": 2.0
-  },
-  "weather": {
-    "keep_chance": 0.5,
-    "forecast_accuracy": 0.85,
-    "warning_minutes": 60,
-    "blocks": [360, 720, 1080],
-    "shoulder_snow_share": 0.5,
-    "shoulder_days": 7,
-    "first_day": "clear"
-  },
-  "map": {
-    "survey_radius": 12,
-    "survey_minutes": 30,
-    "location_radius": 8,
-    "location_minutes": 20,
-    "location_reach_tiles": 3,
-    "outlook_radius": 40,
-    "outlook_reach_tiles": 3,
-    "home_reveal_radius": 20
-  },
-  "repair": {
-    "actions_per_step": 3,
-    "minutes_per_action": 20,
-    "reach_tiles": 3
-  },
-  "storage": {
-    "backpack_slots": 12,
-    "chest_slots": 12
-  },
-  "world": {
-    "chunk_size": 32,
-    "tile_size": 16,
-    "load_margin_tiles": 16,
-    "interact_reach_tiles": 1.6
-  },
-  "collapse": {
-    "wake_minute": 600
-  }
+  "night": -2,
+  "clothing": 1,
+  "indoors": 10,
+  "indoors_stove": 25,
+  "stove_minutes_per_firewood": 180,
+  "chilled_below": 25,
+  "chilled_energy_multiplier": 2.0
+ },
+ "weather": {
+  "keep_chance": 0.5,
+  "forecast_accuracy": 0.85,
+  "warning_minutes": 60,
+  "blocks": [
+   360,
+   720,
+   1080
+  ],
+  "shoulder_snow_share": 0.5,
+  "shoulder_days": 7,
+  "first_day": "clear"
+ },
+ "map": {
+  "survey_radius": 12,
+  "survey_minutes": 30,
+  "location_radius": 8,
+  "location_minutes": 20,
+  "location_reach_tiles": 3,
+  "outlook_radius": 40,
+  "outlook_reach_tiles": 3,
+  "home_reveal_radius": 20
+ },
+ "repair": {
+  "actions_per_step": 3,
+  "minutes_per_action": 20,
+  "reach_tiles": 3
+ },
+ "storage": {
+  "backpack_slots": 12,
+  "chest_slots": 12
+ },
+ "world": {
+  "chunk_size": 32,
+  "tile_size": 16,
+  "load_margin_tiles": 16,
+  "interact_reach_tiles": 1.6
+ },
+ "collapse": {
+  "wake_minute": 600
+ },
+ "camp": {
+  "wake_energy_fraction": 0.75,
+  "wake_warmth_fraction": 0.75,
+  "fire_minutes_per_firewood": 180,
+  "fire_warmth": 8,
+  "fire_radius_tiles": 2.5,
+  "fire_light_tiles": 4
+ },
+ "axe": {
+  "energy": 6,
+  "minutes": 20,
+  "firewood": 2,
+  "reach_tiles": 1.6,
+  "regrow_days": 7,
+  "trees": [
+   "tree_pine",
+   "tree_fir",
+   "tree_oak"
+  ]
+ }
 }

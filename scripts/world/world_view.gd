@@ -20,6 +20,10 @@ var _ground_source: Dictionary = {}   # ground name -> source id
 var _edge_source: Dictionary = {}     # ground name -> source id (4x4 atlas of masks)
 var _object_source: Dictionary = {}   # object kind -> source id
 var _border_lines: Node2D
+var _stump_source: int = -1
+var _camp_bed: Sprite2D
+var _camp_fire: Sprite2D
+var _time: float = 0.0
 
 
 func setup(s: GameSession, ranger_node: Node2D) -> void:
@@ -54,6 +58,15 @@ func setup(s: GameSession, ranger_node: Node2D) -> void:
 		ranger_node.reparent(sort_root)
 	else:
 		sort_root.add_child(ranger_node)
+	_camp_bed = Sprite2D.new()
+	_camp_fire = Sprite2D.new()
+	for spr in [_camp_bed, _camp_fire]:
+		spr.centered = false
+		spr.visible = false
+		sort_root.add_child(spr)
+	session.camp_changed.connect(refresh_camp)
+	session.tree_changed.connect(_on_tree_changed)
+	refresh_camp()
 	_border_lines = Node2D.new()
 	_border_lines.z_index = 50
 	_border_lines.draw.connect(_draw_borders)
@@ -100,7 +113,48 @@ func _build_tileset() -> TileSet:
 		td.texture_origin = -offset
 		td.y_sort_origin = fh * TILE - TILE / 2
 		_object_source[kind] = ts.add_source(src)
+	var stump_tex := Art.texture(session.content.row("items", "axe")["stump_sprite"])
+	var stump := TileSetAtlasSource.new()
+	stump.texture = stump_tex
+	stump.texture_region_size = Vector2i(stump_tex.get_width(), stump_tex.get_height())
+	stump.create_tile(Vector2i.ZERO)
+	var sd := stump.get_tile_data(Vector2i.ZERO, 0)
+	sd.texture_origin = -Vector2i(0, TILE - TILE / 2 - stump_tex.get_height() / 2)
+	sd.y_sort_origin = TILE / 2
+	_stump_source = ts.add_source(stump)
 	return ts
+
+
+func _camp_sprite(key: String) -> Texture2D:
+	return Art.texture(session.content.row("items", "bedroll")["camp_sprites"][key])
+
+
+## Shows the camp's bedroll and fire, if there is a camp.
+func refresh_camp() -> void:
+	var has := not session.camp.is_empty()
+	_camp_bed.visible = has
+	_camp_fire.visible = has
+	if not has:
+		return
+	_camp_bed.texture = _camp_sprite("bed")
+	_camp_fire.texture = _camp_sprite("fire" if session.campfire_lit() else "fire_out")
+	for pair in [[_camp_bed, session.camp["bed"]], [_camp_fire, session.camp["fire"]]]:
+		var spr: Sprite2D = pair[0]
+		var t: Vector2i = pair[1]
+		spr.position = Vector2(t.x * TILE + TILE / 2.0, (t.y + 1) * TILE)
+		spr.offset = Vector2(-spr.texture.get_width() / 2.0, -spr.texture.get_height())
+
+
+func _on_tree_changed(t: Vector2i) -> void:
+	if not loaded.has(session.world.chunk_of(t)):
+		return
+	var kind := session.world.object_at(t)
+	if kind == "":
+		return
+	if session.chopped.has(t):
+		object_layer.set_cell(t, _stump_source, Vector2i.ZERO)
+	else:
+		object_layer.set_cell(t, _object_source[kind], Vector2i.ZERO)
 
 
 ## A 4x4 atlas: tile m holds the ground's fringe on the sides set in m
@@ -129,9 +183,14 @@ static func _edge_atlas(src: Image) -> Image:
 	return out
 
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	if session == null or not visible:
 		return
+	_time += delta
+	if _camp_fire.visible and session.campfire_lit():
+		_camp_fire.modulate = Color(1.0, 0.85 + 0.15 * sin(_time * 11.0), 0.8 + 0.2 * sin(_time * 7.0))
+	else:
+		_camp_fire.modulate = Color.WHITE
 	update_chunks(false)
 	_border_lines.visible = session.debug_overlay
 	if session.debug_overlay:
@@ -254,7 +313,9 @@ func _load_rows(c: Vector2i, row0: int, count: int) -> void:
 	for o: Array in w.objects_in_chunk(c):
 		var oy := int(o[1])
 		if oy >= row0 and oy < row0 + count:
-			object_layer.set_cell(base + Vector2i(int(o[0]), oy), _object_source[str(o[2])], Vector2i.ZERO)
+			var ot := base + Vector2i(int(o[0]), oy)
+			var src: int = _stump_source if session.chopped.has(ot) else _object_source[str(o[2])]
+			object_layer.set_cell(ot, src, Vector2i.ZERO)
 
 
 func _unload_rows(c: Vector2i, row0: int, count: int) -> void:

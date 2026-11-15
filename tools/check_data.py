@@ -10,7 +10,7 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONTENT = os.path.join(ROOT, "data", "content")
-TABLES = ["items", "foods", "weather_types", "weather_odds", "structures", "landmarks", "text"]
+TABLES = ["items", "foods", "weather_types", "weather_odds", "structures", "landmarks", "jobs", "text"]
 
 
 def main():
@@ -73,6 +73,19 @@ def main():
     for r in data.get("landmarks", {}).values():
         ref("text", r["name"], "landmarks/%s" % r["id"])
         ref("structures", r["id"], "landmarks/%s" % r["id"]) if r["kind"] == "cabin" else None
+
+    for r in data.get("jobs", {}).values():
+        ref("text", r["title"], "jobs/%s title" % r["id"])
+        ref("text", r["offer"], "jobs/%s offer" % r["id"])
+        ref("structures", r["structure"], "jobs/%s" % r["id"])
+        for it in r["tools"] + r["suggested"]:
+            ref("items", it, "jobs/%s" % r["id"])
+    for r in data.get("structures", {}).values():
+        for s in r.get("starting_chest", []):
+            ref("items", s["item"], "structures/%s starting_chest" % r["id"])
+    for r in data.get("landmarks", {}).values():
+        if "hint" in r:
+            ref("text", r["hint"]["text"], "landmarks/%s hint" % r["id"])
 
     # Every text id named in GDScript code must exist in the text table.
     import re

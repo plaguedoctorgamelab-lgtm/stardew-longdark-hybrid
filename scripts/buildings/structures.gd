@@ -123,6 +123,9 @@ func restock_shelves() -> void:
 ## Fills chests with the supplies found in them, drawn from the save's seed.
 func place_found_supplies(seed_value: int) -> void:
 	for id in ids():
+		(chests[id] as Inventory).clear()
+		for s: Dictionary in row(id).get("starting_chest", []):
+			(chests[id] as Inventory).add(s["item"], int(s["count"]))
 		var rng := RandomNumberGenerator.new()
 		rng.seed = hash([seed_value, id, "supplies"])
 		for s: Dictionary in row(id).get("found_supplies", []):

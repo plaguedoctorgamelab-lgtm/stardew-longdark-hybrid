@@ -1,0 +1,17 @@
+{
+ "rows": [
+  {
+   "id": "fix_old_cabin",
+   "title": "job_fix_cabin_title",
+   "offer": "job_fix_cabin_offer",
+   "structure": "test_cabin",
+   "tools": [
+    "hammer"
+   ],
+   "suggested": [
+    "bedroll",
+    "axe"
+   ]
+  }
+ ]
+}

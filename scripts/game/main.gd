@@ -58,6 +58,7 @@ func _ready() -> void:
 		if interior_view.visible:
 			interior_view.refresh())
 	session.collapsed.connect(func(text: String) -> void: _show_dialog("notice", text))
+	session.note_read.connect(func(text: String) -> void: _show_dialog("notice", text))
 	_show_title()
 
 
@@ -117,13 +118,13 @@ func _build_menus() -> void:
 	root.add_child(map_screen)
 	map_screen.setup(session)
 	dialog = Panel.new()
-	dialog.size = Vector2(260, 70)
-	dialog.position = Vector2(110, 90)
+	dialog.size = Vector2(320, 70)
+	dialog.position = Vector2(80, 90)
 	dialog.visible = false
 	root.add_child(dialog)
 	dialog_label = Label.new()
 	dialog_label.position = Vector2(8, 6)
-	dialog_label.size = Vector2(244, 58)
+	dialog_label.size = Vector2(304, 58)
 	dialog_label.autowrap_mode = TextServer.AUTOWRAP_WORD
 	dialog.add_child(dialog_label)
 	debug_panel = DebugPanel.new()
@@ -220,7 +221,7 @@ func _show_dialog(kind: String, text: String) -> void:
 
 func _close_dialog(yes: bool) -> void:
 	dialog.visible = false
-	if _dialog_kind == "sleep":
+	if _dialog_kind == "sleep" or _dialog_kind == "camp_sleep":
 		session.answer_confirm(yes)
 	_dialog_kind = ""
 
@@ -232,7 +233,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		debug_panel.visible = not debug_panel.visible
 		return
 	if dialog.visible:
-		if event.is_action_pressed("confirm") or event.is_action_pressed("interact"):
+		if _dialog_kind == "jobs" and event.is_action_pressed("jobs"):
+			_close_dialog(false)
+		elif event.is_action_pressed("confirm") or event.is_action_pressed("interact"):
 			_close_dialog(true)
 		elif event.is_action_pressed("cancel") or event.is_action_pressed("backpack"):
 			_close_dialog(false)
@@ -244,6 +247,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			inventory_screen.close()
 		else:
 			inventory_screen.open(null, "")
+		return
+	if event.is_action_pressed("jobs") and not menu_open():
+		_show_dialog("jobs", session.content.text("job_list_title") + "\n\n" + "\n".join(session.job_lines()))
 		return
 	if event.is_action_pressed("open_map"):
 		if map_screen.visible:
@@ -287,3 +293,6 @@ func _process(delta: float) -> void:
 		camera.position = px.round()
 	camera.force_update_scroll()
 	effects.ranger_screen = ranger.get_global_transform_with_canvas().origin
+	if not session.camp.is_empty():
+		var fire_px := (Vector2(session.camp["fire"]) + Vector2(0.5, 0.5)) * TILE
+		effects.fire_screen = world_view.get_canvas_transform() * fire_px

@@ -1,6 +1,26 @@
 {
-  "rows": [
-    {"id": "test_cabin", "name": "landmark_test_cabin", "kind": "cabin", "reveal_radius": 8, "outlook": false},
-    {"id": "scenic_outlook", "name": "landmark_scenic_outlook", "kind": "outlook", "reveal_radius": 8, "outlook": true}
-  ]
+ "rows": [
+  {
+   "id": "test_cabin",
+   "name": "landmark_test_cabin",
+   "kind": "cabin",
+   "reveal_radius": 8,
+   "outlook": false,
+   "hint": {
+    "text": "landmark_hint_test_cabin",
+    "offset": [
+     -7,
+     6
+    ],
+    "radius": 16
+   }
+  },
+  {
+   "id": "scenic_outlook",
+   "name": "landmark_scenic_outlook",
+   "kind": "outlook",
+   "reveal_radius": 8,
+   "outlook": true
+  }
+ ]
 }

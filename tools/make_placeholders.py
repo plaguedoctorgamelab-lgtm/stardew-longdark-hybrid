@@ -336,6 +336,14 @@ def icons():
     icon("item_roofing", *[("rect", 1, y, 14, 2, "roof" if y % 4 else "roof_d") for y in range(3, 13, 2)])
     icon("item_window_glass", ("rect", 3, 2, 10, 12, "glass"), ("outline", 3, 2, 10, 12, "metal"), ("rect", 5, 4, 2, 2, "white"))
 
+    icon("item_axe", ("rect", 7, 4, 2, 11, "wood"), ("rect", 3, 2, 6, 5, "metal"), ("rect", 3, 2, 2, 5, "metal_l"))
+    icon("item_bedroll", ("rect", 2, 5, 12, 7, "leaf"), ("rect", 5, 5, 1, 7, "wood_d"), ("rect", 10, 5, 1, 7, "wood_d"))
+    icon("obj_stump", ("rect", 4, 7, 8, 8, "bark"), ("disc", 8, 7, 4, "wood_l", "wood_d"))
+    icon("obj_firepit", *[("disc", 8 + dx, 10 + dy, 2, "rock", "rock_d") for dx, dy in ((-4, 0), (4, 0), (0, -3), (0, 3))], ("rect", 6, 9, 4, 2, "bark"))
+    icon("obj_campfire", *[("disc", 8 + dx, 12 + dy, 2, "rock", "rock_d") for dx, dy in ((-4, 0), (4, 0), (0, 2))], ("rect", 6, 11, 4, 2, "bark"), ("disc", 8, 8, 3, "red"), ("disc", 8, 9, 2, "glow"))
+    icon("obj_camp_bedroll", ("rect", 3, 1, 10, 14, "leaf"), ("rect", 3, 1, 10, 3, "white"), ("outline", 3, 1, 10, 14, "pine"))
+    icon("furniture_note_board", ("rect", 1, 2, 14, 11, "wood_d"), ("rect", 2, 3, 12, 9, "bark"), ("rect", 4, 4, 5, 6, "paper"), ("rect", 9, 6, 4, 4, "paper"), ("rect", 6, 4, 1, 1, "red"))
+
     icon("weather_clear", ("disc", 8, 8, 5, "sun"))
     icon("weather_overcast", ("disc", 6, 9, 4, "grey"), ("disc", 10, 8, 5, "grey"))
     icon("weather_rain", ("disc", 8, 6, 5, "grey"), *[("rect", x, 11, 1, 3, "blue") for x in (4, 8, 12)])

@@ -15,6 +15,9 @@ signal collapsed(text: String)
 signal saved(ok: bool)
 signal day_began
 signal survey_changed(active: bool, progress: float)
+signal camp_changed
+signal tree_changed(tile: Vector2i)
+signal note_read(text: String)
 
 const FACING_DOWN := 0
 const FACING_RIGHT := 1
@@ -54,6 +57,13 @@ var collapse_count: int = 0
 var save_count: int = 0
 var debug_overlay: bool = false
 var _collapsing: bool = false
+
+# The ranger's camp, if one is made: {"bed": Vector2i, "fire": Vector2i, "fire_minutes": int}.
+var camp: Dictionary = {}
+# Chopped trees: tile -> the absolute day it was chopped. They regrow.
+var chopped: Dictionary = {}
+# Jobs the ranger has read about: id -> true.
+var jobs_known: Dictionary = {}
 
 
 func _init(tuning_path: String = Tuning.DEFAULT_PATH, content_dir: String = ContentDB.CONTENT_DIR, world_dir: String = WorldData.WORLD_DIR) -> void:
@@ -100,6 +110,11 @@ func new_game(new_seed: int = -1) -> void:
 	selected_slot = 0
 	survey_steps_left = 0
 	_last_tile = Vector2i(-9999, -9999)
+	camp = {}
+	for t: Vector2i in chopped.keys():
+		_set_chopped(t, -1)
+	jobs_known = {}
+	camp_changed.emit()
 	weather.check_change(clock.minute)
 
 
@@ -119,6 +134,13 @@ func to_dict() -> Dictionary:
 		"backpack": backpack.to_array(),
 		"structures": structures.to_dict(),
 		"map": map.to_dict(),
+		"camp": {} if camp.is_empty() else {
+			"bed": [camp["bed"].x, camp["bed"].y],
+			"fire": [camp["fire"].x, camp["fire"].y],
+			"fire_minutes": camp["fire_minutes"],
+		},
+		"chopped": chopped.keys().map(func(t: Vector2i) -> Array: return [t.x, t.y, chopped[t]]),
+		"jobs_known": jobs_known.keys(),
 	}
 
 
@@ -136,6 +158,21 @@ func from_dict(d: Dictionary) -> void:
 	backpack.from_array(d["backpack"])
 	structures.from_dict(d["structures"])
 	map.from_dict(d["map"])
+	# Added after the first phase one saves; older saves simply have none.
+	var c: Dictionary = d.get("camp", {})
+	camp = {} if c.is_empty() else {
+		"bed": Vector2i(int(c["bed"][0]), int(c["bed"][1])),
+		"fire": Vector2i(int(c["fire"][0]), int(c["fire"][1])),
+		"fire_minutes": int(c["fire_minutes"]),
+	}
+	for t: Vector2i in chopped.keys():
+		_set_chopped(t, -1)
+	for e: Array in d.get("chopped", []):
+		_set_chopped(Vector2i(int(e[0]), int(e[1])), int(e[2]))
+	jobs_known = {}
+	for id: String in d.get("jobs_known", []):
+		jobs_known[id] = true
+	camp_changed.emit()
 	survey_steps_left = 0
 	_last_tile = Vector2i(-9999, -9999)
 	weather.check_change(clock.minute)
@@ -296,6 +333,7 @@ func needs_context() -> Dictionary:
 		"night": is_night(),
 		"walked": _walked_this_step > 0.05,
 		"rough": _rough_this_step,
+		"campfire": near_lit_fire(),
 	}
 
 
@@ -305,6 +343,10 @@ func _on_step(_minute: int) -> void:
 	_walked_this_step = 0.0
 	_rough_this_step = false
 	structures.burn(step_minutes)
+	if not camp.is_empty() and int(camp["fire_minutes"]) > 0:
+		camp["fire_minutes"] = maxi(0, int(camp["fire_minutes"]) - step_minutes)
+		if int(camp["fire_minutes"]) == 0:
+			camp_changed.emit()
 	weather.check_change(clock.minute)
 	if survey_steps_left > 0:
 		if not _survey_conditions_ok().is_empty():
@@ -333,6 +375,10 @@ func _on_day_started(_day: int, _season: int, _year: int) -> void:
 	structures.restock_shelves()
 	for id: String in structures.stove_minutes:
 		structures.stove_minutes[id] = 0
+	if not camp.is_empty():
+		camp["fire_minutes"] = 0
+		camp_changed.emit()
+	_regrow_trees()
 	weather.check_change(clock.minute)
 	day_began.emit()
 
@@ -411,6 +457,8 @@ func answer_confirm(yes: bool) -> void:
 	pending_confirm = ""
 	if yes and kind == "sleep":
 		sleep()
+	elif yes and kind == "camp_sleep":
+		camp_sleep()
 
 
 func sleep() -> void:
@@ -487,6 +535,14 @@ func interact() -> void:
 			return
 		enter_building(sid)
 		return
+	if not camp.is_empty():
+		if outdoor_pos.distance_to(Vector2(camp["bed"]) + Vector2(0.5, 0.5)) <= reach:
+			pending_confirm = "camp_sleep"
+			confirm_requested.emit("camp_sleep", content.text("msg_camp_sleep_confirm"))
+			return
+		if outdoor_pos.distance_to(Vector2(camp["fire"]) + Vector2(0.5, 0.5)) <= reach:
+			feed_campfire()
+			return
 	var obj := world.interactive_near(outdoor_pos, reach + 0.5)
 	if obj.is_empty():
 		return
@@ -521,6 +577,8 @@ func _interact_inside() -> void:
 			storage_opened.emit(content.text("ui_chest"), structures.chests[location])
 		"stove":
 			feed_stove()
+		"note_board":
+			read_note_board()
 		"exit":
 			leave_building()
 
@@ -566,9 +624,15 @@ func use_item() -> void:
 		hammer()
 	elif item == "map":
 		start_survey()
+	elif item == "axe":
+		chop()
+	elif item == "bedroll":
+		make_camp()
 	elif item == "firewood":
 		if is_indoors() and (interiors[location] as InteriorLayout).find("stove").size() > 0:
 			feed_stove()
+		elif not camp.is_empty() and outdoor_pos.distance_to(Vector2(camp["fire"]) + Vector2(0.5, 0.5)) <= tuning.num("world.interact_reach_tiles"):
+			feed_campfire()
 
 
 func eat(item: String) -> bool:
@@ -601,6 +665,208 @@ func hammer() -> Dictionary:
 	pass_minutes(tuning.integer("repair.minutes_per_action"))
 	_check_collapse()
 	return res
+
+
+# --- camping ------------------------------------------------------------------
+
+func facing_vector() -> Vector2i:
+	var dirs: Array[Vector2i] = [Vector2i(0, 1), Vector2i(1, 0), Vector2i(0, -1), Vector2i(-1, 0)]
+	return dirs[facing]
+
+
+func _camp_spot_ok(t: Vector2i) -> bool:
+	if not world.in_bounds(t) or world.is_solid(t):
+		return false
+	var g := world.ground_at(t)
+	return g != "shallows" and g != "deep_water" and g != "rock"
+
+
+## Lays out the bedroll where the ranger stands and lights a small fire in
+## front, using one firewood. One camp at a time: making a new one moves it.
+func make_camp() -> bool:
+	if is_indoors():
+		message.emit(content.text("msg_camp_bad_spot"))
+		return false
+	var bed := ranger_tile()
+	var fire := bed + facing_vector()
+	if not _camp_spot_ok(bed) or not _camp_spot_ok(fire):
+		message.emit(content.text("msg_camp_bad_spot"))
+		return false
+	if not backpack.remove("firewood", 1):
+		message.emit(content.text("msg_camp_need_wood"))
+		return false
+	camp = {"bed": bed, "fire": fire, "fire_minutes": tuning.integer("camp.fire_minutes_per_firewood")}
+	camp_changed.emit()
+	message.emit(content.text("msg_camp_made"))
+	return true
+
+
+func campfire_lit() -> bool:
+	return not camp.is_empty() and int(camp["fire_minutes"]) > 0
+
+
+func near_lit_fire() -> bool:
+	if is_indoors() or not campfire_lit():
+		return false
+	return outdoor_pos.distance_to(Vector2(camp["fire"]) + Vector2(0.5, 0.5)) <= tuning.num("camp.fire_radius_tiles")
+
+
+func feed_campfire() -> bool:
+	if camp.is_empty() or not backpack.remove("firewood", 1):
+		message.emit(content.text("msg_camp_need_wood"))
+		return false
+	camp["fire_minutes"] = int(camp["fire_minutes"]) + tuning.integer("camp.fire_minutes_per_firewood")
+	camp_changed.emit()
+	message.emit(content.text("msg_camp_fire_fed"))
+	return true
+
+
+## Sleeping at camp: the next morning at 6:00, partly rested, and the game saves.
+func camp_sleep() -> void:
+	clock.start_next_day(tuning.integer("time.day_start_minute"))
+	needs.set_values(
+		maxf(needs.energy, needs.max_energy() * tuning.num("camp.wake_energy_fraction")),
+		maxf(needs.warmth, needs.max_warmth() * tuning.num("camp.wake_warmth_fraction")))
+	location = ""
+	outdoor_pos = Vector2(camp["bed"]) + Vector2(0.5, 0.5)
+	facing = FACING_DOWN
+	save_game()
+	message.emit(content.text("msg_camp_woke"))
+
+
+# --- chopping trees -------------------------------------------------------------
+
+func _is_choppable(t: Vector2i) -> bool:
+	var trees: Array = tuning.value("axe.trees")
+	return trees.has(world.object_at(t)) and not chopped.has(t)
+
+
+## The tree the axe would hit: the one in front if any, else the nearest in reach.
+func tree_in_reach() -> Vector2i:
+	var reach := tuning.num("axe.reach_tiles")
+	var front := ranger_tile() + facing_vector()
+	if _is_choppable(front) and outdoor_pos.distance_to(Vector2(front) + Vector2(0.5, 0.5)) <= reach + 0.5:
+		return front
+	var best := Vector2i(-1, -1)
+	var best_d := reach
+	for dy in range(-2, 3):
+		for dx in range(-2, 3):
+			var t := ranger_tile() + Vector2i(dx, dy)
+			var d := outdoor_pos.distance_to(Vector2(t) + Vector2(0.5, 0.5))
+			if d <= best_d and _is_choppable(t):
+				best_d = d
+				best = t
+	return best
+
+
+func _set_chopped(t: Vector2i, day: int) -> void:
+	if day < 0:
+		chopped.erase(t)
+		world.set_cleared(t, false)
+	else:
+		chopped[t] = day
+		world.set_cleared(t, true)
+	tree_changed.emit(t)
+
+
+func chop() -> Dictionary:
+	if is_indoors():
+		return {"ok": false}
+	if not backpack.has("axe"):
+		message.emit(content.text("msg_chop_need_axe"))
+		return {"ok": false}
+	var t := tree_in_reach()
+	if t.x < 0:
+		message.emit(content.text("msg_no_tree"))
+		return {"ok": false}
+	_set_chopped(t, clock.absolute_day())
+	var n := tuning.integer("axe.firewood")
+	var left := backpack.add("firewood", n)
+	needs.spend(tuning.num("axe.energy"))
+	message.emit(content.text("msg_chopped", {"n": n - left}))
+	if left > 0:
+		message.emit(content.text("msg_backpack_full"))
+	pass_minutes(tuning.integer("axe.minutes"))
+	_check_collapse()
+	return {"ok": true, "tile": t, "firewood": n - left}
+
+
+func _regrow_trees() -> void:
+	var days := tuning.integer("axe.regrow_days")
+	var box: Array = tuning.value("movement.ranger_box_tiles")
+	var size := Vector2(float(box[0]), float(box[1]))
+	for t: Vector2i in chopped.keys():
+		if clock.absolute_day() - int(chopped[t]) < days:
+			continue
+		# Never grow a tree where the ranger stands or the camp is.
+		var here := Rect2(outdoor_pos - size / 2.0, size)
+		if not is_indoors() and here.intersects(Rect2(Vector2(t), Vector2.ONE)):
+			continue
+		if not camp.is_empty() and (camp["bed"] == t or camp["fire"] == t):
+			continue
+		_set_chopped(t, -1)
+
+
+# --- jobs ------------------------------------------------------------------------
+
+func read_note_board() -> String:
+	var texts: PackedStringArray = []
+	var added := false
+	for j: Dictionary in content.rows("jobs"):
+		texts.append(content.text(j["offer"]))
+		if not jobs_known.has(j["id"]):
+			jobs_known[j["id"]] = true
+			added = true
+	var text := "\n\n".join(texts)
+	note_read.emit(text)
+	if added:
+		message.emit(content.text("msg_job_added"))
+	return text
+
+
+## What a job still needs, worked out from the structure and the backpack.
+func job_status(job_id: String) -> Dictionary:
+	var j := content.row("jobs", job_id)
+	var sid: String = j["structure"]
+	var need := {}
+	var steps := []
+	for st: Dictionary in content.row("structures", sid)["repair_steps"]:
+		var started := int(structures.progress[sid][st["id"]]) > 0
+		steps.append({"name": content.text(st["name"]), "done": structures.step_done(sid, st["id"])})
+		if not started:
+			for m: String in st["materials"]:
+				need[m] = int(need.get(m, 0)) + int(st["materials"][m])
+	for tool: String in j["tools"]:
+		need[tool] = maxi(1, int(need.get(tool, 0)))
+	var bring := []
+	for m: String in need:
+		bring.append({"item": m, "need": int(need[m]), "have": backpack.count(m)})
+	return {"title": content.text(j["title"]), "done": structures.is_open(sid), "bring": bring, "steps": steps, "also": j["suggested"]}
+
+
+func job_lines() -> PackedStringArray:
+	var out := PackedStringArray()
+	if jobs_known.is_empty():
+		out.append(content.text("job_none"))
+		return out
+	for id: String in jobs_known:
+		var st := job_status(id)
+		out.append(st["title"] + ("  -  " + content.text("job_done") if st["done"] else ""))
+		if st["done"]:
+			continue
+		var b: PackedStringArray = []
+		for e: Dictionary in st["bring"]:
+			b.append(content.text("job_have", {"name": content.item_name(e["item"]), "have": e["have"], "need": e["need"]}))
+		out.append(content.text("job_bring", {"list": ", ".join(b)}))
+		var s: PackedStringArray = []
+		for e: Dictionary in st["steps"]:
+			s.append(content.text("job_step_done", {"name": e["name"]}) if e["done"] else e["name"])
+		out.append(content.text("job_steps", {"list": ", ".join(s)}))
+		var a: PackedStringArray = []
+		for it: String in st["also"]:
+			a.append(content.item_name(it))
+		out.append(content.text("job_also", {"list": ", ".join(a)}))
+	return out
 
 
 # --- mapping ------------------------------------------------------------------

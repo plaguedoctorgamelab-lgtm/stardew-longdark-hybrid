@@ -270,8 +270,10 @@ def main():
             if parts > expected:
                 problems.append("%d separate pieces, expected %d" % (parts, expected))
             pix = shrink(img, box, tw, th, cell.get("stretch", False), full)
-            shrunk.append((cell["name"], tw, th, pix))
             sheet_cells.append((cell["name"], tw, th))
+            # A failed image is reported, not used: the stand-in stays in play.
+            if not problems or entry.get("sheet"):
+                shrunk.append((cell["name"], tw, th, pix))
             results.append((cell["name"], "FAIL" if problems else "pass", "; ".join(problems) or "%dx%d" % (tw, th)))
         if entry.get("sheet"):
             sheets.append((entry["sheet"], sheet_cells))

@@ -67,7 +67,31 @@ static func render(s: GameSession) -> Image:
 				img.set_pixel(x, y, GROUND_COLORS.get(s.world.ground_at(t), PAPER))
 			if m.is_traced(t) and (x + y) % 2 == 0:
 				img.set_pixel(x, y, Color(0.25, 0.18, 0.12))
+	# Rough hints of places not yet mapped, drawn as dashed circles.
+	for hint: Dictionary in hints(s):
+		var c: Vector2 = hint["center"]
+		var r: float = hint["radius"]
+		var steps := int(TAU * r * 1.5)
+		for i in steps:
+			if (i / 3) % 2 == 1:
+				continue
+			var a := TAU * i / steps
+			var px := Vector2i((c + Vector2(cos(a), sin(a)) * r).round())
+			if px.x >= 0 and px.y >= 0 and px.x < w and px.y < h:
+				img.set_pixelv(px, Color(0.55, 0.15, 0.1))
 	return img
+
+
+## Hints for landmarks not yet mapped: {center, radius, text}.
+static func hints(s: GameSession) -> Array:
+	var out := []
+	for r: Dictionary in s.content.rows("landmarks"):
+		if not r.has("hint") or s.map.is_landmark_mapped(r["id"]):
+			continue
+		var hint: Dictionary = r["hint"]
+		var off := Vector2(float(hint["offset"][0]), float(hint["offset"][1]))
+		out.append({"center": s.world.landmark_pos(r["id"]) + off, "radius": float(hint["radius"]), "text": s.content.text(hint["text"])})
+	return out
 
 
 func open() -> void:
@@ -81,8 +105,16 @@ func open() -> void:
 			var p := session.world.landmark_pos(r["id"])
 			var l := Label.new()
 			l.text = session.content.text(r["name"])
+			l.add_theme_font_size_override("font_size", 8)
 			l.position = map_rect.position + p + Vector2(3, -6)
 			landmark_labels.add_child(l)
+	for h: Dictionary in hints(session):
+		var l := Label.new()
+		l.text = h["text"]
+		l.add_theme_color_override("font_color", Color(0.55, 0.15, 0.1))
+		l.add_theme_font_size_override("font_size", 8)
+		l.position = map_rect.position + (h["center"] as Vector2) + Vector2(-18, float(h["radius"]) + 1.0)
+		landmark_labels.add_child(l)
 	var shown := session.marker_visible()
 	marker.visible = shown
 	lost.text = "" if shown else session.content.text("map_lost")

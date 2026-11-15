@@ -46,6 +46,8 @@ func warmth_delta(ctx: Dictionary) -> float:
 	if ctx.get("night", false):
 		d += tuning.num("warmth.night")
 	d += tuning.num("warmth.clothing")
+	if ctx.get("campfire", false):
+		d += tuning.num("camp.fire_warmth")
 	return d
 
 

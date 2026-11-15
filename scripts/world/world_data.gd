@@ -59,10 +59,14 @@ func chunk(c: Vector2i) -> Dictionary:
 		push_error("WorldData: chunk %s did not load" % c)
 		return {}
 	var d: Dictionary = parsed
+	var by_tile := {}
+	for o: Array in d["objects"]:
+		by_tile[Vector2i(int(o[0]), int(o[1]))] = str(o[2])
 	var data := {
 		"ground": PackedStringArray(d["ground"]),
 		"solid": PackedStringArray(d["solid"]),
 		"objects": d["objects"],
+		"by_tile": by_tile,
 	}
 	_chunks[c] = data
 	loads += 1
@@ -92,7 +96,8 @@ func ground_at(t: Vector2i) -> String:
 	return ground_codes[row[t.x - chunk_of(t).x * chunk_size]]
 
 
-var _blocked: Dictionary = {}   # extra solid tiles added at run time (none in phase one)
+var _blocked: Dictionary = {}   # extra solid tiles added at run time
+var _cleared: Dictionary = {}   # tiles whose object was removed at run time (chopped trees)
 
 
 func is_solid(t: Vector2i) -> bool:
@@ -100,6 +105,9 @@ func is_solid(t: Vector2i) -> bool:
 		return true
 	if _blocked.has(t):
 		return true
+	if _cleared.has(t):
+		var g := ground_at(t)
+		return g == "deep_water" or g == "rock"
 	var c := chunk_of(t)
 	var d := chunk(c)
 	var row: String = d["solid"][t.y - c.y * chunk_size]
@@ -162,3 +170,24 @@ func interactive_near(pos: Vector2, reach: float) -> Dictionary:
 					best_d = d
 					best = {"interact": ot["interact"], "pos": center}
 	return best
+
+
+## The object whose top-left tile is t, or "".
+func object_at(t: Vector2i) -> String:
+	if not in_bounds(t):
+		return ""
+	var c := chunk_of(t)
+	var d := chunk(c)
+	return (d["by_tile"] as Dictionary).get(t - c * chunk_size, "")
+
+
+func set_cleared(t: Vector2i, on: bool) -> void:
+	if on:
+		_cleared[t] = true
+	else:
+		_cleared.erase(t)
+
+
+func clear_runtime_changes() -> void:
+	_cleared.clear()
+	_blocked.clear()

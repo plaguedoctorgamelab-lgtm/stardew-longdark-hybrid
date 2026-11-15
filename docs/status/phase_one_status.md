@@ -98,3 +98,16 @@ In the playthrough, the ranger reached the cabin at 9:50 am using 23 energy. The
 - **Play:** open `project.godot` in Godot 4.7.2 and press F5, or run `C:\Godot\Godot_v4.7.2-stable_win64.exe --path .` in the repository folder. On the title screen choose New game.
 - **Keys:** W A S D to walk. Right-click or X to interact. Left-click or C to use the held item. 1 to 0, - and = to choose an item. E for the backpack, M for the map, Y or N to answer, F1 for the debug panel.
 - **Tests:** `python tools/run_tests.py`.
+
+## Changes after the first play (designer's requests, 15 November 2026)
+
+- **Sharp text.** The world still draws at 480 by 270, pixel-perfect. Text and menus draw at the screen's full resolution.
+- **Day one is clear**, and **the ground within 20 tiles of the station starts mapped**. The tuning values are `weather.first_day` and `map.home_reveal_radius`.
+- **Cabin hint.** The map shows a rough dashed circle labelled "Old cabin?" until the cabin is mapped.
+- **The job.** A note board in the station offers "Fix up the old cabin", in the last ranger's words. J shows the job list, with what to bring, counts from the backpack, and which repairs are done.
+- **Camp.** A bedroll plus one firewood makes camp anywhere outdoors: the bedroll where you stand and a small fire in front. The fire warms you (+8 per ten minutes within 2.5 tiles), lights the dark, and burns 3 hours per firewood. Sleeping there wakes you at 6:00 with 75% energy and warmth, and saves. One camp at a time.
+- **Axe.** Chopping a tree gives 2 firewood and costs 6 energy and 20 minutes. The tree leaves a stump that regrows after 7 days. The dead tree at the fork can't be chopped.
+- **The station chest** now starts with the axe and the bedroll.
+- **The art cleanup tool** no longer uses images that fail its checks, so the campfire stays a stand-in until it is redrawn.
+
+These pull gathering (phase 2) and a first job (phase 4) forward, on the designer's instruction. The jobs are worded as invitations, as the bible asks.

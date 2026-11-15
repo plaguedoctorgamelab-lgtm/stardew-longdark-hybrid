@@ -74,4 +74,37 @@ func _run() -> void:
 	await _shot("10_station_inside")
 	s.use_radio()
 	await _shot("11_radio")
+	main._close_dialog(false)
+	# Added after the first play: note board, job list, map hint, camp, stumps.
+	var layout: InteriorLayout = s.interiors["ranger_station"]
+	var board := layout.furniture_rect(layout.find("note_board"))
+	s.interior_pos = Vector2(board.position.x + 0.5, board.end.y + 0.5)
+	s.interact()
+	await _shot("12_note_board")
+	main._close_dialog(false)
+	main._show_dialog("jobs", s.content.text("job_list_title") + "\n\n" + "\n".join(s.job_lines()))
+	await _shot("13_job_list")
+	main._close_dialog(false)
+	s.leave_building()
+	s.debug_wipe_map()
+	s.map.reveal_circle(s.door_front("ranger_station"), 20)
+	main.map_screen.open()
+	await _shot("14_map_cabin_hint")
+	main.map_screen.close()
+	s.debug_teleport("fork")
+	main.world_view.reset_chunks()
+	s.debug_add_item("axe")
+	s.debug_add_item("bedroll")
+	s.debug_add_item("firewood", 3)
+	s.outdoor_pos += Vector2(3, 3)
+	for i in 3:
+		s.facing = i % 4
+		s.chop()
+	s.facing = GameSession.FACING_RIGHT
+	s.make_camp()
+	s.outdoor_pos += Vector2(0, 1.2)
+	s.debug_set_time(22 * 60)
+	s.debug_force_weather("clear")
+	s.selected_slot = 0
+	await _shot("15_camp_at_night")
 	quit(0)
