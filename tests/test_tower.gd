@@ -121,3 +121,11 @@ func test_rumors_from_notes(t: TestCase) -> void:
 	s2.save_path = s.save_path
 	s2.load_game()
 	t.check(s2.rumors.has("broken_bridge") and s2.notes_read.has("note_bridge"), "rumors and notes kept in the save")
+
+
+func test_debug_repairs_the_tower(t: TestCase) -> void:
+	var s := TestCase.new_session()
+	s.debug_repair_all(TOWER, true)
+	t.check(s.structures.is_open(TOWER), "the debug panel can repair the tower")
+	s.debug_repair_all(TOWER, false)
+	t.check(not s.structures.is_open(TOWER), "and undo it")

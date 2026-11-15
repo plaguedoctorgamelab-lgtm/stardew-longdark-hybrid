@@ -100,6 +100,14 @@ func setup(s: GameSession) -> void:
 		_btn(r, "Undo", func() -> void: session.debug_cabin_step(sid, false))
 
 	r = _row()
+	var tl := Label.new()
+	tl.text = "Fire tower"
+	tl.custom_minimum_size = Vector2(70, 0)
+	r.add_child(tl)
+	_btn(r, "Repair all", func() -> void: session.debug_repair_all("static_tower", true))
+	_btn(r, "Undo all", func() -> void: session.debug_repair_all("static_tower", false))
+
+	r = _row()
 	_btn(r, "Reveal map", session.debug_reveal_map)
 	_btn(r, "Wipe map", session.debug_wipe_map)
 	_btn(r, "Reload tuning", func() -> void:

@@ -1757,6 +1757,15 @@ func debug_cabin_step(step: String, complete: bool) -> void:
 		structures.debug_undo_step("test_cabin", step)
 
 
+## Completes, or undoes, every repair step of a building.
+func debug_repair_all(structure_id: String, complete: bool) -> void:
+	for st: Dictionary in content.row("structures", structure_id)["repair_steps"]:
+		if complete:
+			structures.debug_complete_step(structure_id, st["id"])
+		else:
+			structures.debug_undo_step(structure_id, st["id"])
+
+
 func debug_reveal_map() -> void:
 	map.reveal_all()
 
