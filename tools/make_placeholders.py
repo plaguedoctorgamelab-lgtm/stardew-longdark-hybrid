@@ -339,6 +339,8 @@ def icons():
 
     icon("item_axe", ("rect", 7, 4, 2, 11, "wood"), ("rect", 3, 2, 6, 5, "metal"), ("rect", 3, 2, 2, 5, "metal_l"))
     icon("item_bedroll", ("rect", 2, 5, 12, 7, "leaf"), ("rect", 5, 5, 1, 7, "wood_d"), ("rect", 10, 5, 1, 7, "wood_d"))
+    icon("item_saw", ("rect", 2, 7, 10, 4, "metal_l"), ("rect", 11, 6, 4, 6, "wood"), *[("rect", x, 11, 1, 1, "metal") for x in range(3, 12, 2)])
+    icon("item_shovel", ("rect", 7, 1, 2, 9, "wood"), ("rect", 5, 9, 6, 5, "metal_l"), ("rect", 5, 1, 6, 2, "wood_d"))
     icon("obj_stump", ("rect", 4, 7, 8, 8, "bark"), ("disc", 8, 7, 4, "wood_l", "wood_d"))
     icon("obj_firepit", *[("disc", 8 + dx, 10 + dy, 2, "rock", "rock_d") for dx, dy in ((-4, 0), (4, 0), (0, -3), (0, 3))], ("rect", 6, 9, 4, 2, "bark"))
     icon("obj_campfire", *[("disc", 8 + dx, 12 + dy, 2, "rock", "rock_d") for dx, dy in ((-4, 0), (4, 0), (0, 2))], ("rect", 6, 11, 4, 2, "bark"), ("disc", 8, 8, 3, "red"), ("disc", 8, 9, 2, "glow"))
@@ -380,6 +382,12 @@ def ring_two_art():
     for (x, y) in ((4, 11), (9, 6), (12, 8), (7, 13)):
         c.rect(x, y, 1, 1, "purple")
     c.save("obj_thicket")
+    c = Canvas(16, 16)
+    for (x, y, r) in ((5, 10, 4), (11, 9, 4), (8, 6, 3.5)):
+        c.disc(x, y, r, "tall_d", "pine")
+    for (x, y) in ((3, 8), (12, 6), (8, 12), (10, 3)):
+        c.rect(x, y, 1, 2, "bark")
+    c.save("obj_brush")
     c = Canvas(16, 16)
     c.rect(7, 4, 2, 12, "wood_l")
     c.rect(9, 5, 4, 2, "red")

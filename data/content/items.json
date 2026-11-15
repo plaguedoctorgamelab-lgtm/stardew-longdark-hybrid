@@ -117,6 +117,20 @@
    "kind": "material",
    "stack": 2,
    "icon": "item_window_glass"
+  },
+  {
+   "id": "saw",
+   "name": "item_saw",
+   "kind": "tool",
+   "stack": 1,
+   "icon": "item_saw"
+  },
+  {
+   "id": "shovel",
+   "name": "item_shovel",
+   "kind": "tool",
+   "stack": 1,
+   "icon": "item_shovel"
   }
  ]
 }

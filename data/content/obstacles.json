@@ -1,0 +1,16 @@
+{
+ "rows": [
+  {
+   "id": "brush",
+   "object": "brush",
+   "tool": "axe",
+   "name": "obstacle_brush"
+  },
+  {
+   "id": "fallen_trunk",
+   "object": "fallen_trunk",
+   "tool": "saw",
+   "name": "obstacle_fallen_trunk"
+  }
+ ]
+}

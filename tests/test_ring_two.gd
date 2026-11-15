@@ -9,8 +9,7 @@ extends RefCounted
 ## the trail work would find them.
 func _clear_route_obstacles(s: GameSession) -> void:
 	for o: Array in s.world.meta.get("obstacles_on_routes", []):
-		for dx in 3:
-			s.world.set_cleared(Vector2i(int(o[0]) + dx, int(o[1])), true)
+		s.debug_clear_obstacle(Vector2i(int(o[0]), int(o[1])))
 
 
 func _walk(s: GameSession, route_name: String) -> float:

@@ -66,6 +66,7 @@ func setup(s: GameSession, ranger_node: Node2D) -> void:
 		sort_root.add_child(spr)
 	session.camp_changed.connect(refresh_camp)
 	session.tree_changed.connect(_on_tree_changed)
+	session.land_changed.connect(_on_land_changed)
 	refresh_camp()
 	_border_lines = Node2D.new()
 	_border_lines.z_index = 50
@@ -155,6 +156,58 @@ func _on_tree_changed(t: Vector2i) -> void:
 		object_layer.set_cell(t, _stump_source, Vector2i.ZERO)
 	else:
 		object_layer.set_cell(t, _object_source[kind], Vector2i.ZERO)
+
+
+## Redraws a tile whose ground or obstacle changed, and its neighbours' edges.
+func _on_land_changed(t: Vector2i) -> void:
+	if not loaded.has(session.world.chunk_of(t)) and not _queued.has(session.world.chunk_of(t)):
+		return
+	for d: Vector2i in [Vector2i.ZERO, Vector2i(0, -1), Vector2i(1, 0), Vector2i(0, 1), Vector2i(-1, 0)]:
+		_draw_ground(t + d)
+	_draw_object(t)
+
+
+func _draw_object(t: Vector2i) -> void:
+	var kind := session.world.object_at(t)
+	if kind == "":
+		return
+	if session.cleared.has(t):
+		object_layer.erase_cell(t)
+	elif session.chopped.has(t):
+		object_layer.set_cell(t, _stump_source, Vector2i.ZERO)
+	else:
+		object_layer.set_cell(t, _object_source[kind], Vector2i.ZERO)
+
+
+const _DIRS: Array[Vector2i] = [Vector2i(0, -1), Vector2i(1, 0), Vector2i(0, 1), Vector2i(-1, 0)]
+
+
+## Draws one tile's ground, with the strongest neighbouring ground spilling
+## its edge onto it.
+func _draw_ground(t: Vector2i) -> void:
+	var w := session.world
+	if not w.in_bounds(t):
+		return
+	var g := w.ground_at(t)
+	ground_layer.set_cell(t, _ground_source[g], Vector2i.ZERO)
+	var gi := _ground_index(g)
+	var best := -1
+	var mask := 0
+	for i in 4:
+		var n := t + _DIRS[i]
+		if not w.in_bounds(n):
+			continue
+		var ni := _ground_index(w.ground_at(n))
+		if ni > gi:
+			if ni > best:
+				best = ni
+				mask = 1 << i
+			elif ni == best:
+				mask |= 1 << i
+	if best >= 0:
+		edge_layer.set_cell(t, _edge_source[GROUND_ORDER[best]], Vector2i(mask % 4, mask / 4))
+	else:
+		edge_layer.erase_cell(t)
 
 
 ## A 4x4 atlas: tile m holds the ground's fringe on the sides set in m
@@ -275,47 +328,27 @@ func is_busy() -> bool:
 	return not _order.is_empty()
 
 
+var _ground_rank: Dictionary = {}
+
+
 func _ground_index(g: String) -> int:
-	return GROUND_ORDER.find(g)
+	if _ground_rank.is_empty():
+		for i in GROUND_ORDER.size():
+			_ground_rank[GROUND_ORDER[i]] = i
+	return _ground_rank.get(g, -1)
 
 
 func _load_rows(c: Vector2i, row0: int, count: int) -> void:
 	var w := session.world
 	var cs := w.chunk_size
 	var base := c * cs
-	var codes := w.ground_codes
-	var order := {}
-	for g: String in codes.values():
-		order[g] = _ground_index(g)
-	var dirs: Array[Vector2i] = [Vector2i(0, -1), Vector2i(1, 0), Vector2i(0, 1), Vector2i(-1, 0)]
 	for ly in range(row0, row0 + count):
 		for lx in cs:
-			var t := base + Vector2i(lx, ly)
-			var g := w.ground_at(t)
-			ground_layer.set_cell(t, _ground_source[g], Vector2i.ZERO)
-			# The strongest neighbouring ground spills its edge onto this tile.
-			var gi: int = order[g]
-			var best := -1
-			var mask := 0
-			for i in 4:
-				var n := t + dirs[i]
-				if not w.in_bounds(n):
-					continue
-				var ni: int = order[w.ground_at(n)]
-				if ni > gi:
-					if ni > best:
-						best = ni
-						mask = 1 << i
-					elif ni == best:
-						mask |= 1 << i
-			if best >= 0:
-				edge_layer.set_cell(t, _edge_source[GROUND_ORDER[best]], Vector2i(mask % 4, mask / 4))
+			_draw_ground(base + Vector2i(lx, ly))
 	for o: Array in w.objects_in_chunk(c):
 		var oy := int(o[1])
 		if oy >= row0 and oy < row0 + count:
-			var ot := base + Vector2i(int(o[0]), oy)
-			var src: int = _stump_source if session.chopped.has(ot) else _object_source[str(o[2])]
-			object_layer.set_cell(ot, src, Vector2i.ZERO)
+			_draw_object(base + Vector2i(int(o[0]), oy))
 
 
 func _unload_rows(c: Vector2i, row0: int, count: int) -> void:

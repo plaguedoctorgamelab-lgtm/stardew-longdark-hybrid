@@ -18,6 +18,7 @@ signal survey_changed(active: bool, progress: float)
 signal camp_changed
 signal tree_changed(tile: Vector2i)
 signal note_read(text: String)
+signal land_changed(tile: Vector2i)
 
 const FACING_DOWN := 0
 const FACING_RIGHT := 1
@@ -66,6 +67,10 @@ var chopped: Dictionary = {}
 var jobs_known: Dictionary = {}
 # Rumored places the ranger has heard of: landmark id -> true.
 var rumors: Dictionary = {}
+# Changes to the land in this save. The baked world never changes.
+var cleared: Dictionary = {}            # obstacle's top-left tile -> obstacle id, cleared for good
+var clearing_progress: Dictionary = {}  # obstacle's top-left tile -> actions done so far
+var dug: Dictionary = {}                # tile -> true, trail dug by the ranger
 
 
 func _init(tuning_path: String = Tuning.DEFAULT_PATH, content_dir: String = ContentDB.CONTENT_DIR, world_dir: String = WorldData.WORLD_DIR) -> void:
@@ -116,6 +121,8 @@ func new_game(new_seed: int = -1) -> void:
 	for t: Vector2i in chopped.keys():
 		_set_chopped(t, -1)
 	jobs_known = {}
+	rumors = {}
+	_reset_land()
 	camp_changed.emit()
 	weather.check_change(clock.minute)
 
@@ -143,6 +150,8 @@ func to_dict() -> Dictionary:
 		},
 		"chopped": chopped.keys().map(func(t: Vector2i) -> Array: return [t.x, t.y, chopped[t]]),
 		"jobs_known": jobs_known.keys(),
+		"rumors": rumors.keys(),
+		"land": land_to_dict(),
 	}
 
 
@@ -174,6 +183,10 @@ func from_dict(d: Dictionary) -> void:
 	jobs_known = {}
 	for id: String in d.get("jobs_known", []):
 		jobs_known[id] = true
+	rumors = {}
+	for id: String in d.get("rumors", []):
+		rumors[id] = true
+	land_from_dict(d.get("land", {}))
 	camp_changed.emit()
 	survey_steps_left = 0
 	_last_tile = Vector2i(-9999, -9999)
@@ -627,7 +640,14 @@ func use_item() -> void:
 	elif item == "map":
 		start_survey()
 	elif item == "axe":
-		chop()
+		if not obstacle_in_reach("axe").is_empty():
+			clear_obstacle()
+		else:
+			chop()
+	elif item == "saw":
+		clear_obstacle()
+	elif item == "shovel":
+		dig()
 	elif item == "bedroll":
 		make_camp()
 	elif item == "firewood":
@@ -807,6 +827,176 @@ func _regrow_trees() -> void:
 		if not camp.is_empty() and (camp["bed"] == t or camp["fire"] == t):
 			continue
 		_set_chopped(t, -1)
+
+
+# --- clearing and building trail ---------------------------------------------
+
+func _reset_land() -> void:
+	for t: Vector2i in cleared.keys():
+		_set_cleared(t, "", false)
+	for t: Vector2i in dug.keys():
+		_set_dug(t, false)
+	clearing_progress = {}
+
+
+func land_to_dict() -> Dictionary:
+	return {
+		"cleared": cleared.keys().map(func(t: Vector2i) -> Array: return [t.x, t.y, cleared[t]]),
+		"progress": clearing_progress.keys().map(func(t: Vector2i) -> Array: return [t.x, t.y, clearing_progress[t]]),
+		"dug": dug.keys().map(func(t: Vector2i) -> Array: return [t.x, t.y]),
+	}
+
+
+func land_from_dict(d: Dictionary) -> void:
+	_reset_land()
+	for e: Array in d.get("cleared", []):
+		_set_cleared(Vector2i(int(e[0]), int(e[1])), str(e[2]), true)
+	for e: Array in d.get("progress", []):
+		clearing_progress[Vector2i(int(e[0]), int(e[1]))] = int(e[2])
+	for e: Array in d.get("dug", []):
+		_set_dug(Vector2i(int(e[0]), int(e[1])), true)
+
+
+func _obstacle_row_for(kind: String) -> Dictionary:
+	for r: Dictionary in content.rows("obstacles"):
+		if r["object"] == kind:
+			return r
+	return {}
+
+
+## The obstacle covering a tile: {"origin", "id"}, or empty.
+func obstacle_at(t: Vector2i) -> Dictionary:
+	for dx in range(0, 3):
+		var o := t - Vector2i(dx, 0)
+		var kind := world.object_at(o)
+		if kind == "" or cleared.has(o):
+			continue
+		var row := _obstacle_row_for(kind)
+		if row.is_empty():
+			continue
+		var size: Array = world.object_type(kind)["size"]
+		if dx < int(size[0]):
+			return {"origin": o, "id": row["id"]}
+	return {}
+
+
+## The obstacle a tool would work on: the one in front, else the nearest in
+## reach. With a tool given, only obstacles that tool clears.
+func obstacle_in_reach(tool: String = "") -> Dictionary:
+	if is_indoors():
+		return {}
+	var reach := tuning.num("clearing.reach_tiles")
+	var front := ranger_tile() + facing_vector()
+	var best := {}
+	var best_d := INF
+	for dy in range(-2, 3):
+		for dx in range(-2, 3):
+			var t := ranger_tile() + Vector2i(dx, dy)
+			var ob := obstacle_at(t)
+			if ob.is_empty():
+				continue
+			if tool != "" and content.row("obstacles", ob["id"])["tool"] != tool:
+				continue
+			var d := outdoor_pos.distance_to(Vector2(t) + Vector2(0.5, 0.5))
+			if d > reach + 0.5:
+				continue
+			if t == front:
+				d -= 1.0
+			if d < best_d:
+				best_d = d
+				best = ob
+	return best
+
+
+func _set_cleared(origin: Vector2i, id: String, on: bool) -> void:
+	var kind := world.object_at(origin)
+	var size: Array = world.object_type(kind).get("size", [1, 1]) if kind != "" else [1, 1]
+	for dy in int(size[1]):
+		for dx in int(size[0]):
+			world.set_cleared(origin + Vector2i(dx, dy), on)
+	if on:
+		cleared[origin] = id
+	else:
+		cleared.erase(origin)
+	clearing_progress.erase(origin)
+	land_changed.emit(origin)
+
+
+## One action on the obstacle in reach. Each obstacle needs its own tool and
+## takes its set number of actions, each costing time and energy.
+func clear_obstacle() -> Dictionary:
+	var ob := obstacle_in_reach()
+	if ob.is_empty():
+		message.emit(content.text("msg_nothing_to_clear"))
+		return {"ok": false, "reason": "nothing"}
+	var row := content.row("obstacles", ob["id"])
+	var what := content.text(row["name"])
+	var tool: String = row["tool"]
+	if not backpack.has(tool):
+		message.emit(content.text("msg_clear_need_tool", {"tool": content.item_name(tool).to_lower(), "what": what}))
+		return {"ok": false, "reason": "no_tool"}
+	var key := "clearing." + str(ob["id"])
+	var origin: Vector2i = ob["origin"]
+	var done := int(clearing_progress.get(origin, 0)) + 1
+	var total := tuning.integer(key + ".actions")
+	needs.spend(tuning.num(key + ".energy"))
+	var finished := done >= total
+	if finished:
+		_set_cleared(origin, ob["id"], true)
+		message.emit(content.text("msg_cleared", {"what": what}))
+	else:
+		clearing_progress[origin] = done
+		message.emit(content.text("msg_clear_progress", {"what": what, "done": done, "total": total}))
+	pass_minutes(tuning.integer(key + ".minutes"))
+	_check_collapse()
+	return {"ok": true, "id": ob["id"], "origin": origin, "done": done, "total": total, "cleared": finished}
+
+
+func can_dig(t: Vector2i) -> bool:
+	if not world.in_bounds(t) or world.is_solid(t) or dug.has(t):
+		return false
+	var diggable: Array = tuning.value("trail.diggable")
+	if not diggable.has(world.ground_at(t)):
+		return false
+	if not camp.is_empty() and (camp["bed"] == t or camp["fire"] == t):
+		return false
+	return true
+
+
+func _set_dug(t: Vector2i, on: bool) -> void:
+	if on:
+		dug[t] = true
+		world.set_ground(t, "trail")
+	else:
+		dug.erase(t)
+		world.set_ground(t, "")
+	map.touch(t)
+	land_changed.emit(t)
+
+
+## Digs the faced tile (and more, if tuned) into trail.
+func dig() -> Dictionary:
+	if is_indoors():
+		return {"ok": false}
+	if not backpack.has("shovel"):
+		message.emit(content.text("msg_dig_need_shovel"))
+		return {"ok": false, "reason": "no_tool"}
+	var made: Array[Vector2i] = []
+	var t := ranger_tile() + facing_vector()
+	for i in tuning.integer("trail.tiles_per_action"):
+		if not can_dig(t):
+			break
+		_set_dug(t, true)
+		made.append(t)
+		t += facing_vector()
+	if made.is_empty():
+		message.emit(content.text("msg_cant_dig"))
+		return {"ok": false, "reason": "here"}
+	needs.spend(tuning.num("trail.energy"))
+	message.emit(content.text("msg_dug"))
+	pass_minutes(tuning.integer("trail.minutes"))
+	_check_collapse()
+	return {"ok": true, "tiles": made}
 
 
 # --- jobs ------------------------------------------------------------------------
@@ -1014,6 +1204,30 @@ func debug_reveal_map() -> void:
 
 func debug_wipe_map() -> void:
 	map.wipe()
+
+
+## Clears or restores the obstacle covering a tile.
+func debug_clear_obstacle(t: Vector2i, on: bool = true) -> bool:
+	if on:
+		var ob := obstacle_at(t)
+		if ob.is_empty():
+			return false
+		_set_cleared(ob["origin"], ob["id"], true)
+		return true
+	for dx in range(0, 3):
+		var o := t - Vector2i(dx, 0)
+		if cleared.has(o):
+			_set_cleared(o, "", false)
+			return true
+	return false
+
+
+## Digs, or undoes the digging of, one tile of trail.
+func debug_dig(t: Vector2i, on: bool = true) -> void:
+	if on and can_dig(t):
+		_set_dug(t, true)
+	elif not on and dug.has(t):
+		_set_dug(t, false)
 
 
 func debug_reload_tuning() -> bool:

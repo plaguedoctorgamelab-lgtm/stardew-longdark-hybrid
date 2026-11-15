@@ -158,5 +158,28 @@
       "tree_fir",
       "tree_oak"
     ]
+  },
+  "clearing": {
+    "reach_tiles": 1.6,
+    "brush": {
+      "actions": 1,
+      "minutes": 10,
+      "energy": 3
+    },
+    "fallen_trunk": {
+      "actions": 3,
+      "minutes": 20,
+      "energy": 6
+    }
+  },
+  "trail": {
+    "tiles_per_action": 2,
+    "minutes": 10,
+    "energy": 2,
+    "diggable": [
+      "grass",
+      "tall_grass",
+      "forest_floor"
+    ]
   }
 }

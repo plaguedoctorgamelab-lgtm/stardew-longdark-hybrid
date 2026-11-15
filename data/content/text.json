@@ -565,6 +565,61 @@
    "id": "repair_step_windows",
    "text": "Windows",
    "placeholder": true
+  },
+  {
+   "id": "item_saw",
+   "text": "Saw",
+   "placeholder": true
+  },
+  {
+   "id": "item_shovel",
+   "text": "Shovel",
+   "placeholder": true
+  },
+  {
+   "id": "obstacle_brush",
+   "text": "brush",
+   "placeholder": true
+  },
+  {
+   "id": "obstacle_fallen_trunk",
+   "text": "fallen trunk",
+   "placeholder": true
+  },
+  {
+   "id": "msg_clear_need_tool",
+   "text": "You need the {tool} for that {what}.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_nothing_to_clear",
+   "text": "Nothing here to clear.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_cleared",
+   "text": "You clear the {what} out of the way.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_clear_progress",
+   "text": "You work at the {what} ({done} of {total}).",
+   "placeholder": true
+  },
+  {
+   "id": "msg_dug",
+   "text": "You dig out a stretch of trail.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_cant_dig",
+   "text": "You can't dig trail here.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_dig_need_shovel",
+   "text": "You need the shovel to dig trail.",
+   "placeholder": true
   }
  ]
 }

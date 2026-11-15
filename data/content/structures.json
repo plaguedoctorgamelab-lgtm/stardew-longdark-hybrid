@@ -156,6 +156,10 @@
     {
      "item": "bedroll",
      "count": 1
+    },
+    {
+     "item": "shovel",
+     "count": 1
     }
    ]
   },
@@ -304,7 +308,12 @@
      "max": 1
     }
    ],
-   "starting_chest": []
+   "starting_chest": [
+    {
+     "item": "saw",
+     "count": 1
+    }
+   ]
   },
   {
    "id": "static_tower",

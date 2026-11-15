@@ -17,6 +17,7 @@ TUNING = os.path.join(bw.ROOT, "data", "tuning", "tuning.json")
 
 OBJECT_TYPES = {
     "fence": {"size": [1, 1], "sprite": "obj_fence", "solid": True},
+    "brush": {"size": [1, 1], "sprite": "obj_brush", "solid": True},
     "thicket": {"size": [1, 1], "sprite": "obj_thicket", "solid": True},
     "survey_stake": {"size": [1, 1], "sprite": "obj_survey_stake", "solid": False, "interact": "find:survey_stakes"},
     "cairn": {"size": [1, 1], "sprite": "obj_cairn", "solid": True, "interact": "landmark:kettle_pond"},
@@ -432,6 +433,21 @@ def bake(R, G, L, r1, structures, ox, oy):
         return (tx, ty)
 
     trunks = [trunk_at(trail_pts, f) for f in tr["trunks"]] + [trunk_at(road_pts, ro["trunk"])]
+
+    # Brush grown across the old trail and road.
+    brush = []
+
+    def brush_at(pts, frac, radius):
+        px, py = pts[int(frac * len(pts))]
+        for t in disc(px, py, radius + 0.4):
+            if ground[t[1]][t[0]] == "trail" and t not in objects:
+                objects[t] = "brush"
+                brush.append(t)
+
+    for f in tr["brush"]:
+        brush_at(trail_pts, f, tr["radius"])
+    for f in ro["brush"]:
+        brush_at(road_pts, f, ro["radius"])
     for (px, py) in stakes:
         objects[(int(px), int(py))] = "survey_stake"
     cx_, cy_ = Pi(*po["cairn"])
@@ -481,7 +497,7 @@ def bake(R, G, L, r1, structures, ox, oy):
     R.spawns["bridge"] = [round(c, 2) for c in P(*br["spawn"])]
 
     # --- checks -----------------------------------------------------------------------------------
-    trunk_tiles = set()
+    trunk_tiles = set(brush)
     for (tx, ty) in trunks:
         for xx in range(tx, tx + 3):
             trunk_tiles.add((xx, ty))
@@ -536,7 +552,7 @@ def bake(R, G, L, r1, structures, ox, oy):
     R.extra["ring_two_estimate_minutes"] = times
     R.extra["ring_two_lengths"] = {"trail": round(bw.polyline_length(trail_pts), 1), "road": round(bw.polyline_length(road_pts), 1), "stakes": round(bw.polyline_length(stake_line), 1)}
     R.extra["ring_two_estimate_base"] = round(base, 1)
-    R.extra["obstacles_on_routes"] = [list(t) for t in sorted(trunks)]
+    R.extra["obstacles_on_routes"] = [[t[0], t[1], "fallen_trunk"] for t in sorted(trunks)] + [[t[0], t[1], "brush"] for t in sorted(brush)]
     return OBJECT_TYPES
 
 

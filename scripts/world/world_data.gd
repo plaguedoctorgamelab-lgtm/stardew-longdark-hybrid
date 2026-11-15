@@ -143,6 +143,8 @@ func trim_cache(center: Vector2i, keep: int) -> void:
 func ground_at(t: Vector2i) -> String:
 	if not in_bounds(t):
 		return "rock"
+	if _ground_override.has(t):
+		return _ground_override[t]
 	var d := chunk(chunk_of(t))
 	if d.is_empty():
 		return "rock"
@@ -151,7 +153,8 @@ func ground_at(t: Vector2i) -> String:
 
 
 var _blocked: Dictionary = {}   # extra solid tiles added at run time
-var _cleared: Dictionary = {}   # tiles whose object was removed at run time (chopped trees)
+var _cleared: Dictionary = {}   # tiles whose object was removed at run time (chopped trees, cleared obstacles)
+var _ground_override: Dictionary = {}   # tiles whose ground was changed at run time (dug trail)
 
 
 func is_solid(t: Vector2i) -> bool:
@@ -246,6 +249,24 @@ func set_cleared(t: Vector2i, on: bool) -> void:
 		_cleared.erase(t)
 
 
+## Changes a tile's ground for this save, as digging trail does; "" undoes it.
+func set_ground(t: Vector2i, ground: String) -> void:
+	if ground == "":
+		_ground_override.erase(t)
+	else:
+		_ground_override[t] = ground
+
+
+func baked_ground_at(t: Vector2i) -> String:
+	var keep: Variant = _ground_override.get(t)
+	_ground_override.erase(t)
+	var g := ground_at(t)
+	if keep != null:
+		_ground_override[t] = keep
+	return g
+
+
 func clear_runtime_changes() -> void:
 	_cleared.clear()
 	_blocked.clear()
+	_ground_override.clear()

@@ -65,6 +65,12 @@ func _mark(t: Vector2i) -> void:
 		dirty[Vector2i(t.x / chunk_size, t.y / chunk_size)] = true
 
 
+## Marks a tile's chunk for redrawing, as when the ground there changes.
+func touch(t: Vector2i) -> void:
+	if in_bounds(t):
+		_mark(t)
+
+
 ## The chunks changed since the last call, or every chunk; clears the record.
 func take_dirty() -> Dictionary:
 	var out := {"all": all_dirty, "chunks": dirty.keys()}

@@ -71,6 +71,12 @@ func setup(s: GameSession) -> void:
 			on_teleport.call())
 
 	r = _row()
+	_btn(r, "Clear in front", func() -> void: session.debug_clear_obstacle(session.ranger_tile() + session.facing_vector()))
+	_btn(r, "Restore", func() -> void: session.debug_clear_obstacle(session.ranger_tile() + session.facing_vector(), false))
+	_btn(r, "Dig in front", func() -> void: session.debug_dig(session.ranger_tile() + session.facing_vector()))
+	_btn(r, "Undig", func() -> void: session.debug_dig(session.ranger_tile() + session.facing_vector(), false))
+
+	r = _row()
 	_item_pick = _pick(r, session.content.ids("items"))
 	_btn(r, "Add item", func() -> void: session.debug_add_item(_item_pick.get_item_text(_item_pick.selected), 1))
 	_btn(r, "Add x5", func() -> void: session.debug_add_item(_item_pick.get_item_text(_item_pick.selected), 5))
