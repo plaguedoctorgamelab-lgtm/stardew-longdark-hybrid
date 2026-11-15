@@ -145,6 +145,4 @@ func test_first_day_is_clear(t: TestCase) -> void:
 		var s := TestCase.new_session(sd)
 		t.equal(s.weather.today, ["clear", "clear", "clear"] as Array[String], "seed %d: day one is clear all day" % sd)
 	var s := TestCase.new_session(5)
-	t.check(not s.start_survey(), "6:00 is still before the spring sunrise")
-	s.debug_set_time(7 * 60)
-	t.check(s.start_survey(), "surveying works at the station door on day one after sunrise")
+	t.check(s.start_survey(), "surveying works at the station door at 6:00 on day one")

@@ -328,12 +328,12 @@
   },
   {
    "id": "msg_rescue_station",
-   "text": "A hiker found you and helped you back to the station.",
+   "text": "Someone found you and brought you back to the station. They were gone before you woke.",
    "placeholder": true
   },
   {
    "id": "msg_rescue_cabin",
-   "text": "A hiker found you and helped you to the old cabin.",
+   "text": "Someone found you and brought you to the old cabin. They were gone before you woke.",
    "placeholder": true
   },
   {
