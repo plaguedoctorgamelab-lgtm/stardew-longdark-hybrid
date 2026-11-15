@@ -7,6 +7,7 @@ Nothing here blocks phase one. Everything else is recorded so it is decided on p
 | Question | Suggested answer |
 | --- | --- |
 | Is a content database of plain text tables acceptable, in place of SQLite? | Yes, confirmed by the designer on 14 November 2026. It behaves as a database, shows changes clearly in git and needs no add-on. It can move to SQLite later behind the same module. |
+| Where does the ranger wake after staying up too late in the backcountry? | The nearest repaired shelter: station, cabin or fire tower, never a camp. Decided 15 November 2026. |
 
 ## Open design questions
 
@@ -20,7 +21,6 @@ Nothing here blocks phase one. Everything else is recorded so it is decided on p
 | What did happen to the last ranger, and why does the Chief never visit? | Phase 6 | The designer may decide, or may leave it to the lab as a hidden thing and be surprised |
 | What are the giant robots and the UFOs? | Their region's phase | Creatures to befriend, ruins to explore, or both |
 | What does a settled creature do: leave or stay? | Phase 5 | Suggested: it depends on the creature |
-| Where does the ranger wake after staying up too late in the backcountry? | Phase 2 | Phase one uses the nearer of the station and the repaired cabin |
 | What does a rescue cost once money exists? | Phase 3 | Stardew takes a small share of money |
 | Does the player set prices for fees and rentals? | Phase 3 | Not yet discussed |
 | How many visitors can be on screen and in the park at once? | Phase 3 | A performance question as much as a design one |
@@ -49,4 +49,12 @@ Nothing here blocks phase one. Everything else is recorded so it is decided on p
 
 ## Lessons learned
 
-Empty for now. After each phase, add what the play test taught, so the next spec starts from it.
+After each phase, add what the play test taught, so the next spec starts from it.
+
+### Phase one (signed off 15 November 2026)
+
+- **Readable text matters as much as the pixel look.** The world stays pixel-perfect; text and menus draw at full resolution.
+- **The first hour must not get the player lost.** Day one is clear and the home area starts mapped.
+- **A place you can't see needs a hint.** A rough circle on the map works without becoming a quest marker.
+- **Far trips need a fallback for the night.** The bedroll camp made distance feel like planning, not punishment.
+- **An invitation helps.** The note board and job list gave the cabin trip a reason without ordering it.

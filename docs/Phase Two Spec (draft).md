@@ -286,13 +286,13 @@ A separate spoiler panel, opened from the debug panel, lists hidden things by id
 - [ ] Stumble on at least one thing you didn't expect.
 - [ ] Write down every number that felt wrong.
 
-## Questions for the designer
+## Designer's answers (15 November 2026)
 
-1. **Split phase two into 2a and 2b as above?** *Suggested answer:* yes. 2a reaches the roadmap's "found to open" goal, and 2b adds gathering, crafting and skills on top.
-2. **Camera and binoculars.** The roadmap puts the full kit in phase two, but they only matter with the field guide. *Suggested answer:* they wait for phase five.
-3. **Which site to open?** *Suggested answer:* the fire tower, which is also a shelter and a survey point, so opening it pays off at once. The old cabin stays a shelter.
-4. **Waking after a backcountry collapse.** *Suggested answer:* the nearest repaired shelter (station, cabin or fire tower), never a camp.
-5. **Supplies stay free from the station shelf until money exists?** *Suggested answer:* yes. Phase three can add costs.
-6. **Art for hidden things.** The designer makes all art, but hidden things are meant to surprise. *Suggested answer:* the lab mixes the few pictures they need into ordinary art batches under plain names, with no hint of where or how they are used. Until then they use stand-ins.
-7. **The repository is public on GitHub.** Anyone, including the designer, can read everything pushed there, so the lab is keeping its spoiler notes out of git. The hidden things' content tables must still be in the repository for the game to work. *Suggested answer:* make the repository private. Otherwise, accept that the hidden things' rows can be found by anyone who goes looking.
-8. **Sign off phase one first?** The roadmap closes a phase before the next spec is written. *Suggested answer:* treat phase one as signed off with the changes made after play, add the lessons above to the open questions list, and play the rest of the phase-one checklist alongside 2a.
+1. **Split phase two into 2a and 2b:** yes, as drafted.
+2. **Camera and binoculars:** they wait for phase five.
+3. **Phase two's site:** the fire tower. The old cabin stays a shelter.
+4. **Waking after a backcountry collapse:** the nearest repaired shelter (station, cabin or fire tower), never a camp.
+5. **Supplies:** the station shelf stays free until money exists in phase three.
+6. **Art for hidden things:** mixed into ordinary art batches under plain names, with stand-ins until then.
+7. **The repository stays public.** The lab's spoiler notes stay out of git. The hidden things' content rows are in the repository and can be found by anyone who looks.
+8. **Phase one is signed off** with the changes made after play. Its lessons are in the open questions list, and the rest of the phase-one checklist is played alongside 2a.
