@@ -29,13 +29,18 @@ func test_chunks_load_and_unload(t: TestCase) -> void:
 	t.check(view.loaded.has(s.world.chunk_of(s.ranger_tile())), "the cabin's chunk is loaded")
 	t.check(view.ground_layer.get_cell_source_id(s.ranger_tile()) >= 0, "ground drawn under the ranger")
 	t.check(view.ground_layer.get_cell_source_id(Vector2i(5, 230)) < 0, "ground near the station no longer drawn")
-	# Gradual loading while walking: never more than the budget per frame.
+	# Gradual loading while walking: work is spread over frames.
 	s.debug_teleport("station")
 	view.update_chunks(true)
-	var before: int = view.loaded.size()
 	s.outdoor_pos += Vector2(40, 0)
 	view.update_chunks(false)
-	t.check(view.loaded.size() - before <= view.max_loads_per_frame, "chunks placed per frame stay within budget")
+	t.check(view.is_busy(), "new chunks are placed over several frames")
+	var frames := 1
+	while view.is_busy() and frames < 1000:
+		view.update_chunks(false)
+		frames += 1
+	t.check(frames > 1 and not view.is_busy(), "all placed after %d frames" % frames)
+	t.check(view.loaded.has(s.world.chunk_of(s.ranger_tile())), "the new chunk is in place")
 	view.queue_free()
 
 

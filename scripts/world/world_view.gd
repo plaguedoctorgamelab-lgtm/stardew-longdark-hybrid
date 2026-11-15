@@ -16,7 +16,6 @@ var sort_root: Node2D
 var object_layer: TileMapLayer
 var building_sprites: Dictionary = {}   # structure id -> Sprite2D
 var loaded: Dictionary = {}   # Vector2i chunk -> true
-var max_loads_per_frame: int = 2
 var _ground_source: Dictionary = {}   # ground name -> source id
 var _edge_source: Dictionary = {}     # ground name -> source id (4x4 atlas of masks)
 var _object_source: Dictionary = {}   # object kind -> source id
@@ -158,49 +157,92 @@ func wanted_chunks() -> Dictionary:
 	return out
 
 
-## Places wanted chunks and removes unwanted ones. With `all`, loads every
-## wanted chunk now (after a teleport); otherwise a few per frame.
+## Places wanted chunks and removes unwanted ones. Work is split into rows of
+## tiles and spread over frames, so no frame does too much. With `all`, every
+## job is finished now (after a teleport).
 func update_chunks(all: bool) -> void:
 	var want := wanted_chunks()
-	for c: Vector2i in loaded.keys():
-		if not want.has(c):
-			_unload(c)
-	var budget := 1000 if all else max_loads_per_frame
-	# Nearest first.
 	var center := session.world.chunk_of(session.ranger_tile())
-	var todo: Array = want.keys().filter(func(c: Vector2i) -> bool: return not loaded.has(c))
+	# Cancel or queue removals.
+	for c: Vector2i in loaded.keys():
+		if not want.has(c) and not _queued.has(c):
+			_queue(c, false)
+	for c: Vector2i in _queued.keys():
+		var job: Dictionary = _queued[c]
+		if job["load"] and not want.has(c):
+			# Not needed any more: unload whatever rows were placed.
+			job["load"] = false
+			job["rows_done_load"] = job["row"]
+			job["row"] = 0
+	var todo: Array = want.keys().filter(func(c: Vector2i) -> bool: return not loaded.has(c) and not _queued.has(c))
 	todo.sort_custom(func(a: Vector2i, b: Vector2i) -> bool: return (a - center).length_squared() < (b - center).length_squared())
 	for c: Vector2i in todo:
-		if budget <= 0:
-			break
-		_load(c)
-		budget -= 1
+		_queue(c, true)
+	var budget := 1 << 30 if all else rows_per_frame
+	while budget > 0 and not _order.is_empty():
+		var c: Vector2i = _order[0]
+		var job: Dictionary = _queued[c]
+		var n := mini(budget, session.world.chunk_size - int(job["row"]))
+		if job["load"]:
+			_load_rows(c, int(job["row"]), n)
+		else:
+			_unload_rows(c, int(job["row"]), n)
+		job["row"] = int(job["row"]) + n
+		budget -= n
+		if int(job["row"]) >= session.world.chunk_size:
+			if job["load"]:
+				loaded[c] = true
+			else:
+				loaded.erase(c)
+			_queued.erase(c)
+			_order.pop_front()
 	session.world.trim_cache(center, 3)
+
+
+var rows_per_frame: int = 8
+var _queued: Dictionary = {}   # chunk -> {"load": bool, "row": int}
+var _order: Array = []
+
+
+func _queue(c: Vector2i, load_it: bool) -> void:
+	_queued[c] = {"load": load_it, "row": 0}
+	if load_it:
+		_order.append(c)
+	else:
+		_order.push_front(c)
+
+
+func is_busy() -> bool:
+	return not _order.is_empty()
 
 
 func _ground_index(g: String) -> int:
 	return GROUND_ORDER.find(g)
 
 
-func _load(c: Vector2i) -> void:
+func _load_rows(c: Vector2i, row0: int, count: int) -> void:
 	var w := session.world
 	var cs := w.chunk_size
 	var base := c * cs
-	for ly in cs:
+	var codes := w.ground_codes
+	var order := {}
+	for g: String in codes.values():
+		order[g] = _ground_index(g)
+	var dirs: Array[Vector2i] = [Vector2i(0, -1), Vector2i(1, 0), Vector2i(0, 1), Vector2i(-1, 0)]
+	for ly in range(row0, row0 + count):
 		for lx in cs:
 			var t := base + Vector2i(lx, ly)
 			var g := w.ground_at(t)
 			ground_layer.set_cell(t, _ground_source[g], Vector2i.ZERO)
 			# The strongest neighbouring ground spills its edge onto this tile.
-			var gi := _ground_index(g)
+			var gi: int = order[g]
 			var best := -1
 			var mask := 0
-			var dirs := [Vector2i(0, -1), Vector2i(1, 0), Vector2i(0, 1), Vector2i(-1, 0)]
 			for i in 4:
-				var n := t + (dirs[i] as Vector2i)
+				var n := t + dirs[i]
 				if not w.in_bounds(n):
 					continue
-				var ni := _ground_index(w.ground_at(n))
+				var ni: int = order[w.ground_at(n)]
 				if ni > gi:
 					if ni > best:
 						best = ni
@@ -210,26 +252,23 @@ func _load(c: Vector2i) -> void:
 			if best >= 0:
 				edge_layer.set_cell(t, _edge_source[GROUND_ORDER[best]], Vector2i(mask % 4, mask / 4))
 	for o: Array in w.objects_in_chunk(c):
-		var kind: String = o[2]
-		object_layer.set_cell(base + Vector2i(int(o[0]), int(o[1])), _object_source[kind], Vector2i.ZERO)
-	loaded[c] = true
+		var oy := int(o[1])
+		if oy >= row0 and oy < row0 + count:
+			object_layer.set_cell(base + Vector2i(int(o[0]), oy), _object_source[str(o[2])], Vector2i.ZERO)
 
 
-func _unload(c: Vector2i) -> void:
+func _unload_rows(c: Vector2i, row0: int, count: int) -> void:
 	var cs := session.world.chunk_size
 	var base := c * cs
-	for ly in cs:
+	for ly in range(row0, row0 + count):
 		for lx in cs:
 			var t := base + Vector2i(lx, ly)
 			ground_layer.erase_cell(t)
 			edge_layer.erase_cell(t)
 			object_layer.erase_cell(t)
-	loaded.erase(c)
 
 
 func reset_chunks() -> void:
-	for c: Vector2i in loaded.keys():
-		_unload(c)
 	update_chunks(true)
 
 
