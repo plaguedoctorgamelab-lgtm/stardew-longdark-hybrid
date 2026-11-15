@@ -1,6 +1,7 @@
 extends SceneTree
 ## Windowed performance check: starts the real game, walks the ranger along
-## the trail from the station to the cabin at three times trail speed (so
+## the trails from the station through ring one and ring two to the broken
+## bridge at three times trail speed (so
 ## chunks load faster than in play), with drawing on, and reports frame times.
 ## Run: godot --path . -s tests/support/perf_window.gd
 ## Exits 0 if at least 99% of frames take under 17.5 ms.
@@ -10,7 +11,7 @@ var deltas: PackedFloat32Array = []
 
 
 func _initialize() -> void:
-	create_timer(300.0).timeout.connect(func() -> void: quit(2))
+	create_timer(900.0).timeout.connect(func() -> void: quit(2))
 	main = load("res://scenes/main.tscn").instantiate()
 	root.add_child(main)
 	_run()
@@ -27,7 +28,9 @@ func _run() -> void:
 	s.debug_force_weather("rain")
 	s.debug_set_time(17 * 60)
 	s.tuning.set_value("movement.trail_speed_tiles", 13.5)
-	var route := s.world.route("cabin")
+	for o: Array in s.world.meta.get("obstacles_on_routes", []):
+		s.debug_clear_obstacle(Vector2i(int(o[0]), int(o[1])))
+	var route := s.world.route("bridge")
 	s.outdoor_pos = route[0]
 	main.world_view.reset_chunks()
 	for i in 30:

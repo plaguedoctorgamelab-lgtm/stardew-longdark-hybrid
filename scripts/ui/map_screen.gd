@@ -56,6 +56,7 @@ func setup(s: GameSession) -> void:
 	clip.add_child(paper)
 	map_rect = TextureRect.new()
 	map_rect.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	map_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	map_rect.stretch_mode = TextureRect.STRETCH_SCALE
 	clip.add_child(map_rect)
 	overlay = Control.new()
@@ -203,6 +204,14 @@ func _ranger_map_pos() -> Vector2:
 ## Places the picture, labels and marker for the current pan and zoom.
 func _layout() -> void:
 	var z := zoom()
+	# Keep the built part of the world in view: centred when it all fits,
+	# otherwise never panned past its edge.
+	var b := session.world.baked_bounds()
+	var half := VIEW_SIZE / 2.0 / z
+	for axis in 2:
+		var lo := float(b.position[axis]) + half[axis]
+		var hi := float(b.end[axis]) - half[axis]
+		center[axis] = (float(b.position[axis]) + float(b.end[axis])) / 2.0 if lo > hi else clampf(center[axis], lo, hi)
 	map_rect.size = Vector2(image.get_width(), image.get_height()) * z
 	map_rect.position = (VIEW_SIZE / 2.0 - center * z).round()
 	for c in landmark_labels.get_children():
@@ -257,8 +266,6 @@ func pan(dir: Vector2, delta: float) -> void:
 	if dir == Vector2.ZERO:
 		return
 	center += dir * PAN_SPEED * delta / zoom()
-	var b := session.world.baked_bounds()
-	center = center.clamp(Vector2(b.position), Vector2(b.end))
 	_layout()
 
 

@@ -8,7 +8,7 @@ var main: Node
 
 
 func _initialize() -> void:
-	create_timer(120.0).timeout.connect(func() -> void: quit(2))
+	create_timer(240.0).timeout.connect(func() -> void: quit(2))
 	main = load("res://scenes/main.tscn").instantiate()
 	root.add_child(main)
 	_run()
@@ -107,4 +107,41 @@ func _run() -> void:
 	s.debug_force_weather("clear")
 	s.selected_slot = 0
 	await _shot("15_camp_at_night")
+	# Phase 2a: ring two, the tower, signs and the bigger map.
+	s.debug_set_time(11 * 60)
+	for spot in ["pond", "tower", "bridge"]:
+		s.debug_teleport(spot)
+		main.world_view.reset_chunks()
+		await _shot("2a_%s" % spot)
+	s.debug_teleport("tower")
+	for st: Dictionary in s.content.row("structures", "static_tower")["repair_steps"]:
+		s.structures.debug_complete_step("static_tower", st["id"])
+	main.world_view.reset_chunks()
+	await _shot("2a_tower_repaired")
+	s.enter_building("static_tower")
+	await _shot("2a_tower_inside")
+	s.start_survey()
+	s.pass_minutes(30)
+	s.leave_building()
+	s.debug_teleport("fork")
+	main.world_view.reset_chunks()
+	var front := s.ranger_tile() + Vector2i(0, -2)
+	s.debug_put_up(front, "trail_marker")
+	s.debug_add_item("shovel")
+	s.outdoor_pos += Vector2(4, 4)
+	s.facing = GameSession.FACING_RIGHT
+	s.dig()
+	s.dig()
+	await _shot("2a_marker_and_dug_trail")
+	main.map_screen.open()
+	main.map_screen.change_zoom(-2)
+	await _shot("2a_map_zoomed_out")
+	main.map_screen.close()
+	s.debug_teleport("station")
+	main.world_view.reset_chunks()
+	s.enter_building("ranger_station")
+	s.debug_add_item("planks", 6)
+	s.debug_add_item("nails", 6)
+	main.choice_screen.open_workbench()
+	await _shot("2a_workbench")
 	quit(0)

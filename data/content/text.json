@@ -668,7 +668,7 @@
   },
   {
    "id": "ui_recipe_input",
-   "text": "{name} {have}/{need}",
+   "text": "{need} {name} (have {have})",
    "placeholder": true
   },
   {
