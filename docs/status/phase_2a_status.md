@@ -91,7 +91,7 @@ Checks run with a window:
 1. **Art for phase 2a.** Everything new uses plain stand-ins:
    - the tower in both states;
    - the two new grounds;
-   - the fence, brush, thickets, stakes, cairn and bridge post;
+   - seven new outdoor objects;
    - signs, markers, the shovel and saw icons, and the workbench.
 
    *Suggested answer:* the lab writes Art Request 02. As you agreed, the few pictures the hidden things need go in under plain names.
