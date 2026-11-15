@@ -181,5 +181,13 @@
       "tall_grass",
       "forest_floor"
     ]
+  },
+  "signs": {
+    "reach_tiles": 1.6,
+    "put_up_minutes": 10,
+    "put_up_energy": 2,
+    "take_down_minutes": 10,
+    "take_down_energy": 0,
+    "marker_radius_tiles": 3
   }
 }

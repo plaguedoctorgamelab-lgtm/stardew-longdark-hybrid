@@ -231,6 +231,11 @@ func _add_label(text: String, at: Vector2, nudge: Vector2, color: Color, tinted:
 
 func _draw_overlay() -> void:
 	var z := zoom()
+	for t: Vector2i in session.placed:
+		var p := map_rect.position + (Vector2(t) + Vector2(0.5, 0.5)) * z
+		var is_sign := str(session.placed[t]["place"]) != ""
+		var r := 2.0 if is_sign else 1.0
+		overlay.draw_rect(Rect2(p - Vector2(r, r), Vector2(r, r) * 2.0), Color(0.4, 0.22, 0.1) if is_sign else HINT)
 	for h: Dictionary in hints(session):
 		var c: Vector2 = h["center"]
 		var r: float = h["radius"]

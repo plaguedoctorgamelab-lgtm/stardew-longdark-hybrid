@@ -1,0 +1,46 @@
+{
+ "rows": [
+  {
+   "id": "trail_sign",
+   "name": "recipe_trail_sign",
+   "station": "workbench",
+   "kind": "park_work",
+   "inputs": {
+    "planks": 2,
+    "nails": 2
+   },
+   "result": {
+    "item": "trail_sign",
+    "count": 1
+   }
+  },
+  {
+   "id": "trail_marker",
+   "name": "recipe_trail_marker",
+   "station": "workbench",
+   "kind": "park_work",
+   "inputs": {
+    "planks": 1,
+    "nails": 1
+   },
+   "result": {
+    "item": "trail_marker",
+    "count": 2
+   }
+  },
+  {
+   "id": "repair_kit",
+   "name": "recipe_repair_kit",
+   "station": "workbench",
+   "kind": "park_work",
+   "inputs": {
+    "planks": 4,
+    "nails": 8
+   },
+   "result": {
+    "item": "repair_kit",
+    "count": 1
+   }
+  }
+ ]
+}

@@ -22,6 +22,7 @@ var _object_source: Dictionary = {}   # object kind -> source id
 var _border_lines: Node2D
 var _stump_source: int = -1
 var _camp_bed: Sprite2D
+var _placed_sprites: Dictionary = {}   # tile -> Sprite2D
 var _camp_fire: Sprite2D
 var _time: float = 0.0
 
@@ -165,6 +166,23 @@ func _on_land_changed(t: Vector2i) -> void:
 	for d: Vector2i in [Vector2i.ZERO, Vector2i(0, -1), Vector2i(1, 0), Vector2i(0, 1), Vector2i(-1, 0)]:
 		_draw_ground(t + d)
 	_draw_object(t)
+	_draw_placed(t)
+
+
+func _draw_placed(t: Vector2i) -> void:
+	if _placed_sprites.has(t):
+		(_placed_sprites[t] as Node).queue_free()
+		_placed_sprites.erase(t)
+	if not session.placed.has(t):
+		return
+	var item: String = session.placed[t]["item"]
+	var spr := Sprite2D.new()
+	spr.centered = false
+	spr.texture = Art.texture(session.content.row("items", item)["sprite"])
+	spr.position = Vector2(t.x * TILE + TILE / 2.0, (t.y + 1) * TILE)
+	spr.offset = Vector2(-spr.texture.get_width() / 2.0, -spr.texture.get_height())
+	sort_root.add_child(spr)
+	_placed_sprites[t] = spr
 
 
 func _draw_object(t: Vector2i) -> void:
@@ -349,6 +367,9 @@ func _load_rows(c: Vector2i, row0: int, count: int) -> void:
 		var oy := int(o[1])
 		if oy >= row0 and oy < row0 + count:
 			_draw_object(base + Vector2i(int(o[0]), oy))
+	for t: Vector2i in session.placed:
+		if w.chunk_of(t) == c and t.y - base.y >= row0 and t.y - base.y < row0 + count:
+			_draw_placed(t)
 
 
 func _unload_rows(c: Vector2i, row0: int, count: int) -> void:
@@ -360,6 +381,9 @@ func _unload_rows(c: Vector2i, row0: int, count: int) -> void:
 			ground_layer.erase_cell(t)
 			edge_layer.erase_cell(t)
 			object_layer.erase_cell(t)
+			if _placed_sprites.has(t):
+				(_placed_sprites[t] as Node).queue_free()
+				_placed_sprites.erase(t)
 
 
 func reset_chunks() -> void:

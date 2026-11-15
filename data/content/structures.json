@@ -105,6 +105,19 @@
        1
       ],
       "sprite": "furniture_door"
+     },
+     {
+      "id": "workbench",
+      "kind": "workbench",
+      "pos": [
+       1,
+       5
+      ],
+      "size": [
+       2,
+       1
+      ],
+      "sprite": "furniture_table"
      }
     ]
    },

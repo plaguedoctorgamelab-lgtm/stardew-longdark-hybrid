@@ -620,6 +620,161 @@
    "id": "msg_dig_need_shovel",
    "text": "You need the shovel to dig trail.",
    "placeholder": true
+  },
+  {
+   "id": "item_trail_sign",
+   "text": "Trail sign",
+   "placeholder": true
+  },
+  {
+   "id": "item_trail_marker",
+   "text": "Trail marker",
+   "placeholder": true
+  },
+  {
+   "id": "item_repair_kit",
+   "text": "Repair kit",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_trail_sign",
+   "text": "Trail sign",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_trail_marker",
+   "text": "Trail markers (2)",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_repair_kit",
+   "text": "Repair kit",
+   "placeholder": true
+  },
+  {
+   "id": "ui_workbench",
+   "text": "Workbench",
+   "placeholder": true
+  },
+  {
+   "id": "ui_craft_hint",
+   "text": "Click to make one. Esc to close.",
+   "placeholder": true
+  },
+  {
+   "id": "ui_recipe_line",
+   "text": "{name}: {inputs}",
+   "placeholder": true
+  },
+  {
+   "id": "ui_recipe_input",
+   "text": "{name} {have}/{need}",
+   "placeholder": true
+  },
+  {
+   "id": "ui_sign_where",
+   "text": "Where should the sign point?",
+   "placeholder": true
+  },
+  {
+   "id": "ui_place_station",
+   "text": "Ranger station",
+   "placeholder": true
+  },
+  {
+   "id": "msg_crafted",
+   "text": "You make a {item}.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_craft_missing",
+   "text": "You don't have what that needs.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_place_need_hammer",
+   "text": "You need the hammer to put that up.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_place_bad_spot",
+   "text": "That can't go there.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_sign_need_trail",
+   "text": "A sign goes on a trail.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_sign_up",
+   "text": "You put up a sign: {place}.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_marker_up",
+   "text": "You put up a trail marker.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_taken_down",
+   "text": "You take down the {item}.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_sign_reads",
+   "text": "The sign reads: {place}, {dir}.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_marker_reads",
+   "text": "A trail marker.",
+   "placeholder": true
+  },
+  {
+   "id": "dir_n",
+   "text": "north",
+   "placeholder": true
+  },
+  {
+   "id": "dir_ne",
+   "text": "north-east",
+   "placeholder": true
+  },
+  {
+   "id": "dir_e",
+   "text": "east",
+   "placeholder": true
+  },
+  {
+   "id": "dir_se",
+   "text": "south-east",
+   "placeholder": true
+  },
+  {
+   "id": "dir_s",
+   "text": "south",
+   "placeholder": true
+  },
+  {
+   "id": "dir_sw",
+   "text": "south-west",
+   "placeholder": true
+  },
+  {
+   "id": "dir_w",
+   "text": "west",
+   "placeholder": true
+  },
+  {
+   "id": "dir_nw",
+   "text": "north-west",
+   "placeholder": true
+  },
+  {
+   "id": "dir_here",
+   "text": "right here",
+   "placeholder": true
   }
  ]
 }

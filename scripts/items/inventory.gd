@@ -95,6 +95,57 @@ func remove(item_id: String, n: int = 1) -> bool:
 	return true
 
 
+## The kits in the backpack that can stand in for loose materials, and how
+## many of them would be used to pay for these materials: {item: count}, or
+## null when the materials cannot be paid for.
+func _kits_needed(materials: Dictionary) -> Variant:
+	var short := {}
+	for k: String in materials:
+		var gap := int(materials[k]) - count(k)
+		if gap > 0:
+			short[k] = gap
+	var use := {}
+	if short.is_empty():
+		return use
+	for r: Dictionary in content.rows("items"):
+		if not r.has("covers") or count(r["id"]) == 0:
+			continue
+		var covers: Dictionary = r["covers"]
+		var n := 0
+		for k: String in short:
+			if covers.has(k):
+				n = maxi(n, ceili(float(short[k]) / float(covers[k])))
+		n = mini(n, count(r["id"]))
+		if n == 0:
+			continue
+		use[r["id"]] = n
+		for k: String in short.keys():
+			if covers.has(k):
+				short[k] = int(short[k]) - n * int(covers[k])
+				if int(short[k]) <= 0:
+					short.erase(k)
+	if not short.is_empty():
+		return null
+	return use
+
+
+## Whether the materials can be paid for, counting repair kits.
+func can_pay(materials: Dictionary) -> bool:
+	return _kits_needed(materials) != null
+
+
+## Pays for the materials: loose items first, kits for any shortfall.
+func pay(materials: Dictionary) -> bool:
+	var kits: Variant = _kits_needed(materials)
+	if kits == null:
+		return false
+	for k: String in materials:
+		remove(k, mini(count(k), int(materials[k])))
+	for kit: String in kits:
+		remove(kit, int(kits[kit]))
+	return true
+
+
 func remove_all(materials: Dictionary) -> bool:
 	if not has_all(materials):
 		return false

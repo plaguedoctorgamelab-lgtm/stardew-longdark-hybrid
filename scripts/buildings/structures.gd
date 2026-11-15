@@ -73,7 +73,7 @@ func choose_step(id: String, backpack: Inventory) -> String:
 		if n > 0 and n < actions_per_step():
 			return st["id"]
 	for st: Dictionary in row(id)["repair_steps"]:
-		if not step_done(id, st["id"]) and backpack.has_all(st["materials"]):
+		if not step_done(id, st["id"]) and backpack.can_pay(st["materials"]):
 			return st["id"]
 	return ""
 
@@ -89,7 +89,7 @@ func repair_action(id: String, backpack: Inventory) -> Dictionary:
 		return {"ok": false, "reason": "no_materials"}
 	var was_open := is_open(id)
 	if int(progress[id][step]) == 0:
-		backpack.remove_all(step_row(id, step)["materials"])
+		backpack.pay(step_row(id, step)["materials"])
 	progress[id][step] = int(progress[id][step]) + 1
 	var finished := step_done(id, step)
 	var now_open := is_open(id)

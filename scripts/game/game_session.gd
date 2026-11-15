@@ -19,6 +19,8 @@ signal camp_changed
 signal tree_changed(tile: Vector2i)
 signal note_read(text: String)
 signal land_changed(tile: Vector2i)
+signal workbench_opened
+signal choice_requested(kind: String, title: String, options: Array)
 
 const FACING_DOWN := 0
 const FACING_RIGHT := 1
@@ -71,6 +73,9 @@ var rumors: Dictionary = {}
 var cleared: Dictionary = {}            # obstacle's top-left tile -> obstacle id, cleared for good
 var clearing_progress: Dictionary = {}  # obstacle's top-left tile -> actions done so far
 var dug: Dictionary = {}                # tile -> true, trail dug by the ranger
+var placed: Dictionary = {}             # tile -> {"item": id, "place": id}, signs and markers put up
+var _pending_place: Vector2i = Vector2i(-1, -1)
+var _pending_item: String = ""
 
 
 func _init(tuning_path: String = Tuning.DEFAULT_PATH, content_dir: String = ContentDB.CONTENT_DIR, world_dir: String = WorldData.WORLD_DIR) -> void:
@@ -272,7 +277,7 @@ func marker_visible() -> bool:
 		return false
 	if bool(weather_row().get("hides_marker", false)):
 		return false
-	return not is_night() or on_trail()
+	return not is_night() or on_trail() or near_marker()
 
 
 func speed_tiles_per_second() -> float:
@@ -558,6 +563,10 @@ func interact() -> void:
 		if outdoor_pos.distance_to(Vector2(camp["fire"]) + Vector2(0.5, 0.5)) <= reach:
 			feed_campfire()
 			return
+	var sign_t := placed_in_reach()
+	if sign_t.x >= 0:
+		read_placed(sign_t)
+		return
 	var obj := world.interactive_near(outdoor_pos, reach + 0.5)
 	if obj.is_empty():
 		return
@@ -594,6 +603,8 @@ func _interact_inside() -> void:
 			feed_stove()
 		"note_board":
 			read_note_board()
+		"workbench":
+			workbench_opened.emit()
 		"exit":
 			leave_building()
 
@@ -635,6 +646,8 @@ func use_item() -> void:
 	var row := content.row("items", item)
 	if row["kind"] == "food":
 		eat(item)
+	elif row["kind"] == "placeable":
+		begin_place()
 	elif item == "hammer":
 		hammer()
 	elif item == "map":
@@ -666,6 +679,10 @@ func eat(item: String) -> bool:
 
 
 func hammer() -> Dictionary:
+	if not is_indoors():
+		var front := ranger_tile() + facing_vector()
+		if placed.has(front):
+			return {"ok": take_down(front), "reason": "took_down"}
 	var target := ""
 	for id in structures.ids():
 		if not structures.is_open(id) and near_structure(id, tuning.num("repair.reach_tiles")):
@@ -836,6 +853,9 @@ func _reset_land() -> void:
 		_set_cleared(t, "", false)
 	for t: Vector2i in dug.keys():
 		_set_dug(t, false)
+	for t: Vector2i in placed.keys():
+		placed.erase(t)
+		land_changed.emit(t)
 	clearing_progress = {}
 
 
@@ -844,6 +864,7 @@ func land_to_dict() -> Dictionary:
 		"cleared": cleared.keys().map(func(t: Vector2i) -> Array: return [t.x, t.y, cleared[t]]),
 		"progress": clearing_progress.keys().map(func(t: Vector2i) -> Array: return [t.x, t.y, clearing_progress[t]]),
 		"dug": dug.keys().map(func(t: Vector2i) -> Array: return [t.x, t.y]),
+		"placed": placed.keys().map(func(t: Vector2i) -> Array: return [t.x, t.y, placed[t]["item"], placed[t]["place"]]),
 	}
 
 
@@ -855,6 +876,10 @@ func land_from_dict(d: Dictionary) -> void:
 		clearing_progress[Vector2i(int(e[0]), int(e[1]))] = int(e[2])
 	for e: Array in d.get("dug", []):
 		_set_dug(Vector2i(int(e[0]), int(e[1])), true)
+	for e: Array in d.get("placed", []):
+		var t := Vector2i(int(e[0]), int(e[1]))
+		placed[t] = {"item": str(e[2]), "place": str(e[3])}
+		land_changed.emit(t)
 
 
 func _obstacle_row_for(kind: String) -> Dictionary:
@@ -997,6 +1022,204 @@ func dig() -> Dictionary:
 	pass_minutes(tuning.integer("trail.minutes"))
 	_check_collapse()
 	return {"ok": true, "tiles": made}
+
+
+# --- the workbench ------------------------------------------------------------
+
+func recipes_at(station: String) -> Array:
+	return content.rows("recipes").filter(func(r: Dictionary) -> bool: return r["station"] == station)
+
+
+## What a recipe needs and what the backpack holds: {name, inputs, can}.
+func recipe_status(recipe_id: String) -> Dictionary:
+	var r := content.row("recipes", recipe_id)
+	var inputs := []
+	for k: String in r["inputs"]:
+		inputs.append({"item": k, "need": int(r["inputs"][k]), "have": backpack.count(k)})
+	return {"name": content.text(r["name"]), "inputs": inputs, "can": backpack.has_all(r["inputs"])}
+
+
+func recipe_line(recipe_id: String) -> String:
+	var st := recipe_status(recipe_id)
+	var parts: PackedStringArray = []
+	for e: Dictionary in st["inputs"]:
+		parts.append(content.text("ui_recipe_input", {"name": content.item_name(e["item"]), "have": e["have"], "need": e["need"]}))
+	return content.text("ui_recipe_line", {"name": st["name"], "inputs": ", ".join(parts)})
+
+
+func craft(recipe_id: String) -> bool:
+	var r := content.row("recipes", recipe_id)
+	var res: Dictionary = r["result"]
+	if not backpack.has_all(r["inputs"]) or backpack.room_for(res["item"]) < int(res["count"]):
+		message.emit(content.text("msg_craft_missing"))
+		return false
+	backpack.remove_all(r["inputs"])
+	backpack.add(res["item"], int(res["count"]))
+	message.emit(content.text("msg_crafted", {"item": content.item_name(res["item"]).to_lower()}))
+	return true
+
+
+# --- signs and trail markers -----------------------------------------------------
+
+## Places a sign can name: the station, and every place the ranger has mapped.
+func sign_places() -> Array:
+	var out := [{"id": "ranger_station", "label": content.text("ui_place_station")}]
+	for r: Dictionary in content.rows("landmarks"):
+		if map.is_landmark_mapped(r["id"]):
+			out.append({"id": r["id"], "label": content.text(r["name"])})
+	return out
+
+
+func place_name(place_id: String) -> String:
+	if place_id == "ranger_station":
+		return content.text("ui_place_station")
+	return content.text(content.row("landmarks", place_id)["name"])
+
+
+func place_pos(place_id: String) -> Vector2:
+	if place_id == "ranger_station":
+		return door_front("ranger_station")
+	return world.landmark_pos(place_id)
+
+
+## "" if the item can go on tile t, or the text id saying why not.
+func place_problem(t: Vector2i, item: String) -> String:
+	var row := content.row("items", item)
+	if not backpack.has(str(row.get("needs_tool", "hammer"))):
+		return "msg_place_need_hammer"
+	if not world.in_bounds(t) or world.is_solid(t) or placed.has(t):
+		return "msg_place_bad_spot"
+	if world.object_at(t) != "" and not cleared.has(t) and not chopped.has(t):
+		return "msg_place_bad_spot"
+	if not camp.is_empty() and (camp["bed"] == t or camp["fire"] == t):
+		return "msg_place_bad_spot"
+	var g := world.ground_at(t)
+	if row.get("on", "open") == "trail" and g != "trail":
+		return "msg_sign_need_trail"
+	if g in ["shallows", "deep_water", "rock", "boards"]:
+		return "msg_place_bad_spot"
+	return ""
+
+
+## Starts putting up the held sign or marker on the faced tile. A sign asks
+## which place it should name first.
+func begin_place() -> bool:
+	if is_indoors():
+		return false
+	var item := selected_item()
+	var t := ranger_tile() + facing_vector()
+	var why := place_problem(t, item)
+	if why != "":
+		message.emit(content.text(why))
+		return false
+	if content.row("items", item).get("names_place", false):
+		_pending_place = t
+		_pending_item = item
+		pending_confirm = "sign_place"
+		choice_requested.emit("sign_place", content.text("ui_sign_where"), sign_places())
+		return true
+	return put_up(t, item, "")
+
+
+## The answer to a choice: the place a sign should name, or "" to cancel.
+func answer_choice(kind: String, option_id: String) -> void:
+	if pending_confirm == kind:
+		pending_confirm = ""
+	if kind == "sign_place" and option_id != "" and _pending_place.x >= 0:
+		put_up(_pending_place, _pending_item, option_id)
+	_pending_place = Vector2i(-1, -1)
+	_pending_item = ""
+
+
+func put_up(t: Vector2i, item: String, place_id: String) -> bool:
+	var why := place_problem(t, item)
+	if why != "" or not backpack.remove(item, 1):
+		message.emit(content.text(why if why != "" else "msg_place_bad_spot"))
+		return false
+	placed[t] = {"item": item, "place": place_id}
+	needs.spend(tuning.num("signs.put_up_energy"))
+	land_changed.emit(t)
+	map.touch(t)
+	if place_id != "":
+		message.emit(content.text("msg_sign_up", {"place": place_name(place_id)}))
+	else:
+		message.emit(content.text("msg_marker_up"))
+	pass_minutes(tuning.integer("signs.put_up_minutes"))
+	_check_collapse()
+	return true
+
+
+## A sign or marker in reach: the one in front, else the nearest.
+func placed_in_reach() -> Vector2i:
+	if is_indoors():
+		return Vector2i(-1, -1)
+	var front := ranger_tile() + facing_vector()
+	if placed.has(front):
+		return front
+	var best := Vector2i(-1, -1)
+	var best_d := tuning.num("signs.reach_tiles") + 0.5
+	for t: Vector2i in placed:
+		var d := outdoor_pos.distance_to(Vector2(t) + Vector2(0.5, 0.5))
+		if d <= best_d:
+			best_d = d
+			best = t
+	return best
+
+
+## Which way a sign at t points to its place, as a text id.
+func sign_direction(t: Vector2i, place_id: String) -> String:
+	var v := place_pos(place_id) - (Vector2(t) + Vector2(0.5, 0.5))
+	if v.length() < 3.0:
+		return "dir_here"
+	var names := ["dir_e", "dir_se", "dir_s", "dir_sw", "dir_w", "dir_nw", "dir_n", "dir_ne"]
+	var i := posmod(int(round(v.angle() / (PI / 4.0))), 8)
+	return names[i]
+
+
+func read_placed(t: Vector2i) -> String:
+	var p: Dictionary = placed[t]
+	var text := content.text("msg_marker_reads")
+	if str(p["place"]) != "":
+		text = content.text("msg_sign_reads", {"place": place_name(p["place"]), "dir": content.text(sign_direction(t, p["place"]))})
+	message.emit(text)
+	return text
+
+
+func take_down(t: Vector2i) -> bool:
+	if not placed.has(t):
+		return false
+	var item: String = placed[t]["item"]
+	if backpack.room_for(item) < 1:
+		message.emit(content.text("msg_backpack_full"))
+		return false
+	placed.erase(t)
+	backpack.add(item, 1)
+	needs.spend(tuning.num("signs.take_down_energy"))
+	land_changed.emit(t)
+	map.touch(t)
+	message.emit(content.text("msg_taken_down", {"item": content.item_name(item).to_lower()}))
+	pass_minutes(tuning.integer("signs.take_down_minutes"))
+	return true
+
+
+## A trail marker within reach counts as trail for the map marker at night.
+func near_marker() -> bool:
+	if is_indoors():
+		return false
+	var r := tuning.num("signs.marker_radius_tiles")
+	for t: Vector2i in placed:
+		if placed[t]["item"] == "trail_marker" and outdoor_pos.distance_to(Vector2(t) + Vector2(0.5, 0.5)) <= r:
+			return true
+	return false
+
+
+## Puts up a sign or marker anywhere, for tests and the debug panel.
+func debug_put_up(t: Vector2i, item: String, place_id: String = "") -> bool:
+	if backpack.count(item) == 0:
+		backpack.add(item, 1)
+	if not backpack.has("hammer"):
+		backpack.add("hammer", 1)
+	return put_up(t, item, place_id)
 
 
 # --- jobs ------------------------------------------------------------------------

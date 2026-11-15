@@ -58,6 +58,8 @@ func test_every_picture_exists(t: TestCase) -> void:
 	var names: Array[String] = ["ranger", "interior_floor", "interior_wall", "furniture_stove_lit", "obj_stump", "obj_campfire", "obj_firepit", "obj_camp_bedroll"]
 	for r: Dictionary in c.rows("items"):
 		names.append(r["icon"])
+		if r.has("sprite"):
+			names.append(r["sprite"])
 	for r: Dictionary in c.rows("weather_types"):
 		names.append(r["icon"])
 	for r: Dictionary in c.rows("structures"):

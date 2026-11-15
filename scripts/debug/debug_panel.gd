@@ -75,6 +75,7 @@ func setup(s: GameSession) -> void:
 	_btn(r, "Restore", func() -> void: session.debug_clear_obstacle(session.ranger_tile() + session.facing_vector(), false))
 	_btn(r, "Dig in front", func() -> void: session.debug_dig(session.ranger_tile() + session.facing_vector()))
 	_btn(r, "Undig", func() -> void: session.debug_dig(session.ranger_tile() + session.facing_vector(), false))
+	_btn(r, "Sign in front", func() -> void: session.debug_put_up(session.ranger_tile() + session.facing_vector(), "trail_sign", "ranger_station"))
 
 	r = _row()
 	_item_pick = _pick(r, session.content.ids("items"))

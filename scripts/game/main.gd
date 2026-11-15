@@ -18,6 +18,7 @@ var menus: CanvasLayer
 var ui_theme: Theme
 var inventory_screen: InventoryScreen
 var map_screen: MapScreen
+var choice_screen: ChoiceScreen
 var debug_panel: DebugPanel
 var dialog: Panel
 var dialog_label: Label
@@ -59,6 +60,14 @@ func _ready() -> void:
 			interior_view.refresh())
 	session.collapsed.connect(func(text: String) -> void: _show_dialog("notice", text))
 	session.note_read.connect(func(text: String) -> void: _show_dialog("notice", text))
+	session.workbench_opened.connect(func() -> void: choice_screen.open_workbench())
+	session.choice_requested.connect(func(kind: String, title: String, options: Array) -> void: choice_screen.open(kind, title, options))
+	choice_screen.chosen.connect(func(kind: String, option_id: String) -> void:
+		if kind == "workbench":
+			session.craft(option_id)
+		else:
+			session.answer_choice(kind, option_id))
+	session.backpack.changed.connect(func() -> void: choice_screen.refresh())
 	_show_title()
 
 
@@ -117,6 +126,9 @@ func _build_menus() -> void:
 	map_screen = MapScreen.new()
 	root.add_child(map_screen)
 	map_screen.setup(session)
+	choice_screen = ChoiceScreen.new()
+	root.add_child(choice_screen)
+	choice_screen.setup(session)
 	dialog = Panel.new()
 	dialog.size = Vector2(320, 70)
 	dialog.position = Vector2(80, 90)
@@ -204,7 +216,7 @@ func _on_location_changed(loc: String) -> void:
 
 
 func menu_open() -> bool:
-	return title_screen.visible or inventory_screen.visible or map_screen.visible or dialog.visible
+	return title_screen.visible or inventory_screen.visible or map_screen.visible or dialog.visible or choice_screen.visible
 
 
 func _show_dialog(kind: String, text: String) -> void:
@@ -239,6 +251,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			_close_dialog(true)
 		elif event.is_action_pressed("cancel") or event.is_action_pressed("backpack"):
 			_close_dialog(false)
+		return
+	if choice_screen.visible:
+		if event.is_action_pressed("backpack") or event.is_action_pressed("cancel"):
+			choice_screen.close()
 		return
 	if event.is_action_pressed("backpack"):
 		if map_screen.visible:

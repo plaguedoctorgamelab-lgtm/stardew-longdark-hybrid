@@ -131,6 +131,38 @@
    "kind": "tool",
    "stack": 1,
    "icon": "item_shovel"
+  },
+  {
+   "id": "trail_sign",
+   "name": "item_trail_sign",
+   "kind": "placeable",
+   "stack": 5,
+   "icon": "item_trail_sign",
+   "sprite": "obj_sign_arrow",
+   "needs_tool": "hammer",
+   "on": "trail",
+   "names_place": true
+  },
+  {
+   "id": "trail_marker",
+   "name": "item_trail_marker",
+   "kind": "placeable",
+   "stack": 10,
+   "icon": "item_trail_marker",
+   "sprite": "obj_trail_marker",
+   "needs_tool": "hammer",
+   "on": "open"
+  },
+  {
+   "id": "repair_kit",
+   "name": "item_repair_kit",
+   "kind": "material",
+   "stack": 5,
+   "icon": "item_repair_kit",
+   "covers": {
+    "planks": 4,
+    "nails": 8
+   }
   }
  ]
 }
