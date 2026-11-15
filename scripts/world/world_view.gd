@@ -23,6 +23,8 @@ var _border_lines: Node2D
 var _stump_source: int = -1
 var _camp_bed: Sprite2D
 var _placed_sprites: Dictionary = {}   # tile -> Sprite2D
+var _berry: Sprite2D
+var _ripple: Node2D
 var _camp_fire: Sprite2D
 var _time: float = 0.0
 
@@ -69,6 +71,16 @@ func setup(s: GameSession, ranger_node: Node2D) -> void:
 	session.tree_changed.connect(_on_tree_changed)
 	session.land_changed.connect(_on_land_changed)
 	refresh_camp()
+	_berry = Sprite2D.new()
+	_berry.centered = false
+	_berry.texture = Art.texture("obj_berry_bush")
+	sort_root.add_child(_berry)
+	_ripple = Node2D.new()
+	_ripple.z_index = -18
+	_ripple.draw.connect(_draw_ripple)
+	add_child(_ripple)
+	session.day_began.connect(refresh_berry)
+	refresh_berry()
 	_border_lines = Node2D.new()
 	_border_lines.z_index = 50
 	_border_lines.draw.connect(_draw_borders)
@@ -189,7 +201,7 @@ func _draw_object(t: Vector2i) -> void:
 	var kind := session.world.object_at(t)
 	if kind == "":
 		return
-	if session.cleared.has(t):
+	if session.cleared.has(t) or session.seasonal_hidden.has(t):
 		object_layer.erase_cell(t)
 	elif session.chopped.has(t):
 		object_layer.set_cell(t, _stump_source, Vector2i.ZERO)
@@ -254,10 +266,30 @@ static func _edge_atlas(src: Image) -> Image:
 	return out
 
 
+## This save's berry patch, drawn where the save's seed put it.
+func refresh_berry() -> void:
+	var t := session.berry_spot()
+	_berry.visible = t.x >= 0
+	if t.x >= 0:
+		_berry.position = Vector2(t.x * TILE + TILE / 2.0, (t.y + 1) * TILE)
+		_berry.offset = Vector2(-_berry.texture.get_width() / 2.0, -_berry.texture.get_height())
+
+
+func _draw_ripple() -> void:
+	if not session.content.has("spoiler_finds", "dawn_ripple") or not session.find_moment_now("dawn_ripple"):
+		return
+	var w: Dictionary = session.content.row("spoiler_finds", "dawn_ripple")["when"]
+	var c := session.world.landmark_pos(w["landmark"]) * TILE
+	var span := float(int(w["to"]) - int(w["from"]))
+	var k := clampf(float(session.clock.minute - int(w["from"])) / span, 0.0, 1.0)
+	_ripple.draw_arc(c, 8.0 + k * 300.0, 0.0, TAU, 64, Color(1, 1, 1, 0.5 * (1.0 - k)), 1.0)
+
+
 func _process(delta: float) -> void:
 	if session == null or not visible:
 		return
 	_time += delta
+	_ripple.queue_redraw()
 	if _camp_fire.visible and session.campfire_lit():
 		_camp_fire.modulate = Color(1.0, 0.85 + 0.15 * sin(_time * 11.0), 0.8 + 0.2 * sin(_time * 7.0))
 	else:

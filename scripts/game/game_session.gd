@@ -82,6 +82,9 @@ var sites_found: Dictionary = {}       # site id -> true
 var sites_open: Dictionary = {}        # site id -> true
 var site_overrides: Dictionary = {}    # "site:step" -> bool, debug only
 var _pending_site: String = ""
+# Hidden things noticed: id -> true. Objects away for the season: tile -> true.
+var finds_found: Dictionary = {}
+var seasonal_hidden: Dictionary = {}
 var _pending_item: String = ""
 
 
@@ -138,7 +141,9 @@ func new_game(new_seed: int = -1) -> void:
 	sites_found = {}
 	sites_open = {}
 	site_overrides = {}
+	finds_found = {}
 	_reset_land()
+	_apply_seasons()
 	camp_changed.emit()
 	weather.check_change(clock.minute)
 
@@ -169,6 +174,7 @@ func to_dict() -> Dictionary:
 		"rumors": rumors.keys(),
 		"notes_read": notes_read.keys(),
 		"sites": {"found": sites_found.keys(), "open": sites_open.keys()},
+		"finds": finds_found.keys(),
 		"land": land_to_dict(),
 	}
 
@@ -216,6 +222,10 @@ func from_dict(d: Dictionary) -> void:
 		sites_found[id] = true
 	for id: String in sd.get("open", []):
 		sites_open[id] = true
+	finds_found = {}
+	for id: String in d.get("finds", []):
+		finds_found[id] = true
+	_apply_seasons()
 	camp_changed.emit()
 	survey_steps_left = 0
 	_last_tile = Vector2i(-9999, -9999)
@@ -363,6 +373,7 @@ func _update_trace() -> void:
 		_last_tile = t
 		map.record_trace(t, visible)
 		_look_for_sites()
+		_watch_for_finds()
 	if visible and map.has_pending():
 		map.flush_pending()
 
@@ -403,6 +414,7 @@ func _on_step(_minute: int) -> void:
 				_finish_survey()
 	if not is_indoors():
 		_update_trace()
+		_watch_for_finds()
 	_check_collapse()
 
 
@@ -424,6 +436,7 @@ func _on_day_started(_day: int, _season: int, _year: int) -> void:
 		camp["fire_minutes"] = 0
 		camp_changed.emit()
 	_regrow_trees()
+	_apply_seasons()
 	weather.check_change(clock.minute)
 	day_began.emit()
 
@@ -610,7 +623,11 @@ func interact() -> void:
 	if obj.is_empty():
 		return
 	var what: String = obj["interact"]
-	if what == "gate":
+	if seasonal_hidden.has(Vector2i(floori(obj["pos"].x), floori(obj["pos"].y))) or _hidden_near(obj["pos"]):
+		return
+	if what.begins_with("find:"):
+		discover(what.substr(5))
+	elif what == "gate":
 		message.emit(content.text("msg_gate_closed"))
 	elif what.begins_with("landmark:"):
 		var lid := what.substr(9)
@@ -644,6 +661,8 @@ func _interact_inside() -> void:
 			read_note_board()
 		"workbench":
 			workbench_opened.emit()
+		"find":
+			discover(str(f["find"]))
 		"exit":
 			leave_building()
 
@@ -687,6 +706,8 @@ func use_item() -> void:
 		eat(item)
 	elif row["kind"] == "placeable":
 		begin_place()
+	elif row["kind"] == "page":
+		discover(str(row["find"]))
 	elif item == "hammer":
 		hammer()
 	elif item == "map":
@@ -1259,6 +1280,100 @@ func debug_put_up(t: Vector2i, item: String, place_id: String = "") -> bool:
 	if not backpack.has("hammer"):
 		backpack.add("hammer", 1)
 	return put_up(t, item, place_id)
+
+
+# --- hidden things -----------------------------------------------------------------
+
+## Notices a hidden thing. The first time, its text is shown as a note and it
+## is recorded; any gift it holds is given once.
+func discover(find_id: String) -> bool:
+	if not content.has("spoiler_finds", find_id):
+		return false
+	var row := content.row("spoiler_finds", find_id)
+	var text := content.text(row["text"])
+	if finds_found.has(find_id):
+		message.emit(text)
+		return false
+	finds_found[find_id] = true
+	var rng := RandomNumberGenerator.new()
+	rng.seed = hash([seed_value, find_id])
+	for g: Dictionary in row.get("gives", []):
+		var n := rng.randi_range(int(g["min"]), int(g["max"]))
+		if n > 0:
+			var left := backpack.add(g["item"], n)
+			if left > 0:
+				message.emit(content.text("msg_backpack_full"))
+	note_read.emit(text)
+	return true
+
+
+## Hidden things noticed by being in the right place at the right time.
+func _watch_for_finds() -> void:
+	if is_indoors():
+		return
+	for row: Dictionary in content.rows("spoiler_finds"):
+		if not row.has("when") or finds_found.has(row["id"]):
+			continue
+		var w: Dictionary = row["when"]
+		if clock.minute < int(w["from"]) or clock.minute >= int(w["to"]):
+			continue
+		if current_weather() != str(w["weather"]):
+			continue
+		if outdoor_pos.distance_to(world.landmark_pos(w["landmark"])) <= float(w["within"]):
+			discover(row["id"])
+
+
+## Whether a hidden thing's moment is happening now, for drawing it.
+func find_moment_now(find_id: String) -> bool:
+	var w: Dictionary = content.row("spoiler_finds", find_id).get("when", {})
+	if w.is_empty():
+		return false
+	return clock.minute >= int(w["from"]) and clock.minute < int(w["to"]) and current_weather() == str(w["weather"])
+
+
+## Some things are only there in some seasons.
+func _apply_seasons() -> void:
+	var season := clock.season_name()
+	var spots: Dictionary = world.meta.get("finds", {})
+	for row: Dictionary in content.rows("spoiler_finds"):
+		if not row.has("absent_in") or not spots.has(row["id"]):
+			continue
+		var p: Array = spots[row["id"]]
+		var t := Vector2i(int(p[0]), int(p[1]))
+		var away := (row["absent_in"] as Array).has(season)
+		if away == seasonal_hidden.has(t):
+			continue
+		var size: Array = world.object_type(world.object_at(t))["size"]
+		for dy in int(size[1]):
+			for dx in int(size[0]):
+				world.set_cleared(t + Vector2i(dx, dy), away)
+		if away:
+			seasonal_hidden[t] = true
+		else:
+			seasonal_hidden.erase(t)
+		land_changed.emit(t)
+
+
+func _hidden_near(pos: Vector2) -> bool:
+	for t: Vector2i in seasonal_hidden:
+		var size: Array = world.object_type(world.object_at(t))["size"]
+		var r := Rect2(Vector2(t), Vector2(float(size[0]), float(size[1])))
+		if r.grow(0.01).has_point(pos):
+			return true
+	return false
+
+
+## Where this save's berry patch grows: one of a few spots, by the save's seed.
+func berry_spot() -> Vector2i:
+	var spots: Array = world.meta.get("berry_spots", [])
+	if spots.is_empty():
+		return Vector2i(-1, -1)
+	var p: Array = spots[posmod(hash([seed_value, "berries"]), spots.size())]
+	return Vector2i(int(p[0]), int(p[1]))
+
+
+func debug_finds_text() -> String:
+	return content.text("msg_found_count", {"n": finds_found.size()}) + " " + ", ".join(finds_found.keys())
 
 
 # --- sites -----------------------------------------------------------------------

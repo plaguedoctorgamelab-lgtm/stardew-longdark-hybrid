@@ -82,6 +82,7 @@ func setup(s: GameSession) -> void:
 		_btn(r, step.capitalize(), func() -> void: session.debug_site_step("static_tower", step, not session.site_step_done("static_tower", step)))
 	_btn(r, "Open site", func() -> void: session.debug_open_site("static_tower"))
 	_btn(r, "Site status", func() -> void: session.message.emit(" | ".join(session.site_lines())))
+	_btn(r, "Spoilers: finds", func() -> void: session.message.emit(session.debug_finds_text()))
 
 	r = _row()
 	_item_pick = _pick(r, session.content.ids("items"))

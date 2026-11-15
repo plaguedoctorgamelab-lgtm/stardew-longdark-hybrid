@@ -163,6 +163,14 @@
     "planks": 4,
     "nails": 8
    }
+  },
+  {
+   "id": "journal_page_one",
+   "name": "item_journal_page_one",
+   "kind": "page",
+   "stack": 1,
+   "icon": "item_journal_page",
+   "find": "journal_page_one"
   }
  ]
 }

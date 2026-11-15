@@ -1,0 +1,69 @@
+{
+ "note": "SPOILERS. Text for the hidden things.",
+ "rows": [
+  {
+   "id": "find_tiny_door",
+   "text": "At the foot of the dead tree there is a very small door, locked, with a very small doormat. Wipe your feet, it suggests."
+  },
+  {
+   "id": "find_holed_canoe",
+   "text": "A canoe with a hole in it. A name is painted on the bow, crossed out, and a better name painted underneath: STILL FLOATS (MOSTLY)."
+  },
+  {
+   "id": "find_cache_tin",
+   "text": "Under the lean-to, a biscuit tin of supplies, and a note: Take what you need. Leave something for the next ranger."
+  },
+  {
+   "id": "find_dawn_ripple",
+   "text": "One large, slow ripple crosses the pond from one side to the other. Then nothing. The water is perfectly still."
+  },
+  {
+   "id": "find_survey_stakes",
+   "text": "A survey stake with a faded ribbon. Someone has written on it: TOWER, THIS WAY. KEEP GOING. The writing gets less tidy the further you go."
+  },
+  {
+   "id": "find_mushroom_ring",
+   "text": "Seven ordinary mushrooms in a perfect circle. Just mushrooms. Probably."
+  },
+  {
+   "id": "find_sleeping_boulder",
+   "text": "A boulder shaped very much like a sleeping bear. Very much. It might be snoring."
+  },
+  {
+   "id": "find_carved_tree",
+   "text": "Carved in the bark: RANGER WAS HERE. And under it, in a different hand: SO WAS I."
+  },
+  {
+   "id": "find_lookout_log",
+   "text": "The lookout's tally book. Smokes spotted: 0. Lights spotted: 214."
+  },
+  {
+   "id": "find_journal_page_one",
+   "text": "Day one. The tower radio works if you thump it. It's a good radio, if a little ahead of itself. Weather tomorrow: fine, it says. I'll let you know. - R."
+  },
+  {
+   "id": "find_stone_bench",
+   "text": "A mossy stone bench, facing a blank rock wall, as if there were a view. It's quite a nice wall."
+  },
+  {
+   "id": "find_rusted_truck",
+   "text": "An old park truck, rusted solid, with a tree growing up through the bonnet. The keys are still in it."
+  },
+  {
+   "id": "find_toll_board",
+   "text": "BRIDGE TOLLS, says the board. Every price has been scratched out. Small pawprints in the mud lead out onto the bridge and stop at the gap."
+  },
+  {
+   "id": "find_blackberry_tunnel",
+   "text": "A tunnel through the blackberry thicket, far too low for a person, worn smooth by something."
+  },
+  {
+   "id": "item_journal_page_one",
+   "text": "Journal page"
+  },
+  {
+   "id": "msg_found_count",
+   "text": "Odd things noticed: {n}."
+  }
+ ]
+}

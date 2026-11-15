@@ -10,7 +10,7 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONTENT = os.path.join(ROOT, "data", "content")
-TABLES = ["items", "foods", "weather_types", "weather_odds", "structures", "landmarks", "jobs", "obstacles", "recipes", "sites", "notes", "text"]
+TABLES = ["items", "foods", "weather_types", "weather_odds", "structures", "landmarks", "jobs", "obstacles", "recipes", "sites", "notes", "text", "spoiler_finds", "spoiler_text"]
 
 
 def main():
@@ -40,6 +40,12 @@ def main():
             json.load(f)
     except Exception as e:  # noqa: BLE001
         problems.append("tuning.json does not load: %s" % e)
+
+    # The hidden things' text is kept apart but read like any other text.
+    for rid, r in data.get("spoiler_text", {}).items():
+        if rid in data.get("text", {}):
+            problems.append("text %s is in both text tables" % rid)
+        data.setdefault("text", {})[rid] = r
 
     def ref(table, rid, where):
         if rid not in data.get(table, {}):
@@ -74,6 +80,12 @@ def main():
         ref("text", r["name"], "landmarks/%s" % r["id"])
         ref("structures", r["id"], "landmarks/%s" % r["id"]) if r["kind"] == "cabin" else None
 
+    for r in data.get("spoiler_finds", {}).values():
+        ref("text", r["text"], "spoiler_finds/%s" % r["id"])
+        for g in r.get("gives", []):
+            ref("items", g["item"], "spoiler_finds/%s gives" % r["id"])
+        if "item" in r:
+            ref("items", r["item"], "spoiler_finds/%s item" % r["id"])
     for r in data.get("notes", {}).values():
         ref("text", r["text"], "notes/%s" % r["id"])
         ref("structures", r["at"], "notes/%s at" % r["id"])

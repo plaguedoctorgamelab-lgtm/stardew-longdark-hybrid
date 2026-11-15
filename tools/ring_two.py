@@ -464,6 +464,15 @@ def bake(R, G, L, r1, structures, ox, oy):
     px_, py_ = Pi(*br["post"])
     objects[(px_, py_)] = "bridge_post"
 
+    # --- hidden things (spoiler table) ---------------------------------------------------------
+    keep_clear = set()
+    for pts, rad in ((trail_pts, tr["radius"] + 0.5), (stake_line, st["corridor"]), (road_pts, ro["radius"]), (steps_pts, tw["steps_radius"] + 0.5)):
+        for (px, py) in pts:
+            keep_clear.update(disc(px, py, rad))
+    find_types, find_spots, berry_spots = _place_finds(R, P, Pi, ground, objects, protected, keep_clear, r2, in_r1, ox, oy, road_pts)
+    R.extra["finds"] = find_spots
+    R.extra["berry_spots"] = berry_spots
+
     # --- the fire tower --------------------------------------------------------------------------
     trow = structures[tw["id"]]
     fw, fh = trow["footprint"]
@@ -478,6 +487,7 @@ def bake(R, G, L, r1, structures, ox, oy):
     # --- solidity for ring two -------------------------------------------------------------------
     otypes = dict(r1["object_types"])
     otypes.update(OBJECT_TYPES)
+    otypes.update(find_types)
     for (x, y) in tiles:
         R.solid[y][x] = ground[y][x] in SOLID_GROUNDS
     for (x, y), kind in objects.items():
@@ -515,6 +525,13 @@ def bake(R, G, L, r1, structures, ox, oy):
         p = R.spawns[name]
         if (int(p[0]), int(p[1])) not in reach:
             R.problems.append("ring two: the %s cannot be reached from the station" % name)
+    for fid, spot in find_spots.items():
+        kind = objects.get(tuple(spot), "")
+        w, h = otypes[kind]["size"] if kind else (1, 1)
+        x0, y0 = spot
+        ring = [(x, y) for y in range(y0 - 1, y0 + h + 1) for x in range(x0 - 1, x0 + w + 1)]
+        if not any(t in reach for t in ring):
+            R.problems.append("hidden thing %s cannot be reached" % fid)
     for (x, y) in reach:
         if zone.get((x, y)) == "far":
             R.problems.append("ring two: the far side can be reached at %d,%d" % (x, y))
@@ -559,10 +576,135 @@ def bake(R, G, L, r1, structures, ox, oy):
         times[name] = round(route_minutes(R, pts, speeds), 1)
     R.route_targets.update(C["route_targets_minutes"])
     R.extra["ring_two_estimate_minutes"] = times
+    types = dict(OBJECT_TYPES)
+    types.update(find_types)
     R.extra["ring_two_lengths"] = {"trail": round(bw.polyline_length(trail_pts), 1), "road": round(bw.polyline_length(road_pts), 1), "stakes": round(bw.polyline_length(stake_line), 1)}
     R.extra["ring_two_estimate_base"] = round(base, 1)
     R.extra["obstacles_on_routes"] = [[t[0], t[1], "fallen_trunk"] for t in sorted(trunks)] + [[t[0], t[1], "brush"] for t in sorted(brush)]
-    return OBJECT_TYPES
+    return types
+
+
+FINDS = os.path.join(bw.ROOT, "data", "content", "spoiler_finds.json")
+WALKABLE = ("grass", "tall_grass", "forest_floor", "bog", "trail")
+
+
+def _place_finds(R, P, Pi, ground, objects, protected, keep_clear, r2, in_r1, ox, oy, road_pts):
+    """Places the hidden things listed in the spoiler table. Returns their
+    object types, where each was put, and the per-save berry spots."""
+    with open(FINDS, encoding="utf-8") as f:
+        F = json.load(f)
+    types = F["object_types"]
+    spots = {}
+
+    def fits(kind, x, y, need_r2=True):
+        w, h = types[kind]["size"]
+        for yy in range(y, y + h):
+            for xx in range(x, x + w):
+                if need_r2 and not r2(xx, yy):
+                    return False
+                if (xx, yy) in keep_clear or ground[yy][xx] not in WALKABLE or ground[yy][xx] == "trail":
+                    return False
+        return True
+
+    def put(kind, x, y, margin=1):
+        w, h = types[kind]["size"]
+        for yy in range(y - margin, y + h + margin):
+            for xx in range(x - margin, x + w + margin):
+                if r2(xx, yy) and (xx, yy) in objects and objects[(xx, yy)] not in types:
+                    del objects[(xx, yy)]
+                if r2(xx, yy):
+                    protected.add((xx, yy))
+        objects[(x, y)] = kind
+
+    for row in F["rows"]:
+        pl = row.get("place")
+        if not pl:
+            continue
+        kind = pl["object"]
+        if "ring_one" in pl:
+            done = False
+            for (lx, ly) in pl["try"]:
+                x, y = lx + ox, ly + oy
+                if (x, y) not in objects and not R.solid[y][x]:
+                    objects[(x, y)] = kind
+                    R.edits.append((x, y))
+                    spots[row["id"]] = [x, y]
+                    done = True
+                    break
+            if not done:
+                R.problems.append("hidden thing %s found no room" % row["id"])
+            continue
+        if "ring_at" in pl:
+            cx, cy = P(*pl["ring_at"])
+            first = None
+            for i in range(pl["count"]):
+                a = 2 * math.pi * i / pl["count"]
+                x, y = int(cx + math.cos(a) * pl["ring_radius"]), int(cy + math.sin(a) * pl["ring_radius"])
+                if ground[y][x] not in WALKABLE or (x, y) in keep_clear:
+                    ground[y][x] = "grass"
+                put(kind, x, y, 0)
+                first = first or [x, y]
+            for t in disc(cx, cy, pl["ring_radius"] - 0.8):
+                objects.pop(t, None)
+                protected.add(t)
+            spots[row["id"]] = first
+            continue
+        if "near_road" in pl:
+            tx, ty = P(*pl["near_road"])
+            near = min(road_pts, key=lambda q: (q[0] - tx) ** 2 + (q[1] - ty) ** 2)
+            best = None
+            for r in range(3, 10):
+                for dy in range(-r, r + 1):
+                    for dx in range(-r, r + 1):
+                        x, y = int(near[0]) + dx, int(near[1]) + dy
+                        if best is None and fits(kind, x, y):
+                            best = (x, y)
+                if best:
+                    break
+            if best is None:
+                R.problems.append("hidden thing %s found no room" % row["id"])
+                continue
+            put(kind, *best)
+            spots[row["id"]] = list(best)
+            for extra in pl.get("with", []):
+                put(extra["object"], *Pi(*extra["at"]), 0)
+            continue
+        e, n = pl["at"]
+        step = pl.get("step", [0, 0])
+        placed = None
+        for k in range(16):
+            x, y = Pi(e + step[0] * k, n + step[1] * k)
+            if fits(kind, x, y):
+                placed = (x, y)
+                break
+            if step == [0, 0]:
+                break
+        if placed is None:
+            # Make room: hand-placed things win over generated terrain.
+            x, y = Pi(e, n)
+            w, h = types[kind]["size"]
+            for yy in range(y, y + h):
+                for xx in range(x, x + w):
+                    if r2(xx, yy) and ground[yy][xx] not in WALKABLE and (xx, yy) not in keep_clear:
+                        ground[yy][xx] = "grass"
+            if not fits(kind, x, y):
+                R.problems.append("hidden thing %s found no room at %s" % (row["id"], pl["at"]))
+                continue
+            placed = (x, y)
+        put(kind, *placed)
+        spots[row["id"]] = list(placed)
+        for extra in pl.get("with", []):
+            x, y = Pi(*extra["at"])
+            objects[(x, y)] = extra["object"]
+    berry = []
+    for (e, n) in F["berry_spots"]:
+        x, y = Pi(e, n)
+        objects.pop((x, y), None)
+        protected.add((x, y))
+        if ground[y][x] not in WALKABLE or ground[y][x] == "trail":
+            ground[y][x] = "grass"
+        berry.append([x, y])
+    return types, spots, berry
 
 
 def _speeds():

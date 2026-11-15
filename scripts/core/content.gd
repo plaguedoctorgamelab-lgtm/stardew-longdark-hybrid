@@ -5,7 +5,7 @@ extends RefCounted
 ## these lookup functions, so storage can change without touching callers.
 
 const CONTENT_DIR := "res://data/content/"
-const TABLES: Array[String] = ["items", "foods", "weather_types", "weather_odds", "structures", "landmarks", "jobs", "obstacles", "recipes", "sites", "notes", "text"]
+const TABLES: Array[String] = ["items", "foods", "weather_types", "weather_odds", "structures", "landmarks", "jobs", "obstacles", "recipes", "sites", "notes", "text", "spoiler_finds", "spoiler_text"]
 
 var tables: Dictionary = {}   # table name -> Array of row dictionaries
 var index: Dictionary = {}    # table name -> {id: row}
@@ -15,6 +15,11 @@ var errors: Array[String] = []
 func _init(dir: String = CONTENT_DIR) -> void:
 	for table in TABLES:
 		_load_table(dir, table)
+	# The hidden things' text is kept apart, but read like any other text.
+	for id: String in index.get("spoiler_text", {}):
+		if (index["text"] as Dictionary).has(id):
+			errors.append("text %s is in both text tables" % id)
+		index["text"][id] = index["spoiler_text"][id]
 
 
 func _load_table(dir: String, table: String) -> void:

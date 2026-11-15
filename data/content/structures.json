@@ -433,6 +433,20 @@
        1
       ],
       "sprite": "furniture_note_board"
+     },
+     {
+      "id": "desk",
+      "kind": "find",
+      "find": "lookout_log",
+      "pos": [
+       1,
+       5
+      ],
+      "size": [
+       2,
+       1
+      ],
+      "sprite": "furniture_table"
      }
     ]
    },
@@ -499,7 +513,12 @@
      "max": 2
     }
    ],
-   "starting_chest": []
+   "starting_chest": [
+    {
+     "item": "journal_page_one",
+     "count": 1
+    }
+   ]
   }
  ]
 }

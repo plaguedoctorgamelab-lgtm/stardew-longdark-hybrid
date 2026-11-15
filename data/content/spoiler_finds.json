@@ -1,0 +1,340 @@
+{
+ "note": "SPOILERS. The lab's hidden things for ring two. Never described in status emails; only counted.",
+ "object_types": {
+  "tiny_door": {
+   "size": [
+    1,
+    1
+   ],
+   "sprite": "obj_tiny_door",
+   "solid": false,
+   "interact": "find:tiny_door"
+  },
+  "canoe": {
+   "size": [
+    3,
+    1
+   ],
+   "sprite": "obj_canoe",
+   "solid": true,
+   "interact": "find:holed_canoe"
+  },
+  "lean_to": {
+   "size": [
+    3,
+    2
+   ],
+   "sprite": "obj_lean_to",
+   "solid": true,
+   "interact": "find:cache_tin"
+  },
+  "mushroom": {
+   "size": [
+    1,
+    1
+   ],
+   "sprite": "obj_mushrooms",
+   "solid": false,
+   "interact": "find:mushroom_ring"
+  },
+  "bear_boulder": {
+   "size": [
+    2,
+    2
+   ],
+   "sprite": "obj_bear_boulder",
+   "solid": true,
+   "interact": "find:sleeping_boulder"
+  },
+  "carved_tree": {
+   "size": [
+    1,
+    1
+   ],
+   "sprite": "obj_carved_tree",
+   "solid": true,
+   "interact": "find:carved_tree"
+  },
+  "stone_bench": {
+   "size": [
+    2,
+    1
+   ],
+   "sprite": "obj_stone_bench",
+   "solid": true,
+   "interact": "find:stone_bench"
+  },
+  "rusted_truck": {
+   "size": [
+    3,
+    2
+   ],
+   "sprite": "obj_rusted_truck",
+   "solid": true,
+   "interact": "find:rusted_truck"
+  },
+  "toll_board": {
+   "size": [
+    1,
+    1
+   ],
+   "sprite": "obj_toll_board",
+   "solid": true,
+   "interact": "find:toll_board"
+  },
+  "pawprints": {
+   "size": [
+    1,
+    1
+   ],
+   "sprite": "obj_pawprints",
+   "solid": false
+  },
+  "berry_tunnel": {
+   "size": [
+    2,
+    1
+   ],
+   "sprite": "obj_berry_tunnel",
+   "solid": true,
+   "interact": "find:blackberry_tunnel"
+  }
+ },
+ "berry_spots": [
+  [
+   386,
+   371
+  ],
+  [
+   430,
+   392
+  ],
+  [
+   455,
+   343
+  ],
+  [
+   395,
+   343
+  ]
+ ],
+ "rows": [
+  {
+   "id": "tiny_door",
+   "text": "find_tiny_door",
+   "place": {
+    "object": "tiny_door",
+    "ring_one": [
+     243,
+     97
+    ],
+    "try": [
+     [
+      243,
+      97
+     ],
+     [
+      244,
+      96
+     ],
+     [
+      242,
+      96
+     ],
+     [
+      243,
+      95
+     ]
+    ]
+   }
+  },
+  {
+   "id": "holed_canoe",
+   "text": "find_holed_canoe",
+   "place": {
+    "object": "canoe",
+    "at": [
+     432,
+     338
+    ]
+   }
+  },
+  {
+   "id": "cache_tin",
+   "text": "find_cache_tin",
+   "place": {
+    "object": "lean_to",
+    "at": [
+     403,
+     327
+    ]
+   },
+   "gives": [
+    {
+     "item": "tin_of_beans",
+     "min": 1,
+     "max": 2
+    },
+    {
+     "item": "apple",
+     "min": 0,
+     "max": 3
+    },
+    {
+     "item": "nails",
+     "min": 2,
+     "max": 6
+    },
+    {
+     "item": "window_glass",
+     "min": 0,
+     "max": 1
+    },
+    {
+     "item": "hot_soup",
+     "min": 0,
+     "max": 1
+    },
+    {
+     "item": "firewood",
+     "min": 1,
+     "max": 3
+    }
+   ]
+  },
+  {
+   "id": "dawn_ripple",
+   "text": "find_dawn_ripple",
+   "when": {
+    "landmark": "kettle_pond",
+    "from": 360,
+    "to": 390,
+    "weather": "clear",
+    "within": 20
+   }
+  },
+  {
+   "id": "survey_stakes",
+   "text": "find_survey_stakes"
+  },
+  {
+   "id": "mushroom_ring",
+   "text": "find_mushroom_ring",
+   "place": {
+    "object": "mushroom",
+    "ring_at": [
+     520,
+     500
+    ],
+    "ring_radius": 3.2,
+    "count": 7
+   }
+  },
+  {
+   "id": "sleeping_boulder",
+   "text": "find_sleeping_boulder",
+   "place": {
+    "object": "bear_boulder",
+    "at": [
+     470,
+     440
+    ]
+   },
+   "absent_in": [
+    "winter"
+   ]
+  },
+  {
+   "id": "carved_tree",
+   "text": "find_carved_tree",
+   "place": {
+    "object": "carved_tree",
+    "at": [
+     606,
+     535
+    ]
+   }
+  },
+  {
+   "id": "lookout_log",
+   "text": "find_lookout_log",
+   "furniture": "static_tower"
+  },
+  {
+   "id": "journal_page_one",
+   "text": "find_journal_page_one",
+   "item": "journal_page_one"
+  },
+  {
+   "id": "stone_bench",
+   "text": "find_stone_bench",
+   "place": {
+    "object": "stone_bench",
+    "at": [
+     648,
+     606
+    ],
+    "step": [
+     0,
+     1
+    ]
+   }
+  },
+  {
+   "id": "rusted_truck",
+   "text": "find_rusted_truck",
+   "place": {
+    "object": "rusted_truck",
+    "near_road": [
+     760,
+     590
+    ]
+   }
+  },
+  {
+   "id": "toll_board",
+   "text": "find_toll_board",
+   "place": {
+    "object": "toll_board",
+    "at": [
+     863,
+     617
+    ],
+    "with": [
+     {
+      "object": "pawprints",
+      "at": [
+       876,
+       620
+      ]
+     },
+     {
+      "object": "pawprints",
+      "at": [
+       877,
+       621
+      ]
+     },
+     {
+      "object": "pawprints",
+      "at": [
+       878,
+       620
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "blackberry_tunnel",
+   "text": "find_blackberry_tunnel",
+   "place": {
+    "object": "berry_tunnel",
+    "at": [
+     620,
+     150
+    ]
+   }
+  }
+ ]
+}

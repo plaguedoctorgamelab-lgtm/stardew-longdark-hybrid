@@ -142,11 +142,71 @@
    29
   ]
  ],
+ "berry_spots": [
+  [
+   388,
+   1071
+  ],
+  [
+   432,
+   1050
+  ],
+  [
+   457,
+   1099
+  ],
+  [
+   397,
+   1099
+  ]
+ ],
  "chunk_size": 32,
  "chunks": [
   58,
   46
  ],
+ "finds": {
+  "blackberry_tunnel": [
+   622,
+   1292
+  ],
+  "cache_tin": [
+   405,
+   1115
+  ],
+  "carved_tree": [
+   608,
+   907
+  ],
+  "holed_canoe": [
+   434,
+   1104
+  ],
+  "mushroom_ring": [
+   525,
+   942
+  ],
+  "rusted_truck": [
+   770,
+   849
+  ],
+  "sleeping_boulder": [
+   472,
+   1002
+  ],
+  "stone_bench": [
+   650,
+   836
+  ],
+  "tiny_door": [
+   243,
+   1313
+  ],
+  "toll_board": [
+   865,
+   825
+  ]
+ },
  "gate": [
   2,
   1442
@@ -186,6 +246,24 @@
  },
  "note": "Baked by tools/bake_world.py from layout.json and region.json. Do not edit by hand.",
  "object_types": {
+  "bear_boulder": {
+   "interact": "find:sleeping_boulder",
+   "size": [
+    2,
+    2
+   ],
+   "solid": true,
+   "sprite": "obj_bear_boulder"
+  },
+  "berry_tunnel": {
+   "interact": "find:blackberry_tunnel",
+   "size": [
+    2,
+    1
+   ],
+   "solid": true,
+   "sprite": "obj_berry_tunnel"
+  },
   "boulder": {
    "size": [
     1,
@@ -228,6 +306,24 @@
    "solid": true,
    "sprite": "obj_cairn"
   },
+  "canoe": {
+   "interact": "find:holed_canoe",
+   "size": [
+    3,
+    1
+   ],
+   "solid": true,
+   "sprite": "obj_canoe"
+  },
+  "carved_tree": {
+   "interact": "find:carved_tree",
+   "size": [
+    1,
+    1
+   ],
+   "solid": true,
+   "sprite": "obj_carved_tree"
+  },
   "fallen_trunk": {
    "size": [
     3,
@@ -253,6 +349,24 @@
    "solid": true,
    "sprite": "obj_gate"
   },
+  "lean_to": {
+   "interact": "find:cache_tin",
+   "size": [
+    3,
+    2
+   ],
+   "solid": true,
+   "sprite": "obj_lean_to"
+  },
+  "mushroom": {
+   "interact": "find:mushroom_ring",
+   "size": [
+    1,
+    1
+   ],
+   "solid": false,
+   "sprite": "obj_mushrooms"
+  },
   "outlook_post": {
    "interact": "landmark:scenic_outlook",
    "size": [
@@ -261,6 +375,32 @@
    ],
    "solid": true,
    "sprite": "obj_outlook_post"
+  },
+  "pawprints": {
+   "size": [
+    1,
+    1
+   ],
+   "solid": false,
+   "sprite": "obj_pawprints"
+  },
+  "rusted_truck": {
+   "interact": "find:rusted_truck",
+   "size": [
+    3,
+    2
+   ],
+   "solid": true,
+   "sprite": "obj_rusted_truck"
+  },
+  "stone_bench": {
+   "interact": "find:stone_bench",
+   "size": [
+    2,
+    1
+   ],
+   "solid": true,
+   "sprite": "obj_stone_bench"
   },
   "survey_stake": {
    "interact": "find:survey_stakes",
@@ -278,6 +418,24 @@
    ],
    "solid": true,
    "sprite": "obj_thicket"
+  },
+  "tiny_door": {
+   "interact": "find:tiny_door",
+   "size": [
+    1,
+    1
+   ],
+   "solid": false,
+   "sprite": "obj_tiny_door"
+  },
+  "toll_board": {
+   "interact": "find:toll_board",
+   "size": [
+    1,
+    1
+   ],
+   "solid": true,
+   "sprite": "obj_toll_board"
   },
   "tree_dead": {
    "size": [
@@ -715,6 +873,10 @@
    1218
   ],
   [
+   243,
+   1313
+  ],
+  [
    353,
    1216
   ],
@@ -809,9 +971,9 @@
  ],
  "ring_two_estimate_base": 240.3,
  "ring_two_estimate_minutes": {
-  "bridge": 539.9,
+  "bridge": 540.0,
   "pond": 303.2,
-  "tower": 420.6
+  "tower": 420.7
  },
  "ring_two_lengths": {
   "road": 417.0,
@@ -819,13 +981,13 @@
   "trail": 129.2
  },
  "route_lengths": {
-  "bridge": 1625.6,
+  "bridge": 1625.2,
   "cabin": 754.4,
   "forest_edge": 188.9,
   "fork": 471.5,
   "outlook": 660.2,
   "pond": 927.4,
-  "tower": 1249.2
+  "tower": 1248.8
  },
  "route_targets_minutes": {
   "bridge": 540,
@@ -2671,12 +2833,20 @@
     1107.5
    ],
    [
-    432.5,
-    1104.5
+    434.5,
+    1102.5
+   ],
+   [
+    437.5,
+    1102.5
    ],
    [
     438.5,
-    1104.5
+    1101.5
+   ],
+   [
+    441.5,
+    1101.5
    ],
    [
     445.5,
@@ -2708,14 +2878,6 @@
    ],
    [
     458.5,
-    1079.5
-   ],
-   [
-    459.5,
-    1078.5
-   ],
-   [
-    459.5,
     1077.5
    ],
    [
@@ -11859,12 +12021,20 @@
     1107.5
    ],
    [
-    432.5,
-    1104.5
+    434.5,
+    1102.5
+   ],
+   [
+    437.5,
+    1102.5
    ],
    [
     438.5,
-    1104.5
+    1101.5
+   ],
+   [
+    441.5,
+    1101.5
    ],
    [
     445.5,
@@ -11896,14 +12066,6 @@
    ],
    [
     458.5,
-    1079.5
-   ],
-   [
-    459.5,
-    1078.5
-   ],
-   [
-    459.5,
     1077.5
    ],
    [
