@@ -78,6 +78,12 @@ func setup(s: GameSession) -> void:
 	_btn(r, "Sign in front", func() -> void: session.debug_put_up(session.ranger_tile() + session.facing_vector(), "trail_sign", "ranger_station"))
 
 	r = _row()
+	for step: String in GameSession.SITE_STEPS:
+		_btn(r, step.capitalize(), func() -> void: session.debug_site_step("static_tower", step, not session.site_step_done("static_tower", step)))
+	_btn(r, "Open site", func() -> void: session.debug_open_site("static_tower"))
+	_btn(r, "Site status", func() -> void: session.message.emit(" | ".join(session.site_lines())))
+
+	r = _row()
 	_item_pick = _pick(r, session.content.ids("items"))
 	_btn(r, "Add item", func() -> void: session.debug_add_item(_item_pick.get_item_text(_item_pick.selected), 1))
 	_btn(r, "Add x5", func() -> void: session.debug_add_item(_item_pick.get_item_text(_item_pick.selected), 5))

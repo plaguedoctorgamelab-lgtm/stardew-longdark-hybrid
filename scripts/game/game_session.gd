@@ -75,6 +75,11 @@ var clearing_progress: Dictionary = {}  # obstacle's top-left tile -> actions do
 var dug: Dictionary = {}                # tile -> true, trail dug by the ranger
 var placed: Dictionary = {}             # tile -> {"item": id, "place": id}, signs and markers put up
 var _pending_place: Vector2i = Vector2i(-1, -1)
+# Sites: places to open. Found and opened sites, and debug overrides.
+var sites_found: Dictionary = {}       # site id -> true
+var sites_open: Dictionary = {}        # site id -> true
+var site_overrides: Dictionary = {}    # "site:step" -> bool, debug only
+var _pending_site: String = ""
 var _pending_item: String = ""
 
 
@@ -127,6 +132,9 @@ func new_game(new_seed: int = -1) -> void:
 		_set_chopped(t, -1)
 	jobs_known = {}
 	rumors = {}
+	sites_found = {}
+	sites_open = {}
+	site_overrides = {}
 	_reset_land()
 	camp_changed.emit()
 	weather.check_change(clock.minute)
@@ -156,6 +164,7 @@ func to_dict() -> Dictionary:
 		"chopped": chopped.keys().map(func(t: Vector2i) -> Array: return [t.x, t.y, chopped[t]]),
 		"jobs_known": jobs_known.keys(),
 		"rumors": rumors.keys(),
+		"sites": {"found": sites_found.keys(), "open": sites_open.keys()},
 		"land": land_to_dict(),
 	}
 
@@ -192,6 +201,14 @@ func from_dict(d: Dictionary) -> void:
 	for id: String in d.get("rumors", []):
 		rumors[id] = true
 	land_from_dict(d.get("land", {}))
+	var sd: Dictionary = d.get("sites", {})
+	sites_found = {}
+	sites_open = {}
+	site_overrides = {}
+	for id: String in sd.get("found", []):
+		sites_found[id] = true
+	for id: String in sd.get("open", []):
+		sites_open[id] = true
 	camp_changed.emit()
 	survey_steps_left = 0
 	_last_tile = Vector2i(-9999, -9999)
@@ -338,6 +355,7 @@ func _update_trace() -> void:
 	if t != _last_tile:
 		_last_tile = t
 		map.record_trace(t, visible)
+		_look_for_sites()
 	if visible and map.has_pending():
 		map.flush_pending()
 
@@ -479,6 +497,13 @@ func answer_confirm(yes: bool) -> void:
 		sleep()
 	elif yes and kind == "camp_sleep":
 		camp_sleep()
+	elif kind == "open_site":
+		var site := _pending_site
+		_pending_site = ""
+		if yes:
+			open_site(site)
+		else:
+			enter_building(content.row("sites", site)["structure"])
 
 
 func sleep() -> void:
@@ -552,6 +577,12 @@ func interact() -> void:
 	if sid != "":
 		if _landmark_for_structure(sid) != "" and not map.is_landmark_mapped(_landmark_for_structure(sid)):
 			map_location(_landmark_for_structure(sid))
+			return
+		var site := site_for_structure(sid)
+		if site != "" and not sites_open.has(site) and site_ready(site):
+			_pending_site = site
+			pending_confirm = "open_site"
+			confirm_requested.emit("open_site", content.text("msg_open_site_confirm", {"name": content.text(content.row("sites", site)["name"])}))
 			return
 		enter_building(sid)
 		return
@@ -1220,6 +1251,151 @@ func debug_put_up(t: Vector2i, item: String, place_id: String = "") -> bool:
 	if not backpack.has("hammer"):
 		backpack.add("hammer", 1)
 	return put_up(t, item, place_id)
+
+
+# --- sites -----------------------------------------------------------------------
+
+const SITE_STEPS: Array[String] = ["find", "map", "reach", "repair", "sign", "settle"]
+
+
+func site_for_structure(structure_id: String) -> String:
+	for r: Dictionary in content.rows("sites"):
+		if r["structure"] == structure_id:
+			return r["id"]
+	return ""
+
+
+func site_pos(site_id: String) -> Vector2:
+	return world.landmark_pos(content.row("sites", site_id)["landmark"])
+
+
+func _look_for_sites() -> void:
+	if is_indoors():
+		return
+	var r := tuning.num("sites.find_radius_tiles")
+	for row: Dictionary in content.rows("sites"):
+		var id: String = row["id"]
+		if not sites_found.has(id) and outdoor_pos.distance_to(site_pos(id)) <= r:
+			sites_found[id] = true
+			message.emit(content.text("msg_site_found", {"name": content.text(row["name"])}))
+
+
+## Whether a step of opening a site is done.
+func site_step_done(site_id: String, step: String) -> bool:
+	var key := site_id + ":" + step
+	if site_overrides.has(key):
+		return bool(site_overrides[key])
+	var row := content.row("sites", site_id)
+	match step:
+		"find":
+			return sites_found.has(site_id)
+		"map":
+			return map.is_landmark_mapped(row["landmark"])
+		"reach":
+			return site_reached(site_id)
+		"repair":
+			return structures.is_open(row["structure"])
+		"sign":
+			return site_signed(site_id)
+		"settle":
+			return not bool(row.get("magic", false))
+	return false
+
+
+## True when the first five steps are done and the site can be declared open.
+func site_ready(site_id: String) -> bool:
+	for step in SITE_STEPS:
+		if not site_step_done(site_id, step):
+			return false
+	return true
+
+
+## Whether unbroken trail, cleared of obstacles, joins the site's door to the
+## station's door. A trail may ford water: a short wade through shallows
+## between trail on both banks counts, a walk along a stream does not.
+func site_reached(site_id: String) -> bool:
+	var grounds: Array = tuning.value("sites.reach_grounds")
+	var ford_max := tuning.integer("sites.ford_max_tiles")
+	var start := Vector2i(door_front(content.row("sites", site_id)["structure"]))
+	var goal := Vector2i(door_front("ranger_station"))
+	if world.is_solid(start) or not grounds.has(world.ground_at(start)):
+		return false
+	var best := {start: 0}   # tile -> fewest shallows waded in a row to get there
+	var queue: Array = [[start, 0]]
+	var head := 0
+	var dirs: Array[Vector2i] = [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]
+	while head < queue.size():
+		var t: Vector2i = queue[head][0]
+		var run: int = queue[head][1]
+		head += 1
+		if t == goal:
+			return true
+		for d in dirs:
+			var n := t + d
+			if world.is_solid(n):
+				continue
+			var g := world.ground_at(n)
+			var r := 0
+			if g == "shallows":
+				r = run + 1
+				if r > ford_max:
+					continue
+			elif not grounds.has(g):
+				continue
+			if not best.has(n) or int(best[n]) > r:
+				best[n] = r
+				queue.append([n, r])
+	return false
+
+
+## Whether a sign naming the site stands on trail near it.
+func site_signed(site_id: String) -> bool:
+	var landmark: String = content.row("sites", site_id)["landmark"]
+	var r := tuning.num("sites.sign_distance_tiles")
+	for t: Vector2i in placed:
+		if str(placed[t]["place"]) == landmark and site_pos(site_id).distance_to(Vector2(t)) <= r:
+			return true
+	return false
+
+
+func open_site(site_id: String) -> bool:
+	if not site_ready(site_id):
+		return false
+	sites_open[site_id] = true
+	map.mark_landmark(content.row("sites", site_id)["landmark"])
+	message.emit(content.text("msg_site_opened", {"name": content.text(content.row("sites", site_id)["name"])}))
+	return true
+
+
+func site_lines() -> PackedStringArray:
+	var out := PackedStringArray([content.text("site_list_title")])
+	if sites_found.is_empty():
+		out.append(content.text("site_none"))
+		return out
+	for row: Dictionary in content.rows("sites"):
+		var id: String = row["id"]
+		if not sites_found.has(id):
+			continue
+		var name := content.text(row["name"])
+		if sites_open.has(id):
+			out.append(content.text("site_open", {"name": name}))
+			continue
+		var parts: PackedStringArray = []
+		for step in SITE_STEPS:
+			var label := content.text("site_step_" + step)
+			parts.append(content.text("site_step_done", {"name": label}) if site_step_done(id, step) else label)
+		out.append(content.text("site_line", {"name": name, "steps": ", ".join(parts)}))
+	return out
+
+
+func debug_site_step(site_id: String, step: String, done: bool) -> void:
+	site_overrides[site_id + ":" + step] = done
+
+
+func debug_open_site(site_id: String) -> void:
+	for step in SITE_STEPS:
+		site_overrides[site_id + ":" + step] = true
+	open_site(site_id)
 
 
 # --- jobs ------------------------------------------------------------------------

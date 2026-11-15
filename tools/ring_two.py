@@ -437,6 +437,15 @@ def bake(R, G, L, r1, structures, ox, oy):
     # Brush grown across the old trail and road.
     brush = []
 
+    # A trunk blocks the whole width of the trail: brush fills its row beside it.
+    for (tx, ty) in trunks:
+        for step in (-1, 1):
+            x = tx - 1 if step < 0 else tx + 3
+            while ground[ty][x] == "trail" and (x, ty) not in objects:
+                objects[(x, ty)] = "brush"
+                brush.append((x, ty))
+                x += step
+
     def brush_at(pts, frac, radius):
         px, py = pts[int(frac * len(pts))]
         for t in disc(px, py, radius + 0.4):

@@ -1,0 +1,11 @@
+{
+ "rows": [
+  {
+   "id": "static_tower",
+   "name": "landmark_static_tower",
+   "structure": "static_tower",
+   "landmark": "static_tower",
+   "magic": false
+  }
+ ]
+}

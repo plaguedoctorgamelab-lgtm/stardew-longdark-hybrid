@@ -10,7 +10,7 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONTENT = os.path.join(ROOT, "data", "content")
-TABLES = ["items", "foods", "weather_types", "weather_odds", "structures", "landmarks", "jobs", "obstacles", "recipes", "text"]
+TABLES = ["items", "foods", "weather_types", "weather_odds", "structures", "landmarks", "jobs", "obstacles", "recipes", "sites", "text"]
 
 
 def main():
@@ -74,6 +74,10 @@ def main():
         ref("text", r["name"], "landmarks/%s" % r["id"])
         ref("structures", r["id"], "landmarks/%s" % r["id"]) if r["kind"] == "cabin" else None
 
+    for r in data.get("sites", {}).values():
+        ref("text", r["name"], "sites/%s" % r["id"])
+        ref("structures", r["structure"], "sites/%s structure" % r["id"])
+        ref("landmarks", r["landmark"], "sites/%s landmark" % r["id"])
     for r in data.get("recipes", {}).values():
         ref("text", r["name"], "recipes/%s" % r["id"])
         ref("items", r["result"]["item"], "recipes/%s result" % r["id"])

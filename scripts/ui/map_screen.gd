@@ -209,7 +209,10 @@ func _layout() -> void:
 		c.queue_free()
 	for r: Dictionary in session.content.rows("landmarks"):
 		if session.map.is_landmark_mapped(r["id"]):
-			_add_label(session.content.text(r["name"]), session.world.landmark_pos(r["id"]), Vector2(3, -6), Color.WHITE, false)
+			var label := session.content.text(r["name"])
+			if session.sites_open.has(r["id"]):
+				label = session.content.text("map_site_open", {"name": label})
+			_add_label(label, session.world.landmark_pos(r["id"]), Vector2(3, -6), Color.WHITE, false)
 	for h: Dictionary in hints(session):
 		_add_label(h["text"], (h["center"] as Vector2) + Vector2(0, float(h["radius"])), Vector2(-18, 1), HINT, true)
 	var shown := session.marker_visible()

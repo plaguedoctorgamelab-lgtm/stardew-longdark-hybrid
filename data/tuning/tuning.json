@@ -189,5 +189,14 @@
     "take_down_minutes": 10,
     "take_down_energy": 0,
     "marker_radius_tiles": 3
+  },
+  "sites": {
+    "find_radius_tiles": 14,
+    "sign_distance_tiles": 30,
+    "reach_grounds": [
+      "trail",
+      "boards"
+    ],
+    "ford_max_tiles": 24
   }
 }

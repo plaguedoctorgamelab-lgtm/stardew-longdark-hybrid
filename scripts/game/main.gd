@@ -233,7 +233,7 @@ func _show_dialog(kind: String, text: String) -> void:
 
 func _close_dialog(yes: bool) -> void:
 	dialog.visible = false
-	if _dialog_kind == "sleep" or _dialog_kind == "camp_sleep":
+	if _dialog_kind in ["sleep", "camp_sleep", "open_site"]:
 		session.answer_confirm(yes)
 	_dialog_kind = ""
 
@@ -265,7 +265,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			inventory_screen.open(null, "")
 		return
 	if event.is_action_pressed("jobs") and not menu_open():
-		_show_dialog("jobs", session.content.text("job_list_title") + "\n\n" + "\n".join(session.job_lines()))
+		_show_dialog("jobs", session.content.text("job_list_title") + "\n\n" + "\n".join(session.job_lines()) + "\n\n" + "\n".join(session.site_lines()))
 		return
 	if event.is_action_pressed("open_map"):
 		if map_screen.visible:

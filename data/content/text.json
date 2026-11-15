@@ -775,6 +775,81 @@
    "id": "dir_here",
    "text": "right here",
    "placeholder": true
+  },
+  {
+   "id": "site_list_title",
+   "text": "Sites",
+   "placeholder": true
+  },
+  {
+   "id": "site_none",
+   "text": "No sites found yet.",
+   "placeholder": true
+  },
+  {
+   "id": "site_step_find",
+   "text": "Found",
+   "placeholder": true
+  },
+  {
+   "id": "site_step_map",
+   "text": "Mapped",
+   "placeholder": true
+  },
+  {
+   "id": "site_step_reach",
+   "text": "Trail to it",
+   "placeholder": true
+  },
+  {
+   "id": "site_step_repair",
+   "text": "Repaired",
+   "placeholder": true
+  },
+  {
+   "id": "site_step_sign",
+   "text": "Signposted",
+   "placeholder": true
+  },
+  {
+   "id": "site_step_settle",
+   "text": "Nothing strange here",
+   "placeholder": true
+  },
+  {
+   "id": "site_line",
+   "text": "{name}: {steps}",
+   "placeholder": true
+  },
+  {
+   "id": "site_step_done",
+   "text": "{name} (done)",
+   "placeholder": true
+  },
+  {
+   "id": "site_open",
+   "text": "{name}: open",
+   "placeholder": true
+  },
+  {
+   "id": "msg_site_found",
+   "text": "You've found the {name}.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_open_site_confirm",
+   "text": "Everything is ready. Declare the {name} open? (Y / N)",
+   "placeholder": true
+  },
+  {
+   "id": "msg_site_opened",
+   "text": "The {name} is open.",
+   "placeholder": true
+  },
+  {
+   "id": "map_site_open",
+   "text": "{name} (open)",
+   "placeholder": true
   }
  ]
 }
