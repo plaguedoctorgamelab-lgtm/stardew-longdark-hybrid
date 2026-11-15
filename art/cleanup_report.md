@@ -1,7 +1,7 @@
 # Art cleanup report
 
 Made by tools/art_cleanup.py. palette from art/palette.json (25 colors).
-103 images passed, 1 failed.
+130 images passed, 1 failed.
 
 
 ## ChatGPT Image Nov 15, 2026, 07_04_59 AM.png (ground tiles)
@@ -107,7 +107,7 @@ Made by tools/art_cleanup.py. palette from art/palette.json (25 colors).
 - furniture_door: **pass** 16x16
 - furniture_window: **pass** 16x16
 - furniture_bed: **pass** 32x32
-- furniture_stove_lit: **pass** 16x24
+- furniture_stove_lit_v1: **pass** 16x24
 - furniture_table: **pass** 32x24
 - furniture_chair: **pass** 16x24
 - furniture_shelf: **pass** 32x24
@@ -148,3 +148,42 @@ Made by tools/art_cleanup.py. palette from art/palette.json (25 colors).
 ## strange_ranger_palette.png (forest palette)
 
 - -: **SKIPPED** the palette sheet; its colours are in art/palette.json
+
+## art_request_02_tower.png (art request 02: fire tower)
+
+- building_tower_broken: **pass** 48x112
+- building_tower_repaired: **pass** 48x112
+
+## art_request_02_small.png (art request 02: small things and icons)
+
+- ground_bog: **pass** 16x16
+- ground_boards: **pass** 16x16
+- obj_fence: **pass** 16x16
+- obj_brush: **pass** 16x16
+- obj_thicket: **pass** 16x16
+- obj_survey_stake: **pass** 16x16
+- obj_cairn: **pass** 16x16
+- obj_trail_marker: **pass** 16x16
+- item_trail_sign: **pass** 16x16
+- item_trail_marker: **pass** 16x16
+- item_repair_kit: **pass** 16x16
+- weather_clear_night: **pass** 16x16
+- obj_tiny_door: **pass** 16x16
+- obj_pawprints: **pass** 16x16
+- item_journal_page: **pass** 16x16
+
+## art_request_02_tall.png (art request 02: tall things)
+
+- obj_bridge_post: **pass** 16x32
+- obj_toll_board: **pass** 16x32
+- furniture_stove_lit: **pass** 16x24
+- obj_carved_tree: **pass** 32x48
+
+## art_request_02_objects.png (art request 02: bigger objects)
+
+- obj_canoe: **pass** 48x16
+- obj_lean_to: **pass** 48x32
+- obj_bear_boulder: **pass** 32x32
+- obj_stone_bench: **pass** 32x16
+- obj_rusted_truck: **pass** 48x32
+- obj_berry_tunnel: **pass** 32x16

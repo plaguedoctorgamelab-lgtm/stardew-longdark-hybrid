@@ -353,6 +353,7 @@ def icons():
     icon("furniture_note_board", ("rect", 1, 2, 14, 11, "wood_d"), ("rect", 2, 3, 12, 9, "bark"), ("rect", 4, 4, 5, 6, "paper"), ("rect", 9, 6, 4, 4, "paper"), ("rect", 6, 4, 1, 1, "red"))
 
     icon("weather_clear", ("disc", 8, 8, 5, "sun"))
+    icon("weather_clear_night", ("disc", 8, 8, 5, "white"), ("disc", 10, 6, 4, "clear"))
     icon("weather_overcast", ("disc", 6, 9, 4, "grey"), ("disc", 10, 8, 5, "grey"))
     icon("weather_rain", ("disc", 8, 6, 5, "grey"), *[("rect", x, 11, 1, 3, "blue") for x in (4, 8, 12)])
     icon("weather_fog", *[("rect", 2, y, 12, 2, "grey") for y in (4, 8, 12)])

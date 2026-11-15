@@ -127,7 +127,7 @@ func _process(delta: float) -> void:
 	var c := session.clock
 	date_label.text = session.content.text("hud_date", {"season": session.content.text("season_" + c.season_name()).substr(0, 3), "day": c.day, "year": c.year})
 	time_label.text = c.time_text()
-	weather_icon.texture = Art.texture(session.weather_row()["icon"])
+	weather_icon.texture = Art.texture(session.weather_icon())
 	energy_bar.max_value = session.needs.max_energy()
 	energy_bar.value = session.needs.energy
 	warmth_bar.max_value = session.needs.max_warmth()

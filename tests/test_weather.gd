@@ -146,3 +146,15 @@ func test_first_day_is_clear(t: TestCase) -> void:
 		t.equal(s.weather.today, ["clear", "clear", "clear"] as Array[String], "seed %d: day one is clear all day" % sd)
 	var s := TestCase.new_session(5)
 	t.check(s.start_survey(), "surveying works at the station door at 6:00 on day one")
+
+
+func test_clear_nights_show_the_moon(t: TestCase) -> void:
+	var s := TestCase.new_session()
+	s.debug_force_weather("clear")
+	s.debug_set_time(12 * 60)
+	t.equal(s.weather_icon(), "weather_clear", "a sun by day")
+	s.debug_set_time(23 * 60)
+	s.debug_force_weather("clear")
+	t.equal(s.weather_icon(), "weather_clear_night", "a moon on a clear night")
+	s.debug_force_weather("rain")
+	t.equal(s.weather_icon(), s.weather_row()["icon"], "other weather keeps its symbol at night")

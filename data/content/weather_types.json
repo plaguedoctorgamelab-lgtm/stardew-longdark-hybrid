@@ -1,11 +1,124 @@
 {
-  "rows": [
-    {"id": "clear", "name": "weather_clear", "icon": "weather_clear", "tint": [1.0, 1.0, 1.0], "visibility_tiles": 0, "warmth": 2, "speed": 1.0, "survey": true, "hides_marker": false, "harsh": false, "effect": "none"},
-    {"id": "overcast", "name": "weather_overcast", "icon": "weather_overcast", "tint": [0.82, 0.84, 0.88], "visibility_tiles": 0, "warmth": 0, "speed": 1.0, "survey": true, "hides_marker": false, "harsh": false, "effect": "none"},
-    {"id": "rain", "name": "weather_rain", "icon": "weather_rain", "tint": [0.68, 0.72, 0.8], "visibility_tiles": 0, "warmth": -2, "speed": 0.95, "survey": false, "hides_marker": false, "harsh": false, "effect": "rain"},
-    {"id": "fog", "name": "weather_fog", "icon": "weather_fog", "tint": [0.85, 0.87, 0.88], "visibility_tiles": 6, "warmth": -1, "speed": 1.0, "survey": false, "hides_marker": true, "harsh": false, "effect": "fog"},
-    {"id": "storm", "name": "weather_storm", "icon": "weather_storm", "tint": [0.5, 0.52, 0.62], "visibility_tiles": 0, "warmth": -4, "speed": 0.85, "survey": false, "hides_marker": true, "harsh": true, "effect": "storm"},
-    {"id": "snow", "name": "weather_snow", "icon": "weather_snow", "tint": [0.86, 0.9, 1.0], "visibility_tiles": 0, "warmth": -3, "speed": 0.85, "survey": false, "hides_marker": false, "harsh": true, "effect": "snow"},
-    {"id": "blizzard", "name": "weather_blizzard", "icon": "weather_blizzard", "tint": [0.8, 0.84, 0.92], "visibility_tiles": 4, "warmth": -7, "speed": 0.6, "survey": false, "hides_marker": true, "harsh": true, "effect": "blizzard"}
-  ]
+ "rows": [
+  {
+   "id": "clear",
+   "name": "weather_clear",
+   "icon": "weather_clear",
+   "tint": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "visibility_tiles": 0,
+   "warmth": 2,
+   "speed": 1.0,
+   "survey": true,
+   "hides_marker": false,
+   "harsh": false,
+   "effect": "none",
+   "night_icon": "weather_clear_night"
+  },
+  {
+   "id": "overcast",
+   "name": "weather_overcast",
+   "icon": "weather_overcast",
+   "tint": [
+    0.82,
+    0.84,
+    0.88
+   ],
+   "visibility_tiles": 0,
+   "warmth": 0,
+   "speed": 1.0,
+   "survey": true,
+   "hides_marker": false,
+   "harsh": false,
+   "effect": "none"
+  },
+  {
+   "id": "rain",
+   "name": "weather_rain",
+   "icon": "weather_rain",
+   "tint": [
+    0.68,
+    0.72,
+    0.8
+   ],
+   "visibility_tiles": 0,
+   "warmth": -2,
+   "speed": 0.95,
+   "survey": false,
+   "hides_marker": false,
+   "harsh": false,
+   "effect": "rain"
+  },
+  {
+   "id": "fog",
+   "name": "weather_fog",
+   "icon": "weather_fog",
+   "tint": [
+    0.85,
+    0.87,
+    0.88
+   ],
+   "visibility_tiles": 6,
+   "warmth": -1,
+   "speed": 1.0,
+   "survey": false,
+   "hides_marker": true,
+   "harsh": false,
+   "effect": "fog"
+  },
+  {
+   "id": "storm",
+   "name": "weather_storm",
+   "icon": "weather_storm",
+   "tint": [
+    0.5,
+    0.52,
+    0.62
+   ],
+   "visibility_tiles": 0,
+   "warmth": -4,
+   "speed": 0.85,
+   "survey": false,
+   "hides_marker": true,
+   "harsh": true,
+   "effect": "storm"
+  },
+  {
+   "id": "snow",
+   "name": "weather_snow",
+   "icon": "weather_snow",
+   "tint": [
+    0.86,
+    0.9,
+    1.0
+   ],
+   "visibility_tiles": 0,
+   "warmth": -3,
+   "speed": 0.85,
+   "survey": false,
+   "hides_marker": false,
+   "harsh": true,
+   "effect": "snow"
+  },
+  {
+   "id": "blizzard",
+   "name": "weather_blizzard",
+   "icon": "weather_blizzard",
+   "tint": [
+    0.8,
+    0.84,
+    0.92
+   ],
+   "visibility_tiles": 4,
+   "warmth": -7,
+   "speed": 0.6,
+   "survey": false,
+   "hides_marker": true,
+   "harsh": true,
+   "effect": "blizzard"
+  }
+ ]
 }

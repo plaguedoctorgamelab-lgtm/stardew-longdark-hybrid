@@ -62,6 +62,8 @@ func test_every_picture_exists(t: TestCase) -> void:
 			names.append(r["sprite"])
 	for r: Dictionary in c.rows("weather_types"):
 		names.append(r["icon"])
+		if r.has("night_icon"):
+			names.append(r["night_icon"])
 	for r: Dictionary in c.rows("structures"):
 		names.append(r["sprite"])
 		names.append(r["sprite_repaired"])

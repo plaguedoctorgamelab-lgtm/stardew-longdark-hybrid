@@ -629,7 +629,7 @@
      ]
     },
     {
-     "name": "furniture_stove_lit",
+     "name": "furniture_stove_lit_v1",
      "size": [
       16,
       24
@@ -871,6 +871,242 @@
    "file": "strange_ranger_palette.png",
    "label": "forest palette",
    "reference": "the palette sheet; its colours are in art/palette.json"
+  },
+  {
+   "file": "art_request_02_tower.png",
+   "label": "art request 02: fire tower",
+   "grid": [
+    2,
+    1
+   ],
+   "cells": [
+    {
+     "name": "building_tower_broken",
+     "size": [
+      48,
+      112
+     ]
+    },
+    {
+     "name": "building_tower_repaired",
+     "size": [
+      48,
+      112
+     ]
+    }
+   ]
+  },
+  {
+   "file": "art_request_02_small.png",
+   "label": "art request 02: small things and icons",
+   "grid": [
+    4,
+    4
+   ],
+   "cells": [
+    {
+     "name": "ground_bog",
+     "size": [
+      16,
+      16
+     ],
+     "stretch": true
+    },
+    {
+     "name": "ground_boards",
+     "size": [
+      16,
+      16
+     ],
+     "stretch": true
+    },
+    {
+     "name": "obj_fence",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "obj_brush",
+     "size": [
+      16,
+      16
+     ],
+     "parts": 2
+    },
+    {
+     "name": "obj_thicket",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "obj_survey_stake",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "obj_cairn",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "obj_trail_marker",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "item_trail_sign",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "item_trail_marker",
+     "size": [
+      16,
+      16
+     ],
+     "parts": 2
+    },
+    {
+     "name": "item_repair_kit",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "weather_clear_night",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "obj_tiny_door",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "obj_pawprints",
+     "size": [
+      16,
+      16
+     ],
+     "parts": 12
+    },
+    {
+     "name": "item_journal_page",
+     "size": [
+      16,
+      16
+     ]
+    },
+    null
+   ]
+  },
+  {
+   "file": "art_request_02_tall.png",
+   "label": "art request 02: tall things",
+   "grid": [
+    4,
+    1
+   ],
+   "cells": [
+    {
+     "name": "obj_bridge_post",
+     "size": [
+      16,
+      32
+     ]
+    },
+    {
+     "name": "obj_toll_board",
+     "size": [
+      16,
+      32
+     ]
+    },
+    {
+     "name": "furniture_stove_lit",
+     "size": [
+      16,
+      24
+     ]
+    },
+    {
+     "name": "obj_carved_tree",
+     "size": [
+      32,
+      48
+     ]
+    }
+   ]
+  },
+  {
+   "file": "art_request_02_objects.png",
+   "label": "art request 02: bigger objects",
+   "grid": [
+    3,
+    2
+   ],
+   "cells": [
+    {
+     "name": "obj_canoe",
+     "size": [
+      48,
+      16
+     ]
+    },
+    {
+     "name": "obj_lean_to",
+     "size": [
+      48,
+      32
+     ]
+    },
+    {
+     "name": "obj_bear_boulder",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "obj_stone_bench",
+     "size": [
+      32,
+      16
+     ]
+    },
+    {
+     "name": "obj_rusted_truck",
+     "size": [
+      48,
+      32
+     ],
+     "spill": 30
+    },
+    {
+     "name": "obj_berry_tunnel",
+     "size": [
+      32,
+      16
+     ]
+    }
+   ]
   }
  ]
 }

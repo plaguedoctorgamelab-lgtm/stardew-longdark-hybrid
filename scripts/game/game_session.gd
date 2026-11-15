@@ -272,6 +272,14 @@ func weather_row() -> Dictionary:
 	return weather.current_row(clock.minute)
 
 
+## The weather symbol to show: a weather's night symbol after dark, if it has one.
+func weather_icon() -> String:
+	var row := weather_row()
+	if is_night() and row.has("night_icon"):
+		return row["night_icon"]
+	return row["icon"]
+
+
 func is_night() -> bool:
 	return Daylight.is_night(tuning, clock.season_name(), clock.minute)
 

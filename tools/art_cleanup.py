@@ -257,12 +257,17 @@ def main():
                 continue
             cx, cy = idx % cols, idx // cols
             x0, y0 = cx * cw, cy * ch
+            x1, y1 = x0 + cw, y0 + ch
+            # "spill": the item may reach this many pixels into empty space
+            # beyond its cell (checked by eye on the raw sheet).
+            sp = cell.get("spill", 0)
+            x0, y0, x1, y1 = max(0, x0 - sp), max(0, y0 - sp), min(w, x1 + sp), min(h, y1 + sp)
             tw, th = cell["size"]
             if full:
-                box = (x0, y0, x0 + cw, y0 + ch)
+                box = (x0, y0, x1, y1)
                 parts, touches = 1, False
             else:
-                parts, box, touches = parts_in(img, x0, y0, x0 + cw, y0 + ch)
+                parts, box, touches = parts_in(img, x0, y0, x1, y1)
             if parts == 0 or box is None:
                 results.append((cell["name"], "FAIL", "no item found in its cell"))
                 continue
