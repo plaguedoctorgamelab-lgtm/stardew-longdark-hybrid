@@ -1,0 +1,92 @@
+{
+  "note": "How each raw image in art/raw/ is cut. Cells are listed row by row; null skips a cell. size is the target in game pixels. full: the cell is a whole tile with no background. stretch: fill the target exactly instead of keeping the shape. The art style guide's file table is not in the repository yet, so the lab wrote this from the images themselves.",
+  "images": [
+    {
+      "file": "ChatGPT Image Nov 15, 2026, 07_04_59 AM.png",
+      "label": "ground tiles",
+      "grid": [4, 4],
+      "full": true,
+      "cells": [
+        {"name": "ground_grass", "size": [16, 16]}, {"name": "ground_grass_alt_1", "size": [16, 16]}, {"name": "ground_grass_alt_2", "size": [16, 16]}, {"name": "ground_grass_alt_3", "size": [16, 16]},
+        {"name": "ground_forest_floor", "size": [16, 16]}, {"name": "ground_forest_floor_alt_1", "size": [16, 16]}, {"name": "ground_forest_floor_alt_2", "size": [16, 16]}, {"name": "ground_forest_floor_alt_3", "size": [16, 16]},
+        {"name": "ground_trail", "size": [16, 16]}, {"name": "ground_trail_alt_1", "size": [16, 16]}, {"name": "ground_trail_alt_2", "size": [16, 16]}, {"name": "ground_cart_trail", "size": [16, 16]},
+        {"name": "ground_shallows", "size": [16, 16]}, {"name": "ground_deep_water", "size": [16, 16]}, {"name": "ground_rock", "size": [16, 16]}, {"name": "ground_tall_grass", "size": [16, 16]}
+      ]
+    },
+    {
+      "file": "ChatGPT Image Nov 15, 2026, 07_05_31 AM.png",
+      "label": "ranger walk sheet",
+      "grid": [4, 4],
+      "sheet": {"name": "ranger", "cols": 4},
+      "cells": [
+        {"name": "ranger_down_0", "size": [16, 32]}, {"name": "ranger_down_1", "size": [16, 32]}, {"name": "ranger_down_2", "size": [16, 32]}, {"name": "ranger_down_3", "size": [16, 32]},
+        {"name": "ranger_right_0", "size": [16, 32]}, {"name": "ranger_right_1", "size": [16, 32]}, {"name": "ranger_right_2", "size": [16, 32]}, {"name": "ranger_right_3", "size": [16, 32]},
+        {"name": "ranger_up_0", "size": [16, 32]}, {"name": "ranger_up_1", "size": [16, 32]}, {"name": "ranger_up_2", "size": [16, 32]}, {"name": "ranger_up_3", "size": [16, 32]},
+        {"name": "ranger_left_0", "size": [16, 32]}, {"name": "ranger_left_1", "size": [16, 32]}, {"name": "ranger_left_2", "size": [16, 32]}, {"name": "ranger_left_3", "size": [16, 32]}
+      ]
+    },
+    {
+      "file": "Forest park object sprite sheet.png",
+      "label": "outdoor objects",
+      "grid": [4, 4],
+      "cells": [
+        {"name": "obj_bush", "size": [16, 16]}, {"name": "obj_berry_bush", "size": [16, 16]}, {"name": "obj_boulder", "size": [16, 16]}, {"name": "obj_pebbles", "size": [16, 16], "parts": 4},
+        {"name": "obj_stump", "size": [16, 16]}, {"name": "obj_fallen_trunk", "size": [48, 16]}, {"name": "obj_branch", "size": [32, 16]}, {"name": "obj_fern", "size": [16, 16]},
+        {"name": "obj_outlook_post", "size": [16, 32]}, {"name": "obj_sign_arrow", "size": [16, 32]}, {"name": "obj_firepit", "size": [16, 16]}, {"name": "obj_campfire", "size": [16, 16]},
+        {"name": "obj_mushrooms", "size": [16, 16], "parts": 3}, {"name": "obj_flowers", "size": [16, 16], "parts": 8}, {"name": "furniture_chest", "size": [16, 16]}, {"name": "obj_glow_mushrooms", "size": [16, 16], "parts": 3}
+      ]
+    },
+    {
+      "file": "ChatGPT Image Nov 15, 2026, 07_05_23 AM.png",
+      "label": "outdoor objects (copy)",
+      "duplicate_of": "Forest park object sprite sheet.png"
+    },
+    {
+      "file": "Forest park adventure gear grid.png",
+      "label": "items",
+      "grid": [4, 4],
+      "cells": [
+        {"name": "item_axe", "size": [16, 16]}, {"name": "item_saw", "size": [16, 16]}, {"name": "item_shovel", "size": [16, 16]}, {"name": "item_hammer", "size": [16, 16]},
+        {"name": "item_lantern", "size": [16, 16]}, {"name": "item_map", "size": [16, 16]}, {"name": "item_compass", "size": [16, 16]}, {"name": "item_pencil", "size": [16, 16]},
+        {"name": "item_binoculars", "size": [16, 16]}, {"name": "item_camera", "size": [16, 16]}, {"name": "item_matches", "size": [16, 16]}, {"name": "item_canteen", "size": [16, 16]},
+        {"name": "item_tin_of_beans", "size": [16, 16]}, {"name": "item_apple", "size": [16, 16]}, {"name": "item_sandwich", "size": [16, 16]}, {"name": "item_firewood", "size": [16, 16]}
+      ]
+    },
+    {
+      "file": "Four top-down pixel trees.png",
+      "label": "trees",
+      "grid": [2, 2],
+      "cells": [
+        {"name": "obj_tree_pine", "size": [32, 48]}, {"name": "obj_tree_fir", "size": [32, 48]},
+        {"name": "obj_tree_oak", "size": [32, 48]}, {"name": "obj_tree_dead", "size": [32, 48]}
+      ]
+    },
+    {
+      "file": "Cabin Before and After.png",
+      "label": "cabin",
+      "grid": [2, 1],
+      "cells": [
+        {"name": "building_cabin_broken", "size": [64, 64]}, {"name": "building_cabin_repaired", "size": [64, 64]}
+      ]
+    },
+    {
+      "file": "raw_station_01.png",
+      "label": "ranger station",
+      "grid": [1, 1],
+      "cells": [
+        {"name": "building_station", "size": [96, 80]}
+      ]
+    },
+    {
+      "file": "Rustic Cabin Interior Pixel Tiles.png",
+      "label": "cabin interior",
+      "grid": [4, 4],
+      "cells": [
+        {"name": "interior_floor", "size": [16, 16], "stretch": true}, {"name": "interior_wall", "size": [16, 16], "stretch": true}, {"name": "furniture_door", "size": [16, 16], "stretch": true}, {"name": "furniture_window", "size": [16, 16]},
+        {"name": "furniture_bed", "size": [32, 32]}, {"name": "furniture_stove_lit", "size": [16, 24]}, {"name": "furniture_table", "size": [32, 24]}, {"name": "furniture_chair", "size": [16, 24]},
+        {"name": "furniture_shelf", "size": [32, 24]}, {"name": "furniture_radio", "size": [16, 16]}, {"name": "furniture_rug", "size": [32, 32]}, {"name": "furniture_map_desk", "size": [32, 24]},
+        {"name": "furniture_lantern", "size": [16, 16]}, {"name": "item_backpack", "size": [16, 16]}, {"name": "item_bedroll", "size": [16, 16]}, {"name": "furniture_woodpile", "size": [32, 24]}
+      ]
+    }
+  ]
+}
