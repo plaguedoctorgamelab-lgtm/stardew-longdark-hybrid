@@ -10,6 +10,7 @@ The Godot path can also be set with the GODOT environment variable.
 """
 import argparse
 import filecmp
+import json
 import os
 import shutil
 import subprocess
@@ -47,6 +48,53 @@ def bake_check():
         shutil.rmtree(b, ignore_errors=True)
 
 
+def ring_one_check():
+    """Ring one must come out of the region bake exactly as phase one built
+    it, except for the tiles listed as changed on purpose where ring two
+    joins it."""
+    sys.path.insert(0, TOOLS)
+    import bake_world as bw
+    with open(bw.LAYOUT, encoding="utf-8") as f:
+        L = json.load(f)
+    with open(bw.STRUCTURES, encoding="utf-8") as f:
+        structures = {r["id"]: r for r in json.load(f)["rows"]}
+    r1 = bw.bake_ring_one(L, structures)
+    world_dir = os.path.join(ROOT, "data", "world")
+    with open(os.path.join(world_dir, "world.json"), encoding="utf-8") as f:
+        meta = json.load(f)
+    ox, oy = meta["ring_one_offset"]
+    edits = {tuple(t) for t in meta["ring_one_edits"]}
+    codes = bw.GROUND_CODES
+    cs = meta["chunk_size"]
+    wrong = []
+    objs = {}
+    for cy in range(oy // cs, (oy + r1["H"]) // cs):
+        for cx in range(ox // cs, (ox + r1["W"]) // cs):
+            with open(os.path.join(world_dir, "chunks", "c_%d_%d.json" % (cx, cy)), encoding="utf-8") as f:
+                c = json.load(f)
+            for ly in range(cs):
+                for lx in range(cs):
+                    x, y = cx * cs + lx, cy * cs + ly
+                    if (x, y) in edits:
+                        continue
+                    if c["ground"][ly][lx] != codes[r1["ground"][y - oy][x - ox]] or (c["solid"][ly][lx] == "1") != r1["solid"][y - oy][x - ox]:
+                        wrong.append((x, y))
+            for lx, ly, k in c["objects"]:
+                objs[(cx * cs + lx, cy * cs + ly)] = k
+    for (x, y), k in r1["objects"].items():
+        t = (x + ox, y + oy)
+        if t not in edits and objs.get(t) != k:
+            wrong.append(t)
+    for t, k in objs.items():
+        if t not in edits and r1["objects"].get((t[0] - ox, t[1] - oy)) != k:
+            wrong.append(t)
+    if wrong:
+        print("ring one check FAILED: %d tiles differ from phase one, first %s" % (len(wrong), wrong[:3]))
+        return False
+    print("ring one check passed: unchanged apart from %d tiles where ring two joins it" % len(edits))
+    return True
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--godot", default=os.environ.get("GODOT", DEFAULT_GODOT))
@@ -58,6 +106,7 @@ def main():
     ok &= subprocess.run([sys.executable, "-I", os.path.join(TOOLS, "check_data.py")]).returncode == 0
     print("== bake check")
     ok &= bake_check()
+    ok &= ring_one_check()
     print("== godot tests")
     subprocess.run([args.godot, "--headless", "--path", ROOT, "--import"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=600)
     cmd = [args.godot, "--headless", "--path", ROOT, "-s", "tests/run_tests.gd"]

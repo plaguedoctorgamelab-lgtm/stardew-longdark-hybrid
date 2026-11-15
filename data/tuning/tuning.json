@@ -56,7 +56,9 @@
       "grass": 0.9,
       "forest_floor": 0.8,
       "tall_grass": 0.65,
-      "shallows": 0.5
+      "shallows": 0.5,
+      "bog": 0.5,
+      "boards": 1.0
     },
     "exhausted_speed": 0.6,
     "ranger_box_tiles": [
@@ -70,7 +72,8 @@
     "rough_ground_multiplier": 1.5,
     "rough_grounds": [
       "tall_grass",
-      "shallows"
+      "shallows",
+      "bog"
     ],
     "bad_weather_multiplier": 1.5,
     "repair_action": 8,

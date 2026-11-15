@@ -1,5 +1,325 @@
 {
  "note": "The whole forest region. Ring one (layout.json) is placed whole at ring_one_chunk_offset; later rings are baked around it. Only chunks that hold something are baked.",
- "size_chunks": [58, 46],
- "ring_one_chunk_offset": [0, 38]
+ "size_chunks": [
+  58,
+  46
+ ],
+ "ring_one_chunk_offset": [
+  0,
+  38
+ ],
+ "ring_two": {
+  "note": "Ring two, baked around ring one. Positions are plan coordinates: tiles east and north of the park gate.",
+  "seed": 20261116,
+  "box": {
+   "e": [
+    -2,
+    958
+   ],
+   "n": [
+    -30,
+    834
+   ]
+  },
+  "boundary": {
+   "rock": 3,
+   "trees": 4
+  },
+  "shoulder": {
+   "n": 760,
+   "wobble": 12
+  },
+  "ridge": {
+   "depth": 4
+  },
+  "pond": {
+   "id": "kettle_pond",
+   "center": [
+    424,
+    362
+   ],
+   "rx": 30,
+   "ry": 22,
+   "deep_in": 6,
+   "reeds": 6,
+   "beach": [
+    [
+     410,
+     333
+    ],
+    [
+     440,
+     341
+    ]
+   ],
+   "cairn": [
+    426,
+    336
+   ],
+   "spawn": [
+    424,
+    333.5
+   ]
+  },
+  "creek": {
+   "points": [
+    [
+     426,
+     342
+    ],
+    [
+     422,
+     317
+    ],
+    [
+     412,
+     305
+    ],
+    [
+     370,
+     275
+    ],
+    [
+     300,
+     248
+    ],
+    [
+     240,
+     234
+    ],
+    [
+     221,
+     229
+    ],
+    [
+     219.7,
+     222
+    ]
+   ],
+   "deep_radius": 1.6,
+   "shallow_radius": 3.2,
+   "ford_radius": 5
+  },
+  "burn": {
+   "center": [
+    540,
+    470
+   ],
+   "radius": 100,
+   "wobble": 18,
+   "tall_grass": 0.22,
+   "snag": 0.012,
+   "young": 0.02,
+   "boulder": 0.004
+  },
+  "bottoms": {
+   "e": [
+    400,
+    850
+   ],
+   "n": [
+    -30,
+    300
+   ],
+   "wobble": 34,
+   "grass": 0.35,
+   "alder": 0.07,
+   "thicket": 0.42,
+   "pool_every": 34,
+   "pool_radius": [
+    2.5,
+    4.5
+   ]
+  },
+  "forest": {
+   "tree": 0.16,
+   "boulder": 0.01,
+   "river_woods": [
+    700,
+    860
+   ],
+   "river_woods_tree": 0.22,
+   "far_bank_tree": 0.3
+  },
+  "river": {
+   "points": [
+    [
+     858,
+     850
+    ],
+    [
+     860,
+     800
+    ],
+    [
+     866,
+     740
+    ],
+    [
+     872,
+     680
+    ],
+    [
+     878,
+     645
+    ],
+    [
+     882,
+     620
+    ],
+    [
+     890,
+     604
+    ],
+    [
+     912,
+     597
+    ],
+    [
+     960,
+     598
+    ],
+    [
+     1000,
+     600
+    ]
+   ],
+   "deep_radius": 6.5,
+   "shallow_radius": 8
+  },
+  "mire": {
+   "e": 905,
+   "half_width": 7,
+   "wobble": 6
+  },
+  "bridge": {
+   "id": "broken_bridge",
+   "n": 620,
+   "deck": [
+    866,
+    896
+   ],
+   "gap": [
+    879,
+    884
+   ],
+   "post": [
+    864,
+    623
+   ],
+   "spawn": [
+    863,
+    620.5
+   ]
+  },
+  "tower": {
+   "id": "static_tower",
+   "center": [
+    642,
+    561
+   ],
+   "rock_radius": 40,
+   "wobble": 3,
+   "plateau": 9,
+   "steps_dir": [
+    -1,
+    -1
+   ],
+   "steps_radius": 1.5
+  },
+  "trail": {
+   "from_gap_n": 228,
+   "via": [
+    [
+     378,
+     268
+    ],
+    [
+     392,
+     298
+    ],
+    [
+     404,
+     312
+    ],
+    [
+     418,
+     330
+    ]
+   ],
+   "to": [
+    424,
+    334
+   ],
+   "radius": 1.0,
+   "length": 0,
+   "vanished": [
+    [
+     0.52,
+     0.6
+    ]
+   ],
+   "trunks": [
+    0.22,
+    0.42,
+    0.78
+   ]
+  },
+  "stakes": {
+   "from": [
+    457,
+    366
+   ],
+   "every": 25,
+   "corridor": 1.5
+  },
+  "road": {
+   "via": [
+    [
+     650,
+     528
+    ],
+    [
+     690,
+     532
+    ],
+    [
+     716,
+     560
+    ],
+    [
+     742,
+     575
+    ],
+    [
+     760,
+     583
+    ],
+    [
+     790,
+     596
+    ],
+    [
+     820,
+     600
+    ],
+    [
+     845,
+     612
+    ]
+   ],
+   "to": [
+    866,
+    620
+   ],
+   "radius": 1.5,
+   "length": 417,
+   "trunk": 0.35
+  },
+  "route_targets_minutes": {
+   "pond": 300,
+   "tower": 420,
+   "bridge": 540
+  }
+ }
 }

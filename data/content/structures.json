@@ -305,6 +305,166 @@
     }
    ],
    "starting_chest": []
+  },
+  {
+   "id": "static_tower",
+   "name": "structure_static_tower",
+   "kind": "tower",
+   "sprite": "building_tower_broken",
+   "sprite_repaired": "building_tower_repaired",
+   "footprint": [
+    3,
+    3
+   ],
+   "door": [
+    1,
+    2
+   ],
+   "starts_repaired": false,
+   "has_bed": true,
+   "interior": {
+    "size": [
+     9,
+     7
+    ],
+    "floor": "interior_floor",
+    "wall": "interior_wall",
+    "entry": [
+     4,
+     5
+    ],
+    "furniture": [
+     {
+      "id": "bed",
+      "kind": "bed",
+      "pos": [
+       1,
+       1
+      ],
+      "size": [
+       2,
+       2
+      ],
+      "sprite": "furniture_bed"
+     },
+     {
+      "id": "stove",
+      "kind": "stove",
+      "pos": [
+       4,
+       1
+      ],
+      "size": [
+       1,
+       1
+      ],
+      "sprite": "furniture_stove"
+     },
+     {
+      "id": "radio",
+      "kind": "radio",
+      "pos": [
+       5,
+       1
+      ],
+      "size": [
+       1,
+       1
+      ],
+      "sprite": "furniture_radio"
+     },
+     {
+      "id": "chest",
+      "kind": "chest",
+      "pos": [
+       7,
+       1
+      ],
+      "size": [
+       1,
+       1
+      ],
+      "sprite": "furniture_chest"
+     },
+     {
+      "id": "door",
+      "kind": "exit",
+      "pos": [
+       4,
+       6
+      ],
+      "size": [
+       1,
+       1
+      ],
+      "sprite": "furniture_door"
+     }
+    ]
+   },
+   "repair_steps": [
+    {
+     "id": "stairs",
+     "name": "repair_step_stairs",
+     "materials": {
+      "planks": 4,
+      "nails": 8
+     }
+    },
+    {
+     "id": "cab_floor",
+     "name": "repair_step_cab_floor",
+     "materials": {
+      "planks": 4,
+      "nails": 6
+     }
+    },
+    {
+     "id": "tower_roof",
+     "name": "repair_step_roof",
+     "materials": {
+      "roofing": 4,
+      "nails": 8
+     }
+    },
+    {
+     "id": "windows",
+     "name": "repair_step_windows",
+     "materials": {
+      "window_glass": 2,
+      "planks": 2
+     }
+    }
+   ],
+   "repair_tool": "hammer",
+   "shelf_stock": [],
+   "found_supplies": [
+    {
+     "item": "tin_of_beans",
+     "min": 1,
+     "max": 3
+    },
+    {
+     "item": "firewood",
+     "min": 2,
+     "max": 4
+    },
+    {
+     "item": "apple",
+     "min": 0,
+     "max": 3
+    },
+    {
+     "item": "nails",
+     "min": 0,
+     "max": 6
+    },
+    {
+     "item": "planks",
+     "min": 0,
+     "max": 2
+    }
+   ],
+   "starting_chest": []
   }
  ]
 }

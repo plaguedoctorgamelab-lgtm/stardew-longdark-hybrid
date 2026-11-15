@@ -7,7 +7,7 @@ extends Node2D
 
 const TILE := 16
 ## Which ground spills over its neighbours: higher wins.
-const GROUND_ORDER: Array[String] = ["deep_water", "shallows", "trail", "grass", "tall_grass", "forest_floor", "rock"]
+const GROUND_ORDER: Array[String] = ["deep_water", "shallows", "boards", "trail", "bog", "grass", "tall_grass", "forest_floor", "rock"]
 
 var session: GameSession
 var ground_layer: TileMapLayer

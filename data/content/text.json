@@ -530,6 +530,41 @@
    "id": "msg_chop_need_axe",
    "text": "You need an axe.",
    "placeholder": true
+  },
+  {
+   "id": "structure_static_tower",
+   "text": "Fire tower",
+   "placeholder": true
+  },
+  {
+   "id": "landmark_kettle_pond",
+   "text": "Kettle Pond",
+   "placeholder": true
+  },
+  {
+   "id": "landmark_static_tower",
+   "text": "Static Tower",
+   "placeholder": true
+  },
+  {
+   "id": "landmark_broken_bridge",
+   "text": "Broken bridge",
+   "placeholder": true
+  },
+  {
+   "id": "repair_step_stairs",
+   "text": "Stairs",
+   "placeholder": true
+  },
+  {
+   "id": "repair_step_cab_floor",
+   "text": "Cab floor",
+   "placeholder": true
+  },
+  {
+   "id": "repair_step_windows",
+   "text": "Windows",
+   "placeholder": true
   }
  ]
 }

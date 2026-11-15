@@ -61,6 +61,7 @@ P = {
     "grey": (170, 176, 186, 255),
     "snow": (240, 244, 255, 255),
     "sun": (250, 200, 60, 255),
+    "purple": (80, 40, 90, 255),
 }
 
 
@@ -353,6 +354,72 @@ def icons():
     icon("weather_blizzard", *[("rect", 1 + (y % 3), y, 13, 1, "snow") for y in range(2, 15, 2)])
 
 
+def ring_two_art():
+    """Phase 2a: ground and objects for ring two, and the fire tower."""
+    c = Canvas(16, 16, "floor_d")
+    c.speckle("leaf", 12, 21)
+    c.speckle("shallow", 8, 22)
+    c.rect(3, 11, 4, 1, "shallow")
+    c.save("ground_bog")
+    c = Canvas(16, 16, "wood")
+    for y in (0, 5, 10, 15):
+        c.rect(0, y, 16, 1, "wood_d")
+    c.rect(7, 2, 1, 1, "ink")
+    c.rect(3, 12, 1, 1, "ink")
+    c.save("ground_boards")
+    c = Canvas(16, 16)
+    c.rect(1, 3, 2, 13, "wood_d")
+    c.rect(13, 3, 2, 13, "wood_d")
+    for y in (6, 10):
+        c.rect(0, y, 16, 1, "metal_l")
+    c.save("obj_fence")
+    c = Canvas(16, 16)
+    c.disc(8, 9, 7, "pine", "ink")
+    c.disc(5, 7, 2.5, "leaf")
+    c.disc(11, 11, 2, "leaf")
+    for (x, y) in ((4, 11), (9, 6), (12, 8), (7, 13)):
+        c.rect(x, y, 1, 1, "purple")
+    c.save("obj_thicket")
+    c = Canvas(16, 16)
+    c.rect(7, 4, 2, 12, "wood_l")
+    c.rect(9, 5, 4, 2, "red")
+    c.rect(10, 7, 2, 1, "red")
+    c.save("obj_survey_stake")
+    c = Canvas(16, 16)
+    c.disc(8, 12, 5, "rock", "rock_d")
+    c.disc(8, 8, 3.5, "rock_l", "rock_d")
+    c.disc(8, 4, 2.2, "rock", "rock_d")
+    c.save("obj_cairn")
+    c = Canvas(16, 32)
+    c.rect(6, 6, 4, 26, "wood_d")
+    c.rect(4, 4, 8, 3, "wood")
+    c.outline(6, 6, 4, 26, "ink")
+    c.save("obj_bridge_post")
+    for broken in (True, False):
+        c = Canvas(48, 112)
+        leg = "wood_d" if broken else "wood"
+        for x in (6, 40):
+            c.rect(x, 40, 3, 72, leg)
+        for y in range(48, 112, 16):
+            for k in range(34):
+                c.set(8 + k, y + k // 3, leg)
+                c.set(40 - k, y + k // 3, leg)
+        c.rect(4, 22, 40, 20, "wood" if not broken else "floor_d")
+        c.outline(4, 22, 40, 20, "ink")
+        c.rect(8, 26, 32, 8, "glow" if not broken else "ink")
+        for y in range(6, 23):
+            t = (y - 6) / 16
+            hw = int(8 + 16 * t)
+            c.rect(24 - hw, y, hw * 2, 1, "roof" if y % 4 else "roof_d")
+        if broken:
+            c.rect(14, 8, 8, 5, "ink")
+            c.rect(30, 30, 6, 6, "floor_d")
+            c.rect(20, 60, 3, 10, "clear")
+        c.rect(20, 100, 8, 12, "wood_d")
+        c.outline(20, 100, 8, 12, "ink")
+        c.save("building_tower_broken" if broken else "building_tower_repaired")
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
     ground()
@@ -362,6 +429,7 @@ def main():
     ranger()
     interior()
     icons()
+    ring_two_art()
     print("placeholders written to", OUT, len(os.listdir(OUT)), "files")
 
 

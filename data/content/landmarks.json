@@ -21,6 +21,24 @@
    "kind": "outlook",
    "reveal_radius": 8,
    "outlook": true
+  },
+  {
+   "id": "kettle_pond",
+   "name": "landmark_kettle_pond",
+   "kind": "site",
+   "reveal_radius": 14
+  },
+  {
+   "id": "static_tower",
+   "name": "landmark_static_tower",
+   "kind": "tower",
+   "reveal_radius": 10
+  },
+  {
+   "id": "broken_bridge",
+   "name": "landmark_broken_bridge",
+   "kind": "site",
+   "reveal_radius": 10
   }
  ]
 }

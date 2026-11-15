@@ -29,6 +29,8 @@ GROUND_CODES = {
     "shallows": "s",
     "deep_water": "w",
     "rock": "r",
+    "bog": "k",
+    "boards": "b",
 }
 SOLID_GROUNDS = {"deep_water", "rock"}
 

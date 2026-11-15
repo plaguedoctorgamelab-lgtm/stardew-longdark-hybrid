@@ -65,7 +65,7 @@ func setup(s: GameSession) -> void:
 	r.add_child(_drain)
 
 	r = _row()
-	for spot: String in ["station", "fork", "outlook", "cabin"]:
+	for spot: String in ["station", "fork", "outlook", "cabin", "pond", "tower", "bridge"]:
 		_btn(r, spot.capitalize(), func() -> void:
 			session.debug_teleport(spot)
 			on_teleport.call())
