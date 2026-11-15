@@ -1,0 +1,58 @@
+class_name InteriorLayout
+extends RefCounted
+## The small separate room inside a building, built from the structure's row
+## in the content table: walls around the edge, furniture, and a door tile in
+## the bottom wall that leads back outside.
+
+var structure_id: String
+var size: Vector2i
+var furniture: Array = []   # rows from content
+var entry: Vector2
+var door_tile: Vector2i = Vector2i(-1, -1)
+
+
+func _init(row: Dictionary) -> void:
+	structure_id = row["id"]
+	var inside: Dictionary = row["interior"]
+	size = Vector2i(int(inside["size"][0]), int(inside["size"][1]))
+	furniture = inside["furniture"]
+	entry = Vector2(float(inside["entry"][0]) + 0.5, float(inside["entry"][1]) + 0.5)
+	for f: Dictionary in furniture:
+		if f["kind"] == "exit":
+			door_tile = Vector2i(int(f["pos"][0]), int(f["pos"][1]))
+
+
+func furniture_rect(f: Dictionary) -> Rect2i:
+	return Rect2i(int(f["pos"][0]), int(f["pos"][1]), int(f["size"][0]), int(f["size"][1]))
+
+
+func is_solid(t: Vector2i) -> bool:
+	if t == door_tile:
+		return false
+	if t.x <= 0 or t.y <= 0 or t.x >= size.x - 1 or t.y >= size.y - 1:
+		return true
+	for f: Dictionary in furniture:
+		if f["kind"] != "exit" and furniture_rect(f).has_point(t):
+			return true
+	return false
+
+
+## The piece of furniture nearest to pos within reach, or {}.
+func furniture_near(pos: Vector2, reach: float) -> Dictionary:
+	var best := {}
+	var best_d := reach
+	for f: Dictionary in furniture:
+		var r := furniture_rect(f)
+		var closest := Vector2(clampf(pos.x, r.position.x, r.end.x), clampf(pos.y, r.position.y, r.end.y))
+		var d := closest.distance_to(pos)
+		if d <= best_d:
+			best_d = d
+			best = f
+	return best
+
+
+func find(kind: String) -> Dictionary:
+	for f: Dictionary in furniture:
+		if f["kind"] == kind:
+			return f
+	return {}

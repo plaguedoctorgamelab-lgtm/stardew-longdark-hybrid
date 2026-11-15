@@ -76,7 +76,7 @@ def main():
 
     # Every text id named in GDScript code must exist in the text table.
     import re
-    pat = re.compile(r'text\("([a-z0-9_]+)"')
+    pat = re.compile(r'text\("([a-z0-9_]+)"\s*[,)]')
     for dirpath, _, files in os.walk(os.path.join(ROOT, "scripts")):
         for fn in files:
             if fn.endswith(".gd"):
