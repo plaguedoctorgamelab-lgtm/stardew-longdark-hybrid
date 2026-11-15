@@ -26,19 +26,46 @@
    "id": "kettle_pond",
    "name": "landmark_kettle_pond",
    "kind": "site",
-   "reveal_radius": 14
+   "reveal_radius": 14,
+   "hint": {
+    "text": "landmark_hint_kettle_pond",
+    "offset": [
+     10,
+     -8
+    ],
+    "radius": 30,
+    "rumor": true
+   }
   },
   {
    "id": "static_tower",
    "name": "landmark_static_tower",
    "kind": "tower",
-   "reveal_radius": 10
+   "reveal_radius": 10,
+   "hint": {
+    "text": "landmark_hint_static_tower",
+    "offset": [
+     -14,
+     11
+    ],
+    "radius": 40,
+    "rumor": true
+   }
   },
   {
    "id": "broken_bridge",
    "name": "landmark_broken_bridge",
    "kind": "site",
-   "reveal_radius": 10
+   "reveal_radius": 10,
+   "hint": {
+    "text": "landmark_hint_broken_bridge",
+    "offset": [
+     -9,
+     13
+    ],
+    "radius": 32,
+    "rumor": true
+   }
   }
  ]
 }

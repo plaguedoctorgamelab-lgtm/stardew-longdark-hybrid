@@ -420,6 +420,19 @@
        1
       ],
       "sprite": "furniture_door"
+     },
+     {
+      "id": "note_board",
+      "kind": "note_board",
+      "pos": [
+       7,
+       4
+      ],
+      "size": [
+       1,
+       1
+      ],
+      "sprite": "furniture_note_board"
      }
     ]
    },

@@ -69,6 +69,8 @@ var chopped: Dictionary = {}
 var jobs_known: Dictionary = {}
 # Rumored places the ranger has heard of: landmark id -> true.
 var rumors: Dictionary = {}
+# Notes from the last ranger already read: note id -> true.
+var notes_read: Dictionary = {}
 # Changes to the land in this save. The baked world never changes.
 var cleared: Dictionary = {}            # obstacle's top-left tile -> obstacle id, cleared for good
 var clearing_progress: Dictionary = {}  # obstacle's top-left tile -> actions done so far
@@ -132,6 +134,7 @@ func new_game(new_seed: int = -1) -> void:
 		_set_chopped(t, -1)
 	jobs_known = {}
 	rumors = {}
+	notes_read = {}
 	sites_found = {}
 	sites_open = {}
 	site_overrides = {}
@@ -164,6 +167,7 @@ func to_dict() -> Dictionary:
 		"chopped": chopped.keys().map(func(t: Vector2i) -> Array: return [t.x, t.y, chopped[t]]),
 		"jobs_known": jobs_known.keys(),
 		"rumors": rumors.keys(),
+		"notes_read": notes_read.keys(),
 		"sites": {"found": sites_found.keys(), "open": sites_open.keys()},
 		"land": land_to_dict(),
 	}
@@ -200,6 +204,9 @@ func from_dict(d: Dictionary) -> void:
 	rumors = {}
 	for id: String in d.get("rumors", []):
 		rumors[id] = true
+	notes_read = {}
+	for id: String in d.get("notes_read", []):
+		notes_read[id] = true
 	land_from_dict(d.get("land", {}))
 	var sd: Dictionary = d.get("sites", {})
 	sites_found = {}
@@ -469,7 +476,8 @@ func collapse() -> void:
 	needs.set_values(needs.max_energy() * tuning.num("energy.collapse_wake_fraction"), needs.max_warmth())
 	_put_in_bed(bed)
 	_collapsing = false
-	var text := content.text("msg_rescue_cabin" if content.row("structures", bed)["kind"] == "cabin" else "msg_rescue_station")
+	var kind: String = content.row("structures", bed)["kind"]
+	var text := content.text({"cabin": "msg_rescue_cabin", "tower": "msg_rescue_tower"}.get(kind, "msg_rescue_station"))
 	save_game()
 	collapsed.emit(text)
 	message.emit(text)
@@ -1400,18 +1408,38 @@ func debug_open_site(site_id: String) -> void:
 
 # --- jobs ------------------------------------------------------------------------
 
+## Reads the note board where the ranger stands: the station's jobs, and any
+## notes from the last ranger pinned up here. A note can add rumors: rough
+## circles on the map around places not yet found.
 func read_note_board() -> String:
+	var here := location if is_indoors() else "ranger_station"
 	var texts: PackedStringArray = []
 	var added := false
-	for j: Dictionary in content.rows("jobs"):
-		texts.append(content.text(j["offer"]))
-		if not jobs_known.has(j["id"]):
-			jobs_known[j["id"]] = true
-			added = true
+	if here == "ranger_station":
+		for j: Dictionary in content.rows("jobs"):
+			texts.append(content.text(j["offer"]))
+			if not jobs_known.has(j["id"]):
+				jobs_known[j["id"]] = true
+				added = true
+	var heard := false
+	for n: Dictionary in content.rows("notes"):
+		if n["at"] != here or not structures.is_open(n["needs_open"]):
+			continue
+		texts.append(content.text(n["text"]))
+		if not notes_read.has(n["id"]):
+			notes_read[n["id"]] = true
+			for lm: String in n["rumors"]:
+				if not rumors.has(lm):
+					rumors[lm] = true
+					heard = true
+	if texts.is_empty():
+		texts.append(content.text("msg_note_board_empty"))
 	var text := "\n\n".join(texts)
 	note_read.emit(text)
 	if added:
 		message.emit(content.text("msg_job_added"))
+	if heard:
+		message.emit(content.text("msg_rumor_added"))
 	return text
 
 
@@ -1473,9 +1501,14 @@ func _survey_total_steps() -> int:
 	return ceili(tuning.num("map.survey_minutes") / clock.step_minutes())
 
 
+## True inside a repaired fire tower, where the cab looks out over the forest.
+func in_tower() -> bool:
+	return is_indoors() and content.row("structures", location)["kind"] == "tower"
+
+
 ## Returns "" if surveying is possible now, or the text id saying why not.
 func _survey_conditions_ok() -> String:
-	if is_indoors():
+	if is_indoors() and not in_tower():
 		return "msg_survey_weather"
 	if not (backpack.has("map") and backpack.has("compass") and backpack.has("pencil")):
 		return "msg_survey_need_tools"
@@ -1505,14 +1538,18 @@ func _cancel_survey() -> void:
 
 
 func survey_radius_here() -> float:
+	if in_tower():
+		return tuning.num("map.tower_radius")
 	return tuning.num("map.outlook_radius") if on_outlook() else tuning.num("map.survey_radius")
 
 
 func _finish_survey() -> void:
 	var outlook := on_outlook()
-	map.reveal_circle(outdoor_pos, survey_radius_here())
+	var tower := in_tower()
+	var at := door_front(location) if tower else outdoor_pos
+	map.reveal_circle(at, survey_radius_here())
 	needs.spend(tuning.num("energy.survey"))
-	message.emit(content.text("msg_outlook_survey" if outlook else "msg_survey_done"))
+	message.emit(content.text("msg_tower_survey" if tower else ("msg_outlook_survey" if outlook else "msg_survey_done")))
 	survey_changed.emit(false, 1.0)
 	_update_trace()
 

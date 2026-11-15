@@ -850,6 +850,51 @@
    "id": "map_site_open",
    "text": "{name} (open)",
    "placeholder": true
+  },
+  {
+   "id": "landmark_hint_kettle_pond",
+   "text": "Pond?",
+   "placeholder": true
+  },
+  {
+   "id": "landmark_hint_static_tower",
+   "text": "Old tower?",
+   "placeholder": true
+  },
+  {
+   "id": "landmark_hint_broken_bridge",
+   "text": "Bridge?",
+   "placeholder": true
+  },
+  {
+   "id": "note_tower",
+   "text": "Cabin holding up? Good. Past the pond our creek comes out of, there's an old fire tower. I put stakes in across the burn so I'd stop losing it. Follow the ribbons. Bring nails. More than that. - R.",
+   "placeholder": true
+  },
+  {
+   "id": "note_bridge",
+   "text": "Tower's dry and the radio works, mostly. The old road runs down off the hill to the river. The bridge was fine last time. - R.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_rumor_added",
+   "text": "Something new to look for. It's on your map, roughly.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_note_board_empty",
+   "text": "Nothing new on the board.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_rescue_tower",
+   "text": "Someone found you and brought you to the fire tower. They were gone before you woke.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_tower_survey",
+   "text": "From up here you can see for miles. The map fills in.",
+   "placeholder": true
   }
  ]
 }
