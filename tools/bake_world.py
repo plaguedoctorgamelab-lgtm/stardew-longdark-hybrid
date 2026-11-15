@@ -1,7 +1,10 @@
-"""Bakes the outdoor world into chunks from the layout file and a fixed seed.
+"""Bakes the outdoor world into chunks from the layout files and fixed seeds.
 
 The land is never made while the game runs. This tool builds it once; the
 chunks are stored in the repository. Baking twice gives the same bytes.
+
+Ring one (the phase one test area) is baked here exactly as first built, then
+tools/bake_region.py places it in the full forest with the rings around it.
 
 Run: python tools/bake_world.py [--out DIR] [--quiet]
 """
@@ -155,11 +158,11 @@ def resample(pts, step=1.0):
     return out
 
 
-def bake(out_dir, quiet=False):
-    with open(LAYOUT, encoding="utf-8") as f:
-        L = json.load(f)
-    with open(STRUCTURES, encoding="utf-8") as f:
-        structures = {r["id"]: r for r in json.load(f)["rows"]}
+def bake_ring_one(L, structures):
+    """Ring one, the phase one test area, exactly as it was first built.
+
+    Everything here is in ring one's own tile coordinates. The region bake
+    places it into the larger world without changing a tile."""
     rng = random.Random(L["seed"])
     cs = L["chunk_size"]
     W = L["size_chunks"][0] * cs
@@ -420,54 +423,24 @@ def bake(out_dir, quiet=False):
         routes[rname] = [[round(x, 2), round(y, 2)] for (x, y) in coarse]
         route_lengths[rname] = round(polyline_length(pts), 1)
 
-    # --- write ----------------------------------------------------------------
-    chunk_dir = os.path.join(out_dir, "chunks")
-    os.makedirs(chunk_dir, exist_ok=True)
-    by_chunk = {}
-    for (x, y), kind in objects.items():
-        by_chunk.setdefault((x // cs, y // cs), []).append([x % cs, y % cs, kind])
-    for cy in range(H // cs):
-        for cx in range(W // cs):
-            g = []
-            s = []
-            for y in range(cy * cs, (cy + 1) * cs):
-                g.append("".join(GROUND_CODES[ground[y][x]] for x in range(cx * cs, (cx + 1) * cs)))
-                s.append("".join("1" if solid[y][x] else "0" for x in range(cx * cs, (cx + 1) * cs)))
-            objs = sorted(by_chunk.get((cx, cy), []))
-            data = {"cx": cx, "cy": cy, "ground": g, "solid": s, "objects": objs}
-            with open(os.path.join(chunk_dir, "c_%d_%d.json" % (cx, cy)), "w", encoding="utf-8", newline="\n") as f:
-                json.dump(data, f, separators=(",", ":"), sort_keys=True)
-                f.write("\n")
-    meta = {
-        "note": "Baked by tools/bake_world.py from layout.json. Do not edit by hand.",
-        "seed": L["seed"],
-        "size": [W, H],
-        "chunk_size": cs,
-        "chunks": [W // cs, H // cs],
-        "ground_codes": {v: k for k, v in GROUND_CODES.items()},
-        "object_types": otypes,
+    return {
+        "W": W, "H": H, "cs": cs,
+        "ground": ground, "solid": solid, "objects": objects,
         "structures": placed_structures,
         "landmarks": {
             "test_cabin": [placed_structures[1]["door"][0] + 0.5, placed_structures[1]["door"][1] + 0.5],
             "scenic_outlook": [ol["center"][0], ol["center"][1]],
         },
-        "outlook_center": ol["center"],
+        "outlook_center": list(ol["center"]),
         "gate": [gx, gy],
         "spawns": spawns,
+        "segments": segments,
         "routes": routes,
         "route_lengths": route_lengths,
         "route_targets_minutes": L["route_targets_minutes"],
+        "object_types": otypes,
+        "problems": problems,
     }
-    with open(os.path.join(out_dir, "world.json"), "w", encoding="utf-8", newline="\n") as f:
-        json.dump(meta, f, indent=1, sort_keys=True)
-        f.write("\n")
-    if not quiet:
-        print("baked %dx%d tiles into %d chunks, %d objects" % (W, H, (W // cs) * (H // cs), len(objects)))
-        for k, v in route_lengths.items():
-            print("  route %-12s %6.1f tiles" % (k, v))
-        for p in problems:
-            print("  PROBLEM:", p)
-    return problems
 
 
 def main():
@@ -475,7 +448,9 @@ def main():
     ap.add_argument("--out", default=DEFAULT_OUT)
     ap.add_argument("--quiet", action="store_true")
     args = ap.parse_args()
-    problems = bake(args.out, args.quiet)
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import bake_region
+    problems = bake_region.bake(args.out, args.quiet)
     sys.exit(1 if problems else 0)
 
 

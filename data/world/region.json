@@ -1,0 +1,5 @@
+{
+ "note": "The whole forest region. Ring one (layout.json) is placed whole at ring_one_chunk_offset; later rings are baked around it. Only chunks that hold something are baked.",
+ "size_chunks": [58, 46],
+ "ring_one_chunk_offset": [0, 38]
+}

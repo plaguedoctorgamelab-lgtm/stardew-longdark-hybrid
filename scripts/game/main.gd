@@ -187,11 +187,11 @@ func _on_location_changed(loc: String) -> void:
 		interior_view.visible = false
 		world_view.visible = true
 		ranger.reparent(world_view.sort_root)
-		var limit := Vector2i(session.world.width, session.world.height) * TILE
-		camera.limit_left = 0
-		camera.limit_top = 0
-		camera.limit_right = limit.x
-		camera.limit_bottom = limit.y
+		var b := session.world.baked_bounds()
+		camera.limit_left = b.position.x * TILE
+		camera.limit_top = b.position.y * TILE
+		camera.limit_right = b.end.x * TILE
+		camera.limit_bottom = b.end.y * TILE
 		world_view.reset_chunks()
 	else:
 		world_view.visible = false

@@ -3,7 +3,8 @@ extends RefCounted
 ## The baked outdoor world. Reads data/world/world.json and the chunk files,
 ## loading chunks only when asked for, so it works for a world hundreds of
 ## chunks wide. Answers what ground and objects are at a tile, and whether a
-## tile is solid.
+## tile is solid. Only chunks that hold something are baked; the rest of the
+## region reads as solid rock until its ring is built.
 
 const WORLD_DIR := "res://data/world/"
 
@@ -27,6 +28,12 @@ func _init(dir: String = WORLD_DIR) -> void:
 	chunk_size = int(meta["chunk_size"])
 	ground_codes = meta["ground_codes"]
 	_dir = dir
+	for run: Array in meta.get("baked_runs", []):
+		for cx in range(int(run[1]), int(run[2]) + 1):
+			_baked[Vector2i(cx, int(run[0]))] = true
+
+
+var _baked: Dictionary = {}   # chunk -> true for chunks that were baked
 
 
 var _dir: String = WORLD_DIR
@@ -45,8 +52,53 @@ func chunk_of(t: Vector2i) -> Vector2i:
 
 
 func has_chunk_file(c: Vector2i) -> bool:
+	return _baked.has(c)
+
+
+func baked_count() -> int:
+	return _baked.size()
+
+
+## A mask over the whole region: 1 on tiles of baked chunks.
+func explorable_mask() -> PackedByteArray:
+	var key := _dir + str(width) + "x" + str(height)
+	if _mask_cache.has(key):
+		return _mask_cache[key]
+	var ones := PackedByteArray()
+	ones.resize(chunk_size)
+	ones.fill(1)
+	var zeros := PackedByteArray()
+	zeros.resize(chunk_size)
+	var mask := PackedByteArray()
 	var cc := chunk_count()
-	return c.x >= 0 and c.y >= 0 and c.x < cc.x and c.y < cc.y
+	for cy in cc.y:
+		var row := PackedByteArray()
+		for cx in cc.x:
+			row.append_array(ones if _baked.has(Vector2i(cx, cy)) else zeros)
+		for ly in chunk_size:
+			mask.append_array(row)
+	_mask_cache[key] = mask
+	return mask
+
+
+static var _mask_cache: Dictionary = {}
+
+
+## The tile rectangle that holds every baked chunk.
+func baked_bounds() -> Rect2i:
+	var b: Array = meta.get("baked_bounds", [0, 0, width, height])
+	return Rect2i(int(b[0]), int(b[1]), int(b[2]) - int(b[0]), int(b[3]) - int(b[1]))
+
+
+## Where ring one, the phase one area, sits in the region.
+func ring_one_offset() -> Vector2i:
+	var o: Array = meta.get("ring_one_offset", [0, 0])
+	return Vector2i(int(o[0]), int(o[1]))
+
+
+## A ring one tile, given in ring one's own coordinates.
+func r1(x: int, y: int) -> Vector2i:
+	return Vector2i(x, y) + ring_one_offset()
 
 
 func chunk(c: Vector2i) -> Dictionary:
@@ -92,6 +144,8 @@ func ground_at(t: Vector2i) -> String:
 	if not in_bounds(t):
 		return "rock"
 	var d := chunk(chunk_of(t))
+	if d.is_empty():
+		return "rock"
 	var row: String = d["ground"][t.y - chunk_of(t).y * chunk_size]
 	return ground_codes[row[t.x - chunk_of(t).x * chunk_size]]
 
@@ -110,6 +164,8 @@ func is_solid(t: Vector2i) -> bool:
 		return g == "deep_water" or g == "rock"
 	var c := chunk_of(t)
 	var d := chunk(c)
+	if d.is_empty():
+		return true
 	var row: String = d["solid"][t.y - c.y * chunk_size]
 	return row[t.x - c.x * chunk_size] == "1"
 
@@ -178,6 +234,8 @@ func object_at(t: Vector2i) -> String:
 		return ""
 	var c := chunk_of(t)
 	var d := chunk(c)
+	if d.is_empty():
+		return ""
 	return (d["by_tile"] as Dictionary).get(t - c * chunk_size, "")
 
 

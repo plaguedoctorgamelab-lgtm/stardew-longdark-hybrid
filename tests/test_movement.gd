@@ -7,8 +7,9 @@ extends RefCounted
 func _find_ground(s: GameSession, ground: String, dir: Vector2i) -> Vector2:
 	var w := s.world
 	var side := Vector2i(dir.y, dir.x)
-	for y in range(4, w.height - 12):
-		for x in range(4, w.width - 12):
+	var b := w.baked_bounds()
+	for y in range(b.position.y + 4, b.end.y - 12):
+		for x in range(b.position.x + 4, b.end.x - 12):
 			var ok := true
 			for k in range(-1, 10):
 				for j in range(-1, 2):
@@ -108,15 +109,16 @@ func test_buildings_block(t: TestCase) -> void:
 func test_water_and_edges_block(t: TestCase) -> void:
 	var s := TestCase.new_session()
 	# Map edge: walk west from near the west edge.
-	s.outdoor_pos = Vector2(5.5, 100.5)
+	s.outdoor_pos = Vector2(s.world.r1(5, 100)) + Vector2(0.5, 0.5)
 	for i in 60:
 		s.move(Vector2.LEFT, 0.1)
 	t.check(s.outdoor_pos.x >= 3.0, "the edge of the map blocks (x=%.2f)" % s.outdoor_pos.x)
 	# Deep water blocks.
 	var w := s.world
 	var found := false
-	for y in range(20, 200):
-		for x in range(200, 240):
+	var o := w.ring_one_offset()
+	for y in range(20 + o.y, 200 + o.y):
+		for x in range(200 + o.x, 240 + o.x):
 			if w.ground_at(Vector2i(x, y)) == "deep_water" and not w.is_solid(Vector2i(x - 4, y)) and w.ground_at(Vector2i(x - 1, y)) != "deep_water":
 				s.outdoor_pos = Vector2(x - 3.5, y + 0.5)
 				for i in 30:

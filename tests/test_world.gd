@@ -28,7 +28,7 @@ func test_chunks_load_and_unload(t: TestCase) -> void:
 		t.check(not view.loaded.has(c), "chunk %s near the station was unloaded" % c)
 	t.check(view.loaded.has(s.world.chunk_of(s.ranger_tile())), "the cabin's chunk is loaded")
 	t.check(view.ground_layer.get_cell_source_id(s.ranger_tile()) >= 0, "ground drawn under the ranger")
-	t.check(view.ground_layer.get_cell_source_id(Vector2i(5, 230)) < 0, "ground near the station no longer drawn")
+	t.check(view.ground_layer.get_cell_source_id(s.world.r1(5, 230)) < 0, "ground near the station no longer drawn")
 	# Gradual loading while walking: work is spread over frames.
 	s.debug_teleport("station")
 	view.update_chunks(true)
@@ -47,10 +47,11 @@ func test_chunks_load_and_unload(t: TestCase) -> void:
 func test_data_cache_is_trimmed(t: TestCase) -> void:
 	var s := TestCase.new_session()
 	for x in range(5, 380, 8):
-		s.world.ground_at(Vector2i(x, 100))
-	s.world.trim_cache(Vector2i(0, 3), 1)
+		s.world.ground_at(s.world.r1(x, 100))
+	var keep := s.world.chunk_of(s.world.r1(0, 100))
+	s.world.trim_cache(keep, 1)
 	for c: Vector2i in s.world.cached_chunks():
-		t.check(absi(c.x) <= 1, "far chunk %s dropped from memory" % c)
+		t.check(absi(c.x - keep.x) <= 1, "far chunk %s dropped from memory" % c)
 
 
 ## Walks the ranger along a trail route with the real movement code, in clear
@@ -114,5 +115,4 @@ func test_ford_is_shallow_and_pool_is_deep(t: TestCase) -> void:
 		if g == "shallows":
 			crossed_shallows = true
 	t.check(crossed_shallows, "the trail fords the stream through shallows")
-	var pool: Array = [221, 62]
-	t.equal(s.world.ground_at(Vector2i(int(pool[0]), int(pool[1]))), "deep_water", "the pool north of the ford is deep")
+	t.equal(s.world.ground_at(s.world.r1(221, 62)), "deep_water", "the pool north of the ford is deep")

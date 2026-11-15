@@ -130,9 +130,9 @@ func _near_tree(s: GameSession) -> Vector2i:
 	var w := s.world
 	for y in range(100, 200):
 		for x in range(120, 200):
-			var tile := Vector2i(x, y)
+			var tile := w.r1(x, y)
 			if w.object_at(tile) in ["tree_pine", "tree_fir", "tree_oak"] and not w.is_solid(tile + Vector2i(-1, 0)):
-				s.outdoor_pos = Vector2(x - 0.5, y + 0.5)
+				s.outdoor_pos = Vector2(tile.x - 0.5, tile.y + 0.5)
 				s.facing = GameSession.FACING_RIGHT
 				return tile
 	return Vector2i(-1, -1)
@@ -160,7 +160,7 @@ func test_chop_tree_for_firewood(t: TestCase) -> void:
 func test_dead_landmark_tree_is_not_choppable(t: TestCase) -> void:
 	var s := TestCase.new_session()
 	s.debug_add_item("axe")
-	var dead := Vector2i(243, 96)
+	var dead := s.world.r1(243, 96)
 	t.equal(s.world.object_at(dead), "tree_dead", "the dead tree at the fork")
 	s.outdoor_pos = Vector2(dead) + Vector2(-0.5, 0.5)
 	s.facing = GameSession.FACING_RIGHT

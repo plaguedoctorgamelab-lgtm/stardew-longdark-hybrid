@@ -64,6 +64,8 @@ var camp: Dictionary = {}
 var chopped: Dictionary = {}
 # Jobs the ranger has read about: id -> true.
 var jobs_known: Dictionary = {}
+# Rumored places the ranger has heard of: landmark id -> true.
+var rumors: Dictionary = {}
 
 
 func _init(tuning_path: String = Tuning.DEFAULT_PATH, content_dir: String = ContentDB.CONTENT_DIR, world_dir: String = WorldData.WORLD_DIR) -> void:
@@ -75,7 +77,7 @@ func _init(tuning_path: String = Tuning.DEFAULT_PATH, content_dir: String = Cont
 	needs = Needs.new(tuning)
 	backpack = Inventory.new(content, tuning.integer("storage.backpack_slots"))
 	structures = Structures.new(content, tuning)
-	map = MapState.new(world.width, world.height)
+	map = MapState.new(world.width, world.height, world.explorable_mask(), world.chunk_size)
 	for r: Dictionary in content.rows("structures"):
 		interiors[r["id"]] = InteriorLayout.new(r)
 	clock.step_passed.connect(_on_step)
@@ -188,7 +190,7 @@ func save_game() -> bool:
 
 ## Loads the save. Returns "" on success or the text id of the problem.
 func load_game() -> String:
-	var res := SaveSystem.read(save_path)
+	var res := SaveSystem.read(save_path, {"size": Vector2i(world.width, world.height), "ring_one_offset": world.ring_one_offset()})
 	if not res["ok"]:
 		return res["error"]
 	from_dict(res["data"])
@@ -870,6 +872,13 @@ func job_lines() -> PackedStringArray:
 
 
 # --- mapping ------------------------------------------------------------------
+
+## Whether the map may show a landmark's rough hint: always, unless the hint
+## is a rumor the ranger has not yet heard.
+func hint_known(landmark_id: String) -> bool:
+	var h: Dictionary = content.row("landmarks", landmark_id).get("hint", {})
+	return not bool(h.get("rumor", false)) or rumors.has(landmark_id)
+
 
 func _survey_total_steps() -> int:
 	return ceili(tuning.num("map.survey_minutes") / clock.step_minutes())

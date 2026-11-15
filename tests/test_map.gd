@@ -113,7 +113,7 @@ func test_outlook_survey_reveals_forty(t: TestCase) -> void:
 	var inside := 0
 	for y in range(floori(c.y - r), ceili(c.y + r) + 1):
 		for x in range(floori(c.x - r), ceili(c.x + r) + 1):
-			if x >= 0 and y >= 0 and x < s.world.width and y < s.world.height and Vector2(x + 0.5, y + 0.5).distance_to(c) <= r:
+			if x >= 0 and y >= 0 and x < s.world.width and y < s.world.height and s.map.explorable[y * s.world.width + x] == 1 and Vector2(x + 0.5, y + 0.5).distance_to(c) <= r:
 				inside += 1
 	t.equal(s.map.revealed_count, inside, "outlook survey reveals radius %d" % r)
 
