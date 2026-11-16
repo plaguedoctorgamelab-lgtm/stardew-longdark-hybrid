@@ -18,7 +18,12 @@ var building_sprites: Dictionary = {}   # structure id -> Sprite2D
 var loaded: Dictionary = {}   # Vector2i chunk -> true
 var _ground_source: Dictionary = {}   # ground name -> source id
 var _edge_source: Dictionary = {}     # ground name -> source id (4x4 atlas of masks)
-var _object_source: Dictionary = {}   # object kind -> source id
+var _object_source: Dictionary = {}   # object kind -> Array of source ids, one per version
+var _object_weights: Dictionary = {}  # object kind -> running total of its versions' weights
+var _ground_weights: Dictionary = {}  # ground name -> running total of its versions' weights
+var _ground_details: Dictionary = {}  # ground name -> {"coords": [atlas coords], "chance": float}
+var _detail_source: int = -1
+var detail_layer: TileMapLayer
 var _border_lines: Node2D
 var _stump_source: int = -1
 var _camp_bed: Sprite2D
@@ -40,6 +45,10 @@ func setup(s: GameSession, ranger_node: Node2D) -> void:
 	edge_layer.tile_set = tileset
 	edge_layer.z_index = -19
 	add_child(edge_layer)
+	detail_layer = TileMapLayer.new()
+	detail_layer.tile_set = tileset
+	detail_layer.z_index = -18
+	add_child(detail_layer)
 	sort_root = Node2D.new()
 	sort_root.y_sort_enabled = true
 	add_child(sort_root)
@@ -99,12 +108,44 @@ func refresh_buildings() -> void:
 func _build_tileset() -> TileSet:
 	var ts := TileSet.new()
 	ts.tile_size = Vector2i(TILE, TILE)
+	var details := {}   # detail picture -> atlas coords
+	for r: Dictionary in session.content.rows("art_variety"):
+		for d: String in r.get("details", []):
+			if not details.has(d):
+				details[d] = Vector2i(details.size(), 0)
+	if not details.is_empty():
+		var dstrip := Image.create(TILE * details.size(), TILE, false, Image.FORMAT_RGBA8)
+		for d: String in details:
+			var im := Art.image(d)
+			im.convert(Image.FORMAT_RGBA8)
+			dstrip.blit_rect(im, Rect2i(0, 0, mini(im.get_width(), TILE), mini(im.get_height(), TILE)), Vector2i((details[d] as Vector2i).x * TILE, 0))
+		var dsrc := TileSetAtlasSource.new()
+		dsrc.texture = ImageTexture.create_from_image(dstrip)
+		dsrc.texture_region_size = Vector2i(TILE, TILE)
+		for d: String in details:
+			dsrc.create_tile(details[d])
+		_detail_source = ts.add_source(dsrc)
 	for g: String in session.world.ground_codes.values():
+		var look := _variety("ground_" + g)
+		var pics: Array = look["pictures"]
+		# Every version of a ground sits side by side in one strip.
+		var strip := Image.create(TILE * pics.size(), TILE, false, Image.FORMAT_RGBA8)
+		for i in pics.size():
+			var im := Art.image(pics[i])
+			im.convert(Image.FORMAT_RGBA8)
+			strip.blit_rect(im, Rect2i(0, 0, TILE, TILE), Vector2i(i * TILE, 0))
 		var src := TileSetAtlasSource.new()
-		src.texture = Art.texture("ground_" + g)
+		src.texture = ImageTexture.create_from_image(strip)
 		src.texture_region_size = Vector2i(TILE, TILE)
-		src.create_tile(Vector2i.ZERO)
+		for i in pics.size():
+			src.create_tile(Vector2i(i, 0))
 		_ground_source[g] = ts.add_source(src)
+		_ground_weights[g] = _running_total(look["weights"])
+		if look.has("details"):
+			var coords: Array[Vector2i] = []
+			for d: String in look["details"]:
+				coords.append(details[d])
+			_ground_details[g] = {"coords": coords, "chance": float(look["detail_chance"])}
 		var edge := TileSetAtlasSource.new()
 		edge.texture = ImageTexture.create_from_image(_edge_atlas(Art.image("ground_" + g)))
 		edge.texture_region_size = Vector2i(TILE, TILE)
@@ -114,19 +155,24 @@ func _build_tileset() -> TileSet:
 	var types: Dictionary = session.world.meta["object_types"]
 	for kind: String in types:
 		var ot: Dictionary = types[kind]
-		var tex := Art.texture(ot["sprite"])
-		var src := TileSetAtlasSource.new()
-		src.texture = tex
-		src.texture_region_size = Vector2i(tex.get_width(), tex.get_height())
-		src.create_tile(Vector2i.ZERO)
-		var fw := int(ot["size"][0])
-		var fh := int(ot["size"][1])
-		var td := src.get_tile_data(Vector2i.ZERO, 0)
-		# Stand the picture on the bottom middle of its footprint.
-		var offset := Vector2i(fw * TILE / 2 - TILE / 2, fh * TILE - TILE / 2 - tex.get_height() / 2)
-		td.texture_origin = -offset
-		td.y_sort_origin = fh * TILE - TILE / 2
-		_object_source[kind] = ts.add_source(src)
+		var look := _variety(ot["sprite"])
+		var sources: Array[int] = []
+		for pic: String in look["pictures"]:
+			var tex := Art.texture(pic)
+			var src := TileSetAtlasSource.new()
+			src.texture = tex
+			src.texture_region_size = Vector2i(tex.get_width(), tex.get_height())
+			src.create_tile(Vector2i.ZERO)
+			var fw := int(ot["size"][0])
+			var fh := int(ot["size"][1])
+			var td := src.get_tile_data(Vector2i.ZERO, 0)
+			# Stand the picture on the bottom middle of its footprint.
+			var offset := Vector2i(fw * TILE / 2 - TILE / 2, fh * TILE - TILE / 2 - tex.get_height() / 2)
+			td.texture_origin = -offset
+			td.y_sort_origin = fh * TILE - TILE / 2
+			sources.append(ts.add_source(src))
+		_object_source[kind] = sources
+		_object_weights[kind] = _running_total(look["weights"])
 	var stump_tex := Art.texture(session.content.row("items", "axe")["stump_sprite"])
 	var stump := TileSetAtlasSource.new()
 	stump.texture = stump_tex
@@ -165,10 +211,7 @@ func _on_tree_changed(t: Vector2i) -> void:
 	var kind := session.world.object_at(t)
 	if kind == "":
 		return
-	if session.chopped.has(t):
-		object_layer.set_cell(t, _stump_source, Vector2i.ZERO)
-	else:
-		object_layer.set_cell(t, _object_source[kind], Vector2i.ZERO)
+	_draw_object(t)
 
 
 ## Redraws a tile whose ground or obstacle changed, and its neighbours' edges.
@@ -206,7 +249,8 @@ func _draw_object(t: Vector2i) -> void:
 	elif session.chopped.has(t):
 		object_layer.set_cell(t, _stump_source, Vector2i.ZERO)
 	else:
-		object_layer.set_cell(t, _object_source[kind], Vector2i.ZERO)
+		var sources: Array = _object_source[kind]
+		object_layer.set_cell(t, sources[pick(t, _object_weights[kind], 1)], Vector2i.ZERO)
 
 
 const _DIRS: Array[Vector2i] = [Vector2i(0, -1), Vector2i(1, 0), Vector2i(0, 1), Vector2i(-1, 0)]
@@ -219,7 +263,8 @@ func _draw_ground(t: Vector2i) -> void:
 	if not w.in_bounds(t):
 		return
 	var g := w.ground_at(t)
-	ground_layer.set_cell(t, _ground_source[g], Vector2i.ZERO)
+	ground_layer.set_cell(t, _ground_source[g], Vector2i(pick(t, _ground_weights[g], 0), 0))
+	_draw_detail(t)
 	var gi := _ground_index(g)
 	var best := -1
 	var mask := 0
@@ -238,6 +283,56 @@ func _draw_ground(t: Vector2i) -> void:
 		edge_layer.set_cell(t, _edge_source[GROUND_ORDER[best]], Vector2i(mask % 4, mask / 4))
 	else:
 		edge_layer.erase_cell(t)
+
+
+## The look of one picture: its versions and their weights, and for a
+## ground the small details scattered on it. A picture with no row has one
+## version.
+func _variety(art_name: String) -> Dictionary:
+	if session.content.has("art_variety", art_name):
+		return session.content.row("art_variety", art_name)
+	return {"pictures": [art_name], "weights": [1]}
+
+
+static func _running_total(weights: Array) -> Array[int]:
+	var out: Array[int] = []
+	var sum := 0
+	for v: Variant in weights:
+		sum += int(v)
+		out.append(sum)
+	return out
+
+
+## A number from 0 to 9999 fixed by the tile and the purpose (salt), so a
+## tile always looks the same, in every save and every visit.
+static func tile_roll(t: Vector2i, salt: int) -> int:
+	var h := (t.x * 73856093) ^ (t.y * 19349663) ^ (salt * 83492791)
+	h = (h ^ (h >> 13)) * 1274126177
+	h = h ^ (h >> 16)
+	return absi(h) % 10000
+
+
+## Which version a tile shows, given the running total of the weights.
+static func pick(t: Vector2i, totals: Array, salt: int) -> int:
+	if totals.size() < 2:
+		return 0
+	var r := tile_roll(t, salt) % int(totals[-1])
+	for i in totals.size():
+		if r < int(totals[i]):
+			return i
+	return totals.size() - 1
+
+
+## A small detail on some open tiles of grounds that have them. Never under
+## an object or a placed sign, so it never hides something that matters.
+func _draw_detail(t: Vector2i) -> void:
+	var w := session.world
+	var look: Dictionary = _ground_details.get(w.ground_at(t), {})
+	if look.is_empty() or w.object_at(t) != "" or session.placed.has(t) or tile_roll(t, 2) >= int(float(look["chance"]) * 10000.0):
+		detail_layer.erase_cell(t)
+		return
+	var coords: Array = look["coords"]
+	detail_layer.set_cell(t, _detail_source, coords[tile_roll(t, 3) % coords.size()])
 
 
 ## A 4x4 atlas: tile m holds the ground's fringe on the sides set in m
@@ -412,6 +507,7 @@ func _unload_rows(c: Vector2i, row0: int, count: int) -> void:
 			var t := base + Vector2i(lx, ly)
 			ground_layer.erase_cell(t)
 			edge_layer.erase_cell(t)
+			detail_layer.erase_cell(t)
 			object_layer.erase_cell(t)
 			if _placed_sprites.has(t):
 				(_placed_sprites[t] as Node).queue_free()

@@ -1,7 +1,7 @@
 # Art cleanup report
 
-Made by tools/art_cleanup.py. palette from art/palette.json (33 colors).
-130 images passed, 1 failed.
+Made by tools/art_cleanup.py. palette from art/palette.json (33 colors). A picture cut pixel for pixel from a refresh sheet replaces any earlier picture of the same name.
+263 images passed, 1 failed.
 
 
 ## ChatGPT Image Nov 15, 2026, 07_04_59 AM.png (ground tiles)
@@ -187,3 +187,172 @@ Made by tools/art_cleanup.py. palette from art/palette.json (33 colors).
 - obj_stone_bench: **pass** 32x16
 - obj_rusted_truck: **pass** 48x32
 - obj_berry_tunnel: **pass** 32x16
+
+## refresh_icons_tools.png (Art Request 03: tool and material icons)
+
+- item_hammer: **pass** 32x32 pixel for pixel
+- item_lantern: **pass** 32x32 pixel for pixel
+- item_map: **pass** 32x32 pixel for pixel
+- item_compass: **pass** 32x32 pixel for pixel
+- item_pencil: **pass** 32x32 pixel for pixel
+- item_axe: **pass** 32x32 pixel for pixel
+- item_saw: **pass** 32x32 pixel for pixel
+- item_shovel: **pass** 32x32 pixel for pixel
+- item_bedroll: **pass** 32x32 pixel for pixel
+- item_firewood: **pass** 32x32 pixel for pixel
+- item_planks: **pass** 32x32 pixel for pixel
+- item_nails: **pass** 32x32 pixel for pixel
+- item_roofing: **pass** 32x32 pixel for pixel
+- item_window_glass: **pass** 32x32 pixel for pixel
+- item_repair_kit: **pass** 32x32 pixel for pixel
+- item_trail_sign: **pass** 32x32 pixel for pixel
+
+## refresh_icons_food_weather.png (Art Request 03: food, other icons and weather)
+
+- item_tin_of_beans: **pass** 32x32 pixel for pixel
+- item_apple: **pass** 32x32 pixel for pixel
+- item_sandwich: **pass** 32x32 pixel for pixel
+- item_hot_soup: **pass** 32x32 pixel for pixel
+- item_trail_marker: **pass** 32x32 pixel for pixel
+- item_journal_page: **pass** 32x32 pixel for pixel
+- weather_clear: **pass** 32x32 pixel for pixel
+- weather_clear_night: **pass** 32x32 pixel for pixel
+- weather_overcast: **pass** 32x32 pixel for pixel
+- weather_rain: **pass** 32x32 pixel for pixel
+- weather_fog: **pass** 32x32 pixel for pixel
+- weather_storm: **pass** 32x32 pixel for pixel
+- weather_snow: **pass** 32x32 pixel for pixel
+- weather_blizzard: **pass** 32x32 pixel for pixel
+
+## refresh_ground_a.png (Art Request 03: ground A, four versions each)
+
+- ground_grass: **pass** 16x16 pixel for pixel
+- ground_grass_alt_1: **pass** 16x16 pixel for pixel
+- ground_grass_alt_2: **pass** 16x16 pixel for pixel
+- ground_grass_alt_3: **pass** 16x16 pixel for pixel
+- ground_tall_grass: **pass** 16x16 pixel for pixel
+- ground_tall_grass_alt_1: **pass** 16x16 pixel for pixel
+- ground_tall_grass_alt_2: **pass** 16x16 pixel for pixel
+- ground_tall_grass_alt_3: **pass** 16x16 pixel for pixel
+- ground_forest_floor: **pass** 16x16 pixel for pixel
+- ground_forest_floor_alt_1: **pass** 16x16 pixel for pixel
+- ground_forest_floor_alt_2: **pass** 16x16 pixel for pixel
+- ground_forest_floor_alt_3: **pass** 16x16 pixel for pixel
+- ground_trail: **pass** 16x16 pixel for pixel
+- ground_trail_alt_1: **pass** 16x16 pixel for pixel
+- ground_trail_alt_2: **pass** 16x16 pixel for pixel
+- ground_trail_alt_3: **pass** 16x16 pixel for pixel
+- ground_shallows: **pass** 16x16 pixel for pixel
+- ground_shallows_alt_1: **pass** 16x16 pixel for pixel
+- ground_shallows_alt_2: **pass** 16x16 pixel for pixel
+- ground_shallows_alt_3: **pass** 16x16 pixel for pixel
+- ground_deep_water: **pass** 16x16 pixel for pixel
+- ground_deep_water_alt_1: **pass** 16x16 pixel for pixel
+- ground_deep_water_alt_2: **pass** 16x16 pixel for pixel
+- ground_deep_water_alt_3: **pass** 16x16 pixel for pixel
+
+## refresh_ground_b.png (Art Request 03: ground B, four versions each)
+
+- ground_rock: **pass** 16x16 pixel for pixel
+- ground_rock_alt_1: **pass** 16x16 pixel for pixel
+- ground_rock_alt_2: **pass** 16x16 pixel for pixel
+- ground_rock_alt_3: **pass** 16x16 pixel for pixel
+- ground_bog: **pass** 16x16 pixel for pixel
+- ground_bog_alt_1: **pass** 16x16 pixel for pixel
+- ground_bog_alt_2: **pass** 16x16 pixel for pixel
+- ground_bog_alt_3: **pass** 16x16 pixel for pixel
+- ground_boards: **pass** 16x16 pixel for pixel
+- ground_boards_alt_1: **pass** 16x16 pixel for pixel
+- ground_boards_alt_2: **pass** 16x16 pixel for pixel
+- ground_boards_alt_3: **pass** 16x16 pixel for pixel
+
+## refresh_ground_details.png (Art Request 03: ground details)
+
+- detail_daisies: **pass** 16x16 pixel for pixel
+- detail_buttercups: **pass** 16x16 pixel for pixel
+- detail_wildflowers: **pass** 16x16 pixel for pixel
+- detail_dandelion: **pass** 16x16 pixel for pixel
+- detail_pebbles: **pass** 16x16 pixel for pixel
+- detail_flat_stone: **pass** 16x16 pixel for pixel
+- detail_pinecone: **pass** 16x16 pixel for pixel
+- detail_twig: **pass** 16x16 pixel for pixel
+- detail_leaves: **pass** 16x16 pixel for pixel
+- detail_grass_tuft: **pass** 16x16 pixel for pixel
+- detail_fern: **pass** 16x16 pixel for pixel
+- detail_clover: **pass** 16x16 pixel for pixel
+- detail_moss: **pass** 16x16 pixel for pixel
+- detail_mushrooms: **pass** 16x16 pixel for pixel
+- detail_puddle: **pass** 16x16 pixel for pixel
+- detail_needles: **pass** 16x16 pixel for pixel
+
+## refresh_trees.png (Art Request 03: trees, two of each)
+
+- obj_tree_pine: **pass** 32x48 pixel for pixel
+- obj_tree_pine_alt_1: **pass** 32x48 pixel for pixel
+- obj_tree_fir: **pass** 32x48 pixel for pixel
+- obj_tree_fir_alt_1: **pass** 32x48 pixel for pixel
+- obj_tree_oak: **pass** 33x48 pixel for pixel; drawn 33x45, larger than its 32x48 spot
+- obj_tree_oak_alt_1: **pass** 32x48 pixel for pixel
+- obj_tree_dead: **pass** 32x48 pixel for pixel
+- obj_tree_dead_alt_1: **pass** 32x48 pixel for pixel
+
+## refresh_objects_small.png (Art Request 03: small outdoor objects)
+
+- obj_bush: **pass** 16x16 pixel for pixel
+- obj_berry_bush: **pass** 16x16 pixel for pixel
+- obj_boulder: **pass** 16x16 pixel for pixel
+- obj_stump: **pass** 16x16 pixel for pixel
+- obj_firepit: **pass** 16x16 pixel for pixel
+- obj_campfire: **pass** 16x16 pixel for pixel
+- obj_camp_bedroll: **pass** 16x16 pixel for pixel
+- obj_mushrooms: **pass** 16x16 pixel for pixel
+- obj_fence: **pass** 16x16 pixel for pixel
+- obj_brush: **pass** 16x16 pixel for pixel
+- obj_thicket: **pass** 16x16 pixel for pixel
+- obj_survey_stake: **pass** 16x16 pixel for pixel
+- obj_cairn: **pass** 16x16 pixel for pixel
+- obj_trail_marker: **pass** 16x16 pixel for pixel
+- obj_sign_arrow: **pass** 16x16 pixel for pixel
+- obj_tiny_door: **pass** 16x16 pixel for pixel
+
+## refresh_objects_tall.png (Art Request 03: tall and long objects)
+
+- obj_gate: **pass** 27x35 pixel for pixel; drawn 27x35, larger than its 16x32 spot
+- obj_outlook_post: **pass** 20x39 pixel for pixel; drawn 20x39, larger than its 16x32 spot
+- obj_bridge_post: **pass** 26x37 pixel for pixel; drawn 26x37, larger than its 16x32 spot
+- obj_toll_board: **pass** 30x36 pixel for pixel; drawn 30x36, larger than its 16x32 spot
+- obj_fallen_trunk: **pass** 48x19 pixel for pixel; drawn 46x19, larger than its 48x16 spot
+- obj_carved_tree: **pass** 37x48 pixel for pixel; drawn 37x46, larger than its 32x48 spot
+- obj_pawprints: **pass** 17x17 pixel for pixel; drawn 17x17, larger than its 16x16 spot
+
+## refresh_objects_big.png (Art Request 03: bigger objects)
+
+- obj_canoe: **pass** 48x16 pixel for pixel
+- obj_lean_to: **pass** 48x32 pixel for pixel
+- obj_bear_boulder: **pass** 34x32 pixel for pixel; drawn 34x25, larger than its 32x32 spot
+- obj_stone_bench: **pass** 33x19 pixel for pixel; drawn 33x19, larger than its 32x16 spot
+- obj_rusted_truck: **pass** 48x32 pixel for pixel
+- obj_berry_tunnel: **pass** 41x18 pixel for pixel; drawn 41x18, larger than its 32x16 spot
+
+## refresh_buildings.png (Art Request 03: buildings (cut by box: the station runs past its grid cell))
+
+- building_station: **pass** 125x92 pixel for pixel; drawn 111x92, larger than its 96x80 spot
+- building_cabin_broken: **pass** 78x80 pixel for pixel; drawn 78x80, larger than its 64x64 spot
+- building_cabin_repaired: **pass** 79x79 pixel for pixel; drawn 79x79, larger than its 64x64 spot
+- building_tower_broken: **pass** 74x112 pixel for pixel; drawn 74x108, larger than its 48x112 spot
+- building_tower_repaired: **pass** 73x112 pixel for pixel; drawn 73x108, larger than its 48x112 spot
+
+## refresh_interior.png (Art Request 03: indoors (floor, wall and door not used: they are not full 16 x 16 tiles))
+
+- furniture_bed: **pass** 32x32 pixel for pixel
+- furniture_chest: **pass** 18x16 pixel for pixel; drawn 18x15, larger than its 16x16 spot
+- furniture_note_board: **pass** 22x22 pixel for pixel; drawn 22x22, larger than its 16x16 spot
+- furniture_radio: **pass** 20x25 pixel for pixel; drawn 20x25, larger than its 16x16 spot
+- furniture_shelf: **pass** 32x24 pixel for pixel
+- furniture_stove: **pass** 16x27 pixel for pixel; drawn 16x27, larger than its 16x24 spot
+- furniture_stove_lit: **pass** 16x27 pixel for pixel; drawn 16x27, larger than its 16x24 spot
+- furniture_workbench: **pass** 32x27 pixel for pixel; drawn 30x27, larger than its 32x24 spot
+
+## refresh_ranger.png (Art Request 03: the ranger walking (4 frames x 4 directions))
+
+- ranger: **pass** 64x128 pixel for pixel

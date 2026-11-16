@@ -144,4 +144,9 @@ func _run() -> void:
 	s.debug_add_item("nails", 6)
 	main.choice_screen.open_workbench()
 	await _shot("2a_workbench")
+	main.choice_screen.close()
+	for it in ["saw", "shovel", "apple", "sandwich", "hot_soup", "firewood", "trail_sign", "trail_marker", "repair_kit", "roofing", "window_glass"]:
+		s.debug_add_item(it, 1)
+	main.inventory_screen.open(null, "")
+	await _shot("3_backpack")
 	quit(0)

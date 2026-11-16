@@ -219,6 +219,13 @@ Four columns are four walking frames. The rows face down (toward the viewer), ri
 ## When you send it back
 
 - [x] Palette choice ticked
-- [ ] Sheets 1 to 12 (sheet 5 is optional)
+- [x] Sheets 1 to 12 (sheet 5 is optional): received 15 November 2026 and in the game
+
+## What the lab did with them
+
+- All 12 sheets came back as true pixel art at game size, every colour on the approved palette, so each picture was cut pixel for pixel with no shrink.
+- Some pictures are drawn larger than their spot (the buildings, the gate, posts, the notice board, the bench, the bramble, some furniture). They are kept at their drawn size and stand on the bottom middle of their spot, so they overhang a little.
+- Not used: the indoor floor and wall (drawn as 14 x 15 squares, not full 16 x 16 tiles) and the indoor door (18 x 24, too tall for its 16 x 16 spot). The earlier versions stay.
+- Ground versions, ground details and the second trees are mixed by tile using data/content/art_variety.json.
 
 Name the files exactly as in the table, and tell the lab "art is in".

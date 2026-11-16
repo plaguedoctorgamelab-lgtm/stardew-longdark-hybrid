@@ -10,7 +10,7 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONTENT = os.path.join(ROOT, "data", "content")
-TABLES = ["items", "foods", "weather_types", "weather_odds", "structures", "landmarks", "jobs", "obstacles", "recipes", "sites", "notes", "text", "spoiler_finds", "spoiler_text"]
+TABLES = ["items", "foods", "weather_types", "weather_odds", "structures", "landmarks", "jobs", "obstacles", "recipes", "sites", "notes", "text", "spoiler_finds", "spoiler_text", "art_variety"]
 
 
 def main():
@@ -53,6 +53,12 @@ def main():
 
     for r in data.get("items", {}).values():
         ref("text", r["name"], "items/%s name" % r["id"])
+    for r in data.get("art_variety", {}).values():
+        if len(r["pictures"]) != len(r["weights"]) or min(r["weights"]) <= 0:
+            problems.append("art_variety/%s: one positive weight per picture" % r["id"])
+        for n in r["pictures"] + r.get("details", []):
+            if not any(os.path.exists(os.path.join(ROOT, "art", d, n + ".png")) for d in ("final", "placeholder")):
+                problems.append("art_variety/%s: no picture %s" % (r["id"], n))
     for r in data.get("foods", {}).values():
         ref("items", r["item"], "foods/%s" % r["id"])
     for r in data.get("weather_types", {}).values():

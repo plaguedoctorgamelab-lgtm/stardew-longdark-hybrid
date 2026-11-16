@@ -5,7 +5,8 @@ tools/art_manifest.json:
   1. read it and its manifest entry (grid layout, target size of each item);
   2. remove the background if it is not already transparent;
   3. shrink each cell to its target size in game pixels, taking the most
-     common color in each block so edges stay hard;
+     common color in each block so edges stay hard (a sheet marked "pixel"
+     is true pixel art already at game size: it is cut pixel for pixel);
   4. snap every color to the nearest palette color;
   5. cut the sheet into separate named images in art/final/;
   6. write a short report of each image, whether it passed, and why not.
@@ -173,6 +174,50 @@ def shrink(img, box, tw, th, stretch, full):
     return out
 
 
+def bleeds(img, x0, y0, x1, y1):
+    """True if a solid pixel on the box edge has a solid neighbour just
+    outside it: the item runs on into the next cell."""
+    for x in range(x0, x1):
+        for y, oy in ((y0, y0 - 1), (y1 - 1, y1)):
+            if 0 <= oy < img.h and img.alpha(x, y) >= ALPHA_CUT and img.alpha(x, oy) >= ALPHA_CUT:
+                return True
+    for y in range(y0, y1):
+        for x, ox in ((x0, x0 - 1), (x1 - 1, x1)):
+            if 0 <= ox < img.w and img.alpha(x, y) >= ALPHA_CUT and img.alpha(ox, y) >= ALPHA_CUT:
+                return True
+    return False
+
+
+def pixel_cell(img, box, tw, th, full, anchor, pad_left):
+    """True pixel art: cut the item out pixel for pixel, with no shrinking.
+    Returns (w, h, pixels, note). A full tile must be exactly tw x th. An
+    item is cropped to its solid pixels and stood on the bottom middle (or
+    centred) of a tw x th picture; one drawn larger than that keeps its own
+    size, so the game shows it a little larger than its spot."""
+    x0, y0, x1, y1 = box
+    if full:
+        if (x1 - x0, y1 - y0) != (tw, th):
+            return None, "tile is %dx%d, expected %dx%d" % (x1 - x0, y1 - y0, tw, th)
+        return (tw, th, [img.get(x, y) for y in range(y0, y1) for x in range(x0, x1)]), ""
+    xs = [x for y in range(y0, y1) for x in range(x0, x1) if img.alpha(x, y) >= ALPHA_CUT]
+    ys = [y for y in range(y0, y1) for x in range(x0, x1) if img.alpha(x, y) >= ALPHA_CUT]
+    if not xs:
+        return None, "no item found in its cell"
+    bx0, by0, bx1, by1 = min(xs), min(ys), max(xs) + 1, max(ys) + 1
+    bw, bh = bx1 - bx0, by1 - by0
+    ow, oh = max(tw, bw + pad_left), max(th, bh)
+    ox = pad_left + (ow - pad_left - bw) // 2
+    oy = oh - bh if anchor == "bottom" else (oh - bh) // 2
+    out = [(0, 0, 0, 0)] * (ow * oh)
+    for y in range(bh):
+        for x in range(bw):
+            p = img.get(bx0 + x, by0 + y)
+            if p[3] >= ALPHA_CUT:
+                out[(oy + y) * ow + ox + x] = p[:3] + (255,)
+    note = "" if (ow, oh) == (tw, th) else "drawn %dx%d, larger than its %dx%d spot" % (bw, bh, tw, th)
+    return (ow, oh, out), note
+
+
 def median_cut(colors, n):
     """A palette of n colors from a list of (r, g, b), by median cut."""
     boxes = [list(colors)]
@@ -224,6 +269,7 @@ def main():
     os.makedirs(FINAL, exist_ok=True)
     report = []
     shrunk = []   # (name, w, h, pixels) before palette snapping
+    exact = []    # the same, from pixel-for-pixel sheets: saved last, so they win
     sheets = []
     raw_files = set(os.listdir(RAW))
     listed = set()
@@ -244,6 +290,34 @@ def main():
         w, h, px = read_png(path)
         img = Img(w, h, bytearray(px))   # a copy: the raw file is never touched
         full = entry.get("full", False)
+        if entry.get("pixel"):
+            # True pixel art at game size: cut pixel for pixel, no shrink.
+            cols, rows = entry["grid"]
+            cw, ch = w // cols, h // rows
+            results = []
+            for idx, cell in enumerate(entry["cells"]):
+                if cell is None:
+                    continue
+                if "box" in cell:
+                    bx, by, bw, bh = cell["box"]
+                    box = (bx, by, bx + bw, by + bh)
+                else:
+                    box = ((idx % cols) * cw, (idx // cols) * ch, (idx % cols + 1) * cw, (idx // cols + 1) * ch)
+                tw, th = cell["size"]
+                # On an exact grid the cell edge is the cut: an item touching
+                # its neighbour is noted for a look by eye, not failed.
+                touch = not full and bleeds(img, *box)
+                got, note = pixel_cell(img, box, tw, th, full, cell.get("anchor", entry.get("anchor", "bottom")), cell.get("pad_left", 0))
+                if got is None:
+                    results.append((cell["name"], "FAIL", note))
+                    continue
+                ow, oh, pix = got
+                exact.append((cell["name"], ow, oh, pix))
+                if touch:
+                    note = (note + "; " if note else "") + "touches the next cell's item (checked by eye)"
+                results.append((cell["name"], "pass", "%dx%d pixel for pixel%s" % (ow, oh, "; " + note if note else "")))
+            report.append(("%s (%s)" % (entry["file"], entry["label"]), results))
+            continue
         notes = []
         if not full and not has_transparency(img):
             bg = remove_background(img)
@@ -323,8 +397,10 @@ def main():
         save(sheet["name"], fw * cols, fh * rows, out)
         for name, _, _ in cells:
             os.remove(os.path.join(FINAL, name + ".png"))
+    for name, tw, th, pix in exact:
+        save(name, tw, th, snap(pix, palette))
 
-    lines = ["# Art cleanup report", "", "Made by tools/art_cleanup.py. " + pal_note + ".", ""]
+    lines = ["# Art cleanup report", "", "Made by tools/art_cleanup.py. " + pal_note + ". A picture cut pixel for pixel from a refresh sheet replaces any earlier picture of the same name.", ""]
     n_pass = n_fail = 0
     for title, results in report:
         lines.append("## " + title)

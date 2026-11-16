@@ -42,7 +42,7 @@ func setup(s: GameSession, theme: Theme) -> void:
 	status_label = _label(Vector2(402, 23))
 	weather_icon = TextureRect.new()
 	weather_icon.position = Vector2(458, 15)
-	weather_icon.size = Vector2(16, 16)
+	_fit_icon(weather_icon)
 	root.add_child(weather_icon)
 
 	energy_bar = _bar(Vector2(462, 196), Color(0.95, 0.8, 0.2))
@@ -62,7 +62,7 @@ func setup(s: GameSession, theme: Theme) -> void:
 		root.add_child(p)
 		var icon := TextureRect.new()
 		icon.position = p.position + Vector2(1, 1)
-		icon.size = Vector2(16, 16)
+		_fit_icon(icon)
 		root.add_child(icon)
 		var cnt := _label(p.position + Vector2(9, 7))
 		slot_panels.append(p)
@@ -155,3 +155,12 @@ func _process(delta: float) -> void:
 		var t := session.ranger_tile()
 		var ch := session.world.chunk_of(t)
 		debug_label.text = "tile %d,%d  chunk %d,%d  %s  %s  fps %d" % [t.x, t.y, ch.x, ch.y, session.ground_here(), session.current_weather(), Engine.get_frames_per_second()]
+
+
+## Icons are drawn at 32 x 32 and shown in a 16-unit slot; the screen is
+## scaled up, so all their detail still shows.
+static func _fit_icon(r: TextureRect) -> void:
+	r.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	r.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	r.size = Vector2(16, 16)
+	r.mouse_filter = Control.MOUSE_FILTER_IGNORE

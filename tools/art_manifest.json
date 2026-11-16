@@ -1,5 +1,5 @@
 {
- "note": "How each raw image in art/raw/ is cut. Cells are listed row by row; null skips a cell. size is the target in game pixels. full: the cell is a whole tile with no background. stretch: fill the target exactly instead of keeping the shape. The art style guide's file table is not in the repository yet, so the lab wrote this from the images themselves.",
+ "note": "How each raw image in art/raw/ is cut. Cells are listed row by row; null skips a cell. size is the target in game pixels. full: the cell is a whole tile with no background. stretch: fill the target exactly instead of keeping the shape. The art style guide's file table is not in the repository yet, so the lab wrote this from the images themselves. pixel: the sheet is true pixel art at game size, cut pixel for pixel with no shrink; anchor (bottom or center) places an item in its picture; box [x, y, w, h] cuts a cell by hand; pad_left adds clear columns on the left so a door lines up.",
  "images": [
   {
    "file": "ChatGPT Image Nov 15, 2026, 07_04_59 AM.png",
@@ -1104,6 +1104,1150 @@
      "size": [
       32,
       16
+     ]
+    }
+   ]
+  },
+  {
+   "file": "refresh_icons_tools.png",
+   "label": "Art Request 03: tool and material icons",
+   "pixel": true,
+   "anchor": "center",
+   "grid": [
+    4,
+    4
+   ],
+   "cells": [
+    {
+     "name": "item_hammer",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_lantern",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_map",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_compass",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_pencil",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_axe",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_saw",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_shovel",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_bedroll",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_firewood",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_planks",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_nails",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_roofing",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_window_glass",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_repair_kit",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_trail_sign",
+     "size": [
+      32,
+      32
+     ]
+    }
+   ]
+  },
+  {
+   "file": "refresh_icons_food_weather.png",
+   "label": "Art Request 03: food, other icons and weather",
+   "pixel": true,
+   "anchor": "center",
+   "grid": [
+    4,
+    4
+   ],
+   "cells": [
+    {
+     "name": "item_tin_of_beans",
+     "size": [
+      32,
+      32
+     ],
+     "box": [
+      0,
+      0,
+      32,
+      33
+     ]
+    },
+    {
+     "name": "item_apple",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_sandwich",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_hot_soup",
+     "size": [
+      32,
+      32
+     ],
+     "box": [
+      96,
+      0,
+      32,
+      33
+     ]
+    },
+    {
+     "name": "item_trail_marker",
+     "size": [
+      32,
+      32
+     ],
+     "box": [
+      0,
+      33,
+      32,
+      31
+     ]
+    },
+    {
+     "name": "item_journal_page",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "weather_clear",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "weather_clear_night",
+     "size": [
+      32,
+      32
+     ],
+     "box": [
+      96,
+      33,
+      32,
+      31
+     ]
+    },
+    {
+     "name": "weather_overcast",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "weather_rain",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "weather_fog",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "weather_storm",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "weather_snow",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "weather_blizzard",
+     "size": [
+      32,
+      32
+     ]
+    },
+    null,
+    null
+   ]
+  },
+  {
+   "file": "refresh_ground_a.png",
+   "label": "Art Request 03: ground A, four versions each",
+   "pixel": true,
+   "full": true,
+   "grid": [
+    4,
+    6
+   ],
+   "cells": [
+    {
+     "name": "ground_grass",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "ground_grass_alt_1",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "ground_grass_alt_2",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "ground_grass_alt_3",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "ground_tall_grass",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "ground_tall_grass_alt_1",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "ground_tall_grass_alt_2",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "ground_tall_grass_alt_3",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "ground_forest_floor",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "ground_forest_floor_alt_1",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "ground_forest_floor_alt_2",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "ground_forest_floor_alt_3",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "ground_trail",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "ground_trail_alt_1",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "ground_trail_alt_2",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "ground_trail_alt_3",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "ground_shallows",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "ground_shallows_alt_1",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "ground_shallows_alt_2",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "ground_shallows_alt_3",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "ground_deep_water",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "ground_deep_water_alt_1",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "ground_deep_water_alt_2",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "ground_deep_water_alt_3",
+     "size": [
+      16,
+      16
+     ]
+    }
+   ]
+  },
+  {
+   "file": "refresh_ground_b.png",
+   "label": "Art Request 03: ground B, four versions each",
+   "pixel": true,
+   "full": true,
+   "grid": [
+    4,
+    3
+   ],
+   "cells": [
+    {
+     "name": "ground_rock",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "ground_rock_alt_1",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "ground_rock_alt_2",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "ground_rock_alt_3",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "ground_bog",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "ground_bog_alt_1",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "ground_bog_alt_2",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "ground_bog_alt_3",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "ground_boards",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "ground_boards_alt_1",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "ground_boards_alt_2",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "ground_boards_alt_3",
+     "size": [
+      16,
+      16
+     ]
+    }
+   ]
+  },
+  {
+   "file": "refresh_ground_details.png",
+   "label": "Art Request 03: ground details",
+   "pixel": true,
+   "anchor": "center",
+   "grid": [
+    4,
+    4
+   ],
+   "cells": [
+    {
+     "name": "detail_daisies",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "detail_buttercups",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "detail_wildflowers",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "detail_dandelion",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "detail_pebbles",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "detail_flat_stone",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "detail_pinecone",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "detail_twig",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "detail_leaves",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "detail_grass_tuft",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "detail_fern",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "detail_clover",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "detail_moss",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "detail_mushrooms",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "detail_puddle",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "detail_needles",
+     "size": [
+      16,
+      16
+     ]
+    }
+   ]
+  },
+  {
+   "file": "refresh_trees.png",
+   "label": "Art Request 03: trees, two of each",
+   "pixel": true,
+   "grid": [
+    4,
+    2
+   ],
+   "cells": [
+    {
+     "name": "obj_tree_pine",
+     "size": [
+      32,
+      48
+     ]
+    },
+    {
+     "name": "obj_tree_pine_alt_1",
+     "size": [
+      32,
+      48
+     ]
+    },
+    {
+     "name": "obj_tree_fir",
+     "size": [
+      32,
+      48
+     ]
+    },
+    {
+     "name": "obj_tree_fir_alt_1",
+     "size": [
+      32,
+      48
+     ]
+    },
+    {
+     "name": "obj_tree_oak",
+     "size": [
+      32,
+      48
+     ],
+     "box": [
+      0,
+      48,
+      33,
+      48
+     ]
+    },
+    {
+     "name": "obj_tree_oak_alt_1",
+     "size": [
+      32,
+      48
+     ],
+     "box": [
+      33,
+      48,
+      31,
+      48
+     ]
+    },
+    {
+     "name": "obj_tree_dead",
+     "size": [
+      32,
+      48
+     ]
+    },
+    {
+     "name": "obj_tree_dead_alt_1",
+     "size": [
+      32,
+      48
+     ]
+    }
+   ]
+  },
+  {
+   "file": "refresh_objects_small.png",
+   "label": "Art Request 03: small outdoor objects",
+   "pixel": true,
+   "grid": [
+    4,
+    4
+   ],
+   "cells": [
+    {
+     "name": "obj_bush",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "obj_berry_bush",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "obj_boulder",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "obj_stump",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "obj_firepit",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "obj_campfire",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "obj_camp_bedroll",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "obj_mushrooms",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "obj_fence",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "obj_brush",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "obj_thicket",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "obj_survey_stake",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "obj_cairn",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "obj_trail_marker",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "obj_sign_arrow",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "obj_tiny_door",
+     "size": [
+      16,
+      16
+     ]
+    }
+   ]
+  },
+  {
+   "file": "refresh_objects_tall.png",
+   "label": "Art Request 03: tall and long objects",
+   "pixel": true,
+   "grid": [
+    4,
+    2
+   ],
+   "cells": [
+    {
+     "name": "obj_gate",
+     "size": [
+      16,
+      32
+     ]
+    },
+    {
+     "name": "obj_outlook_post",
+     "size": [
+      16,
+      32
+     ]
+    },
+    {
+     "name": "obj_bridge_post",
+     "size": [
+      16,
+      32
+     ]
+    },
+    {
+     "name": "obj_toll_board",
+     "size": [
+      16,
+      32
+     ]
+    },
+    {
+     "name": "obj_fallen_trunk",
+     "size": [
+      48,
+      16
+     ]
+    },
+    {
+     "name": "obj_carved_tree",
+     "size": [
+      32,
+      48
+     ]
+    },
+    {
+     "name": "obj_pawprints",
+     "size": [
+      16,
+      16
+     ]
+    },
+    null
+   ]
+  },
+  {
+   "file": "refresh_objects_big.png",
+   "label": "Art Request 03: bigger objects",
+   "pixel": true,
+   "grid": [
+    3,
+    2
+   ],
+   "cells": [
+    {
+     "name": "obj_canoe",
+     "size": [
+      48,
+      16
+     ]
+    },
+    {
+     "name": "obj_lean_to",
+     "size": [
+      48,
+      32
+     ]
+    },
+    {
+     "name": "obj_bear_boulder",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "obj_stone_bench",
+     "size": [
+      32,
+      16
+     ]
+    },
+    {
+     "name": "obj_rusted_truck",
+     "size": [
+      48,
+      32
+     ]
+    },
+    {
+     "name": "obj_berry_tunnel",
+     "size": [
+      32,
+      16
+     ]
+    }
+   ]
+  },
+  {
+   "file": "refresh_buildings.png",
+   "label": "Art Request 03: buildings (cut by box: the station runs past its grid cell)",
+   "pixel": true,
+   "grid": [
+    3,
+    2
+   ],
+   "cells": [
+    {
+     "name": "building_station",
+     "size": [
+      96,
+      80
+     ],
+     "box": [
+      0,
+      0,
+      114,
+      112
+     ],
+     "pad_left": 14
+    },
+    {
+     "name": "building_cabin_broken",
+     "size": [
+      64,
+      64
+     ],
+     "box": [
+      114,
+      0,
+      85,
+      112
+     ]
+    },
+    {
+     "name": "building_cabin_repaired",
+     "size": [
+      64,
+      64
+     ],
+     "box": [
+      199,
+      0,
+      89,
+      112
+     ]
+    },
+    {
+     "name": "building_tower_broken",
+     "size": [
+      48,
+      112
+     ],
+     "box": [
+      0,
+      112,
+      99,
+      112
+     ]
+    },
+    {
+     "name": "building_tower_repaired",
+     "size": [
+      48,
+      112
+     ],
+     "box": [
+      99,
+      112,
+      100,
+      112
+     ]
+    },
+    null
+   ]
+  },
+  {
+   "file": "refresh_interior.png",
+   "label": "Art Request 03: indoors (floor, wall and door not used: they are not full 16 x 16 tiles)",
+   "pixel": true,
+   "grid": [
+    4,
+    3
+   ],
+   "cells": [
+    null,
+    null,
+    {
+     "name": "furniture_bed",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "furniture_chest",
+     "size": [
+      16,
+      16
+     ]
+    },
+    null,
+    {
+     "name": "furniture_note_board",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "furniture_radio",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "furniture_shelf",
+     "size": [
+      32,
+      24
+     ]
+    },
+    {
+     "name": "furniture_stove",
+     "size": [
+      16,
+      24
+     ]
+    },
+    {
+     "name": "furniture_stove_lit",
+     "size": [
+      16,
+      24
+     ]
+    },
+    {
+     "name": "furniture_workbench",
+     "size": [
+      32,
+      24
+     ]
+    },
+    null
+   ]
+  },
+  {
+   "file": "refresh_ranger.png",
+   "label": "Art Request 03: the ranger walking (4 frames x 4 directions)",
+   "pixel": true,
+   "full": true,
+   "grid": [
+    1,
+    1
+   ],
+   "cells": [
+    {
+     "name": "ranger",
+     "size": [
+      64,
+      128
      ]
     }
    ]

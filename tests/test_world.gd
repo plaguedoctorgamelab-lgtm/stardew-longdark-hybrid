@@ -116,3 +116,39 @@ func test_ford_is_shallow_and_pool_is_deep(t: TestCase) -> void:
 			crossed_shallows = true
 	t.check(crossed_shallows, "the trail fords the stream through shallows")
 	t.equal(s.world.ground_at(s.world.r1(221, 62)), "deep_water", "the pool north of the ford is deep")
+
+
+## Art Request 03: each ground mixes its four versions and scatters small
+## details, trees show two versions, and a tile always looks the same.
+func test_ground_and_tree_variety(t: TestCase) -> void:
+	var s := TestCase.new_session()
+	var view := WorldView.new()
+	_scene_tree().root.add_child(view)
+	view.setup(s, RangerSprite.new())
+	view.update_chunks(true)
+	var seen := {}
+	var details := 0
+	var on_objects := 0
+	var trees := {}
+	for c: Vector2i in view.loaded:
+		for y in s.world.chunk_size:
+			for x in s.world.chunk_size:
+				var tile := c * s.world.chunk_size + Vector2i(x, y)
+				if s.world.ground_at(tile) == "grass":
+					var v := view.ground_layer.get_cell_atlas_coords(tile).x
+					seen[v] = int(seen.get(v, 0)) + 1
+				if view.detail_layer.get_cell_source_id(tile) >= 0:
+					details += 1
+					if s.world.object_at(tile) != "":
+						on_objects += 1
+				var kind := s.world.object_at(tile)
+				if kind.begins_with("tree_") and not s.chopped.has(tile):
+					trees[view.object_layer.get_cell_source_id(tile)] = true
+	t.equal(seen.size(), 4, "all four grass versions are used")
+	t.check(int(seen.get(0, 0)) > int(seen.get(1, 0)), "the plain grass is the most common")
+	t.check(details > 0, "small details are scattered (%d)" % details)
+	t.equal(on_objects, 0, "never under an object")
+	t.check(trees.size() >= 2, "trees show more than one version (%d)" % trees.size())
+	var a := Vector2i(17, 1300)
+	t.equal(WorldView.tile_roll(a, 0), WorldView.tile_roll(a, 0), "a tile always rolls the same")
+	view.queue_free()

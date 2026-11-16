@@ -4,8 +4,10 @@ Flat palette colors, correct sizes, simple shapes. Finished art with the same
 file name in art/final/ replaces each one with no code change.
 Run: python tools/make_placeholders.py
 """
+import json
 import os
 import random
+import shutil
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -518,6 +520,22 @@ def finds_art():
     c.save("item_journal_page")
 
 
+def variety_art():
+    """Stand-ins for the extra versions in data/content/art_variety.json
+    (each a copy of its first version) and for the small ground details."""
+    with open(os.path.join(ROOT, "data", "content", "art_variety.json"), encoding="utf-8") as f:
+        rows = json.load(f)["rows"]
+    for r in rows:
+        first = os.path.join(OUT, r["pictures"][0] + ".png")
+        for n in r["pictures"][1:]:
+            shutil.copyfile(first, os.path.join(OUT, n + ".png"))
+        for k, n in enumerate(r.get("details", [])):
+            c = Canvas(16, 16)
+            c.speckle("white" if "flower" in n or "dais" in n else "rock_l", 5, k + 1)
+            c.save(n)
+    shutil.copyfile(os.path.join(OUT, "furniture_table.png"), os.path.join(OUT, "furniture_workbench.png"))
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
     ground()
@@ -529,6 +547,7 @@ def main():
     icons()
     ring_two_art()
     finds_art()
+    variety_art()
     print("placeholders written to", OUT, len(os.listdir(OUT)), "files")
 
 
