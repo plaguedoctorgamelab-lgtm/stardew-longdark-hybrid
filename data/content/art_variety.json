@@ -1,5 +1,5 @@
 {
- "note": "How the world mixes its pictures. pictures: versions of one ground tile or object, picked per tile by weights. details: small things scattered on that ground, on about detail_chance of its open tiles. The game picks these as it draws: the land itself never changes.",
+ "note": "How the world mixes its pictures. pictures: versions of one ground tile or object, picked per tile by weights. details: small things scattered on that ground, on about detail_chance of its open tiles. The game picks these as it draws: the land itself never changes. Each ground shows its calmest version (the one with the fewest lone pixels) on most tiles; the busier versions and the details are kept rare so the ground reads calm.",
  "rows": [
   {
    "id": "ground_grass",
@@ -10,10 +10,10 @@
     "ground_grass_alt_3"
    ],
    "weights": [
-    6,
+    16,
     2,
-    2,
-    2
+    1,
+    1
    ],
    "details": [
     "detail_daisies",
@@ -24,7 +24,7 @@
     "detail_clover",
     "detail_pebbles"
    ],
-   "detail_chance": 0.05
+   "detail_chance": 0.015
   },
   {
    "id": "ground_tall_grass",
@@ -35,16 +35,16 @@
     "ground_tall_grass_alt_3"
    ],
    "weights": [
-    3,
     2,
-    2,
+    12,
+    1,
     2
    ],
    "details": [
     "detail_wildflowers",
     "detail_daisies"
    ],
-   "detail_chance": 0.02
+   "detail_chance": 0.01
   },
   {
    "id": "ground_forest_floor",
@@ -56,9 +56,9 @@
    ],
    "weights": [
     4,
-    2,
-    2,
-    2
+    3,
+    12,
+    1
    ],
    "details": [
     "detail_pinecone",
@@ -70,7 +70,7 @@
     "detail_needles",
     "detail_flat_stone"
    ],
-   "detail_chance": 0.06
+   "detail_chance": 0.025
   },
   {
    "id": "ground_trail",
@@ -81,17 +81,17 @@
     "ground_trail_alt_3"
    ],
    "weights": [
-    6,
-    2,
-    2,
-    1
+    14,
+    3,
+    1,
+    2
    ],
    "details": [
     "detail_pebbles",
     "detail_flat_stone",
     "detail_twig"
    ],
-   "detail_chance": 0.03
+   "detail_chance": 0.01
   },
   {
    "id": "ground_shallows",
@@ -102,10 +102,10 @@
     "ground_shallows_alt_3"
    ],
    "weights": [
+    2,
+    12,
     3,
-    2,
-    2,
-    2
+    1
    ]
   },
   {
@@ -132,10 +132,10 @@
     "ground_rock_alt_3"
    ],
    "weights": [
-    3,
     2,
+    12,
     2,
-    2
+    1
    ]
   },
   {
@@ -147,16 +147,16 @@
     "ground_bog_alt_3"
    ],
    "weights": [
-    3,
-    2,
-    2,
-    2
+    1,
+    10,
+    1,
+    6
    ],
    "details": [
     "detail_puddle",
     "detail_moss"
    ],
-   "detail_chance": 0.05
+   "detail_chance": 0.02
   },
   {
    "id": "ground_boards",
@@ -167,9 +167,9 @@
     "ground_boards_alt_3"
    ],
    "weights": [
+    12,
+    1,
     3,
-    2,
-    2,
     2
    ]
   },

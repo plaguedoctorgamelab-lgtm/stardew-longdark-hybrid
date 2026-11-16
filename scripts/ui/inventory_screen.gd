@@ -75,6 +75,14 @@ func close() -> void:
 	other = null
 
 
+## Remakes the backpack's buttons when it grows (the pack frame).
+func rebuild_slots() -> void:
+	for b in _pack_buttons:
+		b.queue_free()
+	_pack_buttons = _grid(Vector2(8, 18), session.backpack.size(), true)
+	refresh()
+
+
 func refresh() -> void:
 	_fill(_pack_buttons, session.backpack, true)
 	if other != null:

@@ -12,7 +12,8 @@
    "name": "item_lantern",
    "kind": "tool",
    "stack": 1,
-   "icon": "item_lantern"
+   "icon": "item_lantern",
+   "family": "lantern"
   },
   {
    "id": "map",
@@ -26,7 +27,8 @@
    "name": "item_compass",
    "kind": "tool",
    "stack": 1,
-   "icon": "item_compass"
+   "icon": "item_compass",
+   "family": "compass"
   },
   {
    "id": "pencil",
@@ -53,7 +55,8 @@
     "bed": "obj_camp_bedroll",
     "fire": "obj_campfire",
     "fire_out": "obj_firepit"
-   }
+   },
+   "family": "bedroll"
   },
   {
    "id": "tin_of_beans",
@@ -171,6 +174,205 @@
    "stack": 1,
    "icon": "item_journal_page",
    "find": "journal_page_one"
+  },
+  {
+   "id": "berries",
+   "name": "item_berries",
+   "kind": "food",
+   "stack": 10,
+   "icon": "item_berries"
+  },
+  {
+   "id": "mushrooms",
+   "name": "item_mushrooms",
+   "kind": "food",
+   "stack": 10,
+   "icon": "item_mushrooms"
+  },
+  {
+   "id": "pine_resin",
+   "name": "item_pine_resin",
+   "kind": "material",
+   "stack": 10,
+   "icon": "item_pine_resin"
+  },
+  {
+   "id": "glowcap",
+   "name": "item_glowcap",
+   "kind": "magic",
+   "stack": 5,
+   "icon": "item_glowcap"
+  },
+  {
+   "id": "trail_mix",
+   "name": "item_trail_mix",
+   "kind": "food",
+   "stack": 5,
+   "icon": "item_trail_mix"
+  },
+  {
+   "id": "sticks",
+   "name": "item_sticks",
+   "kind": "material",
+   "stack": 20,
+   "icon": "item_sticks"
+  },
+  {
+   "id": "stones",
+   "name": "item_stones",
+   "kind": "material",
+   "stack": 20,
+   "icon": "item_stones"
+  },
+  {
+   "id": "reeds",
+   "name": "item_reeds",
+   "kind": "material",
+   "stack": 20,
+   "icon": "item_reeds"
+  },
+  {
+   "id": "wild_onion",
+   "name": "item_wild_onion",
+   "kind": "food",
+   "stack": 10,
+   "icon": "item_wild_onion"
+  },
+  {
+   "id": "fiddleheads",
+   "name": "item_fiddleheads",
+   "kind": "food",
+   "stack": 10,
+   "icon": "item_fiddleheads"
+  },
+  {
+   "id": "wildflowers",
+   "name": "item_wildflowers",
+   "kind": "material",
+   "stack": 10,
+   "icon": "item_wildflowers"
+  },
+  {
+   "id": "hazelnuts",
+   "name": "item_hazelnuts",
+   "kind": "food",
+   "stack": 10,
+   "icon": "item_hazelnuts"
+  },
+  {
+   "id": "rose_hips",
+   "name": "item_rose_hips",
+   "kind": "food",
+   "stack": 10,
+   "icon": "item_rose_hips"
+  },
+  {
+   "id": "ember_moss",
+   "name": "item_ember_moss",
+   "kind": "magic",
+   "stack": 5,
+   "icon": "item_ember_moss"
+  },
+  {
+   "id": "lodestone_sliver",
+   "name": "item_lodestone_sliver",
+   "kind": "magic",
+   "stack": 5,
+   "icon": "item_lodestone_sliver"
+  },
+  {
+   "id": "cairn",
+   "name": "item_cairn",
+   "kind": "placeable",
+   "stack": 5,
+   "icon": "item_cairn",
+   "sprite": "obj_cairn",
+   "needs_tool": "",
+   "on": "open",
+   "map_when_revealed": true
+  },
+  {
+   "id": "rope",
+   "name": "item_rope",
+   "kind": "material",
+   "stack": 10,
+   "icon": "item_rope"
+  },
+  {
+   "id": "boardwalk",
+   "name": "item_boardwalk",
+   "kind": "placeable",
+   "stack": 10,
+   "icon": "item_boardwalk",
+   "lays": "boards"
+  },
+  {
+   "id": "workbench_kit",
+   "name": "item_workbench_kit",
+   "kind": "kit",
+   "stack": 1,
+   "icon": "item_workbench_kit"
+  },
+  {
+   "id": "berry_preserve",
+   "name": "item_berry_preserve",
+   "kind": "food",
+   "stack": 5,
+   "icon": "item_berry_preserve"
+  },
+  {
+   "id": "fiddlehead_fry",
+   "name": "item_fiddlehead_fry",
+   "kind": "food",
+   "stack": 5,
+   "icon": "item_fiddlehead_fry"
+  },
+  {
+   "id": "roast_hazelnuts",
+   "name": "item_roast_hazelnuts",
+   "kind": "food",
+   "stack": 5,
+   "icon": "item_roast_hazelnuts"
+  },
+  {
+   "id": "rose_hip_tea",
+   "name": "item_rose_hip_tea",
+   "kind": "food",
+   "stack": 5,
+   "icon": "item_rose_hip_tea"
+  },
+  {
+   "id": "glowcap_lantern",
+   "name": "item_glowcap_lantern",
+   "kind": "tool",
+   "stack": 1,
+   "icon": "item_glowcap_lantern",
+   "family": "lantern",
+   "refit": "glowcap"
+  },
+  {
+   "id": "ember_bedroll",
+   "name": "item_ember_bedroll",
+   "kind": "tool",
+   "stack": 1,
+   "icon": "item_ember_bedroll",
+   "family": "bedroll",
+   "refit": "ember_moss",
+   "camp_sprites": {
+    "bed": "obj_camp_bedroll",
+    "fire": "obj_campfire",
+    "fire_out": "obj_firepit"
+   }
+  },
+  {
+   "id": "true_compass",
+   "name": "item_true_compass",
+   "kind": "tool",
+   "stack": 1,
+   "icon": "item_true_compass",
+   "family": "compass",
+   "refit": "lodestone_sliver"
   }
- ]
+ ],
+ "note": "Everything that goes in the backpack. family: a tool and its refitted versions share one family, and anything that needs the tool takes any of them. refit: the magical ingredient a refitted tool holds. placeable: put on the faced tile (needs_tool: the tool it needs, \"\" for none; on: trail or open ground; map_when_revealed: shown on the map once that ground is revealed; lays: laid as that ground, on the grounds in tuning trail.boardwalk_on). kit: set up inside a building."
 }

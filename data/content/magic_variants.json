@@ -1,0 +1,26 @@
+{
+ "note": "The magic slot: which recipe takes which magical ingredient, and what it makes. changes is for the lab only; the game never says what a variant does.",
+ "rows": [
+  {
+   "id": "glowcap_lantern",
+   "recipe": "refit_lantern",
+   "ingredient": "glowcap",
+   "result": "glowcap_lantern",
+   "changes": "Light reaches tuning refits.glowcap_lantern_radius tiles; finds not yet logged sparkle inside it."
+  },
+  {
+   "id": "ember_bedroll",
+   "recipe": "refit_bedroll",
+   "ingredient": "ember_moss",
+   "result": "ember_bedroll",
+   "changes": "Camp needs no firewood and stays warm with no fire; camp sleep restores tuning refits.ember_bedroll_restore."
+  },
+  {
+   "id": "true_compass",
+   "recipe": "refit_compass",
+   "ingredient": "lodestone_sliver",
+   "result": "true_compass",
+   "changes": "The map marker stays at night and in fog, off the trail too; the weathers in tuning refits.true_compass_hidden_by still hide it."
+  }
+ ]
+}

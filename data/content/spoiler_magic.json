@@ -1,0 +1,20 @@
+{
+ "note": "SPOILERS. Where the magical ingredients can be. The bake (tools/bake_forage.py) picks magic.places_per_ingredient places for each that fit its rule, at least min_spacing tiles apart; a save uses magic.places_per_save of them. Never described in status emails; only counted.",
+ "rows": [
+  {
+   "id": "glowcap",
+   "rule": {"grounds": ["forest_floor"], "beside_ground": ["bog"], "within": 2},
+   "min_spacing": 40
+  },
+  {
+   "id": "ember_moss",
+   "rule": {"grounds": ["forest_floor", "grass"], "beside_object": ["tree_dead", "fallen_trunk"], "within": 1},
+   "min_spacing": 40
+  },
+  {
+   "id": "lodestone_sliver",
+   "rule": {"grounds": ["forest_floor", "grass"], "beside_ground": ["rock"], "within": 1},
+   "min_spacing": 50
+  }
+ ]
+}

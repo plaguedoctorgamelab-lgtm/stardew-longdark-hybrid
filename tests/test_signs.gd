@@ -30,7 +30,8 @@ func test_workbench_in_the_station(t: TestCase) -> void:
 	s.facing = GameSession.FACING_UP
 	s.interact()
 	t.equal(opened[0], 1, "using it opens the workbench")
-	t.equal(s.recipes_at("workbench").size(), 3, "three park-work recipes")
+	var n := s.content.rows("recipes").filter(func(r: Dictionary) -> bool: return r["station"] == "workbench" or r["station"] == "anywhere").size()
+	t.equal(s.recipes_at("workbench").size(), n, "the workbench lists its recipes and the ones made anywhere")
 
 
 func test_crafting(t: TestCase) -> void:
@@ -40,11 +41,13 @@ func test_crafting(t: TestCase) -> void:
 	s.debug_add_item("planks", 5)
 	s.debug_add_item("nails", 5)
 	t.check(s.recipe_status("trail_sign")["can"], "the recipe can be made")
-	t.check(s.craft("trail_sign"), "a sign is made")
+	t.check(s.craft("trail_sign"), "a blank sign is made anywhere")
 	t.equal(s.backpack.count("trail_sign"), 1, "it is in the backpack")
 	t.equal(s.backpack.count("planks"), 3, "planks used")
-	t.equal(s.backpack.count("nails"), 3, "nails used")
-	t.check(s.craft("trail_marker"), "markers made")
+	t.equal(s.backpack.count("nails"), 4, "nails used")
+	t.check(not s.craft("trail_marker"), "markers need a workbench")
+	s.enter_building("ranger_station")
+	t.check(s.craft("trail_marker"), "markers made at the workbench")
 	t.equal(s.backpack.count("trail_marker"), 2, "two at a time")
 
 

@@ -19,6 +19,31 @@ func size() -> int:
 	return slots.size()
 
 
+## Grows (or shrinks) to n slots, keeping every stack in its slot.
+func resize(n: int) -> void:
+	while slots.size() < n:
+		slots.append({})
+	while slots.size() > n and (slots[slots.size() - 1] as Dictionary).is_empty():
+		slots.pop_back()
+	changed.emit()
+
+
+## The first slot holding an item of this family (the item itself, or a
+## refitted version of it), or -1.
+func find_family(family: String) -> int:
+	for i in slots.size():
+		var s: Dictionary = slots[i]
+		if not s.is_empty() and str(content.row("items", s["item"]).get("family", s["item"])) == family:
+			return i
+	return -1
+
+
+## Puts another item in slot i in place of what is there (a refit).
+func replace_at(i: int, item_id: String) -> void:
+	slots[i] = {"item": item_id, "count": 1}
+	changed.emit()
+
+
 func stack_size(item_id: String) -> int:
 	return int(content.row("items", item_id).get("stack", 1))
 
@@ -201,6 +226,8 @@ func to_array() -> Array:
 
 
 func from_array(arr: Array) -> void:
+	if arr.size() > slots.size():
+		resize(arr.size())
 	for i in slots.size():
 		slots[i] = (arr[i] as Dictionary).duplicate() if i < arr.size() else {}
 		if not (slots[i] as Dictionary).is_empty():

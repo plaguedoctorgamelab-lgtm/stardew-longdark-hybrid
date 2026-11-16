@@ -33,12 +33,12 @@ def bake_check():
                 return False
         names = sorted(os.listdir(os.path.join(a, "chunks")))
         same, diff, err = filecmp.cmpfiles(os.path.join(a, "chunks"), os.path.join(b, "chunks"), names, shallow=False)
-        if diff or err or not filecmp.cmp(os.path.join(a, "world.json"), os.path.join(b, "world.json"), shallow=False):
+        if diff or err or not all(filecmp.cmp(os.path.join(a, f), os.path.join(b, f), shallow=False) for f in ("world.json", "forage.json")):
             print("bake check FAILED: two bakes differ:", diff, err)
             return False
         repo = os.path.join(ROOT, "data", "world")
         same, diff, err = filecmp.cmpfiles(os.path.join(a, "chunks"), os.path.join(repo, "chunks"), names, shallow=False)
-        if diff or err or not filecmp.cmp(os.path.join(a, "world.json"), os.path.join(repo, "world.json"), shallow=False):
+        if diff or err or not all(filecmp.cmp(os.path.join(a, f), os.path.join(repo, f), shallow=False) for f in ("world.json", "forage.json")):
             print("bake check FAILED: the stored chunks are out of date; run python tools/bake_world.py", diff[:5], err[:5])
             return False
         print("bake check passed: two bakes identical, %d chunks match the repository" % len(names))

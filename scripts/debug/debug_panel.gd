@@ -14,6 +14,12 @@ var _warmth: SpinBox
 var _fast: CheckBox
 var _drain: CheckBox
 var _overlay: CheckBox
+var _forage_pick: OptionButton
+var _skill_pick: OptionButton
+var _skill_level: SpinBox
+var _spoilers: CheckBox
+var _magic_pick: OptionButton
+var _spec_pick: OptionButton
 var on_teleport: Callable = func() -> void: pass
 
 
@@ -106,6 +112,35 @@ func setup(s: GameSession) -> void:
 	r.add_child(tl)
 	_btn(r, "Repair all", func() -> void: session.debug_repair_all("static_tower", true))
 	_btn(r, "Undo all", func() -> void: session.debug_repair_all("static_tower", false))
+
+	r = _row()
+	_forage_pick = _pick(r, session.content.ids("forage"))
+	_btn(r, "Forage in front", func() -> void:
+		session.debug_spawn_forage(session.ranger_tile() + session.facing_vector(), _forage_pick.get_item_text(_forage_pick.selected)))
+	_btn(r, "Regrow forage", session.debug_regrow_forage)
+	_btn(r, "Unlock recipes", session.debug_unlock_recipes)
+
+	# Magical ingredients: counts only, unless spoilers are ticked.
+	r = _row()
+	_spoilers = CheckBox.new()
+	_spoilers.text = "Show spoilers"
+	_spoilers.focus_mode = Control.FOCUS_NONE
+	r.add_child(_spoilers)
+	_btn(r, "Magic info", func() -> void: session.note_read.emit(session.debug_magic_text(_spoilers.button_pressed)))
+	var magic_ids: Array[String] = []
+	for id: String in session.forage.magic_places:
+		magic_ids.append(id)
+	_magic_pick = _pick(r, magic_ids)
+	_btn(r, "Go to it", func() -> void:
+		if _spoilers.button_pressed and session.debug_go_to_magic(_magic_pick.get_item_text(_magic_pick.selected)):
+			on_teleport.call())
+
+	r = _row()
+	_skill_pick = _pick(r, session.content.ids("skills"))
+	_skill_level = _spin(r, 0, 10, 5)
+	_btn(r, "Set level", func() -> void: session.debug_set_skill(_skill_pick.get_item_text(_skill_pick.selected), int(_skill_level.value)))
+	_spec_pick = _pick(r, session.content.ids("specialties"))
+	_btn(r, "Give", func() -> void: session.debug_choose_specialty(_spec_pick.get_item_text(_spec_pick.selected)))
 
 	r = _row()
 	_btn(r, "Reveal map", session.debug_reveal_map)

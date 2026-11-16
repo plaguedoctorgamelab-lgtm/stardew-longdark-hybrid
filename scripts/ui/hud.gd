@@ -23,6 +23,35 @@ var debug_label: Label
 var _message_time: float = 0.0
 
 
+## The item bar: one slot per backpack slot, rebuilt when the backpack grows.
+func rebuild_slots() -> void:
+	for n: Node in slot_panels:
+		n.queue_free()
+	for n: Node in slot_icons:
+		n.queue_free()
+	for n: Node in slot_counts:
+		n.queue_free()
+	slot_panels.clear()
+	slot_icons.clear()
+	slot_counts.clear()
+	var bar_w := SLOT * session.backpack.size()
+	var x0 := (480 - bar_w) / 2.0
+	for i in session.backpack.size():
+		var p := Panel.new()
+		p.position = Vector2(x0 + i * SLOT, 250)
+		p.size = Vector2(SLOT, SLOT)
+		p.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		root.add_child(p)
+		var icon := TextureRect.new()
+		icon.position = p.position + Vector2(1, 1)
+		_fit_icon(icon)
+		root.add_child(icon)
+		var cnt := _label(p.position + Vector2(9, 7))
+		slot_panels.append(p)
+		slot_icons.append(icon)
+		slot_counts.append(cnt)
+
+
 func setup(s: GameSession, theme: Theme) -> void:
 	session = s
 	layer = 5
@@ -52,22 +81,7 @@ func setup(s: GameSession, theme: Theme) -> void:
 	var wl := _label(Vector2(447, 258))
 	wl.text = "W"
 
-	var bar_w := SLOT * session.backpack.size()
-	var x0 := (480 - bar_w) / 2.0
-	for i in session.backpack.size():
-		var p := Panel.new()
-		p.position = Vector2(x0 + i * SLOT, 250)
-		p.size = Vector2(SLOT, SLOT)
-		p.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		root.add_child(p)
-		var icon := TextureRect.new()
-		icon.position = p.position + Vector2(1, 1)
-		_fit_icon(icon)
-		root.add_child(icon)
-		var cnt := _label(p.position + Vector2(9, 7))
-		slot_panels.append(p)
-		slot_icons.append(icon)
-		slot_counts.append(cnt)
+	rebuild_slots()
 
 	message_label = _label(Vector2(0, 236))
 	message_label.size = Vector2(480, 10)
@@ -138,14 +152,19 @@ func _process(delta: float) -> void:
 	if session.needs.is_chilled():
 		st.append(session.content.text("hud_chilled"))
 	status_label.text = " ".join(st)
-	for i in session.backpack.size():
+	var tremble := session.compass_trembling()
+	for i in mini(session.backpack.size(), slot_icons.size()):
 		var s := session.backpack.slot(i)
+		slot_icons[i].position = slot_panels[i].position + Vector2(1, 1)
 		if s.is_empty():
 			slot_icons[i].texture = null
 			slot_counts[i].text = ""
 		else:
 			slot_icons[i].texture = Art.texture(session.content.row("items", s["item"])["icon"])
 			slot_counts[i].text = str(s["count"]) if int(s["count"]) > 1 else ""
+			# The compass needle trembles near something buried.
+			if tremble and session.family_of(s["item"]) == "compass":
+				slot_icons[i].position += Vector2(randi_range(-1, 1), 0)
 		slot_panels[i].self_modulate = Color(1.6, 1.4, 0.6) if i == session.selected_slot else Color.WHITE
 	if _message_time > 0.0:
 		_message_time -= delta

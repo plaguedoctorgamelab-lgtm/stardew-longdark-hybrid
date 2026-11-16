@@ -61,13 +61,18 @@ func _ready() -> void:
 	session.collapsed.connect(func(text: String) -> void: _show_dialog("notice", text))
 	session.note_read.connect(func(text: String) -> void: _show_dialog("notice", text))
 	session.workbench_opened.connect(func() -> void: choice_screen.open_workbench())
+	session.cooking_opened.connect(func() -> void: choice_screen.open_station("fire"))
 	session.choice_requested.connect(func(kind: String, title: String, options: Array) -> void: choice_screen.open(kind, title, options))
 	choice_screen.chosen.connect(func(kind: String, option_id: String) -> void:
-		if kind == "workbench":
-			session.craft(option_id)
+		if choice_screen.STATIONS.has(kind):
+			session.choose_recipe(option_id)
+			choice_screen.refresh()
 		else:
 			session.answer_choice(kind, option_id))
 	session.backpack.changed.connect(func() -> void: choice_screen.refresh())
+	session.backpack_grew.connect(func() -> void:
+		hud.rebuild_slots()
+		inventory_screen.rebuild_slots())
 	_show_title()
 
 
@@ -233,9 +238,13 @@ func _show_dialog(kind: String, text: String) -> void:
 
 func _close_dialog(yes: bool) -> void:
 	dialog.visible = false
-	if _dialog_kind in ["sleep", "camp_sleep", "open_site"]:
-		session.answer_confirm(yes)
+	var kind := _dialog_kind
 	_dialog_kind = ""
+	if kind in ["sleep", "camp_sleep", "open_site"]:
+		session.answer_confirm(yes)
+	# A level 5 wake-up offers the specialty once the wake-up note is read.
+	if not dialog.visible and session.wake_offer:
+		session.offer_specialty()
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -253,8 +262,18 @@ func _unhandled_input(event: InputEvent) -> void:
 			_close_dialog(false)
 		return
 	if choice_screen.visible:
-		if event.is_action_pressed("backpack") or event.is_action_pressed("cancel"):
+		if event.is_action_pressed("backpack") or event.is_action_pressed("cancel") or (event.is_action_pressed("craft") and choice_screen.kind == "anywhere"):
 			choice_screen.close()
+		return
+	if event.is_action_pressed("craft") and not menu_open():
+		choice_screen.open_station("anywhere")
+		return
+	if event.is_action_pressed("skills") and not menu_open():
+		if not session.offer_specialty():
+			_show_dialog("notice", session.content.text("ui_skills_title") + "
+
+" + "
+".join(session.skill_lines()))
 		return
 	if event.is_action_pressed("backpack"):
 		if map_screen.visible:

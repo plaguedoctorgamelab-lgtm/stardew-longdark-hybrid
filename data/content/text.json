@@ -638,7 +638,7 @@
   },
   {
    "id": "recipe_trail_sign",
-   "text": "Trail sign",
+   "text": "Blank sign",
    "placeholder": true
   },
   {
@@ -894,6 +894,641 @@
   {
    "id": "msg_tower_survey",
    "text": "From up here you can see for miles. The map fills in.",
+   "placeholder": true
+  },
+  {
+   "id": "item_berries",
+   "text": "Berries",
+   "placeholder": true
+  },
+  {
+   "id": "item_mushrooms",
+   "text": "Mushrooms",
+   "placeholder": true
+  },
+  {
+   "id": "item_pine_resin",
+   "text": "Pine resin",
+   "placeholder": true
+  },
+  {
+   "id": "item_glowcap",
+   "text": "Glowcap",
+   "placeholder": true
+  },
+  {
+   "id": "item_trail_mix",
+   "text": "Trail mix",
+   "placeholder": true
+  },
+  {
+   "id": "item_sticks",
+   "text": "Sticks",
+   "placeholder": true
+  },
+  {
+   "id": "item_stones",
+   "text": "Stones",
+   "placeholder": true
+  },
+  {
+   "id": "item_reeds",
+   "text": "Reeds",
+   "placeholder": true
+  },
+  {
+   "id": "item_wild_onion",
+   "text": "Wild onion",
+   "placeholder": true
+  },
+  {
+   "id": "item_fiddleheads",
+   "text": "Fiddleheads",
+   "placeholder": true
+  },
+  {
+   "id": "item_wildflowers",
+   "text": "Wildflowers",
+   "placeholder": true
+  },
+  {
+   "id": "item_hazelnuts",
+   "text": "Hazelnuts",
+   "placeholder": true
+  },
+  {
+   "id": "item_rose_hips",
+   "text": "Rose hips",
+   "placeholder": true
+  },
+  {
+   "id": "item_ember_moss",
+   "text": "Ember moss",
+   "placeholder": true
+  },
+  {
+   "id": "item_lodestone_sliver",
+   "text": "Lodestone sliver",
+   "placeholder": true
+  },
+  {
+   "id": "item_cairn",
+   "text": "Cairn",
+   "placeholder": true
+  },
+  {
+   "id": "item_rope",
+   "text": "Rope",
+   "placeholder": true
+  },
+  {
+   "id": "item_boardwalk",
+   "text": "Boardwalk",
+   "placeholder": true
+  },
+  {
+   "id": "item_workbench_kit",
+   "text": "Workbench kit",
+   "placeholder": true
+  },
+  {
+   "id": "item_berry_preserve",
+   "text": "Berry preserve",
+   "placeholder": true
+  },
+  {
+   "id": "item_fiddlehead_fry",
+   "text": "Fiddlehead fry",
+   "placeholder": true
+  },
+  {
+   "id": "item_roast_hazelnuts",
+   "text": "Roast hazelnuts",
+   "placeholder": true
+  },
+  {
+   "id": "item_rose_hip_tea",
+   "text": "Rose hip tea",
+   "placeholder": true
+  },
+  {
+   "id": "item_glowcap_lantern",
+   "text": "Glowcap lantern",
+   "placeholder": true
+  },
+  {
+   "id": "item_ember_bedroll",
+   "text": "Ember bedroll",
+   "placeholder": true
+  },
+  {
+   "id": "item_true_compass",
+   "text": "True compass",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_cairn",
+   "text": "Cairn",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_rope",
+   "text": "Rope",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_trail_mix",
+   "text": "Trail mix",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_planks",
+   "text": "Planks",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_roofing",
+   "text": "Roofing",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_workbench_kit",
+   "text": "Workbench kit",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_boardwalk",
+   "text": "Boardwalk",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_pack_frame",
+   "text": "Pack frame",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_hot_soup",
+   "text": "Hot soup",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_fiddlehead_fry",
+   "text": "Fiddlehead fry",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_berry_preserve",
+   "text": "Berry preserve",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_roast_hazelnuts",
+   "text": "Roast hazelnuts",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_rose_hip_tea",
+   "text": "Rose hip tea",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_refit_lantern",
+   "text": "Refit the lantern",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_refit_bedroll",
+   "text": "Refit the bedroll",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_refit_compass",
+   "text": "Refit the compass",
+   "placeholder": true
+  },
+  {
+   "id": "idea_reeds",
+   "text": "These reeds would twist into rope.",
+   "placeholder": true
+  },
+  {
+   "id": "idea_hazelnuts",
+   "text": "Hazelnuts and berries would make a good trail mix.",
+   "placeholder": true
+  },
+  {
+   "id": "idea_rope",
+   "text": "With rope and a few sticks you could make a frame for a bigger pack.",
+   "placeholder": true
+  },
+  {
+   "id": "idea_mushrooms",
+   "text": "These mushrooms would make a good hot soup, with an onion.",
+   "placeholder": true
+  },
+  {
+   "id": "idea_fiddleheads",
+   "text": "Fiddleheads would fry up nicely with an onion.",
+   "placeholder": true
+  },
+  {
+   "id": "idea_rose_hips",
+   "text": "Rose hips would steep into a warming tea.",
+   "placeholder": true
+  },
+  {
+   "id": "idea_glowcap",
+   "text": "This glowcap gives you an idea about your lantern.",
+   "placeholder": true
+  },
+  {
+   "id": "idea_ember_moss",
+   "text": "This ember moss gives you an idea about your bedroll.",
+   "placeholder": true
+  },
+  {
+   "id": "idea_lodestone_sliver",
+   "text": "This sliver gives you an idea about your compass.",
+   "placeholder": true
+  },
+  {
+   "id": "find_glowcap",
+   "text": "Glowcap. A small violet mushroom that gives off its own light. It only seems to show itself at night.",
+   "placeholder": true
+  },
+  {
+   "id": "find_ember_moss",
+   "text": "Ember moss. An orange moss on dead wood, warm to the touch, even in the snow.",
+   "placeholder": true
+  },
+  {
+   "id": "find_lodestone_sliver",
+   "text": "Lodestone sliver. A splinter of dark stone that pulls at anything iron. The compass needle won't sit still near it.",
+   "placeholder": true
+  },
+  {
+   "id": "skill_trailcraft",
+   "text": "Trailcraft",
+   "placeholder": true
+  },
+  {
+   "id": "skill_surveying",
+   "text": "Surveying",
+   "placeholder": true
+  },
+  {
+   "id": "skill_woodcraft",
+   "text": "Woodcraft",
+   "placeholder": true
+  },
+  {
+   "id": "skill_foraging",
+   "text": "Foraging",
+   "placeholder": true
+  },
+  {
+   "id": "perk_trailcraft_2",
+   "text": "Each dig lays one more tile",
+   "placeholder": true
+  },
+  {
+   "id": "perk_trailcraft_3",
+   "text": "Boardwalk recipe",
+   "placeholder": true
+  },
+  {
+   "id": "perk_trailcraft_4",
+   "text": "Clearing brush takes no time",
+   "placeholder": true
+  },
+  {
+   "id": "perk_surveying_2",
+   "text": "Surveys take 20 minutes",
+   "placeholder": true
+  },
+  {
+   "id": "perk_surveying_3",
+   "text": "Surveys reach 2 tiles further",
+   "placeholder": true
+  },
+  {
+   "id": "perk_surveying_4",
+   "text": "Surveys work at dawn and dusk",
+   "placeholder": true
+  },
+  {
+   "id": "perk_woodcraft_2",
+   "text": "Roofing recipe",
+   "placeholder": true
+  },
+  {
+   "id": "perk_woodcraft_3",
+   "text": "Workbench kit recipe",
+   "placeholder": true
+  },
+  {
+   "id": "perk_woodcraft_4",
+   "text": "Fires burn 4 hours per firewood",
+   "placeholder": true
+  },
+  {
+   "id": "perk_foraging_2",
+   "text": "Berry preserve recipe",
+   "placeholder": true
+  },
+  {
+   "id": "perk_foraging_3",
+   "text": "Roast hazelnuts recipe",
+   "placeholder": true
+  },
+  {
+   "id": "perk_foraging_4",
+   "text": "A chance of a double pick",
+   "placeholder": true
+  },
+  {
+   "id": "spec_trail_builder",
+   "text": "Trail builder",
+   "placeholder": true
+  },
+  {
+   "id": "spec_trail_builder_desc",
+   "text": "Each dig lays one tile more again, for half the energy",
+   "placeholder": true
+  },
+  {
+   "id": "spec_sawyer",
+   "text": "Sawyer",
+   "placeholder": true
+  },
+  {
+   "id": "spec_sawyer_desc",
+   "text": "Fallen trunks fall to one cut, and chopping gives double firewood",
+   "placeholder": true
+  },
+  {
+   "id": "spec_cartographer",
+   "text": "Cartographer",
+   "placeholder": true
+  },
+  {
+   "id": "spec_cartographer_desc",
+   "text": "Surveys reach half as far again, and work in rain",
+   "placeholder": true
+  },
+  {
+   "id": "spec_wayfinder",
+   "text": "Wayfinder",
+   "placeholder": true
+  },
+  {
+   "id": "spec_wayfinder_desc",
+   "text": "Walk 15% faster off the trail, and tall grass no longer slows you",
+   "placeholder": true
+  },
+  {
+   "id": "spec_carpenter",
+   "text": "Carpenter",
+   "placeholder": true
+  },
+  {
+   "id": "spec_carpenter_desc",
+   "text": "Repair steps take two actions, and a quarter fewer planks",
+   "placeholder": true
+  },
+  {
+   "id": "spec_camp_hand",
+   "text": "Camp hand",
+   "placeholder": true
+  },
+  {
+   "id": "spec_camp_hand_desc",
+   "text": "Camp restores 10 more, and cooked food gives a quarter more",
+   "placeholder": true
+  },
+  {
+   "id": "spec_gatherer",
+   "text": "Gatherer",
+   "placeholder": true
+  },
+  {
+   "id": "spec_gatherer_desc",
+   "text": "A better chance of a double pick, and bushes fruit again in two days",
+   "placeholder": true
+  },
+  {
+   "id": "spec_seeker",
+   "text": "Seeker",
+   "placeholder": true
+  },
+  {
+   "id": "spec_seeker_desc",
+   "text": "Sense magical ingredients nearby, and they come back twice as fast",
+   "placeholder": true
+  },
+  {
+   "id": "msg_picked",
+   "text": "Picked {item}.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_picked_extra",
+   "text": "Picked {item}, two of them.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_picked_magic",
+   "text": "Found {item}. It feels strange in your hand.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_resin_taken",
+   "text": "You scrape a little pine resin from the bark.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_resin_wait",
+   "text": "This pine has given its resin for now.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_cook_need_fire",
+   "text": "You need a lit stove or camp fire to cook.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_cooked",
+   "text": "Cooked {item}.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_craft_need_workbench",
+   "text": "That needs a workbench.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_craft_need_tool",
+   "text": "That needs the {tool}.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_refitted",
+   "text": "You refit the {tool} with the {ingredient}.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_recipe_learned",
+   "text": "New recipe: {name}.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_pack_frame",
+   "text": "You fit the new pack frame. The backpack has room for more now.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_skill_level",
+   "text": "{skill} is now level {level}.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_skill_perk",
+   "text": "    {perk}.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_specialty_chosen",
+   "text": "{skill}: you are now a {name}.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_compass_trembles",
+   "text": "The compass needle trembles.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_sense_magic",
+   "text": "You sense something unusual nearby.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_dug_up",
+   "text": "You dig up something: {item}.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_kit_set_up",
+   "text": "You set up the workbench.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_kit_bad_place",
+   "text": "A workbench kit is set up inside a repaired cabin or tower without one.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_boardwalk_laid",
+   "text": "You lay a stretch of boardwalk.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_boardwalk_bad_spot",
+   "text": "Boardwalk is laid on boggy ground or shallows.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_cairn_up",
+   "text": "You stack a small cairn.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_camp_warm_bedroll",
+   "text": "The ember bedroll is warm without a fire.",
+   "placeholder": true
+  },
+  {
+   "id": "ui_cooking",
+   "text": "Cooking",
+   "placeholder": true
+  },
+  {
+   "id": "ui_crafting",
+   "text": "Crafting",
+   "placeholder": true
+  },
+  {
+   "id": "ui_add_firewood",
+   "text": "Add firewood ({n} in your pack)",
+   "placeholder": true
+  },
+  {
+   "id": "ui_slot_empty",
+   "text": "[?]",
+   "placeholder": true
+  },
+  {
+   "id": "ui_slot_option",
+   "text": "{name}: {inputs}, [?] {ingredient} (have {have})",
+   "placeholder": true
+  },
+  {
+   "id": "ui_skills_title",
+   "text": "Skills",
+   "placeholder": true
+  },
+  {
+   "id": "ui_skill_line",
+   "text": "{name}  level {level}  ({xp}/{next} to next)",
+   "placeholder": true
+  },
+  {
+   "id": "ui_skill_line_max",
+   "text": "{name}  level {level}  (highest)",
+   "placeholder": true
+  },
+  {
+   "id": "ui_skill_perks",
+   "text": "    {list}",
+   "placeholder": true
+  },
+  {
+   "id": "ui_skill_specs",
+   "text": "    Specialty: {name}",
+   "placeholder": true
+  },
+  {
+   "id": "ui_skill_choose",
+   "text": "    A specialty is waiting to be chosen.",
+   "placeholder": true
+  },
+  {
+   "id": "ui_specialty_title",
+   "text": "{skill} level {level}: choose a specialty",
+   "placeholder": true
+  },
+  {
+   "id": "ui_specialty_option",
+   "text": "{name}: {desc}",
+   "placeholder": true
+  },
+  {
+   "id": "ui_known_recipes",
+   "text": "Recipes known: {n}",
+   "placeholder": true
+  },
+  {
+   "id": "ui_craft_hint_k",
+   "text": "Click to make. K or Esc to close.",
+   "placeholder": true
+  },
+  {
+   "id": "ui_needs_tool",
+   "text": "(needs the {tool})",
+   "placeholder": true
+  },
+  {
+   "id": "ui_made_once",
+   "text": "(made)",
    "placeholder": true
   }
  ]

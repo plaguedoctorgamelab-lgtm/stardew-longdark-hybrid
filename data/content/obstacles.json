@@ -4,7 +4,10 @@
    "id": "brush",
    "object": "brush",
    "tool": "axe",
-   "name": "obstacle_brush"
+   "name": "obstacle_brush",
+   "gives": {
+    "sticks": 2
+   }
   },
   {
    "id": "fallen_trunk",

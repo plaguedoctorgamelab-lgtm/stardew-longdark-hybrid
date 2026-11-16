@@ -1,24 +1,135 @@
 {
+ "note": "Every recipe. station: anywhere (the Crafting page), workbench (also lists the anywhere recipes) or fire (a lit stove or camp fire). At a workbench or stove, the building's chest counts as well as the backpack. tool: a tool that must be at hand and is not used up. result: what it gives, or effect pack_frame (the backpack grows to tuning crafting.pack_frame_slots). once: made only once. learned: start (known from the start), skill (a perk in the skills table teaches it) or idea (a row in the ideas table teaches it). refit: takes the ranger's tool of this family plus the magical ingredient in its slot, and gives the variant in the magic_variants table. Trail markers and repair kits carry over from phase 2a.",
  "rows": [
+  {
+   "id": "cairn",
+   "name": "recipe_cairn",
+   "station": "anywhere",
+   "inputs": {
+    "stones": 3
+   },
+   "result": {
+    "item": "cairn",
+    "count": 1
+   },
+   "learned": "start"
+  },
   {
    "id": "trail_sign",
    "name": "recipe_trail_sign",
+   "station": "anywhere",
+   "inputs": {
+    "planks": 2,
+    "nails": 1
+   },
+   "result": {
+    "item": "trail_sign",
+    "count": 1
+   },
+   "learned": "start"
+  },
+  {
+   "id": "rope",
+   "name": "recipe_rope",
+   "station": "anywhere",
+   "inputs": {
+    "reeds": 3
+   },
+   "result": {
+    "item": "rope",
+    "count": 1
+   },
+   "learned": "idea"
+  },
+  {
+   "id": "trail_mix",
+   "name": "recipe_trail_mix",
+   "station": "anywhere",
+   "inputs": {
+    "berries": 2,
+    "hazelnuts": 2
+   },
+   "result": {
+    "item": "trail_mix",
+    "count": 1
+   },
+   "learned": "idea"
+  },
+  {
+   "id": "planks",
+   "name": "recipe_planks",
    "station": "workbench",
-   "kind": "park_work",
+   "inputs": {
+    "firewood": 2
+   },
+   "result": {
+    "item": "planks",
+    "count": 1
+   },
+   "learned": "start",
+   "tool": "saw"
+  },
+  {
+   "id": "roofing",
+   "name": "recipe_roofing",
+   "station": "workbench",
+   "inputs": {
+    "firewood": 2
+   },
+   "result": {
+    "item": "roofing",
+    "count": 1
+   },
+   "learned": "skill",
+   "tool": "axe"
+  },
+  {
+   "id": "workbench_kit",
+   "name": "recipe_workbench_kit",
+   "station": "workbench",
+   "inputs": {
+    "planks": 4,
+    "nails": 8
+   },
+   "result": {
+    "item": "workbench_kit",
+    "count": 1
+   },
+   "learned": "skill"
+  },
+  {
+   "id": "boardwalk",
+   "name": "recipe_boardwalk",
+   "station": "workbench",
    "inputs": {
     "planks": 2,
     "nails": 2
    },
    "result": {
-    "item": "trail_sign",
+    "item": "boardwalk",
     "count": 1
-   }
+   },
+   "learned": "skill"
+  },
+  {
+   "id": "pack_frame",
+   "name": "recipe_pack_frame",
+   "station": "workbench",
+   "inputs": {
+    "sticks": 4,
+    "rope": 2,
+    "pine_resin": 1
+   },
+   "result": {
+    "effect": "pack_frame"
+   },
+   "learned": "idea",
+   "once": true
   },
   {
    "id": "trail_marker",
    "name": "recipe_trail_marker",
    "station": "workbench",
-   "kind": "park_work",
    "inputs": {
     "planks": 1,
     "nails": 1
@@ -26,13 +137,13 @@
    "result": {
     "item": "trail_marker",
     "count": 2
-   }
+   },
+   "learned": "start"
   },
   {
    "id": "repair_kit",
    "name": "recipe_repair_kit",
    "station": "workbench",
-   "kind": "park_work",
    "inputs": {
     "planks": 4,
     "nails": 8
@@ -40,7 +151,102 @@
    "result": {
     "item": "repair_kit",
     "count": 1
-   }
+   },
+   "learned": "start"
+  },
+  {
+   "id": "hot_soup",
+   "name": "recipe_hot_soup",
+   "station": "fire",
+   "inputs": {
+    "mushrooms": 2,
+    "wild_onion": 1
+   },
+   "result": {
+    "item": "hot_soup",
+    "count": 1
+   },
+   "learned": "idea"
+  },
+  {
+   "id": "fiddlehead_fry",
+   "name": "recipe_fiddlehead_fry",
+   "station": "fire",
+   "inputs": {
+    "fiddleheads": 2,
+    "wild_onion": 1
+   },
+   "result": {
+    "item": "fiddlehead_fry",
+    "count": 1
+   },
+   "learned": "idea"
+  },
+  {
+   "id": "berry_preserve",
+   "name": "recipe_berry_preserve",
+   "station": "fire",
+   "inputs": {
+    "berries": 3
+   },
+   "result": {
+    "item": "berry_preserve",
+    "count": 1
+   },
+   "learned": "skill"
+  },
+  {
+   "id": "roast_hazelnuts",
+   "name": "recipe_roast_hazelnuts",
+   "station": "fire",
+   "inputs": {
+    "hazelnuts": 3
+   },
+   "result": {
+    "item": "roast_hazelnuts",
+    "count": 1
+   },
+   "learned": "skill"
+  },
+  {
+   "id": "rose_hip_tea",
+   "name": "recipe_rose_hip_tea",
+   "station": "fire",
+   "inputs": {
+    "rose_hips": 2
+   },
+   "result": {
+    "item": "rose_hip_tea",
+    "count": 1
+   },
+   "learned": "idea"
+  },
+  {
+   "id": "refit_lantern",
+   "name": "recipe_refit_lantern",
+   "station": "workbench",
+   "inputs": {},
+   "result": {},
+   "learned": "idea",
+   "refit": "lantern"
+  },
+  {
+   "id": "refit_bedroll",
+   "name": "recipe_refit_bedroll",
+   "station": "workbench",
+   "inputs": {},
+   "result": {},
+   "learned": "idea",
+   "refit": "bedroll"
+  },
+  {
+   "id": "refit_compass",
+   "name": "recipe_refit_compass",
+   "station": "workbench",
+   "inputs": {},
+   "result": {},
+   "learned": "idea",
+   "refit": "compass"
   }
  ]
 }

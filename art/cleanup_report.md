@@ -1,7 +1,7 @@
 # Art cleanup report
 
 Made by tools/art_cleanup.py. palette from art/palette.json (33 colors). A picture cut pixel for pixel from a refresh sheet replaces any earlier picture of the same name.
-263 images passed, 1 failed.
+291 images passed, 1 failed.
 
 
 ## ChatGPT Image Nov 15, 2026, 07_04_59 AM.png (ground tiles)
@@ -356,3 +356,58 @@ Made by tools/art_cleanup.py. palette from art/palette.json (33 colors). A pictu
 ## refresh_ranger.png (Art Request 03: the ranger walking (4 frames x 4 directions))
 
 - ranger: **pass** 64x128 pixel for pixel
+
+## ar05_ground.png (Art Request 05: soft ground, four versions each)
+
+- ground_grass: **pass** 16x16 pixel for pixel
+- ground_grass_alt_1: **pass** 16x16 pixel for pixel
+- ground_grass_alt_2: **pass** 16x16 pixel for pixel
+- ground_grass_alt_3: **pass** 16x16 pixel for pixel
+- ground_forest_floor: **pass** 16x16 pixel for pixel
+- ground_forest_floor_alt_1: **pass** 16x16 pixel for pixel
+- ground_forest_floor_alt_2: **pass** 16x16 pixel for pixel
+- ground_forest_floor_alt_3: **pass** 16x16 pixel for pixel
+- ground_trail: **pass** 16x16 pixel for pixel
+- ground_trail_alt_1: **pass** 16x16 pixel for pixel
+- ground_trail_alt_2: **pass** 16x16 pixel for pixel
+- ground_trail_alt_3: **pass** 16x16 pixel for pixel
+
+## ar05_edges.png (Art Request 05: soft raised edges (drawn in a different cell order: reordered here; the north-east-west cell is laid together from the north, east and west cells))
+
+- edge_grass: **pass** 64x64 atlas; cells reordered; cell 11 made by laying drawn cells together
+- edge_forest_floor: **pass** 64x64 atlas; cells reordered; cell 11 made by laying drawn cells together
+
+## ar05_room_tiles.png (Art Request 05: room tiles)
+
+- interior_back_wall: **pass** 16x16 pixel for pixel
+- interior_wall_base: **pass** 16x16 pixel for pixel
+- interior_plank_floor: **pass** 16x16 pixel for pixel
+
+## ar05_room_decor.png (Art Request 05: room decor)
+
+- interior_window: **pass** 32x32 pixel for pixel
+- interior_rug: **pass** 48x32 pixel for pixel
+- interior_picture: **pass** 16x16 pixel for pixel
+
+## ar05_furniture.png (Art Request 05: furniture (the stoves reach a pixel or two into the row below, so four cells are cut by box))
+
+- furniture_bed: **pass** 32x48 pixel for pixel
+- furniture_stove: **pass** 32x40 pixel for pixel
+- furniture_stove_lit: **pass** 32x40 pixel for pixel
+- furniture_shelf: **pass** 32x32 pixel for pixel
+- furniture_workbench: **pass** 48x32 pixel for pixel
+- furniture_desk: **pass** 32x24 pixel for pixel
+- furniture_radio: **pass** 16x24 pixel for pixel
+- furniture_note_board: **pass** 16x24 pixel for pixel
+
+## calm_ground_a.png
+
+- -: **SKIPPED** not in the art manifest
+
+## calm_ground_b.png
+
+- -: **SKIPPED** not in the art manifest
+
+## calm_interior.png
+
+- -: **SKIPPED** not in the art manifest

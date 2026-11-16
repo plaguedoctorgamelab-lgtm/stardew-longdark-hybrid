@@ -177,6 +177,12 @@
     "tiles_per_action": 2,
     "minutes": 10,
     "energy": 2,
+    "boardwalk_minutes": 10,
+    "boardwalk_energy": 2,
+    "boardwalk_on": [
+      "bog",
+      "shallows"
+    ],
     "diggable": [
       "grass",
       "tall_grass",
@@ -199,5 +205,60 @@
       "boards"
     ],
     "ford_max_tiles": 24
+  },
+  "look": {
+    "shadow_alpha": 0.25,
+    "shadow_width_share": 0.75,
+    "shadow_height_share": 0.3,
+    "shadow_min_height": 3,
+    "shadow_max_height": 9,
+    "no_shadow": [
+      "pawprints"
+    ]
+  },
+  "forage": {
+    "lasts_days": 3,
+    "walk_yield_slots": [
+      2,
+      3
+    ],
+    "bush_refruit_days": 4,
+    "resin_days": 7,
+    "reach_tiles": 1.2
+  },
+  "magic": {
+    "places_per_ingredient": 10,
+    "places_per_save": 5,
+    "glowcap_regrow_days": 7,
+    "ember_moss_regrow_days": 7,
+    "compass_tremble_tiles": 10
+  },
+  "crafting": {
+    "minutes": 10,
+    "pack_frame_slots": 18
+  },
+  "refits": {
+    "glowcap_lantern_radius": 8,
+    "ember_bedroll_restore": 0.9,
+    "true_compass_hidden_by": [
+      "storm",
+      "blizzard"
+    ]
+  },
+  "skills": {
+    "xp_levels": [
+      100,
+      380,
+      770,
+      1300,
+      2150,
+      3300,
+      4800,
+      6900,
+      10000,
+      15000
+    ],
+    "energy_saved_per_level": 0.03,
+    "specialty_level": 5
   }
 }

@@ -244,6 +244,9 @@ func _add_label(text: String, at: Vector2, nudge: Vector2, color: Color, tinted:
 func _draw_overlay() -> void:
 	var z := zoom()
 	for t: Vector2i in session.placed:
+		# A cairn shows only once its ground is revealed.
+		if not session.map_shows_placed(t):
+			continue
 		var p := map_rect.position + (Vector2(t) + Vector2(0.5, 0.5)) * z
 		var is_sign := str(session.placed[t]["place"]) != ""
 		var r := 2.0 if is_sign else 1.0

@@ -5,7 +5,7 @@ extends RefCounted
 ## these lookup functions, so storage can change without touching callers.
 
 const CONTENT_DIR := "res://data/content/"
-const TABLES: Array[String] = ["items", "foods", "weather_types", "weather_odds", "structures", "landmarks", "jobs", "obstacles", "recipes", "sites", "notes", "text", "spoiler_finds", "spoiler_text", "art_variety"]
+const TABLES: Array[String] = ["items", "foods", "weather_types", "weather_odds", "structures", "landmarks", "jobs", "obstacles", "recipes", "sites", "notes", "text", "spoiler_finds", "spoiler_text", "art_variety", "forage", "skills", "specialties", "magic_variants", "ideas", "spoiler_magic"]
 
 var tables: Dictionary = {}   # table name -> Array of row dictionaries
 var index: Dictionary = {}    # table name -> {id: row}

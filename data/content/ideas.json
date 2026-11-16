@@ -1,0 +1,80 @@
+{
+ "note": "Ideas: the first time the ranger picks up item, they learn these recipes and the game says text in one line. slot: the item is a magical ingredient, and from now on an empty slot shows on every recipe that takes it.",
+ "rows": [
+  {
+   "id": "reeds",
+   "item": "reeds",
+   "recipes": [
+    "rope"
+   ],
+   "text": "idea_reeds"
+  },
+  {
+   "id": "hazelnuts",
+   "item": "hazelnuts",
+   "recipes": [
+    "trail_mix"
+   ],
+   "text": "idea_hazelnuts"
+  },
+  {
+   "id": "rope",
+   "item": "rope",
+   "recipes": [
+    "pack_frame"
+   ],
+   "text": "idea_rope"
+  },
+  {
+   "id": "mushrooms",
+   "item": "mushrooms",
+   "recipes": [
+    "hot_soup"
+   ],
+   "text": "idea_mushrooms"
+  },
+  {
+   "id": "fiddleheads",
+   "item": "fiddleheads",
+   "recipes": [
+    "fiddlehead_fry"
+   ],
+   "text": "idea_fiddleheads"
+  },
+  {
+   "id": "rose_hips",
+   "item": "rose_hips",
+   "recipes": [
+    "rose_hip_tea"
+   ],
+   "text": "idea_rose_hips"
+  },
+  {
+   "id": "glowcap",
+   "item": "glowcap",
+   "recipes": [
+    "refit_lantern"
+   ],
+   "text": "idea_glowcap",
+   "slot": true
+  },
+  {
+   "id": "ember_moss",
+   "item": "ember_moss",
+   "recipes": [
+    "refit_bedroll"
+   ],
+   "text": "idea_ember_moss",
+   "slot": true
+  },
+  {
+   "id": "lodestone_sliver",
+   "item": "lodestone_sliver",
+   "recipes": [
+    "refit_compass"
+   ],
+   "text": "idea_lodestone_sliver",
+   "slot": true
+  }
+ ]
+}

@@ -21,6 +21,8 @@ signal note_read(text: String)
 signal land_changed(tile: Vector2i)
 signal workbench_opened
 signal choice_requested(kind: String, title: String, options: Array)
+signal cooking_opened
+signal backpack_grew
 
 const FACING_DOWN := 0
 const FACING_RIGHT := 1
@@ -87,6 +89,21 @@ var finds_found: Dictionary = {}
 var seasonal_hidden: Dictionary = {}
 var _pending_item: String = ""
 
+# Phase 2b: living out there.
+var forage: Forage
+var skills: Skills
+var recipes_known: Dictionary = {}   # recipe id -> true
+var ideas_had: Dictionary = {}       # idea id -> true
+var pack_frame: bool = false         # the pack frame is made: the backpack is bigger
+var kits_set: Dictionary = {}        # structure id -> true: a workbench set up there from a kit
+var boardwalk: Dictionary = {}       # tile -> true: boardwalk the ranger laid
+var pending_wake: Array = []         # [skill id, level]: level-ups told on waking
+var wake_offer: bool = false         # a specialty is to be offered once the wake-up note closes
+var _trembling: bool = false
+var _sensing: bool = false
+var _loading: bool = false
+var _hold_ideas: bool = false
+
 
 func _init(tuning_path: String = Tuning.DEFAULT_PATH, content_dir: String = ContentDB.CONTENT_DIR, world_dir: String = WorldData.WORLD_DIR) -> void:
 	tuning = Tuning.new(tuning_path)
@@ -100,6 +117,13 @@ func _init(tuning_path: String = Tuning.DEFAULT_PATH, content_dir: String = Cont
 	map = MapState.new(world.width, world.height, world.explorable_mask(), world.chunk_size)
 	for r: Dictionary in content.rows("structures"):
 		interiors[r["id"]] = InteriorLayout.new(r)
+	forage = Forage.new(content, tuning, world)
+	skills = Skills.new(content, tuning)
+	skills.levelled.connect(_on_skill_level)
+	skills.specs_changed.connect(_apply_skills)
+	backpack.changed.connect(func() -> void:
+		if not _hold_ideas and not _loading:
+			_check_ideas())
 	clock.step_passed.connect(_on_step)
 	clock.day_started.connect(_on_day_started)
 	clock.day_end_reached.connect(_on_day_end)
@@ -118,7 +142,11 @@ func new_game(new_seed: int = -1) -> void:
 	clock.set_minute(tuning.integer("time.day_start_minute"))
 	weather.new_game(seed_value, clock.absolute_day())
 	needs.refill()
+	_loading = true
+	ideas_had = {}
+	_set_pack_frame(false)
 	backpack.clear()
+	_loading = false
 	for item in ["hammer", "lantern", "map", "compass", "pencil"]:
 		backpack.add(item)
 	structures.place_found_supplies(seed_value)
@@ -142,6 +170,14 @@ func new_game(new_seed: int = -1) -> void:
 	sites_open = {}
 	site_overrides = {}
 	finds_found = {}
+	forage.start(seed_value)
+	skills.reset()
+	_reset_recipes()
+	_set_kits({})
+	pending_wake = []
+	wake_offer = false
+	_trembling = false
+	_sensing = false
 	_reset_land()
 	_apply_seasons()
 	camp_changed.emit()
@@ -168,6 +204,7 @@ func to_dict() -> Dictionary:
 			"bed": [camp["bed"].x, camp["bed"].y],
 			"fire": [camp["fire"].x, camp["fire"].y],
 			"fire_minutes": camp["fire_minutes"],
+			"ember": bool(camp.get("ember", false)),
 		},
 		"chopped": chopped.keys().map(func(t: Vector2i) -> Array: return [t.x, t.y, chopped[t]]),
 		"jobs_known": jobs_known.keys(),
@@ -176,6 +213,15 @@ func to_dict() -> Dictionary:
 		"sites": {"found": sites_found.keys(), "open": sites_open.keys()},
 		"finds": finds_found.keys(),
 		"land": land_to_dict(),
+		"living": {
+			"forage": forage.to_dict(),
+			"skills": skills.to_dict(),
+			"recipes": recipes_known.keys(),
+			"ideas": ideas_had.keys(),
+			"pack_frame": pack_frame,
+			"kits": kits_set.keys(),
+			"wake": pending_wake.duplicate(true),
+		},
 	}
 
 
@@ -187,10 +233,25 @@ func from_dict(d: Dictionary) -> void:
 	outdoor_pos = Vector2(float(r["outdoor_pos"][0]), float(r["outdoor_pos"][1]))
 	interior_pos = Vector2(float(r["interior_pos"][0]), float(r["interior_pos"][1]))
 	location = r["location"]
+	# A room's layout can change between versions: never load into a wall.
+	if interiors.has(location):
+		var layout: InteriorLayout = interiors[location]
+		if layout.is_solid(Vector2i(floori(interior_pos.x), floori(interior_pos.y))):
+			interior_pos = layout.entry
 	facing = int(r["facing"])
 	selected_slot = int(r["selected_slot"])
 	needs.from_dict(d["needs"])
+	# Phase 2b state; a phase 2a save has none, and starts at level 0 with the
+	# starting recipes and no ideas.
+	var lv: Dictionary = d.get("living", {})
+	_loading = true
+	ideas_had = {}
+	for id: Variant in lv.get("ideas", []):
+		if content.has("ideas", str(id)):
+			ideas_had[str(id)] = true
+	_set_pack_frame(bool(lv.get("pack_frame", false)))
 	backpack.from_array(d["backpack"])
+	_loading = false
 	structures.from_dict(d["structures"])
 	map.from_dict(d["map"])
 	# Added after the first phase one saves; older saves simply have none.
@@ -199,6 +260,7 @@ func from_dict(d: Dictionary) -> void:
 		"bed": Vector2i(int(c["bed"][0]), int(c["bed"][1])),
 		"fire": Vector2i(int(c["fire"][0]), int(c["fire"][1])),
 		"fire_minutes": int(c["fire_minutes"]),
+		"ember": bool(c.get("ember", false)),
 	}
 	for t: Vector2i in chopped.keys():
 		_set_chopped(t, -1)
@@ -225,6 +287,22 @@ func from_dict(d: Dictionary) -> void:
 	finds_found = {}
 	for id: String in d.get("finds", []):
 		finds_found[id] = true
+	forage.from_dict(lv.get("forage", {}), seed_value)
+	skills.from_dict(lv.get("skills", {}))
+	_reset_recipes()
+	for id: Variant in lv.get("recipes", []):
+		if content.has("recipes", str(id)):
+			recipes_known[str(id)] = true
+	var kits := {}
+	for id: Variant in lv.get("kits", []):
+		kits[str(id)] = true
+	_set_kits(kits)
+	pending_wake = []
+	for e: Variant in lv.get("wake", []):
+		pending_wake.append([str(e[0]), int(e[1])])
+	wake_offer = false
+	_trembling = false
+	_sensing = false
 	_apply_seasons()
 	camp_changed.emit()
 	survey_steps_left = 0
@@ -290,8 +368,9 @@ func ground_here() -> String:
 	return world.ground_at(ranger_tile())
 
 
+## On trail, or on boardwalk the ranger laid (which counts as trail).
 func on_trail() -> bool:
-	return not is_indoors() and world.ground_at(ranger_tile()) == "trail"
+	return not is_indoors() and (world.ground_at(ranger_tile()) == "trail" or boardwalk.has(ranger_tile()))
 
 
 func on_outlook() -> bool:
@@ -305,18 +384,48 @@ func selected_item() -> String:
 	return backpack.item_at(selected_slot)
 
 
+## The family of an item: a tool and its refitted versions share one.
+func family_of(item: String) -> String:
+	if item == "":
+		return ""
+	return str(content.row("items", item).get("family", item))
+
+
+## The magical ingredient a refitted tool holds, or "".
+func refit_of(item: String) -> String:
+	if item == "":
+		return ""
+	return str(content.row("items", item).get("refit", ""))
+
+
+## The ranger's tool of a family in the backpack (the first one), or "".
+func tool_in_pack(family: String) -> String:
+	var i := backpack.find_family(family)
+	return backpack.item_at(i) if i >= 0 else ""
+
+
 func lantern_lit() -> bool:
-	return selected_item() == "lantern"
+	return family_of(selected_item()) == "lantern"
+
+
+## How far the held lantern lights, in tiles.
+func lantern_radius() -> float:
+	if refit_of(selected_item()) == "glowcap":
+		return tuning.num("refits.glowcap_lantern_radius")
+	return tuning.num("light.lantern_radius_tiles")
 
 
 ## The three marker rules: on revealed ground, weather that allows it, and
-## daytime or on a trail.
+## daytime or on a trail. The true compass keeps the marker at night and in
+## fog, off the trail too; only the weathers tuned for it hide it.
 func marker_visible() -> bool:
 	if is_indoors():
 		var p: Dictionary = world.structure_placement(location)
 		return map.is_revealed(Vector2i(int(p["door"][0]), int(p["door"][1])))
 	if not map.is_revealed(ranger_tile()):
 		return false
+	if refit_of(tool_in_pack("compass")) == "lodestone_sliver":
+		return not (tuning.value("refits.true_compass_hidden_by") as Array).has(current_weather())
 	if bool(weather_row().get("hides_marker", false)):
 		return false
 	return not is_night() or on_trail() or near_marker()
@@ -329,7 +438,12 @@ func speed_tiles_per_second() -> float:
 	else:
 		var g := ground_here()
 		var table: Dictionary = tuning.value("movement.ground_speed")
-		s *= float(table.get(g, 1.0))
+		var gs := float(table.get(g, 1.0))
+		if g == "tall_grass" and skills.flag("tall_grass_unslowed"):
+			gs = float(table.get("grass", 1.0))
+		s *= gs
+		if not on_trail():
+			s *= skills.value("offtrail_speed", 1.0)
 		s *= float(weather_row().get("speed", 1.0))
 	if needs.is_exhausted():
 		s *= tuning.num("movement.exhausted_speed")
@@ -382,6 +496,7 @@ func _update_trace() -> void:
 		map.record_trace(t, visible)
 		_look_for_sites()
 		_watch_for_finds()
+		_watch_magic()
 	if visible and map.has_pending():
 		map.flush_pending()
 
@@ -397,7 +512,7 @@ func needs_context() -> Dictionary:
 		"night": is_night(),
 		"walked": _walked_this_step > 0.05,
 		"rough": _rough_this_step,
-		"campfire": near_lit_fire(),
+		"campfire": near_lit_fire() or near_warm_camp(),
 	}
 
 
@@ -436,6 +551,12 @@ func pass_minutes(minutes: int) -> void:
 
 
 func _on_day_started(_day: int, _season: int, _year: int) -> void:
+	# Yesterday's weather is still in place: remember a wet day for the
+	# forage that comes up after rain.
+	for w: String in weather.today:
+		if ["rain", "storm"].has(w):
+			forage.note_wet_day(clock.absolute_day() - 1)
+			break
 	weather.roll_day(clock.absolute_day())
 	structures.restock_shelves()
 	for id: String in structures.stove_minutes:
@@ -499,8 +620,9 @@ func collapse() -> void:
 	_collapsing = false
 	var kind: String = content.row("structures", bed)["kind"]
 	var text := content.text({"cabin": "msg_rescue_cabin", "tower": "msg_rescue_tower"}.get(kind, "msg_rescue_station"))
+	var woke := wake_lines()
 	save_game()
-	collapsed.emit(text)
+	collapsed.emit(text if woke.is_empty() else text + "\n\n" + "\n".join(woke))
 	message.emit(text)
 
 
@@ -538,8 +660,30 @@ func answer_confirm(yes: bool) -> void:
 func sleep() -> void:
 	clock.start_next_day(tuning.integer("time.day_start_minute"))
 	needs.refill()
+	var woke := wake_lines()
 	save_game()
 	message.emit(content.text("msg_saved"))
+	if not woke.is_empty():
+		note_read.emit("\n".join(woke))
+
+
+## The level-ups since the ranger last slept, one line each (with the perk a
+## level brings), told on waking. A skill that has reached its specialty level
+## is offered its choice once, when the wake-up note closes.
+func wake_lines() -> PackedStringArray:
+	var lines := PackedStringArray()
+	for e: Array in pending_wake:
+		var id: String = e[0]
+		var l := int(e[1])
+		lines.append(content.text("msg_skill_level", {"skill": _skill_name(id), "level": l}))
+		var p := skills.perk_at(id, l)
+		if not p.is_empty():
+			lines.append(content.text("msg_skill_perk", {"perk": content.text(p["text"])}))
+	pending_wake = []
+	for id in skills.waiting():
+		if not skills.offered.has(id):
+			wake_offer = true
+	return lines
 
 
 # --- buildings ----------------------------------------------------------------
@@ -621,8 +765,19 @@ func interact() -> void:
 			confirm_requested.emit("camp_sleep", content.text("msg_camp_sleep_confirm"))
 			return
 		if outdoor_pos.distance_to(Vector2(camp["fire"]) + Vector2(0.5, 0.5)) <= reach:
-			feed_campfire()
+			if campfire_lit():
+				cooking_opened.emit()
+			else:
+				feed_campfire()
 			return
+	var spot := forage_in_reach()
+	if spot.x >= 0:
+		pick_forage(spot)
+		return
+	var source := object_forage_in_reach()
+	if source.x >= 0:
+		pick_object(source)
+		return
 	var sign_t := placed_in_reach()
 	if sign_t.x >= 0:
 		read_placed(sign_t)
@@ -664,7 +819,10 @@ func _interact_inside() -> void:
 		"chest":
 			storage_opened.emit(content.text("ui_chest"), structures.chests[location])
 		"stove":
-			feed_stove()
+			if structures.stove_lit(location):
+				cooking_opened.emit()
+			else:
+				feed_stove()
 		"note_board":
 			read_note_board()
 		"workbench":
@@ -695,7 +853,7 @@ func feed_stove() -> bool:
 	if not is_indoors() or not structures.stove_minutes.has(location):
 		return false
 	var was_lit := structures.stove_lit(location)
-	if not structures.feed_stove(location, backpack):
+	if not structures.feed_stove(location, backpack, fire_burn_mult()):
 		message.emit(content.text("msg_stove_no_wood"))
 		return false
 	message.emit(content.text("msg_stove_fed" if was_lit else "msg_stove_lit"))
@@ -712,8 +870,12 @@ func use_item() -> void:
 	var row := content.row("items", item)
 	if row["kind"] == "food":
 		eat(item)
+	elif row["kind"] == "placeable" and row.has("lays"):
+		lay_boardwalk()
 	elif row["kind"] == "placeable":
 		begin_place()
+	elif row["kind"] == "kit":
+		set_up_kit()
 	elif row["kind"] == "page":
 		discover(str(row["find"]))
 	elif item == "hammer":
@@ -729,7 +891,7 @@ func use_item() -> void:
 		clear_obstacle()
 	elif item == "shovel":
 		dig()
-	elif item == "bedroll":
+	elif family_of(item) == "bedroll":
 		make_camp()
 	elif item == "firewood":
 		if is_indoors() and (interiors[location] as InteriorLayout).find("stove").size() > 0:
@@ -741,7 +903,12 @@ func use_item() -> void:
 func eat(item: String) -> bool:
 	if not content.has("foods", item) or not backpack.remove(item, 1):
 		return false
-	needs.eat(content.row("foods", item))
+	var food := content.row("foods", item).duplicate()
+	if bool(food.get("cooked", false)):
+		var k := skills.value("cooked_food", 1.0)
+		food["energy"] = float(food["energy"]) * k
+		food["warmth"] = float(food["warmth"]) * k
+	needs.eat(food)
 	message.emit(content.text("msg_ate", {"item": content.item_name(item).to_lower()}))
 	return true
 
@@ -761,7 +928,8 @@ func hammer() -> Dictionary:
 	if not res["ok"]:
 		message.emit(content.text("msg_repair_need_hammer" if res["reason"] == "no_tool" else "msg_repair_need_materials"))
 		return res
-	needs.spend(tuning.num("energy.repair_action"))
+	needs.spend(tuning.num("energy.repair_action") * skills.energy_for("repair"))
+	skills.act("repair")
 	var step_name := content.text(structures.step_row(target, res["step"])["name"])
 	if res["opened"]:
 		message.emit(content.text("msg_cabin_repaired"))
@@ -799,13 +967,34 @@ func make_camp() -> bool:
 	if not _camp_spot_ok(bed) or not _camp_spot_ok(fire):
 		message.emit(content.text("msg_camp_bad_spot"))
 		return false
-	if not backpack.remove("firewood", 1):
+	# The ember bedroll needs no firewood: it keeps the camp warm by itself.
+	var ember := refit_of(tool_in_pack("bedroll")) == "ember_moss"
+	if not ember and not backpack.remove("firewood", 1):
 		message.emit(content.text("msg_camp_need_wood"))
 		return false
-	camp = {"bed": bed, "fire": fire, "fire_minutes": tuning.integer("camp.fire_minutes_per_firewood")}
+	camp = {"bed": bed, "fire": fire, "fire_minutes": 0 if ember else fire_minutes_per_firewood(), "ember": ember}
+	skills.act("make_camp")
 	camp_changed.emit()
-	message.emit(content.text("msg_camp_made"))
+	message.emit(content.text("msg_camp_warm_bedroll" if ember else "msg_camp_made"))
 	return true
+
+
+## Minutes one firewood burns, in a camp fire or a stove, after skills.
+func fire_minutes_per_firewood() -> int:
+	return roundi(skills.value("fire_minutes_per_firewood", tuning.num("camp.fire_minutes_per_firewood")))
+
+
+## How much longer than tuned a fire burns, after skills.
+func fire_burn_mult() -> float:
+	return float(fire_minutes_per_firewood()) / tuning.num("camp.fire_minutes_per_firewood")
+
+
+## Beside a camp made with the ember bedroll, which stays warm with no fire.
+func near_warm_camp() -> bool:
+	if is_indoors() or camp.is_empty() or not bool(camp.get("ember", false)):
+		return false
+	var r := tuning.num("camp.fire_radius_tiles")
+	return outdoor_pos.distance_to(Vector2(camp["bed"]) + Vector2(0.5, 0.5)) <= r or outdoor_pos.distance_to(Vector2(camp["fire"]) + Vector2(0.5, 0.5)) <= r
 
 
 func campfire_lit() -> bool:
@@ -818,27 +1007,36 @@ func near_lit_fire() -> bool:
 	return outdoor_pos.distance_to(Vector2(camp["fire"]) + Vector2(0.5, 0.5)) <= tuning.num("camp.fire_radius_tiles")
 
 
+## Feeds the camp fire with one firewood.
 func feed_campfire() -> bool:
 	if camp.is_empty() or not backpack.remove("firewood", 1):
 		message.emit(content.text("msg_camp_need_wood"))
 		return false
-	camp["fire_minutes"] = int(camp["fire_minutes"]) + tuning.integer("camp.fire_minutes_per_firewood")
+	camp["fire_minutes"] = int(camp["fire_minutes"]) + fire_minutes_per_firewood()
 	camp_changed.emit()
 	message.emit(content.text("msg_camp_fire_fed"))
 	return true
 
 
-## Sleeping at camp: the next morning at 6:00, partly rested, and the game saves.
+## Sleeping at camp: the next morning at 6:00, partly rested (more with the
+## ember bedroll or the Camp hand specialty), and the game saves.
 func camp_sleep() -> void:
 	clock.start_next_day(tuning.integer("time.day_start_minute"))
+	var ember := bool(camp.get("ember", false))
+	var ef := tuning.num("refits.ember_bedroll_restore") if ember else tuning.num("camp.wake_energy_fraction")
+	var wf := tuning.num("refits.ember_bedroll_restore") if ember else tuning.num("camp.wake_warmth_fraction")
+	var extra := skills.value("camp_restore", 0.0)
 	needs.set_values(
-		maxf(needs.energy, needs.max_energy() * tuning.num("camp.wake_energy_fraction")),
-		maxf(needs.warmth, needs.max_warmth() * tuning.num("camp.wake_warmth_fraction")))
+		maxf(needs.energy, minf(needs.max_energy(), needs.max_energy() * ef + extra)),
+		maxf(needs.warmth, minf(needs.max_warmth(), needs.max_warmth() * wf + extra)))
 	location = ""
 	outdoor_pos = Vector2(camp["bed"]) + Vector2(0.5, 0.5)
 	facing = FACING_DOWN
+	var woke := wake_lines()
 	save_game()
 	message.emit(content.text("msg_camp_woke"))
+	if not woke.is_empty():
+		note_read.emit("\n".join(woke))
 
 
 # --- chopping trees -------------------------------------------------------------
@@ -887,9 +1085,10 @@ func chop() -> Dictionary:
 		message.emit(content.text("msg_no_tree"))
 		return {"ok": false}
 	_set_chopped(t, clock.absolute_day())
-	var n := tuning.integer("axe.firewood")
+	var n := roundi(skills.value("chop_firewood", tuning.num("axe.firewood")))
 	var left := backpack.add("firewood", n)
-	needs.spend(tuning.num("axe.energy"))
+	needs.spend(tuning.num("axe.energy") * skills.energy_for("chop"))
+	skills.act("chop")
 	message.emit(content.text("msg_chopped", {"n": n - left}))
 	if left > 0:
 		message.emit(content.text("msg_backpack_full"))
@@ -924,6 +1123,8 @@ func _reset_land() -> void:
 	for t: Vector2i in placed.keys():
 		placed.erase(t)
 		land_changed.emit(t)
+	for t: Vector2i in boardwalk.keys():
+		_set_boardwalk(t, false)
 	clearing_progress = {}
 
 
@@ -933,6 +1134,7 @@ func land_to_dict() -> Dictionary:
 		"progress": clearing_progress.keys().map(func(t: Vector2i) -> Array: return [t.x, t.y, clearing_progress[t]]),
 		"dug": dug.keys().map(func(t: Vector2i) -> Array: return [t.x, t.y]),
 		"placed": placed.keys().map(func(t: Vector2i) -> Array: return [t.x, t.y, placed[t]["item"], placed[t]["place"]]),
+		"boardwalk": boardwalk.keys().map(func(t: Vector2i) -> Array: return [t.x, t.y]),
 	}
 
 
@@ -948,6 +1150,8 @@ func land_from_dict(d: Dictionary) -> void:
 		var t := Vector2i(int(e[0]), int(e[1]))
 		placed[t] = {"item": str(e[2]), "place": str(e[3])}
 		land_changed.emit(t)
+	for e: Array in d.get("boardwalk", []):
+		_set_boardwalk(Vector2i(int(e[0]), int(e[1])), true)
 
 
 func _obstacle_row_for(kind: String) -> Dictionary:
@@ -1031,16 +1235,33 @@ func clear_obstacle() -> Dictionary:
 	var key := "clearing." + str(ob["id"])
 	var origin: Vector2i = ob["origin"]
 	var done := int(clearing_progress.get(origin, 0)) + 1
+	# Each obstacle's experience: a cut at a fallen trunk, or clearing brush.
+	var action := "trunk_chop" if ob["id"] == "fallen_trunk" else "clear_brush"
 	var total := tuning.integer(key + ".actions")
-	needs.spend(tuning.num(key + ".energy"))
+	if ob["id"] == "fallen_trunk":
+		total = roundi(skills.value("trunk_actions", total))
+	total = maxi(1, total)
+	needs.spend(tuning.num(key + ".energy") * skills.energy_for(action))
 	var finished := done >= total
+	if ob["id"] == "fallen_trunk":
+		skills.act(action)
 	if finished:
 		_set_cleared(origin, ob["id"], true)
+		if ob["id"] != "fallen_trunk":
+			skills.act(action)
 		message.emit(content.text("msg_cleared", {"what": what}))
+		var gives: Dictionary = row.get("gives", {})
+		for item: String in gives:
+			if backpack.add(item, int(gives[item])) > 0:
+				message.emit(content.text("msg_backpack_full"))
 	else:
 		clearing_progress[origin] = done
 		message.emit(content.text("msg_clear_progress", {"what": what, "done": done, "total": total}))
-	pass_minutes(tuning.integer(key + ".minutes"))
+	var minutes := float(tuning.integer(key + ".minutes"))
+	if ob["id"] == "brush":
+		minutes = skills.value("brush_minutes", minutes)
+	if minutes > 0.0:
+		pass_minutes(roundi(minutes))
 	_check_collapse()
 	return {"ok": true, "id": ob["id"], "origin": origin, "done": done, "total": total, "cleared": finished}
 
@@ -1076,7 +1297,10 @@ func dig() -> Dictionary:
 		return {"ok": false, "reason": "no_tool"}
 	var made: Array[Vector2i] = []
 	var t := ranger_tile() + facing_vector()
-	for i in tuning.integer("trail.tiles_per_action"):
+	# Something buried here comes up first.
+	if forage.magic_at(t) != "" and forage.has_magic(t, clock.absolute_day(), forage_ctx()):
+		return dig_up(t)
+	for i in dig_tiles():
 		if not can_dig(t):
 			break
 		_set_dug(t, true)
@@ -1085,26 +1309,129 @@ func dig() -> Dictionary:
 	if made.is_empty():
 		message.emit(content.text("msg_cant_dig"))
 		return {"ok": false, "reason": "here"}
-	needs.spend(tuning.num("trail.energy"))
+	needs.spend(tuning.num("trail.energy") * skills.value("dig_energy", 1.0) * skills.energy_for("dig_tile"))
+	skills.act("dig_tile", made.size())
 	message.emit(content.text("msg_dug"))
 	pass_minutes(tuning.integer("trail.minutes"))
 	_check_collapse()
 	return {"ok": true, "tiles": made}
 
 
-# --- the workbench ------------------------------------------------------------
+# --- crafting (phase 2b) ---------------------------------------------------------
 
+## The recipes listed at a station: anywhere (the Crafting page), workbench
+## (everything but cooking) or fire.
 func recipes_at(station: String) -> Array:
-	return content.rows("recipes").filter(func(r: Dictionary) -> bool: return r["station"] == station)
+	return content.rows("recipes").filter(func(r: Dictionary) -> bool:
+		if station == "workbench":
+			return r["station"] == "workbench" or r["station"] == "anywhere"
+		return r["station"] == station)
 
 
-## What a recipe needs and what the backpack holds: {name, inputs, can}.
+## In a building with a workbench (the station's, or one set up from a kit).
+func at_workbench() -> bool:
+	return is_indoors() and not (interiors[location] as InteriorLayout).find("workbench").is_empty()
+
+
+## The building's chest, when its things count for making: at a workbench or a
+## lit stove inside that building. Otherwise null.
+func craft_chest() -> Inventory:
+	if not is_indoors() or not structures.chests.has(location):
+		return null
+	if at_workbench() or can_cook_here():
+		return structures.chests[location]
+	return null
+
+
+## How many of an item are at hand for making: the backpack, and the chest
+## when it counts.
+func have(item: String) -> int:
+	var n := backpack.count(item)
+	var chest := craft_chest()
+	if chest != null:
+		n += chest.count(item)
+	return n
+
+
+func has_tool(family: String) -> bool:
+	if backpack.find_family(family) >= 0:
+		return true
+	var chest := craft_chest()
+	return chest != null and chest.find_family(family) >= 0
+
+
+## Takes n of an item: from the backpack first, then the chest.
+func _take(item: String, n: int) -> void:
+	var from_pack := mini(n, backpack.count(item))
+	if from_pack > 0:
+		backpack.remove(item, from_pack)
+	if n - from_pack > 0:
+		craft_chest().remove(item, n - from_pack)
+
+
+## Whether the ranger can make things of this station here.
+func station_ok(station: String) -> bool:
+	match station:
+		"anywhere":
+			return true
+		"workbench":
+			return at_workbench()
+		"fire":
+			return can_cook_here()
+	return false
+
+
+## The magic slot a recipe shows: the variant whose ingredient the ranger has
+## had the idea for, or {}. The slot is invisible until then.
+func slot_variant(recipe_id: String) -> Dictionary:
+	for v: Dictionary in content.rows("magic_variants"):
+		if v["recipe"] == recipe_id and ideas_had.has(v["ingredient"]):
+			return v
+	return {}
+
+
+## "" if the recipe can be made now, or the text id saying why not.
+func craft_problem(recipe_id: String) -> String:
+	if not recipes_known.has(recipe_id):
+		return "msg_craft_missing"
+	var r := content.row("recipes", recipe_id)
+	if bool(r.get("once", false)) and _made_once(recipe_id):
+		return "msg_craft_missing"
+	if not station_ok(r["station"]):
+		return "msg_cook_need_fire" if r["station"] == "fire" else "msg_craft_need_workbench"
+	if r.has("tool") and not has_tool(str(r["tool"])):
+		return "msg_craft_need_tool"
+	if r.has("refit"):
+		var v := slot_variant(recipe_id)
+		if v.is_empty() or not has_tool(str(r["refit"])) or have(v["ingredient"]) < 1:
+			return "msg_craft_missing"
+		return ""
+	for k: String in r["inputs"]:
+		if have(k) < int(r["inputs"][k]):
+			return "msg_craft_missing"
+	var res: Dictionary = r["result"]
+	if res.has("item"):
+		# Room is counted after the inputs leave the backpack.
+		var after := Inventory.new(content, backpack.size())
+		after.from_array(backpack.to_array())
+		for k: String in r["inputs"]:
+			after.remove(k, mini(int(r["inputs"][k]), after.count(k)))
+		if after.room_for(res["item"]) < int(res["count"]):
+			return "msg_backpack_full"
+	return ""
+
+
+func _made_once(recipe_id: String) -> bool:
+	return recipe_id == "pack_frame" and pack_frame
+
+
+## What a recipe needs and what is at hand: {name, inputs, can}.
 func recipe_status(recipe_id: String) -> Dictionary:
 	var r := content.row("recipes", recipe_id)
 	var inputs := []
 	for k: String in r["inputs"]:
-		inputs.append({"item": k, "need": int(r["inputs"][k]), "have": backpack.count(k)})
-	return {"name": content.text(r["name"]), "inputs": inputs, "can": backpack.has_all(r["inputs"])}
+		inputs.append({"item": k, "need": int(r["inputs"][k]), "have": have(k)})
+	return {"name": content.text(r["name"]), "inputs": inputs, "can": craft_problem(recipe_id) == ""}
 
 
 func recipe_line(recipe_id: String) -> String:
@@ -1115,16 +1442,158 @@ func recipe_line(recipe_id: String) -> String:
 	return content.text("ui_recipe_line", {"name": st["name"], "inputs": ", ".join(parts)})
 
 
+## Makes a recipe here. A refit takes the ranger's tool and the magical
+## ingredient in its slot, and gives back the changed tool in the same place.
+## Making anything takes the tuned time and no energy.
 func craft(recipe_id: String) -> bool:
-	var r := content.row("recipes", recipe_id)
-	var res: Dictionary = r["result"]
-	if not backpack.has_all(r["inputs"]) or backpack.room_for(res["item"]) < int(res["count"]):
-		message.emit(content.text("msg_craft_missing"))
+	if not content.has("recipes", recipe_id):
 		return false
-	backpack.remove_all(r["inputs"])
-	backpack.add(res["item"], int(res["count"]))
-	message.emit(content.text("msg_crafted", {"item": content.item_name(res["item"]).to_lower()}))
+	var why := craft_problem(recipe_id)
+	var r := content.row("recipes", recipe_id)
+	if why != "":
+		message.emit(content.text(why, {"tool": content.item_name(str(r.get("tool", "saw"))).to_lower()}))
+		return false
+	_hold_ideas = true
+	if r.has("refit"):
+		var v := slot_variant(recipe_id)
+		var family: String = r["refit"]
+		_take(v["ingredient"], 1)
+		var inv := backpack
+		var i := backpack.find_family(family)
+		if i < 0:
+			inv = craft_chest()
+			i = inv.find_family(family)
+		inv.replace_at(i, v["result"])
+		message.emit(content.text("msg_refitted", {"tool": content.item_name(family).to_lower(), "ingredient": content.item_name(v["ingredient"]).to_lower()}))
+	else:
+		for k: String in r["inputs"]:
+			_take(k, int(r["inputs"][k]))
+		var res: Dictionary = r["result"]
+		if str(res.get("effect", "")) == "pack_frame":
+			_set_pack_frame(true)
+			message.emit(content.text("msg_pack_frame"))
+		else:
+			backpack.add(res["item"], int(res["count"]))
+			var name := content.item_name(res["item"]).to_lower()
+			message.emit(content.text("msg_cooked" if r["station"] == "fire" else "msg_crafted", {"item": name}))
+	_hold_ideas = false
+	if r["station"] == "fire":
+		skills.act("cook")
+	elif r["station"] == "workbench":
+		skills.act("workbench")
+	_check_ideas()
+	pass_minutes(tuning.integer("crafting.minutes"))
+	_check_collapse()
 	return true
+
+
+## The pack frame: the backpack grows to its tuned size, keeping every item.
+func _set_pack_frame(on: bool) -> void:
+	pack_frame = on
+	var n := tuning.integer("crafting.pack_frame_slots") if on else tuning.integer("storage.backpack_slots")
+	if backpack.size() != n:
+		if n < backpack.size():
+			backpack.clear()
+		backpack.resize(n)
+		selected_slot = mini(selected_slot, n - 1)
+		backpack_grew.emit()
+
+
+## The choices at a station: [{id, label, enabled}]. A refit shows its magic
+## slot, marked with a question mark; the game never says what it will do.
+## At a fire, adding firewood comes first.
+func recipe_options(station: String) -> Array:
+	var out := []
+	if station == "fire":
+		out.append({"id": "#firewood", "label": content.text("ui_add_firewood", {"n": backpack.count("firewood")}), "enabled": backpack.has("firewood")})
+	for r: Dictionary in recipes_at(station):
+		var id: String = r["id"]
+		if not recipes_known.has(id):
+			continue
+		var can := craft_problem(id) == ""
+		var label := ""
+		if r.has("refit"):
+			var v := slot_variant(id)
+			if v.is_empty():
+				continue
+			var tool := content.text("ui_recipe_input", {"name": content.item_name(r["refit"]), "have": 1 if has_tool(r["refit"]) else 0, "need": 1})
+			label = content.text("ui_slot_option", {"name": content.text(r["name"]), "inputs": tool, "ingredient": content.item_name(v["ingredient"]), "have": have(v["ingredient"])})
+		else:
+			label = recipe_line(id)
+			if r.has("tool") and not has_tool(str(r["tool"])):
+				label += " " + content.text("ui_needs_tool", {"tool": content.item_name(r["tool"]).to_lower()})
+			if bool(r.get("once", false)) and _made_once(id):
+				label += " " + content.text("ui_made_once")
+		out.append({"id": id, "label": label, "enabled": can})
+	return out
+
+
+## Acts on one choice from recipe_options.
+func choose_recipe(option_id: String) -> bool:
+	if option_id == "#firewood":
+		return feed_stove() if is_indoors() else feed_campfire()
+	return craft(option_id)
+
+
+## Sets up a workbench kit inside a repaired cabin or tower that has none.
+func set_up_kit() -> bool:
+	var ok := is_indoors() and structures.is_open(location) and ["cabin", "tower"].has(str(content.row("structures", location)["kind"]))
+	if ok:
+		var layout: InteriorLayout = interiors[location]
+		ok = backpack.has("workbench_kit") and layout.set_up_workbench()
+		if ok:
+			var spot := layout.furniture_rect(layout.find("workbench"))
+			if spot.has_point(Vector2i(floori(interior_pos.x), floori(interior_pos.y))):
+				interior_pos = layout.entry
+	if not ok:
+		message.emit(content.text("msg_kit_bad_place"))
+		return false
+	backpack.remove("workbench_kit", 1)
+	kits_set[location] = true
+	location_changed.emit(location)
+	message.emit(content.text("msg_kit_set_up"))
+	return true
+
+
+func _set_kits(kits: Dictionary) -> void:
+	kits_set = {}
+	for id: String in interiors:
+		(interiors[id] as InteriorLayout).remove_kit_workbench()
+	for id: String in kits:
+		if interiors.has(id) and (interiors[id] as InteriorLayout).set_up_workbench():
+			kits_set[id] = true
+
+
+## Lays a stretch of boardwalk on the faced tile, on boggy ground or shallows.
+## It counts as trail.
+func lay_boardwalk() -> bool:
+	if is_indoors():
+		return false
+	var t := ranger_tile() + facing_vector()
+	var on: Array = tuning.value("trail.boardwalk_on")
+	if not world.in_bounds(t) or world.is_solid(t) or boardwalk.has(t) or not on.has(world.ground_at(t)) or forage.magic_at(t) != "":
+		message.emit(content.text("msg_boardwalk_bad_spot"))
+		return false
+	if not backpack.remove("boardwalk", 1):
+		return false
+	_set_boardwalk(t, true)
+	needs.spend(tuning.num("trail.boardwalk_energy") * skills.energy_for("boardwalk"))
+	skills.act("boardwalk")
+	message.emit(content.text("msg_boardwalk_laid"))
+	pass_minutes(tuning.integer("trail.boardwalk_minutes"))
+	_check_collapse()
+	return true
+
+
+func _set_boardwalk(t: Vector2i, on: bool) -> void:
+	if on:
+		boardwalk[t] = true
+		world.set_ground(t, "boards")
+	else:
+		boardwalk.erase(t)
+		world.set_ground(t, "")
+	map.touch(t)
+	land_changed.emit(t)
 
 
 # --- signs and trail markers -----------------------------------------------------
@@ -1153,7 +1622,8 @@ func place_pos(place_id: String) -> Vector2:
 ## "" if the item can go on tile t, or the text id saying why not.
 func place_problem(t: Vector2i, item: String) -> String:
 	var row := content.row("items", item)
-	if not backpack.has(str(row.get("needs_tool", "hammer"))):
+	var tool := str(row.get("needs_tool", "hammer"))
+	if tool != "" and not backpack.has(tool):
 		return "msg_place_need_hammer"
 	if not world.in_bounds(t) or world.is_solid(t) or placed.has(t):
 		return "msg_place_bad_spot"
@@ -1193,6 +1663,9 @@ func begin_place() -> bool:
 func answer_choice(kind: String, option_id: String) -> void:
 	if pending_confirm == kind:
 		pending_confirm = ""
+	if kind.begins_with("specialty:") and option_id != "":
+		choose_specialty(kind.split(":")[1], option_id)
+		return
 	if kind == "sign_place" and option_id != "" and _pending_place.x >= 0:
 		put_up(_pending_place, _pending_item, option_id)
 	_pending_place = Vector2i(-1, -1)
@@ -1205,13 +1678,18 @@ func put_up(t: Vector2i, item: String, place_id: String) -> bool:
 		message.emit(content.text(why if why != "" else "msg_place_bad_spot"))
 		return false
 	placed[t] = {"item": item, "place": place_id}
-	needs.spend(tuning.num("signs.put_up_energy"))
+	var is_sign := item == "trail_sign"
+	needs.spend(tuning.num("signs.put_up_energy") * (skills.energy_for("sign") if is_sign else 1.0))
 	land_changed.emit(t)
 	map.touch(t)
 	if place_id != "":
 		message.emit(content.text("msg_sign_up", {"place": place_name(place_id)}))
+	elif item == "cairn":
+		message.emit(content.text("msg_cairn_up"))
 	else:
 		message.emit(content.text("msg_marker_up"))
+	if is_sign:
+		skills.act("sign")
 	pass_minutes(tuning.integer("signs.put_up_minutes"))
 	_check_collapse()
 	return true
@@ -1268,6 +1746,15 @@ func take_down(t: Vector2i) -> bool:
 	message.emit(content.text("msg_taken_down", {"item": content.item_name(item).to_lower()}))
 	pass_minutes(tuning.integer("signs.take_down_minutes"))
 	return true
+
+
+## Whether the map shows a placed sign, marker or cairn. A cairn shows only
+## once the ground it stands on is revealed.
+func map_shows_placed(t: Vector2i) -> bool:
+	if not placed.has(t):
+		return false
+	var row := content.row("items", placed[t]["item"])
+	return not bool(row.get("map_when_revealed", false)) or map.is_revealed(t)
 
 
 ## A trail marker within reach counts as trail for the map marker at night.
@@ -1621,7 +2108,7 @@ func hint_known(landmark_id: String) -> bool:
 
 
 func _survey_total_steps() -> int:
-	return ceili(tuning.num("map.survey_minutes") / clock.step_minutes())
+	return maxi(1, ceili(skills.value("survey_minutes", tuning.num("map.survey_minutes")) / clock.step_minutes()))
 
 
 ## True inside a repaired fire tower, where the cab looks out over the forest.
@@ -1633,12 +2120,16 @@ func in_tower() -> bool:
 func _survey_conditions_ok() -> String:
 	if is_indoors() and not in_tower():
 		return "msg_survey_weather"
-	if not (backpack.has("map") and backpack.has("compass") and backpack.has("pencil")):
+	if not (backpack.has("map") and backpack.find_family("compass") >= 0 and backpack.has("pencil")):
 		return "msg_survey_need_tools"
 	if is_night():
-		return "msg_survey_dark"
+		# Surveying 4: dawn and dusk are light enough.
+		var dusk := Daylight.night_amount(tuning, clock.season_name(), clock.minute) < 1.0
+		if not (dusk and skills.flag("survey_twilight")):
+			return "msg_survey_dark"
 	if not bool(weather_row().get("survey", false)):
-		return "msg_survey_weather"
+		if not (current_weather() == "rain" and skills.flag("survey_rain")):
+			return "msg_survey_weather"
 	return ""
 
 
@@ -1661,9 +2152,12 @@ func _cancel_survey() -> void:
 
 
 func survey_radius_here() -> float:
+	var r := tuning.num("map.survey_radius")
 	if in_tower():
-		return tuning.num("map.tower_radius")
-	return tuning.num("map.outlook_radius") if on_outlook() else tuning.num("map.survey_radius")
+		r = tuning.num("map.tower_radius")
+	elif on_outlook():
+		r = tuning.num("map.outlook_radius")
+	return skills.value("survey_radius", r)
 
 
 func _finish_survey() -> void:
@@ -1671,7 +2165,9 @@ func _finish_survey() -> void:
 	var tower := in_tower()
 	var at := door_front(location) if tower else outdoor_pos
 	map.reveal_circle(at, survey_radius_here())
-	needs.spend(tuning.num("energy.survey"))
+	var action := "high_survey" if tower or outlook else "survey"
+	needs.spend(tuning.num("energy.survey") * skills.energy_for(action))
+	skills.act(action)
 	message.emit(content.text("msg_tower_survey" if tower else ("msg_outlook_survey" if outlook else "msg_survey_done")))
 	survey_changed.emit(false, 1.0)
 	_update_trace()
@@ -1682,11 +2178,437 @@ func map_location(landmark_id: String) -> void:
 	var radius := float(row.get("reveal_radius", tuning.num("map.location_radius")))
 	map.reveal_circle(world.landmark_pos(landmark_id), radius)
 	map.mark_landmark(landmark_id)
-	needs.spend(tuning.num("energy.map_location"))
+	needs.spend(tuning.num("energy.map_location") * skills.energy_for("map_location"))
+	skills.act("map_location")
 	message.emit(content.text("msg_map_location", {"name": content.text(row["name"])}))
 	pass_minutes(tuning.integer("map.location_minutes"))
 	_update_trace()
 	_check_collapse()
+
+
+# --- foraging (phase 2b) ---------------------------------------------------------
+
+func forage_ctx() -> Dictionary:
+	return {"night": is_night(), "weather": current_weather()}
+
+
+func magic_regrow_mult() -> float:
+	return skills.value("magic_regrow", 1.0)
+
+
+## True when a spot shows something to pick: ground forage grown and not yet
+## picked, or a magical ingredient there under its own conditions. Buried
+## things never show.
+func forage_showing(t: Vector2i) -> bool:
+	if is_indoors():
+		return false
+	var today := clock.absolute_day()
+	var id := forage.magic_at(t)
+	if id != "":
+		if str(content.row("forage", id).get("source", "")) == "buried":
+			return false
+		return forage.has_magic(t, today, forage_ctx(), magic_regrow_mult())
+	return forage.has_ground_now(t, today)
+
+
+## The showing spot in reach: the one in front, else the nearest; (-1, -1) if none.
+func forage_in_reach() -> Vector2i:
+	if is_indoors():
+		return Vector2i(-1, -1)
+	var reach := tuning.num("forage.reach_tiles")
+	var front := ranger_tile() + facing_vector()
+	if forage_showing(front) and outdoor_pos.distance_to(Vector2(front) + Vector2(0.5, 0.5)) <= reach + 0.5:
+		return front
+	var best := Vector2i(-1, -1)
+	var best_d := reach
+	for dy in range(-2, 3):
+		for dx in range(-2, 3):
+			var t := ranger_tile() + Vector2i(dx, dy)
+			if not forage.spots.has(t) and forage.magic_at(t) == "":
+				continue
+			var d := outdoor_pos.distance_to(Vector2(t) + Vector2(0.5, 0.5))
+			if d <= best_d and forage_showing(t):
+				best_d = d
+				best = t
+	return best
+
+
+## Picks a spot: one of its item, or two on a double pick (Foraging 4 and the
+## Gatherer). A magical ingredient is logged as a find the first time.
+func pick_forage(t: Vector2i) -> Dictionary:
+	if not forage_showing(t):
+		return {"ok": false, "reason": "nothing"}
+	var today := clock.absolute_day()
+	var magic := forage.magic_at(t) != ""
+	var id := forage.magic_at(t) if magic else str(forage.spots[t])
+	var item: String = content.row("forage", id)["item"]
+	var n := 1
+	if not magic and _roll_double(t):
+		n = 2
+	_hold_ideas = true
+	var left := backpack.add(item, n)
+	_hold_ideas = false
+	if left >= n:
+		message.emit(content.text("msg_backpack_full"))
+		return {"ok": false, "reason": "full"}
+	if magic:
+		forage.mark_picked(t, today)
+	else:
+		forage.take_ground(t, today)
+	_after_pick(item, n - left, magic)
+	return {"ok": true, "item": item, "count": n - left}
+
+
+func _roll_double(t: Vector2i) -> bool:
+	var chance := skills.value("double_pick_chance", 0.0)
+	if chance <= 0.0:
+		return false
+	var rng := RandomNumberGenerator.new()
+	rng.seed = hash([seed_value, t, clock.absolute_day(), clock.minute, "double"])
+	return rng.randf() < chance
+
+
+func _after_pick(item: String, got: int, magic: bool) -> void:
+	var name := content.item_name(item).to_lower()
+	if magic:
+		message.emit(content.text("msg_picked_magic", {"item": name}))
+	elif got > 1:
+		message.emit(content.text("msg_picked_extra", {"item": name}))
+	else:
+		message.emit(content.text("msg_picked", {"item": name}))
+	skills.act("pick_magic" if magic else "pick")
+	if magic and not finds_found.has(item):
+		finds_found[item] = true
+		note_read.emit(content.text("find_" + item))
+	_check_ideas()
+
+
+## Days before a bush or pine gives again, after skills.
+func object_refresh_days(r: Dictionary) -> int:
+	var key := str(r["refresh"])
+	var days := tuning.num(key)
+	if key == "forage.bush_refruit_days":
+		days = skills.value("bush_refruit_days", days)
+	return maxi(1, roundi(days))
+
+
+## What the bush or pine at t gives now, or {} if nothing (out of season,
+## picked lately, chopped).
+func object_forage_ready(t: Vector2i) -> Dictionary:
+	var kind := world.object_at(t)
+	if kind == "" or not forage.object_rows.has(kind) or chopped.has(t) or cleared.has(t):
+		return {}
+	var today := clock.absolute_day()
+	var r := forage.object_row(kind, today)
+	if r.is_empty() or not forage.object_ready(t, r, today, object_refresh_days(r)):
+		return {}
+	return r
+
+
+## A bush or pine in reach with something to give: the one in front, else the
+## nearest; (-1, -1) if none.
+func object_forage_in_reach() -> Vector2i:
+	if is_indoors():
+		return Vector2i(-1, -1)
+	var reach := tuning.num("forage.reach_tiles") + 0.5
+	var front := ranger_tile() + facing_vector()
+	if not object_forage_ready(front).is_empty():
+		return front
+	var best := Vector2i(-1, -1)
+	var best_d := reach
+	for dy in range(-2, 3):
+		for dx in range(-2, 3):
+			var t := ranger_tile() + Vector2i(dx, dy)
+			var d := outdoor_pos.distance_to(Vector2(t) + Vector2(0.5, 0.5))
+			if d <= best_d and not object_forage_ready(t).is_empty():
+				best_d = d
+				best = t
+	return best
+
+
+## Picks from a bush or pine: berries, rose hips or pine resin.
+func pick_object(t: Vector2i) -> Dictionary:
+	var r := object_forage_ready(t)
+	if r.is_empty():
+		return {"ok": false, "reason": "nothing"}
+	var item: String = r["item"]
+	var n := 2 if _roll_double(t) else 1
+	_hold_ideas = true
+	var left := backpack.add(item, n)
+	_hold_ideas = false
+	if left >= n:
+		message.emit(content.text("msg_backpack_full"))
+		return {"ok": false, "reason": "full"}
+	forage.mark_object(t, r["id"], clock.absolute_day())
+	if item == "pine_resin":
+		message.emit(content.text("msg_resin_taken"))
+		skills.act("pick")
+		_check_ideas()
+	else:
+		_after_pick(item, n - left, false)
+	return {"ok": true, "item": item, "count": n - left}
+
+
+## Digs up the buried ingredient at t, for good.
+func dig_up(t: Vector2i) -> Dictionary:
+	var item: String = content.row("forage", forage.magic_at(t))["item"]
+	_hold_ideas = true
+	var left := backpack.add(item, 1)
+	_hold_ideas = false
+	if left > 0:
+		message.emit(content.text("msg_backpack_full"))
+		return {"ok": false, "reason": "full"}
+	forage.mark_dug(t)
+	needs.spend(tuning.num("trail.energy") * skills.energy_for("dig_tile"))
+	message.emit(content.text("msg_dug_up", {"item": content.item_name(item).to_lower()}))
+	skills.act("pick_magic")
+	if not finds_found.has(item):
+		finds_found[item] = true
+		note_read.emit(content.text("find_" + item))
+	_check_ideas()
+	pass_minutes(tuning.integer("trail.minutes"))
+	_check_collapse()
+	return {"ok": true, "item": item, "dug_up": true}
+
+
+## Tiles each dig lays, after skills.
+func dig_tiles() -> int:
+	return maxi(1, roundi(skills.value("dig_tiles", tuning.num("trail.tiles_per_action"))))
+
+
+## Whether a place of an ingredient that is still there to be found lies
+## within r tiles of the ranger (only: just that ingredient).
+func _magic_within(r: float, only: String = "") -> bool:
+	var today := clock.absolute_day()
+	for t: Vector2i in forage.magic_used:
+		if only != "" and forage.magic_at(t) != only:
+			continue
+		if outdoor_pos.distance_to(Vector2(t) + Vector2(0.5, 0.5)) <= r and forage.magic_waiting(t, today, magic_regrow_mult()):
+			return true
+	return false
+
+
+## True while the ranger carries the compass near a buried lodestone sliver.
+func compass_trembling() -> bool:
+	if is_indoors() or backpack.find_family("compass") < 0:
+		return false
+	return _magic_within(tuning.num("magic.compass_tremble_tiles"), "lodestone_sliver")
+
+
+## The compass trembling, and the Seeker's sense, each said once on coming near.
+func _watch_magic() -> void:
+	if is_indoors():
+		return
+	var tremble := compass_trembling()
+	if tremble and not _trembling:
+		message.emit(content.text("msg_compass_trembles"))
+	_trembling = tremble
+	var sense := skills.value("sense_magic_tiles", 0.0)
+	var sensing := sense > 0.0 and _magic_within(sense)
+	if sensing and not _sensing:
+		message.emit(content.text("msg_sense_magic"))
+	_sensing = sensing
+
+
+## The tiles the glowcap lantern makes sparkle: finds not yet logged, inside
+## its light.
+func sparkle_tiles() -> Array[Vector2i]:
+	var out: Array[Vector2i] = []
+	if is_indoors() or refit_of(selected_item()) != "glowcap":
+		return out
+	var r := lantern_radius()
+	var finds: Dictionary = world.meta.get("finds", {})
+	for id: String in finds:
+		if finds_found.has(id):
+			continue
+		var t := Vector2i(int(finds[id][0]), int(finds[id][1]))
+		if seasonal_hidden.has(t):
+			continue
+		if outdoor_pos.distance_to(Vector2(t) + Vector2(0.5, 0.5)) <= r:
+			out.append(t)
+	var today := clock.absolute_day()
+	for t: Vector2i in forage.magic_used:
+		if finds_found.has(forage.magic_at(t)):
+			continue
+		if outdoor_pos.distance_to(Vector2(t) + Vector2(0.5, 0.5)) <= r and forage.magic_waiting(t, today, magic_regrow_mult()):
+			out.append(t)
+	return out
+
+
+# --- recipes and ideas (phase 2b) -------------------------------------------------
+
+## Cooking needs a lit stove indoors or a lit camp fire outdoors.
+func can_cook_here() -> bool:
+	if is_indoors():
+		return structures.stove_minutes.has(location) and structures.stove_lit(location)
+	return near_lit_fire()
+
+
+func _reset_recipes() -> void:
+	recipes_known = {}
+	for r: Dictionary in content.rows("recipes"):
+		if str(r["learned"]) == "start":
+			recipes_known[r["id"]] = true
+
+
+func learn_recipe(recipe_id: String) -> bool:
+	if recipes_known.has(recipe_id) or not content.has("recipes", recipe_id):
+		return false
+	recipes_known[recipe_id] = true
+	return true
+
+
+## Ideas: the first time an item is in the backpack, the ranger learns what it
+## might make, told in one line.
+func _check_ideas() -> void:
+	for r: Dictionary in content.rows("ideas"):
+		if ideas_had.has(r["id"]) or not backpack.has(r["item"]):
+			continue
+		ideas_had[r["id"]] = true
+		for rid: String in r["recipes"]:
+			learn_recipe(rid)
+		message.emit(content.text(r["text"]))
+
+
+# --- skills (phase 2b) -------------------------------------------------------------
+
+func _skill_name(id: String) -> String:
+	return content.text(content.row("skills", id)["name"])
+
+
+## A level reached: its perk's recipes are learned now; the level-up is told
+## on waking.
+func _on_skill_level(id: String, l: int) -> void:
+	pending_wake.append([id, l])
+	var p := skills.perk_at(id, l)
+	for rid: String in p.get("recipes", []):
+		learn_recipe(rid)
+
+
+## Offers the first specialty waiting to be chosen. False if none is waiting.
+func offer_specialty() -> bool:
+	wake_offer = false
+	var waiting := skills.waiting()
+	if waiting.is_empty():
+		return false
+	var id: String = waiting[0]
+	skills.offered[id] = true
+	var opts := []
+	for sp: Dictionary in skills.offered_specialties(id):
+		opts.append({"id": sp["id"], "label": content.text("ui_specialty_option", {"name": content.text(sp["name"]), "desc": content.text(sp["desc"])}), "enabled": true})
+	choice_requested.emit("specialty:" + id, content.text("ui_specialty_title", {"skill": _skill_name(id), "level": skills.specialty_level()}), opts)
+	return true
+
+
+func choose_specialty(id: String, spec_id: String) -> bool:
+	if not skills.choose(id, spec_id):
+		return false
+	message.emit(content.text("msg_specialty_chosen", {"skill": _skill_name(id), "name": content.text(content.row("specialties", spec_id)["name"])}))
+	return true
+
+
+## Puts skill changes that live outside the session in place.
+func _apply_skills() -> void:
+	structures.actions_override = roundi(skills.value("repair_actions", 0.0))
+	structures.plank_mult = skills.value("repair_planks", 1.0)
+
+
+## The Skills page: each skill's level and progress, what it has given so far,
+## and its specialty.
+func skill_lines() -> PackedStringArray:
+	var lines: PackedStringArray = []
+	for r: Dictionary in content.rows("skills"):
+		var id: String = r["id"]
+		var l := skills.level(id)
+		var p := skills.progress(id)
+		if l >= skills.max_level():
+			lines.append(content.text("ui_skill_line_max", {"name": _skill_name(id), "level": l}))
+		else:
+			lines.append(content.text("ui_skill_line", {"name": _skill_name(id), "level": l, "xp": int(p.x), "next": int(p.y)}))
+		var got: PackedStringArray = []
+		for pk: Dictionary in skills.perks_reached(id):
+			got.append(content.text(pk["text"]))
+		if not got.is_empty():
+			lines.append(content.text("ui_skill_perks", {"list": "; ".join(got)}))
+		var sp := str(skills.chosen[id])
+		if sp != "":
+			lines.append(content.text("ui_skill_specs", {"name": content.text(content.row("specialties", sp)["name"])}))
+		elif skills.waiting().has(id):
+			lines.append(content.text("ui_skill_choose"))
+	lines.append("")
+	lines.append(content.text("ui_known_recipes", {"n": recipes_known.size()}))
+	return lines
+
+
+func debug_set_skill(id: String, l: int) -> void:
+	skills.set_level(id, l)
+
+
+## Gives a specialty, raising the skill to its level if needed and replacing
+## any earlier choice.
+func debug_choose_specialty(spec_id: String) -> bool:
+	if not content.has("specialties", spec_id):
+		return false
+	var id: String = content.row("specialties", spec_id)["skill"]
+	if skills.level(id) < skills.specialty_level():
+		skills.set_level(id, skills.specialty_level())
+	skills.chosen[id] = ""
+	return skills.choose(id, spec_id)
+
+
+func debug_unlock_recipes() -> void:
+	for r: Dictionary in content.rows("recipes"):
+		recipes_known[r["id"]] = true
+	for r: Dictionary in content.rows("ideas"):
+		ideas_had[r["id"]] = true
+
+
+func debug_regrow_forage() -> void:
+	forage.regrow_all()
+
+
+func debug_spawn_forage(t: Vector2i, forage_id: String) -> void:
+	forage.add_spot(t, forage_id)
+
+
+## How many places of each magical ingredient this save uses, and whether it
+## has been found. Where they are is shown only with spoilers on.
+func debug_magic_text(spoilers: bool) -> String:
+	var lines := PackedStringArray()
+	for id: String in forage.magic_places:
+		var used := forage.magic_used.values().count(id)
+		var line := "%s: %d places in this save, found: %s" % [id, used, "yes" if finds_found.has(id) else "no"]
+		if spoilers:
+			var at := []
+			for t: Vector2i in forage.magic_used:
+				if forage.magic_at(t) == id:
+					at.append("(%d, %d)" % [t.x, t.y])
+			line += "  " + ", ".join(at)
+		lines.append(line)
+	return "\n".join(lines)
+
+
+## Stands the ranger beside the nearest place of an ingredient (spoiler debug).
+func debug_go_to_magic(id: String) -> bool:
+	var best := Vector2i(-1, -1)
+	for t: Vector2i in forage.magic_used:
+		if forage.magic_at(t) == id and (best.x < 0 or outdoor_pos.distance_to(Vector2(t)) < outdoor_pos.distance_to(Vector2(best))):
+			best = t
+	if best.x < 0:
+		return false
+	if is_indoors():
+		location = ""
+		location_changed.emit(location)
+	var dirs: Array[Vector2i] = [Vector2i(0, 1), Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, -1)]
+	var faces: Array[int] = [FACING_UP, FACING_LEFT, FACING_RIGHT, FACING_DOWN]
+	for i in dirs.size():
+		if not world.is_solid(best + dirs[i]):
+			outdoor_pos = Vector2(best + dirs[i]) + Vector2(0.5, 0.5)
+			facing = faces[i]
+			break
+	_last_tile = Vector2i(-9999, -9999)
+	_update_trace()
+	return true
 
 
 # --- debug tools (also used by the tests) ---------------------------------

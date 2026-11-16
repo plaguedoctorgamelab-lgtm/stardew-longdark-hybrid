@@ -29,7 +29,7 @@ func _run() -> void:
 	var started := Time.get_ticks_msec()
 	for f in files:
 		var script: GDScript = load(TEST_DIR + f)
-		if script == null:
+		if script == null or not script.can_instantiate():
 			failed.append("%s (did not compile)" % f)
 			continue
 		var suite: Object = script.new()

@@ -36,8 +36,24 @@ func ids() -> Array[String]:
 	return content.ids("structures")
 
 
+## Skills can change repairs: the actions each step takes (0 keeps the tuned
+## number) and the share of planks a step uses.
+var actions_override: int = 0
+var plank_mult: float = 1.0
+
+
 func actions_per_step() -> int:
-	return tuning.integer("repair.actions_per_step")
+	if actions_override > 0:
+		return actions_override
+	return maxi(1, tuning.integer("repair.actions_per_step"))
+
+
+## What a repair step uses, after skills.
+func step_materials(id: String, step: String) -> Dictionary:
+	var m: Dictionary = (step_row(id, step)["materials"] as Dictionary).duplicate()
+	if m.has("planks") and plank_mult != 1.0:
+		m["planks"] = maxi(1, roundi(int(m["planks"]) * plank_mult))
+	return m
 
 
 func step_done(id: String, step: String) -> bool:
@@ -73,7 +89,7 @@ func choose_step(id: String, backpack: Inventory) -> String:
 		if n > 0 and n < actions_per_step():
 			return st["id"]
 	for st: Dictionary in row(id)["repair_steps"]:
-		if not step_done(id, st["id"]) and backpack.can_pay(st["materials"]):
+		if not step_done(id, st["id"]) and backpack.can_pay(step_materials(id, st["id"])):
 			return st["id"]
 	return ""
 
@@ -89,7 +105,7 @@ func repair_action(id: String, backpack: Inventory) -> Dictionary:
 		return {"ok": false, "reason": "no_materials"}
 	var was_open := is_open(id)
 	if int(progress[id][step]) == 0:
-		backpack.pay(step_row(id, step)["materials"])
+		backpack.pay(step_materials(id, step))
 	progress[id][step] = int(progress[id][step]) + 1
 	var finished := step_done(id, step)
 	var now_open := is_open(id)
@@ -139,10 +155,10 @@ func stove_lit(id: String) -> bool:
 
 
 ## Puts one firewood from the backpack in the stove.
-func feed_stove(id: String, backpack: Inventory) -> bool:
+func feed_stove(id: String, backpack: Inventory, burn_mult: float = 1.0) -> bool:
 	if not backpack.remove("firewood", 1):
 		return false
-	stove_minutes[id] = int(stove_minutes[id]) + tuning.integer("warmth.stove_minutes_per_firewood")
+	stove_minutes[id] = int(stove_minutes[id]) + roundi(tuning.integer("warmth.stove_minutes_per_firewood") * burn_mult)
 	changed.emit(id)
 	return true
 

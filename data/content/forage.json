@@ -1,0 +1,313 @@
+{
+ "note": "Things to gather. source ground: small objects on the ground at spots fixed when the land is baked (where: the grounds a spot may be on, and what it must be beside within that many tiles; bake_share and near_trail_share: the share of fitting tiles kept, away from and within 3 tiles of a trail). Each season a save activates active_share of them; each morning a free active spot grows its forage with this chance (times season_chance), and what is not picked lasts forage.lasts_days. after_weather: it also appears out of season the day after these weathers. source object: picked from objects of these kinds; refresh names the tuning value for the days before the same one gives again. magic: a magical ingredient, at the places in data/world/forage.json; night_only: seen and picked only at night; weather: there only in these weathers; regrow: the tuning value for days before it is back; source buried: dug up with the shovel, never back. season_days: in that season, only between these days.",
+ "rows": [
+  {
+   "id": "sticks",
+   "item": "sticks",
+   "source": "ground",
+   "sprite": "obj_forage_sticks",
+   "seasons": [
+    "spring",
+    "summer",
+    "autumn",
+    "winter"
+   ],
+   "where": [
+    {
+     "grounds": [
+      "forest_floor"
+     ]
+    }
+   ],
+   "chance": 0.4,
+   "active_share": 0.6,
+   "bake_share": 0.01,
+   "near_trail_share": 0.03,
+   "season_chance": {
+    "winter": 0.85
+   }
+  },
+  {
+   "id": "stones",
+   "item": "stones",
+   "source": "ground",
+   "sprite": "obj_forage_stones",
+   "seasons": [
+    "spring",
+    "summer",
+    "autumn",
+    "winter"
+   ],
+   "where": [
+    {
+     "grounds": [
+      "grass",
+      "forest_floor",
+      "trail"
+     ],
+     "beside_ground": [
+      "rock"
+     ],
+     "within": 3
+    },
+    {
+     "grounds": [
+      "grass",
+      "forest_floor",
+      "trail"
+     ],
+     "beside_ground": [
+      "shallows",
+      "deep_water"
+     ],
+     "within": 2
+    }
+   ],
+   "chance": 0.4,
+   "active_share": 0.6,
+   "bake_share": 0.4,
+   "near_trail_share": 0.4
+  },
+  {
+   "id": "reeds",
+   "item": "reeds",
+   "source": "ground",
+   "sprite": "obj_forage_reeds",
+   "seasons": [
+    "spring",
+    "summer",
+    "autumn"
+   ],
+   "where": [
+    {
+     "grounds": [
+      "shallows"
+     ],
+     "beside_ground": [
+      "grass",
+      "forest_floor",
+      "bog",
+      "trail",
+      "tall_grass"
+     ]
+    }
+   ],
+   "chance": 0.4,
+   "active_share": 0.6,
+   "bake_share": 0.07,
+   "near_trail_share": 0.07
+  },
+  {
+   "id": "wild_onion",
+   "item": "wild_onion",
+   "source": "ground",
+   "sprite": "obj_forage_wild_onion",
+   "seasons": [
+    "spring"
+   ],
+   "where": [
+    {
+     "grounds": [
+      "grass"
+     ]
+    }
+   ],
+   "chance": 0.4,
+   "active_share": 0.6,
+   "bake_share": 0.009,
+   "near_trail_share": 0.009
+  },
+  {
+   "id": "fiddleheads",
+   "item": "fiddleheads",
+   "source": "ground",
+   "sprite": "obj_forage_fiddleheads",
+   "seasons": [
+    "spring"
+   ],
+   "where": [
+    {
+     "grounds": [
+      "forest_floor"
+     ],
+     "beside_ground": [
+      "shallows",
+      "deep_water",
+      "bog"
+     ],
+     "within": 3
+    }
+   ],
+   "chance": 0.4,
+   "active_share": 0.6,
+   "bake_share": 0.04,
+   "near_trail_share": 0.04
+  },
+  {
+   "id": "wildflowers",
+   "item": "wildflowers",
+   "source": "ground",
+   "sprite": "obj_forage_wildflowers",
+   "seasons": [
+    "spring",
+    "summer"
+   ],
+   "where": [
+    {
+     "grounds": [
+      "grass",
+      "tall_grass"
+     ]
+    }
+   ],
+   "chance": 0.4,
+   "active_share": 0.6,
+   "bake_share": 0.0055,
+   "near_trail_share": 0.0055
+  },
+  {
+   "id": "hazelnuts",
+   "item": "hazelnuts",
+   "source": "ground",
+   "sprite": "obj_forage_hazelnuts",
+   "seasons": [
+    "autumn"
+   ],
+   "where": [
+    {
+     "grounds": [
+      "forest_floor"
+     ],
+     "beside_ground": [
+      "grass",
+      "tall_grass",
+      "trail"
+     ],
+     "within": 2
+    }
+   ],
+   "chance": 0.4,
+   "active_share": 0.6,
+   "bake_share": 0.01,
+   "near_trail_share": 0.002
+  },
+  {
+   "id": "mushrooms",
+   "item": "mushrooms",
+   "source": "ground",
+   "sprite": "obj_forage_mushrooms",
+   "seasons": [
+    "autumn"
+   ],
+   "where": [
+    {
+     "grounds": [
+      "forest_floor",
+      "bog"
+     ]
+    }
+   ],
+   "chance": 0.4,
+   "active_share": 0.6,
+   "bake_share": 0.0016,
+   "near_trail_share": 0.0016,
+   "after_weather": [
+    "rain",
+    "storm"
+   ]
+  },
+  {
+   "id": "berries",
+   "item": "berries",
+   "source": "object",
+   "objects": [
+    "bush"
+   ],
+   "overlay": "obj_bush_berries",
+   "seasons": [
+    "summer",
+    "autumn"
+   ],
+   "season_days": {
+    "autumn": [
+     1,
+     14
+    ]
+   },
+   "refresh": "forage.bush_refruit_days"
+  },
+  {
+   "id": "rose_hips",
+   "item": "rose_hips",
+   "source": "object",
+   "objects": [
+    "bush"
+   ],
+   "overlay": "obj_bush_rose_hips",
+   "seasons": [
+    "winter"
+   ],
+   "refresh": "forage.bush_refruit_days"
+  },
+  {
+   "id": "pine_resin",
+   "item": "pine_resin",
+   "source": "object",
+   "objects": [
+    "tree_pine"
+   ],
+   "seasons": [
+    "spring",
+    "summer",
+    "autumn",
+    "winter"
+   ],
+   "refresh": "forage.resin_days"
+  },
+  {
+   "id": "glowcap",
+   "item": "glowcap",
+   "source": "ground",
+   "magic": true,
+   "sprite": "obj_mushrooms",
+   "seasons": [
+    "spring",
+    "summer",
+    "autumn",
+    "winter"
+   ],
+   "night_only": true,
+   "regrow": "magic.glowcap_regrow_days"
+  },
+  {
+   "id": "ember_moss",
+   "item": "ember_moss",
+   "source": "ground",
+   "magic": true,
+   "sprite": "obj_forage_ember_moss",
+   "seasons": [
+    "spring",
+    "summer",
+    "autumn",
+    "winter"
+   ],
+   "weather": [
+    "snow",
+    "blizzard"
+   ],
+   "regrow": "magic.ember_moss_regrow_days"
+  },
+  {
+   "id": "lodestone_sliver",
+   "item": "lodestone_sliver",
+   "source": "buried",
+   "magic": true,
+   "seasons": [
+    "spring",
+    "summer",
+    "autumn",
+    "winter"
+   ]
+  }
+ ]
+}

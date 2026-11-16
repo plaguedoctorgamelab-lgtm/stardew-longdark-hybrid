@@ -16,11 +16,14 @@ Needs Godot 4.7.2 stable (the lab's build uses
 | Key | Action |
 | --- | --- |
 | W A S D | Walk (eight directions) |
-| Right-click or X | Interact: doors, bed, radio, shelf, chest, stove, landmarks |
-| Left-click or C | Use the held item: hammer, map (survey), food, firewood |
+| Right-click or X | Interact: doors, bed, radio, shelf, chest, stove, workbench, landmarks; pick forage, berries and rose hips from bushes, resin from pines; a lit stove or camp fire opens cooking |
+| Left-click or C | Use the held item: hammer, map (survey), food, firewood, shovel (dig), signs, markers, cairns, boardwalk, workbench kit |
 | 1 to 9, 0, -, = or mouse wheel | Choose the held item |
 | E or Escape | Backpack (and closes screens) |
 | M | Map |
+| J | Jobs and sites |
+| K | Crafting page: things made anywhere |
+| L | Skills page (and choose a waiting specialty) |
 | Y or Enter / N | Answer a question (sleep) |
 | F1 | Debug panel (test builds only) |
 
@@ -48,7 +51,7 @@ Two extra checks need a window:
 
 | Tool | Does |
 | --- | --- |
-| `tools/bake_world.py` | Bakes `data/world/layout.json` into chunks. Same input, same bytes. |
+| `tools/bake_world.py` | Bakes `data/world/layout.json` into chunks, and where forage can appear (`data/world/forage.json`, by `tools/bake_forage.py`). Same input, same bytes. |
 | `tools/preview_map.py` | Draws the baked world as an overview picture. |
 | `tools/check_data.py` | Checks content tables: loads, unique ids, references. |
 | `tools/make_placeholders.py` | Makes the stand-in pictures in `art/placeholder/`. |

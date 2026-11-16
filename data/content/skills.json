@@ -1,0 +1,157 @@
+{
+ "note": "Four skills. xp: the experience each action gives. Levels need the totals in tuning skills.xp_levels; every level cuts the energy of that skill's actions by tuning skills.energy_saved_per_level. perks: what a level also gives: effects on a key (set replaces the game's value, add adds to it, mult multiplies it; applied set, then add, then mult) and recipes it teaches. At tuning skills.specialty_level the ranger picks one of the skill's two specialties (the specialties table).",
+ "rows": [
+  {
+   "id": "trailcraft",
+   "name": "skill_trailcraft",
+   "xp": {
+    "dig_tile": 2,
+    "boardwalk": 4,
+    "clear_brush": 5,
+    "trunk_chop": 4,
+    "sign": 10
+   },
+   "perks": [
+    {
+     "level": 2,
+     "text": "perk_trailcraft_2",
+     "effects": [
+      {
+       "key": "dig_tiles",
+       "add": 1
+      }
+     ]
+    },
+    {
+     "level": 3,
+     "text": "perk_trailcraft_3",
+     "recipes": [
+      "boardwalk"
+     ]
+    },
+    {
+     "level": 4,
+     "text": "perk_trailcraft_4",
+     "effects": [
+      {
+       "key": "brush_minutes",
+       "mult": 0
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "surveying",
+   "name": "skill_surveying",
+   "xp": {
+    "survey": 40,
+    "high_survey": 100,
+    "map_location": 150
+   },
+   "perks": [
+    {
+     "level": 2,
+     "text": "perk_surveying_2",
+     "effects": [
+      {
+       "key": "survey_minutes",
+       "set": 20
+      }
+     ]
+    },
+    {
+     "level": 3,
+     "text": "perk_surveying_3",
+     "effects": [
+      {
+       "key": "survey_radius",
+       "add": 2
+      }
+     ]
+    },
+    {
+     "level": 4,
+     "text": "perk_surveying_4",
+     "effects": [
+      {
+       "key": "survey_twilight",
+       "set": 1
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "woodcraft",
+   "name": "skill_woodcraft",
+   "xp": {
+    "repair": 8,
+    "chop": 6,
+    "workbench": 10,
+    "cook": 6,
+    "make_camp": 10
+   },
+   "perks": [
+    {
+     "level": 2,
+     "text": "perk_woodcraft_2",
+     "recipes": [
+      "roofing"
+     ]
+    },
+    {
+     "level": 3,
+     "text": "perk_woodcraft_3",
+     "recipes": [
+      "workbench_kit"
+     ]
+    },
+    {
+     "level": 4,
+     "text": "perk_woodcraft_4",
+     "effects": [
+      {
+       "key": "fire_minutes_per_firewood",
+       "set": 240
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "foraging",
+   "name": "skill_foraging",
+   "xp": {
+    "pick": 5,
+    "pick_magic": 50
+   },
+   "perks": [
+    {
+     "level": 2,
+     "text": "perk_foraging_2",
+     "recipes": [
+      "berry_preserve"
+     ]
+    },
+    {
+     "level": 3,
+     "text": "perk_foraging_3",
+     "recipes": [
+      "roast_hazelnuts"
+     ]
+    },
+    {
+     "level": 4,
+     "text": "perk_foraging_4",
+     "effects": [
+      {
+       "key": "double_pick_chance",
+       "set": 0.1
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

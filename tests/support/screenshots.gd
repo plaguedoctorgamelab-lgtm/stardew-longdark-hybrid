@@ -149,4 +149,71 @@ func _run() -> void:
 		s.debug_add_item(it, 1)
 	main.inventory_screen.open(null, "")
 	await _shot("3_backpack")
+	main.inventory_screen.close()
+	# Phase 2b: forage, ideas and crafting, the workbench with a magic slot,
+	# cooking, the pack frame, a kit workbench, boardwalk, skills.
+	s.backpack.clear()
+	for it in ["lantern", "map", "compass", "bedroll"]:
+		s.debug_add_item(it, 1)
+	s.leave_building()
+	s.debug_teleport("station")
+	s.outdoor_pos += Vector2(4, 3)
+	s.debug_set_time(11 * 60)
+	s.debug_force_weather("clear")
+	s.clock.season = 0
+	main.world_view.reset_chunks()
+	var here := s.ranger_tile()
+	var kinds := ["sticks", "stones", "reeds", "wild_onion", "fiddleheads", "wildflowers", "hazelnuts", "mushrooms"]
+	for i in kinds.size():
+		s.debug_spawn_forage(here + Vector2i(i * 2 - 7, -2), kinds[i])
+	main.world_view.refresh_forage()
+	await _shot("2b_forage")
+	for it in [["reeds", 3], ["hazelnuts", 2], ["berries", 2], ["stones", 3], ["mushrooms", 2], ["wild_onion", 1]]:
+		s.debug_add_item(it[0], it[1])
+	main.choice_screen.open_station("anywhere")
+	await _shot("2b_crafting")
+	main.choice_screen.close()
+	s.facing = GameSession.FACING_RIGHT
+	s.debug_add_item("firewood", 2)
+	s.make_camp()
+	main.choice_screen.open_station("fire")
+	await _shot("2b_cooking")
+	main.choice_screen.close()
+	s.debug_spawn_forage(here + Vector2i(-2, -3), "glowcap")
+	s.debug_set_time(23 * 60)
+	main.world_view.refresh_forage()
+	await _shot("2b_glowcap_at_night")
+	s.debug_set_time(11 * 60)
+	s.pick_forage(here + Vector2i(-2, -3))
+	s.enter_building("ranger_station")
+	s.backpack.clear()
+	for it in ["lantern", "map", "compass", "bedroll"]:
+		s.debug_add_item(it, 1)
+	for it in [["firewood", 4], ["saw", 1], ["rope", 2], ["sticks", 4], ["pine_resin", 1], ["glowcap", 1], ["stones", 3]]:
+		s.debug_add_item(it[0], it[1])
+	main.choice_screen.open_workbench()
+	await _shot("2b_workbench_slot")
+	main.choice_screen.close()
+	s.craft("pack_frame")
+	main.inventory_screen.open(null, "")
+	await _shot("2b_pack_frame")
+	main.inventory_screen.close()
+	s.debug_repair_all("test_cabin", true)
+	s.debug_add_item("workbench_kit")
+	s.enter_building("test_cabin")
+	s.set_up_kit()
+	await _shot("2b_cabin_workbench")
+	s.debug_set_skill("foraging", 5)
+	s.debug_set_skill("woodcraft", 3)
+	s.sleep()
+	await _shot("2b_wake_up")
+	main._close_dialog(true)
+	await _shot("2b_specialty_choice")
+	main.choice_screen.close()
+	s.choose_specialty("foraging", "gatherer")
+	main._show_dialog("notice", s.content.text("ui_skills_title") + "
+
+" + "
+".join(s.skill_lines()))
+	await _shot("2b_skills")
 	quit(0)

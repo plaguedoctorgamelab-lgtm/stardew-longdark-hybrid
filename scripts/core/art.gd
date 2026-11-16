@@ -17,6 +17,11 @@ static func path_for(art_name: String) -> String:
 	return PLACEHOLDER_DIR + art_name + ".png"
 
 
+## True when a finished or stand-in picture of this name exists.
+static func has_picture(art_name: String) -> bool:
+	return ResourceLoader.exists(path_for(art_name))
+
+
 static func texture(art_name: String) -> Texture2D:
 	if _cache.has(art_name):
 		return _cache[art_name]

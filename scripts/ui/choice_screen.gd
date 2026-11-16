@@ -1,8 +1,9 @@
 class_name ChoiceScreen
 extends Panel
-## A short list to pick from with the mouse: the workbench's recipes, or the
-## place a sign should name. The workbench stays open so several things can
-## be made; a single choice closes the list.
+## A short list to pick from with the mouse: recipes at the workbench, at a
+## fire (cooking) or anywhere (personal crafting), a specialty, or the place a
+## sign should name. Recipe lists stay open so several things can be made; a
+## single choice closes the list.
 
 signal chosen(kind: String, option_id: String)
 
@@ -16,7 +17,7 @@ var _stay_open: bool = false
 
 func setup(s: GameSession) -> void:
 	session = s
-	size = Vector2(300, 150)
+	size = Vector2(360, 230)
 	position = (Vector2(480, 270) - size) / 2.0
 	title_label = Label.new()
 	title_label.position = Vector2(8, 4)
@@ -25,11 +26,16 @@ func setup(s: GameSession) -> void:
 	hint_label.position = Vector2(8, size.y - 14)
 	hint_label.text = s.content.text("ui_close_hint")
 	add_child(hint_label)
+	# Long lists (crafting with every magic version) scroll.
+	var scroll := ScrollContainer.new()
+	scroll.position = Vector2(8, 18)
+	scroll.size = Vector2(size.x - 16, size.y - 36)
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	add_child(scroll)
 	list = VBoxContainer.new()
-	list.position = Vector2(8, 18)
-	list.size = Vector2(size.x - 16, size.y - 36)
+	list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	list.add_theme_constant_override("separation", 2)
-	add_child(list)
+	scroll.add_child(list)
 	visible = false
 
 
@@ -62,21 +68,26 @@ func _pick(option_id: String) -> void:
 		visible = false
 
 
+const STATIONS := {"workbench": "ui_workbench", "fire": "ui_cooking", "anywhere": "ui_crafting"}
+
+
 ## Shows the workbench's recipes, greyed when the backpack lacks what they need.
 func open_workbench() -> void:
-	open("workbench", session.content.text("ui_workbench"), _recipe_options(), true)
+	open_station("workbench")
 
 
-func _recipe_options() -> Array:
-	var out := []
-	for r: Dictionary in session.recipes_at("workbench"):
-		out.append({"id": r["id"], "label": session.recipe_line(r["id"]), "enabled": session.recipe_status(r["id"])["can"]})
-	return out
+## Shows a station's recipes: workbench, cook or personal.
+func open_station(station: String) -> void:
+	open(station, session.content.text(STATIONS[station]), session.recipe_options(station), true)
+
+
+func is_station() -> bool:
+	return STATIONS.has(kind)
 
 
 func refresh() -> void:
-	if visible and kind == "workbench":
-		_fill(_recipe_options())
+	if visible and is_station():
+		_fill(session.recipe_options(kind))
 
 
 func close() -> void:

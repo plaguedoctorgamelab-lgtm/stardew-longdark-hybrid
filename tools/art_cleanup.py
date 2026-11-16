@@ -218,6 +218,36 @@ def pixel_cell(img, box, tw, th, full, anchor, pad_left):
     return (ow, oh, out), note
 
 
+def atlas_cut(img, at):
+    """Builds a cols x cols atlas of square cells from a block of the sheet.
+    "order" lists, for each atlas cell, the sheet cell (index in the block)
+    to copy, or a list of sheet cells laid over each other, so a missing
+    cell can be made from the ones that were drawn."""
+    ox, oy = at["origin"]
+    cs, cols = at["cell"], at["cols"]
+    size = cs * cols
+    if ox + size > img.w or oy + size > img.h:
+        return None, "block runs off the sheet"
+    out = [(0, 0, 0, 0)] * (size * size)
+    built = []
+    for dst, src in enumerate(at["order"]):
+        srcs = src if isinstance(src, list) else [src]
+        if isinstance(src, list):
+            built.append(str(dst))
+        dx, dy = (dst % cols) * cs, (dst // cols) * cs
+        for s in srcs:
+            sx, sy = ox + (s % cols) * cs, oy + (s // cols) * cs
+            for y in range(cs):
+                for x in range(cs):
+                    p = img.get(sx + x, sy + y)
+                    if p[3] >= ALPHA_CUT:
+                        out[(dy + y) * size + dx + x] = p[:3] + (255,)
+    note = "cells reordered" if at["order"] != list(range(cols * cols)) else ""
+    if built:
+        note += "; cell %s made by laying drawn cells together" % ", ".join(built)
+    return (size, size, out), note
+
+
 def median_cut(colors, n):
     """A palette of n colors from a list of (r, g, b), by median cut."""
     boxes = [list(colors)]
@@ -316,6 +346,13 @@ def main():
                 if touch:
                     note = (note + "; " if note else "") + "touches the next cell's item (checked by eye)"
                 results.append((cell["name"], "pass", "%dx%d pixel for pixel%s" % (ow, oh, "; " + note if note else "")))
+            for at in entry.get("atlases", []):
+                got, note = atlas_cut(img, at)
+                if got is None:
+                    results.append((at["name"], "FAIL", note))
+                    continue
+                exact.append((at["name"],) + got)
+                results.append((at["name"], "pass", "%dx%d atlas%s" % (got[0], got[1], "; " + note if note else "")))
             report.append(("%s (%s)" % (entry["file"], entry["label"]), results))
             continue
         notes = []

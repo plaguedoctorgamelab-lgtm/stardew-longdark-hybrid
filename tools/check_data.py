@@ -10,7 +10,7 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONTENT = os.path.join(ROOT, "data", "content")
-TABLES = ["items", "foods", "weather_types", "weather_odds", "structures", "landmarks", "jobs", "obstacles", "recipes", "sites", "notes", "text", "spoiler_finds", "spoiler_text", "art_variety"]
+TABLES = ["items", "foods", "weather_types", "weather_odds", "structures", "landmarks", "jobs", "obstacles", "recipes", "sites", "notes", "text", "spoiler_finds", "spoiler_text", "art_variety", "forage", "skills", "specialties", "magic_variants", "ideas", "spoiler_magic"]
 
 
 def main():
@@ -59,6 +59,25 @@ def main():
         for n in r["pictures"] + r.get("details", []):
             if not any(os.path.exists(os.path.join(ROOT, "art", d, n + ".png")) for d in ("final", "placeholder")):
                 problems.append("art_variety/%s: no picture %s" % (r["id"], n))
+    for r in data.get("structures", {}).values():
+        inside = r.get("interior")
+        if not inside:
+            continue
+        names = [inside[k] for k in ("floor", "wall", "wall_base", "trim") if k in inside]
+        names += [d["sprite"] for d in inside.get("decor", []) + inside.get("rugs", []) + inside["furniture"]]
+        for n in names:
+            if not any(os.path.exists(os.path.join(ROOT, "art", d, n + ".png")) for d in ("final", "placeholder")):
+                problems.append("structures/%s interior: no picture %s" % (r["id"], n))
+        w, h = inside["size"]
+        wh = inside.get("wall_height", 1)
+        for f in inside["furniture"]:
+            x, y = f["pos"]
+            fw, fh = f["size"]
+            if f["kind"] == "exit":
+                if not (y == h - 1 and 0 < x < w - 1):
+                    problems.append("structures/%s interior: the door must be in the bottom border" % r["id"])
+            elif x < 1 or y < wh or x + fw > w - 1 or y + fh > h - 1:
+                problems.append("structures/%s interior: %s is outside the floor" % (r["id"], f["id"]))
     for r in data.get("foods", {}).values():
         ref("items", r["item"], "foods/%s" % r["id"])
     for r in data.get("weather_types", {}).values():
@@ -102,11 +121,100 @@ def main():
         ref("text", r["name"], "sites/%s" % r["id"])
         ref("structures", r["structure"], "sites/%s structure" % r["id"])
         ref("landmarks", r["landmark"], "sites/%s landmark" % r["id"])
+    items = data.get("items", {})
+
+    def pic(name, where):
+        if not any(os.path.exists(os.path.join(ROOT, "art", d, name + ".png")) for d in ("final", "placeholder")):
+            problems.append("%s: no picture %s" % (where, name))
+
+    def effects(list_, where):
+        for e in list_:
+            if "key" not in e or sum(op in e for op in ("set", "add", "mult")) != 1:
+                problems.append("%s: an effect needs a key and exactly one of set, add or mult" % where)
+
     for r in data.get("recipes", {}).values():
         ref("text", r["name"], "recipes/%s" % r["id"])
-        ref("items", r["result"]["item"], "recipes/%s result" % r["id"])
         for m in r["inputs"]:
             ref("items", m, "recipes/%s inputs" % r["id"])
+        if r["station"] not in ("anywhere", "workbench", "fire"):
+            problems.append("recipes/%s: station must be anywhere, workbench or fire" % r["id"])
+        if r.get("learned") not in ("start", "skill", "idea"):
+            problems.append("recipes/%s: learned must be start, skill or idea" % r["id"])
+        if "tool" in r:
+            ref("items", r["tool"], "recipes/%s tool" % r["id"])
+        if "refit" in r:
+            if not any(i.get("family") == r["refit"] for i in items.values()):
+                problems.append("recipes/%s: no tool of family %s" % (r["id"], r["refit"]))
+            if not any(v["recipe"] == r["id"] for v in data.get("magic_variants", {}).values()):
+                problems.append("recipes/%s: a refit needs a magic_variants row" % r["id"])
+        elif "item" in r["result"]:
+            ref("items", r["result"]["item"], "recipes/%s result" % r["id"])
+        elif r["result"].get("effect") != "pack_frame":
+            problems.append("recipes/%s: result needs an item or the pack_frame effect" % r["id"])
+    for r in data.get("magic_variants", {}).values():
+        ref("recipes", r["recipe"], "magic_variants/%s recipe" % r["id"])
+        ref("items", r["ingredient"], "magic_variants/%s ingredient" % r["id"])
+        ref("items", r["result"], "magic_variants/%s result" % r["id"])
+        if items.get(r["ingredient"], {}).get("kind") != "magic":
+            problems.append("magic_variants/%s: %s is not a magical ingredient" % (r["id"], r["ingredient"]))
+    taught = set()
+    for r in data.get("ideas", {}).values():
+        ref("items", r["item"], "ideas/%s item" % r["id"])
+        ref("text", r["text"], "ideas/%s text" % r["id"])
+        for rid in r["recipes"]:
+            ref("recipes", rid, "ideas/%s recipes" % r["id"])
+            taught.add(rid)
+    seasons = {"spring", "summer", "autumn", "winter"}
+    for r in data.get("forage", {}).values():
+        ref("items", r["item"], "forage/%s item" % r["id"])
+        src = r.get("source", "ground")
+        if src not in ("ground", "object", "buried"):
+            problems.append("forage/%s: source must be ground, object or buried" % r["id"])
+        if src == "ground":
+            pic(r["sprite"], "forage/%s" % r["id"])
+        if "overlay" in r:
+            pic(r["overlay"], "forage/%s overlay" % r["id"])
+        if not set(r["seasons"]) <= seasons or not r["seasons"]:
+            problems.append("forage/%s: seasons must be some of %s" % (r["id"], sorted(seasons)))
+        if r.get("magic"):
+            if items.get(r["item"], {}).get("kind") != "magic":
+                problems.append("forage/%s: a magic row must give a magical ingredient" % r["id"])
+            if r["id"] not in data.get("spoiler_magic", {}):
+                problems.append("forage/%s: a magic row needs its places in spoiler_magic" % r["id"])
+            ref("text", "find_" + r["item"], "forage/%s find" % r["id"])
+        elif src == "ground":
+            for k in ("where", "chance", "active_share", "bake_share"):
+                if k not in r:
+                    problems.append("forage/%s: a ground row needs %s" % (r["id"], k))
+        elif src == "object" and not ("objects" in r and "refresh" in r):
+            problems.append("forage/%s: an object row needs objects and refresh" % r["id"])
+    for r in data.get("skills", {}).values():
+        ref("text", r["name"], "skills/%s" % r["id"])
+        for p in r["perks"]:
+            ref("text", p["text"], "skills/%s perk %d" % (r["id"], p["level"]))
+            effects(p.get("effects", []), "skills/%s perk %d" % (r["id"], p["level"]))
+            for rid in p.get("recipes", []):
+                ref("recipes", rid, "skills/%s perk %d" % (r["id"], p["level"]))
+                taught.add(rid)
+        n = sum(1 for sp in data.get("specialties", {}).values() if sp["skill"] == r["id"])
+        if n != 2:
+            problems.append("skills/%s: two specialties, found %d" % (r["id"], n))
+    for r in data.get("specialties", {}).values():
+        ref("skills", r["skill"], "specialties/%s" % r["id"])
+        ref("text", r["name"], "specialties/%s" % r["id"])
+        ref("text", r["desc"], "specialties/%s desc" % r["id"])
+        effects(r["effects"], "specialties/%s" % r["id"])
+    for r in data.get("recipes", {}).values():
+        if r["learned"] != "start" and r["id"] not in taught:
+            problems.append("recipes/%s: learned by %s, but nothing teaches it" % (r["id"], r["learned"]))
+    for r in items.values():
+        if "family" in r and r["family"] not in items:
+            problems.append("items/%s: family %s is not an item" % (r["id"], r["family"]))
+        if r["kind"] == "food" and r["id"] not in data.get("foods", {}):
+            problems.append("items/%s: a food needs a foods row" % r["id"])
+        if r["kind"] == "placeable" and "sprite" in r:
+            pic(r["sprite"], "items/%s" % r["id"])
+        pic(r["icon"], "items/%s icon" % r["id"])
     for r in data.get("items", {}).values():
         for m in r.get("covers", {}):
             ref("items", m, "items/%s covers" % r["id"])

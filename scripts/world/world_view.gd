@@ -24,6 +24,10 @@ var _ground_weights: Dictionary = {}  # ground name -> running total of its vers
 var _ground_details: Dictionary = {}  # ground name -> {"coords": [atlas coords], "chance": float}
 var _detail_source: int = -1
 var detail_layer: TileMapLayer
+var shadow_layer: TileMapLayer
+var forage_sprites: Dictionary = {}   # key -> Sprite2D: forage, fruit on bushes, sparkles
+var _forage_wait: float = 0.0
+var _shadow_source: Dictionary = {}   # object kind -> source id of its ground shadow
 var _border_lines: Node2D
 var _stump_source: int = -1
 var _camp_bed: Sprite2D
@@ -49,6 +53,10 @@ func setup(s: GameSession, ranger_node: Node2D) -> void:
 	detail_layer.tile_set = tileset
 	detail_layer.z_index = -18
 	add_child(detail_layer)
+	shadow_layer = TileMapLayer.new()
+	shadow_layer.tile_set = tileset
+	shadow_layer.z_index = Shadow.Z
+	add_child(shadow_layer)
 	sort_root = Node2D.new()
 	sort_root.y_sort_enabled = true
 	add_child(sort_root)
@@ -63,6 +71,7 @@ func setup(s: GameSession, ranger_node: Node2D) -> void:
 		var size := Vector2(float(st["size"][0]), float(st["size"][1]))
 		spr.position = (fp + Vector2(size.x / 2.0, size.y)) * TILE
 		sort_root.add_child(spr)
+		Shadow.attach(spr, size.x * TILE, session.tuning)
 		building_sprites[st["id"]] = spr
 	refresh_buildings()
 	session.structures.changed.connect(func(_id: String) -> void: refresh_buildings())
@@ -70,12 +79,15 @@ func setup(s: GameSession, ranger_node: Node2D) -> void:
 		ranger_node.reparent(sort_root)
 	else:
 		sort_root.add_child(ranger_node)
+	if not ranger_node.has_node("Shadow"):
+		Shadow.attach(ranger_node, TILE, session.tuning)
 	_camp_bed = Sprite2D.new()
 	_camp_fire = Sprite2D.new()
 	for spr in [_camp_bed, _camp_fire]:
 		spr.centered = false
 		spr.visible = false
 		sort_root.add_child(spr)
+	Shadow.attach(_camp_fire, TILE, session.tuning)
 	session.camp_changed.connect(refresh_camp)
 	session.tree_changed.connect(_on_tree_changed)
 	session.land_changed.connect(_on_land_changed)
@@ -84,12 +96,15 @@ func setup(s: GameSession, ranger_node: Node2D) -> void:
 	_berry.centered = false
 	_berry.texture = Art.texture("obj_berry_bush")
 	sort_root.add_child(_berry)
+	Shadow.attach(_berry, TILE, session.tuning)
 	_ripple = Node2D.new()
 	_ripple.z_index = -18
 	_ripple.draw.connect(_draw_ripple)
 	add_child(_ripple)
 	session.day_began.connect(refresh_berry)
 	refresh_berry()
+	session.forage.changed.connect(_forage_changed)
+	session.day_began.connect(_forage_changed)
 	_border_lines = Node2D.new()
 	_border_lines.z_index = 50
 	_border_lines.draw.connect(_draw_borders)
@@ -147,7 +162,12 @@ func _build_tileset() -> TileSet:
 				coords.append(details[d])
 			_ground_details[g] = {"coords": coords, "chance": float(look["detail_chance"])}
 		var edge := TileSetAtlasSource.new()
-		edge.texture = ImageTexture.create_from_image(_edge_atlas(Art.image("ground_" + g)))
+		# A drawn edge sheet (edge_<ground>, laid out like _edge_atlas) wins
+		# over the edge cut from the plain tile.
+		if Art.has_picture("edge_" + g):
+			edge.texture = Art.texture("edge_" + g)
+		else:
+			edge.texture = ImageTexture.create_from_image(_edge_atlas(Art.image("ground_" + g)))
 		edge.texture_region_size = Vector2i(TILE, TILE)
 		for m in 16:
 			edge.create_tile(Vector2i(m % 4, m / 4))
@@ -172,6 +192,17 @@ func _build_tileset() -> TileSet:
 			td.y_sort_origin = fh * TILE - TILE / 2
 			sources.append(ts.add_source(src))
 		_object_source[kind] = sources
+		if not kind in (session.tuning.value("look.no_shadow") as Array):
+			var fw := int(ot["size"][0])
+			var fh := int(ot["size"][1])
+			var stex := Shadow.texture(Art.texture(look["pictures"][0]).get_width(), session.tuning)
+			var ssrc := TileSetAtlasSource.new()
+			ssrc.texture = stex
+			ssrc.texture_region_size = Vector2i(stex.get_width(), stex.get_height())
+			ssrc.create_tile(Vector2i.ZERO)
+			# Centre the oval on the bottom middle of the footprint.
+			ssrc.get_tile_data(Vector2i.ZERO, 0).texture_origin = -Vector2i(fw * TILE / 2 - TILE / 2, fh * TILE - TILE / 2 - 2)
+			_shadow_source[kind] = ts.add_source(ssrc)
 		_object_weights[kind] = _running_total(look["weights"])
 	var stump_tex := Art.texture(session.content.row("items", "axe")["stump_sprite"])
 	var stump := TileSetAtlasSource.new()
@@ -237,6 +268,7 @@ func _draw_placed(t: Vector2i) -> void:
 	spr.position = Vector2(t.x * TILE + TILE / 2.0, (t.y + 1) * TILE)
 	spr.offset = Vector2(-spr.texture.get_width() / 2.0, -spr.texture.get_height())
 	sort_root.add_child(spr)
+	Shadow.attach(spr, TILE, session.tuning)
 	_placed_sprites[t] = spr
 
 
@@ -246,11 +278,15 @@ func _draw_object(t: Vector2i) -> void:
 		return
 	if session.cleared.has(t) or session.seasonal_hidden.has(t):
 		object_layer.erase_cell(t)
+		shadow_layer.erase_cell(t)
 	elif session.chopped.has(t):
 		object_layer.set_cell(t, _stump_source, Vector2i.ZERO)
+		shadow_layer.erase_cell(t)
 	else:
 		var sources: Array = _object_source[kind]
 		object_layer.set_cell(t, sources[pick(t, _object_weights[kind], 1)], Vector2i.ZERO)
+		if _shadow_source.has(kind):
+			shadow_layer.set_cell(t, _shadow_source[kind], Vector2i.ZERO)
 
 
 const _DIRS: Array[Vector2i] = [Vector2i(0, -1), Vector2i(1, 0), Vector2i(0, 1), Vector2i(-1, 0)]
@@ -390,9 +426,100 @@ func _process(delta: float) -> void:
 	else:
 		_camp_fire.modulate = Color.WHITE
 	update_chunks(false)
+	# Forage comes and goes with the hour and the weather, and sparkles with
+	# the lantern, so it is looked at a few times a second.
+	_forage_wait -= delta
+	if _forage_wait <= 0.0:
+		_forage_wait = 0.25
+		refresh_forage()
+	for key: String in forage_sprites:
+		if key.begins_with("s"):
+			(forage_sprites[key] as Sprite2D).modulate.a = 0.45 + 0.4 * sin(_time * 5.0 + float(posmod(key.hash(), 7)))
 	_border_lines.visible = session.debug_overlay
 	if session.debug_overlay:
 		_border_lines.queue_redraw()
+
+
+var _overlay_cache: Dictionary = {}   # chunk -> tiles of objects that show fruit (bushes)
+
+
+## The tiles in a chunk holding an object that can show fruit, found once.
+func _overlay_tiles(c: Vector2i) -> Array:
+	if not _overlay_cache.has(c):
+		var kinds := {}
+		for r: Dictionary in session.content.rows("forage"):
+			if r.has("overlay"):
+				for k: String in r["objects"]:
+					kinds[k] = true
+		var out := []
+		for o: Array in session.world.objects_in_chunk(c):
+			if kinds.has(str(o[2])):
+				out.append(c * session.world.chunk_size + Vector2i(int(o[0]), int(o[1])))
+		_overlay_cache[c] = out
+	return _overlay_cache[c]
+
+
+var _chunk_forage: Dictionary = {}    # chunk -> {key: [tile, picture, lift]}: today's ground forage and fruit
+var _forage_day: int = -1
+
+
+## A chunk's ground forage and fruit on bushes: they change only from day to
+## day, or when something is picked, so they are worked out once.
+func _daily_forage(c: Vector2i) -> Dictionary:
+	var out := {}
+	for t: Vector2i in session.forage.by_chunk.get(c, []):
+		if session.forage_showing(t):
+			out["f%d,%d" % [t.x, t.y]] = [t, session.content.row("forage", session.forage.spots[t])["sprite"], 0.0]
+	for ot: Vector2i in _overlay_tiles(c):
+		var r := session.object_forage_ready(ot)
+		if r.has("overlay"):
+			out["o%d,%d" % [ot.x, ot.y]] = [ot, r["overlay"], 0.5]
+	return out
+
+
+func _forage_changed() -> void:
+	_chunk_forage.clear()
+	refresh_forage()
+
+
+## Shows the forage in the loaded chunks: ground forage and magical
+## ingredients that are there now, fruit on bushes, and the glowcap lantern's
+## sparkles. Sprites are made and freed as they come and go.
+func refresh_forage() -> void:
+	var want := {}
+	if session != null and not session.is_indoors():
+		var w := session.world
+		var today := session.clock.absolute_day()
+		if today != _forage_day:
+			_chunk_forage.clear()
+			_forage_day = today
+		for c: Vector2i in loaded:
+			if not _chunk_forage.has(c):
+				_chunk_forage[c] = _daily_forage(c)
+			var got: Dictionary = _chunk_forage[c]
+			for key: String in got:
+				want[key] = got[key]
+		for t: Vector2i in session.forage.magic_used:
+			if loaded.has(w.chunk_of(t)) and session.forage_showing(t):
+				want["f%d,%d" % [t.x, t.y]] = [t, session.content.row("forage", session.forage.magic_at(t))["sprite"], 0.0]
+		for t: Vector2i in session.sparkle_tiles():
+			want["s%d,%d" % [t.x, t.y]] = [t, "fx_sparkle", 1.0]
+	for key: String in forage_sprites.keys():
+		if not want.has(key):
+			(forage_sprites[key] as Node).queue_free()
+			forage_sprites.erase(key)
+	for key: String in want:
+		if forage_sprites.has(key):
+			continue
+		var t: Vector2i = want[key][0]
+		var lift := float(want[key][2])
+		var spr := Sprite2D.new()
+		spr.centered = false
+		spr.texture = Art.texture(want[key][1])
+		spr.position = Vector2(t.x * TILE + TILE / 2.0, (t.y + 1) * TILE + lift)
+		spr.offset = Vector2(-spr.texture.get_width() / 2.0, -spr.texture.get_height() - lift)
+		sort_root.add_child(spr)
+		forage_sprites[key] = spr
 
 
 func wanted_chunks() -> Dictionary:
@@ -508,6 +635,7 @@ func _unload_rows(c: Vector2i, row0: int, count: int) -> void:
 			ground_layer.erase_cell(t)
 			edge_layer.erase_cell(t)
 			detail_layer.erase_cell(t)
+			shadow_layer.erase_cell(t)
 			object_layer.erase_cell(t)
 			if _placed_sprites.has(t):
 				(_placed_sprites[t] as Node).queue_free()

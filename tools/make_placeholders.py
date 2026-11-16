@@ -536,6 +536,99 @@ def variety_art():
     shutil.copyfile(os.path.join(OUT, "furniture_table.png"), os.path.join(OUT, "furniture_workbench.png"))
 
 
+def living_art():
+    """Stand-ins for phase 2b: forage on the ground and in the backpack, fruit
+    on bushes, the magical ingredients, cooked food, the new things to make,
+    the three refitted tools and the glowcap lantern's sparkle."""
+    def pic(name, *shapes, size=(16, 16)):
+        c = Canvas(*size)
+        for s in shapes:
+            getattr(c, s[0])(*s[1:])
+        c.save(name)
+
+    both = {
+        "sticks": (("rect", 3, 10, 10, 1, "bark"), ("rect", 5, 7, 8, 1, "wood"), ("rect", 4, 12, 7, 1, "wood_d")),
+        "stones": (("disc", 6, 10, 2.5, "rock_l", "rock_d"), ("disc", 10, 11, 2, "rock", "rock_d")),
+        "reeds": (("rect", 5, 3, 1, 11, "tall"), ("rect", 8, 2, 1, 12, "tall_d"), ("rect", 11, 4, 1, 10, "tall"), ("rect", 8, 2, 1, 3, "bark")),
+        "wild_onion": (("disc", 8, 11, 3, "white", "grey"), ("tri", 8, 3, 9, 1, "leaf_l")),
+        "fiddleheads": (("disc", 6, 7, 2, "leaf_l", "leaf"), ("rect", 6, 9, 1, 5, "leaf"), ("disc", 10, 8, 2, "leaf_l", "leaf"), ("rect", 10, 10, 1, 4, "leaf")),
+        "wildflowers": (("rect", 5, 8, 1, 6, "leaf"), ("disc", 5, 7, 1.5, "yellow"), ("rect", 10, 7, 1, 7, "leaf"), ("disc", 10, 6, 1.5, "white")),
+        "hazelnuts": (("disc", 6, 10, 2.5, "wood_l", "wood_d"), ("disc", 10, 9, 2.5, "wood_l", "wood_d")),
+        "mushrooms": (("rect", 5, 9, 2, 4, "white"), ("disc", 6, 8, 3, "roof"), ("rect", 10, 10, 2, 3, "white"), ("disc", 11, 9, 2.5, "roof")),
+        "ember_moss": (("rect", 3, 9, 10, 4, "bark"), ("disc", 6, 9, 2, "glow", "roof"), ("disc", 10, 9, 1.5, "roof")),
+    }
+    for k, shapes in both.items():
+        pic("obj_forage_" + k, *shapes)
+        pic("item_" + k, *shapes)
+    pic("item_berries", ("disc", 8, 10, 5, "leaf", "pine"), ("disc", 6, 9, 1.5, "purple"), ("disc", 10, 11, 1.5, "purple"), ("disc", 9, 7, 1.5, "purple"))
+    pic("item_rose_hips", ("disc", 6, 9, 2, "red", "roof_d"), ("disc", 10, 10, 2, "red", "roof_d"), ("rect", 6, 6, 1, 2, "bark"))
+    pic("item_pine_resin", ("disc", 8, 9, 4, "glow", "wood_d"), ("disc", 7, 8, 1.5, "yellow"))
+    pic("item_glowcap", ("rect", 7, 9, 2, 5, "white"), ("disc", 8, 8, 4, "purple", "blue"), ("disc", 7, 7, 1.5, "snow"))
+    pic("item_lodestone_sliver", ("tri", 8, 3, 13, 2, "ink"), ("rect", 8, 5, 1, 5, "metal"))
+    # Fruit drawn on a bush, the same size as the bush.
+    pic("obj_bush_berries", ("disc", 5, 8, 1.5, "purple"), ("disc", 10, 7, 1.5, "purple"), ("disc", 8, 11, 1.5, "purple"), ("disc", 12, 11, 1, "purple"))
+    pic("obj_bush_rose_hips", ("disc", 5, 8, 1.5, "red"), ("disc", 10, 7, 1.5, "red"), ("disc", 8, 11, 1.5, "red"))
+    pic("fx_sparkle", ("rect", 7, 4, 1, 8, "snow"), ("rect", 4, 7, 8, 1, "snow"), ("rect", 7, 7, 1, 1, "glow"))
+    pic("item_cairn", ("disc", 8, 12, 4, "rock", "rock_d"), ("disc", 8, 8, 3, "rock_l", "rock_d"), ("disc", 8, 5, 2, "rock", "rock_d"))
+    pic("item_rope", ("disc", 8, 8, 5, "hat", "wood"), ("disc", 8, 8, 2, "clear"))
+    pic("item_boardwalk", ("rect", 2, 4, 12, 3, "wood_l"), ("rect", 2, 8, 12, 3, "wood"), ("rect", 4, 4, 1, 7, "wood_d"), ("rect", 11, 4, 1, 7, "wood_d"))
+    pic("item_workbench_kit", ("rect", 2, 6, 12, 6, "wood_l"), ("outline", 2, 6, 12, 6, "wood_d"), ("rect", 4, 4, 3, 2, "metal"))
+    pic("item_trail_mix", ("rect", 4, 4, 8, 10, "paper"), ("disc", 7, 9, 1.5, "purple"), ("disc", 10, 8, 1.5, "wood"), ("disc", 8, 11, 1.5, "wood_l"))
+    pic("item_berry_preserve", ("rect", 5, 5, 6, 9, "purple"), ("outline", 5, 5, 6, 9, "glass"), ("rect", 5, 3, 6, 2, "cloth"))
+    pic("item_fiddlehead_fry", ("disc", 8, 10, 5, "metal", "ink"), ("disc", 7, 9, 1.5, "leaf_l"), ("disc", 10, 10, 1.5, "leaf_l"), ("rect", 13, 9, 3, 1, "bark"))
+    pic("item_roast_hazelnuts", ("disc", 8, 10, 5, "paper", "wood"), ("disc", 6, 9, 1.5, "wood_d"), ("disc", 10, 10, 1.5, "wood_d"), ("disc", 8, 8, 1.5, "wood_d"))
+    pic("item_rose_hip_tea", ("rect", 4, 6, 8, 7, "white"), ("rect", 5, 7, 6, 3, "roof"), ("rect", 12, 8, 2, 3, "white"))
+    # The refitted tools: the tool's own icon with a mark of what is in it.
+    pic("item_glowcap_lantern", ("rect", 4, 4, 8, 10, "metal"), ("rect", 5, 6, 6, 6, "purple"), ("rect", 6, 7, 4, 4, "snow"), ("rect", 6, 1, 4, 3, "metal"))
+    pic("item_ember_bedroll", ("rect", 2, 6, 12, 6, "roof"), ("outline", 2, 6, 12, 6, "roof_d"), ("disc", 11, 9, 1.5, "glow"))
+    pic("item_true_compass", ("disc", 8, 8, 6, "metal_l", "metal"), ("tri", 8, 3, 8, 1, "ink"), ("rect", 8, 8, 1, 4, "red"))
+
+
+def room_art():
+    """Stand-ins for the rooms' new look: a pale back wall seen from the
+    front, warm floor planks running up and down, thin dark trim, a window
+    and a rug. They show until Art Request 05 comes back."""
+    c = Canvas(16, 16, "wood_l")
+    for x in (0, 4, 8, 12):
+        c.rect(x, 0, 1, 16, "wood")
+    for x, y in ((0, 5), (4, 11), (8, 2), (12, 8)):
+        c.rect(x, y, 4, 1, "wood")
+    c.save("interior_plank_floor")
+    c = Canvas(16, 16, "paper")
+    for y in (0, 8):
+        c.rect(0, y, 16, 1, "hat")
+    c.rect(5, 1, 1, 7, "hat")
+    c.rect(12, 9, 1, 7, "hat")
+    c.save("interior_back_wall")
+    c = Canvas(16, 16, "paper")
+    c.rect(0, 0, 16, 1, "hat")
+    c.rect(5, 1, 1, 7, "hat")
+    c.rect(0, 10, 16, 6, "wood_d")
+    c.rect(0, 10, 16, 1, "wood")
+    c.save("interior_wall_base")
+    c = Canvas(4, 4, "wood_d")
+    c.rect(0, 0, 4, 1, "wood")
+    c.save("interior_trim")
+    c = Canvas(16, 24)
+    c.rect(1, 2, 14, 20, "wood_d")
+    c.rect(3, 4, 10, 16, "glass")
+    c.rect(3, 4, 10, 3, "white")
+    c.rect(7, 4, 2, 16, "wood_d")
+    c.rect(3, 11, 10, 2, "wood_d")
+    c.save("interior_window")
+    c = Canvas(48, 32, "cloth")
+    c.outline(0, 0, 48, 32, "roof_d")
+    c.outline(3, 3, 42, 26, "paper")
+    c.rect(20, 12, 8, 8, "yellow")
+    c.save("interior_rug")
+    c = Canvas(16, 16)
+    c.outline(2, 3, 12, 10, "wood_d")
+    c.rect(3, 4, 10, 8, "glass")
+    c.rect(5, 8, 6, 4, "grass")
+    c.save("interior_picture")
+    shutil.copyfile(os.path.join(OUT, "furniture_table.png"), os.path.join(OUT, "furniture_desk.png"))
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
     ground()
@@ -548,6 +641,8 @@ def main():
     ring_two_art()
     finds_art()
     variety_art()
+    room_art()
+    living_art()
     print("placeholders written to", OUT, len(os.listdir(OUT)), "files")
 
 

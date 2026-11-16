@@ -152,3 +152,29 @@ func test_ground_and_tree_variety(t: TestCase) -> void:
 	var a := Vector2i(17, 1300)
 	t.equal(WorldView.tile_roll(a, 0), WorldView.tile_roll(a, 0), "a tile always rolls the same")
 	view.queue_free()
+
+
+func test_things_cast_shadows(t: TestCase) -> void:
+	var s := TestCase.new_session()
+	var view := WorldView.new()
+	_scene_tree().root.add_child(view)
+	var ranger := RangerSprite.new()
+	view.setup(s, ranger)
+	view.update_chunks(true)
+	var trees := 0
+	var shaded := 0
+	for c: Vector2i in view.loaded:
+		for y in s.world.chunk_size:
+			for x in s.world.chunk_size:
+				var tile := c * s.world.chunk_size + Vector2i(x, y)
+				if s.world.object_at(tile).begins_with("tree_") and not s.chopped.has(tile) and not s.cleared.has(tile):
+					trees += 1
+					if view.shadow_layer.get_cell_source_id(tile) >= 0:
+						shaded += 1
+	t.check(trees > 0, "there are trees nearby (%d)" % trees)
+	t.equal(shaded, trees, "every standing tree has a shadow")
+	t.check(ranger.has_node("Shadow"), "the ranger has a shadow")
+	for id: String in view.building_sprites:
+		t.check((view.building_sprites[id] as Node).has_node("Shadow"), "%s has a shadow" % id)
+	view.queue_free()
+	ranger.queue_free()

@@ -121,7 +121,7 @@ func _process(delta: float) -> void:
 	tm.set_shader_parameter("lamp", _c(t.value("light.lantern_tint")))
 	tm.set_shader_parameter("center", ranger_screen)
 	var lantern := session.lantern_lit() and not session.is_indoors()
-	tm.set_shader_parameter("radius", t.num("light.lantern_radius_tiles") * 16.0 if lantern else 0.0)
+	tm.set_shader_parameter("radius", session.lantern_radius() * 16.0 if lantern else 0.0)
 	var fire_on := session.campfire_lit() and not session.is_indoors()
 	tm.set_shader_parameter("center2", fire_screen)
 	tm.set_shader_parameter("radius2", t.num("camp.fire_light_tiles") * 16.0 * (0.95 + 0.05 * sin(Time.get_ticks_msec() / 90.0)) if fire_on else 0.0)

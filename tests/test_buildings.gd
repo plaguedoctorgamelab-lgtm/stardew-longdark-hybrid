@@ -215,7 +215,8 @@ func test_sleep_advances_and_saves(t: TestCase) -> void:
 	s.debug_set_needs(40, 50)
 	var day := s.clock.day
 	var saves := s.save_count
-	s.interior_pos = Vector2(3.5, 2.0)
+	var bed := (s.interiors["ranger_station"] as InteriorLayout).furniture_rect((s.interiors["ranger_station"] as InteriorLayout).find("bed"))
+	s.interior_pos = Vector2(bed.end.x + 0.5, bed.position.y + 1.0)
 	s.interact()
 	t.equal(s.pending_confirm, "sleep", "the bed asks for confirmation")
 	s.answer_confirm(false)
@@ -280,3 +281,26 @@ func test_bad_saves_fail_clearly(t: TestCase) -> void:
 	s.save_path = path
 	t.check(s.load_game() != "", "the session reports the problem")
 	t.equal(FileAccess.get_file_as_string(path), JSON.stringify({"version": 0}), "the bad file is left untouched")
+
+
+func test_rooms_have_a_back_wall(t: TestCase) -> void:
+	var s := TestCase.new_session()
+	for id: String in s.interiors:
+		var layout: InteriorLayout = s.interiors[id]
+		t.check(layout.wall_height >= 2, "%s has a tall back wall" % id)
+		for y in layout.wall_height:
+			t.check(layout.is_solid(Vector2i(layout.size.x / 2, y)), "%s back wall row %d is solid" % [id, y])
+		var e := Vector2i(floori(layout.entry.x), floori(layout.entry.y))
+		t.check(not layout.is_solid(e), "%s entry is on the floor" % id)
+		t.check(not layout.is_solid(layout.door_tile), "%s door can be walked onto" % id)
+
+
+func test_loading_into_a_wall_moves_to_the_entry(t: TestCase) -> void:
+	var s := TestCase.new_session()
+	s.location = "ranger_station"
+	s.interior_pos = Vector2(5.5, 0.5)
+	var d := s.to_dict()
+	var s2 := TestCase.new_session()
+	s2.from_dict(d)
+	var layout: InteriorLayout = s2.interiors["ranger_station"]
+	t.equal(s2.interior_pos, layout.entry, "moved off the back wall to the entry")

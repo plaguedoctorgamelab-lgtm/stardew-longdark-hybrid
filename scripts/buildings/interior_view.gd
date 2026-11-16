@@ -1,12 +1,14 @@
 class_name InteriorView
 extends Node2D
-## Draws the inside of a building: floor, walls, furniture and the ranger.
+## Draws the inside of a building: the back wall seen from the front, with its
+## windows and other wall pieces; the floor and rugs; thin trim round the room;
+## furniture with its shadows; and the ranger.
 
 const TILE := 16
 
 var session: GameSession
 var sort_root: Node2D
-var _furniture_sprites: Dictionary = {}   # furniture id -> Sprite2D
+var _furniture_sprites: Dictionary = {}   # furniture id -> {"sprite", "row"}
 var _floor: Node2D
 var current: String = ""
 
@@ -14,7 +16,7 @@ var current: String = ""
 func setup(s: GameSession) -> void:
 	session = s
 	_floor = Node2D.new()
-	_floor.z_index = -10
+	_floor.z_index = -20
 	_floor.draw.connect(_draw_room)
 	add_child(_floor)
 	sort_root = Node2D.new()
@@ -37,6 +39,7 @@ func show_room(structure_id: String, ranger_node: Node2D) -> void:
 		var r := layout.furniture_rect(f)
 		spr.position = Vector2(r.position.x + r.size.x / 2.0, r.end.y) * TILE
 		sort_root.add_child(spr)
+		Shadow.attach(spr, r.size.x * TILE, session.tuning)
 		_furniture_sprites[f["id"]] = {"sprite": spr, "row": f}
 	ranger_node.reparent(sort_root)
 	refresh()
@@ -63,15 +66,35 @@ func _draw_room() -> void:
 	if current == "":
 		return
 	var layout: InteriorLayout = session.interiors[current]
-	var row := session.content.row("structures", current)
-	var floor_tex := Art.texture(row["interior"]["floor"])
-	var wall_tex := Art.texture(row["interior"]["wall"])
+	var inside: Dictionary = session.content.row("structures", current)["interior"]
+	var floor_tex := Art.texture(inside["floor"])
+	var wall_tex := Art.texture(inside["wall"])
+	var base_tex := Art.texture(inside.get("wall_base", inside["wall"]))
+	var w := layout.size.x
+	var h := layout.size.y
+	var wh := layout.wall_height
 	_floor.draw_rect(Rect2(-2000, -2000, 4000, 4000), Color(0.05, 0.04, 0.04))
-	for y in layout.size.y:
-		for x in layout.size.x:
-			var t := Vector2i(x, y)
-			var is_wall := x == 0 or y == 0 or x == layout.size.x - 1 or y == layout.size.y - 1
-			if t == layout.door_tile:
-				_floor.draw_texture(Art.texture("furniture_door"), Vector2(t * TILE))
-			else:
-				_floor.draw_texture(wall_tex if is_wall else floor_tex, Vector2(t * TILE))
+	# Back wall: the bottom row of it carries the skirting board.
+	for y in wh:
+		for x in range(1, w - 1):
+			_floor.draw_texture(base_tex if y == wh - 1 else wall_tex, Vector2(x, y) * TILE)
+	for y in range(wh, h - 1):
+		for x in range(1, w - 1):
+			_floor.draw_texture(floor_tex, Vector2(x, y) * TILE)
+	for d: Dictionary in inside.get("decor", []):
+		_floor.draw_texture(Art.texture(d["sprite"]), Vector2(float(d["pos"][0]), float(d["pos"][1])) * TILE)
+	for r: Dictionary in inside.get("rugs", []):
+		_floor.draw_texture(Art.texture(r["sprite"]), Vector2(float(r["pos"][0]), float(r["pos"][1])) * TILE)
+	# Thin trim round the room, on the inside edge of the border tiles.
+	if inside.has("trim"):
+		var trim := Art.texture(inside["trim"])
+		var k := float(trim.get_width())
+		var left := TILE - k
+		var right := float((w - 1) * TILE)
+		var bottom := float((h - 1) * TILE)
+		_floor.draw_texture_rect(trim, Rect2(left, -k, k, bottom + 2 * k), true)
+		_floor.draw_texture_rect(trim, Rect2(right, -k, k, bottom + 2 * k), true)
+		_floor.draw_texture_rect(trim, Rect2(left, -k, right - left + k, k), true)
+		_floor.draw_texture_rect(trim, Rect2(left, bottom, right - left + k, k), true)
+	if layout.door_tile.x >= 0:
+		_floor.draw_texture(Art.texture("furniture_door"), Vector2(layout.door_tile * TILE))

@@ -1,0 +1,133 @@
+{
+ "note": "Specialties: at tuning skills.specialty_level each skill offers its two; the choice is permanent. effects work as in the skills table and are applied after the perks.",
+ "rows": [
+  {
+   "id": "trail_builder",
+   "skill": "trailcraft",
+   "name": "spec_trail_builder",
+   "desc": "spec_trail_builder_desc",
+   "effects": [
+    {
+     "key": "dig_tiles",
+     "add": 1
+    },
+    {
+     "key": "dig_energy",
+     "mult": 0.5
+    }
+   ]
+  },
+  {
+   "id": "sawyer",
+   "skill": "trailcraft",
+   "name": "spec_sawyer",
+   "desc": "spec_sawyer_desc",
+   "effects": [
+    {
+     "key": "trunk_actions",
+     "set": 1
+    },
+    {
+     "key": "chop_firewood",
+     "mult": 2
+    }
+   ]
+  },
+  {
+   "id": "cartographer",
+   "skill": "surveying",
+   "name": "spec_cartographer",
+   "desc": "spec_cartographer_desc",
+   "effects": [
+    {
+     "key": "survey_radius",
+     "mult": 1.5
+    },
+    {
+     "key": "survey_rain",
+     "set": 1
+    }
+   ]
+  },
+  {
+   "id": "wayfinder",
+   "skill": "surveying",
+   "name": "spec_wayfinder",
+   "desc": "spec_wayfinder_desc",
+   "effects": [
+    {
+     "key": "offtrail_speed",
+     "mult": 1.15
+    },
+    {
+     "key": "tall_grass_unslowed",
+     "set": 1
+    }
+   ]
+  },
+  {
+   "id": "carpenter",
+   "skill": "woodcraft",
+   "name": "spec_carpenter",
+   "desc": "spec_carpenter_desc",
+   "effects": [
+    {
+     "key": "repair_actions",
+     "set": 2
+    },
+    {
+     "key": "repair_planks",
+     "mult": 0.75
+    }
+   ]
+  },
+  {
+   "id": "camp_hand",
+   "skill": "woodcraft",
+   "name": "spec_camp_hand",
+   "desc": "spec_camp_hand_desc",
+   "effects": [
+    {
+     "key": "camp_restore",
+     "add": 10
+    },
+    {
+     "key": "cooked_food",
+     "mult": 1.25
+    }
+   ]
+  },
+  {
+   "id": "gatherer",
+   "skill": "foraging",
+   "name": "spec_gatherer",
+   "desc": "spec_gatherer_desc",
+   "effects": [
+    {
+     "key": "double_pick_chance",
+     "set": 0.25
+    },
+    {
+     "key": "bush_refruit_days",
+     "set": 2
+    }
+   ]
+  },
+  {
+   "id": "seeker",
+   "skill": "foraging",
+   "name": "spec_seeker",
+   "desc": "spec_seeker_desc",
+   "effects": [
+    {
+     "key": "sense_magic_tiles",
+     "set": 10
+    },
+    {
+     "key": "magic_regrow",
+     "mult": 0.5
+    }
+   ]
+  }
+ ]
+}

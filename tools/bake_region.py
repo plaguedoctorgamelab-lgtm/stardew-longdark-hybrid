@@ -94,7 +94,10 @@ def bake(out_dir, quiet=False):
         import ring_two
         otypes.update(ring_two.bake(R, G, L, r1, structures, ox, oy))
     write(R, out_dir, L, otypes, ox, oy, r1)
+    import bake_forage
+    fo = bake_forage.bake(R, out_dir, L["seed"], R.spawns["station"])
     if not quiet:
+        print("forage: %d ground spots, %d magic places" % (sum(len(v) for v in fo["spots"].values()), sum(len(v) for v in fo["magic"].values())))
         print("baked %dx%d tiles, %d of %d chunks hold something, %d objects" % (W, H, len(R.baked), (W // cs) * (H // cs), len(R.objects)))
         for k, v in R.route_lengths.items():
             print("  route %-12s %6.1f tiles" % (k, v))
