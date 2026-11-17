@@ -10,7 +10,7 @@ The seven questions at the end are answered:
 2. **Emblem.** A **compass rose with an eye** at its centre, on a shield. It is our own design.
 3. **Strangeness.** It appears **at night and around magic only**. By day the park is a cosy poster.
 4. **Pixel throughout**, including the title screen and the map, with flat poster-like shading.
-5. **Palette.** The lab proposes about 16 colours, with before-and-after screenshots, for approval.
+5. **Palette: no change.** A muted poster palette was tried over the world on 17 November and turned down: it was not the feel wanted. The game keeps its bright palette (Art Request 06). Section 5 below is dropped. The new screens use the bright palette's own colours.
 6. **Fonts.** The lab chooses two free-for-commercial-use fonts and shows them for approval.
 7. **References.** The 7 pictures and the 23 pins the lab could see are enough to go on.
 
@@ -79,7 +79,9 @@ The strange ones: discovering a magic find, or something hidden, earns an odd me
 
 This is a small feature on top of what exists, and it gives the patch look a real job.
 
-### 5. The world's colours
+### 5. The world's colours (dropped)
+
+Tried and turned down on 17 November: the game keeps its bright colours. Kept here only as a record of what was considered.
 
 - **First, a colour grade over the world view.** The lab can do this without new art: greens pulled toward sage and teal, shadows warmed, highlights creamed. It is a single tuning setting, can be compared side by side with today's look, and can be switched off.
 - **Then, if it's liked, a palette pass.** The 33 colours of Art Request 06 move to the poster palette, and every existing sheet is recoloured automatically by the art cleanup tool. Mark checks the results rather than redrawing anything.
