@@ -8,6 +8,17 @@ game bible, roadmap, phase specs and working rules.
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
+## The tracker
+
+A small web page for bugs, feature requests and the latest build, served
+from this computer to the home network. Start it with
+`tools	racker\start_tracker.bat` (or `python tools/tracker/server.py`) and
+open the address it prints from any device on the network, port 8080. Each
+entry has a type, priority, status, the version it was found in and the one
+it was fixed in. The **Download zip** button gives the latest playtest build,
+named with its version from `export/build_info.json`. The list itself is kept
+in `tracker_data/items.json`, on this computer only, not in git.
+
 ## Running the game
 
 Needs Godot 4.7.2 stable (the lab's build uses

@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Strange Ranger Tracker</title>
+<style>
+:root {
+  --bg: #f4efe6; --card: #fffdf8; --ink: #2b2118; --muted: #7a6a58; --line: #e2d7c6;
+  --accent: #3f6b3a; --accent-ink: #fff; --high: #b3412f; --medium: #c48a1c; --low: #5b7f9a;
+  --bug: #b3412f; --feature: #3f6b3a; --done: #8a9a86;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1b1713; --card: #25201a; --ink: #efe6d8; --muted: #a8977f; --line: #3a3128;
+    --accent: #6fa262; --accent-ink: #10140f; --high: #e0705c; --medium: #e2b04a; --low: #86aecb;
+    --bug: #e0705c; --feature: #8cc27d; --done: #6f7a6c;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
+main { max-width: 920px; margin: 0 auto; padding: 20px 16px 60px; }
+h1 { font-size: 22px; margin: 0 0 2px; }
+.sub { color: var(--muted); margin: 0 0 18px; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; margin-bottom: 16px; }
+.build { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
+.build b { font-size: 17px; }
+.build .meta { color: var(--muted); font-size: 13px; }
+a.btn, button { font: inherit; border-radius: 7px; border: 1px solid var(--line); background: var(--card); color: var(--ink); padding: 7px 12px; cursor: pointer; text-decoration: none; }
+a.btn.primary, button.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 600; }
+button.ghost { background: transparent; }
+button.danger { color: var(--high); }
+label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 3px; }
+input, select, textarea { font: inherit; width: 100%; padding: 7px 9px; border-radius: 7px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); }
+textarea { min-height: 70px; resize: vertical; }
+.grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.grid .wide { grid-column: 1 / -1; }
+@media (max-width: 640px) { .grid { grid-template-columns: 1fr 1fr; } }
+.row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.filters { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+@media (max-width: 640px) { .filters { grid-template-columns: 1fr 1fr; } .filters .search { grid-column: 1 / -1; } }
+.counts { color: var(--muted); font-size: 13px; margin: 0 0 8px; }
+.item { background: var(--card); border: 1px solid var(--line); border-left: 5px solid var(--line); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; }
+.item.p-high { border-left-color: var(--high); }
+.item.p-medium { border-left-color: var(--medium); }
+.item.p-low { border-left-color: var(--low); }
+.item.closed { opacity: .62; }
+.item .top { display: flex; gap: 10px; align-items: baseline; justify-content: space-between; flex-wrap: wrap; }
+.item .title { font-weight: 600; cursor: pointer; overflow-wrap: anywhere; }
+.item .id { color: var(--muted); font-weight: 400; margin-right: 4px; }
+.tags { display: flex; gap: 6px; flex-wrap: wrap; font-size: 12px; margin-top: 4px; }
+.tag { border: 1px solid var(--line); border-radius: 99px; padding: 1px 8px; color: var(--muted); }
+.tag.bug { color: var(--bug); border-color: var(--bug); }
+.tag.feature { color: var(--feature); border-color: var(--feature); }
+.tag.high { color: var(--high); } .tag.medium { color: var(--medium); } .tag.low { color: var(--low); }
+.notes { white-space: pre-wrap; margin-top: 6px; color: var(--ink); font-size: 14px; }
+.item select.status { width: auto; padding: 4px 6px; font-size: 13px; }
+.edit { margin-top: 10px; display: none; }
+.item.open-edit .edit { display: block; }
+.empty { color: var(--muted); text-align: center; padding: 30px 0; }
+.toast { position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 8px 14px; border-radius: 8px; opacity: 0; transition: opacity .2s; pointer-events: none; }
+.toast.show { opacity: .92; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Strange Ranger Tracker</h1>
+  <p class="sub">Bugs and feature requests, and the latest build. Game version now: <span id="ver">…</span></p>
+
+  <section class="card build" id="build"></section>
+
+  <section class="card">
+    <form id="add">
+      <div class="grid">
+        <div class="wide"><label for="a-title">What's wrong, or what would be good?</label>
+          <input id="a-title" name="title" required maxlength="300" placeholder="e.g. Can't put a sign by the tower"></div>
+        <div><label for="a-kind">Type</label><select id="a-kind" name="kind"></select></div>
+        <div><label for="a-priority">Priority</label><select id="a-priority" name="priority"></select></div>
+        <div><label for="a-version">Version</label><input id="a-version" name="version"></div>
+        <div><label for="a-who">From</label><input id="a-who" name="who" placeholder="your name"></div>
+        <div class="wide"><label for="a-notes">Notes (how to make it happen, where, what you expected)</label>
+          <textarea id="a-notes" name="notes"></textarea></div>
+      </div>
+      <div class="row" style="margin-top:10px"><button class="primary" type="submit">Add</button></div>
+    </form>
+  </section>
+
+  <div class="filters">
+    <input class="search" id="f-q" placeholder="Search">
+    <select id="f-kind"><option value="">All types</option></select>
+    <select id="f-status"><option value="active">Not done</option><option value="">All statuses</option></select>
+    <select id="f-priority"><option value="">All priorities</option></select>
+  </div>
+  <p class="counts" id="counts"></p>
+  <div id="list"></div>
+</main>
+<div class="toast" id="toast"></div>
+
+<script>
+let state = { items: [], choices: { kind: [], priority: [], status: [] }, version: "" };
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const CLOSED = ["fixed", "won't fix"];
+const PRANK = { high: 0, medium: 1, low: 2 };
+const SRANK = { "in progress": 0, open: 1, fixed: 2, "won't fix": 3 };
+let openEdit = null;
+
+function toast(msg) { const t = $("toast"); t.textContent = msg; t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 1800); }
+
+async function api(method, url, body) {
+  const r = await fetch(url, { method, headers: { "Content-Type": "application/json" }, body: body ? JSON.stringify(body) : undefined });
+  const d = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(d.error || r.statusText);
+  return d;
+}
+
+function options(sel, list, keep) {
+  const first = keep ? [...sel.querySelectorAll("option")].slice(0, keep).map((o) => o.outerHTML).join("") : "";
+  sel.innerHTML = first + list.map((v) => `<option value="${esc(v)}">${esc(v[0].toUpperCase() + v.slice(1))}</option>`).join("");
+}
+
+async function refresh() {
+  const d = await api("GET", "/api/items");
+  const first = !state.choices.kind.length;
+  state = d;
+  $("ver").textContent = d.version || "?";
+  if (first) {
+    options($("a-kind"), d.choices.kind); options($("a-priority"), d.choices.priority);
+    $("a-priority").value = "medium"; $("a-version").value = d.version;
+    options($("f-kind"), d.choices.kind, 1); options($("f-priority"), d.choices.priority, 1);
+    const st = $("f-status"); st.innerHTML += d.choices.status.map((v) => `<option value="${esc(v)}">${esc(v[0].toUpperCase() + v.slice(1))}</option>`).join("");
+    try { $("a-who").value = localStorage.getItem("tracker-who") || ""; } catch (e) {}
+  }
+  const b = d.build;
+  $("build").innerHTML = b.available
+    ? `<div><b>Latest build${b.version ? " " + esc(b.version) : ""}</b><div class="meta">Built ${esc(b.built)} · ${b.size_mb} MB · debug build, F1 opens the debug panel</div></div>
+       <a class="btn primary" href="/download">Download zip</a>`
+    : `<div><b>No build yet</b><div class="meta">The zip appears here once one is exported.</div></div>`;
+  render();
+}
+
+function render() {
+  const q = $("f-q").value.trim().toLowerCase(), k = $("f-kind").value, s = $("f-status").value, p = $("f-priority").value;
+  let items = state.items.filter((it) =>
+    (!k || it.kind === k) && (!p || it.priority === p) &&
+    (s === "" || (s === "active" ? !CLOSED.includes(it.status) : it.status === s)) &&
+    (!q || [it.title, it.notes, it.who, it.version, "#" + it.id].join(" ").toLowerCase().includes(q)));
+  items.sort((a, b) => (CLOSED.includes(a.status) - CLOSED.includes(b.status)) || (PRANK[a.priority] - PRANK[b.priority]) || (SRANK[a.status] - SRANK[b.status]) || (b.id - a.id));
+  const open = state.items.filter((i) => !CLOSED.includes(i.status));
+  $("counts").textContent = `${open.filter((i) => i.kind === "bug").length} open bugs · ${open.filter((i) => i.kind === "feature").length} open requests · ${state.items.length} in all · showing ${items.length}`;
+  $("list").innerHTML = items.length ? items.map(row).join("") : `<div class="empty">Nothing here yet.</div>`;
+}
+
+function row(it) {
+  const sel = (name, list, v) => `<select name="${name}">${list.map((o) => `<option ${o === v ? "selected" : ""} value="${esc(o)}">${esc(o[0].toUpperCase() + o.slice(1))}</option>`).join("")}</select>`;
+  return `<div class="item p-${esc(it.priority)} ${CLOSED.includes(it.status) ? "closed" : ""} ${openEdit === it.id ? "open-edit" : ""}" data-id="${it.id}">
+    <div class="top">
+      <div class="title" data-act="toggle"><span class="id">#${it.id}</span>${esc(it.title)}</div>
+      <select class="status" data-act="status" aria-label="Status">${state.choices.status.map((o) => `<option ${o === it.status ? "selected" : ""} value="${esc(o)}">${esc(o[0].toUpperCase() + o.slice(1))}</option>`).join("")}</select>
+    </div>
+    <div class="tags">
+      <span class="tag ${esc(it.kind)}">${esc(it.kind)}</span>
+      <span class="tag ${esc(it.priority)}">${esc(it.priority)} priority</span>
+      ${it.version ? `<span class="tag">found in ${esc(it.version)}</span>` : ""}
+      ${it.fixed_in ? `<span class="tag">fixed in ${esc(it.fixed_in)}</span>` : ""}
+      ${it.who ? `<span class="tag">from ${esc(it.who)}</span>` : ""}
+      <span class="tag">${esc(it.created)}</span>
+    </div>
+    ${it.notes ? `<div class="notes">${esc(it.notes)}</div>` : ""}
+    <form class="edit" data-act="save">
+      <div class="grid">
+        <div class="wide"><label>Title</label><input name="title" value="${esc(it.title)}" required maxlength="300"></div>
+        <div><label>Type</label>${sel("kind", state.choices.kind, it.kind)}</div>
+        <div><label>Priority</label>${sel("priority", state.choices.priority, it.priority)}</div>
+        <div><label>Found in</label><input name="version" value="${esc(it.version)}"></div>
+        <div><label>Fixed in</label><input name="fixed_in" value="${esc(it.fixed_in)}"></div>
+        <div class="wide"><label>Notes</label><textarea name="notes">${esc(it.notes)}</textarea></div>
+      </div>
+      <div class="row" style="margin-top:8px">
+        <button class="primary" type="submit">Save</button>
+        <button class="ghost" type="button" data-act="toggle">Cancel</button>
+        <span style="flex:1"></span>
+        <button class="ghost danger" type="button" data-act="delete">Delete</button>
+      </div>
+    </form>
+  </div>`;
+}
+
+$("add").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const f = Object.fromEntries(new FormData(e.target));
+  try {
+    await api("POST", "/api/items", f);
+    try { localStorage.setItem("tracker-who", f.who || ""); } catch (err) {}
+    $("a-title").value = ""; $("a-notes").value = "";
+    toast("Added"); refresh();
+  } catch (err) { toast(err.message); }
+});
+
+$("list").addEventListener("click", async (e) => {
+  const el = e.target.closest("[data-act]"); if (!el) return;
+  const id = +e.target.closest(".item").dataset.id;
+  if (el.dataset.act === "toggle") { openEdit = openEdit === id ? null : id; render(); }
+  if (el.dataset.act === "delete" && confirm(`Delete #${id}? This can't be undone.`)) {
+    await api("DELETE", `/api/items/${id}`); openEdit = null; toast("Deleted"); refresh();
+  }
+});
+
+$("list").addEventListener("change", async (e) => {
+  if (e.target.dataset.act !== "status") return;
+  const id = +e.target.closest(".item").dataset.id;
+  const body = { status: e.target.value };
+  const it = state.items.find((i) => i.id === id);
+  if (e.target.value === "fixed" && it && !it.fixed_in) body.fixed_in = state.version;
+  await api("PUT", `/api/items/${id}`, body); toast("Status: " + e.target.value); refresh();
+});
+
+$("list").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const id = +e.target.closest(".item").dataset.id;
+  try { await api("PUT", `/api/items/${id}`, Object.fromEntries(new FormData(e.target))); openEdit = null; toast("Saved"); refresh(); }
+  catch (err) { toast(err.message); }
+});
+
+["f-q", "f-kind", "f-status", "f-priority"].forEach((id) => $(id).addEventListener("input", render));
+refresh();
+setInterval(() => { if (openEdit === null && document.activeElement?.closest?.("form") == null) refresh(); }, 30000);
+</script>
+</body>
+</html>
