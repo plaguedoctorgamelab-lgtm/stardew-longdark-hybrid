@@ -2,6 +2,18 @@
 
 From the lab, 17 November 2026. A plan, not a change: nothing in the game is different yet. It answers one question: can the game take on the feel of the reference pictures and the Strange Ranger Pinterest board while staying a Stardew-style pixel game, without losing what's built? It ends with everything the lab needs to start.
 
+## Decided, 17 November 2026
+
+The seven questions at the end are answered:
+
+1. **Names.** The game is *Strange Ranger*; the park is **Dusk River Park**. The sign reads "Welcome to Dusk River Park".
+2. **Emblem.** A **compass rose with an eye** at its centre, on a shield. It is our own design.
+3. **Strangeness.** It appears **at night and around magic only**. By day the park is a cosy poster.
+4. **Pixel throughout**, including the title screen and the map, with flat poster-like shading.
+5. **Palette.** The lab proposes about 16 colours, with before-and-after screenshots, for approval.
+6. **Fonts.** The lab chooses two free-for-commercial-use fonts and shows them for approval.
+7. **References.** The 7 pictures and the 23 pins the lab could see are enough to go on.
+
 ## The short answer
 
 Yes. Nothing already drawn gets thrown away. The pixel world stays: Mark's tiles, buildings, the ranger, the visitors and every icon. The new feel comes from five places, in this order:
