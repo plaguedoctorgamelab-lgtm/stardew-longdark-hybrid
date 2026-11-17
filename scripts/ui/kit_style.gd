@@ -3,9 +3,9 @@ extends RefCounted
 ## The ranger's kit look for every screen (docs/art/visual_direction_brief.md):
 ## field-book paper panels with a walnut border, wooden plank buttons, a
 ## routed-wood sign for the clock, a stitched patch for the wallet, wooden
-## pegs for the item bar and paper tags for tooltips. Drawn from the game's
-## bright palette as stand-ins (plain style boxes) until Art Request 12's
-## frames arrive, when these become 9-slice textures.
+## pegs for the item bar and paper tags for tooltips. Mark's Art Request 12
+## pictures (ui_*) are used as 9-slice frames when they are there; plain style
+## boxes in the bright palette stand in for any that are missing.
 
 const INK := Color8(26, 22, 32)
 const WOOD_DARK := Color8(93, 62, 48)
@@ -23,6 +23,22 @@ const TEXT_DARK := Color8(66, 44, 34)
 const TEXT_LIGHT := Color8(252, 248, 237)
 
 
+## A 9-slice frame from one of Mark's pictures, or null if it is not there.
+## tile: repeat the middle instead of stretching it (the paper's ruled lines).
+static func _art(name: String, margin: int, content: float, tile: bool = false, mod: Color = Color.WHITE) -> StyleBoxTexture:
+	if not Art.has_picture(name):
+		return null
+	var sb := StyleBoxTexture.new()
+	sb.texture = Art.texture(name)
+	sb.set_texture_margin_all(margin)
+	sb.set_content_margin_all(content)
+	sb.modulate_color = mod
+	if tile:
+		sb.axis_stretch_horizontal = StyleBoxTexture.AXIS_STRETCH_MODE_TILE_FIT
+		sb.axis_stretch_vertical = StyleBoxTexture.AXIS_STRETCH_MODE_TILE_FIT
+	return sb
+
+
 static func _box(bg: Color, border: Color, width: int, radius: int, margin: float = 2.0) -> StyleBoxFlat:
 	var sb := StyleBoxFlat.new()
 	sb.bg_color = bg
@@ -34,7 +50,10 @@ static func _box(bg: Color, border: Color, width: int, radius: int, margin: floa
 
 
 ## Field-book paper: cream, a walnut border with a lighter rule inside it.
-static func paper() -> StyleBoxFlat:
+static func paper() -> StyleBox:
+	var art := _art("ui_paper", 8, 6, true)
+	if art != null:
+		return art
 	var sb := _box(CREAM, WOOD_DARK, 2, 2)
 	sb.shadow_color = Color(INK, 0.35)
 	sb.shadow_size = 2
@@ -43,7 +62,11 @@ static func paper() -> StyleBoxFlat:
 
 
 ## A wooden plank button, in each of its states.
-static func plank(state: String) -> StyleBoxFlat:
+static func plank(state: String) -> StyleBox:
+	# Mark's sheet has normal, hover and pressed; disabled fades the normal one.
+	var art := _art("ui_button_" + ("normal" if state == "disabled" else state), 4, 2, false, Color(1, 1, 1, 0.5) if state == "disabled" else Color.WHITE)
+	if art != null:
+		return art
 	var bg: Color = {"normal": WOOD_MID, "hover": WOOD_LIGHT, "pressed": WOOD, "disabled": Color(WOOD_LIGHT, 0.55)}.get(state, WOOD_MID)
 	var sb := _box(bg, WOOD_DARK if state != "disabled" else Color(WOOD, 0.6), 1, 2)
 	sb.border_width_bottom = 2
@@ -51,14 +74,20 @@ static func plank(state: String) -> StyleBoxFlat:
 
 
 ## The routed-wood sign the clock hangs on.
-static func wood_sign() -> StyleBoxFlat:
+static func wood_sign() -> StyleBox:
+	var art := _art("ui_clock_sign", 6, 2)
+	if art != null:
+		return art
 	var sb := _box(WOOD_DARK, INK, 1, 3)
 	sb.border_width_bottom = 2
 	return sb
 
 
 ## The wallet: a green patch with a stitched cream edge.
-static func patch() -> StyleBoxFlat:
+static func patch() -> StyleBox:
+	var art := _art("ui_wallet", 4, 1)
+	if art != null:
+		return art
 	var sb := _box(PINE, CREAM, 1, 5)
 	sb.expand_margin_left = 1
 	sb.expand_margin_right = 1
@@ -66,13 +95,31 @@ static func patch() -> StyleBoxFlat:
 
 
 ## An item-bar peg: plain wood, or picked out in gold when held.
-static func peg(held: bool) -> StyleBoxFlat:
+static func peg(held: bool) -> StyleBox:
+	var art := _art("ui_peg_held" if held else "ui_peg", 4, 1)
+	if art != null:
+		return art
 	return _box(WOOD_LIGHT if held else WOOD_MID, GOLD if held else WOOD_DARK, 2 if held else 1, 2, 1)
 
 
 ## A paper luggage tag for hover hints.
-static func tag() -> StyleBoxFlat:
+static func tag() -> StyleBox:
+	var art := _art("ui_tag", 4, 2)
+	if art != null:
+		# The string hole is on the left: keep the words clear of it.
+		art.texture_margin_left = 8
+		art.content_margin_left = 9
+		art.content_margin_right = 6
+		return art
 	return _box(PAPER, WOOD, 1, 3)
+
+
+## A book tab: the open page's, or the others'.
+static func tab(open: bool) -> StyleBox:
+	var art := _art("ui_tab_open" if open else "ui_tab", 4, 2)
+	if art != null:
+		return art
+	return plank("hover" if open else "normal")
 
 
 ## The theme every screen shares.
@@ -81,6 +128,9 @@ static func theme() -> Theme:
 	t.default_font_size = 8
 	t.set_stylebox("panel", "Panel", paper())
 	t.set_stylebox("panel", "PanelContainer", paper())
+	t.set_stylebox("panel", "PopupPanel", paper())
+	t.set_stylebox("panel", "TooltipPanel", tag())
+	t.set_color("font_color", "TooltipLabel", TEXT_DARK)
 	t.set_color("font_color", "Label", TEXT_DARK)
 	for state in ["normal", "hover", "pressed", "disabled", "focus"]:
 		t.set_stylebox(state, "Button", plank("normal" if state == "focus" else state))

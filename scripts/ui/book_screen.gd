@@ -93,4 +93,12 @@ func show_page(pg: String) -> void:
 		_badges.refresh()
 	_scroll.scroll_vertical = 0
 	for i in PAGES.size():
-		(_tabs.get_child(i) as Button).modulate = Color(1.4, 1.3, 0.8) if PAGES[i] == pg else Color.WHITE
+		var b := _tabs.get_child(i) as Button
+		var open := PAGES[i] == pg
+		for state in ["normal", "hover", "pressed", "focus"]:
+			b.add_theme_stylebox_override(state, KitStyle.tab(open))
+		for k in ["font_color", "font_hover_color", "font_pressed_color"]:
+			b.add_theme_color_override(k, KitStyle.TEXT_LIGHT)
+		b.add_theme_color_override("font_outline_color", KitStyle.INK)
+		b.add_theme_constant_override("outline_size", 2)
+		b.modulate = Color.WHITE if open else Color(0.88, 0.88, 0.88)

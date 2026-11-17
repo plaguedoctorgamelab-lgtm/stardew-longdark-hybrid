@@ -84,26 +84,29 @@ func setup(s: GameSession, theme: Theme) -> void:
 
 	# The clock hangs on a small routed-wood sign; the wallet is a patch.
 	var box := Panel.new()
-	box.position = Vector2(398, 2)
-	box.size = Vector2(80, 34)
+	# Mark's sign hangs on short chains along its top: the words sit below them.
+	var art_sign := Art.has_picture("ui_clock_sign")
+	box.position = Vector2(398, 0 if art_sign else 2)
+	box.size = Vector2(80, 42 if art_sign else 34)
 	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	box.add_theme_stylebox_override("panel", KitStyle.wood_sign())
 	root.add_child(box)
-	date_label = _label(Vector2(402, 3))
-	time_label = _label(Vector2(402, 13))
-	status_label = _label(Vector2(402, 23))
+	var top := 9.0 if art_sign else 3.0
+	date_label = _label(Vector2(403, top))
+	time_label = _label(Vector2(403, top + 10))
+	status_label = _label(Vector2(403, top + 20))
 	for l: Label in [date_label, time_label, status_label]:
 		l.add_theme_color_override("font_color", KitStyle.CREAM)
 	var mbox := Panel.new()
-	mbox.position = Vector2(398, 37)
+	mbox.position = Vector2(398, 43 if art_sign else 37)
 	mbox.size = Vector2(80, 12)
 	mbox.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	mbox.add_theme_stylebox_override("panel", KitStyle.patch())
 	root.add_child(mbox)
-	money_label = _label(Vector2(402, 37))
+	money_label = _label(Vector2(404, 42 if art_sign else 37))
 	money_label.add_theme_color_override("font_color", KitStyle.GOLD)
 	weather_icon = TextureRect.new()
-	weather_icon.position = Vector2(458, 15)
+	weather_icon.position = Vector2(458, 19 if art_sign else 15)
 	_fit_icon(weather_icon)
 	root.add_child(weather_icon)
 

@@ -6,7 +6,10 @@ extends Panel
 ## and, when the ranger knows where they are, the position marker. A compass
 ## rose, a legend and the park's name in big letters sit in the corners. The
 ## sheet covers the whole region, so the view pans (walking keys) and zooms
-## (mouse wheel). Only changed chunks are redrawn.
+## (mouse wheel). Only changed chunks are redrawn. Mark's Art Request 13
+## pieces (map_*) are used when they are there: his parchment shows through
+## the land not yet surveyed, and his compass, star, site pictograms, legend
+## frame and lettering dress the corners; drawn stand-ins fill any gaps.
 
 const PAPER := Color8(225, 205, 160)
 const TRACE := Color8(93, 62, 48)
@@ -40,6 +43,8 @@ var landmark_labels: Control
 var travel_box: VBoxContainer
 var deco: Control
 var _painted: bool = false   # the first open paints the whole sheet
+var paper_tile: TextureRect   # Mark's parchment, under the land not yet surveyed
+var _blank: Color = PAPER     # what land not yet surveyed is painted on the screen's sheet
 var image: Image
 var texture: ImageTexture
 var zoom_index: int = 2
@@ -62,6 +67,16 @@ func setup(s: GameSession) -> void:
 	paper.color = PAPER
 	paper.size = VIEW_SIZE
 	clip.add_child(paper)
+	if Art.has_picture("map_paper"):
+		# The sheet leaves unsurveyed land clear, so the parchment shows.
+		_blank = Color(0, 0, 0, 0)
+		paper_tile = TextureRect.new()
+		paper_tile.texture = Art.texture("map_paper")
+		paper_tile.stretch_mode = TextureRect.STRETCH_TILE
+		paper_tile.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		paper_tile.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
+		paper_tile.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		clip.add_child(paper_tile)
 	map_rect = TextureRect.new()
 	map_rect.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	map_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
@@ -83,8 +98,8 @@ func setup(s: GameSession) -> void:
 	marker.size = Vector2(4, 4)
 	marker.color = Color(0.85, 0.1, 0.1)
 	clip.add_child(marker)
-	image = Image.create(s.world.width, s.world.height, false, Image.FORMAT_RGB8)
-	image.fill(PAPER)
+	image = Image.create(s.world.width, s.world.height, false, Image.FORMAT_RGBA8)
+	image.fill(_blank)
 	texture = ImageTexture.create_from_image(image)
 	map_rect.texture = texture
 	# Trail travel: places the ranger can walk to in one go, from the trail.
@@ -129,9 +144,9 @@ func _label(pos: Vector2, text: String) -> Label:
 	return l
 
 
-static func _paint_tile(img: Image, s: GameSession, t: Vector2i) -> void:
+static func _paint_tile(img: Image, s: GameSession, t: Vector2i, blank: Color = PAPER) -> void:
 	var m := s.map
-	var c := PAPER
+	var c := blank
 	if m.is_revealed(t):
 		c = GROUND_COLORS.get(s.world.ground_at(t), PAPER)
 	if m.is_traced(t) and (t.x + t.y) % 2 == 0:
@@ -139,13 +154,13 @@ static func _paint_tile(img: Image, s: GameSession, t: Vector2i) -> void:
 	img.set_pixelv(t, c)
 
 
-static func _paint_chunk(img: Image, s: GameSession, c: Vector2i) -> void:
+static func _paint_chunk(img: Image, s: GameSession, c: Vector2i, blank: Color = PAPER) -> void:
 	var cs := s.world.chunk_size
 	for ly in cs:
 		for lx in cs:
 			var t := c * cs + Vector2i(lx, ly)
 			if t.x < img.get_width() and t.y < img.get_height():
-				_paint_tile(img, s, t)
+				_paint_tile(img, s, t, blank)
 
 
 ## Draws the whole map picture from the map state, over `area` (the built
@@ -203,17 +218,17 @@ func refresh_picture() -> void:
 	var d := session.map.take_dirty()
 	if d["all"] or not _painted:
 		_painted = true
-		image.fill(PAPER)
+		image.fill(_blank)
 		var b := session.world.baked_bounds()
 		var cs := session.world.chunk_size
 		for cy in range(b.position.y / cs, b.end.y / cs):
 			for cx in range(b.position.x / cs, b.end.x / cs):
 				var c := Vector2i(cx, cy)
 				if session.world.has_chunk_file(c) and _chunk_has_marks(c):
-					_paint_chunk(image, session, c)
+					_paint_chunk(image, session, c, _blank)
 	else:
 		for c: Vector2i in d["chunks"]:
-			_paint_chunk(image, session, c)
+			_paint_chunk(image, session, c, _blank)
 	texture.update(image)
 
 
@@ -265,6 +280,10 @@ func _layout() -> void:
 		center[axis] = (float(b.position[axis]) + float(b.end[axis])) / 2.0 if lo > hi else clampf(center[axis], lo, hi)
 	map_rect.size = Vector2(image.get_width(), image.get_height()) * z
 	map_rect.position = (VIEW_SIZE / 2.0 - center * z).round()
+	if paper_tile != null:
+		# The parchment moves with the map, so it pans with the land.
+		paper_tile.position = map_rect.position
+		paper_tile.size = map_rect.size
 	for c in landmark_labels.get_children():
 		c.queue_free()
 	for r: Dictionary in session.content.rows("landmarks"):
@@ -302,10 +321,13 @@ func _add_label(text: String, at: Vector2, nudge: Vector2, color: Color, tinted:
 
 func _draw_overlay() -> void:
 	var z := zoom()
-	# A red star at every mapped landmark.
+	# A mapped landmark: its pictogram if Mark drew one, else a red star.
 	for r: Dictionary in session.content.rows("landmarks"):
 		if session.map.is_landmark_mapped(r["id"]):
-			_star(overlay, map_rect.position + session.world.landmark_pos(r["id"]) * z, 4.5, STAR)
+			_mark(overlay, map_rect.position + session.world.landmark_pos(r["id"]) * z, str(r["id"]))
+	# The station is always on the map, as home.
+	if Art.has_picture("map_icon_ranger_station"):
+		_mark(overlay, map_rect.position + session.door_front("ranger_station") * z + Vector2(0, -8), "ranger_station")
 	for t: Vector2i in session.placed:
 		# A cairn shows only once its ground is revealed.
 		if not session.map_shows_placed(t):
@@ -326,6 +348,19 @@ func _draw_overlay() -> void:
 			var p0 := map_rect.position + (c + Vector2(cos(a0), sin(a0)) * r) * z
 			var p1 := map_rect.position + (c + Vector2(cos(a1), sin(a1)) * r) * z
 			overlay.draw_line(p0, p1, HINT, 1.0)
+
+
+## A place's mark: Mark's pictogram for it, his star, or a drawn star.
+func _mark(on: CanvasItem, c: Vector2, place: String) -> void:
+	var icon := "map_icon_" + place
+	if Art.has_picture(icon):
+		var tex := Art.texture(icon)
+		on.draw_texture(tex, (c - Vector2(tex.get_size()) / 2.0).round())
+	elif Art.has_picture("map_star"):
+		var star := Art.texture("map_star")
+		on.draw_texture(star, (c - Vector2(star.get_size()) / 2.0).round())
+	else:
+		_star(on, c, 4.5, STAR)
 
 
 ## A five-pointed star with a dark edge.
@@ -352,6 +387,10 @@ func _draw_deco() -> void:
 	var c := session.content
 	# Compass rose.
 	var o := Vector2(24, 24)
+	if Art.has_picture("map_compass"):
+		deco.draw_texture(Art.texture("map_compass"), Vector2(6, 6))
+		_draw_legend_and_name()
+		return
 	deco.draw_circle(o, 15, Color(PAPER, 0.85))
 	deco.draw_arc(o, 15, 0, TAU, 32, TRACE, 1.0)
 	for i in 8:
@@ -361,10 +400,25 @@ func _draw_deco() -> void:
 		var side := Vector2(cos(a + PI / 2.0), sin(a + PI / 2.0)) * (2.5 if long else 1.5)
 		deco.draw_colored_polygon(PackedVector2Array([o + side, tip, o - side]), STAR if i == 0 else TRACE)
 	_deco_text("N", o + Vector2(-3, -17), 7, TRACE, 2)
+	_draw_legend_and_name()
+
+
+func _draw_legend_and_name() -> void:
+	var c := session.content
 	# Legend.
 	var box := Rect2(VIEW_SIZE.x - 92, VIEW_SIZE.y - 80, 86, 50)
-	deco.draw_rect(box, Color(PAPER, 0.92))
-	deco.draw_rect(box, TRACE, false, 1.0)
+	if Art.has_picture("map_legend"):
+		var frame := StyleBoxTexture.new()
+		frame.texture = Art.texture("map_legend")
+		frame.set_texture_margin_all(6)
+		# The frame's border only: its middle has ruled lines that would run
+		# through the legend's words, so the inside is plain paper.
+		frame.draw_center = false
+		deco.draw_rect(box, Color(PAPER, 0.95))
+		deco.draw_style_box(frame, box.grow(2))
+	else:
+		deco.draw_rect(box, Color(PAPER, 0.92))
+		deco.draw_rect(box, TRACE, false, 1.0)
 	_deco_text(c.text("map_legend").to_upper(), box.position + Vector2(4, 9), 7, TRACE, 0)
 	var rows := [["star", "map_legend_landmark"], ["trail", "map_legend_trail"], ["water", "map_legend_water"], ["forest", "map_legend_forest"], ["you", "map_legend_you"]]
 	for i in rows.size():
@@ -373,7 +427,11 @@ func _draw_deco() -> void:
 		var at := Vector2(box.position.x + 9, y)
 		match k:
 			"star":
-				_star(deco, at, 3.0, STAR)
+				if Art.has_picture("map_star"):
+					var st := Art.texture("map_star")
+					deco.draw_texture(st, (at - Vector2(st.get_size()) / 2.0).round())
+				else:
+					_star(deco, at, 3.0, STAR)
 			"trail":
 				deco.draw_line(at - Vector2(4, 0), at + Vector2(4, 0), GROUND_COLORS["trail"], 2.0)
 			"water":
@@ -385,6 +443,13 @@ func _draw_deco() -> void:
 		_deco_text(c.text(rows[i][1]), at + Vector2(8, 2.5), 7, TRACE, 0)
 	# The park's name, poster-style, along the bottom right.
 	var f := ThemeDB.fallback_font
+	if Art.has_picture("map_park_name"):
+		var pn := Art.texture("map_park_name")
+		deco.draw_texture(pn, Vector2(VIEW_SIZE.x - 188, VIEW_SIZE.y - 27))
+		var sub0 := c.text("map_poster_subtitle").to_upper()
+		var sw0 := f.get_string_size(sub0, HORIZONTAL_ALIGNMENT_LEFT, -1, 7).x
+		_deco_text(sub0, Vector2(VIEW_SIZE.x - sw0 - 8, VIEW_SIZE.y - 4), 7, TRACE, 2)
+		return
 	var name := c.text("title_park").to_upper()
 	var w := f.get_string_size(name, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
 	var at2 := Vector2(VIEW_SIZE.x - w - 8, VIEW_SIZE.y - 14)

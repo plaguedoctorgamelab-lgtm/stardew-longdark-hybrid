@@ -7,8 +7,10 @@ extends Control
 ## entrance sign with its compass-and-eye emblem and a lantern, the menu
 ## hanging under it on planks.
 ##
-## Everything is drawn in code from the game's bright palette as a stand-in
-## until Art Request 11 arrives. Words come from the text table.
+## Mark's Art Request 11 pictures (title_*) are used when they are there; the
+## code-drawn stand-ins remain for any that are missing. The sky's bands, the
+## sun, the fog and the chains are always drawn in code. Words for the
+## stand-ins come from the text table; Mark's sign and logo carry their own.
 
 const W := 480.0
 const H := 270.0
@@ -45,6 +47,15 @@ var version_label: Label
 var _time: float = 0.0
 var _flies: Array[Vector3] = []   # x, y, phase
 var _font: Font
+var _art: bool = false            # Mark's title pictures are in
+var _post_cols: Array = []        # [x, colour] of the sign picture's post pixels, carried to the ground
+
+# Where Mark's pictures go on the 480 x 270 screen.
+const LOGO_AT := Vector2(40, 6)
+const LAYERS := {"title_layer_mountains": [40.0, 1.0], "title_layer_meadow": [150.0, 3.0], "title_layer_ridge": [80.0, 2.0], "title_layer_pines": [150.0, 5.0]}
+const SIGN_AT := Vector2(96, 92)
+const EMBLEM_AT := Vector2(352, 84)
+const LANTERN_AT := Vector2(356, 186)
 
 
 func setup(c: ContentDB, version_text: String, actions: Array) -> void:
@@ -52,6 +63,17 @@ func setup(c: ContentDB, version_text: String, actions: Array) -> void:
 	size = Vector2(W, H)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	_font = ThemeDB.fallback_font
+	_art = Art.has_picture("title_sign") and Art.has_picture("title_layer_mountains")
+	if _art:
+		# The sign's posts end at the bottom of its picture: note each post
+		# pixel a few rows up (the bottom row is the outline), to carry the
+		# posts on down to the ground.
+		var img := Art.image("title_sign")
+		var y := img.get_height() - 4
+		for x in img.get_width():
+			var px := img.get_pixel(x, y)
+			if px.a > 0.5:
+				_post_cols.append([x, px])
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 1971
 	for i in 18:
@@ -68,7 +90,8 @@ func setup(c: ContentDB, version_text: String, actions: Array) -> void:
 		b.pressed.connect(pair[1])
 		buttons.add_child(b)
 	buttons.reset_size()
-	buttons.position = Vector2(SIGN.get_center().x - buttons.get_combined_minimum_size().x / 2.0, SIGN.end.y + 12)
+	var under := _sign_rect()
+	buttons.position = Vector2(under.get_center().x - buttons.get_combined_minimum_size().x / 2.0, under.end.y + 8)
 	note = Label.new()
 	note.position = Vector2(110, 252)
 	note.size = Vector2(260, 16)
@@ -87,8 +110,28 @@ func setup(c: ContentDB, version_text: String, actions: Array) -> void:
 	add_child(version_label)
 
 
-## A menu button as a small hanging plank.
+## Where the sign stands: Mark's picture, or the drawn stand-in.
+func _sign_rect() -> Rect2:
+	if _art:
+		return Rect2(SIGN_AT, Vector2(Art.texture("title_sign").get_size()))
+	return SIGN
+
+
+## A menu button as a small hanging plank: Mark's plank, lighter on hover and
+## darker when pressed, or the drawn stand-in.
 func _plank(b: Button) -> void:
+	if Art.has_picture("title_plank"):
+		for state in ["normal", "hover", "pressed", "focus"]:
+			var sb := StyleBoxTexture.new()
+			sb.texture = Art.texture("title_plank")
+			sb.set_texture_margin_all(3)
+			sb.set_content_margin_all(1)
+			sb.modulate_color = {"normal": Color.WHITE, "hover": Color(1.15, 1.12, 1.05), "pressed": Color(0.82, 0.8, 0.78), "focus": Color.WHITE}[state]
+			b.add_theme_stylebox_override(state, sb)
+		b.add_theme_color_override("font_color", WOOD_DARK)
+		b.add_theme_color_override("font_hover_color", INK)
+		b.add_theme_color_override("font_pressed_color", INK)
+		return
 	for state in ["normal", "hover", "pressed"]:
 		var sb := StyleBoxFlat.new()
 		sb.bg_color = {"normal": WOOD_MID, "hover": WOOD_LIGHT, "pressed": WOOD}[state]
@@ -111,6 +154,9 @@ func _process(delta: float) -> void:
 
 
 func _draw() -> void:
+	if _art:
+		_draw_with_art()
+		return
 	_draw_sky()
 	_draw_mountains()
 	_draw_river_valley()
@@ -120,6 +166,55 @@ func _draw() -> void:
 	_draw_chains()
 	_draw_sign()
 	_draw_fireflies()
+
+
+# --- with Mark's pictures (Art Request 11) -----------------------------------------
+
+func _draw_with_art() -> void:
+	_draw_sky()
+	# The layers drift slowly, the nearest fastest. They are 32 px wider than
+	# the screen, so the drift never shows an edge.
+	for layer: String in ["title_layer_mountains", "title_layer_ridge", "title_layer_meadow", "title_layer_pines"]:
+		if layer == "title_layer_ridge":
+			continue
+		_layer(layer)
+		if layer == "title_layer_meadow":
+			_layer("title_layer_ridge")
+	if Art.has_picture("title_logo"):
+		draw_texture(Art.texture("title_logo"), LOGO_AT)
+	else:
+		_draw_title()
+	_draw_chains()
+	# The sign's posts, carried on from the bottom of its picture to the ground.
+	var sign_tex := Art.texture("title_sign")
+	var foot := SIGN_AT.y + sign_tex.get_height() - 4
+	draw_texture(sign_tex, SIGN_AT)
+	# Over the picture's last rows, so its bottom outline leaves no seam.
+	for pc: Array in _post_cols:
+		draw_rect(Rect2(SIGN_AT.x + float(pc[0]), foot, 1, H - foot), pc[1])
+	if Art.has_picture("title_emblem"):
+		draw_texture(Art.texture("title_emblem"), EMBLEM_AT)
+	else:
+		_draw_emblem(EMBLEM_AT + Vector2(32, 36))
+	var frame := int(_time * 3.0) % 2
+	var glow := 0.8 + 0.2 * sin(_time * 3.1)
+	draw_circle(LANTERN_AT + Vector2(6, 10), 20 * glow, Color(GOLD, 0.10))
+	draw_circle(LANTERN_AT + Vector2(6, 10), 10 * glow, Color(GOLD, 0.16))
+	if Art.has_picture("title_lantern_0"):
+		draw_texture(Art.texture("title_lantern_%d" % frame), LANTERN_AT)
+	else:
+		_draw_lantern(LANTERN_AT + Vector2(6, 0))
+	for f in _flies:
+		var p := Vector2(f.x + sin(_time * 0.7 + f.z) * 8.0, f.y + cos(_time * 0.9 + f.z * 2.0) * 5.0).round()
+		var a := clampf(sin(_time * 2.2 + f.z * 3.0) * 1.4, 0.0, 1.0)
+		if a > 0.05 and Art.has_picture("title_firefly_0"):
+			draw_texture(Art.texture("title_firefly_%d" % (int(_time * 4.0 + f.z) % 2)), p - Vector2(2, 2), Color(1, 1, 1, a))
+
+
+func _layer(layer: String) -> void:
+	var at: Array = LAYERS[layer]
+	var drift := sin(_time * 0.05) * float(at[1]) - 16.0
+	draw_texture(Art.texture(layer), Vector2(round(drift), float(at[0])))
 
 
 # --- the landscape ---------------------------------------------------------------
@@ -354,9 +449,10 @@ func _draw_lantern(p: Vector2) -> void:
 
 ## Short chains from the sign to the hanging menu planks.
 func _draw_chains() -> void:
-	var top := SIGN.end.y + 2
+	var r := _sign_rect()
+	var top := r.end.y + (-2.0 if _art else 2.0)
 	var bottom := buttons.position.y if buttons != null else top + 10
-	var cx := SIGN.get_center().x
+	var cx := r.get_center().x
 	for x in [cx - 34.0, cx + 34.0]:
 		var y := top
 		while y < bottom:

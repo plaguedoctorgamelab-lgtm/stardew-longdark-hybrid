@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.4.5** (see [Version history](#version-history)). The
+**Current version: 0.4.6** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -100,6 +100,13 @@ docs/              bible, roadmap, specs, rules, status reports (hidden from God
 
 The version lives in `project.godot` (`application/config/version`). Every
 commit of the build raises it and adds a line here.
+
+### 0.4.6 (17 November 2026): Art Requests 11 to 14 are in
+
+- Mark's park look art replaces the stand-ins: the title screen's four drifting layers, entrance sign, emblem, logo, lantern, fireflies and hanging menu planks; the ranger's kit (paper panels, plank buttons, red and blue book tabs, paper tags, the clock sign, the wallet patch and the item-bar pegs); the map's compass, star, site pictograms, legend frame, parchment for unexplored land and lettering; and every badge.
+- Cut by `tools/art_cleanup.py` from Mark's exact coordinates (`box` cells in `tools/art_manifest.json`); the raw sheets are in `art/raw/ar11_*` to `ar14_*`.
+- Where a sheet left a gap, the game fills it: disabled buttons fade the normal plank (the fourth plank state sits under the wallet patch on the sheet), skill patches get gold pips for their level (the three levels are drawn alike), and the legend uses only its frame's border.
+- Every piece falls back to the drawn stand-in if its picture is missing.
 
 ### 0.4.5 (17 November 2026): the park look
 

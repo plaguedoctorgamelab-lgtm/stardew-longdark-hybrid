@@ -13,7 +13,14 @@ func test_title_words_are_in_the_text_table(t: TestCase) -> void:
 
 func test_kit_theme_styles_every_screen(t: TestCase) -> void:
 	var th := KitStyle.theme()
-	t.check(th.get_stylebox("panel", "Panel") is StyleBoxFlat, "panels are paper")
+	var panel := th.get_stylebox("panel", "Panel")
+	if Art.has_picture("ui_paper"):
+		t.check(panel is StyleBoxTexture and (panel as StyleBoxTexture).texture == Art.texture("ui_paper"), "panels are Mark's paper")
+	else:
+		t.check(panel is StyleBoxFlat, "panels are paper")
+	for name in ["ui_paper", "ui_button_normal", "ui_button_hover", "ui_button_pressed", "ui_tab_open", "ui_tab", "ui_tag", "ui_clock_sign", "ui_wallet", "ui_peg", "ui_peg_held",
+			"title_sign", "title_emblem", "title_logo", "title_plank", "map_compass", "map_paper", "badge_locked", "badge_strange_17", "badge_spec_seeker", "badge_foraging_4"]:
+		t.check(Art.has_picture(name), "%s is in" % name)
 	for state in ["normal", "hover", "pressed", "disabled"]:
 		t.check(th.has_stylebox(state, "Button"), "buttons have a %s plank" % state)
 	t.check(th.get_color("font_color", "Label") == KitStyle.TEXT_DARK, "text on paper is dark")

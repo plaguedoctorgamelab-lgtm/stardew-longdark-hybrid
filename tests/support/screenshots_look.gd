@@ -34,6 +34,9 @@ func _run() -> void:
 	await _frames(5)
 	await create_timer(1.5).timeout
 	await _shot("1_title")
+	if OS.get_cmdline_user_args().has("title"):
+		quit(0)
+		return
 	var s: GameSession = main.session
 	s.save_path = "user://screenshots/save_look.json"
 	s.new_game(4242)

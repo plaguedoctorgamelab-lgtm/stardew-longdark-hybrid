@@ -5,7 +5,10 @@ extends Control
 ## specialty, and the strange badges, one for each hidden find and magical
 ## ingredient. A strange badge never says what earned it: found ones are
 ## numbered, the rest are question marks. Hover a patch for what it is.
-## Drawn in code from the bright palette as stand-ins until Art Request 14.
+## Mark's Art Request 14 patches (badge_*) are used when they are there: a
+## skill patch gets small gold pips for its level (his three are drawn alike),
+## a patch not yet earned shows his locked patch, faded. Drawn stand-ins fill
+## any gaps.
 
 const INK := Color8(26, 22, 32)
 const CREAM := Color8(246, 224, 180)
@@ -81,6 +84,24 @@ func _shield(c: Vector2, fill: Color, earned: bool) -> void:
 		draw_polyline(pts + PackedVector2Array([pts[0]]), WOOD_DARK, 1.0)
 
 
+## Draws one of Mark's patches centred on c, faded when not yet earned.
+## Returns false when the picture is not there, so the stand-in is drawn.
+func _art(name: String, c: Vector2, earned: bool) -> bool:
+	if not Art.has_picture(name):
+		return false
+	var tex := Art.texture(name if earned or not Art.has_picture("badge_locked") else "badge_locked")
+	draw_texture(tex, (c - Vector2(tex.get_size()) / 2.0).round(), Color.WHITE if earned else Color(1, 1, 1, 0.75))
+	return true
+
+
+## Small gold pips under a skill patch: one for each level past the first.
+func _pips(c: Vector2, n: int) -> void:
+	for i in n:
+		var x := c.x - (n - 1) * 2.5 + i * 5.0
+		draw_rect(Rect2(x - 1.5, c.y + R - 3, 3, 3), INK)
+		draw_rect(Rect2(x - 1, c.y + R - 2.5, 2, 2), Color8(255, 224, 102))
+
+
 func _glyph(text: String, c: Vector2, col: Color) -> void:
 	var f := ThemeDB.fallback_font
 	var w := f.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, 9).x
@@ -108,8 +129,14 @@ func _draw() -> void:
 			var lv := int(p["level"])
 			var earned := sk.level(row["id"]) >= lv
 			var at := Vector2(x, y)
-			_patch(at, col, earned)
-			_glyph(name.substr(0, 1) + str(lv), at, CREAM if earned else WOOD_DARK)
+			if _art("badge_%s_%d" % [row["id"], lv], at, earned):
+				if earned:
+					_pips(at, lv - 1)
+				else:
+					_glyph(name.substr(0, 1) + str(lv), at, WOOD_DARK)
+			else:
+				_patch(at, col, earned)
+				_glyph(name.substr(0, 1) + str(lv), at, CREAM if earned else WOOD_DARK)
 			var tip := c.text("badge_skill", {"skill": name, "level": lv, "perk": c.text(p["text"])})
 			_spots.append([at, tip if earned else tip + "\n" + c.text("badge_locked")])
 			x += STEP
@@ -126,9 +153,13 @@ func _draw() -> void:
 		var earned: bool = str(sk.chosen.get(sid, "")) == str(srow["id"])
 		var taken_other: bool = str(sk.chosen.get(sid, "")) not in ["", str(srow["id"])]
 		var at := Vector2(x, y)
-		_shield(at, col, earned)
 		var name := c.text(srow["name"])
-		_glyph(name.substr(0, 1), at, CREAM if earned else WOOD_DARK)
+		if _art("badge_spec_" + str(srow["id"]), at, earned):
+			if not earned:
+				_glyph(name.substr(0, 1), at, WOOD_DARK)
+		else:
+			_shield(at, col, earned)
+			_glyph(name.substr(0, 1), at, CREAM if earned else WOOD_DARK)
 		var tip := name + ": " + c.text(srow["desc"])
 		if not earned:
 			tip += "\n" + c.text("badge_spec_not_taken" if taken_other else "badge_locked")
@@ -147,20 +178,24 @@ func _draw() -> void:
 	y += HEAD + R + 2
 	x = 4.0 + R
 	var n := 0
-	for id in ids:
+	for k in ids.size():
+		var id: String = ids[k]
 		if x > size.x - R:
 			x = 4.0 + R
 			y += STEP
 		var at := Vector2(x, y)
 		if session.finds_found.has(id):
 			n += 1
-			_patch(at, STRANGE, true)
-			draw_circle(at, 3.5, PAPER)
-			draw_circle(at, 1.8, GLOW)
-			draw_circle(at, 0.9, INK)
+			# Each find has its own strange badge, by its place in the list.
+			if not _art("badge_strange_%d" % (k + 1), at, true):
+				_patch(at, STRANGE, true)
+				draw_circle(at, 3.5, PAPER)
+				draw_circle(at, 1.8, GLOW)
+				draw_circle(at, 0.9, INK)
 			_spots.append([at, c.text("badge_strange_found", {"n": n})])
 		else:
-			_patch(at, LOCKED, false)
+			if not _art("badge_strange_%d" % (k + 1), at, false):
+				_patch(at, LOCKED, false)
 			_glyph("?", at, WOOD_DARK)
 			_spots.append([at, c.text("badge_strange_hidden")])
 		x += STEP

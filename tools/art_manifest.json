@@ -3219,6 +3219,1088 @@
      ]
     }
    ]
+  },
+  {
+   "file": "ar11_layers.png",
+   "label": "Art Request 11: the title screen's four drifting layers, 512 x 120 each, stacked (Mark's ATLAS_GUIDE.txt)",
+   "pixel": true,
+   "grid": [
+    1,
+    1
+   ],
+   "cells": [
+    {
+     "name": "title_layer_mountains",
+     "box": [
+      0,
+      0,
+      512,
+      120
+     ],
+     "size": [
+      512,
+      120
+     ],
+     "full": true
+    },
+    {
+     "name": "title_layer_ridge",
+     "box": [
+      0,
+      120,
+      512,
+      120
+     ],
+     "size": [
+      512,
+      120
+     ],
+     "full": true
+    },
+    {
+     "name": "title_layer_meadow",
+     "box": [
+      0,
+      240,
+      512,
+      120
+     ],
+     "size": [
+      512,
+      120
+     ],
+     "full": true
+    },
+    {
+     "name": "title_layer_pines",
+     "box": [
+      0,
+      360,
+      512,
+      120
+     ],
+     "size": [
+      512,
+      120
+     ],
+     "full": true
+    }
+   ]
+  },
+  {
+   "file": "ar11_sign.png",
+   "label": "Art Request 11: the Dusk River Park entrance sign",
+   "pixel": true,
+   "grid": [
+    1,
+    1
+   ],
+   "cells": [
+    {
+     "name": "title_sign",
+     "box": [
+      0,
+      0,
+      288,
+      96
+     ],
+     "size": [
+      288,
+      96
+     ],
+     "full": true
+    }
+   ]
+  },
+  {
+   "file": "ar11_emblem.png",
+   "label": "Art Request 11: the emblem, a compass rose with an eye on a shield",
+   "pixel": true,
+   "grid": [
+    1,
+    1
+   ],
+   "cells": [
+    {
+     "name": "title_emblem",
+     "box": [
+      0,
+      0,
+      64,
+      72
+     ],
+     "size": [
+      64,
+      72
+     ],
+     "full": true
+    }
+   ]
+  },
+  {
+   "file": "ar11_logo.png",
+   "label": "Art Request 11: the STRANGE RANGER logo",
+   "pixel": true,
+   "grid": [
+    1,
+    1
+   ],
+   "cells": [
+    {
+     "name": "title_logo",
+     "box": [
+      0,
+      0,
+      400,
+      64
+     ],
+     "size": [
+      400,
+      64
+     ],
+     "full": true
+    }
+   ]
+  },
+  {
+   "file": "ar11_bits.png",
+   "label": "Art Request 11: lantern and firefly frames, the hanging menu plank",
+   "pixel": true,
+   "grid": [
+    1,
+    1
+   ],
+   "cells": [
+    {
+     "name": "title_lantern_0",
+     "box": [
+      0,
+      0,
+      12,
+      16
+     ],
+     "size": [
+      12,
+      16
+     ],
+     "full": true
+    },
+    {
+     "name": "title_lantern_1",
+     "box": [
+      12,
+      0,
+      12,
+      16
+     ],
+     "size": [
+      12,
+      16
+     ],
+     "full": true
+    },
+    {
+     "name": "title_firefly_0",
+     "box": [
+      24,
+      0,
+      4,
+      4
+     ],
+     "size": [
+      4,
+      4
+     ],
+     "full": true
+    },
+    {
+     "name": "title_firefly_1",
+     "box": [
+      28,
+      0,
+      4,
+      4
+     ],
+     "size": [
+      4,
+      4
+     ],
+     "full": true
+    },
+    {
+     "name": "title_plank",
+     "box": [
+      12,
+      17,
+      84,
+      15
+     ],
+     "size": [
+      84,
+      15
+     ],
+     "full": true
+    }
+   ]
+  },
+  {
+   "file": "ar12_kit.png",
+   "label": "Art Request 12: the ranger's kit. The fourth plank state (49,48) sits under the wallet patch on the sheet, so it is not cut; the game fades the normal plank for disabled buttons",
+   "pixel": true,
+   "grid": [
+    1,
+    1
+   ],
+   "cells": [
+    {
+     "name": "ui_paper",
+     "box": [
+      0,
+      0,
+      48,
+      48
+     ],
+     "size": [
+      48,
+      48
+     ],
+     "full": true
+    },
+    {
+     "name": "ui_button_normal",
+     "box": [
+      49,
+      0,
+      32,
+      16
+     ],
+     "size": [
+      32,
+      16
+     ],
+     "full": true
+    },
+    {
+     "name": "ui_button_hover",
+     "box": [
+      49,
+      16,
+      32,
+      16
+     ],
+     "size": [
+      32,
+      16
+     ],
+     "full": true
+    },
+    {
+     "name": "ui_button_pressed",
+     "box": [
+      49,
+      32,
+      32,
+      16
+     ],
+     "size": [
+      32,
+      16
+     ],
+     "full": true
+    },
+    {
+     "name": "ui_tab_open",
+     "box": [
+      82,
+      0,
+      32,
+      16
+     ],
+     "size": [
+      32,
+      16
+     ],
+     "full": true
+    },
+    {
+     "name": "ui_tab",
+     "box": [
+      82,
+      16,
+      32,
+      16
+     ],
+     "size": [
+      32,
+      16
+     ],
+     "full": true
+    },
+    {
+     "name": "ui_tag",
+     "box": [
+      115,
+      0,
+      24,
+      16
+     ],
+     "size": [
+      24,
+      16
+     ],
+     "full": true
+    },
+    {
+     "name": "ui_clock_sign",
+     "box": [
+      140,
+      0,
+      80,
+      34
+     ],
+     "size": [
+      80,
+      34
+     ],
+     "full": true
+    },
+    {
+     "name": "ui_wallet",
+     "box": [
+      0,
+      49,
+      80,
+      12
+     ],
+     "size": [
+      80,
+      12
+     ],
+     "full": true
+    },
+    {
+     "name": "ui_peg",
+     "box": [
+      81,
+      49,
+      18,
+      18
+     ],
+     "size": [
+      18,
+      18
+     ],
+     "full": true
+    },
+    {
+     "name": "ui_peg_held",
+     "box": [
+      81,
+      68,
+      18,
+      18
+     ],
+     "size": [
+      18,
+      18
+     ],
+     "full": true
+    }
+   ]
+  },
+  {
+   "file": "ar13_map.png",
+   "label": "Art Request 13: the poster map's pieces",
+   "pixel": true,
+   "grid": [
+    1,
+    1
+   ],
+   "cells": [
+    {
+     "name": "map_compass",
+     "box": [
+      0,
+      0,
+      32,
+      32
+     ],
+     "size": [
+      32,
+      32
+     ],
+     "full": true
+    },
+    {
+     "name": "map_star",
+     "box": [
+      33,
+      0,
+      9,
+      9
+     ],
+     "size": [
+      9,
+      9
+     ],
+     "full": true
+    },
+    {
+     "name": "map_icon_ranger_station",
+     "box": [
+      44,
+      0,
+      12,
+      12
+     ],
+     "size": [
+      12,
+      12
+     ],
+     "full": true
+    },
+    {
+     "name": "map_icon_test_cabin",
+     "box": [
+      57,
+      0,
+      12,
+      12
+     ],
+     "size": [
+      12,
+      12
+     ],
+     "full": true
+    },
+    {
+     "name": "map_icon_static_tower",
+     "box": [
+      70,
+      0,
+      12,
+      12
+     ],
+     "size": [
+      12,
+      12
+     ],
+     "full": true
+    },
+    {
+     "name": "map_icon_scenic_outlook",
+     "box": [
+      83,
+      0,
+      12,
+      12
+     ],
+     "size": [
+      12,
+      12
+     ],
+     "full": true
+    },
+    {
+     "name": "map_icon_kettle_pond",
+     "box": [
+      96,
+      0,
+      12,
+      12
+     ],
+     "size": [
+      12,
+      12
+     ],
+     "full": true
+    },
+    {
+     "name": "map_legend",
+     "box": [
+      110,
+      0,
+      32,
+      32
+     ],
+     "size": [
+      32,
+      32
+     ],
+     "full": true
+    },
+    {
+     "name": "map_paper",
+     "box": [
+      143,
+      0,
+      64,
+      64
+     ],
+     "size": [
+      64,
+      64
+     ],
+     "full": true
+    },
+    {
+     "name": "map_park_name",
+     "box": [
+      0,
+      65,
+      200,
+      24
+     ],
+     "size": [
+      200,
+      24
+     ],
+     "full": true
+    }
+   ]
+  },
+  {
+   "file": "ar14_badges.png",
+   "label": "Art Request 14: 12 skill patches (four skills, levels 2 to 4), 8 specialty shields, 17 strange badges, the locked patch",
+   "pixel": true,
+   "grid": [
+    1,
+    1
+   ],
+   "cells": [
+    {
+     "name": "badge_trailcraft_2",
+     "box": [
+      0,
+      0,
+      24,
+      24
+     ],
+     "size": [
+      24,
+      24
+     ],
+     "full": true
+    },
+    {
+     "name": "badge_trailcraft_3",
+     "box": [
+      25,
+      0,
+      24,
+      24
+     ],
+     "size": [
+      24,
+      24
+     ],
+     "full": true
+    },
+    {
+     "name": "badge_trailcraft_4",
+     "box": [
+      50,
+      0,
+      24,
+      24
+     ],
+     "size": [
+      24,
+      24
+     ],
+     "full": true
+    },
+    {
+     "name": "badge_surveying_2",
+     "box": [
+      75,
+      0,
+      24,
+      24
+     ],
+     "size": [
+      24,
+      24
+     ],
+     "full": true
+    },
+    {
+     "name": "badge_surveying_3",
+     "box": [
+      100,
+      0,
+      24,
+      24
+     ],
+     "size": [
+      24,
+      24
+     ],
+     "full": true
+    },
+    {
+     "name": "badge_surveying_4",
+     "box": [
+      125,
+      0,
+      24,
+      24
+     ],
+     "size": [
+      24,
+      24
+     ],
+     "full": true
+    },
+    {
+     "name": "badge_woodcraft_2",
+     "box": [
+      150,
+      0,
+      24,
+      24
+     ],
+     "size": [
+      24,
+      24
+     ],
+     "full": true
+    },
+    {
+     "name": "badge_woodcraft_3",
+     "box": [
+      175,
+      0,
+      24,
+      24
+     ],
+     "size": [
+      24,
+      24
+     ],
+     "full": true
+    },
+    {
+     "name": "badge_woodcraft_4",
+     "box": [
+      0,
+      25,
+      24,
+      24
+     ],
+     "size": [
+      24,
+      24
+     ],
+     "full": true
+    },
+    {
+     "name": "badge_foraging_2",
+     "box": [
+      25,
+      25,
+      24,
+      24
+     ],
+     "size": [
+      24,
+      24
+     ],
+     "full": true
+    },
+    {
+     "name": "badge_foraging_3",
+     "box": [
+      50,
+      25,
+      24,
+      24
+     ],
+     "size": [
+      24,
+      24
+     ],
+     "full": true
+    },
+    {
+     "name": "badge_foraging_4",
+     "box": [
+      75,
+      25,
+      24,
+      24
+     ],
+     "size": [
+      24,
+      24
+     ],
+     "full": true
+    },
+    {
+     "name": "badge_spec_trail_builder",
+     "box": [
+      0,
+      50,
+      24,
+      26
+     ],
+     "size": [
+      24,
+      26
+     ],
+     "full": true
+    },
+    {
+     "name": "badge_spec_sawyer",
+     "box": [
+      25,
+      50,
+      24,
+      26
+     ],
+     "size": [
+      24,
+      26
+     ],
+     "full": true
+    },
+    {
+     "name": "badge_spec_cartographer",
+     "box": [
+      50,
+      50,
+      24,
+      26
+     ],
+     "size": [
+      24,
+      26
+     ],
+     "full": true
+    },
+    {
+     "name": "badge_spec_wayfinder",
+     "box": [
+      75,
+      50,
+      24,
+      26
+     ],
+     "size": [
+      24,
+      26
+     ],
+     "full": true
+    },
+    {
+     "name": "badge_spec_carpenter",
+     "box": [
+      100,
+      50,
+      24,
+      26
+     ],
+     "size": [
+      24,
+      26
+     ],
+     "full": true
+    },
+    {
+     "name": "badge_spec_camp_hand",
+     "box": [
+      125,
+      50,
+      24,
+      26
+     ],
+     "size": [
+      24,
+      26
+     ],
+     "full": true
+    },
+    {
+     "name": "badge_spec_gatherer",
+     "box": [
+      150,
+      50,
+      24,
+      26
+     ],
+     "size": [
+      24,
+      26
+     ],
+     "full": true
+    },
+    {
+     "name": "badge_spec_seeker",
+     "box": [
+      175,
+      50,
+      24,
+      26
+     ],
+     "size": [
+      24,
+      26
+     ],
+     "full": true
+    },
+    {
+     "name": "badge_strange_1",
+     "box": [
+      0,
+      77,
+      24,
+      24
+     ],
+     "size": [
+      24,
+      24
+     ],
+     "full": true
+    },
+    {
+     "name": "badge_strange_2",
+     "box": [
+      25,
+      77,
+      24,
+      24
+     ],
+     "size": [
+      24,
+      24
+     ],
+     "full": true
+    },
+    {
+     "name": "badge_strange_3",
+     "box": [
+      50,
+      77,
+      24,
+      24
+     ],
+     "size": [
+      24,
+      24
+     ],
+     "full": true
+    },
+    {
+     "name": "badge_strange_4",
+     "box": [
+      75,
+      77,
+      24,
+      24
+     ],
+     "size": [
+      24,
+      24
+     ],
+     "full": true
+    },
+    {
+     "name": "badge_strange_5",
+     "box": [
+      100,
+      77,
+      24,
+      24
+     ],
+     "size": [
+      24,
+      24
+     ],
+     "full": true
+    },
+    {
+     "name": "badge_strange_6",
+     "box": [
+      125,
+      77,
+      24,
+      24
+     ],
+     "size": [
+      24,
+      24
+     ],
+     "full": true
+    },
+    {
+     "name": "badge_strange_7",
+     "box": [
+      150,
+      77,
+      24,
+      24
+     ],
+     "size": [
+      24,
+      24
+     ],
+     "full": true
+    },
+    {
+     "name": "badge_strange_8",
+     "box": [
+      175,
+      77,
+      24,
+      24
+     ],
+     "size": [
+      24,
+      24
+     ],
+     "full": true
+    },
+    {
+     "name": "badge_strange_9",
+     "box": [
+      0,
+      102,
+      24,
+      24
+     ],
+     "size": [
+      24,
+      24
+     ],
+     "full": true
+    },
+    {
+     "name": "badge_strange_10",
+     "box": [
+      25,
+      102,
+      24,
+      24
+     ],
+     "size": [
+      24,
+      24
+     ],
+     "full": true
+    },
+    {
+     "name": "badge_strange_11",
+     "box": [
+      50,
+      102,
+      24,
+      24
+     ],
+     "size": [
+      24,
+      24
+     ],
+     "full": true
+    },
+    {
+     "name": "badge_strange_12",
+     "box": [
+      75,
+      102,
+      24,
+      24
+     ],
+     "size": [
+      24,
+      24
+     ],
+     "full": true
+    },
+    {
+     "name": "badge_strange_13",
+     "box": [
+      100,
+      102,
+      24,
+      24
+     ],
+     "size": [
+      24,
+      24
+     ],
+     "full": true
+    },
+    {
+     "name": "badge_strange_14",
+     "box": [
+      125,
+      102,
+      24,
+      24
+     ],
+     "size": [
+      24,
+      24
+     ],
+     "full": true
+    },
+    {
+     "name": "badge_strange_15",
+     "box": [
+      150,
+      102,
+      24,
+      24
+     ],
+     "size": [
+      24,
+      24
+     ],
+     "full": true
+    },
+    {
+     "name": "badge_strange_16",
+     "box": [
+      175,
+      102,
+      24,
+      24
+     ],
+     "size": [
+      24,
+      24
+     ],
+     "full": true
+    },
+    {
+     "name": "badge_strange_17",
+     "box": [
+      0,
+      127,
+      24,
+      24
+     ],
+     "size": [
+      24,
+      24
+     ],
+     "full": true
+    },
+    {
+     "name": "badge_locked",
+     "box": [
+      0,
+      152,
+      24,
+      24
+     ],
+     "size": [
+      24,
+      24
+     ],
+     "full": true
+    }
+   ]
   }
  ],
  "calm": {
