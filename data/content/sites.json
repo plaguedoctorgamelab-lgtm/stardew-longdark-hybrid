@@ -6,6 +6,39 @@
    "structure": "static_tower",
    "landmark": "static_tower",
    "magic": false
+  },
+  {
+   "id": "old_cabin",
+   "name": "landmark_test_cabin",
+   "structure": "test_cabin",
+   "landmark": "test_cabin",
+   "magic": false,
+   "rent_sign": [
+    351,
+    1255
+   ]
+  },
+  {
+   "id": "outlook",
+   "name": "landmark_scenic_outlook",
+   "structure": "",
+   "landmark": "scenic_outlook",
+   "spot": [
+    280,
+    1243
+   ],
+   "magic": false
+  },
+  {
+   "id": "kettle_pond",
+   "name": "landmark_kettle_pond",
+   "structure": "",
+   "landmark": "kettle_pond",
+   "spot": [
+    424,
+    1104
+   ],
+   "magic": false
   }
  ]
 }

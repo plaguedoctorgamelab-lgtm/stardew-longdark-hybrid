@@ -25,6 +25,7 @@ var dialog_label: Label
 var title_screen: Panel
 var title_note: Label
 var pause_menu: Panel
+var book_screen: BookScreen
 var _dialog_kind: String = ""
 var started: bool = false
 
@@ -64,10 +65,17 @@ func _ready() -> void:
 	session.workbench_opened.connect(func() -> void: choice_screen.open_workbench())
 	session.cooking_opened.connect(func() -> void: choice_screen.open_station("fire"))
 	session.choice_requested.connect(func(kind: String, title: String, options: Array) -> void: choice_screen.open(kind, title, options))
+	session.list_requested.connect(func(kind: String, title: String, options: Array) -> void: choice_screen.reopen(kind, title, options))
 	choice_screen.chosen.connect(func(kind: String, option_id: String) -> void:
 		if choice_screen.STATIONS.has(kind):
 			session.choose_recipe(option_id)
 			choice_screen.refresh()
+		elif kind in ["catalog", "staff"] or kind.begins_with("assign:"):
+			var nxt := session.answer_list(kind, option_id)
+			if nxt != "":
+				choice_screen.reopen(nxt, session.list_title(nxt), session.list_options(nxt))
+			elif choice_screen.visible:
+				choice_screen.reopen(kind, session.list_title(kind), session.list_options(kind))
 		else:
 			session.answer_choice(kind, option_id))
 	session.backpack.changed.connect(func() -> void: choice_screen.refresh())
@@ -135,6 +143,9 @@ func _build_menus() -> void:
 	choice_screen = ChoiceScreen.new()
 	root.add_child(choice_screen)
 	choice_screen.setup(session)
+	book_screen = BookScreen.new()
+	root.add_child(book_screen)
+	book_screen.setup(session)
 	dialog = Panel.new()
 	dialog.size = Vector2(320, 70)
 	dialog.position = Vector2(80, 90)
@@ -284,7 +295,7 @@ func _on_location_changed(loc: String) -> void:
 
 
 func menu_open() -> bool:
-	return title_screen.visible or pause_menu.visible or inventory_screen.visible or map_screen.visible or dialog.visible or choice_screen.visible
+	return title_screen.visible or pause_menu.visible or inventory_screen.visible or map_screen.visible or dialog.visible or choice_screen.visible or book_screen.visible
 
 
 func _show_dialog(kind: String, text: String) -> void:
@@ -303,8 +314,11 @@ func _close_dialog(yes: bool) -> void:
 	dialog.visible = false
 	var kind := _dialog_kind
 	_dialog_kind = ""
-	if kind in ["sleep", "camp_sleep", "open_site"]:
+	if kind in ["sleep", "camp_sleep", "open_site", "rent_sign"] or kind.begins_with("take_down:"):
 		session.answer_confirm(yes)
+	# After reading the suggestion box: pin a card that asks for something.
+	if not dialog.visible and session.box_offer:
+		session.offer_pins()
 	# A level 5 wake-up offers the specialty once the wake-up note is read.
 	if not dialog.visible and session.wake_offer:
 		session.offer_specialty()
@@ -329,6 +343,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			_close_dialog(false)
 		elif choice_screen.visible:
 			choice_screen.close()
+		elif book_screen.visible:
+			book_screen.close()
 		elif map_screen.visible:
 			map_screen.close()
 		elif inventory_screen.visible:
@@ -347,6 +363,10 @@ func _unhandled_input(event: InputEvent) -> void:
 	if choice_screen.visible:
 		if event.is_action_pressed("backpack") or event.is_action_pressed("cancel") or (event.is_action_pressed("craft") and choice_screen.kind == "anywhere"):
 			choice_screen.close()
+		return
+	if book_screen.visible:
+		if event.is_action_pressed("jobs") or event.is_action_pressed("cancel") or event.is_action_pressed("backpack"):
+			book_screen.close()
 		return
 	if event.is_action_pressed("craft") and not menu_open():
 		choice_screen.open_station("anywhere")
@@ -367,7 +387,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			inventory_screen.open(null, "")
 		return
 	if event.is_action_pressed("jobs") and not menu_open():
-		_show_dialog("jobs", session.content.text("job_list_title") + "\n\n" + "\n".join(session.job_lines()) + "\n\n" + "\n".join(session.site_lines()))
+		book_screen.open()
 		return
 	if event.is_action_pressed("open_map"):
 		if map_screen.visible:

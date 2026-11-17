@@ -64,6 +64,22 @@
   {
    "id": "msg_found_count",
    "text": "Odd things noticed: {n}."
+  },
+  {
+   "id": "card_spoiler_ripple",
+   "text": "Fished from the dock at first light. One big, slow ripple went right across the pond. No fish that size. Probably."
+  },
+  {
+   "id": "card_spoiler_ripple_camp",
+   "text": "Woke early. The whole pond rippled once, like something rolling over in its sleep. Then nothing."
+  },
+  {
+   "id": "card_spoiler_radio",
+   "text": "Who was on the radio up in the tower last night? Lovely voice. Read out the weather for tomorrow, very politely."
+  },
+  {
+   "id": "card_spoiler_truck",
+   "text": "[A drawing of a rusty old truck with a tree growing out of it. The truck has a face. It is smiling.]"
   }
  ]
 }

@@ -47,7 +47,8 @@
    "xp": {
     "survey": 40,
     "high_survey": 100,
-    "map_location": 150
+    "map_location": 150,
+    "find_lost_party": 60
    },
    "perks": [
     {

@@ -153,6 +153,32 @@
        1
       ],
       "sprite": "furniture_workbench"
+     },
+     {
+      "id": "catalog_desk",
+      "kind": "catalog",
+      "pos": [
+       8,
+       6
+      ],
+      "size": [
+       2,
+       1
+      ],
+      "sprite": "furniture_catalog_desk"
+     },
+     {
+      "id": "staff_board",
+      "kind": "staff_board",
+      "pos": [
+       9,
+       3
+      ],
+      "size": [
+       1,
+       1
+      ],
+      "sprite": "furniture_staff_board"
      }
     ]
    },

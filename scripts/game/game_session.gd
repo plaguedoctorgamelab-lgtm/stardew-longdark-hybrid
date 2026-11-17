@@ -23,6 +23,7 @@ signal workbench_opened
 signal choice_requested(kind: String, title: String, options: Array)
 signal cooking_opened
 signal backpack_grew
+signal list_requested(kind: String, title: String, options: Array)
 
 const FACING_DOWN := 0
 const FACING_RIGHT := 1
@@ -61,6 +62,7 @@ var pending_confirm: String = ""
 var collapse_count: int = 0
 var save_count: int = 0
 var debug_overlay: bool = false
+var debug_show_visitors: bool = false
 var _collapsing: bool = false
 
 # The ranger's camp, if one is made: {"bed": Vector2i, "fire": Vector2i, "fire_minutes": int}.
@@ -103,6 +105,9 @@ var _trembling: bool = false
 var _sensing: bool = false
 var _loading: bool = false
 var _hold_ideas: bool = false
+var park: Park                       # phase 3: money, visitors, facilities and upkeep
+var box_offer: bool = false          # pinning cards is offered once the box's note closes
+var _pending_pad: String = ""
 
 
 func _init(tuning_path: String = Tuning.DEFAULT_PATH, content_dir: String = ContentDB.CONTENT_DIR, world_dir: String = WorldData.WORLD_DIR) -> void:
@@ -128,6 +133,9 @@ func _init(tuning_path: String = Tuning.DEFAULT_PATH, content_dir: String = Cont
 	clock.day_started.connect(_on_day_started)
 	clock.day_end_reached.connect(_on_day_end)
 	needs.ran_out.connect(_on_ran_out)
+	park = Park.new(self)
+	land_changed.connect(func(_t: Vector2i) -> void: park.net.mark_dirty())
+	park.note.connect(func(text: String) -> void: message.emit(text))
 
 
 # --- starting and loading ---------------------------------------------------
@@ -180,6 +188,7 @@ func new_game(new_seed: int = -1) -> void:
 	_sensing = false
 	_reset_land()
 	_apply_seasons()
+	park.new_game()
 	camp_changed.emit()
 	weather.check_change(clock.minute)
 
@@ -222,6 +231,7 @@ func to_dict() -> Dictionary:
 			"kits": kits_set.keys(),
 			"wake": pending_wake.duplicate(true),
 		},
+		"park": park.to_dict(),
 	}
 
 
@@ -304,6 +314,7 @@ func from_dict(d: Dictionary) -> void:
 	_trembling = false
 	_sensing = false
 	_apply_seasons()
+	park.from_dict(d.get("park", {}))
 	camp_changed.emit()
 	survey_steps_left = 0
 	_last_tile = Vector2i(-9999, -9999)
@@ -454,6 +465,16 @@ func speed_tiles_per_second() -> float:
 
 func process(real_delta: float) -> void:
 	clock.process(real_delta)
+	park.advance_to(park_minute())
+
+
+## The clock's minute with the part of the current ten minutes gone by, so
+## visitors walk smoothly between the clock's steps.
+func park_minute() -> float:
+	if clock.paused or clock.is_day_over():
+		return float(clock.minute)
+	var k := clampf(clock._accum / tuning.num("time.real_seconds_per_step"), 0.0, 0.999)
+	return float(clock.minute) + k * clock.step_minutes()
 
 
 ## Moves the ranger by an input direction for real_delta seconds.
@@ -548,9 +569,12 @@ func pass_minutes(minutes: int) -> void:
 		if clock.is_day_over() or _collapsing:
 			break
 		clock.advance_step()
+	park.advance_to(float(clock.minute))
 
 
 func _on_day_started(_day: int, _season: int, _year: int) -> void:
+	# The park finishes yesterday first, under yesterday's weather.
+	park.on_new_day()
 	# Yesterday's weather is still in place: remember a wet day for the
 	# forage that comes up after rain.
 	for w: String in weather.today:
@@ -558,7 +582,7 @@ func _on_day_started(_day: int, _season: int, _year: int) -> void:
 			forage.note_wet_day(clock.absolute_day() - 1)
 			break
 	weather.roll_day(clock.absolute_day())
-	structures.restock_shelves()
+	# Phase 3: the supply shelf is stocked by catalog orders, not for free.
 	for id: String in structures.stove_minutes:
 		structures.stove_minutes[id] = 0
 	if not camp.is_empty():
@@ -567,6 +591,7 @@ func _on_day_started(_day: int, _season: int, _year: int) -> void:
 	_regrow_trees()
 	_apply_seasons()
 	weather.check_change(clock.minute)
+	park.start_day()
 	day_began.emit()
 
 
@@ -598,7 +623,7 @@ func nearest_bed() -> String:
 	var best_d := INF
 	for r: Dictionary in content.rows("structures"):
 		var id: String = r["id"]
-		if not r.get("has_bed", false) or not structures.is_open(id):
+		if not r.get("has_bed", false) or not structures.is_open(id) or bed_taken(id):
 			continue
 		var p: Dictionary = world.structure_placement(id)
 		var d := here.distance_to(Vector2(float(p["door"][0]) + 0.5, float(p["door"][1]) + 1.0))
@@ -620,10 +645,19 @@ func collapse() -> void:
 	_collapsing = false
 	var kind: String = content.row("structures", bed)["kind"]
 	var text := content.text({"cabin": "msg_rescue_cabin", "tower": "msg_rescue_tower"}.get(kind, "msg_rescue_station"))
+	var fee := rescue_fee()
+	if fee > 0:
+		park.money.spend(clock.absolute_day(), "rescue", fee)
+		text += " " + content.text("msg_rescue_fee", {"n": fee})
 	var woke := wake_lines()
 	save_game()
 	collapsed.emit(text if woke.is_empty() else text + "\n\n" + "\n".join(woke))
 	message.emit(text)
+
+
+## A rescue costs a share of the wallet, up to a most; nothing from an empty one.
+func rescue_fee() -> int:
+	return mini(floori(park.money.wallet * tuning.num("money.rescue_share")), tuning.integer("money.rescue_most"))
 
 
 func _put_in_bed(structure_id: String) -> void:
@@ -644,6 +678,15 @@ func request_sleep() -> void:
 func answer_confirm(yes: bool) -> void:
 	var kind := pending_confirm
 	pending_confirm = ""
+	if kind.begins_with("take_down:"):
+		if yes:
+			_take_down_facility(kind.substr(10))
+		return
+	if kind == "rent_sign":
+		if yes:
+			park.rent_mode = "ranger" if park.rent_mode == "rent" else "rent"
+			message.emit(content.text("msg_rent_now", {"mode": content.text("rent_for_rent" if park.rent_mode == "rent" else "rent_ranger_only")}))
+		return
 	if yes and kind == "sleep":
 		sleep()
 	elif yes and kind == "camp_sleep":
@@ -683,6 +726,8 @@ func wake_lines() -> PackedStringArray:
 	for id in skills.waiting():
 		if not skills.offered.has(id):
 			wake_offer = true
+	lines.append_array(park.morning_lines)
+	park.morning_lines = []
 	return lines
 
 
@@ -719,6 +764,8 @@ func enter_building(structure_id: String) -> bool:
 		message.emit(content.text("msg_cabin_locked", {"steps": ", ".join(names)}))
 		return false
 	_cancel_survey()
+	if bed_taken(structure_id):
+		message.emit(content.text("msg_cabin_booked_note", {"party": park.booked_by}))
 	location = structure_id
 	interior_pos = (interiors[structure_id] as InteriorLayout).entry
 	facing = FACING_UP
@@ -770,6 +817,8 @@ func interact() -> void:
 			else:
 				feed_campfire()
 			return
+	if _park_interact():
+		return
 	var spot := forage_in_reach()
 	if spot.x >= 0:
 		pick_forage(spot)
@@ -811,12 +860,22 @@ func _interact_inside() -> void:
 		return
 	match str(f["kind"]):
 		"bed":
+			if bed_taken(location):
+				message.emit(content.text("msg_cabin_booked_note", {"party": park.booked_by}))
+				return
 			request_sleep()
+		"catalog":
+			open_catalog()
+		"staff_board":
+			open_staff_board()
 		"radio":
 			use_radio()
 		"shelf":
 			storage_opened.emit(content.text("ui_shelf"), structures.shelves[location])
 		"chest":
+			if bed_taken(location):
+				message.emit(content.text("msg_cabin_booked_note", {"party": park.booked_by}))
+				return
 			storage_opened.emit(content.text("ui_chest"), structures.chests[location])
 		"stove":
 			if structures.stove_lit(location):
@@ -845,6 +904,9 @@ func use_radio() -> PackedStringArray:
 		content.text("radio_block_evening", {"weather": names[2]}),
 		content.text("radio_tomorrow", {"weather": content.text(weather.row(fc["tomorrow"])["name"]).to_lower()}),
 	])
+	var lp := park.lost_party()
+	if not lp.is_empty():
+		lines.append(content.text("msg_lost_radio", {"party": park.party_name(lp), "place": park.lost_place_name()}))
 	radio_heard.emit(lines)
 	return lines
 
@@ -870,6 +932,8 @@ func use_item() -> void:
 	var row := content.row("items", item)
 	if row["kind"] == "food":
 		eat(item)
+	elif row["kind"] == "park_thing":
+		place_park_thing()
 	elif row["kind"] == "placeable" and row.has("lays"):
 		lay_boardwalk()
 	elif row["kind"] == "placeable":
@@ -893,6 +957,8 @@ func use_item() -> void:
 		dig()
 	elif family_of(item) == "bedroll":
 		make_camp()
+	elif item == "firewood" and fire_ring_in_reach().x >= 0:
+		light_fire_ring(fire_ring_in_reach())
 	elif item == "firewood":
 		if is_indoors() and (interiors[location] as InteriorLayout).find("stove").size() > 0:
 			feed_stove()
@@ -918,6 +984,12 @@ func hammer() -> Dictionary:
 		var front := ranger_tile() + facing_vector()
 		if placed.has(front):
 			return {"ok": take_down(front), "reason": "took_down"}
+		var th := thing_in_reach()
+		if th.x >= 0:
+			return {"ok": pick_up_park_thing(th), "reason": "picked_up"}
+		var pad := pad_in_reach(tuning.num("facilities.reach_tiles"))
+		if pad != "":
+			return hammer_pad(pad)
 	var target := ""
 	for id in structures.ids():
 		if not structures.is_open(id) and near_structure(id, tuning.num("repair.reach_tiles")):
@@ -1002,7 +1074,11 @@ func campfire_lit() -> bool:
 
 
 func near_lit_fire() -> bool:
-	if is_indoors() or not campfire_lit():
+	if is_indoors():
+		return false
+	if park.fire_ring_lit_near(outdoor_pos, tuning.num("camp.fire_radius_tiles")):
+		return true
+	if not campfire_lit():
 		return false
 	return outdoor_pos.distance_to(Vector2(camp["fire"]) + Vector2(0.5, 0.5)) <= tuning.num("camp.fire_radius_tiles")
 
@@ -1300,6 +1376,11 @@ func dig() -> Dictionary:
 		return {"ok": false, "reason": "no_tool"}
 	var made: Array[Vector2i] = []
 	var t := ranger_tile() + facing_vector()
+	if park.diggings.has(t):
+		park.fill_digging(t)
+		message.emit(content.text("msg_badger_dig_filled"))
+		pass_minutes(tuning.integer("trail.minutes"))
+		return {"ok": true, "tiles": [t]}
 	# Something buried here comes up first.
 	if forage.magic_at(t) != "" and forage.has_magic(t, clock.absolute_day(), forage_ctx()):
 		return dig_up(t)
@@ -1674,6 +1755,10 @@ func answer_choice(kind: String, option_id: String) -> void:
 	if kind.begins_with("specialty:") and option_id != "":
 		choose_specialty(kind.split(":")[1], option_id)
 		return
+	if kind == "pin_card" and option_id != "":
+		park.pin_card(int(option_id))
+		message.emit(content.text("msg_box_pinned"))
+		return
 	if kind == "sign_place" and option_id != "" and _pending_place.x >= 0:
 		put_up(_pending_place, _pending_item, option_id)
 	_pending_place = Vector2i(-1, -1)
@@ -1895,6 +1980,14 @@ func site_pos(site_id: String) -> Vector2:
 	return world.landmark_pos(content.row("sites", site_id)["landmark"])
 
 
+## Where a site is entered: its building's door, or its spot if it has none.
+func site_door(site_id: String) -> Vector2:
+	var r := content.row("sites", site_id)
+	if str(r["structure"]) != "":
+		return door_front(r["structure"])
+	return Vector2(float(r["spot"][0]) + 0.5, float(r["spot"][1]) + 0.5)
+
+
 func _look_for_sites() -> void:
 	if is_indoors():
 		return
@@ -1920,7 +2013,7 @@ func site_step_done(site_id: String, step: String) -> bool:
 		"reach":
 			return site_reached(site_id)
 		"repair":
-			return structures.is_open(row["structure"])
+			return str(row["structure"]) == "" or structures.is_open(row["structure"])
 		"sign":
 			return site_signed(site_id)
 		"settle":
@@ -1942,7 +2035,7 @@ func site_ready(site_id: String) -> bool:
 func site_reached(site_id: String) -> bool:
 	var grounds: Array = tuning.value("sites.reach_grounds")
 	var ford_max := tuning.integer("sites.ford_max_tiles")
-	var start := Vector2i(door_front(content.row("sites", site_id)["structure"]))
+	var start := Vector2i(site_door(site_id))
 	var goal := Vector2i(door_front("ranger_station"))
 	if world.is_solid(start) or not grounds.has(world.ground_at(start)):
 		return false
@@ -2009,6 +2102,8 @@ func site_lines() -> PackedStringArray:
 		var parts: PackedStringArray = []
 		for step in SITE_STEPS:
 			var label := content.text("site_step_" + step)
+			if step == "repair" and str(row["structure"]) == "":
+				label = content.text("site_step_repair_none")
 			parts.append(content.text("site_step_done", {"name": label}) if site_step_done(id, step) else label)
 		out.append(content.text("site_line", {"name": name, "steps": ", ".join(parts)}))
 	return out
@@ -2050,6 +2145,15 @@ func read_note_board() -> String:
 				if not rumors.has(lm):
 					rumors[lm] = true
 					heard = true
+	if here == "ranger_station":
+		for l: Dictionary in park.unread_letters():
+			texts.append(str(l["text"]))
+			l["read"] = true
+		if park.cabin_booked():
+			texts.append(content.text("msg_cabin_booked", {"party": park.booked_by}))
+		var lp := park.lost_party()
+		if not lp.is_empty():
+			texts.append(content.text("msg_lost_board", {"party": park.party_name(lp), "place": park.lost_place_name()}))
 	if texts.is_empty():
 		texts.append(content.text("msg_note_board_empty"))
 	var text := "\n\n".join(texts)
@@ -2083,8 +2187,10 @@ func job_status(job_id: String) -> Dictionary:
 
 func job_lines() -> PackedStringArray:
 	var out := PackedStringArray()
+	var extra := park.job_extra_lines()
 	if jobs_known.is_empty():
 		out.append(content.text("job_none"))
+		out.append_array(extra)
 		return out
 	for id: String in jobs_known:
 		var st := job_status(id)
@@ -2103,6 +2209,7 @@ func job_lines() -> PackedStringArray:
 		for it: String in st["also"]:
 			a.append(content.item_name(it))
 		out.append(content.text("job_also", {"list": ", ".join(a)}))
+	out.append_array(extra)
 	return out
 
 
@@ -2470,7 +2577,7 @@ func learn_recipe(recipe_id: String) -> bool:
 ## might make, told in one line.
 func _check_ideas() -> void:
 	for r: Dictionary in content.rows("ideas"):
-		if ideas_had.has(r["id"]) or not backpack.has(r["item"]):
+		if ideas_had.has(r["id"]) or not r.has("item") or not backpack.has(r["item"]):
 			continue
 		ideas_had[r["id"]] = true
 		for rid: String in r["recipes"]:
@@ -2730,3 +2837,480 @@ func debug_dig(t: Vector2i, on: bool = true) -> void:
 
 func debug_reload_tuning() -> bool:
 	return tuning.reload()
+
+
+# --- the park (phase 3) ------------------------------------------------------------
+
+## Whether a building's bed and chest are a renter's tonight.
+func bed_taken(structure_id: String) -> bool:
+	return structure_id == "test_cabin" and park.cabin_booked()
+
+
+func _dist_to_rect(r: Rect2i) -> float:
+	var rf := Rect2(Vector2(r.position), Vector2(r.size))
+	var closest := Vector2(clampf(outdoor_pos.x, rf.position.x, rf.end.x), clampf(outdoor_pos.y, rf.position.y, rf.end.y))
+	return closest.distance_to(outdoor_pos)
+
+
+## The pad in reach that the ranger can see: a stake, a kit or a facility.
+func pad_in_reach(reach: float) -> String:
+	if is_indoors():
+		return ""
+	var best := ""
+	var best_d := reach
+	for r: Dictionary in park.pad_rows():
+		var id: String = r["id"]
+		if not park.pad_shown(id) and not park.built(id):
+			continue
+		var d := _dist_to_rect(park.pad_rect(id))
+		if r["facility"] == "tower_lookout":
+			d = outdoor_pos.distance_to(door_front(r["site"] if not content.has("sites", r["site"]) else content.row("sites", r["site"])["structure"]))
+		if d <= best_d:
+			best_d = d
+			best = id
+	return best
+
+
+func thing_in_reach() -> Vector2i:
+	if is_indoors():
+		return Vector2i(-1, -1)
+	var front := ranger_tile() + facing_vector()
+	if park.things.has(front):
+		return front
+	var best := Vector2i(-1, -1)
+	var best_d := tuning.num("world.interact_reach_tiles")
+	for t: Vector2i in park.things:
+		var d := outdoor_pos.distance_to(Vector2(t) + Vector2(0.5, 0.5))
+		if d <= best_d:
+			best_d = d
+			best = t
+	return best
+
+
+func litter_in_reach() -> Vector2i:
+	if is_indoors():
+		return Vector2i(-1, -1)
+	var best := Vector2i(-1, -1)
+	var best_d := tuning.num("upkeep.litter_reach_tiles")
+	var c := ranger_tile()
+	for dy in range(-2, 3):
+		for dx in range(-2, 3):
+			var t := c + Vector2i(dx, dy)
+			if not park.litter.has(t):
+				continue
+			var d := outdoor_pos.distance_to(Vector2(t) + Vector2(0.5, 0.5))
+			if d <= best_d:
+				best_d = d
+				best = t
+	return best
+
+
+func fire_ring_in_reach() -> Vector2i:
+	var t := thing_in_reach()
+	if t.x >= 0 and park.things[t]["id"] == "fire_ring":
+		return t
+	return Vector2i(-1, -1)
+
+
+func rent_sign_tile() -> Vector2i:
+	var r := content.row("sites", "old_cabin")
+	return Vector2i(int(r["rent_sign"][0]), int(r["rent_sign"][1]))
+
+
+## X near something of the park's. Returns true if it did something.
+func _park_interact() -> bool:
+	var reach := tuning.num("world.interact_reach_tiles")
+	# A lost party first: they are what matters most.
+	var lp := park.lost_party()
+	if not lp.is_empty() and outdoor_pos.distance_to(lp["pos"]) <= tuning.num("visitors.lost_find_reach_tiles"):
+		var tip := park.find_lost()
+		skills.act("find_lost_party")
+		message.emit(content.text("msg_found_party", {"n": tip}))
+		return true
+	var bi := park.badger_near(outdoor_pos, tuning.num("badgers.reach_tiles"))
+	if bi >= 0:
+		shoo_badger(bi)
+		return true
+	var lt := litter_in_reach()
+	if lt.x >= 0:
+		pick_litter(lt)
+		return true
+	var th := thing_in_reach()
+	if th.x >= 0:
+		var id: String = park.things[th]["id"]
+		if id == "trash_can":
+			empty_can(th)
+		elif id == "fire_ring":
+			if int(park.things[th]["lit"]) <= 0:
+				light_fire_ring(th)
+		elif id == "bench":
+			pass
+		return true
+	if structures.is_open("test_cabin") and outdoor_pos.distance_to(Vector2(rent_sign_tile()) + Vector2(0.5, 0.5)) <= reach:
+		pending_confirm = "rent_sign"
+		confirm_requested.emit("rent_sign", content.text("msg_rent_sign", {"mode": content.text("rent_for_rent" if park.rent_mode == "rent" else "rent_ranger_only")}))
+		return true
+	var pad := pad_in_reach(reach)
+	if pad != "":
+		var fac: String = park.pad_row(pad)["facility"]
+		var name := content.text(park.fac_row(pad)["name"]).to_lower()
+		match park.pad_state(pad):
+			"":
+				message.emit(content.text("msg_pad_here", {"name": name}))
+			"ordered":
+				message.emit(content.text("msg_pad_ordered", {"name": name}))
+			"kit", "building":
+				message.emit(content.text("msg_build_progress", {"name": name, "done": int(park.pads[pad]["done"]), "total": int(park.fac_row(pad)["actions"])}))
+			"built":
+				if fac == "kiosk":
+					open_gift_shelf()
+				elif fac == "suggestion_box":
+					read_box()
+				elif fac == "bathroom":
+					clean_bathroom(pad)
+				else:
+					message.emit(content.text(park.fac_row(pad)["name"]))
+		return true
+	return false
+
+
+func open_gift_shelf() -> void:
+	if park.gift_shelf.size() > 0 and not ideas_had.has("gift_shelf"):
+		var empty := true
+		for i in park.gift_shelf.size():
+			if park.gift_shelf.item_at(i) != "":
+				empty = false
+		if empty:
+			ideas_had["gift_shelf"] = true
+			for rid: String in content.row("ideas", "gift_shelf")["recipes"]:
+				learn_recipe(rid)
+			message.emit(content.text("msg_gift_ideas"))
+	storage_opened.emit(content.text("ui_gift_shelf"), park.gift_shelf)
+
+
+func read_box() -> String:
+	var got := park.read_cards()
+	if got.is_empty():
+		message.emit(content.text("msg_box_empty"))
+		return ""
+	var texts: PackedStringArray = []
+	for c: Dictionary in got:
+		texts.append(str(c["text"]))
+	var text := "\n\n".join(texts)
+	box_offer = got.any(func(c: Dictionary) -> bool: return bool(c["asks"]))
+	note_read.emit(text)
+	return text
+
+
+## After reading the box: offers to pin cards that ask for something.
+func offer_pins() -> bool:
+	box_offer = false
+	var opts := []
+	for i in park.cards.size():
+		var c: Dictionary = park.cards[i]
+		if bool(c["asks"]) and not bool(c["pinned"]) and bool(c["read"]):
+			opts.append({"id": str(i), "label": content.text("ui_box_pin", {"text": c["text"]})})
+	if opts.is_empty():
+		return false
+	pending_confirm = "pin_card"
+	choice_requested.emit("pin_card", content.text("ui_box_pin_title"), opts)
+	return true
+
+
+func clean_bathroom(pad: String) -> void:
+	var bi := -1
+	for i in park.badgers.size():
+		if str(park.badgers[i].get("nap", "")) == pad and int(park.badgers[i]["away_until"]) <= clock.absolute_day():
+			bi = i
+	if bi >= 0:
+		message.emit(content.text("msg_bathroom_badger"))
+		shoo_badger(bi)
+		return
+	park.clean_bathroom(pad)
+	needs.spend(tuning.num("upkeep.clean_energy"))
+	message.emit(content.text("msg_bathroom_cleaned"))
+	pass_minutes(tuning.integer("upkeep.clean_minutes"))
+	_check_collapse()
+
+
+func empty_can(t: Vector2i) -> void:
+	if int(park.things[t]["trash"]) <= 0 and not bool(park.things[t]["tipped"]):
+		message.emit(content.text("msg_can_empty"))
+		return
+	park.empty_can(t)
+	needs.spend(tuning.num("upkeep.empty_energy"))
+	message.emit(content.text("msg_can_emptied"))
+	pass_minutes(tuning.integer("upkeep.empty_minutes"))
+	_check_collapse()
+
+
+func pick_litter(t: Vector2i) -> void:
+	var found := park.pick_litter(t)
+	needs.spend(tuning.num("upkeep.litter_energy"))
+	if found != "":
+		message.emit(content.text("msg_belonging", {"thing": found}))
+	else:
+		message.emit(content.text("msg_litter_picked"))
+	_check_collapse()
+
+
+func shoo_badger(i: int) -> void:
+	var b: Dictionary = park.badgers[i]
+	if not park.met_badger:
+		park.met_badger = true
+		park.add_note(content.text("note_first_badger", {"place": park.place_name(b["place"])}))
+		message.emit(content.text("msg_badger_first"))
+	park.shoo(i)
+	needs.spend(tuning.num("badgers.shoo_energy"))
+	if park.met_badger:
+		message.emit(content.text("msg_badger_shooed"))
+	pass_minutes(tuning.integer("badgers.shoo_minutes"))
+	_check_collapse()
+
+
+func light_fire_ring(t: Vector2i) -> bool:
+	if not backpack.remove("firewood", 1):
+		message.emit(content.text("msg_fire_ring_cold"))
+		return false
+	park.things[t]["lit"] = int(park.things[t]["lit"]) + fire_minutes_per_firewood()
+	park.changed.emit()
+	message.emit(content.text("msg_fire_ring_lit"))
+	return true
+
+
+## Puts down the held bench, trash can, picnic table or fire ring in front.
+func place_park_thing() -> bool:
+	if is_indoors():
+		return false
+	var item := selected_item()
+	var id := park.thing_for_item(item)
+	var t := ranger_tile() + facing_vector()
+	if not camp.is_empty() and (camp["bed"] == t or camp["fire"] == t):
+		message.emit(content.text("msg_place_bad_spot"))
+		return false
+	var why := park.place_problem(t)
+	if why != "":
+		message.emit(content.text(why))
+		return false
+	if not backpack.remove(item, 1):
+		return false
+	park.put_thing(t, id)
+	land_changed.emit(t)
+	message.emit(content.text("msg_thing_placed", {"name": content.item_name(item).to_lower()}))
+	pass_minutes(tuning.integer("signs.put_up_minutes"))
+	return true
+
+
+func pick_up_park_thing(t: Vector2i) -> bool:
+	var id: String = park.things[t]["id"]
+	var item: String = content.row("placeables", id)["item"]
+	if backpack.room_for(item) < 1:
+		message.emit(content.text("msg_backpack_full"))
+		return false
+	park.pick_up_thing(t)
+	backpack.add(item, 1)
+	land_changed.emit(t)
+	message.emit(content.text("msg_thing_picked_up", {"name": content.item_name(item).to_lower()}))
+	return true
+
+
+## The hammer at a pad: build its kit, or offer to take the facility down.
+func hammer_pad(pad: String) -> Dictionary:
+	var name := content.text(park.fac_row(pad)["name"]).to_lower()
+	var st := park.pad_state(pad)
+	if st == "built":
+		if bool(park.pad_row(pad).get("built", false)):
+			return {"ok": false, "reason": "fixed"}
+		pending_confirm = "take_down:" + pad
+		confirm_requested.emit(pending_confirm, content.text("msg_take_down_confirm", {"name": name, "n": park.refund_for(pad)}))
+		return {"ok": true, "reason": "confirm"}
+	if st != "kit" and st != "building":
+		message.emit(content.text("msg_pad_here", {"name": name}))
+		return {"ok": false, "reason": "no_kit"}
+	var res := park.build_action(pad)
+	needs.spend(tuning.num("facilities.energy_per_action") * skills.energy_for("repair"))
+	skills.act("repair")
+	if res["built"]:
+		message.emit(content.text("msg_built", {"name": name}))
+	else:
+		message.emit(content.text("msg_build_progress", {"name": name, "done": res["done"], "total": res["total"]}))
+	pass_minutes(tuning.integer("facilities.minutes_per_action"))
+	_check_collapse()
+	return res
+
+
+func _take_down_facility(pad: String) -> void:
+	var name := content.text(park.fac_row(pad)["name"]).to_lower()
+	var n := park.take_down(pad)
+	message.emit(content.text("msg_taken_down_fac", {"name": name, "n": n}))
+
+
+func open_catalog() -> void:
+	list_requested.emit("catalog", content.text("ui_catalog", {"wallet": park.money.wallet}), park.catalog_options())
+
+
+func staff_options() -> Array:
+	var out := []
+	for st: Dictionary in park.staff:
+		var pr := content.row("staff_people", st["person"])
+		var role := content.text(content.row("staff_roles", st["role"])["name"])
+		out.append({"id": "go:" + str(st["person"]), "label": content.text("ui_staff_hired", {"name": content.text(pr["name"]), "role": role, "status": content.text("ui_staff_off" if bool(st["off"]) else "ui_staff_working")})})
+		if st["role"] == "custodian":
+			out.append({"id": "assign:" + str(st["person"]), "label": content.text("ui_staff_assign", {"name": content.text(pr["name"]), "n": (st["assigned"] as Array).size(), "most": int(content.row("staff_roles", "custodian")["jobs"])})})
+	for pid: String in park.board:
+		var pr := content.row("staff_people", pid)
+		var role := content.row("staff_roles", pr["suits"])
+		out.append({"id": "hire:" + pid, "label": content.text("ui_staff_hire", {"name": content.text(pr["name"]), "role": content.text(role["name"]).to_lower(), "wage": int(role["wage"]), "line": content.text(pr["line"])})})
+	if out.is_empty():
+		out.append({"id": "", "label": content.text("ui_staff_none"), "enabled": false})
+	return out
+
+
+func open_staff_board() -> void:
+	list_requested.emit("staff", content.text("ui_staff_board"), staff_options())
+
+
+func assign_options(person: String) -> Array:
+	var st := {}
+	for o: Dictionary in park.staff:
+		if o["person"] == person:
+			st = o
+	var out := []
+	for j: Dictionary in park.jobs_for_custodian():
+		var on := (st.get("assigned", []) as Array).has(j["key"])
+		out.append({"id": str(j["key"]), "label": content.text("ui_assign_line", {"mark": content.text("ui_assign_on" if on else "ui_assign_off"), "name": j["label"]})})
+	return out
+
+
+## What a stay-open list shows now, after a pick.
+func list_options(kind: String) -> Array:
+	if kind == "catalog":
+		return park.catalog_options()
+	if kind == "staff":
+		return staff_options()
+	if kind.begins_with("assign:"):
+		return assign_options(kind.substr(7))
+	return []
+
+
+func list_title(kind: String) -> String:
+	if kind == "catalog":
+		return content.text("ui_catalog", {"wallet": park.money.wallet})
+	if kind == "staff":
+		return content.text("ui_staff_board")
+	if kind.begins_with("assign:"):
+		var pr := content.row("staff_people", kind.substr(7))
+		return content.text("ui_assign_title", {"name": content.text(pr["name"]), "most": int(content.row("staff_roles", "custodian")["jobs"])})
+	return ""
+
+
+## A pick from a stay-open list. Returns a new list kind to show, or "".
+func answer_list(kind: String, option_id: String) -> String:
+	if option_id == "":
+		return ""
+	if kind == "catalog":
+		var why := park.order(option_id)
+		if why != "":
+			message.emit(content.text(why, {"name": ""}))
+		else:
+			var r := content.row("catalog", option_id.split("@")[0])
+			message.emit(content.text("msg_ordered", {"name": content.text(r["name"])}))
+		return ""
+	if kind == "staff":
+		if option_id.begins_with("hire:"):
+			var pid := option_id.substr(5)
+			if park.hire(pid):
+				message.emit(content.text("msg_staff_hired", {"name": content.text(content.row("staff_people", pid)["name"])}))
+		elif option_id.begins_with("go:"):
+			var bye := park.let_go(option_id.substr(3))
+			if bye != "":
+				note_read.emit(bye)
+		elif option_id.begins_with("assign:"):
+			return option_id
+		return ""
+	if kind.begins_with("assign:"):
+		park.toggle_assign(kind.substr(7), option_id)
+	return ""
+
+
+## The rough circle on the map around a lost party, or {}.
+func lost_hint() -> Dictionary:
+	if park.lost.is_empty():
+		return {}
+	return {"center": park.lost["center"], "radius": tuning.num("visitors.lost_rumor_radius"), "text": content.text("msg_lost_hint")}
+
+
+# --- park debug tools (also used by the tests) -------------------------------------
+
+func debug_money(n: int) -> void:
+	if n >= 0:
+		park.money.earn(clock.absolute_day(), "budget", n)
+	else:
+		park.money.spend(clock.absolute_day(), "catalog", mini(-n, park.money.wallet))
+
+
+## Skips to the morning of the next seventh day.
+func debug_skip_to_week_end() -> void:
+	clock.start_next_day()
+	while park.week_day() != tuning.integer("money.week_days"):
+		clock.start_next_day()
+
+
+func debug_spawn_party(kind: String) -> Dictionary:
+	var r := content.row("visitor_types", kind)
+	var size := int(r["party"][0])
+	var nights := int(r["nights"][1])
+	var home := ""
+	if nights > 0:
+		var homes := park.camp_homes().keys()
+		if homes.is_empty():
+			return {}
+		home = homes[0]
+	return park.spawn(kind, size, home, nights)
+
+
+func debug_set_clean(pad: String, v: float) -> void:
+	if park.pads.has(pad):
+		park.pads[pad]["clean"] = v
+		park.changed.emit()
+
+
+func debug_set_can(t: Vector2i, n: int) -> void:
+	if park.things.has(t):
+		park.things[t]["trash"] = n
+		park.changed.emit()
+
+
+func debug_send_badger(place: String) -> bool:
+	return park.send_badger(place)
+
+
+func debug_lose_party() -> bool:
+	for p: Dictionary in park.parties:
+		if p["state"] == "walk":
+			var t := park._cur_tile(p)
+			if t.x >= 0 and park.lose(p, t):
+				return true
+	return false
+
+
+## Builds a facility at a pad at once, kit and all.
+func debug_build(pad: String) -> void:
+	park.pads[pad] = {"state": "kit", "done": 0, "clean": 100.0}
+	for i in int(park.fac_row(pad)["actions"]):
+		park.build_action(pad)
+
+
+## Runs the park for a number of days with the ranger doing nothing, and
+## reports what happened.
+func debug_run_unattended(days: int) -> String:
+	var start_wallet := park.money.wallet
+	var visitors := 0
+	var low := park.money.wallet
+	for i in days:
+		park.advance_to(float(tuning.integer("time.day_end_minute")))
+		visitors += int(park.week["visitors"]) if park.week_day() == tuning.integer("money.week_days") - 0 else 0
+		clock.start_next_day()
+		low = mini(low, park.money.wallet)
+	park.morning_lines = []
+	return "Ran %d days: wallet $%d to $%d (lowest $%d), %d parties now in the park, %d badgers, %d litter, %d cards waiting, %d letters." % [days, start_wallet, park.money.wallet, low, park.parties.size(), park.badgers.size(), park.litter.size(), park.unread_cards().size(), park.letters.size()]

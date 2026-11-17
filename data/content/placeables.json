@@ -1,0 +1,36 @@
+{
+ "note": "Small things placed freely near a trail. Each is also an item.",
+ "rows": [
+  {
+   "id": "bench",
+   "item": "bench",
+   "sprite": "obj_bench",
+   "effect": "rest",
+   "solid": true
+  },
+  {
+   "id": "trash_can",
+   "item": "trash_can",
+   "sprite": "obj_trash_can",
+   "sprite_full": "obj_trash_can_full",
+   "sprite_tipped": "obj_trash_can_tipped",
+   "effect": "trash",
+   "solid": true
+  },
+  {
+   "id": "picnic_table",
+   "item": "picnic_table",
+   "sprite": "obj_picnic_table",
+   "effect": "picnic",
+   "solid": true
+  },
+  {
+   "id": "fire_ring",
+   "item": "fire_ring",
+   "sprite": "obj_fire_ring",
+   "sprite_lit": "obj_fire_ring_lit",
+   "effect": "fire",
+   "solid": false
+  }
+ ]
+}

@@ -7,6 +7,8 @@ signal changed
 
 var content: ContentDB
 var slots: Array = []   # each slot is {} (empty) or {"item": id, "count": n}
+## When set, only these items may be put in (the gift shelf). Empty: anything.
+var only: Dictionary = {}
 
 
 func _init(c: ContentDB, slot_count: int) -> void:
@@ -69,6 +71,8 @@ func has_all(materials: Dictionary) -> bool:
 
 ## How many of n would fit.
 func room_for(item_id: String) -> int:
+	if not only.is_empty() and not only.has(item_id):
+		return 0
 	var cap := stack_size(item_id)
 	var room := 0
 	for s: Dictionary in slots:
@@ -81,6 +85,8 @@ func room_for(item_id: String) -> int:
 
 ## Adds up to n items. Returns how many did not fit.
 func add(item_id: String, n: int = 1) -> int:
+	if not only.is_empty() and not only.has(item_id):
+		return n
 	var cap := stack_size(item_id)
 	var left := n
 	for s: Dictionary in slots:

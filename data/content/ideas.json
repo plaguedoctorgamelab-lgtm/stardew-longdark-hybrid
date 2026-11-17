@@ -75,6 +75,18 @@
    ],
    "text": "idea_lodestone_sliver",
    "slot": true
+  },
+  {
+   "id": "gift_shelf",
+   "trigger": "gift_shelf",
+   "recipes": [
+    "pressed_flower_card",
+    "pine_resin_candle",
+    "carved_pinecone_figure",
+    "painted_stone",
+    "glowcap_night_light"
+   ],
+   "text": "msg_gift_ideas"
   }
  ]
 }

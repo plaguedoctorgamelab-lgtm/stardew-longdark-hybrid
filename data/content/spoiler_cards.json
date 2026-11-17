@@ -1,0 +1,33 @@
+{
+ "note": "SPOILERS. Suggestion cards about things the designer has not been told of. Each is rare: 'chance' is how often its event writes it.",
+ "rows": [
+  {
+   "id": "spoiler_ripple",
+   "event": "fished:kettle_pond",
+   "chance": 0.15,
+   "text": "card_spoiler_ripple",
+   "asks": false
+  },
+  {
+   "id": "spoiler_ripple_camp",
+   "event": "camp_night:pond_campground",
+   "chance": 0.1,
+   "text": "card_spoiler_ripple_camp",
+   "asks": false
+  },
+  {
+   "id": "spoiler_radio",
+   "event": "camp_night:tower_campground",
+   "chance": 0.2,
+   "text": "card_spoiler_radio",
+   "asks": false
+  },
+  {
+   "id": "spoiler_truck",
+   "event": "scouts_road",
+   "chance": 0.3,
+   "text": "card_spoiler_truck",
+   "asks": false
+  }
+ ]
+}

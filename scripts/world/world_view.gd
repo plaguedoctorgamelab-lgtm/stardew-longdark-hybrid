@@ -7,7 +7,7 @@ extends Node2D
 
 const TILE := 16
 ## Which ground spills over its neighbours: higher wins.
-const GROUND_ORDER: Array[String] = ["deep_water", "shallows", "boards", "trail", "bog", "grass", "tall_grass", "forest_floor", "rock"]
+const GROUND_ORDER: Array[String] = ["deep_water", "shallows", "boards", "trail", "dug_earth", "bog", "grass", "tall_grass", "forest_floor", "rock"]
 
 var session: GameSession
 var ground_layer: TileMapLayer
@@ -36,6 +36,7 @@ var _berry: Sprite2D
 var _ripple: Node2D
 var _camp_fire: Sprite2D
 var _time: float = 0.0
+var park_view: ParkView
 
 
 func setup(s: GameSession, ranger_node: Node2D) -> void:
@@ -105,6 +106,9 @@ func setup(s: GameSession, ranger_node: Node2D) -> void:
 	refresh_berry()
 	session.forage.changed.connect(_forage_changed)
 	session.day_began.connect(_forage_changed)
+	park_view = ParkView.new()
+	add_child(park_view)
+	park_view.setup(session, sort_root)
 	_border_lines = Node2D.new()
 	_border_lines.z_index = 50
 	_border_lines.draw.connect(_draw_borders)
@@ -140,7 +144,10 @@ func _build_tileset() -> TileSet:
 		for d: String in details:
 			dsrc.create_tile(details[d])
 		_detail_source = ts.add_source(dsrc)
-	for g: String in session.world.ground_codes.values():
+	var grounds: Array = session.world.ground_codes.values()
+	# Ground the park can make at run time: a troll badger's diggings.
+	grounds.append("dug_earth")
+	for g: String in grounds:
 		var look := _variety("ground_" + g)
 		var pics: Array = look["pictures"]
 		# Every version of a ground sits side by side in one strip.

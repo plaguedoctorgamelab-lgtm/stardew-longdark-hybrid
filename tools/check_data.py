@@ -10,7 +10,7 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONTENT = os.path.join(ROOT, "data", "content")
-TABLES = ["items", "foods", "weather_types", "weather_odds", "structures", "landmarks", "jobs", "obstacles", "recipes", "sites", "notes", "text", "spoiler_finds", "spoiler_text", "art_variety", "forage", "skills", "specialties", "magic_variants", "ideas", "spoiler_magic"]
+TABLES = ["items", "foods", "weather_types", "weather_odds", "structures", "landmarks", "jobs", "obstacles", "recipes", "sites", "notes", "text", "spoiler_finds", "spoiler_text", "art_variety", "forage", "skills", "specialties", "magic_variants", "ideas", "spoiler_magic", "facilities", "placeables", "catalog", "income_sources", "visitor_types", "staff_roles", "staff_people", "badger_mischief", "suggestion_cards", "chief_letters", "pads", "spoiler_pads", "spoiler_cards"]
 
 
 def main():
@@ -117,9 +117,56 @@ def main():
         ref("structures", r["needs_open"], "notes/%s needs_open" % r["id"])
         for lm in r["rumors"]:
             ref("landmarks", lm, "notes/%s rumors" % r["id"])
+    # Phase 3: the park.
+    def pic(n, where):
+        if not any(os.path.exists(os.path.join(ROOT, "art", d, n + ".png")) for d in ("final", "placeholder")):
+            problems.append("%s: no picture %s" % (where, n))
+    for r in data.get("facilities", {}).values():
+        ref("text", r["name"], "facilities/%s name" % r["id"])
+        pic(r["sprite"], "facilities/%s" % r["id"])
+        if "sprite_badger" in r:
+            pic(r["sprite_badger"], "facilities/%s" % r["id"])
+    for t in ("pads", "spoiler_pads"):
+        for r in data.get(t, {}).values():
+            ref("facilities", r["facility"], "%s/%s facility" % (t, r["id"]))
+            if r["site"] != "gate":
+                ref("sites", r["site"], "%s/%s site" % (t, r["id"]))
+    for r in data.get("placeables", {}).values():
+        ref("items", r["item"], "placeables/%s item" % r["id"])
+        for k in ("sprite", "sprite_full", "sprite_tipped", "sprite_lit"):
+            if k in r:
+                pic(r[k], "placeables/%s" % r["id"])
+    for r in data.get("catalog", {}).values():
+        ref("text", r["name"], "catalog/%s name" % r["id"])
+        if r["kind"] == "kit":
+            ref("facilities", r["facility"], "catalog/%s facility" % r["id"])
+        else:
+            ref("items", r["item"], "catalog/%s item" % r["id"])
+        if int(r["price"]) <= 0:
+            problems.append("catalog/%s: needs a price" % r["id"])
+    for r in data.get("income_sources", {}).values():
+        ref("text", r["name"], "income_sources/%s name" % r["id"])
+    for r in data.get("visitor_types", {}).values():
+        ref("text", r["name"], "visitor_types/%s name" % r["id"])
+    for r in data.get("staff_roles", {}).values():
+        ref("text", r["name"], "staff_roles/%s name" % r["id"])
+    for r in data.get("staff_people", {}).values():
+        for k in ("name", "line", "goodbye"):
+            ref("text", r[k], "staff_people/%s %s" % (r["id"], k))
+        ref("staff_roles", r["suits"], "staff_people/%s suits" % r["id"])
+    for t in ("badger_mischief", "suggestion_cards", "chief_letters", "spoiler_cards"):
+        for r in data.get(t, {}).values():
+            ref("text", r["text"], "%s/%s text" % (t, r["id"]))
+    for r in data.get("items", {}).values():
+        if r.get("kind") == "gift" and int(r.get("sell", 0)) <= 0:
+            problems.append("items/%s: a gift good needs a selling price" % r["id"])
+
     for r in data.get("sites", {}).values():
         ref("text", r["name"], "sites/%s" % r["id"])
-        ref("structures", r["structure"], "sites/%s structure" % r["id"])
+        if r["structure"] != "":
+            ref("structures", r["structure"], "sites/%s structure" % r["id"])
+        elif "spot" not in r:
+            problems.append("sites/%s: a site with no building needs a spot" % r["id"])
         ref("landmarks", r["landmark"], "sites/%s landmark" % r["id"])
     items = data.get("items", {})
 
@@ -159,7 +206,10 @@ def main():
             problems.append("magic_variants/%s: %s is not a magical ingredient" % (r["id"], r["ingredient"]))
     taught = set()
     for r in data.get("ideas", {}).values():
-        ref("items", r["item"], "ideas/%s item" % r["id"])
+        if "item" in r:
+            ref("items", r["item"], "ideas/%s item" % r["id"])
+        elif r.get("trigger") not in ("gift_shelf",):
+            problems.append("ideas/%s: needs an item or a known trigger" % r["id"])
         ref("text", r["text"], "ideas/%s text" % r["id"])
         for rid in r["recipes"]:
             ref("recipes", rid, "ideas/%s recipes" % r["id"])

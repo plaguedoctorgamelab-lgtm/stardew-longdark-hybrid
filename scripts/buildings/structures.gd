@@ -24,7 +24,7 @@ func _init(c: ContentDB, t: Tuning) -> void:
 			progress[id][st["id"]] = 0
 		chests[id] = Inventory.new(content, tuning.integer("storage.chest_slots"))
 		if not (r.get("shelf_stock", []) as Array).is_empty():
-			shelves[id] = Inventory.new(content, (r["shelf_stock"] as Array).size())
+			shelves[id] = Inventory.new(content, maxi((r["shelf_stock"] as Array).size(), tuning.integer("money.supply_shelf_slots")))
 		stove_minutes[id] = 0
 
 

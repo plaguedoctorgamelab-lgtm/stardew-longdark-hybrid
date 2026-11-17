@@ -471,6 +471,8 @@ func test_chest_items_count_only_in_that_building(t: TestCase) -> void:
 func test_each_idea_fires_once(t: TestCase) -> void:
 	var s := TestCase.new_session()
 	for r: Dictionary in s.content.rows("ideas"):
+		if not r.has("item"):
+			continue   # an idea had at a place, not from an item (the gift shelf)
 		var heard := []
 		var fn := func(text: String) -> void: heard.append(text)
 		s.message.connect(fn)

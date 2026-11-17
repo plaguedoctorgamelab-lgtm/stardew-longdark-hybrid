@@ -249,6 +249,15 @@ func set_cleared(t: Vector2i, on: bool) -> void:
 		_cleared.erase(t)
 
 
+## Makes a tile solid for this save (a built facility or a placed bench), or
+## not.
+func set_blocked(t: Vector2i, on: bool) -> void:
+	if on:
+		_blocked[t] = true
+	else:
+		_blocked.erase(t)
+
+
 ## Changes a tile's ground for this save, as digging trail does; "" undoes it.
 func set_ground(t: Vector2i, ground: String) -> void:
 	if ground == "":

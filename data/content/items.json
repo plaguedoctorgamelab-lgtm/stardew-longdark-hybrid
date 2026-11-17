@@ -318,7 +318,8 @@
    "name": "item_berry_preserve",
    "kind": "food",
    "stack": 5,
-   "icon": "item_berry_preserve"
+   "icon": "item_berry_preserve",
+   "sell": 15
   },
   {
    "id": "fiddlehead_fry",
@@ -372,6 +373,81 @@
    "icon": "item_true_compass",
    "family": "compass",
    "refit": "lodestone_sliver"
+  },
+  {
+   "id": "bench",
+   "name": "item_bench",
+   "kind": "park_thing",
+   "stack": 1,
+   "icon": "item_bench"
+  },
+  {
+   "id": "trash_can",
+   "name": "item_trash_can",
+   "kind": "park_thing",
+   "stack": 1,
+   "icon": "item_trash_can"
+  },
+  {
+   "id": "picnic_table",
+   "name": "item_picnic_table",
+   "kind": "park_thing",
+   "stack": 1,
+   "icon": "item_picnic_table"
+  },
+  {
+   "id": "fire_ring",
+   "name": "item_fire_ring",
+   "kind": "park_thing",
+   "stack": 1,
+   "icon": "item_fire_ring"
+  },
+  {
+   "id": "radio_valve",
+   "name": "item_radio_valve",
+   "kind": "material",
+   "stack": 5,
+   "icon": "item_radio_valve"
+  },
+  {
+   "id": "pressed_flower_card",
+   "name": "item_pressed_flower_card",
+   "kind": "gift",
+   "stack": 10,
+   "icon": "item_pressed_flower_card",
+   "sell": 10
+  },
+  {
+   "id": "pine_resin_candle",
+   "name": "item_pine_resin_candle",
+   "kind": "gift",
+   "stack": 10,
+   "icon": "item_pine_resin_candle",
+   "sell": 12
+  },
+  {
+   "id": "carved_pinecone_figure",
+   "name": "item_carved_pinecone_figure",
+   "kind": "gift",
+   "stack": 10,
+   "icon": "item_carved_pinecone_figure",
+   "sell": 18
+  },
+  {
+   "id": "painted_stone",
+   "name": "item_painted_stone",
+   "kind": "gift",
+   "stack": 10,
+   "icon": "item_painted_stone",
+   "sell": 8
+  },
+  {
+   "id": "glowcap_night_light",
+   "name": "item_glowcap_night_light",
+   "kind": "gift",
+   "stack": 5,
+   "icon": "item_glowcap_night_light",
+   "sell": 60
   }
  ],
  "note": "Everything that goes in the backpack. family: a tool and its refitted versions share one family, and anything that needs the tool takes any of them. refit: the magical ingredient a refitted tool holds. placeable: put on the faced tile (needs_tool: the tool it needs, \"\" for none; on: trail or open ground; map_when_revealed: shown on the map once that ground is revealed; lays: laid as that ground, on the grounds in tuning trail.boardwalk_on). kit: set up inside a building."

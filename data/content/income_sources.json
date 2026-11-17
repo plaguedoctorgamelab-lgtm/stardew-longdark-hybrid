@@ -1,0 +1,75 @@
+{
+ "note": "Every line of the ledger: what the park earns and spends, and the price of each earning source.",
+ "rows": [
+  {
+   "id": "entrance",
+   "price": 5,
+   "name": "src_entrance"
+  },
+  {
+   "id": "camping",
+   "price": 15,
+   "name": "src_camping"
+  },
+  {
+   "id": "cabin_rent",
+   "price": 40,
+   "name": "src_cabin_rent"
+  },
+  {
+   "id": "tour",
+   "price": 12,
+   "name": "src_tour"
+  },
+  {
+   "id": "fishing",
+   "price": 6,
+   "name": "src_fishing"
+  },
+  {
+   "id": "gear",
+   "price": 5,
+   "name": "src_gear"
+  },
+  {
+   "id": "park_map",
+   "price": 8,
+   "name": "src_park_map"
+  },
+  {
+   "id": "gift_shelf",
+   "price": 0,
+   "name": "src_gift_shelf"
+  },
+  {
+   "id": "tips",
+   "price": 0,
+   "name": "src_tips"
+  },
+  {
+   "id": "budget",
+   "price": 0,
+   "name": "src_budget"
+  },
+  {
+   "id": "refund",
+   "price": 0,
+   "name": "src_refund"
+  },
+  {
+   "id": "catalog",
+   "price": 0,
+   "name": "src_catalog"
+  },
+  {
+   "id": "wages",
+   "price": 0,
+   "name": "src_wages"
+  },
+  {
+   "id": "rescue",
+   "price": 0,
+   "name": "src_rescue"
+  }
+ ]
+}

@@ -1,0 +1,20 @@
+{
+ "note": "Hired help. Wages in dollars a week, paid every seventh day after the Chief's budget.",
+ "rows": [
+  {
+   "id": "custodian",
+   "name": "staff_custodian",
+   "wage": 100,
+   "jobs": 4,
+   "does": "staff_custodian_does"
+  },
+  {
+   "id": "trail_crew",
+   "name": "staff_trail_crew",
+   "wage": 140,
+   "litter": 20,
+   "trunks": 1,
+   "does": "staff_trail_crew_does"
+  }
+ ]
+}

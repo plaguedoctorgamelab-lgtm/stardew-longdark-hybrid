@@ -81,6 +81,11 @@ func _run() -> void:
 	_check(main.map_screen.visible, "M opens the map")
 	await _tap("open_map")
 	_check(not main.map_screen.visible, "M closes the map")
+	await _tap("jobs")
+	_check(main.book_screen.visible, "J opens the book")
+	await _tap("jobs")
+	_check(not main.book_screen.visible, "J closes the book")
+	_check(main.hud.money_label.text == "$500", "the wallet shows $500")
 	await _tap("slot_2")
 	_check(s.selected_item() == "lantern", "2 holds the lantern")
 	await _tap("debug_panel")
@@ -91,6 +96,16 @@ func _run() -> void:
 	await _tap("interact")
 	_check(s.location == "ranger_station", "X at the door enters the station")
 	var layout: InteriorLayout = s.interiors["ranger_station"]
+	var desk := layout.furniture_rect(layout.find("catalog"))
+	s.interior_pos = Vector2(desk.position.x + 1.0, desk.end.y + 0.5)
+	s.facing = GameSession.FACING_UP
+	await _tap("interact")
+	_check(main.choice_screen.visible and main.choice_screen.kind == "catalog", "X at the desk opens the catalog")
+	main.choice_screen.chosen.emit("catalog", "nails")
+	await _frames(2)
+	_check(s.park.money.wallet == 485 and main.choice_screen.visible, "ordering nails pays $15 and keeps the catalog open")
+	await _tap("pause")
+	_check(not main.choice_screen.visible, "Escape closes the catalog")
 	var bed := layout.furniture_rect(layout.find("bed"))
 	s.interior_pos = Vector2(bed.end.x + 0.5, bed.position.y + 1.0)
 	await _tap("interact")
@@ -99,6 +114,9 @@ func _run() -> void:
 	await _tap("confirm")
 	_check(s.clock.day == day + 1 and s.clock.minute == 360, "Y sleeps until 6:00 next day")
 	_check(FileAccess.file_exists(s.save_path), "sleeping saved the game")
+	# The wake-up note (the nails arrived) closes with Y.
+	if main.dialog.visible:
+		await _tap("confirm")
 	s.interior_pos = layout.entry
 	Input.action_press("move_down")
 	await _frames(40)

@@ -1,0 +1,80 @@
+{
+ "note": "Large facilities, built at set places (pads). Prices in dollars; actions are hammer actions.",
+ "rows": [
+  {
+   "id": "kiosk",
+   "name": "facility_kiosk",
+   "price": 0,
+   "actions": 0,
+   "appeal": 0,
+   "sprite": "fac_kiosk",
+   "solid": true
+  },
+  {
+   "id": "suggestion_box",
+   "name": "facility_suggestion_box",
+   "price": 0,
+   "actions": 0,
+   "appeal": 0,
+   "sprite": "fac_suggestion_box",
+   "solid": true
+  },
+  {
+   "id": "bathroom",
+   "name": "facility_bathroom",
+   "price": 400,
+   "actions": 6,
+   "appeal": 0.3,
+   "sprite": "fac_bathroom",
+   "sprite_badger": "fac_bathroom_badger",
+   "solid": true,
+   "upkeep": "clean",
+   "text": "facility_bathroom_does"
+  },
+  {
+   "id": "picnic_area",
+   "name": "facility_picnic_area",
+   "price": 150,
+   "actions": 3,
+   "appeal": 0.4,
+   "sprite": "fac_picnic_area",
+   "solid": false,
+   "picnic": true,
+   "text": "facility_picnic_area_does"
+  },
+  {
+   "id": "campground",
+   "name": "facility_campground",
+   "price": 800,
+   "actions": 9,
+   "appeal": 0.5,
+   "sprite": "fac_campground",
+   "solid": false,
+   "camp": true,
+   "text": "facility_campground_does"
+  },
+  {
+   "id": "dock",
+   "name": "facility_dock",
+   "price": 300,
+   "actions": 4,
+   "appeal": 0.3,
+   "sprite": "fac_dock",
+   "solid": false,
+   "lays": "boards",
+   "fishing": true,
+   "text": "facility_dock_does"
+  },
+  {
+   "id": "tower_lookout",
+   "name": "facility_tower_lookout",
+   "price": 200,
+   "actions": 3,
+   "appeal": 0.3,
+   "sprite": "fac_lookout_sign",
+   "solid": false,
+   "needs_open": "static_tower",
+   "text": "facility_tower_lookout_does"
+  }
+ ]
+}

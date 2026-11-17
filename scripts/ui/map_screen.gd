@@ -146,6 +146,10 @@ static func hints(s: GameSession) -> Array:
 		var hint: Dictionary = r["hint"]
 		var off := Vector2(float(hint["offset"][0]), float(hint["offset"][1]))
 		out.append({"center": s.world.landmark_pos(r["id"]) + off, "radius": float(hint["radius"]), "text": s.content.text(hint["text"])})
+	# A lost party: a rough circle around where they were last seen.
+	var lost := s.lost_hint()
+	if not lost.is_empty():
+		out.append(lost)
 	return out
 
 
@@ -222,6 +226,13 @@ func _layout() -> void:
 			if session.sites_open.has(r["id"]):
 				label = session.content.text("map_site_open", {"name": label})
 			_add_label(label, session.world.landmark_pos(r["id"]), Vector2(3, -6), Color.WHITE, false)
+	if session.debug_show_visitors:
+		for p: Dictionary in session.park.parties:
+			var vp := map_rect.position + (p["pos"] as Vector2) * z
+			overlay.draw_rect(Rect2(vp - Vector2(1.5, 1.5), Vector2(3, 3)), Color(0.9, 0.2, 0.6))
+		for bd: Dictionary in session.park.badgers:
+			var bp := map_rect.position + (Vector2(bd["tile"]) + Vector2(0.5, 0.5)) * z
+			overlay.draw_rect(Rect2(bp - Vector2(1.5, 1.5), Vector2(3, 3)), Color(0.2, 0.2, 0.2))
 	for h: Dictionary in hints(session):
 		_add_label(h["text"], (h["center"] as Vector2) + Vector2(0, float(h["radius"])), Vector2(-18, 1), HINT, true)
 	var shown := session.marker_visible()

@@ -247,6 +247,117 @@
    "result": {},
    "learned": "idea",
    "refit": "compass"
+  },
+  {
+   "id": "bench",
+   "name": "recipe_bench",
+   "station": "workbench",
+   "inputs": {
+    "planks": 3,
+    "nails": 4
+   },
+   "result": {
+    "item": "bench",
+    "count": 1
+   },
+   "learned": "start"
+  },
+  {
+   "id": "picnic_table",
+   "name": "recipe_picnic_table",
+   "station": "workbench",
+   "inputs": {
+    "planks": 4,
+    "nails": 6
+   },
+   "result": {
+    "item": "picnic_table",
+    "count": 1
+   },
+   "learned": "start"
+  },
+  {
+   "id": "fire_ring",
+   "name": "recipe_fire_ring",
+   "station": "anywhere",
+   "inputs": {
+    "stones": 6
+   },
+   "result": {
+    "item": "fire_ring",
+    "count": 1
+   },
+   "learned": "start"
+  },
+  {
+   "id": "pressed_flower_card",
+   "name": "recipe_pressed_flower_card",
+   "station": "anywhere",
+   "inputs": {
+    "wildflowers": 3
+   },
+   "result": {
+    "item": "pressed_flower_card",
+    "count": 1
+   },
+   "learned": "idea"
+  },
+  {
+   "id": "pine_resin_candle",
+   "name": "recipe_pine_resin_candle",
+   "station": "workbench",
+   "inputs": {
+    "pine_resin": 2,
+    "sticks": 1
+   },
+   "result": {
+    "item": "pine_resin_candle",
+    "count": 1
+   },
+   "learned": "idea"
+  },
+  {
+   "id": "carved_pinecone_figure",
+   "name": "recipe_carved_pinecone_figure",
+   "station": "workbench",
+   "inputs": {
+    "planks": 1,
+    "pine_resin": 1
+   },
+   "result": {
+    "item": "carved_pinecone_figure",
+    "count": 1
+   },
+   "learned": "idea"
+  },
+  {
+   "id": "painted_stone",
+   "name": "recipe_painted_stone",
+   "station": "anywhere",
+   "inputs": {
+    "stones": 2,
+    "berries": 1
+   },
+   "result": {
+    "item": "painted_stone",
+    "count": 1
+   },
+   "learned": "idea"
+  },
+  {
+   "id": "glowcap_night_light",
+   "name": "recipe_glowcap_night_light",
+   "station": "workbench",
+   "inputs": {
+    "glowcap": 1,
+    "window_glass": 1,
+    "planks": 1
+   },
+   "result": {
+    "item": "glowcap_night_light",
+    "count": 1
+   },
+   "learned": "idea"
   }
  ]
 }

@@ -79,7 +79,7 @@ func test_collapse_wakes_in_the_nearest_shelter(t: TestCase) -> void:
 	s.collapsed.connect(func(text: String) -> void: texts.append(text))
 	s.collapse()
 	t.equal(s.location, TOWER, "near a repaired tower, the ranger wakes there")
-	t.equal(texts[0], s.content.text("msg_rescue_tower"), "and the note says so")
+	t.check(texts[0].begins_with(s.content.text("msg_rescue_tower")), "and the note says so")
 	s.camp = {"bed": Vector2i(s.door_front("ranger_station")) + Vector2i(30, 0), "fire": Vector2i(s.door_front("ranger_station")) + Vector2i(30, 1), "fire_minutes": 0}
 	s.leave_building()
 	s.outdoor_pos = Vector2(s.camp["bed"]) + Vector2(0.5, 0.5)

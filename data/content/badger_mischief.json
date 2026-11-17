@@ -1,0 +1,30 @@
+{
+ "note": "What a troll badger gets up to: at most one bit of mischief a day, at a site that has been left messy.",
+ "rows": [
+  {
+   "id": "tip_can",
+   "effect": "tip_can",
+   "litter": 6,
+   "weight": 3,
+   "text": "badger_tip_can"
+  },
+  {
+   "id": "nap_bathroom",
+   "effect": "nap_bathroom",
+   "weight": 2,
+   "text": "badger_nap_bathroom"
+  },
+  {
+   "id": "raid_picnic",
+   "effect": "raid_picnic",
+   "weight": 2,
+   "text": "badger_raid_picnic"
+  },
+  {
+   "id": "dig_trail",
+   "effect": "dig_trail",
+   "weight": 2,
+   "text": "badger_dig_trail"
+  }
+ ]
+}

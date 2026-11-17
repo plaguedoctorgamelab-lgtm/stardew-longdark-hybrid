@@ -1,0 +1,84 @@
+{
+ "rows": [
+  {
+   "id": "gate_kiosk",
+   "site": "gate",
+   "facility": "kiosk",
+   "pos": [
+    9,
+    1437
+   ],
+   "size": [
+    3,
+    2
+   ],
+   "built": true
+  },
+  {
+   "id": "gate_box",
+   "site": "gate",
+   "facility": "suggestion_box",
+   "pos": [
+    12,
+    1438
+   ],
+   "size": [
+    1,
+    1
+   ],
+   "built": true
+  },
+  {
+   "id": "gate_bathroom",
+   "site": "gate",
+   "facility": "bathroom",
+   "pos": [
+    8,
+    1445
+   ],
+   "size": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "gate_picnic",
+   "site": "gate",
+   "facility": "picnic_area",
+   "pos": [
+    26,
+    1446
+   ],
+   "size": [
+    4,
+    2
+   ]
+  },
+  {
+   "id": "cabin_picnic",
+   "site": "old_cabin",
+   "facility": "picnic_area",
+   "pos": [
+    357,
+    1255
+   ],
+   "size": [
+    4,
+    2
+   ]
+  },
+  {
+   "id": "outlook_picnic",
+   "site": "outlook",
+   "facility": "picnic_area",
+   "pos": [
+    282,
+    1243
+   ],
+   "size": [
+    4,
+    2
+   ]
+  }
+ ]
+}

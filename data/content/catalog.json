@@ -1,0 +1,144 @@
+{
+ "note": "The supply catalog on the station desk. Orders by midnight arrive at 6:00 next morning: supplies and small things on the supply shelf, kits at their pad.",
+ "rows": [
+  {
+   "id": "nails",
+   "kind": "supply",
+   "item": "nails",
+   "count": 10,
+   "price": 15,
+   "name": "cat_nails"
+  },
+  {
+   "id": "planks",
+   "kind": "supply",
+   "item": "planks",
+   "count": 1,
+   "price": 8,
+   "name": "cat_planks"
+  },
+  {
+   "id": "roofing",
+   "kind": "supply",
+   "item": "roofing",
+   "count": 1,
+   "price": 10,
+   "name": "cat_roofing"
+  },
+  {
+   "id": "window_glass",
+   "kind": "supply",
+   "item": "window_glass",
+   "count": 1,
+   "price": 25,
+   "name": "cat_window_glass"
+  },
+  {
+   "id": "firewood",
+   "kind": "supply",
+   "item": "firewood",
+   "count": 5,
+   "price": 10,
+   "name": "cat_firewood"
+  },
+  {
+   "id": "trail_sign",
+   "kind": "supply",
+   "item": "trail_sign",
+   "count": 1,
+   "price": 15,
+   "name": "cat_trail_sign"
+  },
+  {
+   "id": "radio_valve",
+   "kind": "supply",
+   "item": "radio_valve",
+   "count": 1,
+   "price": 60,
+   "name": "cat_radio_valve"
+  },
+  {
+   "id": "tin_of_beans",
+   "kind": "supply",
+   "item": "tin_of_beans",
+   "count": 1,
+   "price": 6,
+   "name": "cat_tin_of_beans"
+  },
+  {
+   "id": "sandwich",
+   "kind": "supply",
+   "item": "sandwich",
+   "count": 1,
+   "price": 8,
+   "name": "cat_sandwich"
+  },
+  {
+   "id": "bench",
+   "kind": "thing",
+   "item": "bench",
+   "count": 1,
+   "price": 30,
+   "name": "cat_bench"
+  },
+  {
+   "id": "trash_can",
+   "kind": "thing",
+   "item": "trash_can",
+   "count": 1,
+   "price": 25,
+   "name": "cat_trash_can"
+  },
+  {
+   "id": "picnic_table",
+   "kind": "thing",
+   "item": "picnic_table",
+   "count": 1,
+   "price": 40,
+   "name": "cat_picnic_table"
+  },
+  {
+   "id": "fire_ring",
+   "kind": "thing",
+   "item": "fire_ring",
+   "count": 1,
+   "price": 20,
+   "name": "cat_fire_ring"
+  },
+  {
+   "id": "kit_bathroom",
+   "kind": "kit",
+   "facility": "bathroom",
+   "price": 400,
+   "name": "cat_kit_bathroom"
+  },
+  {
+   "id": "kit_picnic_area",
+   "kind": "kit",
+   "facility": "picnic_area",
+   "price": 150,
+   "name": "cat_kit_picnic_area"
+  },
+  {
+   "id": "kit_campground",
+   "kind": "kit",
+   "facility": "campground",
+   "price": 800,
+   "name": "cat_kit_campground"
+  },
+  {
+   "id": "kit_dock",
+   "kind": "kit",
+   "facility": "dock",
+   "price": 300,
+   "name": "cat_kit_dock"
+  },
+  {
+   "id": "kit_tower_lookout",
+   "kind": "kit",
+   "facility": "tower_lookout",
+   "price": 200,
+   "name": "cat_kit_tower_lookout"
+  }
+ ]
+}

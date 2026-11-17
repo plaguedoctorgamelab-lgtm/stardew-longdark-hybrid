@@ -58,7 +58,8 @@
       "tall_grass": 0.65,
       "shallows": 0.5,
       "bog": 0.5,
-      "boards": 1.0
+      "boards": 1.0,
+      "dug_earth": 0.8
     },
     "exhausted_speed": 0.6,
     "ranger_box_tiles": [
@@ -261,5 +262,154 @@
     ],
     "energy_saved_per_level": 0.03,
     "specialty_level": 5
+  },
+  "placement": {
+    "trail_distance_tiles": 6
+  },
+  "money": {
+    "start": 500,
+    "weekly_budget": 250,
+    "week_days": 7,
+    "rescue_share": 0.1,
+    "rescue_most": 250,
+    "ledger_keep_days": 35,
+    "supply_shelf_slots": 18
+  },
+  "visitors": {
+    "base_per_site": 6,
+    "season": {
+      "spring": 0.5,
+      "summer": 1.0,
+      "autumn": 0.5,
+      "winter": 0.25
+    },
+    "busy_days": [
+      6,
+      7
+    ],
+    "busy_multiplier": 2,
+    "weather_multiplier": {
+      "rain": 0.5,
+      "storm": 0.1,
+      "blizzard": 0.1
+    },
+    "most_in_park": 80,
+    "arrive_from": 480,
+    "arrive_until": 660,
+    "latest_return": 1080,
+    "camp_day_start": 480,
+    "cabin_day_start": 480,
+    "speed_share": 0.85,
+    "walk_grounds": [
+      "trail",
+      "boards"
+    ],
+    "site_reach_tiles": 10,
+    "facility_reach_tiles": 8,
+    "dwell_minutes": {
+      "visit": 30,
+      "picnic": 60,
+      "fish": 150,
+      "pitch": 20,
+      "lookout": 30
+    },
+    "bench_rest_minutes": 10,
+    "bench_reach_tiles": 2.5,
+    "find_reach_tiles": 4,
+    "wrong_turn_chance": 0.2,
+    "wrong_turn_weathers": [
+      "fog",
+      "storm",
+      "blizzard"
+    ],
+    "mapped_wrong_turn_multiplier": 0.5,
+    "pointer_sign_reach_tiles": 6,
+    "junction_radius": 4,
+    "lost_off_trail_tiles": [
+      8,
+      16
+    ],
+    "lost_find_reach_tiles": 2,
+    "lost_rumor_radius": 24,
+    "tip": [
+      20,
+      50
+    ],
+    "shelf_buy_share": 0.25,
+    "gear_rent_share": 0.2,
+    "map_buy_share": 0.1,
+    "map_sites_needed": 3,
+    "trash_per_visitor": 1,
+    "bathroom_use_share": 0.5,
+    "cabin_book_chance": 0.6,
+    "mood": {
+      "reach": 2,
+      "clean_bathroom": 1,
+      "bench": 1,
+      "picnic": 1,
+      "find": 1,
+      "lost": -3,
+      "dirty_bathroom": -2,
+      "no_trash_can": -1,
+      "badger": -2
+    },
+    "mood_effect": 0.5,
+    "mood_span": 5,
+    "near_tiles": 24,
+    "step_minutes": 2,
+    "storm_weathers": [
+      "storm",
+      "blizzard"
+    ]
+  },
+  "upkeep": {
+    "bathroom_per_visit": 4,
+    "grubby_below": 40,
+    "filthy_below": 15,
+    "can_capacity": 20,
+    "can_reach_tiles": 15,
+    "litter_chance": 0.5,
+    "belonging_chance": 0.02,
+    "belongings": 6,
+    "clean_minutes": 20,
+    "clean_energy": 10,
+    "empty_minutes": 10,
+    "empty_energy": 4,
+    "litter_energy": 1,
+    "litter_reach_tiles": 1.4,
+    "mess_area_tiles": 40,
+    "messy_at": 0.5,
+    "mess_per_litter": 0.1,
+    "mess_grubby": 0.4,
+    "mess_filthy": 0.7,
+    "mess_full_can": 0.3,
+    "mess_appeal": 0.5,
+    "scout_litter_per_day": 6
+  },
+  "badgers": {
+    "mess_nights": 2,
+    "chance": 0.5,
+    "most": 3,
+    "shoo_minutes": 10,
+    "shoo_energy": 2,
+    "reach_tiles": 1.8
+  },
+  "chief": {
+    "filthy_days": 3,
+    "badger_nights": 3,
+    "hint_share": 0.25,
+    "praise_week": 500
+  },
+  "cards": {
+    "most_per_day": 5
+  },
+  "facilities": {
+    "refund_share": 0.5,
+    "minutes_per_action": 20,
+    "energy_per_action": 8,
+    "reach_tiles": 3
+  },
+  "staff": {
+    "board_size": 3
   }
 }

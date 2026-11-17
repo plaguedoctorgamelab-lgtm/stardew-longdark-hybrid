@@ -1560,6 +1560,1456 @@
    "id": "ui_made_once",
    "text": "(made)",
    "placeholder": true
+  },
+  {
+   "id": "facility_kiosk",
+   "text": "Visitor kiosk",
+   "placeholder": true
+  },
+  {
+   "id": "facility_suggestion_box",
+   "text": "Suggestion box",
+   "placeholder": true
+  },
+  {
+   "id": "facility_bathroom",
+   "text": "Bathroom",
+   "placeholder": true
+  },
+  {
+   "id": "facility_bathroom_does",
+   "text": "Visitors use it. Needs cleaning.",
+   "placeholder": true
+  },
+  {
+   "id": "facility_picnic_area",
+   "text": "Picnic area",
+   "placeholder": true
+  },
+  {
+   "id": "facility_picnic_area_does",
+   "text": "Two tables. Families come for it.",
+   "placeholder": true
+  },
+  {
+   "id": "facility_campground",
+   "text": "Campground",
+   "placeholder": true
+  },
+  {
+   "id": "facility_campground_does",
+   "text": "Six tent spots and a fire ring. Campers stay here.",
+   "placeholder": true
+  },
+  {
+   "id": "facility_dock",
+   "text": "Fishing dock",
+   "placeholder": true
+  },
+  {
+   "id": "facility_dock_does",
+   "text": "Anglers come for it. Sells fishing permits.",
+   "placeholder": true
+  },
+  {
+   "id": "facility_tower_lookout",
+   "text": "Tower lookout",
+   "placeholder": true
+  },
+  {
+   "id": "facility_tower_lookout_does",
+   "text": "A rail and a visitors' sign. Visitors may climb it by day.",
+   "placeholder": true
+  },
+  {
+   "id": "cat_nails",
+   "text": "Nails (bag of 10)",
+   "placeholder": true
+  },
+  {
+   "id": "cat_planks",
+   "text": "Plank",
+   "placeholder": true
+  },
+  {
+   "id": "cat_roofing",
+   "text": "Roofing",
+   "placeholder": true
+  },
+  {
+   "id": "cat_window_glass",
+   "text": "Window glass",
+   "placeholder": true
+  },
+  {
+   "id": "cat_firewood",
+   "text": "Firewood (bundle of 5)",
+   "placeholder": true
+  },
+  {
+   "id": "cat_trail_sign",
+   "text": "Blank sign",
+   "placeholder": true
+  },
+  {
+   "id": "cat_radio_valve",
+   "text": "Radio valve",
+   "placeholder": true
+  },
+  {
+   "id": "cat_tin_of_beans",
+   "text": "Tin of beans",
+   "placeholder": true
+  },
+  {
+   "id": "cat_sandwich",
+   "text": "Sandwich",
+   "placeholder": true
+  },
+  {
+   "id": "cat_bench",
+   "text": "Bench",
+   "placeholder": true
+  },
+  {
+   "id": "cat_trash_can",
+   "text": "Trash can",
+   "placeholder": true
+  },
+  {
+   "id": "cat_picnic_table",
+   "text": "Picnic table",
+   "placeholder": true
+  },
+  {
+   "id": "cat_fire_ring",
+   "text": "Fire ring",
+   "placeholder": true
+  },
+  {
+   "id": "cat_kit_bathroom",
+   "text": "Bathroom kit",
+   "placeholder": true
+  },
+  {
+   "id": "cat_kit_picnic_area",
+   "text": "Picnic area kit",
+   "placeholder": true
+  },
+  {
+   "id": "cat_kit_campground",
+   "text": "Campground kit",
+   "placeholder": true
+  },
+  {
+   "id": "cat_kit_dock",
+   "text": "Fishing dock kit",
+   "placeholder": true
+  },
+  {
+   "id": "cat_kit_tower_lookout",
+   "text": "Tower lookout kit",
+   "placeholder": true
+  },
+  {
+   "id": "src_entrance",
+   "text": "Entrance fees",
+   "placeholder": true
+  },
+  {
+   "id": "src_camping",
+   "text": "Camping permits",
+   "placeholder": true
+  },
+  {
+   "id": "src_cabin_rent",
+   "text": "Cabin rent",
+   "placeholder": true
+  },
+  {
+   "id": "src_tour",
+   "text": "Tours",
+   "placeholder": true
+  },
+  {
+   "id": "src_fishing",
+   "text": "Fishing permits",
+   "placeholder": true
+  },
+  {
+   "id": "src_gear",
+   "text": "Gear rental",
+   "placeholder": true
+  },
+  {
+   "id": "src_park_map",
+   "text": "Park maps",
+   "placeholder": true
+  },
+  {
+   "id": "src_gift_shelf",
+   "text": "Gift shelf",
+   "placeholder": true
+  },
+  {
+   "id": "src_tips",
+   "text": "Tips",
+   "placeholder": true
+  },
+  {
+   "id": "src_budget",
+   "text": "The Chief's budget",
+   "placeholder": true
+  },
+  {
+   "id": "src_refund",
+   "text": "Refunds",
+   "placeholder": true
+  },
+  {
+   "id": "src_catalog",
+   "text": "Catalog orders",
+   "placeholder": true
+  },
+  {
+   "id": "src_wages",
+   "text": "Wages",
+   "placeholder": true
+  },
+  {
+   "id": "src_rescue",
+   "text": "Rescue fee",
+   "placeholder": true
+  },
+  {
+   "id": "visitor_day_hiker",
+   "text": "day hikers",
+   "placeholder": true
+  },
+  {
+   "id": "visitor_family",
+   "text": "a family",
+   "placeholder": true
+  },
+  {
+   "id": "visitor_campers",
+   "text": "campers",
+   "placeholder": true
+  },
+  {
+   "id": "visitor_anglers",
+   "text": "anglers",
+   "placeholder": true
+  },
+  {
+   "id": "visitor_tour_group",
+   "text": "a tour group",
+   "placeholder": true
+  },
+  {
+   "id": "visitor_scout_troop",
+   "text": "a scout troop",
+   "placeholder": true
+  },
+  {
+   "id": "staff_custodian",
+   "text": "Custodian",
+   "placeholder": true
+  },
+  {
+   "id": "staff_custodian_does",
+   "text": "Cleans up to 4 assigned bathrooms or trash cans each day.",
+   "placeholder": true
+  },
+  {
+   "id": "staff_trail_crew",
+   "text": "Trail crew",
+   "placeholder": true
+  },
+  {
+   "id": "staff_trail_crew_does",
+   "text": "Picks up litter along the trails, fills in badger diggings, and clears one storm-fallen trunk a day.",
+   "placeholder": true
+  },
+  {
+   "id": "staff_name_marta",
+   "text": "Marta",
+   "placeholder": true
+  },
+  {
+   "id": "staff_line_marta",
+   "text": "Has cleaned three lighthouses and a submarine. Won't say which was worst.",
+   "placeholder": true
+  },
+  {
+   "id": "staff_bye_marta",
+   "text": "Marta folds her apron very neatly. \"Call me if the submarine comes back.\"",
+   "placeholder": true
+  },
+  {
+   "id": "staff_name_dev",
+   "text": "Dev",
+   "placeholder": true
+  },
+  {
+   "id": "staff_line_dev",
+   "text": "Brings his own mop. Names it.",
+   "placeholder": true
+  },
+  {
+   "id": "staff_bye_dev",
+   "text": "Dev and the mop leave together. The mop seems sad.",
+   "placeholder": true
+  },
+  {
+   "id": "staff_name_pearl",
+   "text": "Pearl",
+   "placeholder": true
+  },
+  {
+   "id": "staff_line_pearl",
+   "text": "Retired. Bored. Very, very thorough.",
+   "placeholder": true
+  },
+  {
+   "id": "staff_bye_pearl",
+   "text": "Pearl hands back her keys, already polished.",
+   "placeholder": true
+  },
+  {
+   "id": "staff_name_hank",
+   "text": "Hank",
+   "placeholder": true
+  },
+  {
+   "id": "staff_line_hank",
+   "text": "Says he can smell a full trash can from a mile off. Says it proudly.",
+   "placeholder": true
+  },
+  {
+   "id": "staff_bye_hank",
+   "text": "Hank sniffs the air one last time. \"You'll manage.\"",
+   "placeholder": true
+  },
+  {
+   "id": "staff_name_juniper",
+   "text": "Juniper",
+   "placeholder": true
+  },
+  {
+   "id": "staff_line_juniper",
+   "text": "Studying moss, part time. Will clean for moss facts.",
+   "placeholder": true
+  },
+  {
+   "id": "staff_bye_juniper",
+   "text": "Juniper leaves you a list of moss facts. There are forty of them.",
+   "placeholder": true
+  },
+  {
+   "id": "staff_name_ollie",
+   "text": "Ollie",
+   "placeholder": true
+  },
+  {
+   "id": "staff_line_ollie",
+   "text": "Whistles while working. Only knows one tune.",
+   "placeholder": true
+  },
+  {
+   "id": "staff_bye_ollie",
+   "text": "Ollie whistles his one tune all the way to the gate.",
+   "placeholder": true
+  },
+  {
+   "id": "staff_name_rosa",
+   "text": "Rosa",
+   "placeholder": true
+  },
+  {
+   "id": "staff_line_rosa",
+   "text": "Can carry a fallen trunk on one shoulder and a coffee in the other hand.",
+   "placeholder": true
+  },
+  {
+   "id": "staff_bye_rosa",
+   "text": "Rosa shakes your hand and nearly takes it with her.",
+   "placeholder": true
+  },
+  {
+   "id": "staff_name_big_tom",
+   "text": "Big Tom",
+   "placeholder": true
+  },
+  {
+   "id": "staff_line_big_tom",
+   "text": "Not especially big. Nobody remembers why.",
+   "placeholder": true
+  },
+  {
+   "id": "staff_bye_big_tom",
+   "text": "Big Tom waves. Still not big.",
+   "placeholder": true
+  },
+  {
+   "id": "staff_name_wren",
+   "text": "Wren",
+   "placeholder": true
+  },
+  {
+   "id": "staff_line_wren",
+   "text": "Likes litter-picking the way some people like fishing.",
+   "placeholder": true
+  },
+  {
+   "id": "staff_bye_wren",
+   "text": "Wren pockets one last bottle cap on the way out.",
+   "placeholder": true
+  },
+  {
+   "id": "staff_name_cass",
+   "text": "Cass",
+   "placeholder": true
+  },
+  {
+   "id": "staff_line_cass",
+   "text": "Has walked every trail in the county twice, once backwards.",
+   "placeholder": true
+  },
+  {
+   "id": "staff_bye_cass",
+   "text": "Cass walks off backwards, for old times' sake.",
+   "placeholder": true
+  },
+  {
+   "id": "staff_name_eli",
+   "text": "Eli",
+   "placeholder": true
+  },
+  {
+   "id": "staff_line_eli",
+   "text": "Owns a very good shovel and would like it to be appreciated.",
+   "placeholder": true
+  },
+  {
+   "id": "staff_bye_eli",
+   "text": "Eli lets you hold the shovel, just once, before going.",
+   "placeholder": true
+  },
+  {
+   "id": "staff_name_bea",
+   "text": "Bea",
+   "placeholder": true
+  },
+  {
+   "id": "staff_line_bea",
+   "text": "Leaves the trail tidier than nature intended.",
+   "placeholder": true
+  },
+  {
+   "id": "staff_bye_bea",
+   "text": "Bea straightens the welcome sign on her way out.",
+   "placeholder": true
+  },
+  {
+   "id": "badger_tip_can",
+   "text": "A troll badger has tipped over a trash can. It looks pleased with itself.",
+   "placeholder": true
+  },
+  {
+   "id": "badger_nap_bathroom",
+   "text": "A troll badger is asleep in the bathroom. The bathroom is closed until further notice.",
+   "placeholder": true
+  },
+  {
+   "id": "badger_raid_picnic",
+   "text": "A troll badger raided a family's picnic. The family is annoyed. The badger is not.",
+   "placeholder": true
+  },
+  {
+   "id": "badger_dig_trail",
+   "text": "A troll badger has dug a hole in the trail. A shovel would fill it.",
+   "placeholder": true
+  },
+  {
+   "id": "card_bath_filthy",
+   "text": "The bathroom at {site} smelled like a swamp having a bad day.",
+   "placeholder": true
+  },
+  {
+   "id": "card_bath_filthy_2",
+   "text": "Please clean the bathroom at {site}. Please. PLEASE.",
+   "placeholder": true
+  },
+  {
+   "id": "card_bath_grubby",
+   "text": "Bathroom at {site} was a bit grubby. Not a complaint. OK, a small complaint.",
+   "placeholder": true
+  },
+  {
+   "id": "card_bath_clean",
+   "text": "Cleanest bathroom I've ever used outdoors. Would wash hands again.",
+   "placeholder": true
+  },
+  {
+   "id": "card_bench_thanks",
+   "text": "Thank you for the bench. My knees thank you too.",
+   "placeholder": true
+  },
+  {
+   "id": "card_bench_thanks_2",
+   "text": "Sat on a bench and watched a squirrel for twenty minutes. Best part of the trip.",
+   "placeholder": true
+  },
+  {
+   "id": "card_want_bench",
+   "text": "Long walk to {site}! A bench on the way would be lovely.",
+   "placeholder": true
+  },
+  {
+   "id": "card_want_picnic",
+   "text": "Could there be a picnic area at {site}? We ate our sandwiches standing up, like horses.",
+   "placeholder": true
+  },
+  {
+   "id": "card_want_bathroom",
+   "text": "A bathroom at {site} would be very welcome. Very.",
+   "placeholder": true
+  },
+  {
+   "id": "card_want_trash",
+   "text": "Nowhere to put our trash near {site}. We carried it home. It's in the car now. Forever.",
+   "placeholder": true
+  },
+  {
+   "id": "card_litter",
+   "text": "Some litter along the trail near {site}. Not ours! We checked.",
+   "placeholder": true
+  },
+  {
+   "id": "card_lovely_site",
+   "text": "{site} was gorgeous. We'll be back.",
+   "placeholder": true
+  },
+  {
+   "id": "card_lovely_site_2",
+   "text": "Walked all the way to {site}. Worth every step and most of the blisters.",
+   "placeholder": true
+  },
+  {
+   "id": "card_picnic_great",
+   "text": "Perfect picnic. The ants agreed.",
+   "placeholder": true
+  },
+  {
+   "id": "card_camp_great",
+   "text": "Slept under the stars at {site}. Woke up under them too. They're very persistent here.",
+   "placeholder": true
+  },
+  {
+   "id": "card_fish_great",
+   "text": "Caught a fish, said sorry, let it go. Great dock.",
+   "placeholder": true
+  },
+  {
+   "id": "card_tour_great",
+   "text": "Our guide knew every tree by name. Some of the trees seemed to know her too.",
+   "placeholder": true
+  },
+  {
+   "id": "card_badger_drawing",
+   "text": "[A child's drawing of a round, grumpy animal in a bathroom. It is labelled MR. GRUMBLES.]",
+   "placeholder": true
+  },
+  {
+   "id": "card_badger_picnic",
+   "text": "Something small and round ate our potato salad. It didn't even say thank you.",
+   "placeholder": true
+  },
+  {
+   "id": "card_lost_thanks",
+   "text": "Thank you for finding us! We were only a little bit lost. OK, quite lost.",
+   "placeholder": true
+  },
+  {
+   "id": "card_lost_grumble",
+   "text": "We got lost and spent the night in a hollow log. Lovely log. Better signs, please?",
+   "placeholder": true
+  },
+  {
+   "id": "card_scout_drawing",
+   "text": "[A drawing of the ranger, very tall, standing next to a very small tree. Signed by Troop 9.]",
+   "placeholder": true
+  },
+  {
+   "id": "card_scout_litter",
+   "text": "We picked up {n} bits of litter for our badge! Can we have a badge from you too?",
+   "placeholder": true
+  },
+  {
+   "id": "card_singalong",
+   "text": "We sang round the campfire until the owls joined in. Sorry about the owls.",
+   "placeholder": true
+  },
+  {
+   "id": "card_weather",
+   "text": "It rained. It's a forest. We get it. Still had fun.",
+   "placeholder": true
+  },
+  {
+   "id": "chief_report",
+   "text": "WEEKLY REPORT, from the Chief\n\nVisitors this week: {visitors}\nMoney in: ${income}   Money out: ${spending}\n{lines}\nVisitors' mood: {mood}\nBest card: {card}\n\n{line}",
+   "placeholder": true
+  },
+  {
+   "id": "chief_line_1",
+   "text": "Keep it up, Ranger. The park's in good boots.",
+   "placeholder": true
+  },
+  {
+   "id": "chief_line_2",
+   "text": "Nice week. Don't forget to eat something that isn't beans.",
+   "placeholder": true
+  },
+  {
+   "id": "chief_line_3",
+   "text": "Good work out there. I read every word of these, you know.",
+   "placeholder": true
+  },
+  {
+   "id": "chief_line_quiet",
+   "text": "A quiet week. Quiet's allowed. The trees don't mind.",
+   "placeholder": true
+  },
+  {
+   "id": "chief_grumble_bathroom",
+   "text": "Ranger, I've had a letter about the bathroom at {site}. Two, actually. One was mostly underlined. When you get a moment.",
+   "placeholder": true
+  },
+  {
+   "id": "chief_grumble_badgers",
+   "text": "Ranger, I'm hearing about troll badgers. Again. They come for the mess, you know. Always have.",
+   "placeholder": true
+  },
+  {
+   "id": "chief_praise_first_visitors",
+   "text": "Ranger! Visitors! Real ones, with sandwiches. Well done. I knew you'd open the place up.",
+   "placeholder": true
+  },
+  {
+   "id": "chief_praise_first_campers",
+   "text": "First campers in years. They'll go home smelling of woodsmoke and tell everyone. Good.",
+   "placeholder": true
+  },
+  {
+   "id": "chief_praise_500_week",
+   "text": "Five hundred dollars in a week. Don't spend it all on nails. Spend most of it on nails.",
+   "placeholder": true
+  },
+  {
+   "id": "chief_praise_first_found",
+   "text": "Heard you found a lost party. Nobody stays lost for long on your watch. That's the job, really.",
+   "placeholder": true
+  },
+  {
+   "id": "chief_praise_clean_week",
+   "text": "A whole week of clean bathrooms. I'm told it's never happened before. I'm told that by the bathrooms.",
+   "placeholder": true
+  },
+  {
+   "id": "chief_hint_1",
+   "text": "P.S. If the radio at the tower tells you anything odd, write it down. Humour me.",
+   "placeholder": true
+  },
+  {
+   "id": "chief_hint_2",
+   "text": "P.S. Don't go across the river just yet. Not because of anything. Just don't.",
+   "placeholder": true
+  },
+  {
+   "id": "chief_hint_3",
+   "text": "P.S. The old ranger used to leave the porch light on. I never asked who for.",
+   "placeholder": true
+  },
+  {
+   "id": "chief_hint_4",
+   "text": "P.S. If the pond seems to be looking at you, it's being friendly.",
+   "placeholder": true
+  },
+  {
+   "id": "chief_hint_5",
+   "text": "P.S. I'd visit, but you know how it is. Well. You don't. That's fine.",
+   "placeholder": true
+  },
+  {
+   "id": "item_bench",
+   "text": "Bench",
+   "placeholder": true
+  },
+  {
+   "id": "item_trash_can",
+   "text": "Trash can",
+   "placeholder": true
+  },
+  {
+   "id": "item_picnic_table",
+   "text": "Picnic table",
+   "placeholder": true
+  },
+  {
+   "id": "item_fire_ring",
+   "text": "Fire ring",
+   "placeholder": true
+  },
+  {
+   "id": "item_radio_valve",
+   "text": "Radio valve",
+   "placeholder": true
+  },
+  {
+   "id": "item_pressed_flower_card",
+   "text": "Pressed flower card",
+   "placeholder": true
+  },
+  {
+   "id": "item_pine_resin_candle",
+   "text": "Pine resin candle",
+   "placeholder": true
+  },
+  {
+   "id": "item_carved_pinecone_figure",
+   "text": "Carved pinecone figure",
+   "placeholder": true
+  },
+  {
+   "id": "item_painted_stone",
+   "text": "Painted stone",
+   "placeholder": true
+  },
+  {
+   "id": "item_glowcap_night_light",
+   "text": "Glowcap night-light",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_bench",
+   "text": "Bench",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_picnic_table",
+   "text": "Picnic table",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_fire_ring",
+   "text": "Fire ring",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_pressed_flower_card",
+   "text": "Pressed flower card",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_pine_resin_candle",
+   "text": "Pine resin candle",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_carved_pinecone_figure",
+   "text": "Carved pinecone figure",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_painted_stone",
+   "text": "Painted stone",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_glowcap_night_light",
+   "text": "Glowcap night-light",
+   "placeholder": true
+  },
+  {
+   "id": "hud_money",
+   "text": "${n}",
+   "placeholder": true
+  },
+  {
+   "id": "ui_catalog",
+   "text": "Supply catalog  -  ${wallet} in the wallet",
+   "placeholder": true
+  },
+  {
+   "id": "ui_catalog_line",
+   "text": "{name}  -  ${price}",
+   "placeholder": true
+  },
+  {
+   "id": "ui_catalog_kit_line",
+   "text": "{name} for {place}  -  ${price}",
+   "placeholder": true
+  },
+  {
+   "id": "msg_ordered",
+   "text": "Ordered: {name}. It arrives at 6:00 tomorrow.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_cant_afford",
+   "text": "Not enough money in the wallet for that.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_order_arrived",
+   "text": "Yesterday's order is on the station's supply shelf.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_kit_arrived",
+   "text": "A kit is waiting at its pad.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_budget",
+   "text": "The Chief's weekly budget arrived: ${n}.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_rescue_fee",
+   "text": "They left a note asking ${n} for their trouble. Fair enough.",
+   "placeholder": true
+  },
+  {
+   "id": "place_gate",
+   "text": "the gate",
+   "placeholder": true
+  },
+  {
+   "id": "ui_staff_board",
+   "text": "Staff board  -  wages paid every seventh day",
+   "placeholder": true
+  },
+  {
+   "id": "ui_staff_hire",
+   "text": "Hire {name}, {role}, ${wage} a week: {line}",
+   "placeholder": true
+  },
+  {
+   "id": "ui_staff_hired",
+   "text": "{name}, {role} ({status}): let go",
+   "placeholder": true
+  },
+  {
+   "id": "ui_staff_assign",
+   "text": "Choose what {name} looks after ({n} of {most})",
+   "placeholder": true
+  },
+  {
+   "id": "ui_staff_working",
+   "text": "working",
+   "placeholder": true
+  },
+  {
+   "id": "ui_staff_off",
+   "text": "taking this week off",
+   "placeholder": true
+  },
+  {
+   "id": "ui_staff_none",
+   "text": "Nobody is looking for work just now.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_staff_hired",
+   "text": "{name} starts tomorrow morning.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_staff_paid",
+   "text": "Wages paid: ${n}.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_staff_unpaid",
+   "text": "Not enough money for everyone's wages. Some staff are taking the week off. No hard feelings.",
+   "placeholder": true
+  },
+  {
+   "id": "ui_assign_title",
+   "text": "{name} looks after (up to {most}):",
+   "placeholder": true
+  },
+  {
+   "id": "ui_assign_line",
+   "text": "{mark} {name}",
+   "placeholder": true
+  },
+  {
+   "id": "ui_assign_on",
+   "text": "[x]",
+   "placeholder": true
+  },
+  {
+   "id": "ui_assign_off",
+   "text": "[ ]",
+   "placeholder": true
+  },
+  {
+   "id": "fac_at",
+   "text": "{name} at {place}",
+   "placeholder": true
+  },
+  {
+   "id": "thing_at",
+   "text": "{name} near {place}",
+   "placeholder": true
+  },
+  {
+   "id": "msg_pad_here",
+   "text": "Stakes and a flag: a pad for a {name}. Order a kit from the catalog at the station.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_pad_ordered",
+   "text": "A kit for this {name} is on its way.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_build_progress",
+   "text": "Building the {name}: {done} of {total}.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_built",
+   "text": "The {name} is finished.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_take_down_confirm",
+   "text": "Take down the {name}? You get ${n} back.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_taken_down_fac",
+   "text": "The {name} is taken down. ${n} is back in the wallet.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_lookout_needs_tower",
+   "text": "The tower needs repairing first.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_bathroom_state",
+   "text": "The bathroom is {state}.",
+   "placeholder": true
+  },
+  {
+   "id": "bath_spotless",
+   "text": "spotless",
+   "placeholder": true
+  },
+  {
+   "id": "bath_clean",
+   "text": "clean",
+   "placeholder": true
+  },
+  {
+   "id": "bath_grubby",
+   "text": "grubby",
+   "placeholder": true
+  },
+  {
+   "id": "bath_filthy",
+   "text": "filthy",
+   "placeholder": true
+  },
+  {
+   "id": "msg_bathroom_cleaned",
+   "text": "You scrub the bathroom until it squeaks.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_bathroom_badger",
+   "text": "There's a troll badger asleep in here.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_can_emptied",
+   "text": "You empty the trash can.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_can_empty",
+   "text": "The trash can is empty.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_litter_picked",
+   "text": "You pick up some litter.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_belonging",
+   "text": "Among the litter: {thing}. You note it in the notebook.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_place_thing_far",
+   "text": "That needs to go near a trail.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_place_thing_unseen",
+   "text": "You'd better map this ground first.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_thing_placed",
+   "text": "You put down the {name}.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_thing_picked_up",
+   "text": "You pick up the {name}.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_fire_ring_lit",
+   "text": "You light the fire ring.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_fire_ring_cold",
+   "text": "The fire ring is cold. Firewood would light it.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_rent_sign",
+   "text": "The sign on the cabin door says {mode}. Turn it round?",
+   "placeholder": true
+  },
+  {
+   "id": "rent_for_rent",
+   "text": "FOR RENT",
+   "placeholder": true
+  },
+  {
+   "id": "rent_ranger_only",
+   "text": "RANGER ONLY",
+   "placeholder": true
+  },
+  {
+   "id": "msg_rent_now",
+   "text": "The sign now says {mode}.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_cabin_booked",
+   "text": "The old cabin is booked tonight, by {party}.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_cabin_booked_note",
+   "text": "A note on the door: BOOKED TONIGHT, {party}. The bed and chest are theirs tonight. You can always camp outside.",
+   "placeholder": true
+  },
+  {
+   "id": "ui_gift_shelf",
+   "text": "Gift shelf: gift goods and berry preserve only",
+   "placeholder": true
+  },
+  {
+   "id": "msg_gift_ideas",
+   "text": "An empty gift shelf. You have a few ideas for things visitors might like.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_box_empty",
+   "text": "No new cards in the suggestion box.",
+   "placeholder": true
+  },
+  {
+   "id": "ui_box_pin_title",
+   "text": "Pin a card to the job list?",
+   "placeholder": true
+  },
+  {
+   "id": "ui_box_pin",
+   "text": "Pin: {text}",
+   "placeholder": true
+  },
+  {
+   "id": "msg_box_pinned",
+   "text": "Pinned to the job list.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_badger_shooed",
+   "text": "You shoo the troll badger. It waddles off, grumbling.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_badger_first",
+   "text": "Your first troll badger. You note it in the notebook.",
+   "placeholder": true
+  },
+  {
+   "id": "note_first_badger",
+   "text": "Met a troll badger at {place}. Small, round, grumpy. Seemed to like the mess.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_badger_dig_filled",
+   "text": "You fill in the badger's hole.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_found_party",
+   "text": "\"Oh, thank goodness, a ranger!\" They follow you back to the trail and set off home. They leave ${n} as a thank-you.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_lost_radio",
+   "text": "Ranger, a party of {party} hasn't come back. Last seen near {place}.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_lost_board",
+   "text": "A party of {party} is lost, last seen near {place}. Find them if you can.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_lost_hint",
+   "text": "Lost party?",
+   "placeholder": true
+  },
+  {
+   "id": "msg_lost_home",
+   "text": "The lost party turned up at the gate this morning, sheepish and fine.",
+   "placeholder": true
+  },
+  {
+   "id": "job_lost_title",
+   "text": "Find the lost party",
+   "placeholder": true
+  },
+  {
+   "id": "job_lost_line",
+   "text": "  {party}, last seen near {place}. They're somewhere in the circle on the map.",
+   "placeholder": true
+  },
+  {
+   "id": "job_pinned_title",
+   "text": "Ideas from the suggestion box",
+   "placeholder": true
+  },
+  {
+   "id": "job_pinned",
+   "text": "  {text}",
+   "placeholder": true
+  },
+  {
+   "id": "msg_letter",
+   "text": "A letter from the Chief is on the station's note board.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_cards_waiting",
+   "text": "New cards in the suggestion box at the gate.",
+   "placeholder": true
+  },
+  {
+   "id": "book_jobs",
+   "text": "Jobs",
+   "placeholder": true
+  },
+  {
+   "id": "book_ledger",
+   "text": "Ledger",
+   "placeholder": true
+  },
+  {
+   "id": "book_park",
+   "text": "Park",
+   "placeholder": true
+  },
+  {
+   "id": "book_cards",
+   "text": "Cards",
+   "placeholder": true
+  },
+  {
+   "id": "book_letters",
+   "text": "Letters",
+   "placeholder": true
+  },
+  {
+   "id": "book_notes",
+   "text": "Notebook",
+   "placeholder": true
+  },
+  {
+   "id": "book_hint",
+   "text": "J or Esc to close.",
+   "placeholder": true
+  },
+  {
+   "id": "ledger_today",
+   "text": "Today",
+   "placeholder": true
+  },
+  {
+   "id": "ledger_this_week",
+   "text": "This week",
+   "placeholder": true
+  },
+  {
+   "id": "ledger_last_week",
+   "text": "Last week",
+   "placeholder": true
+  },
+  {
+   "id": "ledger_line",
+   "text": "  {name}: {sign}${n}",
+   "placeholder": true
+  },
+  {
+   "id": "ledger_total",
+   "text": "  Total: {sign}${n}",
+   "placeholder": true
+  },
+  {
+   "id": "ledger_none",
+   "text": "  Nothing yet.",
+   "placeholder": true
+  },
+  {
+   "id": "ledger_wallet",
+   "text": "Wallet: ${n}",
+   "placeholder": true
+  },
+  {
+   "id": "cards_none",
+   "text": "No cards read yet. The suggestion box is by the kiosk at the gate.",
+   "placeholder": true
+  },
+  {
+   "id": "cards_line",
+   "text": "Day {day}: {text}",
+   "placeholder": true
+  },
+  {
+   "id": "letters_none",
+   "text": "No letters yet.",
+   "placeholder": true
+  },
+  {
+   "id": "notes_none",
+   "text": "Nothing in the notebook yet.",
+   "placeholder": true
+  },
+  {
+   "id": "notes_line",
+   "text": "Day {day}: {text}",
+   "placeholder": true
+  },
+  {
+   "id": "park_title",
+   "text": "The park today",
+   "placeholder": true
+  },
+  {
+   "id": "park_visitors",
+   "text": "Visitors in the park: {n} in {parties} parties",
+   "placeholder": true
+  },
+  {
+   "id": "park_arriving",
+   "text": "Still to arrive today: {n}",
+   "placeholder": true
+  },
+  {
+   "id": "park_sites",
+   "text": "Ready sites visitors can reach: {list}",
+   "placeholder": true
+  },
+  {
+   "id": "park_sites_none",
+   "text": "Ready sites visitors can reach: none yet",
+   "placeholder": true
+  },
+  {
+   "id": "park_badgers",
+   "text": "Troll badgers about: {n}",
+   "placeholder": true
+  },
+  {
+   "id": "park_staff",
+   "text": "Staff: {list}",
+   "placeholder": true
+  },
+  {
+   "id": "park_staff_none",
+   "text": "Staff: none",
+   "placeholder": true
+  },
+  {
+   "id": "park_cabin",
+   "text": "Old cabin: {mode}",
+   "placeholder": true
+  },
+  {
+   "id": "park_cabin_booked",
+   "text": "booked tonight",
+   "placeholder": true
+  },
+  {
+   "id": "park_facility",
+   "text": "  {name} at {place}: {state}",
+   "placeholder": true
+  },
+  {
+   "id": "park_facilities",
+   "text": "Facilities:",
+   "placeholder": true
+  },
+  {
+   "id": "fac_state_kit",
+   "text": "kit waiting",
+   "placeholder": true
+  },
+  {
+   "id": "fac_state_building",
+   "text": "being built, {done} of {total}",
+   "placeholder": true
+  },
+  {
+   "id": "fac_state_built",
+   "text": "built",
+   "placeholder": true
+  },
+  {
+   "id": "fac_state_ordered",
+   "text": "kit ordered",
+   "placeholder": true
+  },
+  {
+   "id": "mood_great",
+   "text": "delighted",
+   "placeholder": true
+  },
+  {
+   "id": "mood_good",
+   "text": "happy",
+   "placeholder": true
+  },
+  {
+   "id": "mood_ok",
+   "text": "content",
+   "placeholder": true
+  },
+  {
+   "id": "mood_poor",
+   "text": "grumbly",
+   "placeholder": true
+  },
+  {
+   "id": "mood_none",
+   "text": "nobody came",
+   "placeholder": true
+  },
+  {
+   "id": "card_none",
+   "text": "none this week",
+   "placeholder": true
+  },
+  {
+   "id": "belonging_1",
+   "text": "a single mitten",
+   "placeholder": true
+  },
+  {
+   "id": "belonging_2",
+   "text": "a pair of reading glasses",
+   "placeholder": true
+  },
+  {
+   "id": "belonging_3",
+   "text": "a very small teddy bear",
+   "placeholder": true
+  },
+  {
+   "id": "belonging_4",
+   "text": "a guidebook to a different park",
+   "placeholder": true
+  },
+  {
+   "id": "belonging_5",
+   "text": "a harmonica",
+   "placeholder": true
+  },
+  {
+   "id": "belonging_6",
+   "text": "one sock, damp",
+   "placeholder": true
+  },
+  {
+   "id": "msg_scouts_wave",
+   "text": "The scouts all wave at once.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_visitor_hello_1",
+   "text": "\"Lovely day for it!\"",
+   "placeholder": true
+  },
+  {
+   "id": "msg_visitor_hello_2",
+   "text": "\"Morning, Ranger!\"",
+   "placeholder": true
+  },
+  {
+   "id": "msg_visitor_hello_3",
+   "text": "\"Is it much further?\"",
+   "placeholder": true
+  },
+  {
+   "id": "msg_visitor_hello_4",
+   "text": "\"We saw a squirrel!\"",
+   "placeholder": true
+  },
+  {
+   "id": "msg_visitor_hello_5",
+   "text": "\"Great trail, by the way.\"",
+   "placeholder": true
+  },
+  {
+   "id": "msg_staff_hello",
+   "text": "{name} nods. \"All in hand, Ranger.\"",
+   "placeholder": true
+  },
+  {
+   "id": "ui_place_gate",
+   "text": "The gate",
+   "placeholder": true
+  },
+  {
+   "id": "site_step_repair_none",
+   "text": "nothing to repair",
+   "placeholder": true
+  },
+  {
+   "id": "party_of",
+   "text": "{n} {kind}",
+   "placeholder": true
+  },
+  {
+   "id": "note_belonging",
+   "text": "Found among the litter: {thing}.",
+   "placeholder": true
   }
  ]
 }

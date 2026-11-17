@@ -56,6 +56,9 @@ func _fill(options: Array) -> void:
 		var b := Button.new()
 		b.text = str(o["label"])
 		b.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		# Long lines (the staff board) wrap inside the list.
+		b.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		b.custom_minimum_size = Vector2(size.x - 28, 0)
 		b.disabled = not bool(o.get("enabled", true))
 		var id: String = o["id"]
 		b.pressed.connect(func() -> void: _pick(id))
@@ -79,6 +82,13 @@ func open_workbench() -> void:
 ## Shows a station's recipes: workbench, cook or personal.
 func open_station(station: String) -> void:
 	open(station, session.content.text(STATIONS[station]), session.recipe_options(station), true)
+
+
+## Shows a fresh list in place, keeping the screen open (the catalog, the
+## staff board).
+func reopen(choice_kind: String, title: String, options: Array) -> void:
+	open(choice_kind, title, options, true)
+	hint_label.text = session.content.text("ui_close_hint")
 
 
 func is_station() -> bool:

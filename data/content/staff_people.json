@@ -1,0 +1,89 @@
+{
+ "note": "People who come looking for seasonal work. Two or three are on the staff board at a time.",
+ "rows": [
+  {
+   "id": "marta",
+   "name": "staff_name_marta",
+   "line": "staff_line_marta",
+   "suits": "custodian",
+   "goodbye": "staff_bye_marta"
+  },
+  {
+   "id": "dev",
+   "name": "staff_name_dev",
+   "line": "staff_line_dev",
+   "suits": "custodian",
+   "goodbye": "staff_bye_dev"
+  },
+  {
+   "id": "pearl",
+   "name": "staff_name_pearl",
+   "line": "staff_line_pearl",
+   "suits": "custodian",
+   "goodbye": "staff_bye_pearl"
+  },
+  {
+   "id": "hank",
+   "name": "staff_name_hank",
+   "line": "staff_line_hank",
+   "suits": "custodian",
+   "goodbye": "staff_bye_hank"
+  },
+  {
+   "id": "juniper",
+   "name": "staff_name_juniper",
+   "line": "staff_line_juniper",
+   "suits": "custodian",
+   "goodbye": "staff_bye_juniper"
+  },
+  {
+   "id": "ollie",
+   "name": "staff_name_ollie",
+   "line": "staff_line_ollie",
+   "suits": "custodian",
+   "goodbye": "staff_bye_ollie"
+  },
+  {
+   "id": "rosa",
+   "name": "staff_name_rosa",
+   "line": "staff_line_rosa",
+   "suits": "trail_crew",
+   "goodbye": "staff_bye_rosa"
+  },
+  {
+   "id": "big_tom",
+   "name": "staff_name_big_tom",
+   "line": "staff_line_big_tom",
+   "suits": "trail_crew",
+   "goodbye": "staff_bye_big_tom"
+  },
+  {
+   "id": "wren",
+   "name": "staff_name_wren",
+   "line": "staff_line_wren",
+   "suits": "trail_crew",
+   "goodbye": "staff_bye_wren"
+  },
+  {
+   "id": "cass",
+   "name": "staff_name_cass",
+   "line": "staff_line_cass",
+   "suits": "trail_crew",
+   "goodbye": "staff_bye_cass"
+  },
+  {
+   "id": "eli",
+   "name": "staff_name_eli",
+   "line": "staff_line_eli",
+   "suits": "trail_crew",
+   "goodbye": "staff_bye_eli"
+  },
+  {
+   "id": "bea",
+   "name": "staff_name_bea",
+   "line": "staff_line_bea",
+   "suits": "trail_crew",
+   "goodbye": "staff_bye_bea"
+  }
+ ]
+}

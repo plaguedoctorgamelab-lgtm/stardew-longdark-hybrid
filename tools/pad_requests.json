@@ -1,0 +1,11 @@
+{
+ "note": "Ring one's facility pads. Each pad goes on the nearest open ground to 'near' that fits 'size' (top-left tile first). 'fixed' pads are placed exactly. Placed by tools/place_pads.py.",
+ "requests": [
+  {"id": "gate_kiosk", "site": "gate", "facility": "kiosk", "near": [9, 1437], "size": [3, 2], "fixed": true, "built": true},
+  {"id": "gate_box", "site": "gate", "facility": "suggestion_box", "near": [12, 1438], "size": [1, 1], "fixed": true, "built": true},
+  {"id": "gate_bathroom", "site": "gate", "facility": "bathroom", "near": [8, 1445], "size": [2, 2]},
+  {"id": "gate_picnic", "site": "gate", "facility": "picnic_area", "near": [26, 1446], "size": [4, 2]},
+  {"id": "cabin_picnic", "site": "old_cabin", "facility": "picnic_area", "near": [358, 1256], "size": [4, 2]},
+  {"id": "outlook_picnic", "site": "outlook", "facility": "picnic_area", "near": [282, 1244], "size": [4, 2]}
+ ]
+}

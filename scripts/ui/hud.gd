@@ -21,6 +21,7 @@ var slot_icons: Array[TextureRect] = []
 var slot_counts: Array[Label] = []
 var slot_keys: Array[Label] = []
 var debug_label: Label
+var money_label: Label
 var _message_time: float = 0.0
 
 
@@ -73,6 +74,12 @@ func setup(s: GameSession, theme: Theme) -> void:
 	date_label = _label(Vector2(402, 3))
 	time_label = _label(Vector2(402, 13))
 	status_label = _label(Vector2(402, 23))
+	var mbox := Panel.new()
+	mbox.position = Vector2(398, 37)
+	mbox.size = Vector2(80, 12)
+	mbox.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	root.add_child(mbox)
+	money_label = _label(Vector2(402, 37))
 	weather_icon = TextureRect.new()
 	weather_icon.position = Vector2(458, 15)
 	_fit_icon(weather_icon)
@@ -145,6 +152,7 @@ func _process(delta: float) -> void:
 	var c := session.clock
 	date_label.text = session.content.text("hud_date", {"season": session.content.text("season_" + c.season_name()).substr(0, 3), "day": c.day, "year": c.year})
 	time_label.text = c.time_text()
+	money_label.text = session.content.text("hud_money", {"n": session.park.money.wallet})
 	weather_icon.texture = Art.texture(session.weather_icon())
 	energy_bar.max_value = session.needs.max_energy()
 	energy_bar.value = session.needs.energy

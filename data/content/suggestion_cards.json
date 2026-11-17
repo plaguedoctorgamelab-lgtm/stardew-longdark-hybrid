@@ -1,0 +1,155 @@
+{
+ "note": "Suggestion box cards. Each is written only when its event happened that day; event names are set by the park simulation. {site} is the place it happened.",
+ "rows": [
+  {
+   "id": "bath_filthy",
+   "event": "bathroom_filthy",
+   "text": "card_bath_filthy",
+   "asks": false
+  },
+  {
+   "id": "bath_filthy_2",
+   "event": "bathroom_filthy",
+   "text": "card_bath_filthy_2",
+   "asks": true
+  },
+  {
+   "id": "bath_grubby",
+   "event": "bathroom_grubby",
+   "text": "card_bath_grubby",
+   "asks": false
+  },
+  {
+   "id": "bath_clean",
+   "event": "bathroom_clean",
+   "text": "card_bath_clean",
+   "asks": false
+  },
+  {
+   "id": "bench_thanks",
+   "event": "bench",
+   "text": "card_bench_thanks",
+   "asks": false
+  },
+  {
+   "id": "bench_thanks_2",
+   "event": "bench",
+   "text": "card_bench_thanks_2",
+   "asks": false
+  },
+  {
+   "id": "want_bench",
+   "event": "want_bench",
+   "text": "card_want_bench",
+   "asks": true
+  },
+  {
+   "id": "want_picnic",
+   "event": "want_picnic",
+   "text": "card_want_picnic",
+   "asks": true
+  },
+  {
+   "id": "want_bathroom",
+   "event": "want_bathroom",
+   "text": "card_want_bathroom",
+   "asks": true
+  },
+  {
+   "id": "want_trash",
+   "event": "no_trash_can",
+   "text": "card_want_trash",
+   "asks": true
+  },
+  {
+   "id": "litter",
+   "event": "litter",
+   "text": "card_litter",
+   "asks": false
+  },
+  {
+   "id": "lovely_site",
+   "event": "reached",
+   "text": "card_lovely_site",
+   "asks": false
+  },
+  {
+   "id": "lovely_site_2",
+   "event": "reached",
+   "text": "card_lovely_site_2",
+   "asks": false
+  },
+  {
+   "id": "picnic_great",
+   "event": "picnic",
+   "text": "card_picnic_great",
+   "asks": false
+  },
+  {
+   "id": "camp_great",
+   "event": "camped",
+   "text": "card_camp_great",
+   "asks": false
+  },
+  {
+   "id": "fish_great",
+   "event": "fished",
+   "text": "card_fish_great",
+   "asks": false
+  },
+  {
+   "id": "tour_great",
+   "event": "toured",
+   "text": "card_tour_great",
+   "asks": false
+  },
+  {
+   "id": "badger_drawing",
+   "event": "badger",
+   "text": "card_badger_drawing",
+   "asks": false
+  },
+  {
+   "id": "badger_picnic",
+   "event": "badger_picnic",
+   "text": "card_badger_picnic",
+   "asks": false
+  },
+  {
+   "id": "lost_thanks",
+   "event": "found",
+   "text": "card_lost_thanks",
+   "asks": false
+  },
+  {
+   "id": "lost_grumble",
+   "event": "lost_home",
+   "text": "card_lost_grumble",
+   "asks": true
+  },
+  {
+   "id": "scout_drawing",
+   "event": "scouts",
+   "text": "card_scout_drawing",
+   "asks": false
+  },
+  {
+   "id": "scout_litter",
+   "event": "scout_litter",
+   "text": "card_scout_litter",
+   "asks": false
+  },
+  {
+   "id": "singalong",
+   "event": "singalong",
+   "text": "card_singalong",
+   "asks": false
+  },
+  {
+   "id": "weather",
+   "event": "weather",
+   "text": "card_weather",
+   "asks": false
+  }
+ ]
+}

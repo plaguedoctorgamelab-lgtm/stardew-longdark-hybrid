@@ -1,0 +1,110 @@
+{
+ "note": "Kinds of visitor. party: people in the party (scouts: scouts, plus a leader; tours: plus a guide). nights: nights they stay. weight: how often they come, among the kinds the park can host. needs: what must exist before they come. mood: changes to the standard mood scores.",
+ "rows": [
+  {
+   "id": "day_hiker",
+   "name": "visitor_day_hiker",
+   "party": [
+    1,
+    2
+   ],
+   "nights": [
+    0,
+    0
+   ],
+   "weight": 4,
+   "plan": "hike",
+   "looks": "hiker"
+  },
+  {
+   "id": "family",
+   "name": "visitor_family",
+   "party": [
+    3,
+    5
+   ],
+   "nights": [
+    0,
+    0
+   ],
+   "weight": 3,
+   "plan": "picnic",
+   "needs": "picnic",
+   "kids": 2,
+   "looks": "family",
+   "mood": {
+    "picnic": 2
+   }
+  },
+  {
+   "id": "campers",
+   "name": "visitor_campers",
+   "party": [
+    2,
+    4
+   ],
+   "nights": [
+    1,
+    3
+   ],
+   "weight": 2,
+   "plan": "camp",
+   "needs": "camp",
+   "looks": "camper"
+  },
+  {
+   "id": "anglers",
+   "name": "visitor_anglers",
+   "party": [
+    1,
+    2
+   ],
+   "nights": [
+    0,
+    0
+   ],
+   "weight": 1.5,
+   "plan": "fish",
+   "needs": "dock",
+   "looks": "angler"
+  },
+  {
+   "id": "tour_group",
+   "name": "visitor_tour_group",
+   "party": [
+    6,
+    10
+   ],
+   "nights": [
+    0,
+    0
+   ],
+   "weight": 1,
+   "plan": "tour",
+   "needs": "tour",
+   "guide": true,
+   "looks": "tourist",
+   "most_per_day": 1
+  },
+  {
+   "id": "scout_troop",
+   "name": "visitor_scout_troop",
+   "party": [
+    6,
+    8
+   ],
+   "nights": [
+    2,
+    2
+   ],
+   "weight": 0.6,
+   "plan": "camp",
+   "needs": "campground",
+   "leader": true,
+   "looks": "scout",
+   "most_at_once": 1,
+   "litter_badge": true,
+   "waves": true
+  }
+ ]
+}

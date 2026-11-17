@@ -1,5 +1,5 @@
 extends RefCounted
-## Backpack: stacking and slot limits hold; the shelf restocks each morning.
+## Backpack: stacking and slot limits hold; the shelf is stocked by orders.
 ## Cabin: each step needs its materials and the hammer; progress persists;
 ## the cabin opens only after all four steps.
 ## Sleep and save: sleeping advances to 6:00 and saves; loading restores every
@@ -48,17 +48,18 @@ func test_packing_fits_with_room(t: TestCase) -> void:
 	t.check(empty >= 6, "with room to spare (%d empty)" % empty)
 
 
-func test_shelf_restocks_each_morning(t: TestCase) -> void:
+func test_shelf_stocked_at_start_then_by_orders(t: TestCase) -> void:
+	# Phase 3: the free daily restock is replaced by the supply catalog.
 	var s := TestCase.new_session()
 	var shelf: Inventory = s.structures.shelves["ranger_station"]
 	t.equal(shelf.count("planks"), 10, "shelf stocked at the start")
-	shelf.move_slot_to(0, s.backpack)
 	shelf.remove("planks", 10)
 	t.equal(shelf.count("planks"), 0, "planks taken")
 	s.sleep()
-	t.equal(shelf.count("planks"), 10, "planks back next morning")
-	for st: Dictionary in s.content.row("structures", "ranger_station")["shelf_stock"]:
-		t.equal(shelf.count(st["item"]), int(st["count"]), "%s restocked" % st["item"])
+	t.equal(shelf.count("planks"), 0, "no free planks next morning")
+	t.equal(s.park.order("planks"), "", "a plank ordered from the catalog")
+	s.sleep()
+	t.equal(shelf.count("planks"), 1, "it is on the shelf the next morning")
 
 
 func test_chests_hold_twelve(t: TestCase) -> void:

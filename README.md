@@ -1,10 +1,10 @@
 # Strange Ranger
 
 A cozy top-down pixel game about a park ranger in a vast, quietly magical
-wilderness. This repository holds phases one, 2a and 2b. See `docs/` for the
+wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.3.2** (see [Version history](#version-history)). The
+**Current version: 0.4.0** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -20,13 +20,13 @@ Needs Godot 4.7.2 stable (the lab's build uses
 | Key | Action |
 | --- | --- |
 | W A S D | Walk (eight directions) |
-| Right-click or X | Interact: doors, bed, radio, shelf, chest, stove, workbench, landmarks; pick forage, berries and rose hips from bushes, resin from pines; a lit stove or camp fire opens cooking |
-| Left-click or C | Use the held item: hammer, map (survey), food, firewood, shovel (dig), signs, markers, cairns, boardwalk, workbench kit |
+| Right-click or X | Interact: doors, bed, radio, shelf, chest, stove, workbench, landmarks; pick forage, berries and rose hips from bushes, resin from pines; a lit stove or camp fire opens cooking. In the park: the catalog desk and staff board in the station, the kiosk's gift shelf and the suggestion box at the gate, cleaning a bathroom, emptying a trash can, picking up litter, shooing a troll badger, finding a lost party, the rent sign by the old cabin's door |
+| Left-click or C | Use the held item: hammer (repairs; builds a kit at its pad; takes down a facility or picks up a bench, trash can, picnic table or fire ring), map (survey), food, firewood (also lights a fire ring), shovel (dig; fills a badger's hole), signs, markers, cairns, boardwalk, workbench kit, and puts down a bench, trash can, picnic table or fire ring |
 | 1 to 9, 0 or mouse wheel | Choose the held item from the item bar (the first 10 backpack slots, numbered) |
 | E | Backpack (and closes screens) |
 | Escape | Closes the open screen; with none open, the pause menu (resume, quit to title, quit game) |
 | M | Map |
-| J | Jobs and sites |
+| J | The book: jobs and sites, the park today, the ledger, suggestion cards, the Chief's letters, the notebook |
 | K | Crafting page: things made anywhere |
 | L | Skills page (and choose a waiting specialty) |
 | Y or Enter / N | Answer a question (sleep) |
@@ -50,8 +50,10 @@ Two extra checks need a window:
 
 - `godot --path . -s tests/support/perf_window.gd`: walks the whole trail with
   drawing on and reports frame times.
-- `godot --path . -s tests/support/screenshots.gd`: saves pictures of key
-  moments to the user data folder.
+- `godot --path . -s tests/support/perf_visitors.gd`: 80 visitors in the
+  park, 30 on screen, and reports frame times.
+- `godot --path . -s tests/support/screenshots.gd` (and `screenshots_p3.gd`
+  for the park): saves pictures of key moments to the user data folder.
 
 ## Tools (Python, standard library only)
 
@@ -60,7 +62,8 @@ Two extra checks need a window:
 | `tools/bake_world.py` | Bakes `data/world/layout.json` into chunks, and where forage can appear (`data/world/forage.json`, by `tools/bake_forage.py`). Same input, same bytes. |
 | `tools/preview_map.py` | Draws the baked world as an overview picture. |
 | `tools/check_data.py` | Checks content tables: loads, unique ids, references. |
-| `tools/make_placeholders.py` | Makes the stand-in pictures in `art/placeholder/`. |
+| `tools/make_placeholders.py` | Makes the stand-in pictures in `art/placeholder/` (the park's are in `tools/park_placeholders.py`). |
+| `tools/place_pads.py` | Places the facility pads on open ground near the trail, from `tools/pad_requests.json`, into `data/content/pads.json`. |
 | `tools/art_cleanup.py` | Turns `art/raw/` into `art/final/` using `tools/art_manifest.json`; writes `art/cleanup_report.md`. Never touches `art/raw/`. |
 | `tools/run_tests.py` | Runs every test. |
 
@@ -70,7 +73,7 @@ Two extra checks need a window:
 project.godot
 scenes/            Godot scenes
 scripts/           GDScript, by system: core, time, weather, needs, items,
-                   buildings, map, save, world, game, ui, debug
+                   buildings, map, save, world, game, ui, debug, living, park
 art/raw/           images exactly as delivered; never edited
 art/placeholder/   stand-ins made by the lab
 art/final/         cleaned, sliced art made by the cleanup tool
@@ -86,6 +89,21 @@ docs/              bible, roadmap, specs, rules, status reports (hidden from God
 
 The version lives in `project.godot` (`application/config/version`). Every
 commit of the build raises it and adds a line here.
+
+### 0.4.0 (17 November 2026): Phase 3, the park runs
+
+- Money: a wallet beside the clock, starting at $500, with $250 from the Chief every seventh day. A supply catalog on the station desk replaces the free shelf: orders arrive at 6:00 the next morning. A rescue costs 10% of the wallet, up to $250.
+- Visitors: six kinds (day hikers, families, campers, anglers, tour groups and scout troops) arrive at the gate, walk only on trail to sites that are ready, and go home. How many come depends on the sites, their facilities and mess, the season, the day of the week, the weather and last week's mood. At most 80 at once.
+- The old cabin and the outlook are now sites, and so is one more place further out, so visitors have somewhere to go.
+- Facilities at set pads: bathrooms, picnic areas, campgrounds, a fishing dock and a tower lookout. Order a kit, build it with the hammer, take it down for half back. The kiosk and suggestion box stand at the gate.
+- Benches, trash cans, picnic tables and fire rings can be put down near a trail.
+- The old cabin can be rented out with the sign by its door.
+- Income from entrance fees, camping, tours, fishing permits, gear rental, park maps, cabin rent and a gift shelf with five new gift goods.
+- Upkeep: bathrooms get dirty, trash cans fill, litter gets dropped. Mess draws troll badgers, who tip cans, nap in bathrooms, raid picnics and dig holes in the trail.
+- Staff: custodians and trail crew, hired at the staff board in the station.
+- A suggestion box of visitors' cards, lost parties to find in fog, and letters from the Chief: a weekly report, praise and the odd grumble.
+- J opens the ranger's book: jobs, the park today, the ledger, cards, letters and a notebook.
+- The debug panel has the park's tools.
 
 ### 0.3.2 (17 November 2026)
 

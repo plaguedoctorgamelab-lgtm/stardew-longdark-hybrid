@@ -1,0 +1,97 @@
+{
+ "note": "The Chief's letters. kind: report (every seventh morning), report_line (his one line), grumble (at most one a week), praise (milestones, once each), hint (about one letter in four ends with one; lab-written, for the designer to approve).",
+ "rows": [
+  {
+   "id": "report",
+   "kind": "report",
+   "text": "chief_report"
+  },
+  {
+   "id": "report_line_1",
+   "kind": "report_line",
+   "text": "chief_line_1"
+  },
+  {
+   "id": "report_line_2",
+   "kind": "report_line",
+   "text": "chief_line_2"
+  },
+  {
+   "id": "report_line_3",
+   "kind": "report_line",
+   "text": "chief_line_3"
+  },
+  {
+   "id": "report_line_quiet",
+   "kind": "report_line_quiet",
+   "text": "chief_line_quiet"
+  },
+  {
+   "id": "grumble_bathroom",
+   "kind": "grumble",
+   "trigger": "filthy",
+   "text": "chief_grumble_bathroom"
+  },
+  {
+   "id": "grumble_badgers",
+   "kind": "grumble",
+   "trigger": "badgers",
+   "text": "chief_grumble_badgers"
+  },
+  {
+   "id": "praise_first_visitors",
+   "kind": "praise",
+   "trigger": "first_visitors",
+   "text": "chief_praise_first_visitors"
+  },
+  {
+   "id": "praise_first_campers",
+   "kind": "praise",
+   "trigger": "first_campers",
+   "text": "chief_praise_first_campers"
+  },
+  {
+   "id": "praise_500_week",
+   "kind": "praise",
+   "trigger": "week_500",
+   "text": "chief_praise_500_week"
+  },
+  {
+   "id": "praise_first_found",
+   "kind": "praise",
+   "trigger": "first_found",
+   "text": "chief_praise_first_found"
+  },
+  {
+   "id": "praise_clean_week",
+   "kind": "praise",
+   "trigger": "clean_week",
+   "text": "chief_praise_clean_week"
+  },
+  {
+   "id": "hint_1",
+   "kind": "hint",
+   "text": "chief_hint_1"
+  },
+  {
+   "id": "hint_2",
+   "kind": "hint",
+   "text": "chief_hint_2"
+  },
+  {
+   "id": "hint_3",
+   "kind": "hint",
+   "text": "chief_hint_3"
+  },
+  {
+   "id": "hint_4",
+   "kind": "hint",
+   "text": "chief_hint_4"
+  },
+  {
+   "id": "hint_5",
+   "kind": "hint",
+   "text": "chief_hint_5"
+  }
+ ]
+}

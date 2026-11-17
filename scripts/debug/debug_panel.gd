@@ -20,6 +20,13 @@ var _skill_level: SpinBox
 var _spoilers: CheckBox
 var _magic_pick: OptionButton
 var _spec_pick: OptionButton
+var _money: SpinBox
+var _party_pick: OptionButton
+var _pad_pick: OptionButton
+var _clean: SpinBox
+var _can: SpinBox
+var _place_pick: OptionButton
+var _days: SpinBox
 var on_teleport: Callable = func() -> void: pass
 
 
@@ -135,6 +142,53 @@ func setup(s: GameSession) -> void:
 		if _spoilers.button_pressed and session.debug_go_to_magic(_magic_pick.get_item_text(_magic_pick.selected)):
 			on_teleport.call())
 
+	# Phase 3: the park. Spoiler pads and places are listed only with
+	# "Show spoilers" ticked.
+	r = _row()
+	_money = _spin(r, 0, 5000, 100)
+	_btn(r, "+$", func() -> void: session.debug_money(int(_money.value)))
+	_btn(r, "-$", func() -> void: session.debug_money(-int(_money.value)))
+	_btn(r, "To 7th day", func() -> void: session.debug_skip_to_week_end())
+	var vis := CheckBox.new()
+	vis.text = "Visitors on map"
+	vis.focus_mode = Control.FOCUS_NONE
+	vis.toggled.connect(func(on: bool) -> void: session.debug_show_visitors = on)
+	r.add_child(vis)
+	r = _row()
+	_party_pick = _pick(r, session.content.ids("visitor_types"))
+	_btn(r, "Spawn party", func() -> void:
+		var p := session.debug_spawn_party(_party_pick.get_item_text(_party_pick.selected))
+		session.message.emit("Spawned" if not p.is_empty() else "No campground or no trail from the gate"))
+	_btn(r, "Lose a party", func() -> void: session.message.emit("A party is lost" if session.debug_lose_party() else "No walking party to lose"))
+	_btn(r, "Ready cabin+outlook", func() -> void:
+		for site: String in ["old_cabin", "outlook"]:
+			for step in GameSession.SITE_STEPS:
+				session.debug_site_step(site, step, true)
+		session.park.changed.emit())
+	r = _row()
+	_pad_pick = OptionButton.new()
+	_pad_pick.focus_mode = Control.FOCUS_NONE
+	r.add_child(_pad_pick)
+	_btn(r, "Build", func() -> void:
+		session.debug_build(_pad_pick.get_item_text(_pad_pick.selected))
+		session.park.changed.emit())
+	_clean = _spin(r, 0, 100, 10)
+	_btn(r, "Set clean", func() -> void: session.debug_set_clean(_pad_pick.get_item_text(_pad_pick.selected), _clean.value))
+	r = _row()
+	_can = _spin(r, 0, 20, 20)
+	_btn(r, "Can in front", func() -> void: session.debug_set_can(session.ranger_tile() + session.facing_vector(), int(_can.value)))
+	_place_pick = OptionButton.new()
+	_place_pick.focus_mode = Control.FOCUS_NONE
+	r.add_child(_place_pick)
+	_btn(r, "Send badger", func() -> void: session.message.emit("Badger sent" if session.debug_send_badger(_place_pick.get_item_text(_place_pick.selected)) else "No room for a badger there"))
+	r = _row()
+	_days = _spin(r, 1, 112, 28)
+	_btn(r, "Run unattended", func() -> void:
+		session.note_read.emit(session.debug_run_unattended(int(_days.value)))
+		on_teleport.call())
+	_spoilers.toggled.connect(func(_on: bool) -> void: _fill_park_picks())
+	_fill_park_picks()
+
 	r = _row()
 	_skill_pick = _pick(r, session.content.ids("skills"))
 	_skill_level = _spin(r, 0, 10, 5)
@@ -149,6 +203,26 @@ func setup(s: GameSession) -> void:
 		var ok := session.debug_reload_tuning()
 		session.message.emit("Tuning reloaded" if ok else "Tuning reload FAILED"))
 	visible = false
+
+
+## The pads and places listed for the park tools: ring one's always, the
+## rest only when spoilers are shown.
+func _fill_park_picks() -> void:
+	var show := _spoilers.button_pressed
+	_pad_pick.clear()
+	for r: Dictionary in session.content.rows("pads"):
+		if not bool(r.get("built", false)):
+			_pad_pick.add_item(r["id"])
+	if show:
+		for r: Dictionary in session.content.rows("spoiler_pads"):
+			_pad_pick.add_item(r["id"])
+	_place_pick.clear()
+	for place: String in ["gate", "old_cabin", "outlook"]:
+		_place_pick.add_item(place)
+	if show:
+		for r: Dictionary in session.content.rows("sites"):
+			if not r["id"] in ["old_cabin", "outlook"]:
+				_place_pick.add_item(r["id"])
 
 
 func _row() -> HBoxContainer:

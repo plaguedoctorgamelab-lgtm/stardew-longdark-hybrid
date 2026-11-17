@@ -643,6 +643,8 @@ def main():
     variety_art()
     room_art()
     living_art()
+    import park_placeholders
+    park_placeholders.park_art(Canvas)
     print("placeholders written to", OUT, len(os.listdir(OUT)), "files")
 
 
