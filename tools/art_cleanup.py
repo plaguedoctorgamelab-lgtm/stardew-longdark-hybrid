@@ -283,6 +283,37 @@ def snap(pixels, palette):
     return out
 
 
+def calm(w, h, pixels, keep):
+    """Makes a ground tile quieter: the marks on it (4-connected patches of
+    any color but the tile's main one, joined across the tile's edges so it
+    still tiles) are thinned to the share `keep`, spread evenly in reading
+    order. Dropped marks take the main color. No new colors appear."""
+    main = Counter(p for p in pixels if p[3]).most_common(1)[0][0]
+    seen = [False] * (w * h)
+    patches = []
+    for i in range(w * h):
+        if seen[i] or pixels[i] == main:
+            continue
+        stack, patch = [i], []
+        seen[i] = True
+        while stack:
+            j = stack.pop()
+            patch.append(j)
+            x, y = j % w, j // w
+            for nx, ny in ((x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)):
+                k = (ny % h) * w + nx % w
+                if not seen[k] and pixels[k] != main:
+                    seen[k] = True
+                    stack.append(k)
+        patches.append(patch)
+    out = list(pixels)
+    for n, patch in enumerate(patches):
+        if int((n + 1) * keep) == int(n * keep):
+            for j in patch:
+                out[j] = main
+    return out
+
+
 def save(name, w, h, pixels):
     data = bytearray()
     for p in pixels:
@@ -434,8 +465,12 @@ def main():
         save(sheet["name"], fw * cols, fh * rows, out)
         for name, _, _ in cells:
             os.remove(os.path.join(FINAL, name + ".png"))
+    calm_keep = manifest.get("calm", {}).get("tiles", {})
     for name, tw, th, pix in exact:
-        save(name, tw, th, snap(pix, palette))
+        pix = snap(pix, palette)
+        if name in calm_keep:
+            pix = calm(tw, th, pix, float(calm_keep[name]))
+        save(name, tw, th, pix)
 
     lines = ["# Art cleanup report", "", "Made by tools/art_cleanup.py. " + pal_note + ". A picture cut pixel for pixel from a refresh sheet replaces any earlier picture of the same name.", ""]
     n_pass = n_fail = 0

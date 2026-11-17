@@ -44,7 +44,7 @@ func _run() -> void:
 	var s: GameSession = main.session
 	s.save_path = "user://smoke_save.json"
 	# Title screen: press New game.
-	for b in main.title_screen.get_children():
+	for b in main.title_screen.find_children("*", "Button", true, false):
 		if b is Button and (b as Button).text == s.content.text("ui_new_game"):
 			(b as Button).pressed.emit()
 	await _frames(5)
@@ -65,6 +65,18 @@ func _run() -> void:
 	_check(s.clock.minute == m0, "the clock stops while the backpack is open")
 	await _tap("backpack")
 	_check(not main.inventory_screen.visible, "E closes the backpack")
+	await _tap("pause")
+	_check(main.pause_menu.visible, "Escape opens the pause menu")
+	var m1 := s.clock.minute
+	await _frames(60 * 8)
+	_check(s.clock.minute == m1, "the clock stops while paused")
+	await _tap("pause")
+	_check(not main.pause_menu.visible, "Escape closes the pause menu")
+	await _tap("backpack")
+	await _tap("pause")
+	_check(not main.inventory_screen.visible and not main.pause_menu.visible, "Escape closes the backpack, not into the pause menu")
+	await _tap("show_version")
+	_check(main.hud.message_label.text == main.version_text(), "V shows the version")
 	await _tap("open_map")
 	_check(main.map_screen.visible, "M opens the map")
 	await _tap("open_map")

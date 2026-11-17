@@ -2579,5 +2579,22 @@
     }
    ]
   }
- ]
+ ],
+ "calm": {
+  "note": "Ground tiles made quieter after cutting: the share of each tile's small marks kept, the rest painted over with the tile's main colour. Asked for on 17 Nov 2026: the ground read too busy. No new colours.",
+  "tiles": {
+   "ground_grass": 0.5,
+   "ground_grass_alt_1": 0.5,
+   "ground_grass_alt_2": 0.5,
+   "ground_grass_alt_3": 0.5,
+   "ground_forest_floor": 0.6,
+   "ground_forest_floor_alt_1": 0.6,
+   "ground_forest_floor_alt_2": 0.6,
+   "ground_forest_floor_alt_3": 0.6,
+   "ground_tall_grass": 0.7,
+   "ground_tall_grass_alt_1": 0.7,
+   "ground_tall_grass_alt_2": 0.7,
+   "ground_tall_grass_alt_3": 0.7
+  }
+ }
 }

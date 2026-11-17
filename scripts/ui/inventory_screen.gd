@@ -5,6 +5,7 @@ extends Panel
 ## move its stack across.
 
 const SLOT := 20
+const COLS := 10  # the first row is the item bar
 
 var session: GameSession
 var other: Inventory = null
@@ -25,6 +26,7 @@ func setup(s: GameSession) -> void:
 	info = _label(Vector2(8, 128), "")
 	hint = _label(Vector2(190, 4), s.content.text("ui_close_hint"))
 	_pack_buttons = _grid(Vector2(8, 18), session.backpack.size(), true)
+	_layout()
 	session.backpack.changed.connect(refresh)
 	visible = false
 
@@ -41,7 +43,7 @@ func _grid(origin: Vector2, n: int, is_pack: bool) -> Array[Button]:
 	var out: Array[Button] = []
 	for i in n:
 		var b := Button.new()
-		b.position = origin + Vector2((i % 12) * (SLOT + 2), (i / 12) * (SLOT + 2))
+		b.position = origin + Vector2((i % COLS) * (SLOT + 2), (i / COLS) * (SLOT + 2))
 		b.size = Vector2(SLOT, SLOT)
 		b.expand_icon = true
 		b.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -62,8 +64,9 @@ func open(storage: Inventory, storage_title: String) -> void:
 	other = storage
 	other_label.text = storage_title
 	if other != null:
-		_other_buttons = _grid(Vector2(8, 88), other.size(), false)
+		_other_buttons = _grid(Vector2(8, _other_top() + 14), other.size(), false)
 		other.changed.connect(refresh)
+	_layout()
 	visible = true
 	refresh()
 
@@ -80,7 +83,28 @@ func rebuild_slots() -> void:
 	for b in _pack_buttons:
 		b.queue_free()
 	_pack_buttons = _grid(Vector2(8, 18), session.backpack.size(), true)
+	_layout()
 	refresh()
+
+
+func _rows(n: int) -> int:
+	return ceili(float(n) / COLS)
+
+
+## Where the chest's title goes: just under the backpack's rows.
+func _other_top() -> float:
+	return 18 + _rows(session.backpack.size()) * (SLOT + 2) + 4
+
+
+## Sizes the screen to the backpack's rows and the open chest's, if any.
+func _layout() -> void:
+	var y := _other_top()
+	other_label.position.y = y
+	if other != null:
+		y += 14 + _rows(other.size()) * (SLOT + 2)
+	info.position.y = y + 2
+	size.y = y + 22
+	position = (Vector2(480, 270) - size) / 2.0
 
 
 func refresh() -> void:

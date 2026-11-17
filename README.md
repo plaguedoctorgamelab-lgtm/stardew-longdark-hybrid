@@ -1,8 +1,12 @@
 # Strange Ranger
 
 A cozy top-down pixel game about a park ranger in a vast, quietly magical
-wilderness. This repository holds **phase one: Bedrock**. See `docs/` for the
-game bible, roadmap, phase spec and working rules.
+wilderness. This repository holds phases one, 2a and 2b. See `docs/` for the
+game bible, roadmap, phase specs and working rules.
+
+**Current version: 0.3.1** (see [Version history](#version-history)). The
+version shows on the title screen and in the debug panel, and V shows it in
+play.
 
 ## Running the game
 
@@ -18,13 +22,15 @@ Needs Godot 4.7.2 stable (the lab's build uses
 | W A S D | Walk (eight directions) |
 | Right-click or X | Interact: doors, bed, radio, shelf, chest, stove, workbench, landmarks; pick forage, berries and rose hips from bushes, resin from pines; a lit stove or camp fire opens cooking |
 | Left-click or C | Use the held item: hammer, map (survey), food, firewood, shovel (dig), signs, markers, cairns, boardwalk, workbench kit |
-| 1 to 9, 0, -, = or mouse wheel | Choose the held item |
-| E or Escape | Backpack (and closes screens) |
+| 1 to 9, 0 or mouse wheel | Choose the held item from the item bar (the first 10 backpack slots, numbered) |
+| E | Backpack (and closes screens) |
+| Escape | Closes the open screen; with none open, the pause menu (resume, quit to title, quit game) |
 | M | Map |
 | J | Jobs and sites |
 | K | Crafting page: things made anywhere |
 | L | Skills page (and choose a waiting specialty) |
 | Y or Enter / N | Answer a question (sleep) |
+| V | Show the version number |
 | F1 | Debug panel (test builds only) |
 
 The lantern lights the dark while it is the held item. Saving happens only
@@ -75,3 +81,51 @@ tests/             automated tests
 tools/             Python tools (hidden from Godot)
 docs/              bible, roadmap, specs, rules, status reports (hidden from Godot)
 ```
+
+## Version history
+
+The version lives in `project.godot` (`application/config/version`). Every
+commit of the build raises it and adds a line here.
+
+### 0.3.1 (17 November 2026)
+
+- The version number is on the title screen and in the debug panel; V shows it in play.
+- Escape opens a pause menu (resume, quit to title, quit game) instead of the backpack. E still opens the backpack; Escape still closes any open screen.
+- The backpack has 1.5 times the slots: 18, and 27 with the pack frame.
+- The item bar along the bottom shows only the first 10 slots, each marked with its number key (1 to 9, then 0). The backpack screen lays out 10 to a row, so its top row is the item bar.
+- Waking at camp packs up the bedroll and puts out the fire.
+- Calmer ground: the grass, forest floor and tall grass tiles have fewer small marks, and ground details that look like forage are gone.
+- Art Request 07: a spec for bigger, brighter forage on the ground.
+
+### 0.3.0 (16 November 2026): Phase 2b, living out there
+
+- Foraging: 11 kinds of ordinary forage by season, weather and hour, plus 3 magical ingredients.
+- Crafting anywhere, at a workbench or at a fire, with ideas that teach recipes, and three magic refits.
+- Things to place: cairns, boardwalk, a workbench kit, the pack frame.
+- Four skills with perks and a specialty at level 5.
+- Art Request 05: new ground, soft edges, walls, floors and furniture.
+
+### 0.2.1 (15 November 2026): Art and fixes after phase 2a
+
+- Art Requests 02 and 03 are in, with a brighter palette.
+- Debug panel: repair or undo every step of the fire tower at once.
+
+### 0.2.0 (15 November 2026): Phase 2a, the forest region
+
+- The whole forest region, with ring two baked around ring one (save version 2).
+- Shovel, saw, clearing and digging trail; the workbench, signs and trail markers.
+- Sites to open, the fire tower and its radio, the tower survey, rumors and hidden things.
+
+### 0.1.1 (15 November 2026): After the first play
+
+- Sharp text, a clear first day and a mapped home area.
+- Camping, chopping trees, the cabin job and a cabin hint.
+- Lighter spring mornings and a kinder rescue note.
+- Art Request 01 and the forest palette.
+
+### 0.1.0 (15 November 2026): Phase one, bedrock
+
+- The game scene, world and movement.
+- Time, light, weather, energy and warmth.
+- Buildings, saving and the map.
+- The art cleanup tool and the playthrough tests.

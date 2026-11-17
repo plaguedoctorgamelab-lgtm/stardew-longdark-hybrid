@@ -24,6 +24,7 @@ var dialog: Panel
 var dialog_label: Label
 var title_screen: Panel
 var title_note: Label
+var pause_menu: Panel
 var _dialog_kind: String = ""
 var started: bool = false
 
@@ -157,20 +158,82 @@ func _build_menus() -> void:
 	tl.text = session.content.text("ui_title")
 	tl.position = Vector2(200, 80)
 	title_screen.add_child(tl)
-	var y := 110
-	for pair in [["ui_new_game", _start_new], ["ui_continue", _continue], ["ui_quit", func() -> void: get_tree().quit()]]:
-		var b := Button.new()
-		b.text = session.content.text(pair[0])
-		b.position = Vector2(200, y)
-		b.size = Vector2(80, 14)
-		b.pressed.connect(pair[1])
-		title_screen.add_child(b)
-		y += 18
+	var tbox := _button_column([["ui_new_game", _start_new], ["ui_continue", _continue], ["ui_quit", func() -> void: get_tree().quit()]])
+	tbox.position = Vector2(200, 110)
+	title_screen.add_child(tbox)
 	title_note = Label.new()
 	title_note.position = Vector2(120, 170)
 	title_note.size = Vector2(240, 40)
 	title_note.autowrap_mode = TextServer.AUTOWRAP_WORD
 	title_screen.add_child(title_note)
+	var vl := Label.new()
+	vl.text = version_text()
+	vl.position = Vector2(4, 256)
+	vl.modulate = Color(1, 1, 1, 0.6)
+	title_screen.add_child(vl)
+	_build_pause_menu(root)
+
+
+## The build's version, kept in project.godot (application/config/version).
+static func version() -> String:
+	return str(ProjectSettings.get_setting("application/config/version", "0.0.0"))
+
+
+func version_text() -> String:
+	return session.content.text("ui_version", {"v": version()})
+
+
+## Escape opens this when no other screen is open: resume, or quit.
+func _build_pause_menu(root: Control) -> void:
+	pause_menu = Panel.new()
+	pause_menu.visible = false
+	root.add_child(pause_menu)
+	var box := VBoxContainer.new()
+	box.position = Vector2(8, 6)
+	box.add_theme_constant_override("separation", 4)
+	pause_menu.add_child(box)
+	var t := Label.new()
+	t.text = session.content.text("ui_paused")
+	box.add_child(t)
+	box.add_child(_button_column([["ui_resume", close_pause], ["ui_quit_title", _quit_to_title], ["ui_quit_game", func() -> void: get_tree().quit()]]))
+	var note := Label.new()
+	note.text = session.content.text("ui_pause_note")
+	note.custom_minimum_size = Vector2(144, 0)
+	note.autowrap_mode = TextServer.AUTOWRAP_WORD
+	note.modulate = Color(1, 1, 1, 0.7)
+	box.add_child(note)
+	box.reset_size()
+	pause_menu.size = box.get_combined_minimum_size() + Vector2(16, 12)
+	pause_menu.position = ((Vector2(VIEW) - pause_menu.size) / 2.0).round()
+
+
+## A column of buttons, one per [text id, action], stacked so they never overlap.
+func _button_column(pairs: Array) -> VBoxContainer:
+	var col := VBoxContainer.new()
+	col.add_theme_constant_override("separation", 3)
+	for pair: Array in pairs:
+		var b := Button.new()
+		b.text = session.content.text(pair[0])
+		b.custom_minimum_size = Vector2(80, 0)
+		b.focus_mode = Control.FOCUS_NONE
+		b.pressed.connect(pair[1])
+		col.add_child(b)
+	return col
+
+
+func open_pause() -> void:
+	pause_menu.visible = true
+
+
+func close_pause() -> void:
+	pause_menu.visible = false
+
+
+func _quit_to_title() -> void:
+	close_pause()
+	started = false
+	title_note.text = ""
+	_show_title()
 
 
 func _show_title() -> void:
@@ -221,7 +284,7 @@ func _on_location_changed(loc: String) -> void:
 
 
 func menu_open() -> bool:
-	return title_screen.visible or inventory_screen.visible or map_screen.visible or dialog.visible or choice_screen.visible
+	return title_screen.visible or pause_menu.visible or inventory_screen.visible or map_screen.visible or dialog.visible or choice_screen.visible
 
 
 func _show_dialog(kind: String, text: String) -> void:
@@ -252,6 +315,26 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if event.is_action_pressed("debug_panel") and OS.is_debug_build():
 		debug_panel.visible = not debug_panel.visible
+		return
+	if event.is_action_pressed("show_version"):
+		session.message.emit(version_text())
+		return
+	if pause_menu.visible:
+		if event.is_action_pressed("pause"):
+			close_pause()
+		return
+	if event.is_action_pressed("pause"):
+		# Escape closes whatever screen is open; with none open, it pauses.
+		if dialog.visible:
+			_close_dialog(false)
+		elif choice_screen.visible:
+			choice_screen.close()
+		elif map_screen.visible:
+			map_screen.close()
+		elif inventory_screen.visible:
+			inventory_screen.close()
+		else:
+			open_pause()
 		return
 	if dialog.visible:
 		if _dialog_kind == "jobs" and event.is_action_pressed("jobs"):
@@ -298,12 +381,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		session.interact()
 	elif event.is_action_pressed("use_item"):
 		session.use_item()
-	for i in session.backpack.size():
-		if event.is_action_pressed("slot_%d" % (i + 1)):
+	# Number keys and the wheel reach the item bar's slots.
+	for i in session.bar_slots():
+		if InputMap.has_action("slot_%d" % (i + 1)) and event.is_action_pressed("slot_%d" % (i + 1)):
 			session.selected_slot = i
 	if event is InputEventMouseButton and event.pressed:
 		var mb := event as InputEventMouseButton
-		var n := session.backpack.size()
+		var n := session.bar_slots()
 		if mb.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			session.selected_slot = (session.selected_slot + 1) % n
 		elif mb.button_index == MOUSE_BUTTON_WHEEL_UP:

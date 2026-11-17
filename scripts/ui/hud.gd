@@ -19,24 +19,23 @@ var survey_bar: ProgressBar
 var slot_panels: Array[Panel] = []
 var slot_icons: Array[TextureRect] = []
 var slot_counts: Array[Label] = []
+var slot_keys: Array[Label] = []
 var debug_label: Label
 var _message_time: float = 0.0
 
 
-## The item bar: one slot per backpack slot, rebuilt when the backpack grows.
+## The item bar: the first backpack slots (tuned, 10), one row, each marked
+## with the number key that holds it. The rest of the backpack is on E.
 func rebuild_slots() -> void:
-	for n: Node in slot_panels:
-		n.queue_free()
-	for n: Node in slot_icons:
-		n.queue_free()
-	for n: Node in slot_counts:
+	for n: Node in slot_panels + slot_icons + slot_counts + slot_keys:
 		n.queue_free()
 	slot_panels.clear()
 	slot_icons.clear()
 	slot_counts.clear()
-	var bar_w := SLOT * session.backpack.size()
-	var x0 := (480 - bar_w) / 2.0
-	for i in session.backpack.size():
+	slot_keys.clear()
+	var n := mini(session.bar_slots(), session.backpack.size())
+	var x0 := (480 - SLOT * n) / 2.0
+	for i in n:
 		var p := Panel.new()
 		p.position = Vector2(x0 + i * SLOT, 250)
 		p.size = Vector2(SLOT, SLOT)
@@ -47,9 +46,14 @@ func rebuild_slots() -> void:
 		_fit_icon(icon)
 		root.add_child(icon)
 		var cnt := _label(p.position + Vector2(9, 7))
+		var key := _label(p.position + Vector2(1, -2))
+		key.text = str((i + 1) % 10)
+		key.add_theme_font_size_override("font_size", 6)
+		key.modulate = Color(1, 0.95, 0.8, 0.85)
 		slot_panels.append(p)
 		slot_icons.append(icon)
 		slot_counts.append(cnt)
+		slot_keys.append(key)
 
 
 func setup(s: GameSession, theme: Theme) -> void:

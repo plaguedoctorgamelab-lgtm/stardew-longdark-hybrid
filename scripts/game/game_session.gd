@@ -1019,7 +1019,8 @@ func feed_campfire() -> bool:
 
 
 ## Sleeping at camp: the next morning at 6:00, partly rested (more with the
-## ember bedroll or the Camp hand specialty), and the game saves.
+## ember bedroll or the Camp hand specialty). The ranger packs up the bedroll
+## and puts out the fire, and the game saves.
 func camp_sleep() -> void:
 	clock.start_next_day(tuning.integer("time.day_start_minute"))
 	var ember := bool(camp.get("ember", false))
@@ -1032,6 +1033,8 @@ func camp_sleep() -> void:
 	location = ""
 	outdoor_pos = Vector2(camp["bed"]) + Vector2(0.5, 0.5)
 	facing = FACING_DOWN
+	camp = {}
+	camp_changed.emit()
 	var woke := wake_lines()
 	save_game()
 	message.emit(content.text("msg_camp_woke"))
@@ -1488,6 +1491,11 @@ func craft(recipe_id: String) -> bool:
 
 
 ## The pack frame: the backpack grows to its tuned size, keeping every item.
+## How many backpack slots the item bar shows, and number keys reach.
+func bar_slots() -> int:
+	return mini(tuning.integer("storage.bar_slots"), backpack.size())
+
+
 func _set_pack_frame(on: bool) -> void:
 	pack_frame = on
 	var n := tuning.integer("crafting.pack_frame_slots") if on else tuning.integer("storage.backpack_slots")

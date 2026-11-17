@@ -412,6 +412,36 @@
    "placeholder": true
   },
   {
+   "id": "ui_version",
+   "text": "Version {v}",
+   "placeholder": true
+  },
+  {
+   "id": "ui_paused",
+   "text": "Paused",
+   "placeholder": true
+  },
+  {
+   "id": "ui_resume",
+   "text": "Resume",
+   "placeholder": true
+  },
+  {
+   "id": "ui_quit_title",
+   "text": "Quit to title",
+   "placeholder": true
+  },
+  {
+   "id": "ui_quit_game",
+   "text": "Quit game",
+   "placeholder": true
+  },
+  {
+   "id": "ui_pause_note",
+   "text": "The game saves only when you sleep. Quitting loses anything since then.",
+   "placeholder": true
+  },
+  {
    "id": "ui_debug_title",
    "text": "Debug",
    "placeholder": true
@@ -513,7 +543,7 @@
   },
   {
    "id": "msg_camp_woke",
-   "text": "You wake stiff and a little cold, but rested.",
+   "text": "You wake stiff and a little cold, but rested. You roll up the bedroll and put out the fire.",
    "placeholder": true
   },
   {

@@ -35,7 +35,7 @@ func setup(s: GameSession) -> void:
 	_vbox.add_theme_constant_override("separation", 1)
 	scroll.add_child(_vbox)
 	var title := Label.new()
-	title.text = s.content.text("ui_debug_title") + " (F1)"
+	title.text = s.content.text("ui_debug_title") + " (F1)  ·  " + s.content.text("ui_version", {"v": str(ProjectSettings.get_setting("application/config/version", "0.0.0"))})
 	_vbox.add_child(title)
 
 	var r := _row()

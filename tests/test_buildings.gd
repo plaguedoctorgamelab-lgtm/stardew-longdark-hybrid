@@ -28,11 +28,12 @@ func test_starting_backpack(t: TestCase) -> void:
 	var s := TestCase.new_session()
 	for item in ["hammer", "lantern", "map", "compass", "pencil"]:
 		t.check(s.backpack.has(item), "starts with %s" % item)
-	t.equal(s.backpack.size(), 12, "12 slots")
+	t.equal(s.backpack.size(), s.tuning.integer("storage.backpack_slots"), "the tuned number of slots")
 
 
-func test_packing_just_fits(t: TestCase) -> void:
-	# Five tools, every cabin repair material, food and firewood only just fit.
+func test_packing_fits_with_room(t: TestCase) -> void:
+	# Five tools, every cabin repair material, food and firewood fit, with room
+	# left for what is found on the way (the backpack was made 1.5 times bigger).
 	var s := TestCase.new_session()
 	var need := {"planks": 8, "nails": 20, "roofing": 4, "window_glass": 1}
 	for k: String in need:
@@ -44,7 +45,7 @@ func test_packing_just_fits(t: TestCase) -> void:
 	for i in s.backpack.size():
 		if s.backpack.slot(i).is_empty():
 			empty += 1
-	t.check(empty <= 1, "the backpack is nearly full (%d empty)" % empty)
+	t.check(empty >= 6, "with room to spare (%d empty)" % empty)
 
 
 func test_shelf_restocks_each_morning(t: TestCase) -> void:

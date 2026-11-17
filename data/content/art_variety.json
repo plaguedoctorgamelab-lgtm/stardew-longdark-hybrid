@@ -1,5 +1,5 @@
 {
- "note": "How the world mixes its pictures. pictures: versions of one ground tile or object, picked per tile by weights. details: small things scattered on that ground, on about detail_chance of its open tiles. The game picks these as it draws: the land itself never changes. Each ground shows its calmest version (the one with the fewest lone pixels) on most tiles; the busier versions and the details are kept rare so the ground reads calm.",
+ "note": "How the world mixes its pictures. pictures: versions of one ground tile or object, picked per tile by weights. details: small things scattered on that ground, on about detail_chance of its open tiles. The game picks these as it draws: the land itself never changes. Each ground shows its calmest version (the one with the fewest lone pixels) on most tiles; the busier versions and the details are kept rare so the ground reads calm. Details that look like forage (wildflowers, pebbles, twigs, mushrooms, flat stones) are left out, so what can be picked stands apart from what cannot.",
  "rows": [
   {
    "id": "ground_grass",
@@ -18,13 +18,11 @@
    "details": [
     "detail_daisies",
     "detail_buttercups",
-    "detail_wildflowers",
     "detail_dandelion",
     "detail_grass_tuft",
-    "detail_clover",
-    "detail_pebbles"
+    "detail_clover"
    ],
-   "detail_chance": 0.015
+   "detail_chance": 0.0075
   },
   {
    "id": "ground_tall_grass",
@@ -41,10 +39,9 @@
     2
    ],
    "details": [
-    "detail_wildflowers",
     "detail_daisies"
    ],
-   "detail_chance": 0.01
+   "detail_chance": 0.005
   },
   {
    "id": "ground_forest_floor",
@@ -62,15 +59,12 @@
    ],
    "details": [
     "detail_pinecone",
-    "detail_twig",
     "detail_leaves",
     "detail_fern",
     "detail_moss",
-    "detail_mushrooms",
-    "detail_needles",
-    "detail_flat_stone"
+    "detail_needles"
    ],
-   "detail_chance": 0.025
+   "detail_chance": 0.0125
   },
   {
    "id": "ground_trail",
@@ -85,13 +79,7 @@
     3,
     1,
     2
-   ],
-   "details": [
-    "detail_pebbles",
-    "detail_flat_stone",
-    "detail_twig"
-   ],
-   "detail_chance": 0.01
+   ]
   },
   {
    "id": "ground_shallows",

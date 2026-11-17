@@ -109,6 +109,7 @@ func test_sleep_at_camp(t: TestCase) -> void:
 	s.debug_set_needs(40, 30)
 	var day := s.clock.day
 	var saves := s.save_count
+	var bed: Vector2i = s.camp["bed"]
 	s.interact()
 	t.equal(s.pending_confirm, "camp_sleep", "the bedroll asks to sleep")
 	s.answer_confirm(true)
@@ -117,10 +118,13 @@ func test_sleep_at_camp(t: TestCase) -> void:
 	t.equal(s.needs.energy, 270.0 * 0.75, "75% energy")
 	t.equal(s.needs.warmth, 75.0, "75% warmth")
 	t.equal(s.location, "", "wakes outdoors at camp")
-	t.check(s.outdoor_pos.distance_to(Vector2(s.camp["bed"]) + Vector2(0.5, 0.5)) < 0.01, "on the bedroll")
+	t.check(s.outdoor_pos.distance_to(Vector2(bed) + Vector2(0.5, 0.5)) < 0.01, "where the bedroll was")
 	t.check(s.save_count > saves, "the game saved")
-	t.check(not s.campfire_lit(), "the fire went out overnight")
+	t.check(s.camp.is_empty(), "the bedroll is packed up and the fire put out")
+	t.check(not s.campfire_lit(), "no fire is left burning")
+	t.equal(s.backpack.count("bedroll"), 1, "the bedroll is back in the backpack")
 	# Camp sleep never lowers energy or warmth.
+	s.camp = {"bed": bed, "fire": bed + Vector2i(0, 1), "fire_minutes": 0}
 	s.debug_set_needs(260, 95)
 	s.camp_sleep()
 	t.equal(s.needs.energy, 260.0, "energy kept when already higher")
