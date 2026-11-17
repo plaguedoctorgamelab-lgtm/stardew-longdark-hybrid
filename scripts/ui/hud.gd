@@ -53,16 +53,20 @@ func rebuild_slots() -> void:
 		p.gui_input.connect(func(e: InputEvent) -> void:
 			if e is InputEventMouseButton and (e as InputEventMouseButton).pressed and (e as InputEventMouseButton).button_index == MOUSE_BUTTON_LEFT:
 				session.selected_slot = i)
+		p.add_theme_stylebox_override("panel", KitStyle.peg(false))
 		root.add_child(p)
 		var icon := TextureRect.new()
 		icon.position = p.position + Vector2(1, 1)
 		_fit_icon(icon)
 		root.add_child(icon)
 		var cnt := _label(p.position + Vector2(9, 7))
+		KitStyle.over_world(cnt)
+		cnt.add_theme_constant_override("outline_size", 2)
 		var key := _label(p.position + Vector2(1, -2))
 		key.text = str((i + 1) % 10)
 		key.add_theme_font_size_override("font_size", 6)
-		key.modulate = Color(1, 0.95, 0.8, 0.85)
+		KitStyle.over_world(key)
+		key.add_theme_constant_override("outline_size", 2)
 		slot_panels.append(p)
 		slot_icons.append(icon)
 		slot_counts.append(cnt)
@@ -78,20 +82,26 @@ func setup(s: GameSession, theme: Theme) -> void:
 	root.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(root)
 
+	# The clock hangs on a small routed-wood sign; the wallet is a patch.
 	var box := Panel.new()
 	box.position = Vector2(398, 2)
 	box.size = Vector2(80, 34)
 	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	box.add_theme_stylebox_override("panel", KitStyle.wood_sign())
 	root.add_child(box)
 	date_label = _label(Vector2(402, 3))
 	time_label = _label(Vector2(402, 13))
 	status_label = _label(Vector2(402, 23))
+	for l: Label in [date_label, time_label, status_label]:
+		l.add_theme_color_override("font_color", KitStyle.CREAM)
 	var mbox := Panel.new()
 	mbox.position = Vector2(398, 37)
 	mbox.size = Vector2(80, 12)
 	mbox.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	mbox.add_theme_stylebox_override("panel", KitStyle.patch())
 	root.add_child(mbox)
 	money_label = _label(Vector2(402, 37))
+	money_label.add_theme_color_override("font_color", KitStyle.GOLD)
 	weather_icon = TextureRect.new()
 	weather_icon.position = Vector2(458, 15)
 	_fit_icon(weather_icon)
@@ -103,24 +113,26 @@ func setup(s: GameSession, theme: Theme) -> void:
 	el.text = "E"
 	var wl := _label(Vector2(447, 258))
 	wl.text = "W"
+	KitStyle.over_world(el)
+	KitStyle.over_world(wl)
 
 	rebuild_slots()
 
 	message_label = _label(Vector2(0, 236))
 	message_label.size = Vector2(480, 10)
 	message_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	message_label.add_theme_color_override("font_outline_color", Color(0.12, 0.08, 0.05))
-	message_label.add_theme_constant_override("outline_size", 3)
+	KitStyle.over_world(message_label)
 	# The hover hint: what X does at the thing under the mouse, or what C does
 	# with the item-bar slot under it.
 	tip = Panel.new()
+	tip.add_theme_stylebox_override("panel", KitStyle.tag())
 	tip.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	tip.visible = false
 	root.add_child(tip)
 	tip_label = Label.new()
 	tip_label.position = Vector2(3, 0)
 	tip_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	tip_label.add_theme_color_override("font_color", Color(1.0, 0.95, 0.75))
+	tip_label.add_theme_color_override("font_color", KitStyle.TEXT_DARK)
 	tip.add_child(tip_label)
 	survey_bar = ProgressBar.new()
 	survey_bar.position = Vector2(200, 226)
@@ -130,6 +142,7 @@ func setup(s: GameSession, theme: Theme) -> void:
 	survey_bar.visible = false
 	root.add_child(survey_bar)
 	debug_label = _label(Vector2(2, 2))
+	KitStyle.over_world(debug_label)
 	debug_label.visible = false
 
 	session.message.connect(show_message)
@@ -202,7 +215,10 @@ func _process(delta: float) -> void:
 			# The compass needle trembles near something buried.
 			if tremble and session.family_of(s["item"]) == "compass":
 				slot_icons[i].position += Vector2(randi_range(-1, 1), 0)
-		slot_panels[i].self_modulate = Color(1.6, 1.4, 0.6) if i == session.selected_slot else Color.WHITE
+		var held := i == session.selected_slot
+		if slot_panels[i].get_meta("held", false) != held:
+			slot_panels[i].set_meta("held", held)
+			slot_panels[i].add_theme_stylebox_override("panel", KitStyle.peg(held))
 	_update_tip()
 	if _message_time > 0.0:
 		_message_time -= delta

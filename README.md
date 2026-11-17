@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.4.4** (see [Version history](#version-history)). The
+**Current version: 0.4.5** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -100,6 +100,14 @@ docs/              bible, roadmap, specs, rules, status reports (hidden from God
 
 The version lives in `project.godot` (`application/config/version`). Every
 commit of the build raises it and adds a line here.
+
+### 0.4.5 (17 November 2026): the park look
+
+- The title screen is the entrance to Dusk River Park at dusk: a banded sky, mountains and pines drifting slowly, the Dusk River, fog and fireflies, "STRANGE RANGER" in poster letters, and a routed-wood sign with the compass-and-eye emblem and a lantern, the menu hanging under it on planks.
+- Every screen wears the ranger's kit: field-book paper panels, plank buttons, the clock on a wooden sign, the wallet as a green patch, wooden pegs for the item bar and paper tags for hover hints (`scripts/ui/kit_style.gd`).
+- The map is a park poster: flat bright land colours, red stars at mapped landmarks, a compass rose, a legend and the park's name. The map now always paints in full the first time it opens.
+- A Badges page in the book: skill patches, specialty shields, and strange badges that never say what earns them.
+- All drawn in code as stand-ins until Art Requests 11 to 14 (`docs/art/art_requests_11_to_14_park_look.md`). The world keeps its bright colours.
 
 ### 0.4.4 (17 November 2026)
 

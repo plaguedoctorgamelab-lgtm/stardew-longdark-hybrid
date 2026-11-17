@@ -1,23 +1,28 @@
 class_name MapScreen
 extends Panel
-## The map sheet. Blank parchment that fills in with revealed ground, the
-## dotted trace, mapped landmarks and, when the ranger knows where they are,
-## the position marker. The sheet covers the whole region, so the view pans
-## (walking keys) and zooms (mouse wheel). Only changed chunks are redrawn.
+## The map sheet, drawn as a park poster map (docs/art/visual_direction_brief.md):
+## blank parchment that fills in with revealed ground in flat poster colours
+## from the bright palette, the dotted trace, red stars at mapped landmarks
+## and, when the ranger knows where they are, the position marker. A compass
+## rose, a legend and the park's name in big letters sit in the corners. The
+## sheet covers the whole region, so the view pans (walking keys) and zooms
+## (mouse wheel). Only changed chunks are redrawn.
 
-const PAPER := Color(0.9, 0.84, 0.68)
-const TRACE := Color(0.25, 0.18, 0.12)
-const HINT := Color(0.55, 0.15, 0.1)
+const PAPER := Color8(225, 205, 160)
+const TRACE := Color8(93, 62, 48)
+const HINT := Color8(176, 40, 32)
+const STAR := Color8(232, 115, 95)
+const INK := Color8(26, 22, 32)
 const GROUND_COLORS := {
-	"trail": Color(0.72, 0.55, 0.36),
-	"grass": Color(0.68, 0.76, 0.5),
-	"tall_grass": Color(0.6, 0.72, 0.42),
-	"forest_floor": Color(0.47, 0.58, 0.38),
-	"shallows": Color(0.55, 0.72, 0.8),
-	"deep_water": Color(0.33, 0.5, 0.66),
-	"rock": Color(0.55, 0.53, 0.5),
-	"bog": Color(0.45, 0.52, 0.42),
-	"boards": Color(0.62, 0.45, 0.3),
+	"trail": Color8(157, 102, 62),
+	"grass": Color8(250, 240, 210),
+	"tall_grass": Color8(214, 241, 162),
+	"forest_floor": Color8(167, 218, 133),
+	"shallows": Color8(95, 172, 207),
+	"deep_water": Color8(38, 112, 157),
+	"rock": Color8(198, 204, 210),
+	"bog": Color8(182, 162, 110),
+	"boards": Color8(93, 62, 48),
 }
 const ZOOMS: Array[float] = [0.25, 0.5, 1.0, 2.0]
 const VIEW_SIZE := Vector2(384, 250)
@@ -33,6 +38,8 @@ var percent: Label
 var lost: Label
 var landmark_labels: Control
 var travel_box: VBoxContainer
+var deco: Control
+var _painted: bool = false   # the first open paints the whole sheet
 var image: Image
 var texture: ImageTexture
 var zoom_index: int = 2
@@ -66,6 +73,12 @@ func setup(s: GameSession) -> void:
 	clip.add_child(overlay)
 	landmark_labels = Control.new()
 	clip.add_child(landmark_labels)
+	# The poster's corners: compass rose, legend and the park's name.
+	deco = Control.new()
+	deco.size = VIEW_SIZE
+	deco.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	deco.draw.connect(_draw_deco)
+	clip.add_child(deco)
 	marker = ColorRect.new()
 	marker.size = Vector2(4, 4)
 	marker.color = Color(0.85, 0.1, 0.1)
@@ -188,7 +201,8 @@ static func hints(s: GameSession) -> Array:
 ## Redraws whatever changed since the picture was last drawn.
 func refresh_picture() -> void:
 	var d := session.map.take_dirty()
-	if d["all"]:
+	if d["all"] or not _painted:
+		_painted = true
 		image.fill(PAPER)
 		var b := session.world.baked_bounds()
 		var cs := session.world.chunk_size
@@ -273,6 +287,7 @@ func _layout() -> void:
 	if shown:
 		marker.position = map_rect.position + _ranger_map_pos() * z - Vector2(2, 2)
 	overlay.queue_redraw()
+	deco.queue_redraw()
 
 
 func _add_label(text: String, at: Vector2, nudge: Vector2, color: Color, tinted: bool) -> void:
@@ -287,6 +302,10 @@ func _add_label(text: String, at: Vector2, nudge: Vector2, color: Color, tinted:
 
 func _draw_overlay() -> void:
 	var z := zoom()
+	# A red star at every mapped landmark.
+	for r: Dictionary in session.content.rows("landmarks"):
+		if session.map.is_landmark_mapped(r["id"]):
+			_star(overlay, map_rect.position + session.world.landmark_pos(r["id"]) * z, 4.5, STAR)
 	for t: Vector2i in session.placed:
 		# A cairn shows only once its ground is revealed.
 		if not session.map_shows_placed(t):
@@ -307,6 +326,73 @@ func _draw_overlay() -> void:
 			var p0 := map_rect.position + (c + Vector2(cos(a0), sin(a0)) * r) * z
 			var p1 := map_rect.position + (c + Vector2(cos(a1), sin(a1)) * r) * z
 			overlay.draw_line(p0, p1, HINT, 1.0)
+
+
+## A five-pointed star with a dark edge.
+static func _star(on: CanvasItem, c: Vector2, r: float, col: Color) -> void:
+	var pts := PackedVector2Array()
+	for i in 10:
+		var a := -PI / 2.0 + i * PI / 5.0
+		pts.append(c + Vector2(cos(a), sin(a)) * (r if i % 2 == 0 else r * 0.45))
+	var edge := PackedVector2Array(Array(pts).map(func(p: Vector2) -> Vector2: return c + (p - c) * 1.35))
+	on.draw_colored_polygon(edge, INK)
+	on.draw_colored_polygon(pts, col)
+
+
+func _deco_text(s: String, at: Vector2, px: int, col: Color, outline: int) -> void:
+	var f := ThemeDB.fallback_font
+	if outline > 0:
+		deco.draw_string_outline(f, at, s, HORIZONTAL_ALIGNMENT_LEFT, -1, px, outline, PAPER)
+	deco.draw_string(f, at, s, HORIZONTAL_ALIGNMENT_LEFT, -1, px, col)
+
+
+## The poster's fixed corners: a compass rose at the top left, a legend at
+## the bottom right, and the park's name along the bottom right under it.
+func _draw_deco() -> void:
+	var c := session.content
+	# Compass rose.
+	var o := Vector2(24, 24)
+	deco.draw_circle(o, 15, Color(PAPER, 0.85))
+	deco.draw_arc(o, 15, 0, TAU, 32, TRACE, 1.0)
+	for i in 8:
+		var a := -PI / 2.0 + i * PI / 4.0
+		var long := i % 2 == 0
+		var tip := o + Vector2(cos(a), sin(a)) * (13.0 if long else 7.0)
+		var side := Vector2(cos(a + PI / 2.0), sin(a + PI / 2.0)) * (2.5 if long else 1.5)
+		deco.draw_colored_polygon(PackedVector2Array([o + side, tip, o - side]), STAR if i == 0 else TRACE)
+	_deco_text("N", o + Vector2(-3, -17), 7, TRACE, 2)
+	# Legend.
+	var box := Rect2(VIEW_SIZE.x - 92, VIEW_SIZE.y - 80, 86, 50)
+	deco.draw_rect(box, Color(PAPER, 0.92))
+	deco.draw_rect(box, TRACE, false, 1.0)
+	_deco_text(c.text("map_legend").to_upper(), box.position + Vector2(4, 9), 7, TRACE, 0)
+	var rows := [["star", "map_legend_landmark"], ["trail", "map_legend_trail"], ["water", "map_legend_water"], ["forest", "map_legend_forest"], ["you", "map_legend_you"]]
+	for i in rows.size():
+		var y := box.position.y + 16 + i * 7.5
+		var k: String = rows[i][0]
+		var at := Vector2(box.position.x + 9, y)
+		match k:
+			"star":
+				_star(deco, at, 3.0, STAR)
+			"trail":
+				deco.draw_line(at - Vector2(4, 0), at + Vector2(4, 0), GROUND_COLORS["trail"], 2.0)
+			"water":
+				deco.draw_rect(Rect2(at - Vector2(4, 2), Vector2(8, 4)), GROUND_COLORS["shallows"])
+			"forest":
+				deco.draw_rect(Rect2(at - Vector2(4, 2), Vector2(8, 4)), GROUND_COLORS["forest_floor"])
+			"you":
+				deco.draw_rect(Rect2(at - Vector2(2, 2), Vector2(4, 4)), marker.color)
+		_deco_text(c.text(rows[i][1]), at + Vector2(8, 2.5), 7, TRACE, 0)
+	# The park's name, poster-style, along the bottom right.
+	var f := ThemeDB.fallback_font
+	var name := c.text("title_park").to_upper()
+	var w := f.get_string_size(name, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
+	var at2 := Vector2(VIEW_SIZE.x - w - 8, VIEW_SIZE.y - 14)
+	_deco_text(name, at2 + Vector2(1, 1), 16, STAR, 3)
+	_deco_text(name, at2, 16, TRACE, 0)
+	var sub := c.text("map_poster_subtitle").to_upper()
+	var sw := f.get_string_size(sub, HORIZONTAL_ALIGNMENT_LEFT, -1, 7).x
+	_deco_text(sub, Vector2(VIEW_SIZE.x - sw - 8, VIEW_SIZE.y - 4), 7, TRACE, 2)
 
 
 func pan(dir: Vector2, delta: float) -> void:

@@ -22,7 +22,7 @@ var choice_screen: ChoiceScreen
 var debug_panel: DebugPanel
 var dialog: Panel
 var dialog_label: Label
-var title_screen: Panel
+var title_screen: TitleScreen
 var title_note: Label
 var pause_menu: Panel
 var book_screen: BookScreen
@@ -133,23 +133,9 @@ func _make_world_viewport() -> SubViewport:
 	return vp
 
 
+## Every screen shares the ranger's kit theme (KitStyle).
 func _make_theme() -> Theme:
-	var t := Theme.new()
-	t.default_font_size = 8
-	var panel := StyleBoxFlat.new()
-	panel.bg_color = Color(0.16, 0.12, 0.1, 0.92)
-	panel.border_color = Color(0.55, 0.4, 0.25)
-	panel.set_border_width_all(1)
-	t.set_stylebox("panel", "Panel", panel)
-	var btn := StyleBoxFlat.new()
-	btn.bg_color = Color(0.3, 0.22, 0.16)
-	btn.set_content_margin_all(2)
-	t.set_stylebox("normal", "Button", btn)
-	var hov := btn.duplicate()
-	hov.bg_color = Color(0.42, 0.32, 0.22)
-	t.set_stylebox("hover", "Button", hov)
-	t.set_stylebox("pressed", "Button", hov)
-	return t
+	return KitStyle.theme()
 
 
 func _build_menus() -> void:
@@ -189,26 +175,10 @@ func _build_menus() -> void:
 	debug_panel.on_teleport = func() -> void:
 		_on_location_changed(session.location)
 		world_view.reset_chunks()
-	title_screen = Panel.new()
-	title_screen.size = Vector2(480, 270)
+	title_screen = TitleScreen.new()
 	root.add_child(title_screen)
-	var tl := Label.new()
-	tl.text = session.content.text("ui_title")
-	tl.position = Vector2(200, 80)
-	title_screen.add_child(tl)
-	var tbox := _button_column([["ui_new_game", _start_new], ["ui_continue", _continue], ["ui_quit", func() -> void: get_tree().quit()]])
-	tbox.position = Vector2(200, 110)
-	title_screen.add_child(tbox)
-	title_note = Label.new()
-	title_note.position = Vector2(120, 170)
-	title_note.size = Vector2(240, 40)
-	title_note.autowrap_mode = TextServer.AUTOWRAP_WORD
-	title_screen.add_child(title_note)
-	var vl := Label.new()
-	vl.text = version_text()
-	vl.position = Vector2(4, 256)
-	vl.modulate = Color(1, 1, 1, 0.6)
-	title_screen.add_child(vl)
+	title_screen.setup(session.content, version_text(), [["ui_new_game", _start_new], ["ui_continue", _continue], ["ui_quit", func() -> void: get_tree().quit()]])
+	title_note = title_screen.note
 	_build_pause_menu(root)
 
 
@@ -238,7 +208,7 @@ func _build_pause_menu(root: Control) -> void:
 	note.text = session.content.text("ui_pause_note")
 	note.custom_minimum_size = Vector2(144, 0)
 	note.autowrap_mode = TextServer.AUTOWRAP_WORD
-	note.modulate = Color(1, 1, 1, 0.7)
+	note.modulate = Color(1, 1, 1, 0.8)
 	box.add_child(note)
 	box.reset_size()
 	pause_menu.size = box.get_combined_minimum_size() + Vector2(16, 12)

@@ -1,7 +1,8 @@
 class_name BookScreen
 extends Panel
 ## The ranger's book, on J: the job list and sites, the park today, the
-## ledger, the suggestion cards read, the Chief's letters and the notebook.
+## ledger, the suggestion cards read, the Chief's letters, the notebook and
+## the badges earned.
 ## One page at a time, picked with the buttons along the top.
 
 var session: GameSession
@@ -9,7 +10,8 @@ var page: String = "jobs"
 var _tabs: HBoxContainer
 var _text: Label
 var _scroll: ScrollContainer
-const PAGES: Array[String] = ["jobs", "park", "ledger", "cards", "letters", "notes"]
+const PAGES: Array[String] = ["jobs", "park", "ledger", "cards", "letters", "notes", "badges"]
+var _badges: BadgesView
 
 
 func setup(s: GameSession) -> void:
@@ -31,10 +33,15 @@ func setup(s: GameSession) -> void:
 	_scroll.size = Vector2(size.x - 12, size.y - 38)
 	_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	add_child(_scroll)
+	var col := VBoxContainer.new()
+	_scroll.add_child(col)
 	_text = Label.new()
 	_text.custom_minimum_size = Vector2(size.x - 24, 0)
 	_text.autowrap_mode = TextServer.AUTOWRAP_WORD
-	_scroll.add_child(_text)
+	col.add_child(_text)
+	_badges = BadgesView.new()
+	col.add_child(_badges)
+	_badges.setup(s, size.x - 24)
 	var hint := Label.new()
 	hint.text = s.content.text("book_hint")
 	hint.position = Vector2(6, size.y - 14)
@@ -80,6 +87,10 @@ func lines_for(pg: String) -> PackedStringArray:
 func show_page(pg: String) -> void:
 	page = pg
 	_text.text = "\n".join(lines_for(pg))
+	_text.visible = pg != "badges"
+	_badges.visible = pg == "badges"
+	if _badges.visible:
+		_badges.refresh()
 	_scroll.scroll_vertical = 0
 	for i in PAGES.size():
 		(_tabs.get_child(i) as Button).modulate = Color(1.4, 1.3, 0.8) if PAGES[i] == pg else Color.WHITE

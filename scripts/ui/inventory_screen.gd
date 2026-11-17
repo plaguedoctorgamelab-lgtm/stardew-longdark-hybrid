@@ -53,6 +53,11 @@ func _grid(origin: Vector2, n: int, is_pack: bool) -> Array[Button]:
 		b.expand_icon = true
 		b.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		b.focus_mode = Control.FOCUS_NONE
+		# Stack counts sit over the icon: light, with a dark edge.
+		for k in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color"]:
+			b.add_theme_color_override(k, KitStyle.TEXT_LIGHT)
+		b.add_theme_color_override("font_outline_color", KitStyle.INK)
+		b.add_theme_constant_override("outline_size", 2)
 		b.pressed.connect(_on_slot.bind(i, is_pack))
 		b.mouse_entered.connect(_on_hover.bind(i, is_pack))
 		b.set_drag_forwarding(_drag_from.bind(i, is_pack, b), _can_drop, _drop_on.bind(i, is_pack))

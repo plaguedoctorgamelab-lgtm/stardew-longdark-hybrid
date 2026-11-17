@@ -3495,6 +3495,106 @@
    "id": "msg_traveled",
    "text": "You walk the trail to the {name}.",
    "placeholder": true
+  },
+  {
+   "id": "title_game",
+   "text": "Strange Ranger",
+   "placeholder": true
+  },
+  {
+   "id": "title_welcome",
+   "text": "Welcome to",
+   "placeholder": true
+  },
+  {
+   "id": "title_park",
+   "text": "Dusk River Park",
+   "placeholder": true
+  },
+  {
+   "id": "title_tagline",
+   "text": "Rangers on duty from dawn to dusk",
+   "placeholder": true
+  },
+  {
+   "id": "map_legend",
+   "text": "Legend",
+   "placeholder": true
+  },
+  {
+   "id": "map_legend_landmark",
+   "text": "Landmark",
+   "placeholder": true
+  },
+  {
+   "id": "map_legend_trail",
+   "text": "Trail",
+   "placeholder": true
+  },
+  {
+   "id": "map_legend_water",
+   "text": "Water",
+   "placeholder": true
+  },
+  {
+   "id": "map_legend_forest",
+   "text": "Forest",
+   "placeholder": true
+  },
+  {
+   "id": "map_legend_you",
+   "text": "You are here",
+   "placeholder": true
+  },
+  {
+   "id": "map_poster_subtitle",
+   "text": "Strange Ranger trail map",
+   "placeholder": true
+  },
+  {
+   "id": "book_badges",
+   "text": "Badges",
+   "placeholder": true
+  },
+  {
+   "id": "badges_skills",
+   "text": "Skill patches",
+   "placeholder": true
+  },
+  {
+   "id": "badges_specialties",
+   "text": "Specialty patches",
+   "placeholder": true
+  },
+  {
+   "id": "badges_strange",
+   "text": "Strange badges ({found} of {total})",
+   "placeholder": true
+  },
+  {
+   "id": "badge_skill",
+   "text": "{skill} {level}: {perk}",
+   "placeholder": true
+  },
+  {
+   "id": "badge_locked",
+   "text": "Not earned yet.",
+   "placeholder": true
+  },
+  {
+   "id": "badge_spec_not_taken",
+   "text": "Not taken: you chose the other one.",
+   "placeholder": true
+  },
+  {
+   "id": "badge_strange_found",
+   "text": "Strange badge No. {n}.",
+   "placeholder": true
+  },
+  {
+   "id": "badge_strange_hidden",
+   "text": "Something out there earns this one.",
+   "placeholder": true
   }
  ]
 }
