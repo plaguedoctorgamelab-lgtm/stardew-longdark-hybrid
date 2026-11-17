@@ -12,7 +12,7 @@ play.
 
 A small web page for bugs, feature requests and the latest build, served
 from this computer to the home network. Start it with
-`tools	racker\start_tracker.bat` (or `python tools/tracker/server.py`) and
+`tools\tracker\start_tracker.bat` (or `python tools/tracker/server.py`) and
 open the address it prints from any device on the network, port 8080. Each
 entry has a type, priority, status, the version it was found in and the one
 it was fixed in. The **Download zip** button gives the latest playtest build,
