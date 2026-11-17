@@ -81,7 +81,7 @@ func test_old_save_starts_with_500(t: TestCase) -> void:
 
 func test_wallet_on_screen(t: TestCase) -> void:
 	var s := TestCase.new_session()
-	t.equal(s.content.text("hud_money", {"n": s.park.money.wallet}), "$500", "the wallet reads $500")
+	t.equal(s.content.text("hud_money", {"n": s.park.money.wallet}), "500 gold", "the wallet reads 500 gold")
 
 
 # --- the trail network -------------------------------------------------------------

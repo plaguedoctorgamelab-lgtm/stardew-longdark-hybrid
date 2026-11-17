@@ -217,6 +217,60 @@ func move_slot_to(i: int, other: Inventory) -> void:
 		changed.emit()
 
 
+## Whether this inventory may hold the item at all (the gift shelf only
+## takes some).
+func accepts(item_id: String) -> bool:
+	return only.is_empty() or only.has(item_id)
+
+
+## Drags slot i of this inventory onto slot j of another (or the same): onto
+## an empty slot it moves, onto the same item it tops that stack up, onto a
+## different item the two swap places. Returns true if anything moved.
+func move_to_slot(i: int, other: Inventory, j: int) -> bool:
+	if other == self and i == j:
+		return false
+	var a: Dictionary = slots[i]
+	if a.is_empty() or not other.accepts(a["item"]):
+		return false
+	var b: Dictionary = other.slots[j]
+	if b.is_empty():
+		other.slots[j] = a
+		slots[i] = {}
+	elif b["item"] == a["item"]:
+		var put := mini(int(a["count"]), stack_size(a["item"]) - int(b["count"]))
+		if put <= 0:
+			return false
+		b["count"] = int(b["count"]) + put
+		a["count"] = int(a["count"]) - put
+		if int(a["count"]) <= 0:
+			slots[i] = {}
+	else:
+		if not accepts(b["item"]):
+			return false
+		other.slots[j] = a
+		slots[i] = b
+	changed.emit()
+	if other != self:
+		other.changed.emit()
+	return true
+
+
+## Takes the whole stack out of slot i: {item, count}, or {} if empty.
+func take_slot(i: int) -> Dictionary:
+	var s: Dictionary = slots[i]
+	slots[i] = {}
+	if not s.is_empty():
+		changed.emit()
+	return s
+
+
+func is_empty() -> bool:
+	for s: Dictionary in slots:
+		if not s.is_empty():
+			return false
+	return true
+
+
 func swap(a: int, b: int) -> void:
 	var t: Dictionary = slots[a]
 	slots[a] = slots[b]

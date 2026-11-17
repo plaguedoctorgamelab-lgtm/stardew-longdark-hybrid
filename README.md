@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.4.1** (see [Version history](#version-history)). The
+**Current version: 0.4.2** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -89,6 +89,21 @@ docs/              bible, roadmap, specs, rules, status reports (hidden from God
 
 The version lives in `project.godot` (`application/config/version`). Every
 commit of the build raises it and adds a line here.
+
+### 0.4.2 (17 November 2026): the Phase 2b feedback
+
+- A hint line over the item bar always says what X and C do where you stand, or why C won't work there. A square on the faced tile shows where boardwalk, signs, markers, park things and the shovel can go: green yes, red no.
+- A "?" floats over anything with something new: the note board (and the station door), a delivery on the supply shelf, new suggestion cards, a site ready to open, a kit waiting at its pad.
+- The book's Jobs page starts with **Next:**, the one next thing to do at each site found.
+- Money is in gold coins, not dollars.
+- The map opens by itself when a survey finishes.
+- The crafting page (K) lists every recipe known, greyed with where it is made, and the ones not learned yet with how to learn them. Cooking lists its recipes the same way.
+- Signs go on or beside a trail (`signs.beside_trail_tiles`), can name any site found, and say whether they count for it.
+- X gathers every forage spot close by at once (`forage.pick_radius_tiles`).
+- Stacks are about three times bigger. In the backpack, drag stacks between slots, chests and shelves; drag onto Drop to put them on the ground (X picks them up) or onto Trash to throw them away. Tools can't be trashed.
+- Trail travel: once you have arrived at a place twice and a trail joins it, the map lists it; click to walk there in one go. The time passes and it tires you as walking does (`travel` in the tuning file).
+- The gift shelf and the suggestion box say how they work when opened.
+- Art Request 10 asks for a "?" mark, a dropped bundle and a gold coin.
 
 ### 0.4.1 (17 November 2026)
 

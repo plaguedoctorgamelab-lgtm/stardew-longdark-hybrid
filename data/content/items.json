@@ -62,63 +62,63 @@
    "id": "tin_of_beans",
    "name": "item_tin_of_beans",
    "kind": "food",
-   "stack": 5,
+   "stack": 10,
    "icon": "item_tin_of_beans"
   },
   {
    "id": "apple",
    "name": "item_apple",
    "kind": "food",
-   "stack": 5,
+   "stack": 10,
    "icon": "item_apple"
   },
   {
    "id": "sandwich",
    "name": "item_sandwich",
    "kind": "food",
-   "stack": 5,
+   "stack": 10,
    "icon": "item_sandwich"
   },
   {
    "id": "hot_soup",
    "name": "item_hot_soup",
    "kind": "food",
-   "stack": 3,
+   "stack": 10,
    "icon": "item_hot_soup"
   },
   {
    "id": "firewood",
    "name": "item_firewood",
    "kind": "fuel",
-   "stack": 5,
+   "stack": 20,
    "icon": "item_firewood"
   },
   {
    "id": "planks",
    "name": "item_planks",
    "kind": "material",
-   "stack": 10,
+   "stack": 30,
    "icon": "item_planks"
   },
   {
    "id": "nails",
    "name": "item_nails",
    "kind": "material",
-   "stack": 30,
+   "stack": 99,
    "icon": "item_nails"
   },
   {
    "id": "roofing",
    "name": "item_roofing",
    "kind": "material",
-   "stack": 5,
+   "stack": 15,
    "icon": "item_roofing"
   },
   {
    "id": "window_glass",
    "name": "item_window_glass",
    "kind": "material",
-   "stack": 2,
+   "stack": 6,
    "icon": "item_window_glass"
   },
   {
@@ -139,7 +139,7 @@
    "id": "trail_sign",
    "name": "item_trail_sign",
    "kind": "placeable",
-   "stack": 5,
+   "stack": 10,
    "icon": "item_trail_sign",
    "sprite": "obj_sign_arrow",
    "needs_tool": "hammer",
@@ -150,7 +150,7 @@
    "id": "trail_marker",
    "name": "item_trail_marker",
    "kind": "placeable",
-   "stack": 10,
+   "stack": 30,
    "icon": "item_trail_marker",
    "sprite": "obj_trail_marker",
    "needs_tool": "hammer",
@@ -160,7 +160,7 @@
    "id": "repair_kit",
    "name": "item_repair_kit",
    "kind": "material",
-   "stack": 5,
+   "stack": 10,
    "icon": "item_repair_kit",
    "covers": {
     "planks": 4,
@@ -179,112 +179,112 @@
    "id": "berries",
    "name": "item_berries",
    "kind": "food",
-   "stack": 10,
+   "stack": 30,
    "icon": "item_berries"
   },
   {
    "id": "mushrooms",
    "name": "item_mushrooms",
    "kind": "food",
-   "stack": 10,
+   "stack": 30,
    "icon": "item_mushrooms"
   },
   {
    "id": "pine_resin",
    "name": "item_pine_resin",
    "kind": "material",
-   "stack": 10,
+   "stack": 30,
    "icon": "item_pine_resin"
   },
   {
    "id": "glowcap",
    "name": "item_glowcap",
    "kind": "magic",
-   "stack": 5,
+   "stack": 10,
    "icon": "item_glowcap"
   },
   {
    "id": "trail_mix",
    "name": "item_trail_mix",
    "kind": "food",
-   "stack": 5,
+   "stack": 15,
    "icon": "item_trail_mix"
   },
   {
    "id": "sticks",
    "name": "item_sticks",
    "kind": "material",
-   "stack": 20,
+   "stack": 50,
    "icon": "item_sticks"
   },
   {
    "id": "stones",
    "name": "item_stones",
    "kind": "material",
-   "stack": 20,
+   "stack": 50,
    "icon": "item_stones"
   },
   {
    "id": "reeds",
    "name": "item_reeds",
    "kind": "material",
-   "stack": 20,
+   "stack": 50,
    "icon": "item_reeds"
   },
   {
    "id": "wild_onion",
    "name": "item_wild_onion",
    "kind": "food",
-   "stack": 10,
+   "stack": 30,
    "icon": "item_wild_onion"
   },
   {
    "id": "fiddleheads",
    "name": "item_fiddleheads",
    "kind": "food",
-   "stack": 10,
+   "stack": 30,
    "icon": "item_fiddleheads"
   },
   {
    "id": "wildflowers",
    "name": "item_wildflowers",
    "kind": "material",
-   "stack": 10,
+   "stack": 30,
    "icon": "item_wildflowers"
   },
   {
    "id": "hazelnuts",
    "name": "item_hazelnuts",
    "kind": "food",
-   "stack": 10,
+   "stack": 30,
    "icon": "item_hazelnuts"
   },
   {
    "id": "rose_hips",
    "name": "item_rose_hips",
    "kind": "food",
-   "stack": 10,
+   "stack": 30,
    "icon": "item_rose_hips"
   },
   {
    "id": "ember_moss",
    "name": "item_ember_moss",
    "kind": "magic",
-   "stack": 5,
+   "stack": 10,
    "icon": "item_ember_moss"
   },
   {
    "id": "lodestone_sliver",
    "name": "item_lodestone_sliver",
    "kind": "magic",
-   "stack": 5,
+   "stack": 10,
    "icon": "item_lodestone_sliver"
   },
   {
    "id": "cairn",
    "name": "item_cairn",
    "kind": "placeable",
-   "stack": 5,
+   "stack": 15,
    "icon": "item_cairn",
    "sprite": "obj_cairn",
    "needs_tool": "",
@@ -295,14 +295,14 @@
    "id": "rope",
    "name": "item_rope",
    "kind": "material",
-   "stack": 10,
+   "stack": 30,
    "icon": "item_rope"
   },
   {
    "id": "boardwalk",
    "name": "item_boardwalk",
    "kind": "placeable",
-   "stack": 10,
+   "stack": 30,
    "icon": "item_boardwalk",
    "lays": "boards"
   },
@@ -317,7 +317,7 @@
    "id": "berry_preserve",
    "name": "item_berry_preserve",
    "kind": "food",
-   "stack": 5,
+   "stack": 15,
    "icon": "item_berry_preserve",
    "sell": 15
   },
@@ -325,21 +325,21 @@
    "id": "fiddlehead_fry",
    "name": "item_fiddlehead_fry",
    "kind": "food",
-   "stack": 5,
+   "stack": 15,
    "icon": "item_fiddlehead_fry"
   },
   {
    "id": "roast_hazelnuts",
    "name": "item_roast_hazelnuts",
    "kind": "food",
-   "stack": 5,
+   "stack": 15,
    "icon": "item_roast_hazelnuts"
   },
   {
    "id": "rose_hip_tea",
    "name": "item_rose_hip_tea",
    "kind": "food",
-   "stack": 5,
+   "stack": 15,
    "icon": "item_rose_hip_tea"
   },
   {
@@ -378,42 +378,42 @@
    "id": "bench",
    "name": "item_bench",
    "kind": "park_thing",
-   "stack": 1,
+   "stack": 5,
    "icon": "item_bench"
   },
   {
    "id": "trash_can",
    "name": "item_trash_can",
    "kind": "park_thing",
-   "stack": 1,
+   "stack": 5,
    "icon": "item_trash_can"
   },
   {
    "id": "picnic_table",
    "name": "item_picnic_table",
    "kind": "park_thing",
-   "stack": 1,
+   "stack": 5,
    "icon": "item_picnic_table"
   },
   {
    "id": "fire_ring",
    "name": "item_fire_ring",
    "kind": "park_thing",
-   "stack": 1,
+   "stack": 5,
    "icon": "item_fire_ring"
   },
   {
    "id": "radio_valve",
    "name": "item_radio_valve",
    "kind": "material",
-   "stack": 5,
+   "stack": 10,
    "icon": "item_radio_valve"
   },
   {
    "id": "pressed_flower_card",
    "name": "item_pressed_flower_card",
    "kind": "gift",
-   "stack": 10,
+   "stack": 20,
    "icon": "item_pressed_flower_card",
    "sell": 10
   },
@@ -421,7 +421,7 @@
    "id": "pine_resin_candle",
    "name": "item_pine_resin_candle",
    "kind": "gift",
-   "stack": 10,
+   "stack": 20,
    "icon": "item_pine_resin_candle",
    "sell": 12
   },
@@ -429,7 +429,7 @@
    "id": "carved_pinecone_figure",
    "name": "item_carved_pinecone_figure",
    "kind": "gift",
-   "stack": 10,
+   "stack": 20,
    "icon": "item_carved_pinecone_figure",
    "sell": 18
   },
@@ -437,7 +437,7 @@
    "id": "painted_stone",
    "name": "item_painted_stone",
    "kind": "gift",
-   "stack": 10,
+   "stack": 20,
    "icon": "item_painted_stone",
    "sell": 8
   },
@@ -445,7 +445,7 @@
    "id": "glowcap_night_light",
    "name": "item_glowcap_night_light",
    "kind": "gift",
-   "stack": 5,
+   "stack": 10,
    "icon": "item_glowcap_night_light",
    "sell": 60
   }

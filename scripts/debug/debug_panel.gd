@@ -146,8 +146,8 @@ func setup(s: GameSession) -> void:
 	# "Show spoilers" ticked.
 	r = _row()
 	_money = _spin(r, 0, 5000, 100)
-	_btn(r, "+$", func() -> void: session.debug_money(int(_money.value)))
-	_btn(r, "-$", func() -> void: session.debug_money(-int(_money.value)))
+	_btn(r, "+gold", func() -> void: session.debug_money(int(_money.value)))
+	_btn(r, "-gold", func() -> void: session.debug_money(-int(_money.value)))
 	_btn(r, "To 7th day", func() -> void: session.debug_skip_to_week_end())
 	var vis := CheckBox.new()
 	vis.text = "Visitors on map"

@@ -291,10 +291,16 @@ func _walk_hour(s: GameSession, season: String, start: float = 0.0) -> int:
 		if walked >= start + tiles:
 			break
 	last_walk = got
+	# The 2b target (2 to 3 slots an hour) was set when forage stacked to 10,
+	# and sticks, stones and reeds to 20. Stacks are bigger since 0.4.2, so the
+	# walk is still measured in those slots: the same amount of forage.
 	var slots := 0
 	for item: String in got:
-		slots += ceili(float(got[item]) / s.backpack.stack_size(item))
+		slots += ceili(float(got[item]) / float(WALK_STACKS.get(item, 10)))
 	return slots
+
+
+const WALK_STACKS := {"sticks": 20, "stones": 20, "reeds": 20}
 
 
 # --- magical ingredients -------------------------------------------------------

@@ -26,6 +26,7 @@ var title_screen: Panel
 var title_note: Label
 var pause_menu: Panel
 var book_screen: BookScreen
+var hint_overlay: HintOverlay
 var _dialog_kind: String = ""
 var started: bool = false
 
@@ -42,6 +43,9 @@ func _ready() -> void:
 	interior_view.visible = false
 	world.add_child(interior_view)
 	interior_view.setup(session)
+	hint_overlay = HintOverlay.new()
+	world.add_child(hint_overlay)
+	hint_overlay.setup(session)
 	camera = Camera2D.new()
 	world.add_child(camera)
 	camera.make_current()
@@ -79,6 +83,12 @@ func _ready() -> void:
 		else:
 			session.answer_choice(kind, option_id))
 	session.backpack.changed.connect(func() -> void: choice_screen.refresh())
+	session.traveled.connect(func() -> void:
+		_on_location_changed(session.location)
+		world_view.reset_chunks())
+	session.survey_finished.connect(func() -> void:
+		if not menu_open():
+			map_screen.open())
 	session.backpack_grew.connect(func() -> void:
 		hud.rebuild_slots()
 		inventory_screen.rebuild_slots())

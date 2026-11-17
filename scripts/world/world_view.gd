@@ -37,6 +37,7 @@ var _ripple: Node2D
 var _camp_fire: Sprite2D
 var _time: float = 0.0
 var park_view: ParkView
+var _pile_sprites: Array[Sprite2D] = []
 
 
 func setup(s: GameSession, ranger_node: Node2D) -> void:
@@ -109,10 +110,34 @@ func setup(s: GameSession, ranger_node: Node2D) -> void:
 	park_view = ParkView.new()
 	add_child(park_view)
 	park_view.setup(session, sort_root)
+	session.piles_changed.connect(refresh_piles)
+	refresh_piles()
 	_border_lines = Node2D.new()
 	_border_lines.z_index = 50
 	_border_lines.draw.connect(_draw_borders)
 	add_child(_border_lines)
+
+
+## Things the ranger dropped: the first item's picture, small, on the ground.
+func refresh_piles() -> void:
+	for spr in _pile_sprites:
+		spr.queue_free()
+	_pile_sprites.clear()
+	for t: Vector2i in session.piles:
+		var inv: Inventory = session.piles[t]
+		var item := ""
+		for i in inv.size():
+			if inv.item_at(i) != "":
+				item = inv.item_at(i)
+				break
+		if item == "":
+			continue
+		var spr := Sprite2D.new()
+		spr.texture = Art.texture(session.content.row("items", item)["icon"])
+		spr.scale = Vector2(0.5, 0.5)
+		spr.position = (Vector2(t) + Vector2(0.5, 0.6)) * TILE
+		sort_root.add_child(spr)
+		_pile_sprites.append(spr)
 
 
 func refresh_buildings() -> void:

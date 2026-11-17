@@ -2,7 +2,8 @@ class_name InventoryScreen
 extends Panel
 ## The backpack screen, and the backpack beside a chest or the supply shelf.
 ## Click a backpack slot to hold that item; with a chest open, click a slot to
-## move its stack across.
+## move its stack across. Drag a stack onto another slot to move it there (or
+## swap), onto Drop to put it down, or onto Trash to throw it away.
 
 const SLOT := 20
 const COLS := 10  # the first row is the item bar
@@ -15,6 +16,8 @@ var hint: Label
 var info: Label
 var _pack_buttons: Array[Button] = []
 var _other_buttons: Array[Button] = []
+var drop_button: Button
+var trash_button: Button
 
 
 func setup(s: GameSession) -> void:
@@ -26,6 +29,8 @@ func setup(s: GameSession) -> void:
 	info = _label(Vector2(8, 128), "")
 	hint = _label(Vector2(190, 4), s.content.text("ui_close_hint"))
 	_pack_buttons = _grid(Vector2(8, 18), session.backpack.size(), true)
+	drop_button = _target("ui_drop", func(d: Dictionary) -> void: session.drop_slot(d["inv"], d["i"]))
+	trash_button = _target("ui_trash", func(d: Dictionary) -> void: session.trash_slot(d["inv"], d["i"]))
 	_layout()
 	session.backpack.changed.connect(refresh)
 	visible = false
@@ -50,9 +55,56 @@ func _grid(origin: Vector2, n: int, is_pack: bool) -> Array[Button]:
 		b.focus_mode = Control.FOCUS_NONE
 		b.pressed.connect(_on_slot.bind(i, is_pack))
 		b.mouse_entered.connect(_on_hover.bind(i, is_pack))
+		b.set_drag_forwarding(_drag_from.bind(i, is_pack, b), _can_drop, _drop_on.bind(i, is_pack))
 		add_child(b)
 		out.append(b)
 	return out
+
+
+## A place to drag a stack onto: Drop or Trash.
+func _target(text_id: String, act: Callable) -> Button:
+	var b := Button.new()
+	b.text = session.content.text(text_id)
+	b.focus_mode = Control.FOCUS_NONE
+	b.add_theme_font_size_override("font_size", 8)
+	b.custom_minimum_size = Vector2(40, 12)
+	b.size = Vector2(40, 12)
+	b.tooltip_text = session.content.text("ui_drag_hint")
+	b.set_drag_forwarding(func(_at: Vector2) -> Variant: return null, _can_drop, func(_at: Vector2, d: Variant) -> void:
+		act.call(d)
+		refresh())
+	add_child(b)
+	return b
+
+
+func _inv(is_pack: bool) -> Inventory:
+	return session.backpack if is_pack else other
+
+
+func _drag_from(_at: Vector2, i: int, is_pack: bool, b: Button) -> Variant:
+	var inv := _inv(is_pack)
+	if inv == null or inv.slot(i).is_empty():
+		return null
+	var pic := TextureRect.new()
+	pic.texture = b.icon
+	pic.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	pic.size = Vector2(SLOT, SLOT)
+	pic.modulate.a = 0.8
+	b.set_drag_preview(pic)
+	return {"inv": inv, "i": i}
+
+
+func _can_drop(_at: Vector2, d: Variant) -> bool:
+	return d is Dictionary and (d as Dictionary).has("inv")
+
+
+func _drop_on(_at: Vector2, d: Variant, j: int, is_pack: bool) -> void:
+	var to := _inv(is_pack)
+	if to == null:
+		return
+	var from: Inventory = d["inv"]
+	from.move_to_slot(int(d["i"]), to, j)
+	refresh()
 
 
 func open(storage: Inventory, storage_title: String) -> void:
@@ -76,6 +128,8 @@ func close() -> void:
 	if other != null and other.changed.is_connected(refresh):
 		other.changed.disconnect(refresh)
 	other = null
+	if session != null:
+		session.tidy_piles()
 
 
 ## Remakes the backpack's buttons when it grows (the pack frame).
@@ -103,7 +157,11 @@ func _layout() -> void:
 	if other != null:
 		y += 14 + _rows(other.size()) * (SLOT + 2)
 	info.position.y = y + 2
-	size.y = y + 22
+	drop_button.position = Vector2(size.x - 92, y + 3)
+	trash_button.position = Vector2(size.x - 48, y + 3)
+	drop_button.size = Vector2(40, 12)
+	trash_button.size = Vector2(40, 12)
+	size.y = y + 18
 	position = (Vector2(480, 270) - size) / 2.0
 
 

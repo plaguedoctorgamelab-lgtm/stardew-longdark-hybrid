@@ -1,14 +1,14 @@
 class_name Money
 extends RefCounted
-## The park's dollars: the wallet and the ledger. Every amount is in whole
-## dollars. Earning and spending go through here, so the ledger always adds up
+## The park's gold coins: the wallet and the ledger. Every amount is in whole
+## gold coins. Earning and spending go through here, so the ledger always adds up
 ## to the wallet. The wallet never goes below zero: spending more than is
 ## there is refused.
 
 signal changed
 
 var wallet: int = 0
-## absolute day -> {source id -> dollars, + for income, - for spending}
+## absolute day -> {source id -> gold, + for income, - for spending}
 var days: Dictionary = {}
 ## What the wallet held before the oldest day kept in the ledger.
 var opening: int = 0
@@ -51,7 +51,7 @@ func _book(day: int, source: String, amount: int) -> void:
 	changed.emit()
 
 
-## {source -> dollars} over a span of days, from first to last inclusive.
+## {source -> gold} over a span of days, from first to last inclusive.
 func totals(first: int, last: int) -> Dictionary:
 	var out := {}
 	for day: int in days:

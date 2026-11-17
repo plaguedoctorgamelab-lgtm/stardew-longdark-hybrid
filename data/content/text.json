@@ -2158,7 +2158,7 @@
   },
   {
    "id": "chief_report",
-   "text": "WEEKLY REPORT, from the Chief\n\nVisitors this week: {visitors}\nMoney in: ${income}   Money out: ${spending}\n{lines}\nVisitors' mood: {mood}\nBest card: {card}\n\n{line}",
+   "text": "WEEKLY REPORT, from the Chief\n\nVisitors this week: {visitors}\nMoney in: {income} gold   Money out: {spending} gold\n{lines}\nVisitors' mood: {mood}\nBest card: {card}\n\n{line}",
    "placeholder": true
   },
   {
@@ -2333,22 +2333,22 @@
   },
   {
    "id": "hud_money",
-   "text": "${n}",
+   "text": "{n} gold",
    "placeholder": true
   },
   {
    "id": "ui_catalog",
-   "text": "Supply catalog  -  ${wallet} in the wallet",
+   "text": "Supply catalog  -  {wallet} gold in the wallet",
    "placeholder": true
   },
   {
    "id": "ui_catalog_line",
-   "text": "{name}  -  ${price}",
+   "text": "{name}  -  {price} gold",
    "placeholder": true
   },
   {
    "id": "ui_catalog_kit_line",
-   "text": "{name} for {place}  -  ${price}",
+   "text": "{name} for {place}  -  {price} gold",
    "placeholder": true
   },
   {
@@ -2373,12 +2373,12 @@
   },
   {
    "id": "msg_budget",
-   "text": "The Chief's weekly budget arrived: ${n}.",
+   "text": "The Chief's weekly budget arrived: {n} gold.",
    "placeholder": true
   },
   {
    "id": "msg_rescue_fee",
-   "text": "They left a note asking ${n} for their trouble. Fair enough.",
+   "text": "They left a note asking {n} gold for their trouble. Fair enough.",
    "placeholder": true
   },
   {
@@ -2393,7 +2393,7 @@
   },
   {
    "id": "ui_staff_hire",
-   "text": "Hire {name}, {role}, ${wage} a week: {line}",
+   "text": "Hire {name}, {role}, {wage} gold a week: {line}",
    "placeholder": true
   },
   {
@@ -2428,7 +2428,7 @@
   },
   {
    "id": "msg_staff_paid",
-   "text": "Wages paid: ${n}.",
+   "text": "Wages paid: {n} gold.",
    "placeholder": true
   },
   {
@@ -2488,12 +2488,12 @@
   },
   {
    "id": "msg_take_down_confirm",
-   "text": "Take down the {name}? You get ${n} back.",
+   "text": "Take down the {name}? You get {n} gold back.",
    "placeholder": true
   },
   {
    "id": "msg_taken_down_fac",
-   "text": "The {name} is taken down. ${n} is back in the wallet.",
+   "text": "The {name} is taken down. {n} gold is back in the wallet.",
    "placeholder": true
   },
   {
@@ -2668,7 +2668,7 @@
   },
   {
    "id": "msg_found_party",
-   "text": "\"Oh, thank goodness, a ranger!\" They follow you back to the trail and set off home. They leave ${n} as a thank-you.",
+   "text": "\"Oh, thank goodness, a ranger!\" They follow you back to the trail and set off home. They leave {n} gold as a thank-you.",
    "placeholder": true
   },
   {
@@ -2773,12 +2773,12 @@
   },
   {
    "id": "ledger_line",
-   "text": "  {name}: {sign}${n}",
+   "text": "  {name}: {sign}{n} gold",
    "placeholder": true
   },
   {
    "id": "ledger_total",
-   "text": "  Total: {sign}${n}",
+   "text": "  Total: {sign}{n} gold",
    "placeholder": true
   },
   {
@@ -2788,7 +2788,7 @@
   },
   {
    "id": "ledger_wallet",
-   "text": "Wallet: ${n}",
+   "text": "Wallet: {n} gold",
    "placeholder": true
   },
   {
@@ -3009,6 +3009,491 @@
   {
    "id": "note_belonging",
    "text": "Found among the litter: {thing}.",
+   "placeholder": true
+  },
+  {
+   "id": "ui_recipe_unknown",
+   "text": "{name}  -  {how}",
+   "placeholder": true
+  },
+  {
+   "id": "ui_not_learned",
+   "text": "Not learned yet:",
+   "placeholder": true
+  },
+  {
+   "id": "ui_learn_skill",
+   "text": "learn at {skill} {level}",
+   "placeholder": true
+  },
+  {
+   "id": "ui_learn_idea",
+   "text": "an idea comes when you carry {item}",
+   "placeholder": true
+  },
+  {
+   "id": "ui_learn_idea_gift_shelf",
+   "text": "an idea comes when you look at the empty gift shelf",
+   "placeholder": true
+  },
+  {
+   "id": "ui_made_at_workbench",
+   "text": "(at a workbench)",
+   "placeholder": true
+  },
+  {
+   "id": "ui_made_at_fire",
+   "text": "(at a lit stove or camp fire)",
+   "placeholder": true
+  },
+  {
+   "id": "msg_picked_part",
+   "text": "{n} {item}",
+   "placeholder": true
+  },
+  {
+   "id": "msg_picked_many",
+   "text": "You gather {list}.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_picked_many_full",
+   "text": "You gather {list}. Your backpack is full.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_sign_counts",
+   "text": "It counts as the {name}'s sign.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_sign_too_far",
+   "text": "Too far from the {name} to count for it: put it within {n} tiles.",
+   "placeholder": true
+  },
+  {
+   "id": "ui_pile",
+   "text": "Dropped here",
+   "placeholder": true
+  },
+  {
+   "id": "msg_drop_indoors",
+   "text": "There is nowhere to put it down in here.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_drop_full",
+   "text": "There's no room to put that down.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_dropped",
+   "text": "You put down {n} {item}. X to pick it up again.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_dropped_chest",
+   "text": "You put {n} {item} in the chest.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_trash_tool",
+   "text": "Better keep that. Drop it instead if you must.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_trashed",
+   "text": "You throw away {n} {item}.",
+   "placeholder": true
+  },
+  {
+   "id": "ui_drop",
+   "text": "Drop",
+   "placeholder": true
+  },
+  {
+   "id": "ui_trash",
+   "text": "Trash",
+   "placeholder": true
+  },
+  {
+   "id": "ui_drag_hint",
+   "text": "Drag to move. Drop or Trash below.",
+   "placeholder": true
+  },
+  {
+   "id": "hint_x_map",
+   "text": "X: map this place",
+   "placeholder": true
+  },
+  {
+   "id": "hint_x_open_site",
+   "text": "X: declare it open",
+   "placeholder": true
+  },
+  {
+   "id": "hint_x_go_in",
+   "text": "X: go in",
+   "placeholder": true
+  },
+  {
+   "id": "hint_x_locked",
+   "text": "X: look at what it needs",
+   "placeholder": true
+  },
+  {
+   "id": "hint_x_camp_sleep",
+   "text": "X: sleep at camp",
+   "placeholder": true
+  },
+  {
+   "id": "hint_x_cook",
+   "text": "X: cook",
+   "placeholder": true
+  },
+  {
+   "id": "hint_x_feed_fire",
+   "text": "X: add firewood",
+   "placeholder": true
+  },
+  {
+   "id": "hint_x_light_stove",
+   "text": "X: light the stove (needs firewood)",
+   "placeholder": true
+  },
+  {
+   "id": "hint_x_pile",
+   "text": "X: pick up what you dropped",
+   "placeholder": true
+  },
+  {
+   "id": "hint_x_gather",
+   "text": "X: gather everything close by",
+   "placeholder": true
+  },
+  {
+   "id": "hint_x_pick",
+   "text": "X: pick",
+   "placeholder": true
+  },
+  {
+   "id": "hint_x_read_sign",
+   "text": "X: read the sign",
+   "placeholder": true
+  },
+  {
+   "id": "hint_x_look",
+   "text": "X: look closer",
+   "placeholder": true
+  },
+  {
+   "id": "hint_x_bed",
+   "text": "X: sleep",
+   "placeholder": true
+  },
+  {
+   "id": "hint_x_catalog",
+   "text": "X: order supplies with gold",
+   "placeholder": true
+  },
+  {
+   "id": "hint_x_staff_board",
+   "text": "X: hire and assign staff",
+   "placeholder": true
+  },
+  {
+   "id": "hint_x_radio",
+   "text": "X: hear the forecast",
+   "placeholder": true
+  },
+  {
+   "id": "hint_x_shelf",
+   "text": "X: take what was delivered",
+   "placeholder": true
+  },
+  {
+   "id": "hint_x_chest",
+   "text": "X: open the chest",
+   "placeholder": true
+  },
+  {
+   "id": "hint_x_note_board",
+   "text": "X: read the note board",
+   "placeholder": true
+  },
+  {
+   "id": "hint_x_workbench",
+   "text": "X: make things at the workbench",
+   "placeholder": true
+  },
+  {
+   "id": "hint_x_find",
+   "text": "X: look closer",
+   "placeholder": true
+  },
+  {
+   "id": "hint_x_exit",
+   "text": "X: go outside",
+   "placeholder": true
+  },
+  {
+   "id": "hint_x_lost",
+   "text": "X: help the lost party home",
+   "placeholder": true
+  },
+  {
+   "id": "hint_x_badger",
+   "text": "X: shoo the badger",
+   "placeholder": true
+  },
+  {
+   "id": "hint_x_litter",
+   "text": "X: pick up litter",
+   "placeholder": true
+  },
+  {
+   "id": "hint_x_trash_can",
+   "text": "X: empty the trash can",
+   "placeholder": true
+  },
+  {
+   "id": "hint_x_fire_ring",
+   "text": "X: light the fire ring (needs firewood)",
+   "placeholder": true
+  },
+  {
+   "id": "hint_x_rent_sign",
+   "text": "X: turn the cabin's rent sign",
+   "placeholder": true
+  },
+  {
+   "id": "hint_x_pad",
+   "text": "X: what goes here (order its kit at the station)",
+   "placeholder": true
+  },
+  {
+   "id": "hint_x_pad_ordered",
+   "text": "X: its kit is on the way",
+   "placeholder": true
+  },
+  {
+   "id": "hint_x_pad_build",
+   "text": "Hammer (C): build it",
+   "placeholder": true
+  },
+  {
+   "id": "hint_x_fac_kiosk",
+   "text": "X: stock the gift shelf (visitors buy from it)",
+   "placeholder": true
+  },
+  {
+   "id": "hint_x_fac_suggestion_box",
+   "text": "X: read the visitors' cards",
+   "placeholder": true
+  },
+  {
+   "id": "hint_x_fac_bathroom",
+   "text": "X: clean the bathroom",
+   "placeholder": true
+  },
+  {
+   "id": "hint_c_eat",
+   "text": "C: eat",
+   "placeholder": true
+  },
+  {
+   "id": "hint_c_outdoors",
+   "text": "C: only works outdoors",
+   "placeholder": true
+  },
+  {
+   "id": "hint_c_put",
+   "text": "C: put the {item} here",
+   "placeholder": true
+  },
+  {
+   "id": "hint_c_cant",
+   "text": "C: {why}",
+   "placeholder": true
+  },
+  {
+   "id": "hint_c_boardwalk",
+   "text": "C: lay boardwalk here",
+   "placeholder": true
+  },
+  {
+   "id": "hint_c_boardwalk_where",
+   "text": "C: face boggy ground or shallows to lay boardwalk",
+   "placeholder": true
+  },
+  {
+   "id": "hint_c_kit",
+   "text": "C: set up the workbench here",
+   "placeholder": true
+  },
+  {
+   "id": "hint_c_kit_where",
+   "text": "C: set this up inside a repaired cabin or tower",
+   "placeholder": true
+  },
+  {
+   "id": "hint_c_survey",
+   "text": "C: survey (stand still a while)",
+   "placeholder": true
+  },
+  {
+   "id": "hint_c_clear",
+   "text": "C: clear the way",
+   "placeholder": true
+  },
+  {
+   "id": "hint_c_chop",
+   "text": "C: chop the tree for firewood",
+   "placeholder": true
+  },
+  {
+   "id": "hint_c_axe_what",
+   "text": "Axe: face a tree or a fallen trunk",
+   "placeholder": true
+  },
+  {
+   "id": "hint_c_saw",
+   "text": "C: saw through",
+   "placeholder": true
+  },
+  {
+   "id": "hint_c_saw_what",
+   "text": "Saw: face a fallen trunk",
+   "placeholder": true
+  },
+  {
+   "id": "hint_c_dig",
+   "text": "C: dig trail here",
+   "placeholder": true
+  },
+  {
+   "id": "hint_c_dig_where",
+   "text": "Shovel: face grass or forest floor to dig trail",
+   "placeholder": true
+  },
+  {
+   "id": "hint_c_camp",
+   "text": "C: make camp here (needs firewood)",
+   "placeholder": true
+  },
+  {
+   "id": "hint_c_take_down",
+   "text": "C: take the sign down",
+   "placeholder": true
+  },
+  {
+   "id": "hint_c_pick_up_thing",
+   "text": "C: pick it up",
+   "placeholder": true
+  },
+  {
+   "id": "hint_c_build",
+   "text": "C: build it",
+   "placeholder": true
+  },
+  {
+   "id": "hint_c_repair",
+   "text": "C: repair",
+   "placeholder": true
+  },
+  {
+   "id": "hint_c_hammer_what",
+   "text": "Hammer: stand by a broken building or a kit",
+   "placeholder": true
+  },
+  {
+   "id": "next_title",
+   "text": "Next:",
+   "placeholder": true
+  },
+  {
+   "id": "next_line",
+   "text": "  {name}: {what}",
+   "placeholder": true
+  },
+  {
+   "id": "next_find",
+   "text": "find it",
+   "placeholder": true
+  },
+  {
+   "id": "next_map",
+   "text": "press X at it to map it",
+   "placeholder": true
+  },
+  {
+   "id": "next_reach",
+   "text": "join it to the station's trail. Dig with the shovel; clear blocks with the saw or axe",
+   "placeholder": true
+  },
+  {
+   "id": "next_repair",
+   "text": "repair it: hammer (C) at the door, with what it needs",
+   "placeholder": true
+  },
+  {
+   "id": "next_sign",
+   "text": "put up a sign naming it within {n} tiles, beside the trail",
+   "placeholder": true
+  },
+  {
+   "id": "next_settle",
+   "text": "something here isn't right yet",
+   "placeholder": true
+  },
+  {
+   "id": "next_open",
+   "text": "press X at it to declare it open",
+   "placeholder": true
+  },
+  {
+   "id": "next_none",
+   "text": "  Find a place worth opening: explore, and read the note board.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_gift_shelf_how",
+   "text": "The gift shelf: put gift goods and berry preserve here. Visitors buy from it as they leave, and the gold goes in your wallet.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_box_how",
+   "text": "The suggestion box: visitors leave cards about their day. Read them to see what they want; a card that asks for something can be pinned to your jobs.",
+   "placeholder": true
+  },
+  {
+   "id": "ui_travel_to",
+   "text": "Walk the trail to the {name} ({time})",
+   "placeholder": true
+  },
+  {
+   "id": "ui_hours_minutes",
+   "text": "{h} h {m} min",
+   "placeholder": true
+  },
+  {
+   "id": "ui_travel_title",
+   "text": "Trail travel (click):",
+   "placeholder": true
+  },
+  {
+   "id": "msg_travel_known",
+   "text": "You know the way to the {name} now. Where a trail joins it, you can walk there from the map (M).",
+   "placeholder": true
+  },
+  {
+   "id": "msg_travel_cant",
+   "text": "You can't walk there from here.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_traveled",
+   "text": "You walk the trail to the {name}.",
    "placeholder": true
   }
  ]

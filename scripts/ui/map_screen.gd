@@ -32,6 +32,7 @@ var title: Label
 var percent: Label
 var lost: Label
 var landmark_labels: Control
+var travel_box: VBoxContainer
 var image: Image
 var texture: ImageTexture
 var zoom_index: int = 2
@@ -73,7 +74,38 @@ func setup(s: GameSession) -> void:
 	image.fill(PAPER)
 	texture = ImageTexture.create_from_image(image)
 	map_rect.texture = texture
+	# Trail travel: places the ranger can walk to in one go, from the trail.
+	travel_box = VBoxContainer.new()
+	travel_box.position = Vector2(size.x - 4, 16)
+	travel_box.add_theme_constant_override("separation", 1)
+	add_child(travel_box)
 	visible = false
+
+
+## Fills the trail travel list; hidden when there is nowhere to go.
+func _fill_travel() -> void:
+	for c in travel_box.get_children():
+		c.queue_free()
+	var opts := session.travel_options()
+	travel_box.visible = not opts.is_empty()
+	if opts.is_empty():
+		return
+	var head := Label.new()
+	head.text = session.content.text("ui_travel_title")
+	head.add_theme_font_size_override("font_size", 8)
+	travel_box.add_child(head)
+	for o: Dictionary in opts:
+		var b := Button.new()
+		b.text = str(o["label"])
+		b.focus_mode = Control.FOCUS_NONE
+		b.add_theme_font_size_override("font_size", 8)
+		var id: String = o["id"]
+		b.pressed.connect(func() -> void:
+			close()
+			session.travel_to(id))
+		travel_box.add_child(b)
+	travel_box.reset_size()
+	travel_box.position = Vector2(size.x - 6 - travel_box.get_combined_minimum_size().x, 16)
 
 
 func _label(pos: Vector2, text: String) -> Label:
@@ -196,6 +228,7 @@ func open() -> void:
 	elif center == Vector2.ZERO:
 		center = session.door_front("ranger_station")
 	visible = true
+	_fill_travel()
 	_layout()
 
 

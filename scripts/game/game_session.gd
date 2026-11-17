@@ -24,6 +24,12 @@ signal choice_requested(kind: String, title: String, options: Array)
 signal cooking_opened
 signal backpack_grew
 signal list_requested(kind: String, title: String, options: Array)
+## A survey finished: the map opens so the ranger sees what was drawn.
+signal survey_finished
+## Things dropped on the ground came or went.
+signal piles_changed
+## The ranger walked the trail somewhere in one go (trail travel).
+signal traveled
 
 const FACING_DOWN := 0
 const FACING_RIGHT := 1
@@ -108,6 +114,12 @@ var _hold_ideas: bool = false
 var park: Park                       # phase 3: money, visitors, facilities and upkeep
 var box_offer: bool = false          # pinning cards is offered once the box's note closes
 var _pending_pad: String = ""
+var piles: Dictionary = {}           # tile -> Inventory: things the ranger dropped on the ground
+var guide: Guide                     # what X and C do here, the "?" marks, what's next
+var visits: Dictionary = {}          # travel place id -> times the ranger has arrived there
+var _near_place: String = ""         # the travel place the ranger is at now, if any
+var _traveling: bool = false
+var shelf_seen: Dictionary = {}      # structure id -> the supply shelf as last looked at
 
 
 func _init(tuning_path: String = Tuning.DEFAULT_PATH, content_dir: String = ContentDB.CONTENT_DIR, world_dir: String = WorldData.WORLD_DIR) -> void:
@@ -136,6 +148,7 @@ func _init(tuning_path: String = Tuning.DEFAULT_PATH, content_dir: String = Cont
 	park = Park.new(self)
 	land_changed.connect(func(_t: Vector2i) -> void: park.net.mark_dirty())
 	park.note.connect(func(text: String) -> void: message.emit(text))
+	guide = Guide.new(self)
 
 
 # --- starting and loading ---------------------------------------------------
@@ -189,6 +202,10 @@ func new_game(new_seed: int = -1) -> void:
 	_reset_land()
 	_apply_seasons()
 	park.new_game()
+	visits = {"ranger_station": tuning.integer("travel.visits_needed")}
+	_near_place = ""
+	piles = {}
+	piles_changed.emit()
 	camp_changed.emit()
 	weather.check_change(clock.minute)
 
@@ -232,6 +249,8 @@ func to_dict() -> Dictionary:
 			"wake": pending_wake.duplicate(true),
 		},
 		"park": park.to_dict(),
+		"visits": visits.duplicate(),
+		"piles": piles.keys().map(func(t: Vector2i) -> Array: return [t.x, t.y, (piles[t] as Inventory).to_array()]),
 	}
 
 
@@ -315,6 +334,17 @@ func from_dict(d: Dictionary) -> void:
 	_sensing = false
 	_apply_seasons()
 	park.from_dict(d.get("park", {}))
+	visits = {"ranger_station": tuning.integer("travel.visits_needed")}
+	for k: String in d.get("visits", {}):
+		visits[k] = maxi(int(visits.get(k, 0)), int(d["visits"][k]))
+	_near_place = ""
+	piles = {}
+	for e: Array in d.get("piles", []):
+		var inv := Inventory.new(content, tuning.integer("storage.pile_slots"))
+		inv.from_array(e[2])
+		piles[Vector2i(int(e[0]), int(e[1]))] = inv
+	tidy_piles()
+	piles_changed.emit()
 	camp_changed.emit()
 	survey_steps_left = 0
 	_last_tile = Vector2i(-9999, -9999)
@@ -531,7 +561,7 @@ func needs_context() -> Dictionary:
 		"weather": weather_row(),
 		"season": clock.season_name(),
 		"night": is_night(),
-		"walked": _walked_this_step > 0.05,
+		"walked": _walked_this_step > 0.05 or _traveling,
 		"rough": _rough_this_step,
 		"campfire": near_lit_fire() or near_warm_camp(),
 	}
@@ -559,6 +589,7 @@ func _on_step(_minute: int) -> void:
 	if not is_indoors():
 		_update_trace()
 		_watch_for_finds()
+		_watch_visits()
 	_check_collapse()
 
 
@@ -819,9 +850,13 @@ func interact() -> void:
 			return
 	if _park_interact():
 		return
+	var pile := pile_in_reach()
+	if pile.x >= 0:
+		storage_opened.emit(content.text("ui_pile"), piles[pile])
+		return
 	var spot := forage_in_reach()
 	if spot.x >= 0:
-		pick_forage(spot)
+		pick_forage_around(spot)
 		return
 	var source := object_forage_in_reach()
 	if source.x >= 0:
@@ -871,6 +906,7 @@ func _interact_inside() -> void:
 		"radio":
 			use_radio()
 		"shelf":
+			shelf_seen[location] = str((structures.shelves[location] as Inventory).to_array())
 			storage_opened.emit(content.text("ui_shelf"), structures.shelves[location])
 		"chest":
 			if bed_taken(location):
@@ -1401,6 +1437,206 @@ func dig() -> Dictionary:
 	return {"ok": true, "tiles": made}
 
 
+# --- trail travel --------------------------------------------------------------
+
+## The places trail travel can reach: the station and every site found.
+## {id: door point}.
+func travel_places() -> Dictionary:
+	var out := {"ranger_station": door_front("ranger_station")}
+	for r: Dictionary in content.rows("sites"):
+		if sites_found.has(r["id"]):
+			out[r["id"]] = site_door(r["id"])
+	return out
+
+
+func travel_name(id: String) -> String:
+	if id == "ranger_station":
+		return content.text("ui_place_station")
+	return content.text(content.row("sites", id)["name"])
+
+
+## Counts an arrival each time the ranger comes to a place after being well
+## away from it.
+func _watch_visits() -> void:
+	var places := travel_places()
+	if _near_place != "" and places.has(_near_place) and outdoor_pos.distance_to(places[_near_place]) > tuning.num("travel.leave_radius_tiles"):
+		_near_place = ""
+	for id: String in places:
+		if id != _near_place and outdoor_pos.distance_to(places[id]) <= tuning.num("travel.arrive_radius_tiles"):
+			_near_place = id
+			visits[id] = int(visits.get(id, 0)) + 1
+			if int(visits[id]) == tuning.integer("travel.visits_needed"):
+				message.emit(content.text("msg_travel_known", {"name": travel_name(id)}))
+			break
+
+
+## Steps along trail, boardwalk and short fords from tile a to every trail
+## tile it joins: {tile: steps}. The same ground site_reached walks on.
+func _trail_steps_from(a: Vector2i) -> Dictionary:
+	var grounds: Array = tuning.value("sites.reach_grounds")
+	var ford_max := tuning.integer("sites.ford_max_tiles")
+	var steps := {a: 0}
+	var run := {a: 0}
+	var queue: Array[Vector2i] = [a]
+	var head := 0
+	var dirs: Array[Vector2i] = [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]
+	while head < queue.size():
+		var t := queue[head]
+		head += 1
+		for d in dirs:
+			var n := t + d
+			if steps.has(n) or world.is_solid(n):
+				continue
+			var g := world.ground_at(n)
+			var r := 0
+			if g == "shallows":
+				r = int(run[t]) + 1
+				if r > ford_max:
+					continue
+			elif not grounds.has(g):
+				continue
+			steps[n] = int(steps[t]) + 1
+			run[n] = r
+			queue.append(n)
+	return steps
+
+
+## The trail tile under or right beside the ranger, or (-1, -1).
+func _trail_start() -> Vector2i:
+	var grounds: Array = tuning.value("sites.reach_grounds")
+	var here := ranger_tile()
+	for d: Vector2i in [Vector2i.ZERO, Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]:
+		if grounds.has(world.ground_at(here + d)) and not world.is_solid(here + d):
+			return here + d
+	return Vector2i(-1, -1)
+
+
+func travel_minutes_per_tile() -> float:
+	var game_min_per_sec := tuning.num("time.minutes_per_step") / tuning.num("time.real_seconds_per_step")
+	return game_min_per_sec / tuning.num("movement.trail_speed_tiles") * tuning.num("travel.time_mult")
+
+
+## Where the ranger can walk the trail to from here, in one go:
+## [{id, label, minutes}]. Only from the trail, outdoors, to places arrived at
+## often enough and joined to here by trail. Empty when none.
+func travel_options() -> Array:
+	var out := []
+	if is_indoors() or survey_steps_left > 0 or not bool(tuning.value("travel.enabled")):
+		return out
+	var start := _trail_start()
+	if start.x < 0:
+		return out
+	var steps := _trail_steps_from(start)
+	var places := travel_places()
+	for id: String in places:
+		if int(visits.get(id, 0)) < tuning.integer("travel.visits_needed"):
+			continue
+		if outdoor_pos.distance_to(places[id]) <= tuning.num("travel.arrive_radius_tiles"):
+			continue
+		var door := Vector2i(places[id])
+		if not steps.has(door):
+			continue
+		var minutes := roundi(int(steps[door]) * travel_minutes_per_tile())
+		out.append({"id": id, "label": content.text("ui_travel_to", {"name": travel_name(id), "time": content.text("ui_hours_minutes", {"h": minutes / 60, "m": minutes % 60})}), "minutes": minutes})
+	out.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return int(a["minutes"]) < int(b["minutes"]))
+	return out
+
+
+## Walks the trail to a place in one go: the time passes and the walk tires
+## the ranger as walking does; the way is not seen again.
+func travel_to(id: String) -> bool:
+	var opt := {}
+	for o: Dictionary in travel_options():
+		if o["id"] == id:
+			opt = o
+	if opt.is_empty():
+		message.emit(content.text("msg_travel_cant"))
+		return false
+	outdoor_pos = travel_places()[id]
+	facing = FACING_DOWN
+	_near_place = id
+	_traveling = true
+	pass_minutes(int(opt["minutes"]))
+	_traveling = false
+	_update_trace()
+	traveled.emit()
+	message.emit(content.text("msg_traveled", {"name": travel_name(id)}))
+	_check_collapse()
+	return true
+
+
+# --- dropping and throwing away ------------------------------------------------
+
+## Drops the stack in slot i of an inventory: on the ground where the ranger
+## stands, or, indoors, into the building's chest. Returns true if it went.
+func drop_slot(inv: Inventory, i: int) -> bool:
+	var s := inv.slot(i)
+	if s.is_empty():
+		return false
+	var into: Inventory = null
+	if is_indoors():
+		into = structures.chests.get(location, null)
+		if into == null or into == inv:
+			message.emit(content.text("msg_drop_indoors"))
+			return false
+	else:
+		var t := ranger_tile()
+		if not piles.has(t):
+			piles[t] = Inventory.new(content, tuning.integer("storage.pile_slots"))
+		into = piles[t]
+		if into == inv:
+			return false
+	var item: String = s["item"]
+	var n := int(s["count"])
+	inv.take_slot(i)
+	var left := into.add(item, n)
+	if left > 0:
+		inv.add(item, left)
+	if left >= n:
+		message.emit(content.text("msg_drop_full"))
+		tidy_piles()
+		return false
+	message.emit(content.text("msg_dropped_chest" if is_indoors() else "msg_dropped", {"n": n - left, "item": content.item_name(item).to_lower()}))
+	piles_changed.emit()
+	return true
+
+
+## Throws away the stack in slot i for good. Tools are kept: they can be
+## dropped instead.
+func trash_slot(inv: Inventory, i: int) -> bool:
+	var s := inv.slot(i)
+	if s.is_empty():
+		return false
+	if str(content.row("items", s["item"]).get("kind", "")) in ["tool", "page"]:
+		message.emit(content.text("msg_trash_tool"))
+		return false
+	inv.take_slot(i)
+	message.emit(content.text("msg_trashed", {"n": int(s["count"]), "item": content.item_name(s["item"]).to_lower()}))
+	return true
+
+
+## A pile of dropped things in reach, or (-1, -1).
+func pile_in_reach() -> Vector2i:
+	if is_indoors():
+		return Vector2i(-1, -1)
+	var best := Vector2i(-1, -1)
+	var best_d := tuning.num("world.interact_reach_tiles") + 0.5
+	for t: Vector2i in piles:
+		var d := outdoor_pos.distance_to(Vector2(t) + Vector2(0.5, 0.5))
+		if d <= best_d and not (piles[t] as Inventory).is_empty():
+			best_d = d
+			best = t
+	return best
+
+
+## Forgets piles that are empty now, and has the rest drawn afresh.
+func tidy_piles() -> void:
+	for t: Vector2i in piles.keys():
+		if (piles[t] as Inventory).is_empty():
+			piles.erase(t)
+	piles_changed.emit()
+
+
 # --- crafting (phase 2b) ---------------------------------------------------------
 
 ## The recipes listed at a station: anywhere (the Crafting page), workbench
@@ -1595,9 +1831,16 @@ func recipe_options(station: String) -> Array:
 	var out := []
 	if station == "fire":
 		out.append({"id": "#firewood", "label": content.text("ui_add_firewood", {"n": backpack.count("firewood")}), "enabled": backpack.has("firewood")})
-	for r: Dictionary in recipes_at(station):
+	# The Crafting page (K) lists every recipe known, wherever it is made; a
+	# workbench or fire lists its own.
+	var rows: Array = content.rows("recipes") if station == "anywhere" else recipes_at(station)
+	var unknown := []
+	for r: Dictionary in rows:
 		var id: String = r["id"]
 		if not recipes_known.has(id):
+			var how := learn_hint(id)
+			if how != "":
+				unknown.append({"id": "#learn:" + id, "label": content.text("ui_recipe_unknown", {"name": content.text(r["name"]), "how": how}), "enabled": false})
 			continue
 		var can := craft_problem(id) == ""
 		var label := ""
@@ -1613,8 +1856,38 @@ func recipe_options(station: String) -> Array:
 				label += " " + content.text("ui_needs_tool", {"tool": content.item_name(r["tool"]).to_lower()})
 			if bool(r.get("once", false)) and _made_once(id):
 				label += " " + content.text("ui_made_once")
+		if not station_ok(r["station"]):
+			label += " " + content.text("ui_made_at_" + str(r["station"]))
 		out.append({"id": id, "label": label, "enabled": can})
+	if not unknown.is_empty():
+		out.append({"id": "#header", "label": content.text("ui_not_learned"), "enabled": false})
+		out.append_array(unknown)
 	return out
+
+
+## How a recipe not yet known is learned, in a few words, or "" to keep it
+## out of the lists (magic refits, and anything made with a magical
+## ingredient, stay unseen until found).
+func learn_hint(recipe_id: String) -> String:
+	var r := content.row("recipes", recipe_id)
+	if r.has("refit"):
+		return ""
+	for k: String in r["inputs"]:
+		if str(content.row("items", k).get("kind", "")) == "magic":
+			return ""
+	match str(r["learned"]):
+		"skill":
+			for s: Dictionary in content.rows("skills"):
+				for p: Dictionary in s.get("perks", []):
+					if (p.get("recipes", []) as Array).has(recipe_id):
+						return content.text("ui_learn_skill", {"skill": content.text(s["name"]), "level": int(p["level"])})
+		"idea":
+			for idea: Dictionary in content.rows("ideas"):
+				if (idea["recipes"] as Array).has(recipe_id):
+					if idea.has("item"):
+						return content.text("ui_learn_idea", {"item": content.item_name(idea["item"]).to_lower()})
+					return content.text("ui_learn_idea_" + str(idea["id"]))
+	return ""
 
 
 ## Acts on one choice from recipe_options.
@@ -1687,13 +1960,32 @@ func _set_boardwalk(t: Vector2i, on: bool) -> void:
 
 # --- signs and trail markers -----------------------------------------------------
 
-## Places a sign can name: the station, and every place the ranger has mapped.
+## Places a sign can name: the station, every site found and every place
+## the ranger has mapped. The nearest come first.
 func sign_places() -> Array:
 	var out := [{"id": "ranger_station", "label": content.text("ui_place_station")}]
+	var found := {}
+	for r: Dictionary in content.rows("sites"):
+		if sites_found.has(r["id"]):
+			found[r["landmark"]] = true
+	var rest := []
 	for r: Dictionary in content.rows("landmarks"):
-		if map.is_landmark_mapped(r["id"]):
-			out.append({"id": r["id"], "label": content.text(r["name"])})
+		if map.is_landmark_mapped(r["id"]) or found.has(r["id"]):
+			rest.append({"id": r["id"], "label": content.text(r["name"]), "d": outdoor_pos.distance_to(world.landmark_pos(r["id"]))})
+	rest.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return float(a["d"]) < float(b["d"]))
+	for e: Dictionary in rest:
+		out.append({"id": e["id"], "label": e["label"]})
 	return out
+
+
+## On a trail or boardwalk, or right beside one (tuned), where a sign belongs.
+func near_trail(t: Vector2i) -> bool:
+	var r := tuning.integer("signs.beside_trail_tiles")
+	for dy in range(-r, r + 1):
+		for dx in range(-r, r + 1):
+			if (tuning.value("sites.reach_grounds") as Array).has(world.ground_at(t + Vector2i(dx, dy))):
+				return true
+	return false
 
 
 func place_name(place_id: String) -> String:
@@ -1721,7 +2013,7 @@ func place_problem(t: Vector2i, item: String) -> String:
 	if not camp.is_empty() and (camp["bed"] == t or camp["fire"] == t):
 		return "msg_place_bad_spot"
 	var g := world.ground_at(t)
-	if row.get("on", "open") == "trail" and g != "trail":
+	if row.get("on", "open") == "trail" and not near_trail(t):
 		return "msg_sign_need_trail"
 	if g in ["shallows", "deep_water", "rock", "boards"]:
 		return "msg_place_bad_spot"
@@ -1777,6 +2069,11 @@ func put_up(t: Vector2i, item: String, place_id: String) -> bool:
 	map.touch(t)
 	if place_id != "":
 		message.emit(content.text("msg_sign_up", {"place": place_name(place_id)}))
+		# Say plainly whether it counts towards opening a site.
+		for r: Dictionary in content.rows("sites"):
+			if r["landmark"] == place_id and not sites_open.has(r["id"]):
+				var ok := site_signed(r["id"])
+				message.emit(content.text("msg_sign_counts" if ok else "msg_sign_too_far", {"name": content.text(r["name"]), "n": tuning.integer("sites.sign_distance_tiles")}))
 	elif item == "cairn":
 		message.emit(content.text("msg_cairn_up"))
 	else:
@@ -2286,6 +2583,7 @@ func _finish_survey() -> void:
 	message.emit(content.text("msg_tower_survey" if tower else ("msg_outlook_survey" if outlook else "msg_survey_done")))
 	survey_changed.emit(false, 1.0)
 	_update_trace()
+	survey_finished.emit()
 
 
 func map_location(landmark_id: String) -> void:
@@ -2350,7 +2648,50 @@ func forage_in_reach() -> Vector2i:
 
 ## Picks a spot: one of its item, or two on a double pick (Foraging 4 and the
 ## Gatherer). A magical ingredient is logged as a find the first time.
-func pick_forage(t: Vector2i) -> Dictionary:
+## Picks the spot in reach and every other spot showing within the tuned
+## radius, nearest first, told in one line.
+func pick_forage_around(first: Vector2i) -> Dictionary:
+	var r := tuning.num("forage.pick_radius_tiles")
+	var tiles: Array[Vector2i] = [first]
+	var reach := ceili(r)
+	for dy in range(-reach, reach + 1):
+		for dx in range(-reach, reach + 1):
+			var t := ranger_tile() + Vector2i(dx, dy)
+			if t == first or (not forage.spots.has(t) and forage.magic_at(t) == ""):
+				continue
+			if outdoor_pos.distance_to(Vector2(t) + Vector2(0.5, 0.5)) <= r and forage_showing(t):
+				tiles.append(t)
+	tiles.sort_custom(func(a: Vector2i, b: Vector2i) -> bool:
+		if a == first or b == first:
+			return a == first and b != first
+		return outdoor_pos.distance_squared_to(Vector2(a)) < outdoor_pos.distance_squared_to(Vector2(b)))
+	if tiles.size() == 1:
+		return pick_forage(first)
+	var got := {}
+	var order: Array[String] = []
+	var full := false
+	for t in tiles:
+		var res := pick_forage(t, true)
+		if not bool(res["ok"]):
+			full = res["reason"] == "full"
+			if full:
+				break
+			continue
+		if not got.has(res["item"]):
+			order.append(res["item"])
+		got[res["item"]] = int(got.get(res["item"], 0)) + int(res["count"])
+	if order.is_empty():
+		if full:
+			message.emit(content.text("msg_backpack_full"))
+		return {"ok": false, "reason": "full" if full else "nothing"}
+	var parts: PackedStringArray = []
+	for item in order:
+		parts.append(content.text("msg_picked_part", {"n": got[item], "item": content.item_name(item).to_lower()}))
+	message.emit(content.text("msg_picked_many_full" if full else "msg_picked_many", {"list": ", ".join(parts)}))
+	return {"ok": true, "items": got}
+
+
+func pick_forage(t: Vector2i, quiet: bool = false) -> Dictionary:
 	if not forage_showing(t):
 		return {"ok": false, "reason": "nothing"}
 	var today := clock.absolute_day()
@@ -2364,13 +2705,14 @@ func pick_forage(t: Vector2i) -> Dictionary:
 	var left := backpack.add(item, n)
 	_hold_ideas = false
 	if left >= n:
-		message.emit(content.text("msg_backpack_full"))
+		if not quiet:
+			message.emit(content.text("msg_backpack_full"))
 		return {"ok": false, "reason": "full"}
 	if magic:
 		forage.mark_picked(t, today)
 	else:
 		forage.take_ground(t, today)
-	_after_pick(item, n - left, magic)
+	_after_pick(item, n - left, magic, quiet)
 	return {"ok": true, "item": item, "count": n - left}
 
 
@@ -2383,9 +2725,11 @@ func _roll_double(t: Vector2i) -> bool:
 	return rng.randf() < chance
 
 
-func _after_pick(item: String, got: int, magic: bool) -> void:
+func _after_pick(item: String, got: int, magic: bool, quiet: bool = false) -> void:
 	var name := content.item_name(item).to_lower()
-	if magic:
+	if quiet:
+		pass
+	elif magic:
 		message.emit(content.text("msg_picked_magic", {"item": name}))
 	elif got > 1:
 		message.emit(content.text("msg_picked_extra", {"item": name}))
@@ -2986,12 +3330,13 @@ func open_gift_shelf() -> void:
 				learn_recipe(rid)
 			message.emit(content.text("msg_gift_ideas"))
 	storage_opened.emit(content.text("ui_gift_shelf"), park.gift_shelf)
+	message.emit(content.text("msg_gift_shelf_how"))
 
 
 func read_box() -> String:
 	var got := park.read_cards()
 	if got.is_empty():
-		message.emit(content.text("msg_box_empty"))
+		message.emit(content.text("msg_box_empty") + " " + content.text("msg_box_how"))
 		return ""
 	var texts: PackedStringArray = []
 	for c: Dictionary in got:
@@ -3313,4 +3658,4 @@ func debug_run_unattended(days: int) -> String:
 		clock.start_next_day()
 		low = mini(low, park.money.wallet)
 	park.morning_lines = []
-	return "Ran %d days: wallet $%d to $%d (lowest $%d), %d parties now in the park, %d badgers, %d litter, %d cards waiting, %d letters." % [days, start_wallet, park.money.wallet, low, park.parties.size(), park.badgers.size(), park.litter.size(), park.unread_cards().size(), park.letters.size()]
+	return "Ran %d days: wallet %dg to %dg (lowest %dg), %d parties now in the park, %d badgers, %d litter, %d cards waiting, %d letters." % [days, start_wallet, park.money.wallet, low, park.parties.size(), park.badgers.size(), park.litter.size(), park.unread_cards().size(), park.letters.size()]

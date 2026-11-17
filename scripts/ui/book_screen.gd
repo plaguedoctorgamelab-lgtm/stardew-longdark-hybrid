@@ -56,7 +56,10 @@ func lines_for(pg: String) -> PackedStringArray:
 	var c := session.content
 	match pg:
 		"jobs":
-			var out := PackedStringArray([c.text("job_list_title"), ""])
+			var out := PackedStringArray([c.text("next_title")])
+			var nxt := session.guide.next_steps()
+			out.append_array(nxt if not nxt.is_empty() else PackedStringArray([c.text("next_none")]))
+			out.append_array(PackedStringArray(["", c.text("job_list_title"), ""]))
 			out.append_array(session.job_lines())
 			out.append("")
 			out.append_array(session.site_lines())

@@ -22,7 +22,9 @@ var slot_counts: Array[Label] = []
 var slot_keys: Array[Label] = []
 var debug_label: Label
 var money_label: Label
+var hint_label: Label
 var _message_time: float = 0.0
+var _hint_wait: float = 0.0
 
 
 ## The item bar: the first backpack slots (tuned, 10), one row, each marked
@@ -94,11 +96,19 @@ func setup(s: GameSession, theme: Theme) -> void:
 
 	rebuild_slots()
 
-	message_label = _label(Vector2(0, 236))
+	message_label = _label(Vector2(0, 226))
 	message_label.size = Vector2(480, 10)
 	message_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	# What X and C do right here, always shown just over the item bar.
+	hint_label = _label(Vector2(0, 238))
+	hint_label.size = Vector2(480, 10)
+	hint_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	hint_label.add_theme_color_override("font_color", Color(1.0, 0.95, 0.75))
+	for l: Label in [message_label, hint_label]:
+		l.add_theme_color_override("font_outline_color", Color(0.12, 0.08, 0.05))
+		l.add_theme_constant_override("outline_size", 3)
 	survey_bar = ProgressBar.new()
-	survey_bar.position = Vector2(200, 226)
+	survey_bar.position = Vector2(200, 218)
 	survey_bar.size = Vector2(80, 6)
 	survey_bar.show_percentage = false
 	survey_bar.max_value = 1.0
@@ -178,6 +188,14 @@ func _process(delta: float) -> void:
 			if tremble and session.family_of(s["item"]) == "compass":
 				slot_icons[i].position += Vector2(randi_range(-1, 1), 0)
 		slot_panels[i].self_modulate = Color(1.6, 1.4, 0.6) if i == session.selected_slot else Color.WHITE
+	_hint_wait -= delta
+	if _hint_wait <= 0.0:
+		_hint_wait = 0.2
+		var parts: PackedStringArray = []
+		for h in [session.guide.x_hint(), session.guide.use_hint()]:
+			if h != "":
+				parts.append(h)
+		hint_label.text = "     ".join(parts)
 	if _message_time > 0.0:
 		_message_time -= delta
 		message_label.modulate.a = clampf(_message_time, 0.0, 1.0)

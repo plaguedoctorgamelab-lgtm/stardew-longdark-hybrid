@@ -131,7 +131,8 @@
   "storage": {
     "backpack_slots": 18,
     "bar_slots": 10,
-    "chest_slots": 12
+    "chest_slots": 12,
+    "pile_slots": 20
   },
   "world": {
     "chunk_size": 32,
@@ -197,7 +198,8 @@
     "put_up_energy": 2,
     "take_down_minutes": 10,
     "take_down_energy": 0,
-    "marker_radius_tiles": 3
+    "marker_radius_tiles": 3,
+    "beside_trail_tiles": 2
   },
   "sites": {
     "find_radius_tiles": 14,
@@ -232,7 +234,8 @@
     ],
     "bush_refruit_days": 4,
     "resin_days": 7,
-    "reach_tiles": 1.2
+    "reach_tiles": 1.2,
+    "pick_radius_tiles": 2.5
   },
   "magic": {
     "places_per_ingredient": 10,
@@ -417,5 +420,12 @@
   },
   "staff": {
     "board_size": 3
+  },
+  "travel": {
+    "enabled": true,
+    "visits_needed": 2,
+    "arrive_radius_tiles": 6,
+    "leave_radius_tiles": 30,
+    "time_mult": 0.8
   }
 }
