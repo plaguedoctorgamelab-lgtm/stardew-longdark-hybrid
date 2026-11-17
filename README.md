@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.4.0** (see [Version history](#version-history)). The
+**Current version: 0.4.1** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -89,6 +89,11 @@ docs/              bible, roadmap, specs, rules, status reports (hidden from God
 
 The version lives in `project.godot` (`application/config/version`). Every
 commit of the build raises it and adds a line here.
+
+### 0.4.1 (17 November 2026)
+
+- Art Requests 08 and 09 are in: Mark's visitors (a body and nine layers the game colours), the troll badger, the kiosk, bathroom, picnic area, campground, fishing dock, suggestion box, lookout sign, pad stakes and kit crates, benches, trash cans, picnic tables, fire rings, litter, dug earth, ten icons including the gift goods, and the station's catalog desk and staff board.
+- Visitors' hair and hats sit a pixel higher than drawn so they clear the eyes (`look.visitor_layer_lift` in the tuning file).
 
 ### 0.4.0 (17 November 2026): Phase 3, the park runs
 

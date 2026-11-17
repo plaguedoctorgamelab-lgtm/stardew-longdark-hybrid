@@ -2707,6 +2707,518 @@
      "drop_soft": true
     }
    ]
+  },
+  {
+   "file": "ar08_visitor_body.png",
+   "label": "Art Request 08: the plain visitor body (4 frames x 4 directions of 16 x 24, pale for tinting)",
+   "pixel": true,
+   "grid": [
+    1,
+    1
+   ],
+   "cells": [
+    {
+     "name": "visitor_body",
+     "size": [
+      64,
+      96
+     ],
+     "full": true,
+     "box": [
+      0,
+      0,
+      64,
+      96
+     ]
+    }
+   ]
+  },
+  {
+   "file": "ar08_visitor_layers.png",
+   "label": "Art Request 08: nine visitor layers, each a full 64 x 96 body sheet",
+   "pixel": true,
+   "grid": [
+    3,
+    3
+   ],
+   "cells": [
+    {
+     "name": "visitor_hair",
+     "size": [
+      64,
+      96
+     ],
+     "full": true,
+     "box": [
+      0,
+      0,
+      64,
+      96
+     ]
+    },
+    {
+     "name": "visitor_shirt",
+     "size": [
+      64,
+      96
+     ],
+     "full": true,
+     "box": [
+      64,
+      0,
+      64,
+      96
+     ]
+    },
+    {
+     "name": "visitor_pants",
+     "size": [
+      64,
+      96
+     ],
+     "full": true,
+     "box": [
+      128,
+      0,
+      64,
+      96
+     ]
+    },
+    {
+     "name": "visitor_hat_cap",
+     "size": [
+      64,
+      96
+     ],
+     "full": true,
+     "box": [
+      0,
+      96,
+      64,
+      96
+     ]
+    },
+    {
+     "name": "visitor_hat_wide",
+     "size": [
+      64,
+      96
+     ],
+     "full": true,
+     "box": [
+      64,
+      96,
+      64,
+      96
+     ]
+    },
+    {
+     "name": "visitor_hat_beanie",
+     "size": [
+      64,
+      96
+     ],
+     "full": true,
+     "box": [
+      128,
+      96,
+      64,
+      96
+     ]
+    },
+    {
+     "name": "visitor_pack_small",
+     "size": [
+      64,
+      96
+     ],
+     "full": true,
+     "box": [
+      0,
+      192,
+      64,
+      96
+     ]
+    },
+    {
+     "name": "visitor_pack_big",
+     "size": [
+      64,
+      96
+     ],
+     "full": true,
+     "box": [
+      64,
+      192,
+      64,
+      96
+     ]
+    },
+    {
+     "name": "visitor_scarf",
+     "size": [
+      64,
+      96
+     ],
+     "full": true,
+     "box": [
+      128,
+      192,
+      64,
+      96
+     ]
+    }
+   ]
+  },
+  {
+   "file": "ar08_troll_badger.png",
+   "label": "Art Request 08: the troll badger (walk, walk, sit, asleep)",
+   "pixel": true,
+   "grid": [
+    1,
+    1
+   ],
+   "cells": [
+    {
+     "name": "troll_badger",
+     "size": [
+      64,
+      16
+     ],
+     "full": true,
+     "box": [
+      0,
+      0,
+      64,
+      16
+     ]
+    }
+   ]
+  },
+  {
+   "file": "ar09_facilities.png",
+   "label": "Art Request 09: facilities, each cut from its 64 x 64 cell and stood on the bottom middle",
+   "pixel": true,
+   "grid": [
+    4,
+    2
+   ],
+   "cells": [
+    {
+     "name": "fac_kiosk",
+     "size": [
+      48,
+      40
+     ]
+    },
+    {
+     "name": "fac_bathroom",
+     "size": [
+      32,
+      40
+     ]
+    },
+    {
+     "name": "fac_bathroom_badger",
+     "size": [
+      32,
+      40
+     ]
+    },
+    {
+     "name": "fac_picnic_area",
+     "size": [
+      64,
+      32
+     ]
+    },
+    {
+     "name": "fac_suggestion_box",
+     "size": [
+      16,
+      24
+     ]
+    },
+    {
+     "name": "fac_lookout_sign",
+     "size": [
+      16,
+      24
+     ]
+    },
+    {
+     "name": "obj_pad_stakes",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "obj_kit_crates",
+     "size": [
+      16,
+      16
+     ]
+    }
+   ]
+  },
+  {
+   "file": "ar09_camp_dock.png",
+   "label": "Art Request 09: the campground and the fishing dock",
+   "pixel": true,
+   "grid": [
+    1,
+    1
+   ],
+   "cells": [
+    {
+     "name": "fac_campground",
+     "size": [
+      96,
+      64
+     ],
+     "full": true,
+     "box": [
+      0,
+      0,
+      96,
+      64
+     ]
+    },
+    {
+     "name": "fac_dock",
+     "size": [
+      32,
+      112
+     ],
+     "full": true,
+     "box": [
+      112,
+      0,
+      32,
+      112
+     ]
+    }
+   ]
+  },
+  {
+   "file": "ar09_small.png",
+   "label": "Art Request 09: small placed things, litter and dug earth (16 x 16)",
+   "pixel": true,
+   "grid": [
+    4,
+    3
+   ],
+   "full": true,
+   "cells": [
+    {
+     "name": "obj_bench",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "obj_trash_can",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "obj_trash_can_full",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "obj_trash_can_tipped",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "obj_picnic_table",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "obj_fire_ring",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "obj_fire_ring_lit",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "obj_rent_sign",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "obj_litter_0",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "obj_litter_1",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "obj_litter_2",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "ground_dug_earth",
+     "size": [
+      16,
+      16
+     ]
+    }
+   ]
+  },
+  {
+   "file": "ar09_icons.png",
+   "label": "Art Request 09: backpack icons (32 x 32)",
+   "pixel": true,
+   "grid": [
+    4,
+    3
+   ],
+   "full": true,
+   "cells": [
+    {
+     "name": "item_bench",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_trash_can",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_picnic_table",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_fire_ring",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_radio_valve",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_pressed_flower_card",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_pine_resin_candle",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_carved_pinecone_figure",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_painted_stone",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_glowcap_night_light",
+     "size": [
+      32,
+      32
+     ]
+    },
+    null,
+    null
+   ]
+  },
+  {
+   "file": "ar09_furniture.png",
+   "label": "Art Request 09: the catalog desk and the staff board",
+   "pixel": true,
+   "grid": [
+    1,
+    1
+   ],
+   "cells": [
+    {
+     "name": "furniture_catalog_desk",
+     "size": [
+      32,
+      24
+     ],
+     "full": true,
+     "box": [
+      0,
+      0,
+      32,
+      24
+     ]
+    },
+    {
+     "name": "furniture_staff_board",
+     "size": [
+      16,
+      24
+     ],
+     "full": true,
+     "box": [
+      32,
+      0,
+      16,
+      24
+     ]
+    }
+   ]
   }
  ],
  "calm": {

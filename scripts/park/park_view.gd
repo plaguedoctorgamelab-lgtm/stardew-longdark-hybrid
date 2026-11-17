@@ -232,7 +232,9 @@ func _make_person(p: Dictionary, i: int) -> Node2D:
 		spr.texture = Art.texture(l[0])
 		spr.hframes = 4
 		spr.vframes = 4
-		spr.offset = Vector2(-8, -24)
+		# Hair and hats can sit a pixel higher than drawn, to clear the eyes.
+		var lift := float((session.tuning.value("look.visitor_layer_lift") as Dictionary).get(l[0], 0))
+		spr.offset = Vector2(-8, -24 - lift)
 		spr.modulate = l[1]
 		node.add_child(spr)
 	if kid:

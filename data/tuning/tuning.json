@@ -216,7 +216,13 @@
     "shadow_max_height": 9,
     "no_shadow": [
       "pawprints"
-    ]
+    ],
+    "visitor_layer_lift": {
+      "visitor_hair": 1,
+      "visitor_hat_cap": 1,
+      "visitor_hat_wide": 1,
+      "visitor_hat_beanie": 1
+    }
   },
   "forage": {
     "lasts_days": 3,
