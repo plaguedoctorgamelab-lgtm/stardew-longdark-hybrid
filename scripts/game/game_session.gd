@@ -119,6 +119,7 @@ var guide: Guide                     # what X and C do here, the "?" marks, what
 var visits: Dictionary = {}          # travel place id -> times the ranger has arrived there
 var _near_place: String = ""         # the travel place the ranger is at now, if any
 var _traveling: bool = false
+var _reach_cache: Dictionary = {}   # "station" -> the tiles trail joins to the station, until the land changes
 var shelf_seen: Dictionary = {}      # structure id -> the supply shelf as last looked at
 
 
@@ -146,7 +147,10 @@ func _init(tuning_path: String = Tuning.DEFAULT_PATH, content_dir: String = Cont
 	clock.day_end_reached.connect(_on_day_end)
 	needs.ran_out.connect(_on_ran_out)
 	park = Park.new(self)
-	land_changed.connect(func(_t: Vector2i) -> void: park.net.mark_dirty())
+	land_changed.connect(func(_t: Vector2i) -> void:
+		park.net.mark_dirty()
+		_reach_cache.clear())
+	tree_changed.connect(func(_t: Vector2i) -> void: _reach_cache.clear())
 	park.note.connect(func(text: String) -> void: message.emit(text))
 	guide = Guide.new(self)
 
@@ -201,6 +205,7 @@ func new_game(new_seed: int = -1) -> void:
 	_sensing = false
 	_reset_land()
 	_apply_seasons()
+	_reach_cache.clear()
 	park.new_game()
 	visits = {"ranger_station": tuning.integer("travel.visits_needed")}
 	_near_place = ""
@@ -334,6 +339,7 @@ func from_dict(d: Dictionary) -> void:
 	_sensing = false
 	_apply_seasons()
 	park.from_dict(d.get("park", {}))
+	_reach_cache.clear()
 	visits = {"ranger_station": tuning.integer("travel.visits_needed")}
 	for k: String in d.get("visits", {}):
 		visits[k] = maxi(int(visits.get(k, 0)), int(d["visits"][k]))
@@ -2331,21 +2337,31 @@ func site_ready(site_id: String) -> bool:
 ## between trail on both banks counts, a walk along a stream does not.
 func site_reached(site_id: String) -> bool:
 	var grounds: Array = tuning.value("sites.reach_grounds")
-	var ford_max := tuning.integer("sites.ford_max_tiles")
 	var start := Vector2i(site_door(site_id))
-	var goal := Vector2i(door_front("ranger_station"))
 	if world.is_solid(start) or not grounds.has(world.ground_at(start)):
 		return false
-	var best := {start: 0}   # tile -> fewest shallows waded in a row to get there
-	var queue: Array = [[start, 0]]
+	# One search from the station answers for every site. It walks the whole
+	# trail, so it is kept until the land changes: the hints and "?" marks
+	# ask several times a second.
+	if not _reach_cache.has("station"):
+		_reach_cache["station"] = _trail_reach_from(Vector2i(door_front("ranger_station")))
+	return (_reach_cache["station"] as Dictionary).has(start)
+
+
+## Every tile joined to a by trail, boardwalk and short fords: {tile: run}.
+func _trail_reach_from(a: Vector2i) -> Dictionary:
+	var grounds: Array = tuning.value("sites.reach_grounds")
+	var ford_max := tuning.integer("sites.ford_max_tiles")
+	if world.is_solid(a) or not grounds.has(world.ground_at(a)):
+		return {}
+	var best := {a: 0}   # tile -> fewest shallows waded in a row to get there
+	var queue: Array = [[a, 0]]
 	var head := 0
 	var dirs: Array[Vector2i] = [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]
 	while head < queue.size():
 		var t: Vector2i = queue[head][0]
 		var run: int = queue[head][1]
 		head += 1
-		if t == goal:
-			return true
 		for d in dirs:
 			var n := t + d
 			if world.is_solid(n):
@@ -2361,7 +2377,7 @@ func site_reached(site_id: String) -> bool:
 			if not best.has(n) or int(best[n]) > r:
 				best[n] = r
 				queue.append([n, r])
-	return false
+	return best
 
 
 ## Whether a sign naming the site stands on trail near it.

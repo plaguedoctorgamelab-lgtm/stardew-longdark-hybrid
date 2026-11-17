@@ -213,3 +213,23 @@ func test_trail_travel(t: TestCase) -> void:
 	t.check(s.needs.energy < e0, "and it was tiring")
 	s.enter_building("ranger_station")
 	t.equal(s.travel_options().size(), 0, "not from indoors")
+
+
+## The hints ask about sites several times a second: the trail search behind
+## that is kept, and done again only when the land changes (0.4.3).
+func test_trail_search_is_kept_until_the_land_changes(t: TestCase) -> void:
+	var s := TestCase.new_session()
+	ParkHelpers.open_route(s, "cabin")
+	t.check(s.site_reached("old_cabin"), "the cabin is joined by trail")
+	t.check(s._reach_cache.has("station"), "the search is kept")
+	s.guide.markers()
+	s.guide.x_hint()
+	t.check(s._reach_cache.has("station"), "the hints reuse it")
+	var spot := Vector2i(-1, -1)
+	var c := Vector2i(s.world.spawn("station")) + Vector2i(0, 8)
+	for dx in range(-10, 10):
+		if spot.x < 0 and s.can_dig(c + Vector2i(dx, 0)):
+			spot = c + Vector2i(dx, 0)
+	s.debug_dig(spot)
+	t.check(not s._reach_cache.has("station"), "digging forgets it")
+	t.check(s.site_reached("old_cabin"), "and the answer is the same after")

@@ -493,6 +493,7 @@ func _footprint(pad_id: String, on: bool) -> void:
 	elif bool(f.get("solid", false)):
 		for t in _pad_tiles(pad_id):
 			world.set_blocked(t, on)
+		s()._reach_cache.clear()
 
 
 func _apply_footprints() -> void:
