@@ -32,6 +32,16 @@ func _shot(name: String) -> void:
 	print("saved ", ProjectSettings.globalize_path(path))
 
 
+## Moves the mouse to a point on the 480 x 270 screen, as a real move would.
+func _move_mouse(p: Vector2) -> void:
+	var win := p * (Vector2(root.size) / Vector2(480, 270))
+	root.warp_mouse(win)
+	var e := InputEventMouseMotion.new()
+	e.position = win
+	e.global_position = win
+	Input.parse_input_event(e)
+
+
 func _run() -> void:
 	await _frames(5)
 	var s: GameSession = main.session
@@ -46,7 +56,24 @@ func _run() -> void:
 	s.facing = GameSession.FACING_UP
 	s.selected_slot = s.backpack.find_family("map")
 	main.world_view.reset_chunks()
+	await _frames(4)
+	# The mouse over the station building, then over the map's item-bar slot.
+	var st: Dictionary = s.world.structure_placement("ranger_station")
+	var roof := (Vector2(float(st["pos"][0]) + float(st["size"][0]) / 2.0, float(st["pos"][1]) + 1.0)) * 16.0
+	var scr: Vector2 = main.world.get_canvas_transform() * roof
+	# A scripted mouse can't be trusted to land, so the hover is set as the
+	# game would set it, to see how the tooltip looks.
+	_move_mouse(scr)
+	main._hover_wait = 9999.0
+	main.hud.world_hint = s.guide.x_hint_at(roof / 16.0)
+	print("hover over the station says: ", main.hud.world_hint)
 	await _shot("fb_1_hint_and_question_mark")
+	main.hud.world_hint = ""
+	var slot: Panel = main.hud.slot_panels[s.backpack.find_family("map")]
+	_move_mouse(slot.position + Vector2(8, 8))
+	main.hud._bar_hover = s.backpack.find_family("map")
+	await _shot("fb_1b_bar_hover")
+	main.hud._bar_hover = -1
 	# Holding boardwalk off the bog: the red square.
 	s.debug_add_item("boardwalk", 3)
 	s.selected_slot = s.backpack.find_family("boardwalk")

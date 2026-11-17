@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.4.3** (see [Version history](#version-history)). The
+**Current version: 0.4.4** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -89,6 +89,10 @@ docs/              bible, roadmap, specs, rules, status reports (hidden from God
 
 The version lives in `project.godot` (`application/config/version`). Every
 commit of the build raises it and adds a line here.
+
+### 0.4.4 (17 November 2026)
+
+- The X and C hints show on hover instead of always: point the mouse at a thing (a building, the note board, a pad, forage) and a small tooltip says what X does there; point at an item-bar slot and it names the item and says what C does with it here. Clicking a slot holds that item. The green and red square for placing things stays.
 
 ### 0.4.3 (17 November 2026)
 

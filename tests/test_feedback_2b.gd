@@ -233,3 +233,20 @@ func test_trail_search_is_kept_until_the_land_changes(t: TestCase) -> void:
 	s.debug_dig(spot)
 	t.check(not s._reach_cache.has("station"), "digging forgets it")
 	t.check(s.site_reached("old_cabin"), "and the answer is the same after")
+
+
+## Hints show on hover (0.4.4): pointing the mouse at a thing says what X
+## does there, wherever the ranger stands.
+func test_hover_hint_names_the_thing_pointed_at(t: TestCase) -> void:
+	var s := TestCase.new_session()
+	s.outdoor_pos = s.door_front("ranger_station") + Vector2(12, 8)
+	var st: Dictionary = s.world.structure_placement("ranger_station")
+	var roof := Vector2(float(st["pos"][0]) + float(st["size"][0]) / 2.0, float(st["pos"][1]) + 0.5)
+	t.equal(s.guide.x_hint_at(roof), s.content.text("hint_x_go_in"), "pointing at the station: go in")
+	t.equal(s.guide.x_hint_at(s.outdoor_pos + Vector2(40, 40)), "", "pointing at empty ground: nothing")
+	t.check(s.outdoor_pos.distance_to(s.door_front("ranger_station") + Vector2(12, 8)) < 0.01, "the ranger has not moved")
+	s.enter_building("ranger_station")
+	var layout: InteriorLayout = s.interiors["ranger_station"]
+	var r := layout.furniture_rect(layout.find("note_board"))
+	t.equal(s.guide.x_hint_at(Vector2(r.position) + Vector2(r.size) / 2.0), s.content.text("hint_x_note_board"), "pointing at the note board")
+	t.check(s.guide.use_hint("map").begins_with("C:"), "a bar slot's item says what C does")

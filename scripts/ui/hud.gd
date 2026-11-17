@@ -22,9 +22,11 @@ var slot_counts: Array[Label] = []
 var slot_keys: Array[Label] = []
 var debug_label: Label
 var money_label: Label
-var hint_label: Label
+var tip: Panel                  # the hover hint, beside the mouse
+var tip_label: Label
+var world_hint: String = ""     # what X does at the thing under the mouse (set by main)
+var _bar_hover: int = -1        # the item-bar slot under the mouse, or -1
 var _message_time: float = 0.0
-var _hint_wait: float = 0.0
 
 
 ## The item bar: the first backpack slots (tuned, 10), one row, each marked
@@ -42,7 +44,15 @@ func rebuild_slots() -> void:
 		var p := Panel.new()
 		p.position = Vector2(x0 + i * SLOT, 250)
 		p.size = Vector2(SLOT, SLOT)
-		p.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		# Hover a slot to see what C does with it here; click to hold it.
+		p.mouse_filter = Control.MOUSE_FILTER_STOP
+		p.mouse_entered.connect(func() -> void: _bar_hover = i)
+		p.mouse_exited.connect(func() -> void:
+			if _bar_hover == i:
+				_bar_hover = -1)
+		p.gui_input.connect(func(e: InputEvent) -> void:
+			if e is InputEventMouseButton and (e as InputEventMouseButton).pressed and (e as InputEventMouseButton).button_index == MOUSE_BUTTON_LEFT:
+				session.selected_slot = i)
 		root.add_child(p)
 		var icon := TextureRect.new()
 		icon.position = p.position + Vector2(1, 1)
@@ -96,19 +106,24 @@ func setup(s: GameSession, theme: Theme) -> void:
 
 	rebuild_slots()
 
-	message_label = _label(Vector2(0, 226))
+	message_label = _label(Vector2(0, 236))
 	message_label.size = Vector2(480, 10)
 	message_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	# What X and C do right here, always shown just over the item bar.
-	hint_label = _label(Vector2(0, 238))
-	hint_label.size = Vector2(480, 10)
-	hint_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	hint_label.add_theme_color_override("font_color", Color(1.0, 0.95, 0.75))
-	for l: Label in [message_label, hint_label]:
-		l.add_theme_color_override("font_outline_color", Color(0.12, 0.08, 0.05))
-		l.add_theme_constant_override("outline_size", 3)
+	message_label.add_theme_color_override("font_outline_color", Color(0.12, 0.08, 0.05))
+	message_label.add_theme_constant_override("outline_size", 3)
+	# The hover hint: what X does at the thing under the mouse, or what C does
+	# with the item-bar slot under it.
+	tip = Panel.new()
+	tip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	tip.visible = false
+	root.add_child(tip)
+	tip_label = Label.new()
+	tip_label.position = Vector2(3, 0)
+	tip_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	tip_label.add_theme_color_override("font_color", Color(1.0, 0.95, 0.75))
+	tip.add_child(tip_label)
 	survey_bar = ProgressBar.new()
-	survey_bar.position = Vector2(200, 218)
+	survey_bar.position = Vector2(200, 226)
 	survey_bar.size = Vector2(80, 6)
 	survey_bar.show_percentage = false
 	survey_bar.max_value = 1.0
@@ -188,14 +203,7 @@ func _process(delta: float) -> void:
 			if tremble and session.family_of(s["item"]) == "compass":
 				slot_icons[i].position += Vector2(randi_range(-1, 1), 0)
 		slot_panels[i].self_modulate = Color(1.6, 1.4, 0.6) if i == session.selected_slot else Color.WHITE
-	_hint_wait -= delta
-	if _hint_wait <= 0.0:
-		_hint_wait = 0.2
-		var parts: PackedStringArray = []
-		for h in [session.guide.x_hint(), session.guide.use_hint()]:
-			if h != "":
-				parts.append(h)
-		hint_label.text = "     ".join(parts)
+	_update_tip()
 	if _message_time > 0.0:
 		_message_time -= delta
 		message_label.modulate.a = clampf(_message_time, 0.0, 1.0)
@@ -204,6 +212,31 @@ func _process(delta: float) -> void:
 		var t := session.ranger_tile()
 		var ch := session.world.chunk_of(t)
 		debug_label.text = "tile %d,%d  chunk %d,%d  %s  %s  fps %d" % [t.x, t.y, ch.x, ch.y, session.ground_here(), session.current_weather(), Engine.get_frames_per_second()]
+
+
+## Shows the hover hint beside the mouse: an item-bar slot first, else the
+## thing in the world under it. Hidden when there is nothing to say.
+func _update_tip() -> void:
+	var text := ""
+	if _bar_hover >= 0 and _bar_hover < session.backpack.size():
+		var item := session.backpack.item_at(_bar_hover)
+		if item != "":
+			text = session.content.item_name(item)
+			var h := session.guide.use_hint(item)
+			if h != "":
+				text += "\n" + h
+	else:
+		text = world_hint
+	tip.visible = text != ""
+	if not tip.visible:
+		return
+	tip_label.text = text
+	tip_label.reset_size()
+	tip.size = tip_label.get_combined_minimum_size() + Vector2(6, 1)
+	var m := root.get_local_mouse_position() + Vector2(8, -4 - tip.size.y)
+	m.x = clampf(m.x, 0.0, 480.0 - tip.size.x)
+	m.y = clampf(m.y, 0.0, 270.0 - tip.size.y)
+	tip.position = m.round()
 
 
 ## Icons are drawn at 32 x 32 and shown in a 16-unit slot; the screen is

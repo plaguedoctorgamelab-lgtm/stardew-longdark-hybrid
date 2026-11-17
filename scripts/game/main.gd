@@ -28,6 +28,7 @@ var pause_menu: Panel
 var book_screen: BookScreen
 var hint_overlay: HintOverlay
 var _dialog_kind: String = ""
+var _hover_wait: float = 0.0
 var started: bool = false
 
 
@@ -93,6 +94,22 @@ func _ready() -> void:
 		hud.rebuild_slots()
 		inventory_screen.rebuild_slots())
 	_show_title()
+
+
+## What X does at the thing under the mouse, for the HUD's hover hint. Looked
+## at a few times a second; nothing while a screen is open.
+func _update_world_hint(delta: float) -> void:
+	_hover_wait -= delta
+	if _hover_wait > 0.0:
+		return
+	_hover_wait = 0.1
+	if menu_open():
+		hud.world_hint = ""
+		return
+	# The HUD's layer is the 480 x 270 screen, whatever the window's size.
+	var mouse := hud.root.get_local_mouse_position()
+	var p := world.get_canvas_transform().affine_inverse() * mouse / TILE
+	hud.world_hint = session.guide.x_hint_at(p)
 
 
 ## The world is drawn into its own 480 by 270 picture with nearest filtering,
@@ -441,6 +458,7 @@ func _process(delta: float) -> void:
 	else:
 		camera.position = px.round()
 	camera.force_update_scroll()
+	_update_world_hint(delta)
 	effects.ranger_screen = ranger.get_global_transform_with_canvas().origin
 	if not session.camp.is_empty():
 		var fire_px := (Vector2(session.camp["fire"]) + Vector2(0.5, 0.5)) * TILE

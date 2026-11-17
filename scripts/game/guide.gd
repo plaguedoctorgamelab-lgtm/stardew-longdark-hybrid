@@ -7,6 +7,8 @@ extends RefCounted
 ##   aim()        the tile the held item would go on, and whether it may
 ##   markers()    where a "?" floats: something new to read or do there
 ##   next_steps() the one next thing for each site and job, for the book
+## The hints show on hover: x_hint_at() for the thing under the mouse, and
+## use_hint(item) for an item-bar slot under the mouse.
 ## It only reads the session; it never changes the game.
 
 var _s: WeakRef
@@ -67,6 +69,31 @@ func x_hint() -> String:
 	return ""
 
 
+## What X does at a point (in tiles) the mouse is over, as if the ranger
+## stood there: the thing there, and what X does with it. Pointing at a
+## building counts as pointing at its door. "" when nothing is there.
+func x_hint_at(p: Vector2) -> String:
+	var s: GameSession = _s.get_ref()
+	if s.pending_confirm != "":
+		return ""
+	if s.is_indoors():
+		var keep_in := s.interior_pos
+		s.interior_pos = p
+		var hi := _x_inside(s)
+		s.interior_pos = keep_in
+		return hi
+	for st: Dictionary in s.world.meta["structures"]:
+		var r := Rect2(float(st["pos"][0]), float(st["pos"][1]), float(st["size"][0]), float(st["size"][1]))
+		r = r.grow_side(SIDE_TOP, r.size.y)
+		if r.has_point(p):
+			p = Vector2(float(st["door"][0]) + 0.5, float(st["door"][1]) + 1.0)
+	var keep := s.outdoor_pos
+	s.outdoor_pos = p
+	var h := x_hint()
+	s.outdoor_pos = keep
+	return h
+
+
 func _x_inside(s: GameSession) -> String:
 	var layout: InteriorLayout = s.interiors[s.location]
 	var f := layout.furniture_near(s.interior_pos, s.tuning.num("world.interact_reach_tiles"))
@@ -115,9 +142,10 @@ func _x_park(s: GameSession, reach: float) -> String:
 
 # --- C -------------------------------------------------------------------------
 
-func use_hint() -> String:
+func use_hint(item: String = "") -> String:
 	var s: GameSession = _s.get_ref()
-	var item := s.selected_item()
+	if item == "":
+		item = s.selected_item()
 	if item == "" or s.pending_confirm != "":
 		return ""
 	var row := s.content.row("items", item)
