@@ -1,7 +1,7 @@
 # Art cleanup report
 
 Made by tools/art_cleanup.py. palette from art/palette.json (33 colors). A picture cut pixel for pixel from a refresh sheet replaces any earlier picture of the same name.
-291 images passed, 1 failed.
+303 images passed, 1 failed.
 
 
 ## ChatGPT Image Nov 15, 2026, 07_04_59 AM.png (ground tiles)
@@ -399,6 +399,21 @@ Made by tools/art_cleanup.py. palette from art/palette.json (33 colors). A pictu
 - furniture_desk: **pass** 32x24 pixel for pixel
 - furniture_radio: **pass** 16x24 pixel for pixel
 - furniture_note_board: **pass** 16x24 pixel for pixel
+
+## ar07_world.png (Art Request 07: forage on the ground (24 x 24 with soft shadows; bush fruit cut from the middle 16 x 16 of its cell to sit on the bush; the sparkle without its shadow))
+
+- obj_forage_sticks: **pass** 24x24 pixel for pixel
+- obj_forage_stones: **pass** 24x24 pixel for pixel
+- obj_forage_reeds: **pass** 24x24 pixel for pixel
+- obj_forage_wild_onion: **pass** 24x24 pixel for pixel
+- obj_forage_fiddleheads: **pass** 24x24 pixel for pixel
+- obj_forage_wildflowers: **pass** 24x24 pixel for pixel
+- obj_forage_hazelnuts: **pass** 24x24 pixel for pixel
+- obj_forage_mushrooms: **pass** 24x24 pixel for pixel
+- obj_forage_ember_moss: **pass** 24x24 pixel for pixel
+- obj_bush_berries: **pass** 16x16 pixel for pixel
+- obj_bush_rose_hips: **pass** 16x16 pixel for pixel
+- fx_sparkle: **pass** 24x24 pixel for pixel
 
 ## calm_ground_a.png
 

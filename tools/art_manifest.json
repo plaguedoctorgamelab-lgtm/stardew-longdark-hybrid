@@ -2578,6 +2578,135 @@
      ]
     }
    ]
+  },
+  {
+   "file": "ar07_world.png",
+   "label": "Art Request 07: forage on the ground (24 x 24 with soft shadows; bush fruit cut from the middle 16 x 16 of its cell to sit on the bush; the sparkle without its shadow)",
+   "pixel": true,
+   "grid": [
+    4,
+    3
+   ],
+   "cells": [
+    {
+     "name": "obj_forage_sticks",
+     "size": [
+      24,
+      24
+     ],
+     "full": true,
+     "soft": true
+    },
+    {
+     "name": "obj_forage_stones",
+     "size": [
+      24,
+      24
+     ],
+     "full": true,
+     "soft": true
+    },
+    {
+     "name": "obj_forage_reeds",
+     "size": [
+      24,
+      24
+     ],
+     "full": true,
+     "soft": true
+    },
+    {
+     "name": "obj_forage_wild_onion",
+     "size": [
+      24,
+      24
+     ],
+     "full": true,
+     "soft": true
+    },
+    {
+     "name": "obj_forage_fiddleheads",
+     "size": [
+      24,
+      24
+     ],
+     "full": true,
+     "soft": true
+    },
+    {
+     "name": "obj_forage_wildflowers",
+     "size": [
+      24,
+      24
+     ],
+     "full": true,
+     "soft": true
+    },
+    {
+     "name": "obj_forage_hazelnuts",
+     "size": [
+      24,
+      24
+     ],
+     "full": true,
+     "soft": true
+    },
+    {
+     "name": "obj_forage_mushrooms",
+     "size": [
+      24,
+      24
+     ],
+     "full": true,
+     "soft": true
+    },
+    {
+     "name": "obj_forage_ember_moss",
+     "size": [
+      24,
+      24
+     ],
+     "full": true,
+     "soft": true
+    },
+    {
+     "name": "obj_bush_berries",
+     "size": [
+      16,
+      16
+     ],
+     "full": true,
+     "box": [
+      28,
+      52,
+      16,
+      16
+     ]
+    },
+    {
+     "name": "obj_bush_rose_hips",
+     "size": [
+      16,
+      16
+     ],
+     "full": true,
+     "box": [
+      52,
+      52,
+      16,
+      16
+     ]
+    },
+    {
+     "name": "fx_sparkle",
+     "size": [
+      24,
+      24
+     ],
+     "full": true,
+     "drop_soft": true
+    }
+   ]
   }
  ],
  "calm": {

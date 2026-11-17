@@ -331,6 +331,7 @@ def main():
     report = []
     shrunk = []   # (name, w, h, pixels) before palette snapping
     exact = []    # the same, from pixel-for-pixel sheets: saved last, so they win
+    soft = set()  # pictures whose see-through pixels keep their alpha
     sheets = []
     raw_files = set(os.listdir(RAW))
     listed = set()
@@ -367,12 +368,19 @@ def main():
                 tw, th = cell["size"]
                 # On an exact grid the cell edge is the cut: an item touching
                 # its neighbour is noted for a look by eye, not failed.
-                touch = not full and bleeds(img, *box)
-                got, note = pixel_cell(img, box, tw, th, full, cell.get("anchor", entry.get("anchor", "bottom")), cell.get("pad_left", 0))
+                cell_full = cell.get("full", full)
+                touch = not cell_full and bleeds(img, *box)
+                got, note = pixel_cell(img, box, tw, th, cell_full, cell.get("anchor", entry.get("anchor", "bottom")), cell.get("pad_left", 0))
                 if got is None:
                     results.append((cell["name"], "FAIL", note))
                     continue
                 ow, oh, pix = got
+                # "soft": keep see-through pixels (a drawn shadow) as drawn;
+                # "drop_soft": leave them out (a sparkle needs no shadow).
+                if cell.get("drop_soft"):
+                    pix = [p if p[3] == 255 else (0, 0, 0, 0) for p in pix]
+                elif cell.get("soft"):
+                    soft.add(cell["name"])
                 exact.append((cell["name"], ow, oh, pix))
                 if touch:
                     note = (note + "; " if note else "") + "touches the next cell's item (checked by eye)"
@@ -467,7 +475,10 @@ def main():
             os.remove(os.path.join(FINAL, name + ".png"))
     calm_keep = manifest.get("calm", {}).get("tiles", {})
     for name, tw, th, pix in exact:
-        pix = snap(pix, palette)
+        snapped = snap(pix, palette)
+        if name in soft:
+            snapped = [q[:3] + (p[3],) if p[3] else q for q, p in zip(snapped, pix)]
+        pix = snapped
         if name in calm_keep:
             pix = calm(tw, th, pix, float(calm_keep[name]))
         save(name, tw, th, pix)

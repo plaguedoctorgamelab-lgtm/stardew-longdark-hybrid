@@ -56,4 +56,4 @@ Row by row: sticks, stones, reeds, wild onion; fiddleheads, wildflowers, hazelnu
 
 - [ ] Sheet 1: Gathered
 - [ ] Sheet 2: Made
-- [ ] Sheet 3: On the ground
+- [x] Sheet 3: On the ground (replaced by Art Request 07, in the game since 0.3.2)
