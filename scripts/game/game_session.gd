@@ -122,6 +122,7 @@ var _traveling: bool = false
 var _reach_cache: Dictionary = {}   # "station" -> the tiles trail joins to the station, until the land changes
 var last_collapse_cause: String = ""   # why the ranger last passed out
 var bench_boxes: Dictionary = {}       # structure id -> Inventory: each workbench's own small box
+var current_job: String = ""          # the site whose job is being worked on: the last one found, mapped or reached
 var recipes_new: Array[String] = []    # recipes learned since the last "you can make this now" pop-up
 var shelf_seen: Dictionary = {}      # structure id -> the supply shelf as last looked at
 
@@ -211,6 +212,7 @@ func new_game(new_seed: int = -1) -> void:
 	_reach_cache.clear()
 	bench_boxes = {}
 	recipes_new.clear()
+	current_job = ""
 	park.new_game()
 	visits = {"ranger_station": tuning.integer("travel.visits_needed")}
 	_near_place = ""
@@ -260,6 +262,7 @@ func to_dict() -> Dictionary:
 		},
 		"park": park.to_dict(),
 		"visits": visits.duplicate(),
+		"current_job": current_job,
 		"bench_boxes": bench_boxes.keys().map(func(k: String) -> Array: return [k, (bench_boxes[k] as Inventory).to_array()]),
 		"piles": piles.keys().map(func(t: Vector2i) -> Array: return [t.x, t.y, (piles[t] as Inventory).to_array()]),
 	}
@@ -350,6 +353,7 @@ func from_dict(d: Dictionary) -> void:
 	visits = {"ranger_station": tuning.integer("travel.visits_needed")}
 	for k: String in d.get("visits", {}):
 		visits[k] = maxi(int(visits.get(k, 0)), int(d["visits"][k]))
+	current_job = str(d.get("current_job", ""))
 	bench_boxes = {}
 	for e: Array in d.get("bench_boxes", []):
 		var inv := Inventory.new(content, tuning.integer("storage.bench_slots"))
@@ -1521,6 +1525,8 @@ func _watch_visits() -> void:
 	for id: String in places:
 		if id != _near_place and outdoor_pos.distance_to(places[id]) <= tuning.num("travel.arrive_radius_tiles"):
 			_near_place = id
+			if content.has("sites", id) and not sites_open.has(id):
+				current_job = id
 			visits[id] = int(visits.get(id, 0)) + 1
 			if int(visits[id]) == tuning.integer("travel.visits_needed"):
 				message.emit(content.text("msg_travel_known", {"name": travel_name(id)}))
@@ -2383,6 +2389,7 @@ func _look_for_sites() -> void:
 		var id: String = row["id"]
 		if not sites_found.has(id) and outdoor_pos.distance_to(site_pos(id)) <= r:
 			sites_found[id] = true
+			current_job = id
 			message.emit(content.text("msg_site_found", {"name": content.text(row["name"])}))
 
 
@@ -2724,6 +2731,9 @@ func _finish_survey() -> void:
 
 func map_location(landmark_id: String) -> void:
 	var row := content.row("landmarks", landmark_id)
+	for site: Dictionary in content.rows("sites"):
+		if site["landmark"] == landmark_id and not sites_open.has(site["id"]):
+			current_job = site["id"]
 	var radius := float(row.get("reveal_radius", tuning.num("map.location_radius")))
 	map.reveal_circle(world.landmark_pos(landmark_id), radius)
 	map.mark_landmark(landmark_id)

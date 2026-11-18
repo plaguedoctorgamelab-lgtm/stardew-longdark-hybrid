@@ -343,7 +343,12 @@ func job_cards() -> Array:
 			var all := true
 			for item: String in need:
 				var have := s.backpack.count(item)
-				parts.append(c.text("job_item", {"name": c.item_name(item), "have": mini(have, int(need[item])), "need": need[item]}))
+				var line := c.text("job_item", {"name": c.item_name(item), "have": mini(have, int(need[item])), "need": need[item]})
+				if have < int(need[item]):
+					var where := where_to_get(item)
+					if where != "":
+						line += " " + where
+				parts.append(line)
 				all = all and have >= int(need[item])
 			steps.append({"key": "gather", "text": c.text("job_step_gather", {"list": ", ".join(parts)}), "done": all})
 		for st in GameSession.SITE_STEPS:
@@ -409,6 +414,40 @@ func _bring_for(s: GameSession, id: String, row: Dictionary) -> Dictionary:
 	return need
 
 
+## Where the ranger can get an item, in a few words, or "": the chest,
+## supply shelf or workbench box of a building they can get into (the station
+## first), else how to make, order or gather it.
+func where_to_get(item: String) -> String:
+	var s: GameSession = _s.get_ref()
+	var c := s.content
+	var open_ids: Array[String] = []
+	for id: String in s.structures.ids():
+		if s.structures.is_open(id):
+			if id == "ranger_station":
+				open_ids.push_front(id)
+			else:
+				open_ids.append(id)
+	for id in open_ids:
+		if s.structures.chests.has(id) and (s.structures.chests[id] as Inventory).has(item):
+			return c.text("where_chest", {"place": c.text(c.row("structures", id)["name"])})
+	for id in open_ids:
+		if s.structures.shelves.has(id) and (s.structures.shelves[id] as Inventory).has(item):
+			return c.text("where_shelf", {"place": c.text(c.row("structures", id)["name"])})
+	for id: String in s.bench_boxes:
+		if (s.bench_boxes[id] as Inventory).has(item):
+			return c.text("where_bench", {"place": c.text(c.row("structures", id)["name"])})
+	for r: Dictionary in c.rows("recipes"):
+		if s.recipes_known.has(r["id"]) and str((r["result"] as Dictionary).get("item", "")) == item:
+			return c.text("where_make", {"where": c.text("ui_where_" + str(r["station"]))})
+	for r: Dictionary in c.rows("catalog"):
+		if str(r.get("item", "")) == item:
+			return c.text("where_order")
+	for r: Dictionary in c.rows("forage"):
+		if str(r.get("item", "")) == item and not bool(r.get("magic", false)):
+			return c.text("where_gather")
+	return ""
+
+
 ## The book's Jobs page: the job being worked on in full, step by step; the
 ## other open jobs in a line each with their next step; then the lost party
 ## and pinned cards; then what's done (tracker #3).
@@ -422,6 +461,14 @@ func job_page_lines() -> PackedStringArray:
 	if open_cards.is_empty():
 		out.append(c.text("job_none" if cards.is_empty() else "job_all_done"))
 	else:
+		# The job being worked on is the site last found, mapped or reached;
+		# the others follow. Before any, the first in the list.
+		for i in open_cards.size():
+			if open_cards[i]["id"] == s.current_job and i > 0:
+				var keep: Dictionary = open_cards[i]
+				open_cards.remove_at(i)
+				open_cards.insert(0, keep)
+				break
 		var cur: Dictionary = open_cards[0]
 		out.append(c.text("job_current", {"title": cur["title"]}))
 		for st: Dictionary in cur["steps"]:
@@ -430,7 +477,8 @@ func job_page_lines() -> PackedStringArray:
 		if not (cur["handy"] as Array).is_empty():
 			var h: PackedStringArray = []
 			for it: String in cur["handy"]:
-				h.append(c.item_name(it))
+				var where := "" if s.backpack.has(it) else where_to_get(it)
+				h.append(c.item_name(it) + (" " + where if where != "" else ""))
 			out.append(c.text("job_handy", {"list": ", ".join(h)}))
 		if open_cards.size() > 1:
 			out.append("")

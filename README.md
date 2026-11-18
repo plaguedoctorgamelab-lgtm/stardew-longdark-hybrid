@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.4.8** (see [Version history](#version-history)). The
+**Current version: 0.4.9** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -100,6 +100,11 @@ docs/              bible, roadmap, specs, rules, status reports (hidden from God
 
 The version lives in `project.godot` (`application/config/version`). Every
 commit of the build raises it and adds a line here.
+
+### 0.4.9 (18 November 2026): jobs that follow you
+
+- The Jobs page works on the site the ranger last found, mapped or reached, and remembers it in the save. Before, it always showed the first site in the list, so at the scenic outlook it said the tower.
+- Every thing to bring, and every "handy to have", says where to get it: "(in the Ranger Station's chest)", "(on the Ranger Station's supply shelf)", "(make it at a workbench)", "(order it from the catalog at the station)" or "(gather it outdoors)". It never points into a building still locked. The bedroll, axe and shovel start in the station's chest, as the Phase 2 spec has it; only the saw is at the cabin.
 
 ### 0.4.8 (18 November 2026): Mark's new start screen and cursors
 

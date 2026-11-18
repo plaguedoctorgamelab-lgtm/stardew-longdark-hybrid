@@ -4000,6 +4000,36 @@
    "id": "ui_back",
    "text": "Back",
    "placeholder": true
+  },
+  {
+   "id": "where_chest",
+   "text": "(in the {place}'s chest)",
+   "placeholder": true
+  },
+  {
+   "id": "where_shelf",
+   "text": "(on the {place}'s supply shelf)",
+   "placeholder": true
+  },
+  {
+   "id": "where_bench",
+   "text": "(in the {place}'s workbench box)",
+   "placeholder": true
+  },
+  {
+   "id": "where_make",
+   "text": "(make it {where})",
+   "placeholder": true
+  },
+  {
+   "id": "where_order",
+   "text": "(order it from the catalog at the station)",
+   "placeholder": true
+  },
+  {
+   "id": "where_gather",
+   "text": "(gather it outdoors)",
+   "placeholder": true
   }
  ]
 }
