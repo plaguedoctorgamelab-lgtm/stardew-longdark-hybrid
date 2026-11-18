@@ -27,8 +27,12 @@ var title_note: Label
 var pause_menu: Panel
 var book_screen: BookScreen
 var hint_overlay: HintOverlay
+var options_panel: Panel
+var tips_button: Button
 var _dialog_kind: String = ""
 var _hover_wait: float = 0.0
+var _hover_forage: Vector2i = Vector2i(-1, -1)   # forage under the mouse, in reach (tracker #8)
+var _cursor: String = ""
 var started: bool = false
 
 
@@ -105,11 +109,24 @@ func _update_world_hint(delta: float) -> void:
 	_hover_wait = 0.1
 	if menu_open():
 		hud.world_hint = ""
+		_hover_forage = Vector2i(-1, -1)
+		_set_cursor("cursor_arrow")
 		return
 	# The HUD's layer is the 480 x 270 screen, whatever the window's size.
 	var mouse := hud.root.get_local_mouse_position()
 	var p := world.get_canvas_transform().affine_inverse() * mouse / TILE
 	hud.world_hint = session.guide.x_hint_at(p)
+	# Over forage the ranger can reach, the cursor shows a plus: a click picks it.
+	_hover_forage = session.forage_at(p)
+	_set_cursor("cursor_pick" if _hover_forage.x >= 0 else "cursor_arrow")
+
+
+## The mouse pointer: the game's own arrow, or the plus over forage.
+func _set_cursor(art_name: String) -> void:
+	if art_name == _cursor or not Art.has_picture(art_name):
+		return
+	_cursor = art_name
+	Input.set_custom_mouse_cursor(Art.texture(art_name), Input.CURSOR_ARROW, Vector2.ZERO)
 
 
 ## The world is drawn into its own 480 by 270 picture with nearest filtering,
@@ -203,7 +220,7 @@ func _build_pause_menu(root: Control) -> void:
 	var t := Label.new()
 	t.text = session.content.text("ui_paused")
 	box.add_child(t)
-	box.add_child(_button_column([["ui_resume", close_pause], ["ui_quit_title", _quit_to_title], ["ui_quit_game", func() -> void: get_tree().quit()]]))
+	box.add_child(_button_column([["ui_resume", close_pause], ["ui_options", open_options], ["ui_quit_title", _quit_to_title], ["ui_quit_game", func() -> void: get_tree().quit()]]))
 	var note := Label.new()
 	note.text = session.content.text("ui_pause_note")
 	note.custom_minimum_size = Vector2(144, 0)
@@ -213,6 +230,60 @@ func _build_pause_menu(root: Control) -> void:
 	box.reset_size()
 	pause_menu.size = box.get_combined_minimum_size() + Vector2(16, 12)
 	pause_menu.position = ((Vector2(VIEW) - pause_menu.size) / 2.0).round()
+	_build_options(root)
+
+
+## The Options screen, from the pause menu: the player's own settings, kept
+## for every game (Settings). For now, when the hover tips show (tracker #7).
+func _build_options(root: Control) -> void:
+	options_panel = Panel.new()
+	options_panel.visible = false
+	root.add_child(options_panel)
+	var box := VBoxContainer.new()
+	box.position = Vector2(8, 6)
+	box.add_theme_constant_override("separation", 5)
+	options_panel.add_child(box)
+	var t := Label.new()
+	t.text = session.content.text("ui_options_title")
+	box.add_child(t)
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 6)
+	box.add_child(row)
+	var l := Label.new()
+	l.text = session.content.text("ui_options_hover_tips")
+	row.add_child(l)
+	tips_button = Button.new()
+	tips_button.focus_mode = Control.FOCUS_NONE
+	tips_button.custom_minimum_size = Vector2(110, 0)
+	tips_button.pressed.connect(func() -> void:
+		Settings.next_hover_tips()
+		_show_tips_choice())
+	row.add_child(tips_button)
+	var note := Label.new()
+	note.text = session.content.text("ui_options_hover_note", {"n": session.tuning.integer("ui.hover_tip_days")})
+	note.custom_minimum_size = Vector2(220, 0)
+	note.autowrap_mode = TextServer.AUTOWRAP_WORD
+	note.modulate = Color(1, 1, 1, 0.8)
+	box.add_child(note)
+	box.add_child(_button_column([["ui_back", close_options]]))
+	_show_tips_choice()
+	box.reset_size()
+	options_panel.size = box.get_combined_minimum_size() + Vector2(16, 12)
+	options_panel.position = ((Vector2(VIEW) - options_panel.size) / 2.0).round()
+
+
+func _show_tips_choice() -> void:
+	tips_button.text = session.content.text("ui_hover_tips_" + Settings.hover_tips())
+
+
+func open_options() -> void:
+	pause_menu.visible = false
+	options_panel.visible = true
+
+
+func close_options() -> void:
+	options_panel.visible = false
+	pause_menu.visible = true
 
 
 ## A column of buttons, one per [text id, action], stacked so they never overlap.
@@ -292,7 +363,7 @@ func _on_location_changed(loc: String) -> void:
 
 
 func menu_open() -> bool:
-	return title_screen.visible or pause_menu.visible or inventory_screen.visible or map_screen.visible or dialog.visible or choice_screen.visible or book_screen.visible
+	return title_screen.visible or pause_menu.visible or options_panel.visible or inventory_screen.visible or map_screen.visible or dialog.visible or choice_screen.visible or book_screen.visible
 
 
 func _show_dialog(kind: String, text: String) -> void:
@@ -329,6 +400,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if event.is_action_pressed("show_version"):
 		session.message.emit(version_text())
+		return
+	if options_panel.visible:
+		if event.is_action_pressed("pause"):
+			close_options()
 		return
 	if pause_menu.visible:
 		if event.is_action_pressed("pause"):
@@ -394,6 +469,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if menu_open():
 		return
+	# A click on forage in reach picks it, whichever button (tracker #8).
+	if event is InputEventMouseButton and (event as InputEventMouseButton).pressed and _hover_forage.x >= 0 			and (event as InputEventMouseButton).button_index in [MOUSE_BUTTON_LEFT, MOUSE_BUTTON_RIGHT]:
+		session.pick_at(_hover_forage)
+		_hover_forage = Vector2i(-1, -1)
+		_hover_wait = 0.0
+		return
 	if event.is_action_pressed("interact"):
 		session.interact()
 	elif event.is_action_pressed("use_item"):
@@ -415,6 +496,9 @@ func _process(delta: float) -> void:
 	if not started:
 		return
 	session.clock.paused = menu_open()
+	# Recipes just learned: "you can make this now" (tracker #4).
+	if not menu_open() and not session.recipes_new.is_empty():
+		_show_dialog("notice", session.take_new_recipes_text())
 	if not menu_open():
 		var dir := Input.get_vector("move_left", "move_right", "move_up", "move_down")
 		session.move(dir, delta)

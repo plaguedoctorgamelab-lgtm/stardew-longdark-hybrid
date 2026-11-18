@@ -99,7 +99,12 @@ func set_minute(m: int) -> void:
 
 ## Time as shown to the player, in ten-minute steps, 12-hour style like Stardew.
 func time_text() -> String:
-	var m := minute % 1440
+	return time_of(minute)
+
+
+## Any minute of the day as the clock shows it ("2:00 am").
+static func time_of(at_minute: int) -> String:
+	var m := at_minute % 1440
 	var h := m / 60
 	var mm := (m % 60) / 10 * 10
 	var suffix := "am" if h < 12 else "pm"

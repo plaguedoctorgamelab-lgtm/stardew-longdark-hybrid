@@ -237,6 +237,11 @@ func _process(delta: float) -> void:
 ## thing in the world under it. Hidden when there is nothing to say.
 func _update_tip() -> void:
 	var text := ""
+	# Hover tips show for the first days of a game, always, or never: the
+	# player's choice on the Options screen (tracker #7).
+	if not Settings.tips_showing(session.clock.absolute_day(), session.tuning.integer("ui.hover_tip_days")):
+		tip.visible = false
+		return
 	if _bar_hover >= 0 and _bar_hover < session.backpack.size():
 		var item := session.backpack.item_at(_bar_hover)
 		if item != "":

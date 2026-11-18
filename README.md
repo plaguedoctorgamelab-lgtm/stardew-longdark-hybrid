@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.4.6** (see [Version history](#version-history)). The
+**Current version: 0.4.7** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -100,6 +100,16 @@ docs/              bible, roadmap, specs, rules, status reports (hidden from God
 
 The version lives in `project.godot` (`application/config/version`). Every
 commit of the build raises it and adds a line here.
+
+### 0.4.7 (18 November 2026): the tracker's first list
+
+- **Jobs as steps** (tracker #2, #3). Every site found, or offered on the note board, is one job with its steps in order: gather what to bring (counted for every step still to do: materials, hammer, shovel, a sign), find, map, join to the trail, repair part by part, sign, open. The book's Jobs page shows the job being worked on in full, the others in a line each with their next step, and what's done.
+- **Dig flags on the map** (#2). Where a site's trail still has to be joined to the station's, a red flag marks each end of the gap, with dashes between.
+- **The workshop** (#4). Each recipe says what it is for; recipes not learned yet are hidden again, and learning one pops up "You can make something new!"; each workbench has its own 10-slot box (`storage.bench_slots`): what's in it counts for making, and made things go in it when the backpack is full.
+- **Waking in the tower** (#5). The ranger woke half inside the radio and couldn't take a step; now every bed wakes the ranger on the nearest clear spot.
+- **Why you passed out** (#6). The wake-up note says whether it was cold, hunger or staying out too late, and what to do next time.
+- **Options screen** (#7). Esc, then Options. Hover tips can show for the first week of a game (the default, `ui.hover_tip_days`), always, or never; kept on this computer for every game.
+- **Forage with the mouse** (#8). A stand-in cursor (`tools/cursor_placeholders.py`) shows a plus over forage in reach; either click picks it, by the same rules as X.
 
 ### 0.4.6 (17 November 2026): Art Requests 11 to 14 are in
 

@@ -120,6 +120,9 @@ var visits: Dictionary = {}          # travel place id -> times the ranger has a
 var _near_place: String = ""         # the travel place the ranger is at now, if any
 var _traveling: bool = false
 var _reach_cache: Dictionary = {}   # "station" -> the tiles trail joins to the station, until the land changes
+var last_collapse_cause: String = ""   # why the ranger last passed out
+var bench_boxes: Dictionary = {}       # structure id -> Inventory: each workbench's own small box
+var recipes_new: Array[String] = []    # recipes learned since the last "you can make this now" pop-up
 var shelf_seen: Dictionary = {}      # structure id -> the supply shelf as last looked at
 
 
@@ -206,6 +209,8 @@ func new_game(new_seed: int = -1) -> void:
 	_reset_land()
 	_apply_seasons()
 	_reach_cache.clear()
+	bench_boxes = {}
+	recipes_new.clear()
 	park.new_game()
 	visits = {"ranger_station": tuning.integer("travel.visits_needed")}
 	_near_place = ""
@@ -255,6 +260,7 @@ func to_dict() -> Dictionary:
 		},
 		"park": park.to_dict(),
 		"visits": visits.duplicate(),
+		"bench_boxes": bench_boxes.keys().map(func(k: String) -> Array: return [k, (bench_boxes[k] as Inventory).to_array()]),
 		"piles": piles.keys().map(func(t: Vector2i) -> Array: return [t.x, t.y, (piles[t] as Inventory).to_array()]),
 	}
 
@@ -272,6 +278,7 @@ func from_dict(d: Dictionary) -> void:
 		var layout: InteriorLayout = interiors[location]
 		if layout.is_solid(Vector2i(floori(interior_pos.x), floori(interior_pos.y))):
 			interior_pos = layout.entry
+		interior_pos = clear_spot(layout, interior_pos)
 	facing = int(r["facing"])
 	selected_slot = int(r["selected_slot"])
 	needs.from_dict(d["needs"])
@@ -343,6 +350,12 @@ func from_dict(d: Dictionary) -> void:
 	visits = {"ranger_station": tuning.integer("travel.visits_needed")}
 	for k: String in d.get("visits", {}):
 		visits[k] = maxi(int(visits.get(k, 0)), int(d["visits"][k]))
+	bench_boxes = {}
+	for e: Array in d.get("bench_boxes", []):
+		var inv := Inventory.new(content, tuning.integer("storage.bench_slots"))
+		inv.from_array(e[1])
+		bench_boxes[str(e[0])] = inv
+	recipes_new.clear()
 	_near_place = ""
 	piles = {}
 	for e: Array in d.get("piles", []):
@@ -670,7 +683,19 @@ func nearest_bed() -> String:
 	return best
 
 
+## Why the ranger is about to collapse: "warmth", "energy" or "late" (out
+## past the end of the day). Cold is told first: it is the likelier killer.
+func collapse_cause() -> String:
+	if needs.warmth <= 0.0:
+		return "warmth"
+	if needs.energy <= 0.0:
+		return "energy"
+	return "late"
+
+
 func collapse() -> void:
+	var cause := collapse_cause()
+	last_collapse_cause = cause
 	_collapsing = true
 	collapse_count += 1
 	survey_steps_left = 0
@@ -682,6 +707,9 @@ func collapse() -> void:
 	_collapsing = false
 	var kind: String = content.row("structures", bed)["kind"]
 	var text := content.text({"cabin": "msg_rescue_cabin", "tower": "msg_rescue_tower"}.get(kind, "msg_rescue_station"))
+	# Say plainly why it happened and what to do next time (tracker #6).
+	var rescued := text
+	text = content.text("msg_collapse_why_" + cause) + " " + content.text("msg_collapse_tip_" + cause, {"time": GameClock.time_of(tuning.integer("time.day_end_minute"))}) + "\n\n" + text
 	var fee := rescue_fee()
 	if fee > 0:
 		park.money.spend(clock.absolute_day(), "rescue", fee)
@@ -689,7 +717,8 @@ func collapse() -> void:
 	var woke := wake_lines()
 	save_game()
 	collapsed.emit(text if woke.is_empty() else text + "\n\n" + "\n".join(woke))
-	message.emit(text)
+	# The line over the item bar stays short: the note has the rest.
+	message.emit(rescued)
 
 
 ## A rescue costs a share of the wallet, up to a most; nothing from an empty one.
@@ -702,9 +731,31 @@ func _put_in_bed(structure_id: String) -> void:
 	var layout: InteriorLayout = interiors[structure_id]
 	var bed := layout.find("bed")
 	var r := layout.furniture_rect(bed)
-	interior_pos = Vector2(r.end.x + 0.5, r.position.y + 1.0)
+	interior_pos = clear_spot(layout, Vector2(r.end.x + 0.5, r.position.y + 1.0))
 	facing = FACING_DOWN
 	location_changed.emit(location)
+
+
+## The nearest point to p where the ranger's whole body is clear of walls and
+## furniture: p itself if it is. Waking beside the tower's bed used to leave
+## the ranger half inside the radio, unable to take a step (tracker #5).
+func clear_spot(layout: InteriorLayout, p: Vector2) -> Vector2:
+	var box_arr: Array = tuning.value("movement.ranger_box_tiles")
+	var half := Vector2(float(box_arr[0]), float(box_arr[1])) / 2.0
+	if not Mover.box_hits(p, half, layout.is_solid):
+		return p
+	var best := layout.entry
+	var best_d := INF
+	for y in layout.size.y:
+		for x in layout.size.x:
+			var c := Vector2(x + 0.5, y + 0.5)
+			if Mover.box_hits(c, half, layout.is_solid) or Vector2i(x, y) == layout.door_tile:
+				continue
+			var d := c.distance_squared_to(p)
+			if d < best_d:
+				best_d = d
+				best = c
+	return best
 
 
 func request_sleep() -> void:
@@ -1669,13 +1720,27 @@ func craft_chest() -> Inventory:
 	return null
 
 
-## How many of an item are at hand for making: the backpack, and the chest
-## when it counts.
+## The workbench's own small box in this building, when the ranger is at a
+## workbench; otherwise null. Made things go in it when the backpack is
+## full, and what is in it counts for making (tracker #4).
+func bench_box() -> Inventory:
+	if not at_workbench():
+		return null
+	if not bench_boxes.has(location):
+		bench_boxes[location] = Inventory.new(content, tuning.integer("storage.bench_slots"))
+	return bench_boxes[location]
+
+
+## How many of an item are at hand for making: the backpack, the chest when
+## it counts, and the workbench's box.
 func have(item: String) -> int:
 	var n := backpack.count(item)
 	var chest := craft_chest()
 	if chest != null:
 		n += chest.count(item)
+	var box := bench_box()
+	if box != null:
+		n += box.count(item)
 	return n
 
 
@@ -1683,16 +1748,23 @@ func has_tool(family: String) -> bool:
 	if backpack.find_family(family) >= 0:
 		return true
 	var chest := craft_chest()
-	return chest != null and chest.find_family(family) >= 0
+	if chest != null and chest.find_family(family) >= 0:
+		return true
+	var box := bench_box()
+	return box != null and box.find_family(family) >= 0
 
 
-## Takes n of an item: from the backpack first, then the chest.
+## Takes n of an item: from the backpack first, then the workbench's box,
+## then the chest.
 func _take(item: String, n: int) -> void:
-	var from_pack := mini(n, backpack.count(item))
-	if from_pack > 0:
-		backpack.remove(item, from_pack)
-	if n - from_pack > 0:
-		craft_chest().remove(item, n - from_pack)
+	var left := n
+	for inv: Inventory in [backpack, bench_box(), craft_chest()]:
+		if inv == null or left <= 0:
+			continue
+		var k := mini(left, inv.count(item))
+		if k > 0:
+			inv.remove(item, k)
+			left -= k
 
 
 ## Whether the ranger can make things of this station here.
@@ -1742,7 +1814,8 @@ func craft_problem(recipe_id: String) -> String:
 		after.from_array(backpack.to_array())
 		for k: String in r["inputs"]:
 			after.remove(k, mini(int(r["inputs"][k]), after.count(k)))
-		if after.room_for(res["item"]) < int(res["count"]):
+		var box := bench_box()
+		if after.room_for(res["item"]) < int(res["count"]) and (box == null or box.room_for(res["item"]) < int(res["count"])):
 			return "msg_backpack_full"
 	return ""
 
@@ -1786,9 +1859,10 @@ func craft(recipe_id: String) -> bool:
 		_take(v["ingredient"], 1)
 		var inv := backpack
 		var i := backpack.find_family(family)
-		if i < 0:
-			inv = craft_chest()
-			i = inv.find_family(family)
+		for other: Inventory in [bench_box(), craft_chest()]:
+			if i < 0 and other != null:
+				inv = other
+				i = inv.find_family(family)
 		inv.replace_at(i, v["result"])
 		message.emit(content.text("msg_refitted", {"tool": content.item_name(family).to_lower(), "ingredient": content.item_name(v["ingredient"]).to_lower()}))
 	else:
@@ -1799,9 +1873,14 @@ func craft(recipe_id: String) -> bool:
 			_set_pack_frame(true)
 			message.emit(content.text("msg_pack_frame"))
 		else:
-			backpack.add(res["item"], int(res["count"]))
 			var name := content.item_name(res["item"]).to_lower()
-			message.emit(content.text("msg_cooked" if r["station"] == "fire" else "msg_crafted", {"item": name}))
+			var left := backpack.add(res["item"], int(res["count"]))
+			if left > 0 and bench_box() != null:
+				# The backpack is full: what is left goes in the bench's box.
+				bench_box().add(res["item"], left)
+				message.emit(content.text("msg_crafted_to_box", {"item": name}))
+			else:
+				message.emit(content.text("msg_cooked" if r["station"] == "fire" else "msg_crafted", {"item": name}))
 	_hold_ideas = false
 	if r["station"] == "fire":
 		skills.act("cook")
@@ -1840,13 +1919,14 @@ func recipe_options(station: String) -> Array:
 	# The Crafting page (K) lists every recipe known, wherever it is made; a
 	# workbench or fire lists its own.
 	var rows: Array = content.rows("recipes") if station == "anywhere" else recipes_at(station)
-	var unknown := []
+	if station == "workbench":
+		var box := bench_box()
+		out.append({"id": "#bench_box", "label": content.text("ui_bench_box", {"n": box.size() - box.slots.filter(func(x: Dictionary) -> bool: return x.is_empty()).size(), "m": box.size()}), "enabled": true})
+	# Only recipes the ranger knows are shown: a new one is told in a pop-up
+	# when it is learned (tracker #4).
 	for r: Dictionary in rows:
 		var id: String = r["id"]
 		if not recipes_known.has(id):
-			var how := learn_hint(id)
-			if how != "":
-				unknown.append({"id": "#learn:" + id, "label": content.text("ui_recipe_unknown", {"name": content.text(r["name"]), "how": how}), "enabled": false})
 			continue
 		var can := craft_problem(id) == ""
 		var label := ""
@@ -1864,10 +1944,9 @@ func recipe_options(station: String) -> Array:
 				label += " " + content.text("ui_made_once")
 		if not station_ok(r["station"]):
 			label += " " + content.text("ui_made_at_" + str(r["station"]))
+		if content.has("text", "recipe_use_" + id):
+			label += "\n" + content.text("ui_recipe_use", {"use": content.text("recipe_use_" + id)})
 		out.append({"id": id, "label": label, "enabled": can})
-	if not unknown.is_empty():
-		out.append({"id": "#header", "label": content.text("ui_not_learned"), "enabled": false})
-		out.append_array(unknown)
 	return out
 
 
@@ -1898,6 +1977,11 @@ func learn_hint(recipe_id: String) -> String:
 
 ## Acts on one choice from recipe_options.
 func choose_recipe(option_id: String) -> bool:
+	if option_id == "#bench_box":
+		storage_opened.emit(content.text("ui_bench_box_title"), bench_box())
+		return true
+	if option_id.begins_with("#") and option_id != "#firewood":
+		return false
 	if option_id == "#firewood":
 		return feed_stove() if is_indoors() else feed_campfire()
 	return craft(option_id)
@@ -2348,6 +2432,42 @@ func site_reached(site_id: String) -> bool:
 	return (_reach_cache["station"] as Dictionary).has(start)
 
 
+## The gap still to dig between the station's trail and a site's: {a, b},
+## the nearest pair of tiles, a on trail joined to the station and b on the
+## site's own trail (or its door), both in tiles. {} when the site is joined.
+## Kept until the land changes, like the search behind it (tracker #2).
+func trail_gap(site_id: String) -> Dictionary:
+	if site_reached(site_id):
+		return {}
+	var key := "gap:" + site_id
+	if _reach_cache.has(key):
+		return _reach_cache[key]
+	if not _reach_cache.has("station"):
+		_reach_cache["station"] = _trail_reach_from(Vector2i(door_front("ranger_station")))
+	var home: Dictionary = _reach_cache["station"]
+	var door := Vector2i(site_door(site_id))
+	var theirs := _trail_reach_from(door)
+	if theirs.is_empty():
+		theirs = {door: 0}
+	var a := Vector2i(door_front("ranger_station"))
+	var best := INF
+	for t: Vector2i in home:
+		var d := Vector2(t).distance_squared_to(Vector2(door))
+		if d < best:
+			best = d
+			a = t
+	var b := door
+	best = INF
+	for t: Vector2i in theirs:
+		var d := Vector2(t).distance_squared_to(Vector2(a))
+		if d < best:
+			best = d
+			b = t
+	var gap := {"a": a, "b": b}
+	_reach_cache[key] = gap
+	return gap
+
+
 ## Every tile joined to a by trail, boardwalk and short fords: {tile: run}.
 func _trail_reach_from(a: Vector2i) -> Dictionary:
 	var grounds: Array = tuning.value("sites.reach_grounds")
@@ -2664,6 +2784,32 @@ func forage_in_reach() -> Vector2i:
 
 ## Picks a spot: one of its item, or two on a double pick (Foraging 4 and the
 ## Gatherer). A magical ingredient is logged as a find the first time.
+## The forage under the mouse (p, in tiles) when the ranger can reach it:
+## a ground spot or a bush with fruit, within the gathering radius of the
+## ranger. (-1, -1) when there is none, or it is too far (tracker #8).
+func forage_at(p: Vector2) -> Vector2i:
+	if is_indoors():
+		return Vector2i(-1, -1)
+	var t := Vector2i(floori(p.x), floori(p.y))
+	if outdoor_pos.distance_to(Vector2(t) + Vector2(0.5, 0.5)) > tuning.num("forage.pick_radius_tiles"):
+		return Vector2i(-1, -1)
+	if (forage.spots.has(t) or forage.magic_at(t) != "") and forage_showing(t):
+		return t
+	if not object_forage_ready(t).is_empty():
+		return t
+	return Vector2i(-1, -1)
+
+
+## Picks the forage the mouse clicked on, by the same rules as X: a ground
+## spot gathers everything close by, a bush gives its fruit.
+func pick_at(t: Vector2i) -> Dictionary:
+	if pending_confirm != "":
+		return {"ok": false}
+	if forage.spots.has(t) or forage.magic_at(t) != "":
+		return pick_forage_around(t)
+	return pick_object(t)
+
+
 ## Picks the spot in reach and every other spot showing within the tuned
 ## radius, nearest first, told in one line.
 func pick_forage_around(first: Vector2i) -> Dictionary:
@@ -2930,7 +3076,23 @@ func learn_recipe(recipe_id: String) -> bool:
 	if recipes_known.has(recipe_id) or not content.has("recipes", recipe_id):
 		return false
 	recipes_known[recipe_id] = true
+	# Told in a pop-up: "you can make this now", what it is for and where.
+	if not _loading:
+		recipes_new.append(recipe_id)
 	return true
+
+
+## The pop-up for recipes just learned, and clears them; "" when none.
+func take_new_recipes_text() -> String:
+	if recipes_new.is_empty():
+		return ""
+	var lines := PackedStringArray([content.text("msg_recipes_new_title")])
+	for id: String in recipes_new:
+		var r := content.row("recipes", id)
+		var use := content.text("recipe_use_" + id) if content.has("text", "recipe_use_" + id) else ""
+		lines.append(content.text("msg_recipe_new_line", {"name": content.text(r["name"]), "where": content.text("ui_where_" + str(r["station"])), "use": use}))
+	recipes_new.clear()
+	return "\n".join(lines)
 
 
 ## Ideas: the first time an item is in the backpack, the ranger learns what it

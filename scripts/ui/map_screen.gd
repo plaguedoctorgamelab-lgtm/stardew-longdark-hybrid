@@ -325,6 +325,17 @@ func _draw_overlay() -> void:
 	for r: Dictionary in session.content.rows("landmarks"):
 		if session.map.is_landmark_mapped(r["id"]):
 			_mark(overlay, map_rect.position + session.world.landmark_pos(r["id"]) * z, str(r["id"]))
+	# Where a trail still has to be dug: a flag at each end, dashes between
+	# (tracker #2).
+	for g: Dictionary in session.guide.trail_gaps():
+		var a := map_rect.position + (Vector2(g["a"]) + Vector2(0.5, 0.5)) * z
+		var b := map_rect.position + (Vector2(g["b"]) + Vector2(0.5, 0.5)) * z
+		var n := maxi(2, int(a.distance_to(b) / 4.0))
+		for i in n:
+			if i % 2 == 0:
+				overlay.draw_line(a.lerp(b, float(i) / n), a.lerp(b, float(i + 1) / n), HINT, 1.0)
+		_flag(overlay, a)
+		_flag(overlay, b)
 	# The station is always on the map, as home.
 	if Art.has_picture("map_icon_ranger_station"):
 		_mark(overlay, map_rect.position + session.door_front("ranger_station") * z + Vector2(0, -8), "ranger_station")
@@ -361,6 +372,12 @@ func _mark(on: CanvasItem, c: Vector2, place: String) -> void:
 		on.draw_texture(star, (c - Vector2(star.get_size()) / 2.0).round())
 	else:
 		_star(on, c, 4.5, STAR)
+
+
+## A small red survey flag on a stake, its foot at p.
+static func _flag(on: CanvasItem, p: Vector2) -> void:
+	on.draw_line(p, p + Vector2(0, -8), INK, 1.0)
+	on.draw_colored_polygon(PackedVector2Array([p + Vector2(0.5, -8), p + Vector2(6, -6), p + Vector2(0.5, -4)]), HINT)
 
 
 ## A five-pointed star with a dark edge.
@@ -406,7 +423,7 @@ func _draw_deco() -> void:
 func _draw_legend_and_name() -> void:
 	var c := session.content
 	# Legend.
-	var box := Rect2(VIEW_SIZE.x - 92, VIEW_SIZE.y - 80, 86, 50)
+	var box := Rect2(VIEW_SIZE.x - 92, VIEW_SIZE.y - 88, 86, 58)
 	if Art.has_picture("map_legend"):
 		var frame := StyleBoxTexture.new()
 		frame.texture = Art.texture("map_legend")
@@ -420,7 +437,7 @@ func _draw_legend_and_name() -> void:
 		deco.draw_rect(box, Color(PAPER, 0.92))
 		deco.draw_rect(box, TRACE, false, 1.0)
 	_deco_text(c.text("map_legend").to_upper(), box.position + Vector2(4, 9), 7, TRACE, 0)
-	var rows := [["star", "map_legend_landmark"], ["trail", "map_legend_trail"], ["water", "map_legend_water"], ["forest", "map_legend_forest"], ["you", "map_legend_you"]]
+	var rows := [["star", "map_legend_landmark"], ["trail", "map_legend_trail"], ["flag", "map_legend_dig"], ["water", "map_legend_water"], ["forest", "map_legend_forest"], ["you", "map_legend_you"]]
 	for i in rows.size():
 		var y := box.position.y + 16 + i * 7.5
 		var k: String = rows[i][0]
@@ -440,6 +457,8 @@ func _draw_legend_and_name() -> void:
 				deco.draw_rect(Rect2(at - Vector2(4, 2), Vector2(8, 4)), GROUND_COLORS["forest_floor"])
 			"you":
 				deco.draw_rect(Rect2(at - Vector2(2, 2), Vector2(4, 4)), marker.color)
+			"flag":
+				_flag(deco, at + Vector2(-2, 3))
 		_deco_text(c.text(rows[i][1]), at + Vector2(8, 2.5), 7, TRACE, 0)
 	# The park's name, poster-style, along the bottom right.
 	var f := ThemeDB.fallback_font

@@ -645,6 +645,8 @@ def main():
     living_art()
     import park_placeholders
     park_placeholders.park_art(Canvas)
+    import cursor_placeholders
+    cursor_placeholders.cursor_art()
     print("placeholders written to", OUT, len(os.listdir(OUT)), "files")
 
 

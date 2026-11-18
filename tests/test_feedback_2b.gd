@@ -35,19 +35,21 @@ func test_crafting_page_shows_every_recipe(t: TestCase) -> void:
 	var planks: Dictionary = opts[ids.find("planks")]
 	t.check(not planks["enabled"], "greyed away from a workbench")
 	t.check(str(planks["label"]).contains(s.content.text("ui_made_at_workbench")), "and says where it is made")
-	t.check(ids.has("#learn:pack_frame"), "the pack frame shows before it is learned")
-	t.check(ids.has("#learn:boardwalk"), "so does the boardwalk")
-	t.check(str(opts[ids.find("#learn:boardwalk")]["label"]).contains(s.content.text("skill_trailcraft")), "the boardwalk says which skill teaches it")
-	t.check(not ids.has("#learn:refit_lantern"), "magic refits stay unseen")
-	t.check(not ids.has("#learn:glowcap_night_light"), "so does anything made with a magical ingredient")
+	# Since 0.4.7 (tracker #4) recipes not yet learned stay hidden; learning
+	# one is told in a pop-up instead.
+	t.check(not ids.any(func(i: String) -> bool: return i.begins_with("#learn:")), "recipes not yet learned stay hidden")
+	t.check(not ids.has("pack_frame"), "the pack frame waits until it is learned")
+	t.check(str(planks["label"]).contains(s.content.text("recipe_use_planks")), "and each recipe says what it is for")
 
 
-func test_cooking_shows_recipes_to_learn(t: TestCase) -> void:
+func test_cooking_lists_known_recipes(t: TestCase) -> void:
 	var s := TestCase.new_session()
 	var ids := s.recipe_options("fire").map(func(o: Dictionary) -> String: return o["id"])
 	t.check(ids.has("#firewood"), "adding firewood is still there")
-	t.check(ids.has("#learn:hot_soup"), "and hot soup shows, with how to learn it")
-	t.check(ids.size() > 3, "more than firewood on offer")
+	t.check(not ids.has("hot_soup"), "hot soup waits until it is learned")
+	s.learn_recipe("hot_soup")
+	ids = s.recipe_options("fire").map(func(o: Dictionary) -> String: return o["id"])
+	t.check(ids.has("hot_soup"), "and shows once it is")
 
 
 func test_sign_goes_beside_the_trail(t: TestCase) -> void:

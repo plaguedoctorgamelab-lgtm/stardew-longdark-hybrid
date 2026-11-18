@@ -3595,6 +3595,411 @@
    "id": "badge_strange_hidden",
    "text": "Something out there earns this one.",
    "placeholder": true
+  },
+  {
+   "id": "msg_collapse_why_warmth",
+   "text": "You got too cold and passed out.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_collapse_tip_warmth",
+   "text": "Next time, when the red W bar runs low: go indoors, light a stove, or make camp with your bedroll and some firewood.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_collapse_why_energy",
+   "text": "You ran out of energy and passed out.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_collapse_tip_energy",
+   "text": "Next time, when the yellow E bar runs low: eat something from your backpack, or head for a bed before it empties.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_collapse_why_late",
+   "text": "You stayed out too late and passed out.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_collapse_tip_late",
+   "text": "Next time, be in a bed (or at your camp) before the day ends at {time}.",
+   "placeholder": true
+  },
+  {
+   "id": "job_site_title",
+   "text": "Open the {name}",
+   "placeholder": true
+  },
+  {
+   "id": "job_item",
+   "text": "{name} {have}/{need}",
+   "placeholder": true
+  },
+  {
+   "id": "job_step_gather",
+   "text": "Gather and bring: {list}",
+   "placeholder": true
+  },
+  {
+   "id": "job_step_find",
+   "text": "Find it: it's somewhere in the circle on your map",
+   "placeholder": true
+  },
+  {
+   "id": "job_step_map",
+   "text": "Map it: press X at it",
+   "placeholder": true
+  },
+  {
+   "id": "job_step_reach",
+   "text": "Join it to the station's trail: dig with the shovel between the two flags on your map (about {n} tiles). Saw or chop anything in the way",
+   "placeholder": true
+  },
+  {
+   "id": "job_step_reach_done",
+   "text": "Join it to the station's trail",
+   "placeholder": true
+  },
+  {
+   "id": "job_step_repair",
+   "text": "Repair it: hammer (C) at its door. {list}",
+   "placeholder": true
+  },
+  {
+   "id": "job_part",
+   "text": "{name} {done}/{total}",
+   "placeholder": true
+  },
+  {
+   "id": "job_part_done",
+   "text": "{name} done",
+   "placeholder": true
+  },
+  {
+   "id": "job_step_sign",
+   "text": "Put up a sign naming it, beside the trail within {n} tiles",
+   "placeholder": true
+  },
+  {
+   "id": "job_step_settle",
+   "text": "Something here isn't right yet",
+   "placeholder": true
+  },
+  {
+   "id": "job_step_open",
+   "text": "Press X at it to declare it open",
+   "placeholder": true
+  },
+  {
+   "id": "job_handy",
+   "text": "   Handy to have: {list}",
+   "placeholder": true
+  },
+  {
+   "id": "job_current",
+   "text": "Working on: {title}",
+   "placeholder": true
+  },
+  {
+   "id": "job_mark_done",
+   "text": "   [x] {text}",
+   "placeholder": true
+  },
+  {
+   "id": "job_mark_now",
+   "text": "   >> {text}",
+   "placeholder": true
+  },
+  {
+   "id": "job_mark_todo",
+   "text": "   [ ] {text}",
+   "placeholder": true
+  },
+  {
+   "id": "job_others",
+   "text": "Other jobs:",
+   "placeholder": true
+  },
+  {
+   "id": "job_other_line",
+   "text": "   {title}: next, {next}",
+   "placeholder": true
+  },
+  {
+   "id": "job_label_gather",
+   "text": "gather what to bring",
+   "placeholder": true
+  },
+  {
+   "id": "job_label_find",
+   "text": "find it",
+   "placeholder": true
+  },
+  {
+   "id": "job_label_map",
+   "text": "map it",
+   "placeholder": true
+  },
+  {
+   "id": "job_label_reach",
+   "text": "join it to the trail",
+   "placeholder": true
+  },
+  {
+   "id": "job_label_repair",
+   "text": "repair it",
+   "placeholder": true
+  },
+  {
+   "id": "job_label_sign",
+   "text": "put up its sign",
+   "placeholder": true
+  },
+  {
+   "id": "job_label_settle",
+   "text": "set it right",
+   "placeholder": true
+  },
+  {
+   "id": "job_label_open",
+   "text": "declare it open",
+   "placeholder": true
+  },
+  {
+   "id": "job_all_done",
+   "text": "Every job is done. Look for new ones on the note board.",
+   "placeholder": true
+  },
+  {
+   "id": "job_done_list",
+   "text": "Done: {list}",
+   "placeholder": true
+  },
+  {
+   "id": "map_legend_dig",
+   "text": "Dig between flags",
+   "placeholder": true
+  },
+  {
+   "id": "ui_recipe_use",
+   "text": "     {use}",
+   "placeholder": true
+  },
+  {
+   "id": "ui_bench_box",
+   "text": "Open the workbench box ({n} of {m} slots used): made things go here when your backpack is full",
+   "placeholder": true
+  },
+  {
+   "id": "ui_bench_box_title",
+   "text": "Workbench box",
+   "placeholder": true
+  },
+  {
+   "id": "msg_crafted_to_box",
+   "text": "You make a {item}. Your backpack is full, so it's in the workbench box.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_recipes_new_title",
+   "text": "You can make something new!",
+   "placeholder": true
+  },
+  {
+   "id": "msg_recipe_new_line",
+   "text": "  {name}, {where}. {use}",
+   "placeholder": true
+  },
+  {
+   "id": "ui_where_anywhere",
+   "text": "anywhere (K)",
+   "placeholder": true
+  },
+  {
+   "id": "ui_where_workbench",
+   "text": "at a workbench",
+   "placeholder": true
+  },
+  {
+   "id": "ui_where_fire",
+   "text": "at a lit stove or camp fire",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_use_cairn",
+   "text": "A pile of stones that marks a spot on your map, even off the trail.",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_use_trail_sign",
+   "text": "A blank sign to name a place; a site needs one before it can open.",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_use_rope",
+   "text": "Used to make the pack frame.",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_use_trail_mix",
+   "text": "Food for the trail: plenty of energy, light to carry.",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_use_planks",
+   "text": "For repairs, signs, boardwalk and most workbench things.",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_use_roofing",
+   "text": "For repairing roofs: the cabin's and the tower's.",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_use_workbench_kit",
+   "text": "Set it up inside a repaired cabin or tower to make things there too.",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_use_boardwalk",
+   "text": "Lay it across bog or shallows to make trail where you can't dig.",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_use_pack_frame",
+   "text": "Makes your backpack bigger, once.",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_use_trail_marker",
+   "text": "Small markers to show the way along a trail.",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_use_repair_kit",
+   "text": "Stands in for planks and nails when repairing, so you carry less.",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_use_hot_soup",
+   "text": "A hot meal: lots of energy and some warmth.",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_use_fiddlehead_fry",
+   "text": "A filling meal: lots of energy.",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_use_berry_preserve",
+   "text": "Keeps well, and sells on the gift shelf.",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_use_roast_hazelnuts",
+   "text": "A warm snack: some energy and a little warmth.",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_use_rose_hip_tea",
+   "text": "Warms you up when you're cold.",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_use_bench",
+   "text": "Put it beside a trail: visitors stop to rest.",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_use_picnic_table",
+   "text": "Put it near a trail: visitors stop to eat.",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_use_fire_ring",
+   "text": "Put it near a trail and light it: a warm place for visitors.",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_use_pressed_flower_card",
+   "text": "A gift good for the gift shelf: visitors buy it.",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_use_pine_resin_candle",
+   "text": "A gift good for the gift shelf: visitors buy it.",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_use_carved_pinecone_figure",
+   "text": "A gift good for the gift shelf: visitors buy it.",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_use_painted_stone",
+   "text": "A gift good for the gift shelf: visitors buy it.",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_use_glowcap_night_light",
+   "text": "A gift good for the gift shelf: visitors buy it.",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_use_refit_lantern",
+   "text": "Changes your lantern. What it does, you'll find out.",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_use_refit_bedroll",
+   "text": "Changes your bedroll. What it does, you'll find out.",
+   "placeholder": true
+  },
+  {
+   "id": "recipe_use_refit_compass",
+   "text": "Changes your compass. What it does, you'll find out.",
+   "placeholder": true
+  },
+  {
+   "id": "ui_options",
+   "text": "Options",
+   "placeholder": true
+  },
+  {
+   "id": "ui_options_title",
+   "text": "Options",
+   "placeholder": true
+  },
+  {
+   "id": "ui_options_hover_tips",
+   "text": "Hover tips:",
+   "placeholder": true
+  },
+  {
+   "id": "ui_hover_tips_first_week",
+   "text": "First week only",
+   "placeholder": true
+  },
+  {
+   "id": "ui_hover_tips_always",
+   "text": "Always",
+   "placeholder": true
+  },
+  {
+   "id": "ui_hover_tips_off",
+   "text": "Off",
+   "placeholder": true
+  },
+  {
+   "id": "ui_options_hover_note",
+   "text": "Hover tips say what X does at the thing under the mouse, and what C does with an item-bar slot. \"First week only\" shows them for the first {n} days of a game. Click to change.",
+   "placeholder": true
+  },
+  {
+   "id": "ui_back",
+   "text": "Back",
+   "placeholder": true
   }
  ]
 }
