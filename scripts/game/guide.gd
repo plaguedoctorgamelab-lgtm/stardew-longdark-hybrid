@@ -64,8 +64,13 @@ func x_hint() -> String:
 	var what: String = obj["interact"]
 	if what.begins_with("find:"):
 		return _t("hint_x_look")
-	if what.begins_with("landmark:") and not s.map.is_landmark_mapped(what.substr(9)):
-		return _t("hint_x_map")
+	if what.begins_with("landmark:"):
+		var lid := what.substr(9)
+		if not s.map.is_landmark_mapped(lid):
+			return _t("hint_x_map")
+		var site := s.site_for_landmark(lid)
+		if site != "" and not s.sites_open.has(site) and s.site_ready(site):
+			return _t("hint_x_open_site")
 	return ""
 
 
@@ -361,7 +366,7 @@ func job_cards() -> Array:
 				"find":
 					text = c.text("job_step_find")
 				"map":
-					text = c.text("job_step_map")
+					text = c.text("job_step_map" if sid != "" else "job_step_map_marker")
 				"reach":
 					var gap := s.trail_gap(id) if not done else {}
 					var tiles := 0
@@ -383,7 +388,7 @@ func job_cards() -> Array:
 					text = c.text("job_step_settle")
 			steps.append({"key": st, "text": text, "done": done})
 		var is_open := s.sites_open.has(id)
-		steps.append({"key": "open", "text": c.text("job_step_open"), "done": is_open})
+		steps.append({"key": "open", "text": c.text("job_step_open" if sid != "" else "job_step_open_marker"), "done": is_open})
 		var nxt := ""
 		for st: Dictionary in steps:
 			if not bool(st["done"]):

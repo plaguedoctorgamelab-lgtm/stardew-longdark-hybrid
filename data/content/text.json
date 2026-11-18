@@ -3653,7 +3653,7 @@
   },
   {
    "id": "job_step_reach",
-   "text": "Join it to the station's trail: dig with the shovel between the two flags on your map (about {n} tiles). Saw or chop anything in the way",
+   "text": "Join it to the station's trail: dig with the shovel between the two flags on your map (about {n} tiles). Trail tiles must touch side by side, not just at the corners. Saw or chop anything in the way",
    "placeholder": true
   },
   {
@@ -4029,6 +4029,26 @@
   {
    "id": "where_gather",
    "text": "(gather it outdoors)",
+   "placeholder": true
+  },
+  {
+   "id": "job_step_map_marker",
+   "text": "Map it: press X at its marker (a post or a cairn)",
+   "placeholder": true
+  },
+  {
+   "id": "job_step_open_marker",
+   "text": "Press X at its marker (a post or a cairn) to declare it open",
+   "placeholder": true
+  },
+  {
+   "id": "msg_trail_joined",
+   "text": "The {name} is joined to the station's trail! Its flags are off the map.",
+   "placeholder": true
+  },
+  {
+   "id": "msg_trail_broken",
+   "text": "The trail to the {name} is broken. Its flags are back on the map.",
    "placeholder": true
   }
  ]

@@ -123,6 +123,8 @@ var _reach_cache: Dictionary = {}   # "station" -> the tiles trail joins to the 
 var last_collapse_cause: String = ""   # why the ranger last passed out
 var bench_boxes: Dictionary = {}       # structure id -> Inventory: each workbench's own small box
 var current_job: String = ""          # the site whose job is being worked on: the last one found, mapped or reached
+var _joined: Dictionary = {}          # site id -> true: sites whose trail is joined to the station's, as last told
+var _join_check: bool = false         # the land changed: see whether a site's trail has just joined up
 var recipes_new: Array[String] = []    # recipes learned since the last "you can make this now" pop-up
 var shelf_seen: Dictionary = {}      # structure id -> the supply shelf as last looked at
 
@@ -153,7 +155,8 @@ func _init(tuning_path: String = Tuning.DEFAULT_PATH, content_dir: String = Cont
 	park = Park.new(self)
 	land_changed.connect(func(_t: Vector2i) -> void:
 		park.net.mark_dirty()
-		_reach_cache.clear())
+		_reach_cache.clear()
+		_join_check = true)
 	tree_changed.connect(func(_t: Vector2i) -> void: _reach_cache.clear())
 	park.note.connect(func(text: String) -> void: message.emit(text))
 	guide = Guide.new(self)
@@ -213,6 +216,7 @@ func new_game(new_seed: int = -1) -> void:
 	bench_boxes = {}
 	recipes_new.clear()
 	current_job = ""
+	_joined = {}
 	park.new_game()
 	visits = {"ranger_station": tuning.integer("travel.visits_needed")}
 	_near_place = ""
@@ -354,6 +358,8 @@ func from_dict(d: Dictionary) -> void:
 	for k: String in d.get("visits", {}):
 		visits[k] = maxi(int(visits.get(k, 0)), int(d["visits"][k]))
 	current_job = str(d.get("current_job", ""))
+	_joined = {}
+	_join_check = false
 	bench_boxes = {}
 	for e: Array in d.get("bench_boxes", []):
 		var inv := Inventory.new(content, tuning.integer("storage.bench_slots"))
@@ -371,6 +377,7 @@ func from_dict(d: Dictionary) -> void:
 	camp_changed.emit()
 	survey_steps_left = 0
 	_last_tile = Vector2i(-9999, -9999)
+	check_joined(true)
 	weather.check_change(clock.minute)
 
 
@@ -517,6 +524,8 @@ func speed_tiles_per_second() -> float:
 # --- each frame ---------------------------------------------------------------
 
 func process(real_delta: float) -> void:
+	if _join_check:
+		check_joined()
 	clock.process(real_delta)
 	park.advance_to(park_minute())
 
@@ -618,6 +627,8 @@ func _on_step(_minute: int) -> void:
 
 ## Passes game time at once, as for an action that takes time.
 func pass_minutes(minutes: int) -> void:
+	if _join_check:
+		check_joined()
 	var steps := ceili(float(minutes) / clock.step_minutes())
 	for i in steps:
 		if clock.is_day_over() or _collapsing:
@@ -941,8 +952,44 @@ func interact() -> void:
 		var lid := what.substr(9)
 		if not map.is_landmark_mapped(lid):
 			map_location(lid)
-		else:
-			message.emit(content.text(content.row("landmarks", lid)["name"]))
+			return
+		# A site with no building (the outlook, the pond) is declared open
+		# here, at its post or cairn, as a building is at its door.
+		var site := site_for_landmark(lid)
+		if site != "" and not sites_open.has(site) and site_ready(site):
+			_pending_site = site
+			pending_confirm = "open_site"
+			confirm_requested.emit("open_site", content.text("msg_open_site_confirm", {"name": content.text(content.row("sites", site)["name"])}))
+			return
+		message.emit(content.text(content.row("landmarks", lid)["name"]))
+
+
+## Tells the moment a found site's trail joins the station's (its flags on
+## the map go), or comes apart again (a badger's hole). Quiet when a game is
+## started or loaded: it only learns what is already joined.
+func check_joined(quiet: bool = false) -> void:
+	_join_check = false
+	for r: Dictionary in content.rows("sites"):
+		var id: String = r["id"]
+		if not sites_found.has(id) or sites_open.has(id):
+			continue
+		var now := site_reached(id)
+		if now and not _joined.has(id):
+			_joined[id] = true
+			if not quiet:
+				message.emit(content.text("msg_trail_joined", {"name": content.text(r["name"])}))
+		elif not now and _joined.has(id):
+			_joined.erase(id)
+			if not quiet:
+				message.emit(content.text("msg_trail_broken", {"name": content.text(r["name"])}))
+
+
+## The site a landmark belongs to, or "".
+func site_for_landmark(landmark_id: String) -> String:
+	for r: Dictionary in content.rows("sites"):
+		if r["landmark"] == landmark_id:
+			return r["id"]
+	return ""
 
 
 func _landmark_for_structure(structure_id: String) -> String:
@@ -2390,6 +2437,8 @@ func _look_for_sites() -> void:
 		if not sites_found.has(id) and outdoor_pos.distance_to(site_pos(id)) <= r:
 			sites_found[id] = true
 			current_job = id
+			if site_reached(id):
+				_joined[id] = true
 			message.emit(content.text("msg_site_found", {"name": content.text(row["name"])}))
 
 
@@ -2427,16 +2476,28 @@ func site_ready(site_id: String) -> bool:
 ## station's door. A trail may ford water: a short wade through shallows
 ## between trail on both banks counts, a walk along a stream does not.
 func site_reached(site_id: String) -> bool:
-	var grounds: Array = tuning.value("sites.reach_grounds")
-	var start := Vector2i(site_door(site_id))
-	if world.is_solid(start) or not grounds.has(world.ground_at(start)):
-		return false
 	# One search from the station answers for every site. It walks the whole
 	# trail, so it is kept until the land changes: the hints and "?" marks
 	# ask several times a second.
 	if not _reach_cache.has("station"):
 		_reach_cache["station"] = _trail_reach_from(Vector2i(door_front("ranger_station")))
-	return (_reach_cache["station"] as Dictionary).has(start)
+	var home: Dictionary = _reach_cache["station"]
+	var grounds: Array = tuning.value("sites.reach_grounds")
+	var start := Vector2i(site_door(site_id))
+	if str(content.row("sites", site_id)["structure"]) == "":
+		# A site with no building (the outlook, the pond) is reached when the
+		# station's trail comes within a few tiles of its spot: its trail ends
+		# at the post or cairn, not on the spot itself.
+		var r := tuning.integer("sites.spot_reach_tiles")
+		for dy in range(-r, r + 1):
+			for dx in range(-r, r + 1):
+				var t := start + Vector2i(dx, dy)
+				if Vector2(t).distance_to(Vector2(start)) <= r and home.has(t):
+					return true
+		return false
+	if world.is_solid(start) or not grounds.has(world.ground_at(start)):
+		return false
+	return home.has(start)
 
 
 ## The gap still to dig between the station's trail and a site's: {a, b},

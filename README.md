@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.4.9** (see [Version history](#version-history)). The
+**Current version: 0.4.10** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -100,6 +100,13 @@ docs/              bible, roadmap, specs, rules, status reports (hidden from God
 
 The version lives in `project.godot` (`application/config/version`). Every
 commit of the build raises it and adds a line here.
+
+### 0.4.10 (18 November 2026): the outlook and pond can open
+
+- The scenic outlook and the kettle pond, which have no building, can now be declared open: once every step is done, X at the outlook's post or the pond's cairn asks to open it, and the hover hint says so. Before, X there only ever said the place's name.
+- A site with no building counts as joined to the station's trail when that trail comes within 3 tiles of its spot (`sites.spot_reach_tiles`). The outlook's spot sat 3 tiles from the end of its trail, so it never counted as joined and its two flags sat by the post whatever was dug. Its trail already reaches it in a new game.
+- When a site's trail joins the station's, the game says so ("The Kettle Pond is joined to the station's trail! Its flags are off the map."), and says so again if it comes apart. The job step now says trail tiles must touch side by side, not just at the corners.
+- The steps for a site with no building say to press X at its marker (a post or a cairn).
 
 ### 0.4.9 (18 November 2026): jobs that follow you
 

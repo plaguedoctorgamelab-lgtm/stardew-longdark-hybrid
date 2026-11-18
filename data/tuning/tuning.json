@@ -209,7 +209,8 @@
       "trail",
       "boards"
     ],
-    "ford_max_tiles": 24
+    "ford_max_tiles": 24,
+    "spot_reach_tiles": 3
   },
   "look": {
     "shadow_alpha": 0.25,
