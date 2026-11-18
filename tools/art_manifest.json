@@ -4301,6 +4301,35 @@
      "full": true
     }
    ]
+  },
+  {
+   "file": "ar15_cursors.png",
+   "label": "Art Request 15: the pointer, and the pointer with a green plus over forage (Mark drew them large, shaded version used; shrunk to 24 x 24 with the arrow's point in the top-left pixel)",
+   "grid": [
+    2,
+    1
+   ],
+   "cells": [
+    {
+     "name": "cursor_arrow",
+     "size": [
+      24,
+      24
+     ],
+     "anchor": "top_left",
+     "edge_ok": true
+    },
+    {
+     "name": "cursor_pick",
+     "size": [
+      24,
+      24
+     ],
+     "anchor": "top_left",
+     "parts": 2,
+     "edge_ok": true
+    }
+   ]
   }
  ],
  "calm": {

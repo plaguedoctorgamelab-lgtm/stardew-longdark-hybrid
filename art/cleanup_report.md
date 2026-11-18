@@ -1,7 +1,7 @@
 # Art cleanup report
 
 Made by tools/art_cleanup.py. palette from art/palette.json (33 colors). A picture cut pixel for pixel from a refresh sheet replaces any earlier picture of the same name.
-419 images passed, 1 failed.
+421 images passed, 1 failed.
 
 
 ## ChatGPT Image Nov 15, 2026, 07_04_59 AM.png (ground tiles)
@@ -578,6 +578,11 @@ Made by tools/art_cleanup.py. palette from art/palette.json (33 colors). A pictu
 - badge_strange_16: **pass** 24x24 pixel for pixel
 - badge_strange_17: **pass** 24x24 pixel for pixel
 - badge_locked: **pass** 24x24 pixel for pixel
+
+## ar15_cursors.png (Art Request 15: the pointer, and the pointer with a green plus over forage (Mark drew them large, shaded version used; shrunk to 24 x 24 with the arrow's point in the top-left pixel))
+
+- cursor_arrow: **pass** 24x24
+- cursor_pick: **pass** 24x24
 
 ## calm_ground_a.png
 

@@ -52,10 +52,10 @@ var _post_cols: Array = []        # [x, colour] of the sign picture's post pixel
 
 # Where Mark's pictures go on the 480 x 270 screen.
 const LOGO_AT := Vector2(40, 6)
-const LAYERS := {"title_layer_mountains": [40.0, 1.0], "title_layer_meadow": [150.0, 3.0], "title_layer_ridge": [80.0, 2.0], "title_layer_pines": [150.0, 5.0]}
+const LAYERS := {"title_layer_mountains": [38.0, 1.0], "title_layer_ridge": [78.0, 2.0], "title_layer_meadow": [150.0, 3.0], "title_layer_pines": [150.0, 5.0]}
 const SIGN_AT := Vector2(96, 92)
 const EMBLEM_AT := Vector2(352, 84)
-const LANTERN_AT := Vector2(356, 186)
+const LANTERN_AT := Vector2(352, 186)
 
 
 func setup(c: ContentDB, version_text: String, actions: Array) -> void:
@@ -128,9 +128,13 @@ func _plank(b: Button) -> void:
 			sb.set_content_margin_all(1)
 			sb.modulate_color = {"normal": Color.WHITE, "hover": Color(1.15, 1.12, 1.05), "pressed": Color(0.82, 0.8, 0.78), "focus": Color.WHITE}[state]
 			b.add_theme_stylebox_override(state, sb)
-		b.add_theme_color_override("font_color", WOOD_DARK)
-		b.add_theme_color_override("font_hover_color", INK)
-		b.add_theme_color_override("font_pressed_color", INK)
+		# Mark's plank has a groove along its middle: cream words with a dark
+		# edge read clearly over it.
+		b.add_theme_color_override("font_color", CREAM)
+		b.add_theme_color_override("font_hover_color", PAPER)
+		b.add_theme_color_override("font_pressed_color", CREAM)
+		b.add_theme_color_override("font_outline_color", INK)
+		b.add_theme_constant_override("outline_size", 3)
 		return
 	for state in ["normal", "hover", "pressed"]:
 		var sb := StyleBoxFlat.new()
@@ -174,12 +178,9 @@ func _draw_with_art() -> void:
 	_draw_sky()
 	# The layers drift slowly, the nearest fastest. They are 32 px wider than
 	# the screen, so the drift never shows an edge.
+	# Far to near: the meadow's own distant treeline stands in front of the ridge.
 	for layer: String in ["title_layer_mountains", "title_layer_ridge", "title_layer_meadow", "title_layer_pines"]:
-		if layer == "title_layer_ridge":
-			continue
 		_layer(layer)
-		if layer == "title_layer_meadow":
-			_layer("title_layer_ridge")
 	if Art.has_picture("title_logo"):
 		draw_texture(Art.texture("title_logo"), LOGO_AT)
 	else:
@@ -192,10 +193,8 @@ func _draw_with_art() -> void:
 	# Over the picture's last rows, so its bottom outline leaves no seam.
 	for pc: Array in _post_cols:
 		draw_rect(Rect2(SIGN_AT.x + float(pc[0]), foot, 1, H - foot), pc[1])
-	if Art.has_picture("title_emblem"):
-		draw_texture(Art.texture("title_emblem"), EMBLEM_AT)
-	else:
-		_draw_emblem(EMBLEM_AT + Vector2(32, 36))
+	# Mark's sign carries the park's emblem itself (since 0.4.8), so it is
+	# not laid over it again.
 	var frame := int(_time * 3.0) % 2
 	var glow := 0.8 + 0.2 * sin(_time * 3.1)
 	draw_circle(LANTERN_AT + Vector2(6, 10), 20 * glow, Color(GOLD, 0.10))

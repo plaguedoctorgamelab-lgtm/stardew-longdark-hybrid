@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.4.7** (see [Version history](#version-history)). The
+**Current version: 0.4.8** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -100,6 +100,11 @@ docs/              bible, roadmap, specs, rules, status reports (hidden from God
 
 The version lives in `project.godot` (`application/config/version`). Every
 commit of the build raises it and adds a line here.
+
+### 0.4.8 (18 November 2026): Mark's new start screen and cursors
+
+- A new start screen from Mark (Art Request 11, redrawn): detailed mountains, a pine ridge, the Dusk River meadow framed by trees, a carved "Welcome to Dusk River Park" sign that carries the park's emblem, and a script "Strange Ranger" logo. The menu's words are cream with a dark edge, to read over the plank's grain.
+- Mark's cursors (Art Request 15): the pointer, and the pointer with a green plus over forage in reach. He drew them large; `tools/art_cleanup.py` shrinks them to 24 x 24 with the point in the top-left pixel (new `anchor: "top_left"` and `edge_ok` cell options in `tools/art_manifest.json`).
 
 ### 0.4.7 (18 November 2026): the tracker's first list
 

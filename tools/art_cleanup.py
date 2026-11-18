@@ -136,9 +136,11 @@ def parts_in(img, x0, y0, x1, y1, step=3):
     return len(big), bbox, touches
 
 
-def shrink(img, box, tw, th, stretch, full):
+def shrink(img, box, tw, th, stretch, full, anchor="bottom"):
     """Shrinks the box to tw x th by the most common color per block. Keeps
-    the item's shape unless stretched, standing it on the bottom middle."""
+    the item's shape unless stretched, standing it on the bottom middle, or
+    with anchor "top_left" in the top-left corner (a cursor, whose point
+    must be the corner pixel)."""
     bx0, by0, bx1, by1 = box
     bw, bh = bx1 - bx0, by1 - by0
     if stretch or full:
@@ -148,7 +150,7 @@ def shrink(img, box, tw, th, stretch, full):
         s = max(bw / tw, bh / th)
         sx = sy = s
         ow, oh = max(1, round(bw / s)), max(1, round(bh / s))
-        ox, oy = (tw - ow) // 2, th - oh
+        ox, oy = (0, 0) if anchor == "top_left" else ((tw - ow) // 2, th - oh)
     out = [(0, 0, 0, 0)] * (tw * th)
     for ty in range(oh):
         for tx in range(ow):
@@ -422,12 +424,14 @@ def main():
                 results.append((cell["name"], "FAIL", "no item found in its cell"))
                 continue
             problems = []
-            if touches:
+            # "edge_ok": the item may touch its cell's edge (a cursor drawn
+            # right up to the border of its picture).
+            if touches and not cell.get("edge_ok"):
                 problems.append("item crosses its cell edge")
             expected = cell.get("parts", 1)
             if parts > expected:
                 problems.append("%d separate pieces, expected %d" % (parts, expected))
-            pix = shrink(img, box, tw, th, cell.get("stretch", False), full)
+            pix = shrink(img, box, tw, th, cell.get("stretch", False), full, cell.get("anchor", "bottom"))
             sheet_cells.append((cell["name"], tw, th))
             # A failed image is reported, not used: the stand-in stays in play.
             if not problems or entry.get("sheet"):
