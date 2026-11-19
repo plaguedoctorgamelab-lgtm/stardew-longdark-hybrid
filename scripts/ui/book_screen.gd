@@ -1,16 +1,16 @@
 class_name BookScreen
 extends Panel
-## The ranger's book, on J: the job list and sites, the park today, the
+## The ranger's book, on B: the park today, the
 ## ledger, the suggestion cards read, the Chief's letters, the notebook and
 ## the badges earned.
 ## One page at a time, picked with the buttons along the top.
 
 var session: GameSession
-var page: String = "jobs"
+var page: String = "park"
 var _tabs: HBoxContainer
 var _text: Label
 var _scroll: ScrollContainer
-const PAGES: Array[String] = ["jobs", "park", "ledger", "cards", "letters", "notes", "badges"]
+const PAGES: Array[String] = ["park", "ledger", "cards", "letters", "notes", "badges"]
 var _badges: BadgesView
 
 
@@ -62,8 +62,6 @@ func close() -> void:
 func lines_for(pg: String) -> PackedStringArray:
 	var c := session.content
 	match pg:
-		"jobs":
-			return session.guide.job_page_lines()
 		"park":
 			return session.park.park_lines()
 		"ledger":

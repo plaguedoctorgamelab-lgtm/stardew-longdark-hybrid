@@ -12,8 +12,10 @@ func _outdoors_on_grass(s: GameSession) -> void:
 
 func test_cabin_hint_on_map(t: TestCase) -> void:
 	var s := TestCase.new_session()
+	t.equal(MapScreen.hints(s).size(), 0, "no hint before the station's papers turn up the notes (jobs rebuild)")
+	s.rumors["test_cabin"] = true
 	var hints := MapScreen.hints(s)
-	t.equal(hints.size(), 1, "one hint at the start")
+	t.equal(hints.size(), 1, "one hint once the cabin is rumored")
 	var h: Dictionary = hints[0]
 	var cabin := s.world.landmark_pos("test_cabin")
 	t.check((h["center"] as Vector2).distance_to(cabin) < float(h["radius"]), "the circle contains the cabin")
@@ -193,43 +195,27 @@ func test_stumps_regrow_and_save(t: TestCase) -> void:
 	t.check(s.world.is_solid(tree), "the tree is solid again")
 
 
-func test_note_board_offers_the_job(t: TestCase) -> void:
+## Jobs rebuild: the cabin's job counts what the repair still needs, as
+## materials for parts not begun, and finishes when the cabin opens.
+func test_cabin_job_tracks_what_it_needs(t: TestCase) -> void:
 	var s := TestCase.new_session()
-	t.equal(s.job_lines()[0], s.content.text("job_none"), "no jobs before reading the board")
-	t.check(s.enter_building("ranger_station"), "in the station")
-	var layout: InteriorLayout = s.interiors["ranger_station"]
-	var board := layout.furniture_rect(layout.find("note_board"))
-	s.interior_pos = Vector2(board.position.x + 0.5, board.end.y + 0.5)
-	var notes := []
-	s.note_read.connect(func(text: String) -> void: notes.append(text))
-	s.interact()
-	t.equal(notes.size(), 1, "the note is shown")
-	t.check(s.jobs_known.has("fix_old_cabin"), "the job is on the list")
-	var st := s.job_status("fix_old_cabin")
-	var need := {}
-	for e: Dictionary in st["bring"]:
-		need[e["item"]] = e["need"]
-	t.equal(need, {"planks": 8, "nails": 20, "roofing": 4, "window_glass": 1, "hammer": 1}, "the job lists every material and the hammer")
-	var lines := s.job_lines()
-	t.check(lines.size() >= 4, "title, bring, repairs and handy lines")
-	t.check(lines[1].contains("Planks 0/8") and lines[1].contains("Hammer 1/1"), "counts what is in the backpack: %s" % lines[1])
-
-
-func test_job_tracks_progress_and_completes(t: TestCase) -> void:
-	var s := TestCase.new_session()
-	s.read_note_board()
+	s.jobs.add("open_cabin", "given")
+	var need := s.jobs.needs("open_cabin")
+	t.equal(int(need["planks"]), 8, "every plank for the four parts")
+	t.equal(int(need["nails"]), 20, "and the nails")
+	t.equal(int(need["hammer"]), 1, "and the hammer")
 	s.debug_teleport("cabin")
 	s.map.mark_landmark("test_cabin")
 	s.debug_drain(false, false)
 	s.debug_add_item("planks", 2)
 	s.debug_add_item("nails", 4)
 	s.hammer()
-	var st := s.job_status("fix_old_cabin")
-	var need := {}
-	for e: Dictionary in st["bring"]:
-		need[e["item"]] = e["need"]
-	t.equal(int(need["planks"]), 6, "door planks no longer needed once begun")
+	t.equal(int(s.jobs.needs("open_cabin")["planks"]), 6, "door planks no longer needed once begun")
 	for step in ["door", "walls", "roof", "window"]:
 		s.debug_cabin_step(step, true)
-	t.check(s.job_status("fix_old_cabin")["done"], "the job is done when the cabin opens")
-	t.check(s.job_lines()[0].ends_with(s.content.text("job_done")), "the list says done")
+	s.jobs.update(true)
+	var rep := -1
+	for i in (s.jobs.def("open_cabin")["steps"] as Array).size():
+		if s.jobs.def("open_cabin")["steps"][i]["kind"] == "repair":
+			rep = i
+	t.check(bool(s.jobs.check("open_cabin", rep)["done"]), "the repair step is done when the cabin opens")

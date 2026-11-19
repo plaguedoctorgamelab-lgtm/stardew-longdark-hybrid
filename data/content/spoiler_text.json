@@ -80,6 +80,266 @@
   {
    "id": "card_spoiler_truck",
    "text": "[A drawing of a rusty old truck with a tree growing out of it. The truck has a face. It is smiling.]"
+  },
+  {
+   "id": "jt_verb_take_up",
+   "text": "Take it up"
+  },
+  {
+   "id": "jt_spot_old_bench_done",
+   "text": "The old bench comes apart in your hands. One plank is still good."
+  },
+  {
+   "id": "jt_verb_fish_out",
+   "text": "Fish it out"
+  },
+  {
+   "id": "jt_spot_ford_sign_done",
+   "text": "A trail sign, waterlogged but sound. It'll stand again."
+  },
+  {
+   "id": "jt_verb_sweep",
+   "text": "Sweep the doormat"
+  },
+  {
+   "id": "jt_spot_doormat_done",
+   "text": "You sweep the very small doormat with great care."
+  },
+  {
+   "id": "jt_verb_right",
+   "text": "Right the stake"
+  },
+  {
+   "id": "jt_spot_stake_done",
+   "text": "You work the stake out of the ash and set it straight. The ribbon flutters."
+  },
+  {
+   "id": "jt_verb_plant",
+   "text": "Set a mushroom in the gap"
+  },
+  {
+   "id": "jt_spot_mushroom_done",
+   "text": "Seven again. The ring looks easier, somehow."
+  },
+  {
+   "id": "jt_verb_glovebox",
+   "text": "Knock the glovebox open"
+  },
+  {
+   "id": "jt_spot_glovebox_done",
+   "text": "One good knock and the glovebox drops open. Papers, and a rattle of old pencils."
+  },
+  {
+   "id": "jt_verb_nest",
+   "text": "Ease the nest out"
+  },
+  {
+   "id": "jt_spot_nest_done",
+   "text": "An old nest, long empty. You set it in a tree nearby, just in case."
+  },
+  {
+   "id": "js_take_old_bench",
+   "text": "Take up the old bench (hammer)"
+  },
+  {
+   "id": "js_new_bench",
+   "text": "Put out a new bench at the outlook"
+  },
+  {
+   "id": "jn_outlook_seat",
+   "text": "A New Seat at the Outlook"
+  },
+  {
+   "id": "jnote_outlook_seat",
+   "text": "Bench at the outlook's rotten through. Worth a new one."
+  },
+  {
+   "id": "js_fish_sign",
+   "text": "Fish the sign out of the ford"
+  },
+  {
+   "id": "js_ford_pointer",
+   "text": "Put it up as a pointer at the ford"
+  },
+  {
+   "id": "jn_the_sign_in_ford",
+   "text": "The Sign in the Ford"
+  },
+  {
+   "id": "jnote_the_sign_in_ford",
+   "text": "Old sign in the ford. Somebody's been missing it."
+  },
+  {
+   "id": "js_sweep_mat",
+   "text": "Sweep the tiny doormat"
+  },
+  {
+   "id": "jr_thanks_probably",
+   "text": "Thanks, probably."
+  },
+  {
+   "id": "jn_tiny_doormat",
+   "text": "Sweep the Tiny Doormat"
+  },
+  {
+   "id": "jnote_tiny_doormat",
+   "text": "Tiny door's got a tiny note on it now: DOORMAT WANTS SWEEPING."
+  },
+  {
+   "id": "js_lean_to_litter",
+   "text": "Pick up 6 litter round the lean-to"
+  },
+  {
+   "id": "jn_tidy_lean_to",
+   "text": "Tidy the Lean-to"
+  },
+  {
+   "id": "jnote_tidy_lean_to",
+   "text": "Somebody's been camping rough at the lean-to. Bit of a mess."
+  },
+  {
+   "id": "js_right_stake",
+   "text": "Right the fallen stake"
+  },
+  {
+   "id": "js_cairn_by_stake",
+   "text": "Build a cairn beside it"
+  },
+  {
+   "id": "jn_middle_stake",
+   "text": "Right the Middle Stake"
+  },
+  {
+   "id": "jnote_middle_stake",
+   "text": "Middle stake's down. The ribbon's still tied on. Hate to lose it."
+  },
+  {
+   "id": "js_mushroom",
+   "text": "Set 1 mushroom in the gap in the ring"
+  },
+  {
+   "id": "jn_seventh_mushroom",
+   "text": "The Seventh Mushroom"
+  },
+  {
+   "id": "jnote_seventh_mushroom",
+   "text": "Mushroom ring's got a gap. Seven before, six now. I'd swear it."
+  },
+  {
+   "id": "js_glovebox",
+   "text": "Knock the glovebox open with the hammer"
+  },
+  {
+   "id": "jr_story_truck",
+   "text": "A page of the last ranger's journal, folded in the glovebox: \"Truck died here. Walked the rest. Better that way, honestly.\""
+  },
+  {
+   "id": "jn_truck_glovebox",
+   "text": "The Truck's Glovebox"
+  },
+  {
+   "id": "jnote_truck_glovebox",
+   "text": "Glovebox on the old truck's stuck shut. Something rattles."
+  },
+  {
+   "id": "js_nest",
+   "text": "Clear the nest from the chimney"
+  },
+  {
+   "id": "jn_cabin_chimney",
+   "text": "Clear the Cabin Chimney"
+  },
+  {
+   "id": "jnote_cabin_chimney",
+   "text": "Cabin stove smokes. Something's nesting in the chimney."
+  },
+  {
+   "id": "js_beach_dawn",
+   "text": "Be on the beach between 6:00 and 6:30 on another clear morning"
+  },
+  {
+   "id": "js_survey_beach",
+   "text": "Survey there"
+  },
+  {
+   "id": "jn_lines_in_sand",
+   "text": "Lines in the Sand"
+  },
+  {
+   "id": "jnote_lines_in_sand",
+   "text": "Left a line in the sand last night. This morning there's a second line beside it."
+  },
+  {
+   "id": "more_text_more_cabin",
+   "text": "Behind a loose board: a chipped mug, painted with a moose. It's still warm."
+  },
+  {
+   "id": "more_text_more_pond",
+   "text": "When you look back, someone has neatened the letters on your sign."
+  },
+  {
+   "id": "more_text_more_tower",
+   "text": "Tonight, the radio reads tomorrow's forecast before tomorrow comes."
+  },
+  {
+   "id": "more_text_more_radio",
+   "text": "Under the static, someone is humming. It stops when you listen."
+  },
+  {
+   "id": "more_text_more_stock_cabin",
+   "text": "Someone's left something on the step. Small someone."
+  },
+  {
+   "id": "more_text_more_stock_tower",
+   "text": "The lookout's log has a new tally mark in it. Not in your hand."
+  },
+  {
+   "id": "more_text_more_winter_mess",
+   "text": "A mitten, far too small for anyone you know of."
+  },
+  {
+   "id": "more_text_more_check_cabins",
+   "text": "Someone lit the stove before you got here. The kindling is stacked neater than you do it."
+  },
+  {
+   "id": "more_text_more_pond_trail",
+   "text": "Something has walked your trail already. It seemed to like it."
+  },
+  {
+   "id": "more_text_more_stake_east",
+   "text": "The last stake has a new ribbon. You didn't tie it."
+  },
+  {
+   "id": "more_text_more_badger",
+   "text": "The badger has left you a bottle cap. Possibly an apology."
+  },
+  {
+   "id": "more_text_more_a",
+   "text": "Overnight, someone's carved a letter into the bench."
+  },
+  {
+   "id": "more_text_more_b",
+   "text": "On the back, faded: THIS WAY, MOSTLY."
+  },
+  {
+   "id": "more_text_more_c",
+   "text": "A key the size of a fingernail, left on the doormat."
+  },
+  {
+   "id": "more_text_more_d",
+   "text": "Written on the ribbon, in pencil: \"If you're reading this, you came the long way. Good.\""
+  },
+  {
+   "id": "more_text_more_e",
+   "text": "That night, the ring glows. Just the once."
+  },
+  {
+   "id": "more_text_more_f",
+   "text": "The truck's logbook. The last entry has a date and nothing else."
+  },
+  {
+   "id": "more_text_more_g",
+   "text": "A third line now. Then the pond laps over them all."
   }
  ]
 }

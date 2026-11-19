@@ -1,7 +1,7 @@
 # Art cleanup report
 
 Made by tools/art_cleanup.py. palette from art/palette.json (33 colors). A picture cut pixel for pixel from a refresh sheet replaces any earlier picture of the same name.
-421 images passed, 1 failed.
+515 images passed, 1 failed.
 
 
 ## ChatGPT Image Nov 15, 2026, 07_04_59 AM.png (ground tiles)
@@ -583,6 +583,130 @@ Made by tools/art_cleanup.py. palette from art/palette.json (33 colors). A pictu
 
 - cursor_arrow: **pass** 24x24
 - cursor_pick: **pass** 24x24
+
+## raw_ui_clipboard_01.png (Jobs rebuild (Mark, 19 Nov): the clipboard frame for the Jobs page, stretched to the screen)
+
+- ui_clipboard: **pass** 456x258
+
+## raw_ui_clipboard_parts_01.png (Jobs rebuild: clipboard parts (tabs, ribbon, rule, cards, bars, scroll bar, tiles, next-step band))
+
+- ui_jtab_open: **pass** 40x14
+- ui_jtab: **pass** 40x14
+- ui_ribbon: **pass** 64x12
+- ui_rule: **pass** 64x2
+- ui_jcard: **pass** 48x32
+- ui_jcard_selected: **pass** 48x32
+- ui_jtab_small: **pass** 40x12
+- ui_ribbon_green: **pass** 48x12
+- ui_bar_back: **pass** 48x6
+- ui_bar_fill: **pass** 48x6
+- ui_scroll_track: **pass** 4x48
+- ui_scroll_thumb: **pass** 4x12
+- ui_tile: **pass** 24x24
+- ui_tile_grey: **pass** 24x24
+- ui_tile_gold: **pass** 24x24
+- ui_band: **pass** 64x10
+
+## raw_ui_type_icons_01.png (Jobs rebuild: the five type icons, and one picture per type)
+
+- job_type_exploring: **pass** 16x16
+- job_type_upkeep: **pass** 16x16
+- job_type_trail: **pass** 16x16
+- job_type_visitor: **pass** 16x16
+- job_type_townsfolk: **pass** 16x16
+- job_pic_exploring: **pass** 32x32
+- job_pic_upkeep: **pass** 32x32
+- job_pic_trail: **pass** 32x32
+- job_pic_visitor: **pass** 32x32
+- job_pic_townsfolk: **pass** 32x32
+
+## raw_ui_job_icons_01.png (Jobs rebuild: 16 job-kind icons)
+
+- job_kind_cabin: **pass** 16x16
+- job_kind_tower: **pass** 16x16
+- job_kind_map: **pass** 16x16
+- job_kind_pond: **pass** 16x16
+- job_kind_broom: **pass** 16x16
+- job_kind_trash_can: **pass** 16x16
+- job_kind_bench: **pass** 16x16
+- job_kind_bathroom: **pass** 16x16
+- job_kind_shovel: **pass** 16x16
+- job_kind_branch: **pass** 16x16
+- job_kind_sign: **pass** 16x16
+- job_kind_crates: **pass** 16x16
+- job_kind_lost: **pass** 16x16
+- job_kind_badger: **pass** 16x16
+- job_kind_note: **pass** 16x16
+- job_kind_look: **pass** 16x16
+
+## raw_ui_reward_icons_01.png (Jobs rebuild: 16 reward icons, the purple question mark and its flip among them)
+
+- reward_money: **pass** 16x16
+- reward_rumor: **pass** 16x16
+- reward_travel: **pass** 16x16
+- reward_reveal: **pass** 16x16
+- reward_unlock: **pass** 16x16
+- reward_story: **pass** 16x16
+- reward_things: **pass** 16x16
+- reward_xp: **pass** 16x16
+- reward_more: **pass** 16x16
+- reward_more_flip: **pass** 16x16
+- reward_card: **pass** 16x16
+- reward_sprout: **pass** 16x16
+- reward_supplies: **pass** 16x16
+- reward_food: **pass** 16x16
+- reward_lantern: **pass** 16x16
+- reward_firewood: **pass** 16x16
+
+## raw_ui_marks_01.png (Jobs rebuild: checkboxes, tick, arrow, alert, pin, dot, leaf, link, map flags and dots, bubble, pencil, sparkle)
+
+- mark_box: **pass** 10x10
+- mark_tick_box: **pass** 10x10
+- mark_arrow: **pass** 10x10
+- mark_undone: **pass** 10x10
+- mark_pin: **pass** 10x10
+- mark_dot: **pass** 6x6
+- mark_leaf: **pass** 10x10
+- mark_link: **pass** 10x10
+- map_job_flag: **pass** 10x10
+- map_job_dot: **pass** 6x6
+- map_job_flag_red: **pass** 10x10
+- mark_dash: **pass** 10x4
+- mark_bubble: **pass** 12x12
+- mark_pencil: **pass** 12x12
+- mark_tick: **pass** 10x10
+- mark_sparkle: **pass** 12x12
+
+## raw_ui_notes_01.png (Jobs rebuild: the toast strip, the pinned note, the finishing card and its DONE stamp)
+
+- ui_toast: **pass** 120x16
+- ui_pinned_note: **pass** 64x64
+- ui_job_card: **pass** 250x170
+- ui_stamp: **pass** 64x32
+
+## raw_ui_season_cards_01.png (Jobs rebuild: the four season cards)
+
+- ui_season_spring: **pass** 150x150
+- ui_season_summer: **pass** 150x150
+- ui_season_autumn: **pass** 150x150
+- ui_season_winter: **pass** 150x150
+
+## raw_obj_station_tidy_01.png (Jobs rebuild: the station's untidy spots before and after, the trash bucket and the gate's marker)
+
+- furniture_desk_messy: **pass** 32x28
+- furniture_bookshelf_dusty: **pass** 16x30
+- furniture_boots_heap: **pass** 18x16
+- furniture_trash_bucket: **pass** 14x16
+- furniture_desk_tidy: **pass** 32x28
+- furniture_bookshelf_tidy: **pass** 16x30
+- furniture_coat_hook: **pass** 16x28
+- obj_job_flag: **pass** 14x18
+
+## raw_obj_trail_bits_01.png (Jobs rebuild: the fallen branch (and with snow), an overgrown trail tile (not used yet), a leaning stake)
+
+- obj_fallen_branch: **pass** 32x16
+- obj_fallen_branch_snow: **pass** 32x16
+- obj_stake_leaning: **pass** 16x24
 
 ## calm_ground_a.png
 

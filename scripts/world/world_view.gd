@@ -112,10 +112,42 @@ func setup(s: GameSession, ranger_node: Node2D) -> void:
 	park_view.setup(session, sort_root)
 	session.piles_changed.connect(refresh_piles)
 	refresh_piles()
+	session.jobs.spots_changed.connect(refresh_job_spots)
+	session.day_began.connect(refresh_job_spots)
+	refresh_job_spots()
 	_border_lines = Node2D.new()
 	_border_lines.z_index = 50
 	_border_lines.draw.connect(_draw_borders)
 	add_child(_border_lines)
+
+
+var _spot_sprites: Array[Sprite2D] = []
+
+
+## The small things jobs ask about outdoors: a branch on the trail, a marker
+## by the gate, snags in a gap. Each stands on its tiles, its foot at the
+## bottom, and goes once it is done (or shows its after picture).
+func refresh_job_spots() -> void:
+	for spr in _spot_sprites:
+		spr.queue_free()
+	_spot_sprites.clear()
+	var jb := session.jobs
+	for id: String in jb.spot_ids():
+		var r := jb.spot_row(id)
+		if str(r["where"]) != "outdoor" or not jb.spot_shown(id):
+			continue
+		var art := jb.spot_sprite(id)
+		if art == "":
+			continue
+		var spr := Sprite2D.new()
+		spr.texture = Art.texture(art)
+		spr.centered = false
+		var p := jb.spot_pos(id)
+		spr.position = Vector2(p.x, floorf(p.y) + 1.0) * TILE
+		spr.offset = Vector2(-spr.texture.get_width() / 2.0, -spr.texture.get_height())
+		sort_root.add_child(spr)
+		Shadow.attach(spr, float(r["size"][0]) * TILE, session.tuning)
+		_spot_sprites.append(spr)
 
 
 ## Things the ranger dropped: the first item's picture, small, on the ground.

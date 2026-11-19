@@ -33,7 +33,10 @@ func test_tower_is_a_shelter(t: TestCase) -> void:
 	s.radio_heard.connect(func(lines: PackedStringArray) -> void: heard.append(lines))
 	_stand_at(s, "radio")
 	s.interact()
-	t.equal(heard.size(), 1, "the tower radio gives the forecast")
+	t.equal(heard.size(), 0, "the tower radio wants its valve first (jobs rebuild)")
+	s.jobs.unlocks["tower_forecast"] = true
+	s.interact()
+	t.equal(heard.size(), 1, "with it fitted, the tower radio gives the forecast")
 	s.debug_add_item("firewood", 1)
 	t.check(s.feed_stove(), "the stove lights")
 	t.check(s.needs_context()["stove_lit"], "and warms the room")
@@ -88,21 +91,14 @@ func test_collapse_wakes_in_the_nearest_shelter(t: TestCase) -> void:
 	t.equal(s.location, "ranger_station", "a camp is never where you wake")
 
 
-func test_rumors_from_notes(t: TestCase) -> void:
+## Jobs rebuild: rumors now come with jobs (finishing one, or a job
+## appearing); the last ranger's notes still read on the boards.
+func test_rumors_from_jobs(t: TestCase) -> void:
 	var s := TestCase.new_session()
 	var ids := func() -> Array: return MapScreen.hints(s).map(func(h: Dictionary) -> String: return h["text"])
 	t.check(not (ids.call() as Array).has(s.content.text("landmark_hint_static_tower")), "no tower rumor at the start")
-	s.enter_building("ranger_station")
-	_stand_at(s, "note_board")
-	s.read_note_board()
-	t.check(s.rumors.is_empty(), "nothing more on the board until the cabin is fixed")
-	for st: Dictionary in s.content.row("structures", "test_cabin")["repair_steps"]:
-		s.structures.debug_complete_step("test_cabin", st["id"])
-	var text := s.read_note_board()
-	t.check(text.contains(s.content.text("note_tower")), "a new note from the last ranger")
-	t.check(s.rumors.has("kettle_pond") and s.rumors.has("static_tower"), "two rumors heard")
-	var shown: Array = ids.call()
-	t.check(shown.has(s.content.text("landmark_hint_kettle_pond")) and shown.has(s.content.text("landmark_hint_static_tower")), "both drawn on the map")
+	s.jobs.add("open_tower", "unlocked")
+	t.check(s.rumors.has("static_tower"), "the tower's job brings its rumor")
 	for h: Dictionary in MapScreen.hints(s):
 		if h["text"] == s.content.text("landmark_hint_static_tower"):
 			var c: Vector2 = h["center"]
@@ -110,18 +106,17 @@ func test_rumors_from_notes(t: TestCase) -> void:
 			t.check(c.distance_to(s.world.landmark_pos(TOWER)) > 4.0, "but off-centre")
 	s.map.mark_landmark(TOWER)
 	t.check(not (ids.call() as Array).has(s.content.text("landmark_hint_static_tower")), "mapped, the rumor goes")
-	s.leave_building()
 	_repair_tower(s)
 	s.debug_teleport("tower")
 	s.enter_building(TOWER)
 	_stand_at(s, "note_board")
-	s.read_note_board()
-	t.check(s.rumors.has("broken_bridge"), "the tower's note adds one more")
+	var text := s.read_note_board()
+	t.check(text.contains(s.content.text("note_bridge")), "the tower's note still reads")
 	t.check(s.save_game(), "saved")
 	var s2 := TestCase.new_session(1)
 	s2.save_path = s.save_path
 	s2.load_game()
-	t.check(s2.rumors.has("broken_bridge") and s2.notes_read.has("note_bridge"), "rumors and notes kept in the save")
+	t.check(s2.rumors.has("static_tower") and s2.notes_read.has("note_bridge"), "rumors and notes kept in the save")
 
 
 func test_debug_repairs_the_tower(t: TestCase) -> void:

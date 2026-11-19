@@ -1,0 +1,142 @@
+{
+ "note": "SPOILERS. Spots for noticed jobs. Never described in status emails; only counted.",
+ "rows": [
+  {
+   "id": "old_bench",
+   "where": "outdoor",
+   "pos": [
+    277,
+    1238
+   ],
+   "size": [
+    2,
+    1
+   ],
+   "sprite": "obj_bench",
+   "sprite_done": "",
+   "action": "hammer",
+   "verb": "jt_verb_take_up",
+   "gives": {
+    "planks": 1
+   },
+   "done_text": "jt_spot_old_bench_done",
+   "minutes": 20
+  },
+  {
+   "id": "ford_sign",
+   "where": "outdoor",
+   "pos": [
+    228,
+    1321
+   ],
+   "size": [
+    1,
+    1
+   ],
+   "sprite": "obj_sign_arrow",
+   "sprite_done": "",
+   "action": "x",
+   "verb": "jt_verb_fish_out",
+   "gives": {
+    "trail_sign": 1
+   },
+   "done_text": "jt_spot_ford_sign_done",
+   "minutes": 10,
+   "shows": "not_done:the_sign_in_ford"
+  },
+  {
+   "id": "tiny_doormat",
+   "where": "outdoor",
+   "pos": [
+    243,
+    1314
+   ],
+   "size": [
+    1,
+    1
+   ],
+   "sprite": "",
+   "sprite_done": "",
+   "action": "x",
+   "verb": "jt_verb_sweep",
+   "done_text": "jt_spot_doormat_done",
+   "minutes": 10,
+   "shows": "job_active:tiny_doormat"
+  },
+  {
+   "id": "middle_stake",
+   "where": "outdoor",
+   "pos": "point:stake_mid:0",
+   "size": [
+    1,
+    1
+   ],
+   "sprite": "obj_stake_leaning",
+   "sprite_done": "obj_survey_stake",
+   "action": "x",
+   "verb": "jt_verb_right",
+   "done_text": "jt_spot_stake_done",
+   "minutes": 10
+  },
+  {
+   "id": "mushroom_gap",
+   "where": "outdoor",
+   "pos": [
+    527,
+    944
+   ],
+   "size": [
+    1,
+    1
+   ],
+   "sprite": "",
+   "sprite_done": "",
+   "action": "x",
+   "needs": {
+    "mushrooms": 1
+   },
+   "verb": "jt_verb_plant",
+   "done_text": "jt_spot_mushroom_done",
+   "minutes": 0,
+   "shows": "job_active:seventh_mushroom"
+  },
+  {
+   "id": "glovebox",
+   "where": "outdoor",
+   "pos": [
+    771,
+    850
+   ],
+   "size": [
+    1,
+    1
+   ],
+   "sprite": "",
+   "sprite_done": "",
+   "action": "hammer",
+   "verb": "jt_verb_glovebox",
+   "done_text": "jt_spot_glovebox_done",
+   "minutes": 10,
+   "shows": "job_active:truck_glovebox"
+  },
+  {
+   "id": "chimney_nest",
+   "where": "outdoor",
+   "pos": [
+    355,
+    1251
+   ],
+   "size": [
+    1,
+    1
+   ],
+   "sprite": "",
+   "sprite_done": "",
+   "action": "x",
+   "verb": "jt_verb_nest",
+   "done_text": "jt_spot_nest_done",
+   "minutes": 20,
+   "shows": "site_open:old_cabin"
+  }
+ ]
+}

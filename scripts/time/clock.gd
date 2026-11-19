@@ -40,6 +40,15 @@ func absolute_day() -> int:
 	return (year - 1) * 4 * days_per_season() + season * days_per_season() + (day - 1)
 
 
+## The day of its season (1..) for an absolute day.
+func day_of(abs_day: int) -> int:
+	return abs_day % days_per_season() + 1
+
+
+func season_name_of(season_index: int) -> String:
+	return SEASONS[clampi(season_index, 0, 3)]
+
+
 func step_minutes() -> int:
 	return tuning.integer("time.minutes_per_step")
 

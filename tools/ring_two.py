@@ -27,6 +27,37 @@ OBJECT_TYPES = {
 SOLID_GROUNDS = {"deep_water", "rock"}
 
 
+def line_tiles(pts):
+    """Tiles along points, joined side by side (never only at a corner)."""
+    out = []
+    for (px, py) in pts:
+        t = (int(px), int(py))
+        if out and t == out[-1]:
+            continue
+        if out and abs(t[0] - out[-1][0]) == 1 and abs(t[1] - out[-1][1]) == 1:
+            out.append((t[0], out[-1][1]))
+        if out and (abs(t[0] - out[-1][0]) > 1 or abs(t[1] - out[-1][1]) > 1):
+            # Fill a jump with a plain staircase.
+            x, y = out[-1]
+            while (x, y) != t:
+                if x != t[0]:
+                    x += 1 if t[0] > x else -1
+                else:
+                    y += 1 if t[1] > y else -1
+                out.append((x, y))
+            continue
+        out.append(t)
+    return out
+
+
+def gap_record(pts, a, b):
+    """A gap to dig: the tiles from just before index a to just after b."""
+    i0 = max(0, a - 1)
+    i1 = min(len(pts), b + 1)
+    tiles = line_tiles(pts[i0:i1 + 1])
+    return {"a": list(tiles[0]), "b": list(tiles[-1]), "tiles": [list(t) for t in tiles]}
+
+
 def disc(cx, cy, r):
     for y in range(int(math.floor(cy - r)), int(math.ceil(cy + r)) + 1):
         for x in range(int(math.floor(cx - r)), int(math.ceil(cx + r)) + 1):
@@ -217,9 +248,11 @@ def bake(R, G, L, r1, structures, ox, oy):
     trail_pts = bw.solve_path([trail_from] + [P(e, n) for e, n in tr["via"]] + [P(*tr["to"])], tr["length"], 0, 30)
     trail_pts = bw.resample(trail_pts, 0.5)
     vanished = set()
+    trail_gaps = []
     for (a, b) in tr["vanished"]:
         for i in range(int(a * len(trail_pts)), int(b * len(trail_pts))):
             vanished.add(i)
+        trail_gaps.append(gap_record(trail_pts, int(a * len(trail_pts)), int(b * len(trail_pts))))
     trail_tiles = set()
     corridor = set()
     for i, (px, py) in enumerate(trail_pts):
@@ -310,16 +343,47 @@ def bake(R, G, L, r1, structures, ox, oy):
             if ground[t[1]][t[0]] in ("rock", "deep_water"):
                 ground[t[1]][t[0]] = "grass"
 
+    # The last ranger's old path beside the stakes: plain trail, but for two
+    # gaps of no more than a screen, one either side of the middle.
+    stake_gaps = []
+    stake_skip = set()
+    for (a, b) in st.get("gaps", []):
+        i0, i1 = int(a * len(stake_line)), int(b * len(stake_line))
+        stake_skip.update(range(i0, i1))
+        stake_gaps.append(gap_record(stake_line, i0, i1))
+    if st.get("old_trail", False):
+        for i, (px, py) in enumerate(stake_line):
+            if i in stake_skip:
+                continue
+            for t in disc(px, py, st["trail_radius"]):
+                if ground[t[1]][t[0]] not in ("deep_water", "shallows"):
+                    ground[t[1]][t[0]] = "trail"
+    # Two gap tiles kept clear of stakes, so digging is never blocked by one.
+    stake_mid = stake_line[len(stake_line) // 2]
+
     # --- the old road down to the river -------------------------------------------------------
     ro = C["road"]
     road_pts = bw.solve_path([foot] + [P(e, n) for e, n in ro["via"]] + [P(*ro["to"])], ro["length"], 0, 70)
     road_pts = bw.resample(road_pts, 0.5)
-    for (px, py) in road_pts:
+    road_skip = set()
+    road_gaps = []
+    for (a, b) in ro.get("overgrown", []):
+        i0, i1 = int(a * len(road_pts)), int(b * len(road_pts))
+        road_skip.update(range(i0, i1))
+        road_gaps.append(gap_record(road_pts, i0, i1))
+    for i, (px, py) in enumerate(road_pts):
+        for t in disc(px, py, ro["radius"] + 1.5):
+            protected.add(t)
+        if i in road_skip:
+            continue
         for t in disc(px, py, ro["radius"]):
             if ground[t[1]][t[0]] not in ("deep_water",):
                 ground[t[1]][t[0]] = "trail"
-        for t in disc(px, py, ro["radius"] + 1.5):
-            protected.add(t)
+    for i in road_skip:
+        px, py = road_pts[i]
+        for t in disc(px, py, ro["radius"]):
+            if ground[t[1]][t[0]] not in ("deep_water", "trail"):
+                ground[t[1]][t[0]] = "tall_grass"
 
     # --- the Dusk River ----------------------------------------------------------------------
     for (px, py) in river_pts:
@@ -459,6 +523,13 @@ def bake(R, G, L, r1, structures, ox, oy):
         brush_at(road_pts, f, ro["radius"])
     for (px, py) in stakes:
         objects[(int(px), int(py))] = "survey_stake"
+    for gi, g in enumerate(stake_gaps):
+        tl = [tuple(t) for t in g["tiles"]]
+        for frac in st.get("gap_brush", [[], []])[gi]:
+            t = tl[int(frac * (len(tl) - 1))]
+            if t not in objects:
+                objects[t] = "brush"
+                brush.append(t)
     cx_, cy_ = Pi(*po["cairn"])
     objects[(cx_, cy_)] = "cairn"
     px_, py_ = Pi(*br["post"])
@@ -580,6 +651,25 @@ def bake(R, G, L, r1, structures, ox, oy):
     types.update(find_types)
     R.extra["ring_two_lengths"] = {"trail": round(bw.polyline_length(trail_pts), 1), "road": round(bw.polyline_length(road_pts), 1), "stakes": round(bw.polyline_length(stake_line), 1)}
     R.extra["ring_two_estimate_base"] = round(base, 1)
+    R.extra["trail_job_gaps"] = {
+        "pond_gap_1": trail_gaps[0] if len(trail_gaps) > 0 else {},
+        "pond_gap_2": trail_gaps[1] if len(trail_gaps) > 1 else {},
+        "stake_gap_west": stake_gaps[0] if len(stake_gaps) > 0 else {},
+        "stake_gap_east": stake_gaps[1] if len(stake_gaps) > 1 else {},
+        "road_gap_1": road_gaps[0] if len(road_gaps) > 0 else {},
+        "road_gap_2": road_gaps[1] if len(road_gaps) > 1 else {},
+    }
+    R.extra["trail_job_points"] = {
+        "stake_mid": [int(stake_mid[0]), int(stake_mid[1])],
+        "stake_start": [int(stake_line[0][0]), int(stake_line[0][1])],
+        "stake_end": [int(stake_line[-1][0]), int(stake_line[-1][1])],
+        "road_end": [int(road_pts[-1][0]), int(road_pts[-1][1])],
+        "pond_trail_start": [int(trail_pts[0][0]), int(trail_pts[0][1])],
+        "pond_trail_end": [int(trail_pts[-1][0]), int(trail_pts[-1][1])],
+        "pond_trunks": [list(t) for t in trunks[:len(tr["trunks"])]],
+        "road_trunk": list(trunks[-1]),
+        "east_snags": [list(g["tiles"][int(f * (len(g["tiles"]) - 1))]) for g in stake_gaps[1:2] for f in st.get("snags", [])],
+    }
     R.extra["obstacles_on_routes"] = [[t[0], t[1], "fallen_trunk"] for t in sorted(trunks)] + [[t[0], t[1], "brush"] for t in sorted(brush)]
     return types
 

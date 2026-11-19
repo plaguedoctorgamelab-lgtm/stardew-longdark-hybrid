@@ -27,6 +27,8 @@ var _clean: SpinBox
 var _can: SpinBox
 var _place_pick: OptionButton
 var _days: SpinBox
+var _job_pick: OptionButton
+var _tpl_pick: OptionButton
 var on_teleport: Callable = func() -> void: pass
 
 
@@ -134,6 +136,38 @@ func setup(s: GameSession) -> void:
 	_spoilers.focus_mode = Control.FOCUS_NONE
 	r.add_child(_spoilers)
 	_btn(r, "Magic info", func() -> void: session.note_read.emit(session.debug_magic_text(_spoilers.button_pressed)))
+	# Jobs (jobs spec "Debug tools"). Noticed jobs and something-mores stay
+	# hidden unless spoilers are ticked.
+	var jr := _row()
+	_job_pick = OptionButton.new()
+	_job_pick.focus_mode = Control.FOCUS_NONE
+	_job_pick.custom_minimum_size = Vector2(90, 0)
+	jr.add_child(_job_pick)
+	_btn(jr, "Jobs list", func() -> void:
+		_fill_job_pick()
+		session.note_read.emit("
+".join(session.jobs.debug_lines(_spoilers.button_pressed))))
+	_btn(jr, "Finish", func() -> void: session.jobs.debug_finish(_picked_job()))
+	_btn(jr, "Reset", func() -> void: session.jobs.debug_reset(_picked_job()))
+	jr = _row()
+	var tids: Array[String] = []
+	for t: Dictionary in session.content.rows("job_templates"):
+		tids.append(str(t["id"]))
+	_tpl_pick = _pick(jr, tids)
+	_btn(jr, "Draw template", func() -> void:
+		var tid := _tpl_pick.get_item_text(_tpl_pick.selected)
+		var c := session.jobs.candidates(tid)
+		session.message.emit(("Drawn: " + session.jobs.draw(tid, c[0])) if not c.is_empty() else "It fits nowhere in the park now")
+		_fill_job_pick())
+	_btn(jr, "Notice all", func() -> void:
+		if not _spoilers.button_pressed:
+			session.message.emit("Tick Show spoilers first")
+			return
+		for n: Dictionary in session.content.rows("noticeables"):
+			session.jobs.noticed_seen[str(n["id"])] = true
+			session.jobs.add(str(n["job"]), "noticed")
+		_fill_job_pick())
+	_btn(jr, "Season turn", func() -> void: session.jobs.morning(true))
 	var magic_ids: Array[String] = []
 	for id: String in session.forage.magic_places:
 		magic_ids.append(id)
@@ -223,6 +257,20 @@ func _fill_park_picks() -> void:
 		for r: Dictionary in session.content.rows("sites"):
 			if not r["id"] in ["old_cabin", "outlook"]:
 				_place_pick.add_item(r["id"])
+
+
+func _fill_job_pick() -> void:
+	_job_pick.clear()
+	for k: String in session.jobs.order:
+		if bool(session.jobs.known[k]["noticed"]) and not _spoilers.button_pressed:
+			continue
+		_job_pick.add_item(k)
+
+
+func _picked_job() -> String:
+	if _job_pick.item_count == 0:
+		_fill_job_pick()
+	return _job_pick.get_item_text(_job_pick.selected) if _job_pick.item_count > 0 else ""
 
 
 func _row() -> HBoxContainer:

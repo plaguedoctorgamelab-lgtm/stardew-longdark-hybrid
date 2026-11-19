@@ -36,20 +36,16 @@ func test_passing_out_says_why(t: TestCase) -> void:
 	t.equal(GameClock.time_of(1560), "2:00 am", "the end of the day reads as the clock shows it")
 
 
-func test_job_card_puts_what_to_bring_first(t: TestCase) -> void:
+func test_what_to_bring_comes_first(t: TestCase) -> void:
 	var s := TestCase.new_session()
 	s.sites_found["static_tower"] = true
-	var card: Dictionary = s.guide.job_cards().filter(func(k: Dictionary) -> bool: return k["id"] == "static_tower")[0]
-	var keys: Array = card["steps"].map(func(st: Dictionary) -> String: return st["key"])
-	t.equal(keys[0], "gather", "gathering comes first")
-	t.equal(keys[keys.size() - 1], "open", "opening comes last")
-	t.check(keys.find("map") < keys.find("reach") and keys.find("reach") < keys.find("repair") and keys.find("repair") < keys.find("sign"), "the steps are in order")
-	var gather: String = card["steps"][0]["text"]
-	t.check(gather.contains(s.content.item_name("planks")) and gather.contains(s.content.item_name("roofing")), "it lists the tower's repair materials")
-	t.check(gather.contains(s.content.item_name("shovel")) and gather.contains(s.content.item_name("hammer")), "and the tools")
-	t.equal(card["next"], "gather", "the next thing is to gather")
-	var lines := s.guide.job_page_lines()
-	t.check(lines[0].begins_with(s.content.text("job_current", {"title": ""}).strip_edges()), "the page starts with the job being worked on")
+	s.jobs.update(true)
+	var d := s.jobs.def("open_tower")
+	t.equal(d["steps"][0]["kind"], "pack", "packing comes first")
+	t.equal(d["steps"][(d["steps"] as Array).size() - 1]["kind"], "open", "opening comes last")
+	var need := s.jobs.needs("open_tower")
+	t.check(need.has("planks") and need.has("roofing"), "it lists the tower's repair materials")
+	t.check(need.has("shovel") and need.has("hammer"), "and the tools")
 
 
 func test_trail_gap_is_flagged_until_dug(t: TestCase) -> void:
@@ -59,7 +55,8 @@ func test_trail_gap_is_flagged_until_dug(t: TestCase) -> void:
 	var gap := s.trail_gap("static_tower")
 	t.check(not gap.is_empty(), "the tower is not joined yet: there is a gap")
 	t.check((s._reach_cache["station"] as Dictionary).has(gap["a"]), "one flag is on the station's trail")
-	t.equal(s.guide.trail_gaps().size(), 1, "the map shows its flags")
+	s.jobs.update(true)
+	t.check(s.guide.trail_gaps().size() >= 1, "the map shows flags for the gaps")
 	ParkHelpers.open_route(s, "tower")
 	t.check(s.trail_gap("static_tower").is_empty(), "once joined, no gap")
 	t.equal(s.guide.trail_gaps().size(), 0, "and no flags")

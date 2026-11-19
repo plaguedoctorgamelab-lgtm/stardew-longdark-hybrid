@@ -49,6 +49,10 @@ var image: Image
 var texture: ImageTexture
 var zoom_index: int = 2
 var center: Vector2 = Vector2.ZERO   # the map point in the middle of the view
+var foot: Label                      # a line at the map's foot (the jobs' big moments)
+var _flourish: Array = []            # changes to draw in: [{kind, pos|landmark|place}]
+var _flourish_age: float = 0.0
+var _hover_label: Label              # the job under the mouse: its name and next step
 
 
 func setup(s: GameSession) -> void:
@@ -107,6 +111,19 @@ func setup(s: GameSession) -> void:
 	travel_box.position = Vector2(size.x - 4, 16)
 	travel_box.add_theme_constant_override("separation", 1)
 	add_child(travel_box)
+	foot = Label.new()
+	foot.position = Vector2(12, VIEW_SIZE.y - 2)
+	foot.size = Vector2(VIEW_SIZE.x - 8, 12)
+	foot.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	foot.add_theme_font_size_override("font_size", 8)
+	foot.add_theme_color_override("font_color", HINT)
+	add_child(foot)
+	_hover_label = Label.new()
+	_hover_label.add_theme_font_size_override("font_size", 7)
+	_hover_label.add_theme_stylebox_override("normal", KitStyle.tag())
+	_hover_label.visible = false
+	_hover_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	clip.add_child(_hover_label)
 	visible = false
 
 
@@ -205,7 +222,7 @@ static func hints(s: GameSession) -> Array:
 			continue
 		var hint: Dictionary = r["hint"]
 		var off := Vector2(float(hint["offset"][0]), float(hint["offset"][1]))
-		out.append({"center": s.world.landmark_pos(r["id"]) + off, "radius": float(hint["radius"]), "text": s.content.text(hint["text"])})
+		out.append({"id": str(r["id"]), "center": s.world.landmark_pos(r["id"]) + off, "radius": float(hint["radius"]), "text": s.content.text(hint["text"])})
 	# A lost party: a rough circle around where they were last seen.
 	var lost := s.lost_hint()
 	if not lost.is_empty():
@@ -257,8 +274,53 @@ func open() -> void:
 	elif center == Vector2.ZERO:
 		center = session.door_front("ranger_station")
 	visible = true
+	foot.text = ""
+	_flourish = []
 	_fill_travel()
 	_layout()
+
+
+## Opens the map centred on a point (a job's next step).
+func open_at(p: Vector2) -> void:
+	open()
+	center = p
+	_layout()
+
+
+## The jobs' big moment: the map opens on what changed, new rumor circles
+## are drawn on, new land fills in, a trail travel route glows, and a line
+## at the foot says what happened.
+func open_flourish(changes: Array, text: String) -> void:
+	open()
+	_flourish = changes
+	_flourish_age = 0.0
+	var pts: Array[Vector2] = []
+	for ch: Dictionary in changes:
+		var p := _change_pos(ch)
+		if p != Vector2.INF:
+			pts.append(p)
+	if not pts.is_empty():
+		var sum := Vector2.ZERO
+		for p in pts:
+			sum += p
+		center = sum / pts.size()
+	foot.text = text
+	_layout()
+
+
+func _change_pos(ch: Dictionary) -> Vector2:
+	match str(ch["kind"]):
+		"rumor":
+			for h: Dictionary in hints(session):
+				if str(h.get("id", "")) == str(ch["landmark"]):
+					return h["center"]
+			return Vector2.INF
+		"reveal":
+			return ch["pos"]
+		"travel":
+			var places := session.travel_places()
+			return places.get(str(ch["place"]), Vector2.INF)
+	return Vector2.INF
 
 
 func _ranger_map_pos() -> Vector2:
@@ -336,6 +398,31 @@ func _draw_overlay() -> void:
 				overlay.draw_line(a.lerp(b, float(i) / n), a.lerp(b, float(i + 1) / n), HINT, 1.0)
 		_flag(overlay, a)
 		_flag(overlay, b)
+	# Where there is work: the pinned job's next step gets a flag in its
+	# type's color, the others a small dot.
+	for m: Dictionary in session.jobs.map_marks():
+		var p := map_rect.position + (m["pos"] as Vector2) * z
+		var col: Color = m["color"]
+		if bool(m["pinned"]):
+			if Art.has_picture("map_job_flag"):
+				var tex := Art.texture("map_job_flag")
+				overlay.draw_texture(tex, (p - Vector2(2, tex.get_height())).round(), col)
+			else:
+				overlay.draw_line(p, p + Vector2(0, -8), INK, 1.0)
+				overlay.draw_colored_polygon(PackedVector2Array([p + Vector2(0.5, -8), p + Vector2(6, -6), p + Vector2(0.5, -4)]), col)
+		else:
+			overlay.draw_circle(p, 2.5, INK)
+			overlay.draw_circle(p, 1.8, col)
+	# The big moment's changes, drawn on in front of the player.
+	if not _flourish.is_empty():
+		var t := clampf(_flourish_age / 1.2, 0.0, 1.0)
+		for ch: Dictionary in _flourish:
+			var cp := _change_pos(ch)
+			if cp == Vector2.INF:
+				continue
+			var pc := map_rect.position + cp * z
+			var rr := 10.0 + 6.0 * sin(_flourish_age * 5.0)
+			overlay.draw_arc(pc, rr, 0.0, TAU * t, 32, HINT, 1.5)
 	# The station is always on the map, as home.
 	if Art.has_picture("map_icon_ranger_station"):
 		_mark(overlay, map_rect.position + session.door_front("ranger_station") * z + Vector2(0, -8), "ranger_station")
@@ -499,6 +586,29 @@ func _process(delta: float) -> void:
 	if not visible:
 		return
 	pan(Input.get_vector("move_left", "move_right", "move_up", "move_down"), delta)
+	if not _flourish.is_empty():
+		_flourish_age += delta
+		overlay.queue_redraw()
+	_hover_job()
+
+
+## Hovering a job's flag or dot shows its name and next step.
+func _hover_job() -> void:
+	var mp := clip.get_local_mouse_position()
+	var best := {}
+	var best_d := 6.0
+	for m: Dictionary in session.jobs.map_marks():
+		var p := map_rect.position + (m["pos"] as Vector2) * zoom()
+		var d := p.distance_to(mp + Vector2(0, 2))
+		if d < best_d:
+			best_d = d
+			best = m
+	_hover_label.visible = not best.is_empty()
+	if _hover_label.visible:
+		_hover_label.text = str(best["name"]) + "
+" + str(best["step"])
+		_hover_label.reset_size()
+		_hover_label.position = (mp + Vector2(6, -_hover_label.size.y - 2)).clamp(Vector2.ZERO, VIEW_SIZE - _hover_label.size)
 
 
 func _gui_input(event: InputEvent) -> void:

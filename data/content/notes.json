@@ -5,19 +5,14 @@
    "text": "note_tower",
    "at": "ranger_station",
    "needs_open": "test_cabin",
-   "rumors": [
-    "kettle_pond",
-    "static_tower"
-   ]
+   "rumors": []
   },
   {
    "id": "note_bridge",
    "text": "note_bridge",
    "at": "static_tower",
    "needs_open": "static_tower",
-   "rumors": [
-    "broken_bridge"
-   ]
+   "rumors": []
   }
  ]
 }

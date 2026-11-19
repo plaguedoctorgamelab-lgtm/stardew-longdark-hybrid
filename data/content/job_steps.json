@@ -1,0 +1,105 @@
+{
+ "note": "The kinds of step. A step that stays done is recorded once true; the others are checked again whenever the world changes.",
+ "rows": [
+  {
+   "id": "pack",
+   "stays_done": true,
+   "label": "jt_kind_pack"
+  },
+  {
+   "id": "go_to",
+   "stays_done": true,
+   "label": "jt_kind_go_to"
+  },
+  {
+   "id": "find",
+   "stays_done": true,
+   "label": "jt_kind_find"
+  },
+  {
+   "id": "map",
+   "stays_done": true,
+   "label": "jt_kind_map"
+  },
+  {
+   "id": "read",
+   "stays_done": true,
+   "label": "jt_kind_read"
+  },
+  {
+   "id": "talk_to",
+   "stays_done": true,
+   "label": "jt_kind_talk_to"
+  },
+  {
+   "id": "clear",
+   "stays_done": true,
+   "label": "jt_kind_clear"
+  },
+  {
+   "id": "dig",
+   "stays_done": false,
+   "label": "jt_kind_dig"
+  },
+  {
+   "id": "join_trail",
+   "stays_done": false,
+   "label": "jt_kind_join_trail"
+  },
+  {
+   "id": "repair",
+   "stays_done": true,
+   "label": "jt_kind_repair"
+  },
+  {
+   "id": "sign",
+   "stays_done": false,
+   "label": "jt_kind_sign"
+  },
+  {
+   "id": "place",
+   "stays_done": false,
+   "label": "jt_kind_place"
+  },
+  {
+   "id": "deliver",
+   "stays_done": true,
+   "label": "jt_kind_deliver"
+  },
+  {
+   "id": "clean",
+   "stays_done": true,
+   "label": "jt_kind_clean"
+  },
+  {
+   "id": "empty",
+   "stays_done": true,
+   "label": "jt_kind_empty"
+  },
+  {
+   "id": "pick_up",
+   "stays_done": true,
+   "label": "jt_kind_pick_up"
+  },
+  {
+   "id": "shoo",
+   "stays_done": true,
+   "label": "jt_kind_shoo"
+  },
+  {
+   "id": "survey",
+   "stays_done": true,
+   "label": "jt_kind_survey"
+  },
+  {
+   "id": "light",
+   "stays_done": true,
+   "label": "jt_kind_light"
+  },
+  {
+   "id": "open",
+   "stays_done": true,
+   "label": "jt_kind_open"
+  }
+ ]
+}

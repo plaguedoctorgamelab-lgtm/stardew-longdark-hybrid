@@ -10,7 +10,7 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONTENT = os.path.join(ROOT, "data", "content")
-TABLES = ["items", "foods", "weather_types", "weather_odds", "structures", "landmarks", "jobs", "obstacles", "recipes", "sites", "notes", "text", "spoiler_finds", "spoiler_text", "art_variety", "forage", "skills", "specialties", "magic_variants", "ideas", "spoiler_magic", "facilities", "placeables", "catalog", "income_sources", "visitor_types", "staff_roles", "staff_people", "badger_mischief", "suggestion_cards", "chief_letters", "pads", "spoiler_pads", "spoiler_cards"]
+TABLES = ["items", "foods", "weather_types", "weather_odds", "structures", "landmarks", "jobs", "obstacles", "recipes", "sites", "notes", "text", "spoiler_finds", "spoiler_text", "art_variety", "forage", "skills", "specialties", "magic_variants", "ideas", "spoiler_magic", "facilities", "placeables", "catalog", "income_sources", "visitor_types", "staff_roles", "staff_people", "badger_mischief", "suggestion_cards", "chief_letters", "pads", "spoiler_pads", "spoiler_cards", "job_types", "givers", "job_steps", "rewards", "job_templates", "job_spots", "spoiler_jobs", "spoiler_job_spots", "noticeables", "spoiler_more"]
 
 
 def main():
@@ -271,12 +271,42 @@ def main():
     for r in data.get("obstacles", {}).values():
         ref("text", r["name"], "obstacles/%s" % r["id"])
         ref("items", r["tool"], "obstacles/%s tool" % r["id"])
-    for r in data.get("jobs", {}).values():
-        ref("text", r["title"], "jobs/%s title" % r["id"])
-        ref("text", r["offer"], "jobs/%s offer" % r["id"])
-        ref("structures", r["structure"], "jobs/%s" % r["id"])
-        for it in r["tools"] + r["suggested"]:
-            ref("items", it, "jobs/%s" % r["id"])
+    # Jobs: every name, note and step label is text; every type, giver,
+    # reward kind and step kind is a real row; handy things are items.
+    texts_all = dict(data.get("text", {}))
+    texts_all.update(data.get("spoiler_text", {}))
+    for table in ("jobs", "spoiler_jobs"):
+        for r in data.get(table, {}).values():
+            for k in ("name", "note"):
+                if r[k] not in texts_all:
+                    problems.append("%s/%s: no text %s" % (table, r["id"], r[k]))
+            ref("job_types", r["type"], "%s/%s type" % (table, r["id"]))
+            ref("givers", r.get("giver", data["job_types"][r["type"]]["giver"]) if r["type"] in data.get("job_types", {}) else r["type"], "%s/%s giver" % (table, r["id"]))
+            for it in r.get("handy", []):
+                ref("items", it, "%s/%s handy" % (table, r["id"]))
+            for st in r["steps"]:
+                ref("job_steps", st["kind"], "%s/%s step" % (table, r["id"]))
+                if st["label"] not in texts_all:
+                    problems.append("%s/%s: no text %s" % (table, r["id"], st["label"]))
+            for rw in r["rewards"]:
+                ref("rewards", rw["kind"], "%s/%s reward" % (table, r["id"]))
+                if rw["kind"] == "job" and rw["job"] not in data.get("jobs", {}):
+                    problems.append("%s/%s: reward job %s is not a job" % (table, r["id"], rw["job"]))
+                if rw["kind"] == "xp":
+                    ref("skills", rw["skill"], "%s/%s reward" % (table, r["id"]))
+            if r.get("more") and r["more"] not in data.get("spoiler_more", {}):
+                problems.append("%s/%s: no something more %s" % (table, r["id"], r["more"]))
+    for r in data.get("job_templates", {}).values():
+        if r["name"] not in texts_all:
+            problems.append("job_templates/%s: no text %s" % (r["id"], r["name"]))
+        for n in r["notes"]:
+            if n not in texts_all:
+                problems.append("job_templates/%s: no text %s" % (r["id"], n))
+        for st in r["steps"]:
+            ref("job_steps", st["kind"], "job_templates/%s step" % r["id"])
+    for r in data.get("noticeables", {}).values():
+        if r["job"] not in data.get("spoiler_jobs", {}):
+            problems.append("noticeables/%s: no job %s" % (r["id"], r["job"]))
     for r in data.get("structures", {}).values():
         for s in r.get("starting_chest", []):
             ref("items", s["item"], "structures/%s starting_chest" % r["id"])

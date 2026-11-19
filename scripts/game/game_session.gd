@@ -75,8 +75,6 @@ var _collapsing: bool = false
 var camp: Dictionary = {}
 # Chopped trees: tile -> the absolute day it was chopped. They regrow.
 var chopped: Dictionary = {}
-# Jobs the ranger has read about: id -> true.
-var jobs_known: Dictionary = {}
 # Rumored places the ranger has heard of: landmark id -> true.
 var rumors: Dictionary = {}
 # Notes from the last ranger already read: note id -> true.
@@ -115,16 +113,14 @@ var park: Park                       # phase 3: money, visitors, facilities and 
 var box_offer: bool = false          # pinning cards is offered once the box's note closes
 var _pending_pad: String = ""
 var piles: Dictionary = {}           # tile -> Inventory: things the ranger dropped on the ground
-var guide: Guide                     # what X and C do here, the "?" marks, what's next
+var guide: Guide                     # what X and C do here, the "?" marks
+var jobs: Jobs                       # the jobs module: every job, its steps and rewards
 var visits: Dictionary = {}          # travel place id -> times the ranger has arrived there
 var _near_place: String = ""         # the travel place the ranger is at now, if any
 var _traveling: bool = false
 var _reach_cache: Dictionary = {}   # "station" -> the tiles trail joins to the station, until the land changes
 var last_collapse_cause: String = ""   # why the ranger last passed out
 var bench_boxes: Dictionary = {}       # structure id -> Inventory: each workbench's own small box
-var current_job: String = ""          # the site whose job is being worked on: the last one found, mapped or reached
-var _joined: Dictionary = {}          # site id -> true: sites whose trail is joined to the station's, as last told
-var _join_check: bool = false         # the land changed: see whether a site's trail has just joined up
 var recipes_new: Array[String] = []    # recipes learned since the last "you can make this now" pop-up
 var shelf_seen: Dictionary = {}      # structure id -> the supply shelf as last looked at
 
@@ -155,11 +151,20 @@ func _init(tuning_path: String = Tuning.DEFAULT_PATH, content_dir: String = Cont
 	park = Park.new(self)
 	land_changed.connect(func(_t: Vector2i) -> void:
 		park.net.mark_dirty()
-		_reach_cache.clear()
-		_join_check = true)
+		_reach_cache.clear())
 	tree_changed.connect(func(_t: Vector2i) -> void: _reach_cache.clear())
 	park.note.connect(func(text: String) -> void: message.emit(text))
 	guide = Guide.new(self)
+	jobs = Jobs.new(self)
+	land_changed.connect(func(_t: Vector2i) -> void: jobs.mark_dirty())
+	tree_changed.connect(func(_t: Vector2i) -> void: jobs.mark_dirty())
+	backpack.changed.connect(func() -> void: jobs.mark_dirty())
+	# The small things jobs ask about indoors stand in their rooms like furniture.
+	for id: String in jobs.spot_ids():
+		var sp := jobs.spot_row(id)
+		if str(sp["where"]) != "outdoor" and not sp.has("furniture") and interiors.has(sp["where"]):
+			(interiors[sp["where"]] as InteriorLayout).furniture.append({"id": id, "kind": "job_spot", "pos": sp["pos"], "size": sp["size"], "sprite": sp["sprite"]})
+	jobs.spots_changed.connect(_refresh_spot_rooms)
 
 
 # --- starting and loading ---------------------------------------------------
@@ -195,7 +200,6 @@ func new_game(new_seed: int = -1) -> void:
 	camp = {}
 	for t: Vector2i in chopped.keys():
 		_set_chopped(t, -1)
-	jobs_known = {}
 	rumors = {}
 	notes_read = {}
 	sites_found = {}
@@ -215,8 +219,6 @@ func new_game(new_seed: int = -1) -> void:
 	_reach_cache.clear()
 	bench_boxes = {}
 	recipes_new.clear()
-	current_job = ""
-	_joined = {}
 	park.new_game()
 	visits = {"ranger_station": tuning.integer("travel.visits_needed")}
 	_near_place = ""
@@ -224,6 +226,17 @@ func new_game(new_seed: int = -1) -> void:
 	piles_changed.emit()
 	camp_changed.emit()
 	weather.check_change(clock.minute)
+	jobs.new_game()
+
+
+## Rooms hide the small job things once they are done and gone.
+func _refresh_spot_rooms() -> void:
+	for id: String in interiors:
+		var layout: InteriorLayout = interiors[id]
+		layout.hidden = {}
+		for f: Dictionary in layout.furniture:
+			if str(f["kind"]) == "job_spot" and not jobs.spot_shown(str(f["id"])):
+				layout.hidden[str(f["id"])] = true
 
 
 func to_dict() -> Dictionary:
@@ -249,7 +262,6 @@ func to_dict() -> Dictionary:
 			"ember": bool(camp.get("ember", false)),
 		},
 		"chopped": chopped.keys().map(func(t: Vector2i) -> Array: return [t.x, t.y, chopped[t]]),
-		"jobs_known": jobs_known.keys(),
 		"rumors": rumors.keys(),
 		"notes_read": notes_read.keys(),
 		"sites": {"found": sites_found.keys(), "open": sites_open.keys()},
@@ -266,7 +278,7 @@ func to_dict() -> Dictionary:
 		},
 		"park": park.to_dict(),
 		"visits": visits.duplicate(),
-		"current_job": current_job,
+		"jobs2": jobs.to_dict(),
 		"bench_boxes": bench_boxes.keys().map(func(k: String) -> Array: return [k, (bench_boxes[k] as Inventory).to_array()]),
 		"piles": piles.keys().map(func(t: Vector2i) -> Array: return [t.x, t.y, (piles[t] as Inventory).to_array()]),
 	}
@@ -314,9 +326,6 @@ func from_dict(d: Dictionary) -> void:
 		_set_chopped(t, -1)
 	for e: Array in d.get("chopped", []):
 		_set_chopped(Vector2i(int(e[0]), int(e[1])), int(e[2]))
-	jobs_known = {}
-	for id: String in d.get("jobs_known", []):
-		jobs_known[id] = true
 	rumors = {}
 	for id: String in d.get("rumors", []):
 		rumors[id] = true
@@ -357,9 +366,6 @@ func from_dict(d: Dictionary) -> void:
 	visits = {"ranger_station": tuning.integer("travel.visits_needed")}
 	for k: String in d.get("visits", {}):
 		visits[k] = maxi(int(visits.get(k, 0)), int(d["visits"][k]))
-	current_job = str(d.get("current_job", ""))
-	_joined = {}
-	_join_check = false
 	bench_boxes = {}
 	for e: Array in d.get("bench_boxes", []):
 		var inv := Inventory.new(content, tuning.integer("storage.bench_slots"))
@@ -377,11 +383,14 @@ func from_dict(d: Dictionary) -> void:
 	camp_changed.emit()
 	survey_steps_left = 0
 	_last_tile = Vector2i(-9999, -9999)
-	check_joined(true)
 	weather.check_change(clock.minute)
+	# Saves from before the jobs rebuild have no jobs: they are worked out
+	# from the world, and those already done are finished and paid.
+	jobs.from_dict(d.get("jobs2", {}), not d.has("jobs2"))
 
 
 func save_game() -> bool:
+	jobs.update(true)
 	var ok := SaveSystem.write(save_path, to_dict())
 	if ok:
 		save_count += 1
@@ -524,10 +533,9 @@ func speed_tiles_per_second() -> float:
 # --- each frame ---------------------------------------------------------------
 
 func process(real_delta: float) -> void:
-	if _join_check:
-		check_joined()
 	clock.process(real_delta)
 	park.advance_to(park_minute())
+	jobs.process(real_delta)
 
 
 ## The clock's minute with the part of the current ten minutes gone by, so
@@ -627,8 +635,6 @@ func _on_step(_minute: int) -> void:
 
 ## Passes game time at once, as for an action that takes time.
 func pass_minutes(minutes: int) -> void:
-	if _join_check:
-		check_joined()
 	var steps := ceili(float(minutes) / clock.step_minutes())
 	for i in steps:
 		if clock.is_day_over() or _collapsing:
@@ -645,6 +651,7 @@ func _on_day_started(_day: int, _season: int, _year: int) -> void:
 	for w: String in weather.today:
 		if ["rain", "storm"].has(w):
 			forage.note_wet_day(clock.absolute_day() - 1)
+			jobs.flags["rain_day"] = clock.absolute_day() - 1
 			break
 	weather.roll_day(clock.absolute_day())
 	# Phase 3: the supply shelf is stocked by catalog orders, not for free.
@@ -657,6 +664,7 @@ func _on_day_started(_day: int, _season: int, _year: int) -> void:
 	_apply_seasons()
 	weather.check_change(clock.minute)
 	park.start_day()
+	jobs.morning(clock.day == 1)
 	day_began.emit()
 
 
@@ -920,6 +928,10 @@ func interact() -> void:
 			else:
 				feed_campfire()
 			return
+	var js := jobs.spot_in_reach("x", outdoor_pos, reach)
+	if js != "":
+		work_job_spot(js)
+		return
 	if _park_interact():
 		return
 	var pile := pile_in_reach()
@@ -964,26 +976,6 @@ func interact() -> void:
 		message.emit(content.text(content.row("landmarks", lid)["name"]))
 
 
-## Tells the moment a found site's trail joins the station's (its flags on
-## the map go), or comes apart again (a badger's hole). Quiet when a game is
-## started or loaded: it only learns what is already joined.
-func check_joined(quiet: bool = false) -> void:
-	_join_check = false
-	for r: Dictionary in content.rows("sites"):
-		var id: String = r["id"]
-		if not sites_found.has(id) or sites_open.has(id):
-			continue
-		var now := site_reached(id)
-		if now and not _joined.has(id):
-			_joined[id] = true
-			if not quiet:
-				message.emit(content.text("msg_trail_joined", {"name": content.text(r["name"])}))
-		elif not now and _joined.has(id):
-			_joined.erase(id)
-			if not quiet:
-				message.emit(content.text("msg_trail_broken", {"name": content.text(r["name"])}))
-
-
 ## The site a landmark belongs to, or "".
 func site_for_landmark(landmark_id: String) -> String:
 	for r: Dictionary in content.rows("sites"):
@@ -1012,7 +1004,15 @@ func _interact_inside() -> void:
 		"staff_board":
 			open_staff_board()
 		"radio":
+			if location == "static_tower" and not jobs.unlocks.has("tower_forecast"):
+				if jobs.is_active("tower_radio") and jobs.spot_open("tower_radio") and backpack.has("radio_valve"):
+					work_job_spot("tower_radio")
+				else:
+					message.emit(content.text("jt_radio_hiss"))
+				return
 			use_radio()
+		"job_spot":
+			work_job_spot(str(f["id"]))
 		"shelf":
 			shelf_seen[location] = str((structures.shelves[location] as Inventory).to_array())
 			storage_opened.emit(content.text("ui_shelf"), structures.shelves[location])
@@ -1059,11 +1059,28 @@ func feed_stove() -> bool:
 	if not is_indoors() or not structures.stove_minutes.has(location):
 		return false
 	var was_lit := structures.stove_lit(location)
-	if not structures.feed_stove(location, backpack, fire_burn_mult()):
+	var mult := fire_burn_mult()
+	if location == "test_cabin" and jobs.unlocks.has("cabin_chimney"):
+		mult *= tuning.num("jobs.chimney_burn_mult")
+	if not structures.feed_stove(location, backpack, mult):
 		message.emit(content.text("msg_stove_no_wood"))
 		return false
 	message.emit(content.text("msg_stove_fed" if was_lit else "msg_stove_lit"))
+	jobs.event("light", {"structure": location})
 	return true
+
+
+## Works a small thing a job asks about: tidies it, chops it, opens it.
+func work_job_spot(id: String) -> void:
+	var r := jobs.spot_row(id)
+	var tool := str(r.get("action", ""))
+	if tool in ["axe", "hammer"] and not backpack.has(tool):
+		message.emit(content.text("jt_spot_need", {"what": content.item_name(tool).to_lower()}))
+		return
+	var text := jobs.work_spot(id)
+	if text != "":
+		message.emit(text)
+	_check_collapse()
 
 
 ## Uses the held item.
@@ -1086,6 +1103,8 @@ func use_item() -> void:
 		set_up_kit()
 	elif row["kind"] == "page":
 		discover(str(row["find"]))
+	elif item in ["hammer", "axe"] and not is_indoors() and jobs.spot_in_reach(item, outdoor_pos, tuning.num("clearing.reach_tiles")) != "":
+		work_job_spot(jobs.spot_in_reach(item, outdoor_pos, tuning.num("clearing.reach_tiles")))
 	elif item == "hammer":
 		hammer()
 	elif item == "map":
@@ -1492,6 +1511,8 @@ func clear_obstacle() -> Dictionary:
 func can_dig(t: Vector2i) -> bool:
 	if not world.in_bounds(t) or world.is_solid(t) or dug.has(t):
 		return false
+	if jobs.spot_blocks_dig(t):
+		return false
 	var diggable: Array = tuning.value("trail.diggable")
 	if not diggable.has(world.ground_at(t)):
 		return false
@@ -1552,14 +1573,20 @@ func dig() -> Dictionary:
 func travel_places() -> Dictionary:
 	var out := {"ranger_station": door_front("ranger_station")}
 	for r: Dictionary in content.rows("sites"):
-		if sites_found.has(r["id"]):
+		if jobs.travel_open.has(r["id"]):
 			out[r["id"]] = site_door(r["id"])
+	if jobs.travel_open.has("bridge"):
+		out["bridge"] = world.spawn("bridge")
 	return out
 
 
 func travel_name(id: String) -> String:
 	if id == "ranger_station":
 		return content.text("ui_place_station")
+	if id == "bridge":
+		return content.text("ui_place_bridge_end")
+	if not content.has("sites", id):
+		return id
 	return content.text(content.row("sites", id)["name"])
 
 
@@ -1572,11 +1599,7 @@ func _watch_visits() -> void:
 	for id: String in places:
 		if id != _near_place and outdoor_pos.distance_to(places[id]) <= tuning.num("travel.arrive_radius_tiles"):
 			_near_place = id
-			if content.has("sites", id) and not sites_open.has(id):
-				current_job = id
 			visits[id] = int(visits.get(id, 0)) + 1
-			if int(visits[id]) == tuning.integer("travel.visits_needed"):
-				message.emit(content.text("msg_travel_known", {"name": travel_name(id)}))
 			break
 
 
@@ -1639,14 +1662,21 @@ func travel_options() -> Array:
 	var steps := _trail_steps_from(start)
 	var places := travel_places()
 	for id: String in places:
-		if int(visits.get(id, 0)) < tuning.integer("travel.visits_needed"):
-			continue
 		if outdoor_pos.distance_to(places[id]) <= tuning.num("travel.arrive_radius_tiles"):
 			continue
+		# Trail travel reaches a place when trail comes within a few tiles of
+		# its door, as a site counts as joined (tracker #15).
 		var door := Vector2i(places[id])
-		if not steps.has(door):
+		var best := -1
+		var r := tuning.integer("sites.spot_reach_tiles")
+		for dy in range(-r, r + 1):
+			for dx in range(-r, r + 1):
+				var t := door + Vector2i(dx, dy)
+				if steps.has(t) and Vector2(t).distance_to(Vector2(door)) <= r and (best < 0 or int(steps[t]) < best):
+					best = int(steps[t])
+		if best < 0:
 			continue
-		var minutes := roundi(int(steps[door]) * travel_minutes_per_tile())
+		var minutes := roundi(best * travel_minutes_per_tile())
 		out.append({"id": id, "label": content.text("ui_travel_to", {"name": travel_name(id), "time": content.text("ui_hours_minutes", {"h": minutes / 60, "m": minutes % 60})}), "minutes": minutes})
 	out.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return int(a["minutes"]) < int(b["minutes"]))
 	return out
@@ -2436,10 +2466,7 @@ func _look_for_sites() -> void:
 		var id: String = row["id"]
 		if not sites_found.has(id) and outdoor_pos.distance_to(site_pos(id)) <= r:
 			sites_found[id] = true
-			current_job = id
-			if site_reached(id):
-				_joined[id] = true
-			message.emit(content.text("msg_site_found", {"name": content.text(row["name"])}))
+			jobs.mark_dirty()
 
 
 ## Whether a step of opening a site is done.
@@ -2536,6 +2563,64 @@ func trail_gap(site_id: String) -> Dictionary:
 	return gap
 
 
+## Whether trail joins tile b to tile a, searching only near the two (for a
+## gap a job asks to dig). margin is how far either side of the line to look.
+func trail_joins(a: Vector2i, b: Vector2i, margin: int) -> bool:
+	var key := "join:%d,%d:%d,%d" % [a.x, a.y, b.x, b.y]
+	if _reach_cache.has(key):
+		return bool(_reach_cache[key])
+	var grounds: Array = tuning.value("sites.reach_grounds")
+	var box := Rect2i(Vector2i(mini(a.x, b.x), mini(a.y, b.y)), Vector2i(absi(a.x - b.x) + 1, absi(a.y - b.y) + 1)).grow(margin)
+	var ok := false
+	if grounds.has(world.ground_at(a)) and not world.is_solid(a):
+		var seen := {a: true}
+		var queue: Array[Vector2i] = [a]
+		var head := 0
+		while head < queue.size() and not ok:
+			var t := queue[head]
+			head += 1
+			for d: Vector2i in [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]:
+				var n := t + d
+				if seen.has(n) or not box.has_point(n) or world.is_solid(n):
+					continue
+				var g := world.ground_at(n)
+				if not grounds.has(g) and g != "shallows":
+					continue
+				seen[n] = true
+				if n == b:
+					ok = true
+					break
+				queue.append(n)
+	_reach_cache[key] = ok
+	return ok
+
+
+## Whether trail from near one point comes within r tiles of another: the
+## same test a site uses for being joined.
+func trail_reach_near(from: Vector2, to: Vector2, r: int) -> bool:
+	var start := Vector2i(-1, -1)
+	var grounds: Array = tuning.value("sites.reach_grounds")
+	var f := Vector2i(from)
+	for dy in range(-r, r + 1):
+		for dx in range(-r, r + 1):
+			var t := f + Vector2i(dx, dy)
+			if start.x < 0 and grounds.has(world.ground_at(t)) and not world.is_solid(t):
+				start = t
+	if start.x < 0:
+		return false
+	var key := "from:%d,%d" % [start.x, start.y]
+	if not _reach_cache.has(key):
+		_reach_cache[key] = _trail_reach_from(start)
+	var reach: Dictionary = _reach_cache[key]
+	var tt := Vector2i(to)
+	for dy in range(-r, r + 1):
+		for dx in range(-r, r + 1):
+			var t := tt + Vector2i(dx, dy)
+			if reach.has(t) and Vector2(t).distance_to(Vector2(tt)) <= r:
+				return true
+	return false
+
+
 ## Every tile joined to a by trail, boardwalk and short fords: {tile: run}.
 func _trail_reach_from(a: Vector2i) -> Dictionary:
 	var grounds: Array = tuning.value("sites.reach_grounds")
@@ -2583,7 +2668,7 @@ func open_site(site_id: String) -> bool:
 		return false
 	sites_open[site_id] = true
 	map.mark_landmark(content.row("sites", site_id)["landmark"])
-	message.emit(content.text("msg_site_opened", {"name": content.text(content.row("sites", site_id)["name"])}))
+	jobs.update()
 	return true
 
 
@@ -2628,13 +2713,6 @@ func debug_open_site(site_id: String) -> void:
 func read_note_board() -> String:
 	var here := location if is_indoors() else "ranger_station"
 	var texts: PackedStringArray = []
-	var added := false
-	if here == "ranger_station":
-		for j: Dictionary in content.rows("jobs"):
-			texts.append(content.text(j["offer"]))
-			if not jobs_known.has(j["id"]):
-				jobs_known[j["id"]] = true
-				added = true
 	var heard := false
 	for n: Dictionary in content.rows("notes"):
 		if n["at"] != here or not structures.is_open(n["needs_open"]):
@@ -2659,59 +2737,9 @@ func read_note_board() -> String:
 		texts.append(content.text("msg_note_board_empty"))
 	var text := "\n\n".join(texts)
 	note_read.emit(text)
-	if added:
-		message.emit(content.text("msg_job_added"))
 	if heard:
 		message.emit(content.text("msg_rumor_added"))
 	return text
-
-
-## What a job still needs, worked out from the structure and the backpack.
-func job_status(job_id: String) -> Dictionary:
-	var j := content.row("jobs", job_id)
-	var sid: String = j["structure"]
-	var need := {}
-	var steps := []
-	for st: Dictionary in content.row("structures", sid)["repair_steps"]:
-		var started := int(structures.progress[sid][st["id"]]) > 0
-		steps.append({"name": content.text(st["name"]), "done": structures.step_done(sid, st["id"])})
-		if not started:
-			for m: String in st["materials"]:
-				need[m] = int(need.get(m, 0)) + int(st["materials"][m])
-	for tool: String in j["tools"]:
-		need[tool] = maxi(1, int(need.get(tool, 0)))
-	var bring := []
-	for m: String in need:
-		bring.append({"item": m, "need": int(need[m]), "have": backpack.count(m)})
-	return {"title": content.text(j["title"]), "done": structures.is_open(sid), "bring": bring, "steps": steps, "also": j["suggested"]}
-
-
-func job_lines() -> PackedStringArray:
-	var out := PackedStringArray()
-	var extra := park.job_extra_lines()
-	if jobs_known.is_empty():
-		out.append(content.text("job_none"))
-		out.append_array(extra)
-		return out
-	for id: String in jobs_known:
-		var st := job_status(id)
-		out.append(st["title"] + ("  -  " + content.text("job_done") if st["done"] else ""))
-		if st["done"]:
-			continue
-		var b: PackedStringArray = []
-		for e: Dictionary in st["bring"]:
-			b.append(content.text("job_have", {"name": content.item_name(e["item"]), "have": e["have"], "need": e["need"]}))
-		out.append(content.text("job_bring", {"list": ", ".join(b)}))
-		var s: PackedStringArray = []
-		for e: Dictionary in st["steps"]:
-			s.append(content.text("job_step_done", {"name": e["name"]}) if e["done"] else e["name"])
-		out.append(content.text("job_steps", {"list": ", ".join(s)}))
-		var a: PackedStringArray = []
-		for it: String in st["also"]:
-			a.append(content.item_name(it))
-		out.append(content.text("job_also", {"list": ", ".join(a)}))
-	out.append_array(extra)
-	return out
 
 
 # --- mapping ------------------------------------------------------------------
@@ -2787,17 +2815,17 @@ func _finish_survey() -> void:
 	message.emit(content.text("msg_tower_survey" if tower else ("msg_outlook_survey" if outlook else "msg_survey_done")))
 	survey_changed.emit(false, 1.0)
 	_update_trace()
+	jobs.event("survey", {"pos": at})
 	survey_finished.emit()
 
 
 func map_location(landmark_id: String) -> void:
 	var row := content.row("landmarks", landmark_id)
-	for site: Dictionary in content.rows("sites"):
-		if site["landmark"] == landmark_id and not sites_open.has(site["id"]):
-			current_job = site["id"]
+	jobs.seen_landmarks[landmark_id] = true
 	var radius := float(row.get("reveal_radius", tuning.num("map.location_radius")))
 	map.reveal_circle(world.landmark_pos(landmark_id), radius)
 	map.mark_landmark(landmark_id)
+	jobs.mark_dirty()
 	needs.spend(tuning.num("energy.map_location") * skills.energy_for("map_location"))
 	skills.act("map_location")
 	message.emit(content.text("msg_map_location", {"name": content.text(row["name"])}))
@@ -3516,6 +3544,7 @@ func _park_interact() -> bool:
 	# A lost party first: they are what matters most.
 	var lp := park.lost_party()
 	if not lp.is_empty() and outdoor_pos.distance_to(lp["pos"]) <= tuning.num("visitors.lost_find_reach_tiles"):
+		jobs.event("talk", {"party": "lost"})
 		var tip := park.find_lost()
 		skills.act("find_lost_party")
 		message.emit(content.text("msg_found_party", {"n": tip}))
@@ -3524,6 +3553,13 @@ func _park_interact() -> bool:
 	if bi >= 0:
 		shoo_badger(bi)
 		return true
+	# The scouts' troop leader, for their litter badge.
+	if jobs.is_active("scouts_badge"):
+		for p: Dictionary in park.parties:
+			if str(p["kind"]) == "scout_troop" and outdoor_pos.distance_to(p["pos"]) <= tuning.num("visitors.lost_find_reach_tiles"):
+				jobs.event("talk", {"party": "scout_troop"})
+				message.emit(content.text("jt_talk_scouts"))
+				return true
 	var lt := litter_in_reach()
 	if lt.x >= 0:
 		pick_litter(lt)
@@ -3591,7 +3627,7 @@ func read_box() -> String:
 	for c: Dictionary in got:
 		texts.append(str(c["text"]))
 	var text := "\n\n".join(texts)
-	box_offer = got.any(func(c: Dictionary) -> bool: return bool(c["asks"]))
+	box_offer = got.any(func(c: Dictionary) -> bool: return bool(c["asks"]) and not jobs.card_template(c).is_empty())
 	note_read.emit(text)
 	return text
 
@@ -3600,10 +3636,12 @@ func read_box() -> String:
 func offer_pins() -> bool:
 	box_offer = false
 	var opts := []
-	for i in park.cards.size():
+	var offered := 0
+	for i in range(park.cards.size() - 1, -1, -1):
 		var c: Dictionary = park.cards[i]
-		if bool(c["asks"]) and not bool(c["pinned"]) and bool(c["read"]):
+		if bool(c["asks"]) and not bool(c.get("taken", false)) and bool(c["read"]) and not jobs.card_template(c).is_empty() and offered < tuning.integer("jobs.cards_offer_most"):
 			opts.append({"id": str(i), "label": content.text("ui_box_pin", {"text": c["text"]})})
+			offered += 1
 	if opts.is_empty():
 		return false
 	pending_confirm = "pin_card"
@@ -3621,6 +3659,7 @@ func clean_bathroom(pad: String) -> void:
 		shoo_badger(bi)
 		return
 	park.clean_bathroom(pad)
+	jobs.event("clean", {"pad": pad})
 	needs.spend(tuning.num("upkeep.clean_energy"))
 	message.emit(content.text("msg_bathroom_cleaned"))
 	pass_minutes(tuning.integer("upkeep.clean_minutes"))
@@ -3632,6 +3671,7 @@ func empty_can(t: Vector2i) -> void:
 		message.emit(content.text("msg_can_empty"))
 		return
 	park.empty_can(t)
+	jobs.event("empty", {"place": park.place_of(Vector2(t))})
 	needs.spend(tuning.num("upkeep.empty_energy"))
 	message.emit(content.text("msg_can_emptied"))
 	pass_minutes(tuning.integer("upkeep.empty_minutes"))
@@ -3640,6 +3680,7 @@ func empty_can(t: Vector2i) -> void:
 
 func pick_litter(t: Vector2i) -> void:
 	var found := park.pick_litter(t)
+	jobs.event("pick_up", {"pos": Vector2(t) + Vector2(0.5, 0.5)})
 	needs.spend(tuning.num("upkeep.litter_energy"))
 	if found != "":
 		message.emit(content.text("msg_belonging", {"thing": found}))
@@ -3655,6 +3696,7 @@ func shoo_badger(i: int) -> void:
 		park.add_note(content.text("note_first_badger", {"place": park.place_name(b["place"])}))
 		message.emit(content.text("msg_badger_first"))
 	park.shoo(i)
+	jobs.event("shoo", {"place": str(b["place"])})
 	needs.spend(tuning.num("badgers.shoo_energy"))
 	if park.met_badger:
 		message.emit(content.text("msg_badger_shooed"))
@@ -3740,6 +3782,9 @@ func _take_down_facility(pad: String) -> void:
 
 
 func open_catalog() -> void:
+	if not jobs.unlocks.has("catalog"):
+		message.emit(content.text("jt_catalog_locked"))
+		return
 	list_requested.emit("catalog", content.text("ui_catalog", {"wallet": park.money.wallet}), park.catalog_options())
 
 

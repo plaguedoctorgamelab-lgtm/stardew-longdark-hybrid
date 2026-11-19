@@ -26,6 +26,13 @@ var title_screen: TitleScreen
 var title_note: Label
 var pause_menu: Panel
 var book_screen: BookScreen
+var clipboard: ClipboardScreen
+var job_card: JobCardScreen
+var job_note: JobNote
+var _map_changes: Array = []     # changes from finished jobs, for the map's flourish
+var _map_lines: PackedStringArray = []
+var pinned_button: Button
+var unlocks_button: Button
 var hint_overlay: HintOverlay
 var options_panel: Panel
 var tips_button: Button
@@ -60,7 +67,13 @@ func _ready() -> void:
 	hud = Hud.new()
 	add_child(hud)
 	hud.setup(session, ui_theme)
+	job_note = JobNote.new()
+	hud.root.add_child(job_note)
+	job_note.setup(session)
 	_build_menus()
+	job_note.note_clicked.connect(func(key: String) -> void:
+		if not menu_open():
+			clipboard.open(key))
 
 	session.location_changed.connect(_on_location_changed)
 	session.storage_opened.connect(func(title: String, inv: Inventory) -> void: inventory_screen.open(inv, title))
@@ -176,6 +189,14 @@ func _build_menus() -> void:
 	book_screen = BookScreen.new()
 	root.add_child(book_screen)
 	book_screen.setup(session)
+	clipboard = ClipboardScreen.new()
+	root.add_child(clipboard)
+	clipboard.setup(session)
+	clipboard.show_on_map.connect(func(p: Vector2) -> void: map_screen.open_at(p))
+	job_card = JobCardScreen.new()
+	root.add_child(job_card)
+	job_card.setup(session)
+	job_card.finished.connect(_on_card_closed)
 	dialog = Panel.new()
 	dialog.size = Vector2(320, 70)
 	dialog.position = Vector2(80, 90)
@@ -265,11 +286,43 @@ func _build_options(root: Control) -> void:
 	note.autowrap_mode = TextServer.AUTOWRAP_WORD
 	note.modulate = Color(1, 1, 1, 0.8)
 	box.add_child(note)
+	pinned_button = _toggle_row(box, "ui_options_pinned", "show_pinned_job")
+	unlocks_button = _toggle_row(box, "ui_options_unlock_map", "show_unlocks_on_map")
 	box.add_child(_button_column([["ui_back", close_options]]))
 	_show_tips_choice()
 	box.reset_size()
 	options_panel.size = box.get_combined_minimum_size() + Vector2(16, 12)
 	options_panel.position = ((Vector2(VIEW) - options_panel.size) / 2.0).round()
+
+
+## An on/off setting on the Options screen.
+func _toggle_row(box: VBoxContainer, label_id: String, key: String) -> Button:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 6)
+	box.add_child(row)
+	var l := Label.new()
+	l.text = session.content.text(label_id)
+	l.custom_minimum_size = Vector2(110, 0)
+	row.add_child(l)
+	var b := Button.new()
+	b.focus_mode = Control.FOCUS_NONE
+	b.custom_minimum_size = Vector2(40, 0)
+	b.text = session.content.text("ui_on" if Settings.flag(key) else "ui_off")
+	b.pressed.connect(func() -> void:
+		b.text = session.content.text("ui_on" if Settings.toggle(key) else "ui_off"))
+	row.add_child(b)
+	return b
+
+
+## A finishing card closed: its map changes wait for the flourish.
+func _on_card_closed(c: Dictionary) -> void:
+	if str(c.get("kind", "")) != "done" or not Settings.flag("show_unlocks_on_map"):
+		return
+	for ch: Dictionary in c.get("map", []):
+		_map_changes.append(ch)
+		var line := session.content.text({"rumor": "jt_map_rumors", "reveal": "jt_map_reveal", "travel": "jt_map_travel"}[str(ch["kind"])])
+		if not _map_lines.has(line):
+			_map_lines.append(line)
 
 
 func _show_tips_choice() -> void:
@@ -363,7 +416,7 @@ func _on_location_changed(loc: String) -> void:
 
 
 func menu_open() -> bool:
-	return title_screen.visible or pause_menu.visible or options_panel.visible or inventory_screen.visible or map_screen.visible or dialog.visible or choice_screen.visible or book_screen.visible
+	return title_screen.visible or pause_menu.visible or options_panel.visible or inventory_screen.visible or map_screen.visible or dialog.visible or choice_screen.visible or book_screen.visible or clipboard.visible or job_card.visible
 
 
 func _show_dialog(kind: String, text: String) -> void:
@@ -409,6 +462,14 @@ func _unhandled_input(event: InputEvent) -> void:
 		if event.is_action_pressed("pause"):
 			close_pause()
 		return
+	# A finishing card: one key or click closes it, once the stamp has landed.
+	if job_card.visible:
+		if event.is_action_pressed("interact") or event.is_action_pressed("confirm") or event.is_action_pressed("cancel") or event.is_action_pressed("pause") or event.is_action_pressed("use_item"):
+			job_card.try_close()
+		return
+	if clipboard.visible:
+		clipboard.handle(event)
+		return
 	if event.is_action_pressed("pause"):
 		# Escape closes whatever screen is open; with none open, it pauses.
 		if dialog.visible:
@@ -437,7 +498,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			choice_screen.close()
 		return
 	if book_screen.visible:
-		if event.is_action_pressed("jobs") or event.is_action_pressed("cancel") or event.is_action_pressed("backpack"):
+		if event.is_action_pressed("book") or event.is_action_pressed("jobs") or event.is_action_pressed("cancel") or event.is_action_pressed("backpack"):
 			book_screen.close()
 		return
 	if event.is_action_pressed("craft") and not menu_open():
@@ -459,6 +520,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			inventory_screen.open(null, "")
 		return
 	if event.is_action_pressed("jobs") and not menu_open():
+		clipboard.open()
+		return
+	if event.is_action_pressed("book") and not menu_open():
 		book_screen.open()
 		return
 	if event.is_action_pressed("open_map"):
@@ -499,6 +563,16 @@ func _process(delta: float) -> void:
 	# Recipes just learned: "you can make this now" (tracker #4).
 	if not menu_open() and not session.recipes_new.is_empty():
 		_show_dialog("notice", session.take_new_recipes_text())
+	# Finishing cards wait until play resumes: never over a dialog, menu,
+	# sleep or a collapse. Several show one after another, then one map.
+	if not menu_open() and session.pending_confirm == "":
+		var c := session.jobs.take_card_to_show()
+		if not c.is_empty():
+			job_card.open(c)
+		elif not _map_changes.is_empty():
+			map_screen.open_flourish(_map_changes, " ".join(_map_lines))
+			_map_changes = []
+			_map_lines = PackedStringArray()
 	if not menu_open():
 		var dir := Input.get_vector("move_left", "move_right", "move_up", "move_down")
 		session.move(dir, delta)
@@ -514,6 +588,7 @@ func _process(delta: float) -> void:
 	camera.force_update_scroll()
 	_update_world_hint(delta)
 	effects.ranger_screen = ranger.get_global_transform_with_canvas().origin
+	job_note.bubble_at = effects.ranger_screen
 	if not session.camp.is_empty():
 		var fire_px := (Vector2(session.camp["fire"]) + Vector2(0.5, 0.5)) * TILE
 		effects.fire_screen = world_view.get_canvas_transform() * fire_px

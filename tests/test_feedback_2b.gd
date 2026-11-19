@@ -183,13 +183,13 @@ func test_question_marks(t: TestCase) -> void:
 	t.equal(s.guide.markers().size(), 1, "a new delivery brings the ? back")
 
 
-func test_next_steps_for_a_found_site(t: TestCase) -> void:
+func test_next_step_for_a_found_site(t: TestCase) -> void:
 	var s := TestCase.new_session()
-	t.equal(s.guide.next_steps().size(), 0, "nothing found, nothing listed")
 	s.sites_found["static_tower"] = true
-	var lines := s.guide.next_steps()
-	t.equal(lines.size(), 1, "one line for the tower")
-	t.check(lines[0].contains(s.content.text("next_map")), "the next thing is mapping it")
+	s.jobs.update(true)
+	t.check(s.jobs.is_active("open_tower"), "finding the tower adds its job")
+	var i := s.jobs.next_step("open_tower")
+	t.check(s.jobs.def("open_tower")["steps"][i]["kind"] in ["pack", "map"], "the next thing is packing or mapping it")
 
 
 func test_trail_travel(t: TestCase) -> void:
@@ -197,14 +197,9 @@ func test_trail_travel(t: TestCase) -> void:
 	ParkHelpers.open_route(s, "cabin")
 	s.sites_found["old_cabin"] = true
 	s.outdoor_pos = s.door_front("ranger_station")
-	t.equal(s.travel_options().size(), 0, "not before going there twice")
+	t.equal(s.travel_options().size(), 0, "not before it is given (jobs rebuild: a reward)")
 	var door := s.site_door("old_cabin")
-	for k in 2:
-		s.outdoor_pos = door
-		s._watch_visits()
-		s.outdoor_pos = s.door_front("ranger_station")
-		s._watch_visits()
-	t.equal(int(s.visits.get("old_cabin", 0)), 2, "two arrivals counted")
+	s.jobs.travel_open["old_cabin"] = true
 	var opts := s.travel_options()
 	t.equal(opts.size(), 1, "the cabin is on offer")
 	var m0 := s.clock.absolute_day() * 10000 + s.clock.minute

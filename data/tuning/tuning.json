@@ -432,5 +432,22 @@
   },
   "ui": {
     "hover_tip_days": 7
+  },
+  "jobs": {
+    "notice_radius_tiles": 4,
+    "template_money_spread": 0.2,
+    "template_target_upkeep": 3,
+    "template_target_trail": 2,
+    "templates_per_morning": 1,
+    "cards_offer_most": 3,
+    "cans_full_share": 0.75,
+    "litter_template_min": 5,
+    "restock_below": 5,
+    "chimney_burn_mult": 1.3333,
+    "largest_gap_tiles": 30,
+    "toast_seconds": 4,
+    "toasts_most": 3,
+    "card_close_wait_seconds": 1.0,
+    "half_pay_share": 0.5
   }
 }

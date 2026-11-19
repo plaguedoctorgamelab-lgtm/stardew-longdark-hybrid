@@ -1,0 +1,65 @@
+{
+ "note": "Reward kinds: icon, and the money given instead when the ranger already has it.",
+ "rows": [
+  {
+   "id": "rumor",
+   "icon": "reward_rumor",
+   "value": 10
+  },
+  {
+   "id": "travel",
+   "icon": "reward_travel",
+   "value": 30
+  },
+  {
+   "id": "reveal",
+   "icon": "reward_reveal",
+   "value": 20
+  },
+  {
+   "id": "unlock",
+   "icon": "reward_unlock",
+   "value": 25
+  },
+  {
+   "id": "job",
+   "icon": "reward_job",
+   "value": 0
+  },
+  {
+   "id": "story",
+   "icon": "reward_story",
+   "value": 10
+  },
+  {
+   "id": "things",
+   "icon": "reward_things",
+   "value": 0
+  },
+  {
+   "id": "money",
+   "icon": "reward_money",
+   "value": 0
+  },
+  {
+   "id": "xp",
+   "icon": "reward_xp",
+   "value": 0
+  },
+  {
+   "id": "tip",
+   "icon": "reward_money",
+   "value": 0
+  },
+  {
+   "id": "card",
+   "icon": "reward_card",
+   "value": 0
+  },
+  {
+   "id": "note",
+   "icon": "reward_story",
+   "value": 0
+  }
+ ]
+}

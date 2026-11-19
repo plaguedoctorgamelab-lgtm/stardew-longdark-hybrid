@@ -1,17 +1,993 @@
 {
+ "note": "Every hand-written job (jobs spec). Steps are typed (job_steps); rewards are listed in order (rewards). appears is a condition in the jobs module's small format: atoms joined by 'and' and 'or'.",
  "rows": [
   {
-   "id": "fix_old_cabin",
-   "title": "job_fix_cabin_title",
-   "offer": "job_fix_cabin_offer",
-   "structure": "test_cabin",
-   "tools": [
-    "hammer"
+   "id": "open_cabin",
+   "type": "exploring",
+   "giver": "last_ranger",
+   "name": "jn_open_cabin",
+   "note": "jnote_open_cabin",
+   "size": "large",
+   "appears": "job_done:station_shipshape or site_found:old_cabin",
+   "steps": [
+    {
+     "kind": "pack",
+     "label": "js_pack"
+    },
+    {
+     "kind": "find",
+     "label": "js_find_cabin",
+     "site": "old_cabin"
+    },
+    {
+     "kind": "map",
+     "label": "js_map_cabin",
+     "site": "old_cabin"
+    },
+    {
+     "kind": "repair",
+     "label": "js_repair_cabin",
+     "structure": "test_cabin"
+    },
+    {
+     "kind": "join_trail",
+     "label": "js_join_cabin",
+     "site": "old_cabin"
+    },
+    {
+     "kind": "sign",
+     "label": "js_sign_cabin",
+     "site": "old_cabin"
+    },
+    {
+     "kind": "open",
+     "label": "js_open_cabin",
+     "site": "old_cabin"
+    }
    ],
-   "suggested": [
+   "rewards": [
+    {
+     "kind": "travel",
+     "site": "old_cabin"
+    },
+    {
+     "kind": "job",
+     "job": "reopen_pond_trail"
+    },
+    {
+     "kind": "rumor",
+     "landmark": "static_tower",
+     "job": "open_tower"
+    },
+    {
+     "kind": "money",
+     "n": 100
+    },
+    {
+     "kind": "xp",
+     "skill": "woodcraft",
+     "n": 200
+    }
+   ],
+   "season": "until_done",
+   "more": "more_cabin",
+   "handy": [
     "bedroll",
     "axe"
+   ],
+   "on_add": {
+    "rumor": "test_cabin"
+   }
+  },
+  {
+   "id": "open_outlook",
+   "type": "exploring",
+   "giver": "last_ranger",
+   "name": "jn_open_outlook",
+   "note": "jnote_open_outlook",
+   "size": "medium",
+   "appears": "job_done:station_shipshape or site_found:outlook",
+   "steps": [
+    {
+     "kind": "find",
+     "label": "js_find_outlook",
+     "site": "outlook"
+    },
+    {
+     "kind": "map",
+     "label": "js_map_outlook",
+     "site": "outlook"
+    },
+    {
+     "kind": "join_trail",
+     "label": "js_join_outlook",
+     "site": "outlook"
+    },
+    {
+     "kind": "sign",
+     "label": "js_sign_outlook",
+     "site": "outlook"
+    },
+    {
+     "kind": "open",
+     "label": "js_open_outlook",
+     "site": "outlook"
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "travel",
+     "site": "outlook"
+    },
+    {
+     "kind": "reveal",
+     "landmark": "scenic_outlook",
+     "radius_key": "map.outlook_radius",
+     "label": "jr_sketch_outlook"
+    },
+    {
+     "kind": "unlock",
+     "what": "catalog_bench"
+    },
+    {
+     "kind": "money",
+     "n": 40
+    },
+    {
+     "kind": "xp",
+     "skill": "surveying",
+     "n": 100
+    }
+   ],
+   "season": "until_done",
+   "on_add": {
+    "rumor": "scenic_outlook"
+   }
+  },
+  {
+   "id": "open_pond",
+   "type": "exploring",
+   "giver": "last_ranger",
+   "name": "jn_open_pond",
+   "note": "jnote_open_pond",
+   "size": "medium",
+   "appears": "job_done:station_shipshape or site_found:kettle_pond",
+   "steps": [
+    {
+     "kind": "find",
+     "label": "js_find_pond",
+     "site": "kettle_pond"
+    },
+    {
+     "kind": "map",
+     "label": "js_map_pond",
+     "site": "kettle_pond"
+    },
+    {
+     "kind": "join_trail",
+     "label": "js_join_pond",
+     "site": "kettle_pond",
+     "link": "reopen_pond_trail"
+    },
+    {
+     "kind": "sign",
+     "label": "js_sign_pond",
+     "site": "kettle_pond"
+    },
+    {
+     "kind": "open",
+     "label": "js_open_pond",
+     "site": "kettle_pond"
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "travel",
+     "site": "kettle_pond"
+    },
+    {
+     "kind": "rumor",
+     "landmark": "static_tower",
+     "job": "open_tower"
+    },
+    {
+     "kind": "money",
+     "n": 60
+    },
+    {
+     "kind": "xp",
+     "skill": "surveying",
+     "n": 100
+    }
+   ],
+   "season": "until_done",
+   "more": "more_pond",
+   "on_add": {
+    "rumor": "kettle_pond"
+   }
+  },
+  {
+   "id": "open_tower",
+   "type": "exploring",
+   "giver": "last_ranger",
+   "name": "jn_open_tower",
+   "note": "jnote_open_tower",
+   "size": "large",
+   "appears": "rumor:static_tower or site_found:static_tower",
+   "steps": [
+    {
+     "kind": "pack",
+     "label": "js_pack"
+    },
+    {
+     "kind": "find",
+     "label": "js_find_tower",
+     "site": "static_tower"
+    },
+    {
+     "kind": "map",
+     "label": "js_map_tower",
+     "site": "static_tower"
+    },
+    {
+     "kind": "repair",
+     "label": "js_repair_tower",
+     "structure": "static_tower"
+    },
+    {
+     "kind": "join_trail",
+     "label": "js_join_tower",
+     "site": "static_tower",
+     "link": "stake_east"
+    },
+    {
+     "kind": "sign",
+     "label": "js_sign_tower",
+     "site": "static_tower"
+    },
+    {
+     "kind": "open",
+     "label": "js_open_tower",
+     "site": "static_tower"
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "travel",
+     "site": "static_tower"
+    },
+    {
+     "kind": "rumor",
+     "landmark": "broken_bridge",
+     "job": "find_bridge"
+    },
+    {
+     "kind": "job",
+     "job": "clear_old_road"
+    },
+    {
+     "kind": "job",
+     "job": "tower_radio"
+    },
+    {
+     "kind": "money",
+     "n": 150
+    },
+    {
+     "kind": "xp",
+     "skill": "surveying",
+     "n": 250
+    }
+   ],
+   "season": "until_done",
+   "more": "more_tower",
+   "handy": [
+    "bedroll"
+   ],
+   "on_add": {
+    "rumor": "static_tower"
+   }
+  },
+  {
+   "id": "tower_radio",
+   "type": "exploring",
+   "giver": "last_ranger",
+   "name": "jn_tower_radio",
+   "note": "jnote_tower_radio",
+   "size": "small",
+   "appears": "site_open:static_tower",
+   "steps": [
+    {
+     "kind": "pack",
+     "label": "js_pack",
+     "items": {
+      "radio_valve": 1
+     }
+    },
+    {
+     "kind": "repair",
+     "label": "js_fix_radio",
+     "spot": "tower_radio"
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "unlock",
+     "what": "tower_forecast"
+    },
+    {
+     "kind": "money",
+     "n": 20
+    }
+   ],
+   "season": "until_done",
+   "more": "more_radio"
+  },
+  {
+   "id": "find_bridge",
+   "type": "exploring",
+   "giver": "last_ranger",
+   "name": "jn_find_bridge",
+   "note": "jnote_find_bridge",
+   "size": "small",
+   "appears": "rumor:broken_bridge",
+   "steps": [
+    {
+     "kind": "find",
+     "label": "js_find_bridge",
+     "landmark": "broken_bridge"
+    },
+    {
+     "kind": "map",
+     "label": "js_map_bridge",
+     "landmark": "broken_bridge"
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "story",
+     "text": "jr_story_bridge",
+     "label": "jr_journal_page"
+    },
+    {
+     "kind": "money",
+     "n": 20
+    },
+    {
+     "kind": "xp",
+     "skill": "surveying",
+     "n": 60
+    }
+   ],
+   "season": "until_done",
+   "done_note": "jdone_find_bridge"
+  },
+  {
+   "id": "station_shipshape",
+   "type": "upkeep",
+   "giver": "chief",
+   "name": "jn_station_shipshape",
+   "note": "jnote_station_shipshape",
+   "size": "medium",
+   "appears": "new_game",
+   "steps": [
+    {
+     "kind": "clean",
+     "label": "js_tidy_station",
+     "spots": [
+      "station_papers",
+      "station_shelf",
+      "station_boots"
+     ]
+    },
+    {
+     "kind": "clear",
+     "label": "js_clear_branch",
+     "spots": [
+      "station_branch"
+     ],
+     "tool": "axe"
+    },
+    {
+     "kind": "place",
+     "label": "js_set_out_can",
+     "thing": "trash_can",
+     "n": 1,
+     "at": "spot:gate_marker",
+     "r": 2,
+     "from_spot": "station_can"
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "rumor",
+     "landmark": "test_cabin",
+     "job": "open_cabin"
+    },
+    {
+     "kind": "rumor",
+     "landmark": "scenic_outlook",
+     "job": "open_outlook"
+    },
+    {
+     "kind": "rumor",
+     "landmark": "kettle_pond",
+     "job": "open_pond"
+    },
+    {
+     "kind": "unlock",
+     "what": "catalog"
+    },
+    {
+     "kind": "money",
+     "n": 50
+    },
+    {
+     "kind": "xp",
+     "skill": "woodcraft",
+     "n": 40
+    }
+   ],
+   "season": "until_done"
+  },
+  {
+   "id": "spruce_gate",
+   "type": "upkeep",
+   "giver": "chief",
+   "name": "jn_spruce_gate",
+   "note": "jnote_spruce_gate",
+   "size": "medium",
+   "appears": "job_done:station_shipshape",
+   "steps": [
+    {
+     "kind": "pick_up",
+     "label": "js_litter_gate",
+     "n": 5,
+     "at": "place:gate",
+     "r": 10
+    },
+    {
+     "kind": "place",
+     "label": "js_cans_kiosk",
+     "thing": "trash_can",
+     "n": 2,
+     "at": "pad:gate_kiosk",
+     "r": 5
+    },
+    {
+     "kind": "place",
+     "label": "js_bench_kiosk",
+     "thing": "bench",
+     "n": 1,
+     "at": "pad:gate_kiosk",
+     "r": 5
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "unlock",
+     "what": "catalog_picnic_table"
+    },
+    {
+     "kind": "story",
+     "text": "jr_story_chief_gate",
+     "label": "jr_letter_chief",
+     "letter": true
+    },
+    {
+     "kind": "money",
+     "n": 40
+    }
+   ],
+   "season": "until_done",
+   "on_add": {
+    "litter": {
+     "at": "place:gate",
+     "n": 6,
+     "r": 7
+    }
+   }
+  },
+  {
+   "id": "stock_cabin",
+   "type": "upkeep",
+   "giver": "chief",
+   "name": "jn_stock_cabin",
+   "note": "jnote_stock_cabin",
+   "size": "small",
+   "appears": "site_open:old_cabin",
+   "steps": [
+    {
+     "kind": "deliver",
+     "label": "js_deliver_cabin",
+     "items": {
+      "firewood": 10,
+      "tin_of_beans": 2
+     },
+     "chest": "test_cabin"
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "money",
+     "n": 25
+    }
+   ],
+   "season": "until_done",
+   "more": "more_stock_cabin"
+  },
+  {
+   "id": "stock_tower",
+   "type": "upkeep",
+   "giver": "chief",
+   "name": "jn_stock_tower",
+   "note": "jnote_stock_tower",
+   "size": "small",
+   "appears": "site_open:static_tower",
+   "steps": [
+    {
+     "kind": "deliver",
+     "label": "js_deliver_tower",
+     "items": {
+      "firewood": 10,
+      "tin_of_beans": 2
+     },
+     "chest": "static_tower"
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "money",
+     "n": 30
+    }
+   ],
+   "season": "until_done",
+   "more": "more_stock_tower"
+  },
+  {
+   "id": "winter_mess",
+   "type": "upkeep",
+   "giver": "chief",
+   "name": "jn_winter_mess",
+   "note": "jnote_winter_mess",
+   "size": "medium",
+   "appears": "season:spring and job_done:station_shipshape",
+   "steps": [
+    {
+     "kind": "pick_up",
+     "label": "js_litter_meadow",
+     "n": 15,
+     "at": "place:gate",
+     "r": 40
+    },
+    {
+     "kind": "clear",
+     "label": "js_branches_trail",
+     "spots": [
+      "spring_branch_1",
+      "spring_branch_2",
+      "spring_branch_3"
+     ],
+     "tool": "axe"
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "money",
+     "n": 40
+    },
+    {
+     "kind": "xp",
+     "skill": "trailcraft",
+     "n": 60
+    }
+   ],
+   "season": "spring",
+   "more": "more_winter_mess",
+   "on_add": {
+    "litter": {
+     "at": "place:gate",
+     "n": 16,
+     "r": 30
+    }
+   }
+  },
+  {
+   "id": "ready_crowds",
+   "type": "upkeep",
+   "giver": "chief",
+   "name": "jn_ready_crowds",
+   "note": "jnote_ready_crowds",
+   "size": "medium",
+   "appears": "season:summer and job_done:station_shipshape",
+   "steps": [
+    {
+     "kind": "place",
+     "label": "js_cans_busiest",
+     "thing": "trash_can",
+     "n": 2,
+     "at": "busiest",
+     "r": 8,
+     "more_than_now": true
+    },
+    {
+     "kind": "clean",
+     "label": "js_clean_all_baths",
+     "bathroom": "all"
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "things",
+     "items": {
+      "trash_can": 2
+     },
+     "label": "jr_cans_back"
+    },
+    {
+     "kind": "money",
+     "n": 60
+    }
+   ],
+   "season": "summer"
+  },
+  {
+   "id": "stock_winter",
+   "type": "upkeep",
+   "giver": "chief",
+   "name": "jn_stock_winter",
+   "note": "jnote_stock_winter",
+   "size": "medium",
+   "appears": "season:autumn and job_done:station_shipshape and site_open_any_building",
+   "steps": [
+    {
+     "kind": "deliver",
+     "label": "js_deliver_winter",
+     "items": {
+      "firewood": 15
+     },
+     "chest": "open_buildings"
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "money",
+     "n": 50
+    },
+    {
+     "kind": "xp",
+     "skill": "woodcraft",
+     "n": 80
+    }
+   ],
+   "season": "autumn"
+  },
+  {
+   "id": "check_cabins",
+   "type": "upkeep",
+   "giver": "chief",
+   "name": "jn_check_cabins",
+   "note": "jnote_check_cabins",
+   "size": "medium",
+   "appears": "season:winter and job_done:station_shipshape and site_open_any_building",
+   "steps": [
+    {
+     "kind": "go_to",
+     "label": "js_visit_cabins",
+     "at": "open_buildings",
+     "r": 4
+    },
+    {
+     "kind": "light",
+     "label": "js_light_stoves",
+     "structures": "open_buildings"
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "money",
+     "n": 40
+    }
+   ],
+   "season": "winter",
+   "more": "more_check_cabins"
+  },
+  {
+   "id": "point_fork",
+   "type": "trail",
+   "giver": "chief",
+   "name": "jn_point_fork",
+   "note": "jnote_point_fork",
+   "size": "small",
+   "appears": "job_done:station_shipshape",
+   "steps": [
+    {
+     "kind": "sign",
+     "label": "js_pointers_fork",
+     "at": "spawn:fork",
+     "r": 8,
+     "places": [
+      "test_cabin",
+      "scenic_outlook"
+     ]
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "things",
+     "items": {
+      "trail_sign": 2
+     },
+     "label": "jr_blank_signs"
+    },
+    {
+     "kind": "money",
+     "n": 20
+    },
+    {
+     "kind": "xp",
+     "skill": "trailcraft",
+     "n": 40
+    }
+   ],
+   "season": "until_done"
+  },
+  {
+   "id": "reopen_pond_trail",
+   "type": "trail",
+   "giver": "chief",
+   "name": "jn_reopen_pond_trail",
+   "note": "jnote_reopen_pond_trail",
+   "size": "medium",
+   "appears": "site_open:old_cabin or site_found:kettle_pond",
+   "steps": [
+    {
+     "kind": "pack",
+     "label": "js_pack"
+    },
+    {
+     "kind": "clear",
+     "label": "js_trunks_pond",
+     "points": "pond_trunks"
+    },
+    {
+     "kind": "dig",
+     "label": "js_dig_pond_1",
+     "gap": "pond_gap_1"
+    },
+    {
+     "kind": "dig",
+     "label": "js_dig_pond_2",
+     "gap": "pond_gap_2"
+    },
+    {
+     "kind": "join_trail",
+     "label": "js_join_cabin_pond",
+     "site": "kettle_pond",
+     "from_site": "old_cabin"
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "note",
+     "label": "jr_pond_joined"
+    },
+    {
+     "kind": "money",
+     "n": 50
+    },
+    {
+     "kind": "xp",
+     "skill": "trailcraft",
+     "n": 100
+    }
+   ],
+   "season": "until_done",
+   "more": "more_pond_trail",
+   "handy": [
+    "sandwich"
    ]
+  },
+  {
+   "id": "stake_west",
+   "type": "trail",
+   "giver": "chief",
+   "name": "jn_stake_west",
+   "note": "jnote_stake_west",
+   "size": "medium",
+   "appears": "site_found:static_tower",
+   "steps": [
+    {
+     "kind": "pack",
+     "label": "js_pack"
+    },
+    {
+     "kind": "clear",
+     "label": "js_brush_west",
+     "gap_brush": "stake_gap_west"
+    },
+    {
+     "kind": "dig",
+     "label": "js_dig_west",
+     "gap": "stake_gap_west"
+    },
+    {
+     "kind": "join_trail",
+     "label": "js_join_pond_mid",
+     "point": "stake_mid",
+     "from_site": "kettle_pond"
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "reveal",
+     "point": "stake_mid",
+     "radius": 45,
+     "label": "jr_sketch_burn"
+    },
+    {
+     "kind": "money",
+     "n": 50
+    },
+    {
+     "kind": "xp",
+     "skill": "trailcraft",
+     "n": 100
+    }
+   ],
+   "season": "until_done"
+  },
+  {
+   "id": "stake_east",
+   "type": "trail",
+   "giver": "chief",
+   "name": "jn_stake_east",
+   "note": "jnote_stake_east",
+   "size": "medium",
+   "appears": "site_found:static_tower",
+   "steps": [
+    {
+     "kind": "pack",
+     "label": "js_pack"
+    },
+    {
+     "kind": "clear",
+     "label": "js_brush_east",
+     "gap_brush": "stake_gap_east",
+     "spots": [
+      "snag_east_1",
+      "snag_east_2"
+     ]
+    },
+    {
+     "kind": "dig",
+     "label": "js_dig_east",
+     "gap": "stake_gap_east"
+    },
+    {
+     "kind": "join_trail",
+     "label": "js_join_mid_tower",
+     "site": "static_tower",
+     "from_point": "stake_mid"
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "note",
+     "label": "jr_tower_joined"
+    },
+    {
+     "kind": "money",
+     "n": 60
+    },
+    {
+     "kind": "xp",
+     "skill": "trailcraft",
+     "n": 100
+    }
+   ],
+   "season": "until_done",
+   "more": "more_stake_east"
+  },
+  {
+   "id": "clear_old_road",
+   "type": "trail",
+   "giver": "chief",
+   "name": "jn_clear_old_road",
+   "note": "jnote_clear_old_road",
+   "size": "medium",
+   "appears": "site_open:static_tower",
+   "steps": [
+    {
+     "kind": "pack",
+     "label": "js_pack"
+    },
+    {
+     "kind": "clear",
+     "label": "js_trunk_road",
+     "points": "road_trunk"
+    },
+    {
+     "kind": "dig",
+     "label": "js_dig_road_1",
+     "gap": "road_gap_1"
+    },
+    {
+     "kind": "dig",
+     "label": "js_dig_road_2",
+     "gap": "road_gap_2"
+    },
+    {
+     "kind": "join_trail",
+     "label": "js_join_tower_bridge",
+     "point": "road_end",
+     "from_site": "static_tower"
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "travel",
+     "place": "bridge",
+     "label": "jr_travel_bridge"
+    },
+    {
+     "kind": "money",
+     "n": 50
+    },
+    {
+     "kind": "xp",
+     "skill": "trailcraft",
+     "n": 100
+    }
+   ],
+   "season": "until_done"
+  },
+  {
+   "id": "scouts_badge",
+   "type": "visitor",
+   "giver": "troop_leader",
+   "name": "jn_scouts_badge",
+   "note": "jnote_scouts_badge",
+   "size": "small",
+   "appears": "scouts_camped",
+   "steps": [
+    {
+     "kind": "talk_to",
+     "label": "js_talk_leader",
+     "party": "scout_troop"
+    },
+    {
+     "kind": "pick_up",
+     "label": "js_litter_camp",
+     "n": 10,
+     "at": "scout_camp",
+     "r": 12
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "story",
+     "text": "jr_story_scouts",
+     "label": "jr_scout_drawing"
+    },
+    {
+     "kind": "money",
+     "n": 30
+    },
+    {
+     "kind": "xp",
+     "skill": "trailcraft",
+     "n": 40
+    }
+   ],
+   "season": "until_done",
+   "on_add": {
+    "litter": {
+     "at": "scout_camp",
+     "n": 11,
+     "r": 8
+    }
+   }
   }
  ]
 }

@@ -13,6 +13,7 @@ var entry: Vector2
 var door_tile: Vector2i = Vector2i(-1, -1)
 var wall_height: int = 1
 var kit_spot: Dictionary = {}   # where a workbench kit is set up, if one can be
+var hidden: Dictionary = {}     # furniture id -> true: a job's small thing, done and gone
 
 
 
@@ -40,7 +41,7 @@ func is_solid(t: Vector2i) -> bool:
 	if t.x <= 0 or t.y < wall_height or t.x >= size.x - 1 or t.y >= size.y - 1:
 		return true
 	for f: Dictionary in furniture:
-		if f["kind"] != "exit" and furniture_rect(f).has_point(t):
+		if f["kind"] != "exit" and not hidden.has(str(f["id"])) and furniture_rect(f).has_point(t):
 			return true
 	return false
 
@@ -50,6 +51,8 @@ func furniture_near(pos: Vector2, reach: float) -> Dictionary:
 	var best := {}
 	var best_d := reach
 	for f: Dictionary in furniture:
+		if hidden.has(str(f["id"])):
+			continue
 		var r := furniture_rect(f)
 		var closest := Vector2(clampf(pos.x, r.position.x, r.end.x), clampf(pos.y, r.position.y, r.end.y))
 		var d := closest.distance_to(pos)

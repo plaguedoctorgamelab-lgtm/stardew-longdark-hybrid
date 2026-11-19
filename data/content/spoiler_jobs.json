@@ -1,0 +1,293 @@
+{
+ "note": "SPOILERS. The noticed jobs. Never described in status emails; only counted.",
+ "rows": [
+  {
+   "id": "outlook_seat",
+   "type": "upkeep",
+   "giver": "ranger",
+   "name": "jn_outlook_seat",
+   "note": "jnote_outlook_seat",
+   "size": "small",
+   "appears": "never",
+   "steps": [
+    {
+     "kind": "clear",
+     "label": "js_take_old_bench",
+     "spots": [
+      "old_bench"
+     ],
+     "tool": "hammer"
+    },
+    {
+     "kind": "place",
+     "label": "js_new_bench",
+     "thing": "bench",
+     "n": 1,
+     "at": "place:outlook",
+     "r": 8
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "money",
+     "n": 25
+    }
+   ],
+   "season": "until_done",
+   "noticed": true,
+   "more": "more_a"
+  },
+  {
+   "id": "the_sign_in_ford",
+   "type": "trail",
+   "giver": "ranger",
+   "name": "jn_the_sign_in_ford",
+   "note": "jnote_the_sign_in_ford",
+   "size": "small",
+   "appears": "never",
+   "steps": [
+    {
+     "kind": "clear",
+     "label": "js_fish_sign",
+     "spots": [
+      "ford_sign"
+     ]
+    },
+    {
+     "kind": "sign",
+     "label": "js_ford_pointer",
+     "at": "spot:ford_sign",
+     "r": 6,
+     "places": [
+      "any"
+     ]
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "things",
+     "items": {
+      "trail_sign": 1
+     },
+     "label": "jr_blank_sign"
+    },
+    {
+     "kind": "money",
+     "n": 15
+    }
+   ],
+   "season": "until_done",
+   "noticed": true,
+   "more": "more_b"
+  },
+  {
+   "id": "tiny_doormat",
+   "type": "upkeep",
+   "giver": "ranger",
+   "name": "jn_tiny_doormat",
+   "note": "jnote_tiny_doormat",
+   "size": "small",
+   "appears": "never",
+   "steps": [
+    {
+     "kind": "clean",
+     "label": "js_sweep_mat",
+     "spots": [
+      "tiny_doormat"
+     ]
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "note",
+     "label": "jr_thanks_probably"
+    }
+   ],
+   "season": "until_done",
+   "noticed": true,
+   "more": "more_c"
+  },
+  {
+   "id": "tidy_lean_to",
+   "type": "upkeep",
+   "giver": "ranger",
+   "name": "jn_tidy_lean_to",
+   "note": "jnote_tidy_lean_to",
+   "size": "small",
+   "appears": "never",
+   "steps": [
+    {
+     "kind": "pick_up",
+     "label": "js_lean_to_litter",
+     "n": 6,
+     "at": "point_xy:405,1115",
+     "r": 8
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "money",
+     "n": 20
+    },
+    {
+     "kind": "note",
+     "label": "jr_lost_belonging"
+    }
+   ],
+   "season": "until_done",
+   "noticed": true
+  },
+  {
+   "id": "middle_stake",
+   "type": "trail",
+   "giver": "ranger",
+   "name": "jn_middle_stake",
+   "note": "jnote_middle_stake",
+   "size": "small",
+   "appears": "never",
+   "steps": [
+    {
+     "kind": "clear",
+     "label": "js_right_stake",
+     "spots": [
+      "middle_stake"
+     ]
+    },
+    {
+     "kind": "place",
+     "label": "js_cairn_by_stake",
+     "thing": "cairn",
+     "n": 1,
+     "at": "spot:middle_stake",
+     "r": 4
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "xp",
+     "skill": "surveying",
+     "n": 40
+    }
+   ],
+   "season": "until_done",
+   "noticed": true,
+   "more": "more_d"
+  },
+  {
+   "id": "seventh_mushroom",
+   "type": "exploring",
+   "giver": "ranger",
+   "name": "jn_seventh_mushroom",
+   "note": "jnote_seventh_mushroom",
+   "size": "small",
+   "appears": "never",
+   "steps": [
+    {
+     "kind": "deliver",
+     "label": "js_mushroom",
+     "spot": "mushroom_gap",
+     "items": {
+      "mushrooms": 1
+     }
+    }
+   ],
+   "rewards": [],
+   "season": "until_done",
+   "noticed": true,
+   "more": "more_e"
+  },
+  {
+   "id": "truck_glovebox",
+   "type": "exploring",
+   "giver": "ranger",
+   "name": "jn_truck_glovebox",
+   "note": "jnote_truck_glovebox",
+   "size": "small",
+   "appears": "never",
+   "steps": [
+    {
+     "kind": "repair",
+     "label": "js_glovebox",
+     "spot": "glovebox"
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "story",
+     "text": "jr_story_truck",
+     "label": "jr_journal_page"
+    },
+    {
+     "kind": "money",
+     "n": 15
+    }
+   ],
+   "season": "until_done",
+   "noticed": true,
+   "more": "more_f"
+  },
+  {
+   "id": "cabin_chimney",
+   "type": "upkeep",
+   "giver": "ranger",
+   "name": "jn_cabin_chimney",
+   "note": "jnote_cabin_chimney",
+   "size": "small",
+   "appears": "never",
+   "steps": [
+    {
+     "kind": "clear",
+     "label": "js_nest",
+     "spots": [
+      "chimney_nest"
+     ]
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "unlock",
+     "what": "cabin_chimney"
+    },
+    {
+     "kind": "money",
+     "n": 20
+    }
+   ],
+   "season": "until_done",
+   "noticed": true
+  },
+  {
+   "id": "lines_in_sand",
+   "type": "exploring",
+   "giver": "ranger",
+   "name": "jn_lines_in_sand",
+   "note": "jnote_lines_in_sand",
+   "size": "small",
+   "appears": "never",
+   "steps": [
+    {
+     "kind": "go_to",
+     "label": "js_beach_dawn",
+     "at": "spawn:pond",
+     "r": 6,
+     "window": [
+      360,
+      390
+     ],
+     "weather": "clear",
+     "fresh_day": true
+    },
+    {
+     "kind": "survey",
+     "label": "js_survey_beach",
+     "at": "spawn:pond",
+     "r": 8
+    }
+   ],
+   "rewards": [],
+   "season": "until_done",
+   "noticed": true,
+   "more": "more_g"
+  }
+ ]
+}

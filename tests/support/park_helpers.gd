@@ -14,6 +14,10 @@ static func ready_site(s: GameSession, site: String) -> void:
 ## the trail is missing, as a ranger with a shovel and saw would. The route
 ## is followed three tiles wide.
 static func open_route(s: GameSession, route: String) -> void:
+	# Snags standing in a gap (the stake trail) are felled first.
+	for id: String in s.jobs.spot_ids():
+		if bool(s.jobs.spot_row(id).get("blocks_dig", false)):
+			s.jobs.spots_done[id] = true
 	var pts := s.world.route(route)
 	for i in range(pts.size() - 1):
 		var a := pts[i]

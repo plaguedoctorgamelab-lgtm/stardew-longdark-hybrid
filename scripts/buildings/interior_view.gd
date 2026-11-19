@@ -53,6 +53,11 @@ func refresh() -> void:
 		var art_name: String = f["sprite"]
 		if f["kind"] == "stove" and session.structures.stove_lit(current):
 			art_name = "furniture_stove_lit"
+		if f["kind"] == "job_spot":
+			art_name = session.jobs.spot_sprite(id)
+			spr.visible = art_name != "" and not session.interiors[current].hidden.has(id)
+			if not spr.visible:
+				continue
 		spr.texture = Art.texture(art_name)
 		spr.offset = Vector2(-spr.texture.get_width() / 2.0, -spr.texture.get_height())
 

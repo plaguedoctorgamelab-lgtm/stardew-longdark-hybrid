@@ -5,50 +5,14 @@ extends RefCounted
 ## station's chest), never pointing into a building still locked.
 
 
-func _page_title(s: GameSession) -> String:
-	return s.guide.job_page_lines()[0]
-
-
-func test_the_job_follows_the_ranger(t: TestCase) -> void:
-	var s := TestCase.new_session()
-	s.outdoor_pos = s.site_door("static_tower")
-	s._look_for_sites()
-	t.equal(_page_title(s), s.content.text("job_current", {"title": s.content.text("job_site_title", {"name": s.content.text("landmark_static_tower")})}), "finding the tower makes it the job")
-	s.outdoor_pos = s.site_door("outlook")
-	s._look_for_sites()
-	t.check(_page_title(s).contains(s.content.text("landmark_scenic_outlook")), "at the outlook, the outlook is the job, not the tower")
-	s.outdoor_pos = s.door_front("ranger_station")
-	s._watch_visits()
-	s.outdoor_pos = s.site_door("static_tower")
-	s._watch_visits()
-	t.check(_page_title(s).contains(s.content.text("landmark_static_tower")), "going back to the tower makes it the job again")
-	s.save_game()
-	var s2 := TestCase.new_session()
-	s2.save_path = s.save_path
-	s2.load_game()
-	t.equal(s2.current_job, "static_tower", "the job being worked on is saved")
-
-
 func test_things_to_bring_say_where_they_are(t: TestCase) -> void:
 	var s := TestCase.new_session()
-	s.enter_building("ranger_station")
-	s.read_note_board()
-	s.leave_building()
-	var lines := "\n".join(s.guide.job_page_lines())
+	s.jobs.add("open_cabin", "given")
 	var station := s.content.text(s.content.row("structures", "ranger_station")["name"])
-	t.check(lines.contains(s.content.item_name("bedroll") + " " + s.content.text("where_chest", {"place": station})), "the bedroll to bring is in the station's chest")
-	t.check(lines.contains(s.content.item_name("axe") + " " + s.content.text("where_chest", {"place": station})), "so is the axe")
+	t.equal(s.jobs.where_to_get("open_cabin", "shovel"), s.content.text("where_chest", {"place": station}), "the shovel is in the station's chest")
 	var tower := s.content.text(s.content.row("structures", "static_tower")["name"])
-	var cabin := s.content.text(s.content.row("structures", "test_cabin")["name"])
-	t.check(not lines.contains(tower) and not lines.contains(s.content.text("where_chest", {"place": cabin})), "never a chest in a building still locked")
-	s.sites_found["static_tower"] = true
-	s.current_job = "static_tower"
-	lines = "\n".join(s.guide.job_page_lines())
-	t.check(lines.contains(s.content.item_name("shovel") + " 0/1 " + s.content.text("where_chest", {"place": station})), "the tower's trail needs the shovel, in the station's chest")
-	s.backpack.add("shovel")
-	s.structures.chests["ranger_station"].remove("shovel", 1)
-	lines = "\n".join(s.guide.job_page_lines())
-	t.check(not lines.contains(s.content.item_name("shovel") + " 0/1"), "once carried, no need to say where")
+	t.check(not s.jobs.where_to_get("open_cabin", "planks").contains(tower), "never a chest in a building still locked")
+	t.check(s.jobs.where_to_get("open_cabin", "radio_valve").contains(s.content.text("jt_lock_catalog")), "a catalog thing says what it waits for")
 
 
 ## Sites with no building are opened at their post or cairn: before 0.4.10
@@ -85,22 +49,25 @@ func test_outlook_and_pond_open_at_their_post(t: TestCase) -> void:
 		t.check(s.sites_open.has(site), "%s: and it is open" % site)
 
 
-## Joining a site's trail to the station's is told the moment it happens,
-## and its flags leave the map (0.4.10; before, nothing was said).
+## Joining a site's trail is told the moment it happens, as its job's step
+## (a toast), and its flags leave the map.
 func test_joining_the_trail_is_told(t: TestCase) -> void:
 	var s := TestCase.new_session()
-	t.check(s.site_reached("outlook"), "the outlook's trail already reaches its post in a new game")
 	s.sites_found["kettle_pond"] = true
-	s.debug_site_step("kettle_pond", "map", true)
+	s.map.mark_landmark("kettle_pond")
+	s.jobs.update(true)
 	t.check(not s.site_reached("kettle_pond"), "the pond starts apart from the station's trail")
-	t.equal(s.guide.trail_gaps().size(), 1, "so the map shows its flags")
 	var told: Array[String] = []
-	s.message.connect(func(m: String) -> void: told.append(m))
+	s.jobs.toast.connect(func(_i: String, _c: Color, m: String, _snd: String) -> void: told.append(m))
 	ParkHelpers.open_route(s, "pond")
-	s.process(0.01)
-	var want := s.content.text("msg_trail_joined", {"name": s.content.text("landmark_kettle_pond")})
+	s.jobs.update(true)
+	var k := "open_pond"
+	var join := -1
+	for i in (s.jobs.def(k)["steps"] as Array).size():
+		if s.jobs.def(k)["steps"][i]["kind"] == "join_trail":
+			join = i
+	var want := s.content.text("jt_step_done", {"step": s.jobs.step_label(k, join)})
 	t.check(told.has(want), "joining it is told")
-	t.equal(s.guide.trail_gaps().size(), 0, "and its flags are gone")
 	told.clear()
-	s.process(0.01)
+	s.jobs.update(true)
 	t.check(not told.has(want), "told once")

@@ -10,7 +10,7 @@ extends RefCounted
 const PATH := "user://settings.json"
 const HOVER_TIPS := ["first_week", "always", "off"]
 
-static var values: Dictionary = {"hover_tips": "first_week"}
+static var values: Dictionary = {"hover_tips": "first_week", "show_pinned_job": true, "show_unlocks_on_map": true}
 static var _loaded: bool = false
 
 
@@ -25,6 +25,9 @@ static func load_once() -> void:
 		var tips := str((parsed as Dictionary).get("hover_tips", "first_week"))
 		if HOVER_TIPS.has(tips):
 			values["hover_tips"] = tips
+		for k in ["show_pinned_job", "show_unlocks_on_map"]:
+			if (parsed as Dictionary).has(k):
+				values[k] = bool(parsed[k])
 
 
 static func save() -> void:
@@ -45,6 +48,20 @@ static func next_hover_tips() -> String:
 	values["hover_tips"] = HOVER_TIPS[(i + 1) % HOVER_TIPS.size()]
 	save()
 	return values["hover_tips"]
+
+
+## An on/off setting (the jobs spec's "Show pinned job" and "Show unlocks
+## on the map"; both on unless turned off).
+static func flag(key: String) -> bool:
+	load_once()
+	return bool(values.get(key, true))
+
+
+static func toggle(key: String) -> bool:
+	load_once()
+	values[key] = not flag(key)
+	save()
+	return bool(values[key])
 
 
 ## Whether hover tips show on this day of the game.

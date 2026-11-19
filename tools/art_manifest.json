@@ -4330,6 +4330,808 @@
      "edge_ok": true
     }
    ]
+  },
+  {
+   "file": "raw_ui_clipboard_01.png",
+   "label": "Jobs rebuild (Mark, 19 Nov): the clipboard frame for the Jobs page, stretched to the screen",
+   "grid": [
+    1,
+    1
+   ],
+   "cells": [
+    {
+     "name": "ui_clipboard",
+     "size": [
+      456,
+      258
+     ],
+     "stretch": true,
+     "edge_ok": true
+    }
+   ]
+  },
+  {
+   "file": "raw_ui_clipboard_parts_01.png",
+   "label": "Jobs rebuild: clipboard parts (tabs, ribbon, rule, cards, bars, scroll bar, tiles, next-step band)",
+   "grid": [
+    4,
+    4
+   ],
+   "cells": [
+    {
+     "name": "ui_jtab_open",
+     "size": [
+      40,
+      14
+     ],
+     "stretch": true
+    },
+    {
+     "name": "ui_jtab",
+     "size": [
+      40,
+      14
+     ],
+     "stretch": true
+    },
+    {
+     "name": "ui_ribbon",
+     "size": [
+      64,
+      12
+     ],
+     "stretch": true
+    },
+    {
+     "name": "ui_rule",
+     "size": [
+      64,
+      2
+     ],
+     "stretch": true
+    },
+    {
+     "name": "ui_jcard",
+     "size": [
+      48,
+      32
+     ],
+     "stretch": true
+    },
+    {
+     "name": "ui_jcard_selected",
+     "size": [
+      48,
+      32
+     ],
+     "stretch": true
+    },
+    {
+     "name": "ui_jtab_small",
+     "size": [
+      40,
+      12
+     ],
+     "stretch": true
+    },
+    {
+     "name": "ui_ribbon_green",
+     "size": [
+      48,
+      12
+     ],
+     "stretch": true
+    },
+    {
+     "name": "ui_bar_back",
+     "size": [
+      48,
+      6
+     ],
+     "stretch": true
+    },
+    {
+     "name": "ui_bar_fill",
+     "size": [
+      48,
+      6
+     ],
+     "stretch": true
+    },
+    {
+     "name": "ui_scroll_track",
+     "size": [
+      4,
+      48
+     ],
+     "stretch": true
+    },
+    {
+     "name": "ui_scroll_thumb",
+     "size": [
+      4,
+      12
+     ],
+     "stretch": true
+    },
+    {
+     "name": "ui_tile",
+     "size": [
+      24,
+      24
+     ],
+     "stretch": true
+    },
+    {
+     "name": "ui_tile_grey",
+     "size": [
+      24,
+      24
+     ],
+     "stretch": true
+    },
+    {
+     "name": "ui_tile_gold",
+     "size": [
+      24,
+      24
+     ],
+     "stretch": true
+    },
+    {
+     "name": "ui_band",
+     "size": [
+      64,
+      10
+     ],
+     "stretch": true
+    }
+   ]
+  },
+  {
+   "file": "raw_ui_type_icons_01.png",
+   "label": "Jobs rebuild: the five type icons, and one picture per type",
+   "grid": [
+    5,
+    2
+   ],
+   "cells": [
+    {
+     "name": "job_type_exploring",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "job_type_upkeep",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "job_type_trail",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "job_type_visitor",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "job_type_townsfolk",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "job_pic_exploring",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "job_pic_upkeep",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "job_pic_trail",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "job_pic_visitor",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "job_pic_townsfolk",
+     "size": [
+      32,
+      32
+     ]
+    }
+   ]
+  },
+  {
+   "file": "raw_ui_job_icons_01.png",
+   "label": "Jobs rebuild: 16 job-kind icons",
+   "grid": [
+    4,
+    4
+   ],
+   "cells": [
+    {
+     "name": "job_kind_cabin",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "job_kind_tower",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "job_kind_map",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "job_kind_pond",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "job_kind_broom",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "job_kind_trash_can",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "job_kind_bench",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "job_kind_bathroom",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "job_kind_shovel",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "job_kind_branch",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "job_kind_sign",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "job_kind_crates",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "job_kind_lost",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "job_kind_badger",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "job_kind_note",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "job_kind_look",
+     "size": [
+      16,
+      16
+     ]
+    }
+   ]
+  },
+  {
+   "file": "raw_ui_reward_icons_01.png",
+   "label": "Jobs rebuild: 16 reward icons, the purple question mark and its flip among them",
+   "grid": [
+    4,
+    4
+   ],
+   "cells": [
+    {
+     "name": "reward_money",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "reward_rumor",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "reward_travel",
+     "size": [
+      16,
+      16
+     ],
+     "parts": 12
+    },
+    {
+     "name": "reward_reveal",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "reward_unlock",
+     "size": [
+      16,
+      16
+     ],
+     "parts": 3
+    },
+    {
+     "name": "reward_story",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "reward_things",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "reward_xp",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "reward_more",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "reward_more_flip",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "reward_card",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "reward_sprout",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "reward_supplies",
+     "size": [
+      16,
+      16
+     ],
+     "parts": 3
+    },
+    {
+     "name": "reward_food",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "reward_lantern",
+     "size": [
+      16,
+      16
+     ],
+     "edge_ok": true
+    },
+    {
+     "name": "reward_firewood",
+     "size": [
+      16,
+      16
+     ]
+    }
+   ]
+  },
+  {
+   "file": "raw_ui_marks_01.png",
+   "label": "Jobs rebuild: checkboxes, tick, arrow, alert, pin, dot, leaf, link, map flags and dots, bubble, pencil, sparkle",
+   "grid": [
+    4,
+    4
+   ],
+   "cells": [
+    {
+     "name": "mark_box",
+     "size": [
+      10,
+      10
+     ]
+    },
+    {
+     "name": "mark_tick_box",
+     "size": [
+      10,
+      10
+     ]
+    },
+    {
+     "name": "mark_arrow",
+     "size": [
+      10,
+      10
+     ]
+    },
+    {
+     "name": "mark_undone",
+     "size": [
+      10,
+      10
+     ]
+    },
+    {
+     "name": "mark_pin",
+     "size": [
+      10,
+      10
+     ]
+    },
+    {
+     "name": "mark_dot",
+     "size": [
+      6,
+      6
+     ]
+    },
+    {
+     "name": "mark_leaf",
+     "size": [
+      10,
+      10
+     ]
+    },
+    {
+     "name": "mark_link",
+     "size": [
+      10,
+      10
+     ]
+    },
+    {
+     "name": "map_job_flag",
+     "size": [
+      10,
+      10
+     ]
+    },
+    {
+     "name": "map_job_dot",
+     "size": [
+      6,
+      6
+     ]
+    },
+    {
+     "name": "map_job_flag_red",
+     "size": [
+      10,
+      10
+     ]
+    },
+    {
+     "name": "mark_dash",
+     "size": [
+      10,
+      4
+     ]
+    },
+    {
+     "name": "mark_bubble",
+     "size": [
+      12,
+      12
+     ]
+    },
+    {
+     "name": "mark_pencil",
+     "size": [
+      12,
+      12
+     ]
+    },
+    {
+     "name": "mark_tick",
+     "size": [
+      10,
+      10
+     ]
+    },
+    {
+     "name": "mark_sparkle",
+     "size": [
+      12,
+      12
+     ],
+     "parts": 5
+    }
+   ]
+  },
+  {
+   "file": "raw_ui_notes_01.png",
+   "label": "Jobs rebuild: the toast strip, the pinned note, the finishing card and its DONE stamp",
+   "grid": [
+    2,
+    2
+   ],
+   "cells": [
+    {
+     "name": "ui_toast",
+     "size": [
+      120,
+      16
+     ],
+     "stretch": true
+    },
+    {
+     "name": "ui_pinned_note",
+     "size": [
+      64,
+      64
+     ],
+     "stretch": true,
+     "parts": 2
+    },
+    {
+     "name": "ui_job_card",
+     "size": [
+      250,
+      170
+     ],
+     "stretch": true,
+     "parts": 3
+    },
+    {
+     "name": "ui_stamp",
+     "size": [
+      64,
+      32
+     ],
+     "stretch": true,
+     "parts": 8
+    }
+   ]
+  },
+  {
+   "file": "raw_ui_season_cards_01.png",
+   "label": "Jobs rebuild: the four season cards",
+   "grid": [
+    2,
+    2
+   ],
+   "cells": [
+    {
+     "name": "ui_season_spring",
+     "size": [
+      150,
+      150
+     ],
+     "stretch": true
+    },
+    {
+     "name": "ui_season_summer",
+     "size": [
+      150,
+      150
+     ],
+     "stretch": true
+    },
+    {
+     "name": "ui_season_autumn",
+     "size": [
+      150,
+      150
+     ],
+     "stretch": true,
+     "edge_ok": true
+    },
+    {
+     "name": "ui_season_winter",
+     "size": [
+      150,
+      150
+     ],
+     "stretch": true,
+     "edge_ok": true
+    }
+   ]
+  },
+  {
+   "file": "raw_obj_station_tidy_01.png",
+   "label": "Jobs rebuild: the station's untidy spots before and after, the trash bucket and the gate's marker",
+   "grid": [
+    4,
+    2
+   ],
+   "cells": [
+    {
+     "name": "furniture_desk_messy",
+     "size": [
+      32,
+      28
+     ],
+     "parts": 6
+    },
+    {
+     "name": "furniture_bookshelf_dusty",
+     "size": [
+      16,
+      30
+     ]
+    },
+    {
+     "name": "furniture_boots_heap",
+     "size": [
+      18,
+      16
+     ],
+     "parts": 4
+    },
+    {
+     "name": "furniture_trash_bucket",
+     "size": [
+      14,
+      16
+     ]
+    },
+    {
+     "name": "furniture_desk_tidy",
+     "size": [
+      32,
+      28
+     ],
+     "parts": 3
+    },
+    {
+     "name": "furniture_bookshelf_tidy",
+     "size": [
+      16,
+      30
+     ]
+    },
+    {
+     "name": "furniture_coat_hook",
+     "size": [
+      16,
+      28
+     ],
+     "parts": 3
+    },
+    {
+     "name": "obj_job_flag",
+     "size": [
+      14,
+      18
+     ]
+    }
+   ]
+  },
+  {
+   "file": "raw_obj_trail_bits_01.png",
+   "label": "Jobs rebuild: the fallen branch (and with snow), an overgrown trail tile (not used yet), a leaning stake",
+   "grid": [
+    2,
+    2
+   ],
+   "cells": [
+    {
+     "name": "obj_fallen_branch",
+     "size": [
+      32,
+      16
+     ],
+     "parts": 3
+    },
+    {
+     "name": "obj_fallen_branch_snow",
+     "size": [
+      32,
+      16
+     ],
+     "parts": 4
+    },
+    null,
+    {
+     "name": "obj_stake_leaning",
+     "size": [
+      16,
+      24
+     ],
+     "parts": 2
+    }
+   ]
   }
  ],
  "calm": {

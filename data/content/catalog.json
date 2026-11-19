@@ -79,7 +79,8 @@
    "item": "bench",
    "count": 1,
    "price": 30,
-   "name": "cat_bench"
+   "name": "cat_bench",
+   "unlock": "catalog_bench"
   },
   {
    "id": "trash_can",
@@ -95,7 +96,8 @@
    "item": "picnic_table",
    "count": 1,
    "price": 40,
-   "name": "cat_picnic_table"
+   "name": "cat_picnic_table",
+   "unlock": "catalog_picnic_table"
   },
   {
    "id": "fire_ring",

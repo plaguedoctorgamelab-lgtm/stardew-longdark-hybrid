@@ -163,6 +163,13 @@ func feed_stove(id: String, backpack: Inventory, burn_mult: float = 1.0) -> bool
 	return true
 
 
+## Lights a stove without firewood from the backpack (a job's something more).
+func light_stove(id: String, minutes: int) -> void:
+	if stove_minutes.has(id):
+		stove_minutes[id] = maxi(int(stove_minutes[id]), minutes)
+		changed.emit(id)
+
+
 func burn(minutes: int) -> void:
 	for id: String in stove_minutes:
 		if int(stove_minutes[id]) > 0:

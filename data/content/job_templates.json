@@ -1,0 +1,524 @@
+{
+ "note": "Template jobs: a pattern with blanks filled from the park when drawn. check names the condition that finds where it fits.",
+ "rows": [
+  {
+   "id": "clean_up",
+   "type": "upkeep",
+   "check": "bath_grubby",
+   "name": "jtn_clean_up",
+   "notes": [
+    "jtnote_clean_up_0",
+    "jtnote_clean_up_1",
+    "jtnote_clean_up_2"
+   ],
+   "size": "small",
+   "steps": [
+    {
+     "kind": "clean",
+     "label": "js_t_clean",
+     "bathroom": "{pad}"
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "money",
+     "n": 15
+    },
+    {
+     "kind": "xp",
+     "skill": "woodcraft",
+     "n": 20
+    }
+   ]
+  },
+  {
+   "id": "empty_bins",
+   "type": "upkeep",
+   "check": "cans_full",
+   "name": "jtn_empty_bins",
+   "notes": [
+    "jtnote_empty_bins_0",
+    "jtnote_empty_bins_1",
+    "jtnote_empty_bins_2"
+   ],
+   "size": "small",
+   "steps": [
+    {
+     "kind": "empty",
+     "label": "js_t_empty",
+     "place": "{site_id}"
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "money",
+     "n": 15
+    }
+   ]
+  },
+  {
+   "id": "litter_trail",
+   "type": "upkeep",
+   "check": "litter_near",
+   "name": "jtn_litter_trail",
+   "notes": [
+    "jtnote_litter_trail_0",
+    "jtnote_litter_trail_1",
+    "jtnote_litter_trail_2"
+   ],
+   "size": "small",
+   "steps": [
+    {
+     "kind": "pick_up",
+     "label": "js_t_litter",
+     "n": "{count}",
+     "at": "place:{site_id}",
+     "r": 14
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "money",
+     "n": 15
+    },
+    {
+     "kind": "note",
+     "label": "jr_lost_belonging"
+    }
+   ]
+  },
+  {
+   "id": "more_cans",
+   "type": "upkeep",
+   "check": "few_cans",
+   "name": "jtn_more_cans",
+   "notes": [
+    "jtnote_more_cans_0",
+    "jtnote_more_cans_1",
+    "jtnote_more_cans_2"
+   ],
+   "size": "small",
+   "steps": [
+    {
+     "kind": "place",
+     "label": "js_t_cans",
+     "thing": "trash_can",
+     "n": "{count}",
+     "at": "place:{site_id}",
+     "r": 8
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "money",
+     "n": 20
+    },
+    {
+     "kind": "things",
+     "items": {
+      "trash_can": 1
+     },
+     "label": "jr_can_back"
+    }
+   ]
+  },
+  {
+   "id": "a_seat",
+   "type": "upkeep",
+   "check": "no_bench",
+   "name": "jtn_a_seat",
+   "notes": [
+    "jtnote_a_seat_0",
+    "jtnote_a_seat_1",
+    "jtnote_a_seat_2"
+   ],
+   "size": "small",
+   "steps": [
+    {
+     "kind": "place",
+     "label": "js_t_bench",
+     "thing": "bench",
+     "n": 1,
+     "at": "place:{site_id}",
+     "r": 8
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "money",
+     "n": 25
+    }
+   ]
+  },
+  {
+   "id": "restock",
+   "type": "upkeep",
+   "check": "low_firewood",
+   "name": "jtn_restock",
+   "notes": [
+    "jtnote_restock_0",
+    "jtnote_restock_1",
+    "jtnote_restock_2"
+   ],
+   "size": "small",
+   "steps": [
+    {
+     "kind": "deliver",
+     "label": "js_t_restock",
+     "items": {
+      "firewood": 10
+     },
+     "chest": "{structure}",
+     "fresh": true
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "money",
+     "n": 20
+    }
+   ]
+  },
+  {
+   "id": "badger_at",
+   "type": "upkeep",
+   "check": "badger_at",
+   "name": "jtn_badger_at",
+   "notes": [
+    "jtnote_badger_at_0",
+    "jtnote_badger_at_1",
+    "jtnote_badger_at_2"
+   ],
+   "size": "small",
+   "steps": [
+    {
+     "kind": "shoo",
+     "label": "js_t_shoo",
+     "place": "{site_id}"
+    },
+    {
+     "kind": "pick_up",
+     "label": "js_t_badger_mess",
+     "n": 1,
+     "at": "place:{site_id}",
+     "r": 10
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "money",
+     "n": 25
+    }
+   ]
+  },
+  {
+   "id": "tree_down",
+   "type": "trail",
+   "check": "tree_down",
+   "name": "jtn_tree_down",
+   "notes": [
+    "jtnote_tree_down_0",
+    "jtnote_tree_down_1",
+    "jtnote_tree_down_2"
+   ],
+   "size": "small",
+   "steps": [
+    {
+     "kind": "clear",
+     "label": "js_t_trunk",
+     "points": "{points}"
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "money",
+     "n": 20
+    },
+    {
+     "kind": "xp",
+     "skill": "trailcraft",
+     "n": 30
+    }
+   ]
+  },
+  {
+   "id": "diggings",
+   "type": "trail",
+   "check": "diggings",
+   "name": "jtn_diggings",
+   "notes": [
+    "jtnote_diggings_0",
+    "jtnote_diggings_1",
+    "jtnote_diggings_2"
+   ],
+   "size": "small",
+   "steps": [
+    {
+     "kind": "dig",
+     "label": "js_t_fill",
+     "diggings": "{site_id}"
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "money",
+     "n": 15
+    }
+   ]
+  },
+  {
+   "id": "point_junction",
+   "type": "trail",
+   "check": "junction_no_pointer",
+   "name": "jtn_point_junction",
+   "notes": [
+    "jtnote_point_junction_0",
+    "jtnote_point_junction_1",
+    "jtnote_point_junction_2"
+   ],
+   "size": "small",
+   "steps": [
+    {
+     "kind": "sign",
+     "label": "js_t_pointer",
+     "at": "{at}",
+     "r": 6,
+     "places": [
+      "{place}"
+     ]
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "money",
+     "n": 20
+    },
+    {
+     "kind": "things",
+     "items": {
+      "trail_sign": 1
+     },
+     "label": "jr_blank_sign"
+    }
+   ]
+  },
+  {
+   "id": "name_site",
+   "type": "trail",
+   "check": "name_sign_gone",
+   "name": "jtn_name_site",
+   "notes": [
+    "jtnote_name_site_0",
+    "jtnote_name_site_1",
+    "jtnote_name_site_2"
+   ],
+   "size": "small",
+   "steps": [
+    {
+     "kind": "sign",
+     "label": "js_t_name",
+     "site": "{site_id}"
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "money",
+     "n": 15
+    }
+   ]
+  },
+  {
+   "id": "v_bench",
+   "type": "visitor",
+   "check": "card:bench",
+   "name": "jtn_v_bench",
+   "notes": [
+    "jtnote_v_bench_0"
+   ],
+   "size": "small",
+   "steps": [
+    {
+     "kind": "place",
+     "label": "js_t_v_bench",
+     "thing": "bench",
+     "n": 1,
+     "at": "place:{site_id}",
+     "r": 8
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "money",
+     "n": 25
+    },
+    {
+     "kind": "card",
+     "label": "jr_thanks_card"
+    }
+   ],
+   "giver": "visitors",
+   "card": true
+  },
+  {
+   "id": "v_picnic",
+   "type": "visitor",
+   "check": "card:picnic",
+   "name": "jtn_v_picnic",
+   "notes": [
+    "jtnote_v_picnic_0"
+   ],
+   "size": "small",
+   "steps": [
+    {
+     "kind": "place",
+     "label": "js_t_v_picnic",
+     "thing": "picnic_table",
+     "n": 1,
+     "at": "place:{site_id}",
+     "r": 8
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "money",
+     "n": 30
+    },
+    {
+     "kind": "card",
+     "label": "jr_thanks_card"
+    }
+   ],
+   "giver": "visitors",
+   "card": true
+  },
+  {
+   "id": "v_sign",
+   "type": "visitor",
+   "check": "card:sign",
+   "name": "jtn_v_sign",
+   "notes": [
+    "jtnote_v_sign_0"
+   ],
+   "size": "small",
+   "steps": [
+    {
+     "kind": "sign",
+     "label": "js_t_v_sign",
+     "site": "{site_id}"
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "money",
+     "n": 20
+    },
+    {
+     "kind": "card",
+     "label": "jr_thanks_card"
+    }
+   ],
+   "giver": "visitors",
+   "card": true
+  },
+  {
+   "id": "v_bathroom",
+   "type": "visitor",
+   "check": "card:bathroom",
+   "name": "jtn_v_bathroom",
+   "notes": [
+    "jtnote_v_bathroom_0"
+   ],
+   "size": "small",
+   "steps": [
+    {
+     "kind": "clean",
+     "label": "js_t_v_bath",
+     "bathroom": "{pad}"
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "money",
+     "n": 20
+    },
+    {
+     "kind": "card",
+     "label": "jr_thanks_card"
+    }
+   ],
+   "giver": "visitors",
+   "card": true
+  },
+  {
+   "id": "find_lost",
+   "type": "visitor",
+   "check": "lost_party",
+   "name": "jtn_find_lost",
+   "notes": [
+    "jtnote_find_lost_0"
+   ],
+   "size": "small",
+   "steps": [
+    {
+     "kind": "go_to",
+     "label": "js_t_lost_go",
+     "at": "lost",
+     "r": 12
+    },
+    {
+     "kind": "talk_to",
+     "label": "js_t_lost_find",
+     "party": "lost"
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "tip",
+     "label": "jr_tip"
+    },
+    {
+     "kind": "xp",
+     "skill": "surveying",
+     "n": 60
+    },
+    {
+     "kind": "card",
+     "label": "jr_thanks_card"
+    }
+   ],
+   "giver": "lost_party"
+  },
+  {
+   "id": "v_cans",
+   "type": "visitor",
+   "check": "card:cans",
+   "name": "jtn_v_cans",
+   "notes": [
+    "jtnote_v_cans_0"
+   ],
+   "size": "small",
+   "steps": [
+    {
+     "kind": "place",
+     "label": "js_t_v_cans",
+     "thing": "trash_can",
+     "n": "{count}",
+     "at": "place:{site_id}",
+     "r": 8
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "money",
+     "n": 20
+    },
+    {
+     "kind": "card",
+     "label": "jr_thanks_card"
+    }
+   ],
+   "giver": "visitors",
+   "card": true
+  }
+ ]
+}

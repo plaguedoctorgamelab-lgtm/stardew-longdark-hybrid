@@ -1,0 +1,55 @@
+{
+ "note": "The five kinds of job: giver, color, icon and order on the clipboard (jobs spec).",
+ "rows": [
+  {
+   "id": "exploring",
+   "name": "jt_type_exploring",
+   "giver": "last_ranger",
+   "color": "3f7a3a",
+   "icon": "job_type_exploring",
+   "picture": "job_pic_exploring",
+   "order": 1,
+   "live": true
+  },
+  {
+   "id": "upkeep",
+   "name": "jt_type_upkeep",
+   "giver": "chief",
+   "color": "3b78b0",
+   "icon": "job_type_upkeep",
+   "picture": "job_pic_upkeep",
+   "order": 2,
+   "live": true
+  },
+  {
+   "id": "trail",
+   "name": "jt_type_trail",
+   "giver": "chief",
+   "color": "8a5a32",
+   "icon": "job_type_trail",
+   "picture": "job_pic_trail",
+   "order": 3,
+   "live": true
+  },
+  {
+   "id": "visitor",
+   "name": "jt_type_visitor",
+   "giver": "visitors",
+   "color": "d9822b",
+   "icon": "job_type_visitor",
+   "picture": "job_pic_visitor",
+   "order": 4,
+   "live": true
+  },
+  {
+   "id": "townsfolk",
+   "name": "jt_type_townsfolk",
+   "giver": "townsfolk",
+   "color": "b8323a",
+   "icon": "job_type_townsfolk",
+   "picture": "job_pic_townsfolk",
+   "order": 5,
+   "live": false
+  }
+ ]
+}

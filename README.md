@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.4.10** (see [Version history](#version-history)). The
+**Current version: 0.5.0** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -37,7 +37,8 @@ Needs Godot 4.7.2 stable (the lab's build uses
 | E | Backpack (and closes screens) |
 | Escape | Closes the open screen; with none open, the pause menu (resume, quit to title, quit game) |
 | M | Map |
-| J | The book: jobs and sites, the park today, the ledger, suggestion cards, the Chief's letters, the notebook |
+| J | The clipboard (Jobs page): Q/E change tab, W/S move through the jobs, P pins one to the screen, M shows it on the map, X follows a step's link, Escape closes |
+| B | The book: the park today, the ledger, suggestion cards, the Chief's letters, the notebook, badges |
 | K | Crafting page: things made anywhere |
 | L | Skills page (and choose a waiting specialty) |
 | Y or Enter / N | Answer a question (sleep) |
@@ -100,6 +101,25 @@ docs/              bible, roadmap, specs, rules, status reports (hidden from God
 
 The version lives in `project.godot` (`application/config/version`). Every
 commit of the build raises it and adds a line here.
+
+### 0.5.0 (19 November 2026): the jobs rebuild
+
+The jobs system is rebuilt to the designer's Jobs Spec (`docs/jobs_spec.md`), with Mark's jobs art.
+
+- **One jobs module** (`scripts/game/jobs.gd`) decides what a job is. Jobs are data: hand-written jobs (`jobs.json`), template jobs filled from the park (`job_templates.json`), five job types with givers, colors and icons (`job_types.json`, `givers.json`), typed steps (`job_steps.json`) and reward kinds (`rewards.json`). Steps are worked out from the world; a step that stays done is recorded once; a job finishes the moment its last step is done and stays finished. Five signals: job added, step done, step undone, job done, job retired. This is tracker #10, brought forward from Phase 4.
+- **A new opening.** A new game offers only Get the Station Shipshape: tidy three spots in the station, clear a branch on the trail, set the trash can out by the gate. Finishing it gives rumors of the cabin, the outlook and the pond, the supply catalog, and two jobs nearer home: five jobs of three kinds to choose from.
+- **Rewards for every job**, shown before starting and given on a finishing card: rumors, trail travel, map sketches, catalog unlocks, follow-on jobs, journal pages, supplies, gold and experience. Something already had is swapped for gold.
+- **Trail travel is a reward** for opening a joined site (tracker #15). The "arrive twice" rule is gone, and travel counts trail within 3 tiles of a door.
+- **Short trail jobs.** The pond trail, the last ranger's old path beside the stakes across the burn, and the old road are now old trail with gaps of no more than a screen (30 tiles), so the tower is a day's work, not a week's.
+- **The clipboard** (J): Current, Noticed and Done tabs, the list grouped under a ribbon per type, and the chosen job in full: from, note, what you'll need (with where to get it), steps (the next one highlighted, counts, links), rewards. Nothing runs off the paper; long lists scroll.
+- **The pinned note** in the top left shows the pinned job (or the one last worked on) and its next step; click it to open the clipboard. **Toasts** for new jobs, steps done or broken, and counts at each quarter. **Finishing cards** with a DONE stamp, then the map opens on what changed. A season's card on the first morning of a season.
+- **Map markers:** the pinned job's next step gets a flag in its type's color, other jobs a dot; hover one for its name and step. Show on map (M) from the clipboard.
+- **Seasons:** untouched template jobs and the ended season's jobs retire at the turn; started jobs stay. Template jobs keep each type topped up each morning. A template job someone else does finishes on its own at half pay.
+- **The suggestion box:** a card that asks for something offers "Take this on", which adds it as a Visitor Request (replacing pinning). The radio's lost party is a Visitor Request.
+- **Older saves** are converted: every job is worked out from the world, those already done are finished and paid, and one "While you were away..." card lists them. Opened, joined sites get trail travel.
+- Options: Show pinned job, and Show unlocks on the map. B opens the book; its Jobs page is replaced by the clipboard.
+- Debug panel: list jobs, finish or reset one, draw a template, notice everything (spoilers only), turn the season.
+- New tests: `tests/test_jobs_system.gd`; screenshots: `tests/support/screenshots_jobs.gd`.
 
 ### 0.4.10 (18 November 2026): the outlook and pond can open
 

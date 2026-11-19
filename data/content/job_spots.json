@@ -1,0 +1,239 @@
+{
+ "note": "Small things in the world that jobs ask about: the station's untidy spots, a branch, a marker, snags. where is outdoor or a building; pos is in tiles, or point:name:index from the baked world's trail job points.",
+ "rows": [
+  {
+   "id": "station_papers",
+   "where": "ranger_station",
+   "pos": [
+    3,
+    5
+   ],
+   "size": [
+    2,
+    1
+   ],
+   "sprite": "furniture_desk_messy",
+   "sprite_done": "furniture_desk_tidy",
+   "action": "x",
+   "verb": "jt_verb_tidy",
+   "done_text": "jt_spot_papers_done",
+   "minutes": 10,
+   "solid": true
+  },
+  {
+   "id": "station_shelf",
+   "where": "ranger_station",
+   "pos": [
+    10,
+    5
+   ],
+   "size": [
+    1,
+    1
+   ],
+   "sprite": "furniture_bookshelf_dusty",
+   "sprite_done": "furniture_bookshelf_tidy",
+   "action": "x",
+   "verb": "jt_verb_dust",
+   "done_text": "jt_spot_shelf_done",
+   "minutes": 10,
+   "solid": true
+  },
+  {
+   "id": "station_boots",
+   "where": "ranger_station",
+   "pos": [
+    10,
+    8
+   ],
+   "size": [
+    1,
+    1
+   ],
+   "sprite": "furniture_boots_heap",
+   "sprite_done": "furniture_coat_hook",
+   "action": "x",
+   "verb": "jt_verb_hang",
+   "done_text": "jt_spot_boots_done",
+   "minutes": 10,
+   "solid": true
+  },
+  {
+   "id": "station_can",
+   "where": "ranger_station",
+   "pos": [
+    4,
+    8
+   ],
+   "size": [
+    1,
+    1
+   ],
+   "sprite": "furniture_trash_bucket",
+   "sprite_done": "",
+   "action": "x",
+   "verb": "jt_verb_take",
+   "gives": {
+    "trash_can": 1
+   },
+   "done_text": "jt_spot_can_done",
+   "minutes": 0,
+   "solid": true
+  },
+  {
+   "id": "station_branch",
+   "where": "outdoor",
+   "pos": [
+    24,
+    1440
+   ],
+   "size": [
+    2,
+    1
+   ],
+   "sprite": "obj_fallen_branch",
+   "sprite_winter": "obj_fallen_branch_snow",
+   "sprite_done": "",
+   "action": "axe",
+   "verb": "jt_verb_chop",
+   "gives": {
+    "firewood": 1
+   },
+   "done_text": "jt_spot_branch_done",
+   "minutes": 10
+  },
+  {
+   "id": "gate_marker",
+   "where": "outdoor",
+   "pos": [
+    7,
+    1439
+   ],
+   "size": [
+    1,
+    1
+   ],
+   "sprite": "obj_job_flag",
+   "sprite_done": "",
+   "action": "",
+   "marker": true,
+   "shows": "job_active:station_shipshape"
+  },
+  {
+   "id": "spring_branch_1",
+   "where": "outdoor",
+   "pos": [
+    40,
+    1439
+   ],
+   "size": [
+    2,
+    1
+   ],
+   "sprite": "obj_fallen_branch",
+   "sprite_done": "",
+   "action": "axe",
+   "verb": "jt_verb_chop",
+   "gives": {
+    "firewood": 1
+   },
+   "done_text": "jt_spot_branch_done",
+   "minutes": 10,
+   "shows": "job_active:winter_mess"
+  },
+  {
+   "id": "spring_branch_2",
+   "where": "outdoor",
+   "pos": [
+    60,
+    1436
+   ],
+   "size": [
+    2,
+    1
+   ],
+   "sprite": "obj_fallen_branch",
+   "sprite_done": "",
+   "action": "axe",
+   "verb": "jt_verb_chop",
+   "gives": {
+    "firewood": 1
+   },
+   "done_text": "jt_spot_branch_done",
+   "minutes": 10,
+   "shows": "job_active:winter_mess"
+  },
+  {
+   "id": "spring_branch_3",
+   "where": "outdoor",
+   "pos": [
+    80,
+    1432
+   ],
+   "size": [
+    2,
+    1
+   ],
+   "sprite": "obj_fallen_branch",
+   "sprite_done": "",
+   "action": "axe",
+   "verb": "jt_verb_chop",
+   "gives": {
+    "firewood": 1
+   },
+   "done_text": "jt_spot_branch_done",
+   "minutes": 10,
+   "shows": "job_active:winter_mess"
+  },
+  {
+   "id": "snag_east_1",
+   "where": "outdoor",
+   "pos": "point:east_snags:0",
+   "size": [
+    1,
+    1
+   ],
+   "sprite": "obj_tree_dead",
+   "sprite_done": "",
+   "action": "axe",
+   "verb": "jt_verb_fell",
+   "gives": {
+    "firewood": 2
+   },
+   "done_text": "jt_spot_snag_done",
+   "minutes": 20,
+   "blocks_dig": true
+  },
+  {
+   "id": "snag_east_2",
+   "where": "outdoor",
+   "pos": "point:east_snags:1",
+   "size": [
+    1,
+    1
+   ],
+   "sprite": "obj_tree_dead",
+   "sprite_done": "",
+   "action": "axe",
+   "verb": "jt_verb_fell",
+   "gives": {
+    "firewood": 2
+   },
+   "done_text": "jt_spot_snag_done",
+   "minutes": 20,
+   "blocks_dig": true
+  },
+  {
+   "id": "tower_radio",
+   "where": "static_tower",
+   "furniture": "radio",
+   "action": "x",
+   "needs": {
+    "radio_valve": 1
+   },
+   "verb": "jt_verb_fit_valve",
+   "done_text": "jt_spot_radio_done",
+   "minutes": 20
+  }
+ ]
+}

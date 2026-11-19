@@ -4050,6 +4050,1656 @@
    "id": "msg_trail_broken",
    "text": "The trail to the {name} is broken. Its flags are back on the map.",
    "placeholder": true
+  },
+  {
+   "id": "jt_type_exploring",
+   "text": "Exploring",
+   "placeholder": true
+  },
+  {
+   "id": "jt_type_upkeep",
+   "text": "Park Upkeep",
+   "placeholder": true
+  },
+  {
+   "id": "jt_type_trail",
+   "text": "Trail Work",
+   "placeholder": true
+  },
+  {
+   "id": "jt_type_visitor",
+   "text": "Visitor Requests",
+   "placeholder": true
+  },
+  {
+   "id": "jt_type_townsfolk",
+   "text": "Townsfolk Favors",
+   "placeholder": true
+  },
+  {
+   "id": "jt_giver_last_ranger",
+   "text": "The last ranger",
+   "placeholder": true
+  },
+  {
+   "id": "jt_giver_chief",
+   "text": "The Chief",
+   "placeholder": true
+  },
+  {
+   "id": "jt_giver_visitors",
+   "text": "A visitor",
+   "placeholder": true
+  },
+  {
+   "id": "jt_giver_ranger",
+   "text": "Your own note",
+   "placeholder": true
+  },
+  {
+   "id": "jt_giver_townsfolk",
+   "text": "Someone in Humdrum",
+   "placeholder": true
+  },
+  {
+   "id": "jt_giver_troop_leader",
+   "text": "The troop leader",
+   "placeholder": true
+  },
+  {
+   "id": "jt_giver_radio",
+   "text": "The radio",
+   "placeholder": true
+  },
+  {
+   "id": "jt_kind_pack",
+   "text": "Pack what you'll need",
+   "placeholder": true
+  },
+  {
+   "id": "jt_kind_go_to",
+   "text": "Go there",
+   "placeholder": true
+  },
+  {
+   "id": "jt_kind_find",
+   "text": "Find it",
+   "placeholder": true
+  },
+  {
+   "id": "jt_kind_map",
+   "text": "Map it",
+   "placeholder": true
+  },
+  {
+   "id": "jt_kind_read",
+   "text": "Read it",
+   "placeholder": true
+  },
+  {
+   "id": "jt_kind_talk_to",
+   "text": "Talk to them",
+   "placeholder": true
+  },
+  {
+   "id": "jt_kind_clear",
+   "text": "Clear it",
+   "placeholder": true
+  },
+  {
+   "id": "jt_kind_dig",
+   "text": "Dig the gap",
+   "placeholder": true
+  },
+  {
+   "id": "jt_kind_join_trail",
+   "text": "Join it to the trail",
+   "placeholder": true
+  },
+  {
+   "id": "jt_kind_repair",
+   "text": "Repair it",
+   "placeholder": true
+  },
+  {
+   "id": "jt_kind_sign",
+   "text": "Sign it",
+   "placeholder": true
+  },
+  {
+   "id": "jt_kind_place",
+   "text": "Put them out",
+   "placeholder": true
+  },
+  {
+   "id": "jt_kind_deliver",
+   "text": "Deliver them",
+   "placeholder": true
+  },
+  {
+   "id": "jt_kind_clean",
+   "text": "Clean it",
+   "placeholder": true
+  },
+  {
+   "id": "jt_kind_empty",
+   "text": "Empty the cans",
+   "placeholder": true
+  },
+  {
+   "id": "jt_kind_pick_up",
+   "text": "Pick up the litter",
+   "placeholder": true
+  },
+  {
+   "id": "jt_kind_shoo",
+   "text": "Shoo the badger",
+   "placeholder": true
+  },
+  {
+   "id": "jt_kind_survey",
+   "text": "Survey there",
+   "placeholder": true
+  },
+  {
+   "id": "jt_kind_light",
+   "text": "Light the stove",
+   "placeholder": true
+  },
+  {
+   "id": "jt_kind_open",
+   "text": "Declare it open",
+   "placeholder": true
+  },
+  {
+   "id": "jt_verb_tidy",
+   "text": "Tidy up",
+   "placeholder": true
+  },
+  {
+   "id": "jt_spot_papers_done",
+   "text": "Under the old papers: notes from the last ranger, about places out in the forest. Something to read when the station's shipshape.",
+   "placeholder": true
+  },
+  {
+   "id": "jt_verb_dust",
+   "text": "Dust the shelf",
+   "placeholder": true
+  },
+  {
+   "id": "jt_spot_shelf_done",
+   "text": "Dusted. You can see the titles again.",
+   "placeholder": true
+  },
+  {
+   "id": "jt_verb_hang",
+   "text": "Tidy the boots",
+   "placeholder": true
+  },
+  {
+   "id": "jt_spot_boots_done",
+   "text": "Boots paired, coat hung up.",
+   "placeholder": true
+  },
+  {
+   "id": "jt_verb_take",
+   "text": "Take it",
+   "placeholder": true
+  },
+  {
+   "id": "jt_spot_can_done",
+   "text": "You pick up the trash can. Its spot is marked by the gate.",
+   "placeholder": true
+  },
+  {
+   "id": "jt_verb_chop",
+   "text": "Chop it up",
+   "placeholder": true
+  },
+  {
+   "id": "jt_spot_branch_done",
+   "text": "Branch cleared. One more armful of firewood.",
+   "placeholder": true
+  },
+  {
+   "id": "jt_verb_fell",
+   "text": "Fell the snag",
+   "placeholder": true
+  },
+  {
+   "id": "jt_spot_snag_done",
+   "text": "The snag comes down. Firewood, and a clear way.",
+   "placeholder": true
+  },
+  {
+   "id": "jt_verb_fit_valve",
+   "text": "Fit the valve",
+   "placeholder": true
+  },
+  {
+   "id": "jt_spot_radio_done",
+   "text": "The new valve warms up with a hum. The radio clears its throat.",
+   "placeholder": true
+  },
+  {
+   "id": "js_pack",
+   "text": "Pack what you'll need",
+   "placeholder": true
+  },
+  {
+   "id": "js_find_cabin",
+   "text": "Find the cabin",
+   "placeholder": true
+  },
+  {
+   "id": "js_map_cabin",
+   "text": "Map it: X at its door",
+   "placeholder": true
+  },
+  {
+   "id": "js_repair_cabin",
+   "text": "Repair the door, walls, roof and window",
+   "placeholder": true
+  },
+  {
+   "id": "js_join_cabin",
+   "text": "Join it to the park's trails",
+   "placeholder": true
+  },
+  {
+   "id": "js_sign_cabin",
+   "text": "Put up a sign naming it",
+   "placeholder": true
+  },
+  {
+   "id": "js_open_cabin",
+   "text": "Declare it open: X at its door",
+   "placeholder": true
+  },
+  {
+   "id": "jn_open_cabin",
+   "text": "Open the Old Cabin",
+   "placeholder": true
+  },
+  {
+   "id": "jnote_open_cabin",
+   "text": "There's an old cabin out past the stream, northeast, by my reckoning. Roof's gone, door's off. Fix it up and it'd make a fine place to sleep out there. I've marked roughly where on your map.",
+   "placeholder": true
+  },
+  {
+   "id": "js_find_outlook",
+   "text": "Find the outlook",
+   "placeholder": true
+  },
+  {
+   "id": "js_map_outlook",
+   "text": "Map it: X at its marker post",
+   "placeholder": true
+  },
+  {
+   "id": "js_join_outlook",
+   "text": "Join it to the park's trails",
+   "placeholder": true
+  },
+  {
+   "id": "js_sign_outlook",
+   "text": "Put up a sign naming it",
+   "placeholder": true
+  },
+  {
+   "id": "js_open_outlook",
+   "text": "Declare it open: X at its post",
+   "placeholder": true
+  },
+  {
+   "id": "jr_sketch_outlook",
+   "text": "A sketch of the land round it",
+   "placeholder": true
+  },
+  {
+   "id": "jn_open_outlook",
+   "text": "Open the Scenic Outlook",
+   "placeholder": true
+  },
+  {
+   "id": "jnote_open_outlook",
+   "text": "North of the fork, the trail climbs to a rock with the best view this side of the river. Bring a pencil. You'll want to draw it.",
+   "placeholder": true
+  },
+  {
+   "id": "js_find_pond",
+   "text": "Find the pond",
+   "placeholder": true
+  },
+  {
+   "id": "js_map_pond",
+   "text": "Map it: X at its cairn",
+   "placeholder": true
+  },
+  {
+   "id": "js_join_pond",
+   "text": "Join it to the park's trails",
+   "placeholder": true
+  },
+  {
+   "id": "js_sign_pond",
+   "text": "Put up a sign naming it",
+   "placeholder": true
+  },
+  {
+   "id": "js_open_pond",
+   "text": "Declare it open: X at its cairn",
+   "placeholder": true
+  },
+  {
+   "id": "jn_open_pond",
+   "text": "Open Kettle Pond",
+   "placeholder": true
+  },
+  {
+   "id": "jnote_open_pond",
+   "text": "Our creek comes out of a pond somewhere up past the cabin. Never did find the name for it. Somebody ought to.",
+   "placeholder": true
+  },
+  {
+   "id": "js_find_tower",
+   "text": "Find the tower",
+   "placeholder": true
+  },
+  {
+   "id": "js_map_tower",
+   "text": "Map it: X at its door",
+   "placeholder": true
+  },
+  {
+   "id": "js_repair_tower",
+   "text": "Repair the stairs, floor, roof and windows",
+   "placeholder": true
+  },
+  {
+   "id": "js_join_tower",
+   "text": "Join it to the park's trails",
+   "placeholder": true
+  },
+  {
+   "id": "js_sign_tower",
+   "text": "Put up a sign naming it",
+   "placeholder": true
+  },
+  {
+   "id": "js_open_tower",
+   "text": "Declare it open: X at its door",
+   "placeholder": true
+  },
+  {
+   "id": "jn_open_tower",
+   "text": "Open the Static Tower",
+   "placeholder": true
+  },
+  {
+   "id": "jnote_open_tower",
+   "text": "Past the pond there's an old fire tower. I put stakes in across the burn so I'd stop losing it. Follow the ribbons. Bring nails. More than that.",
+   "placeholder": true
+  },
+  {
+   "id": "js_fix_radio",
+   "text": "Fit the valve: X at the tower's radio",
+   "placeholder": true
+  },
+  {
+   "id": "jn_tower_radio",
+   "text": "Get the Tower Radio Talking",
+   "placeholder": true
+  },
+  {
+   "id": "jnote_tower_radio",
+   "text": "The tower radio needs a valve. Good radio, that, if a little ahead of itself.",
+   "placeholder": true
+  },
+  {
+   "id": "js_find_bridge",
+   "text": "Find the bridge",
+   "placeholder": true
+  },
+  {
+   "id": "js_map_bridge",
+   "text": "Map it: X at its post",
+   "placeholder": true
+  },
+  {
+   "id": "jr_story_bridge",
+   "text": "A page of the last ranger's journal: \"Bridge went in the spring melt. Somebody'll mend it one day. Not me, not this year.\"",
+   "placeholder": true
+  },
+  {
+   "id": "jr_journal_page",
+   "text": "A page of the last ranger's journal",
+   "placeholder": true
+  },
+  {
+   "id": "jn_find_bridge",
+   "text": "Find the Old Bridge",
+   "placeholder": true
+  },
+  {
+   "id": "jnote_find_bridge",
+   "text": "The old road runs down off the hill to the river. The bridge was fine last time.",
+   "placeholder": true
+  },
+  {
+   "id": "jdone_find_bridge",
+   "text": "The bridge is out: a gap you can't cross. That's beyond you for now, and that's all right.",
+   "placeholder": true
+  },
+  {
+   "id": "js_tidy_station",
+   "text": "Tidy the station: the desk, the shelf, the boots",
+   "placeholder": true
+  },
+  {
+   "id": "js_clear_branch",
+   "text": "Clear the branch on the trail past the door",
+   "placeholder": true
+  },
+  {
+   "id": "js_set_out_can",
+   "text": "Set the trash can out by the gate's marker",
+   "placeholder": true
+  },
+  {
+   "id": "jn_station_shipshape",
+   "text": "Get the Station Shipshape",
+   "placeholder": true
+  },
+  {
+   "id": "jnote_station_shipshape",
+   "text": "Welcome, Ranger. The station's been empty a while, and it shows. Tidy it up, clear the branch on the trail, and set the trash can out by the gate. Take your time. The Chief",
+   "placeholder": true
+  },
+  {
+   "id": "js_litter_gate",
+   "text": "Pick up litter at the gate",
+   "placeholder": true
+  },
+  {
+   "id": "js_cans_kiosk",
+   "text": "Put out 2 trash cans by the kiosk",
+   "placeholder": true
+  },
+  {
+   "id": "js_bench_kiosk",
+   "text": "Put out a bench by the kiosk",
+   "placeholder": true
+  },
+  {
+   "id": "jr_story_chief_gate",
+   "text": "A letter from the Chief: \"Drove past the gate this morning. Looked like a park somebody cares about. Well done.\"",
+   "placeholder": true
+  },
+  {
+   "id": "jr_letter_chief",
+   "text": "A letter from the Chief",
+   "placeholder": true
+  },
+  {
+   "id": "jn_spruce_gate",
+   "text": "Spruce Up the Gate",
+   "placeholder": true
+  },
+  {
+   "id": "jnote_spruce_gate",
+   "text": "Visitors judge a park by its front door. A couple of trash cans and somewhere to sit would go a long way. The Chief",
+   "placeholder": true
+  },
+  {
+   "id": "js_deliver_cabin",
+   "text": "Put 10 firewood and 2 tins of beans in the cabin's chest",
+   "placeholder": true
+  },
+  {
+   "id": "jn_stock_cabin",
+   "text": "Stock the Old Cabin",
+   "placeholder": true
+  },
+  {
+   "id": "jnote_stock_cabin",
+   "text": "A chest with dry wood in it is the best welcome there is. Worth keeping one stocked.",
+   "placeholder": true
+  },
+  {
+   "id": "js_deliver_tower",
+   "text": "Put 10 firewood and 2 tins of beans in the tower's chest",
+   "placeholder": true
+  },
+  {
+   "id": "jn_stock_tower",
+   "text": "Stock the Tower",
+   "placeholder": true
+  },
+  {
+   "id": "jnote_stock_tower",
+   "text": "A chest with dry wood in it is the best welcome there is. Worth keeping one stocked.",
+   "placeholder": true
+  },
+  {
+   "id": "js_litter_meadow",
+   "text": "Pick up litter across the meadow and gate",
+   "placeholder": true
+  },
+  {
+   "id": "js_branches_trail",
+   "text": "Clear 3 branches on the station trail",
+   "placeholder": true
+  },
+  {
+   "id": "jn_winter_mess",
+   "text": "Clear the Winter's Mess",
+   "placeholder": true
+  },
+  {
+   "id": "jnote_winter_mess",
+   "text": "Winter's left its usual calling cards. A tidy-up before the crowds would be grand.",
+   "placeholder": true
+  },
+  {
+   "id": "js_cans_busiest",
+   "text": "Put out 2 more trash cans at the busiest open place",
+   "placeholder": true
+  },
+  {
+   "id": "js_clean_all_baths",
+   "text": "Clean every bathroom once",
+   "placeholder": true
+  },
+  {
+   "id": "jr_cans_back",
+   "text": "2 trash cans back, free",
+   "placeholder": true
+  },
+  {
+   "id": "jn_ready_crowds",
+   "text": "Ready for the Crowds",
+   "placeholder": true
+  },
+  {
+   "id": "jnote_ready_crowds",
+   "text": "Summer's here, and so is everyone else. More cans, cleaner bathrooms, fewer letters to me.",
+   "placeholder": true
+  },
+  {
+   "id": "js_deliver_winter",
+   "text": "Put 15 firewood in each open cabin's and tower's chest",
+   "placeholder": true
+  },
+  {
+   "id": "jn_stock_winter",
+   "text": "Stock Up for Winter",
+   "placeholder": true
+  },
+  {
+   "id": "jnote_stock_winter",
+   "text": "The nights are drawing in. I'd rather you were warm out there.",
+   "placeholder": true
+  },
+  {
+   "id": "js_visit_cabins",
+   "text": "Look in on each open cabin and tower",
+   "placeholder": true
+  },
+  {
+   "id": "js_light_stoves",
+   "text": "Light each one's stove",
+   "placeholder": true
+  },
+  {
+   "id": "jn_check_cabins",
+   "text": "Check on the Cabins",
+   "placeholder": true
+  },
+  {
+   "id": "jnote_check_cabins",
+   "text": "Cold week coming. Would you look in on the cabins? I worry about them, in my way.",
+   "placeholder": true
+  },
+  {
+   "id": "js_pointers_fork",
+   "text": "Put up signs at the fork pointing to the cabin and the outlook",
+   "placeholder": true
+  },
+  {
+   "id": "jr_blank_signs",
+   "text": "2 blank signs",
+   "placeholder": true
+  },
+  {
+   "id": "jn_point_fork",
+   "text": "Point the Way at the Fork",
+   "placeholder": true
+  },
+  {
+   "id": "jnote_point_fork",
+   "text": "Hikers will reach the fork and stand there scratching their heads. A sign or two would save them. The Chief",
+   "placeholder": true
+  },
+  {
+   "id": "js_trunks_pond",
+   "text": "Saw through the three fallen trunks",
+   "placeholder": true
+  },
+  {
+   "id": "js_dig_pond_1",
+   "text": "Dig the first gap",
+   "placeholder": true
+  },
+  {
+   "id": "js_dig_pond_2",
+   "text": "Dig the second gap",
+   "placeholder": true
+  },
+  {
+   "id": "js_join_cabin_pond",
+   "text": "Walk the trail: cabin to pond, joined",
+   "placeholder": true
+  },
+  {
+   "id": "jr_pond_joined",
+   "text": "The pond joined to the park's trails",
+   "placeholder": true
+  },
+  {
+   "id": "jn_reopen_pond_trail",
+   "text": "Reopen the Pond Trail",
+   "placeholder": true
+  },
+  {
+   "id": "jnote_reopen_pond_trail",
+   "text": "The old trail past the cabin gives out before the pond. Trees down, and a couple of stretches gone to grass. Not much work, all told.",
+   "placeholder": true
+  },
+  {
+   "id": "js_brush_west",
+   "text": "Clear the brush in the west gap",
+   "placeholder": true
+  },
+  {
+   "id": "js_dig_west",
+   "text": "Dig the west gap",
+   "placeholder": true
+  },
+  {
+   "id": "js_join_pond_mid",
+   "text": "Join the pond to the stake trail's middle",
+   "placeholder": true
+  },
+  {
+   "id": "jr_sketch_burn",
+   "text": "A sketch of the burn",
+   "placeholder": true
+  },
+  {
+   "id": "jn_stake_west",
+   "text": "Mend the Stake Trail, West",
+   "placeholder": true
+  },
+  {
+   "id": "jnote_stake_west",
+   "text": "The last ranger's stakes still mark the way across the burn, and their old path is mostly there. Two gaps want digging, one each side of the middle. Do them in either order.",
+   "placeholder": true
+  },
+  {
+   "id": "js_brush_east",
+   "text": "Clear the brush and snags in the east gap",
+   "placeholder": true
+  },
+  {
+   "id": "js_dig_east",
+   "text": "Dig the east gap",
+   "placeholder": true
+  },
+  {
+   "id": "js_join_mid_tower",
+   "text": "Join the stake trail's middle to the tower steps",
+   "placeholder": true
+  },
+  {
+   "id": "jr_tower_joined",
+   "text": "The tower joined to the park's trails",
+   "placeholder": true
+  },
+  {
+   "id": "jn_stake_east",
+   "text": "Mend the Stake Trail, East",
+   "placeholder": true
+  },
+  {
+   "id": "jnote_stake_east",
+   "text": "The last ranger's stakes still mark the way across the burn, and their old path is mostly there. Two gaps want digging, one each side of the middle. Do them in either order.",
+   "placeholder": true
+  },
+  {
+   "id": "js_trunk_road",
+   "text": "Saw through the fallen trunk",
+   "placeholder": true
+  },
+  {
+   "id": "js_dig_road_1",
+   "text": "Clear the first overgrown stretch",
+   "placeholder": true
+  },
+  {
+   "id": "js_dig_road_2",
+   "text": "Clear the second overgrown stretch",
+   "placeholder": true
+  },
+  {
+   "id": "js_join_tower_bridge",
+   "text": "Join the tower to the bridge's west end",
+   "placeholder": true
+  },
+  {
+   "id": "jr_travel_bridge",
+   "text": "Trail travel to the bridge's end",
+   "placeholder": true
+  },
+  {
+   "id": "jn_clear_old_road",
+   "text": "Clear the Old Road",
+   "placeholder": true
+  },
+  {
+   "id": "jnote_clear_old_road",
+   "text": "The road down to the river is sound underneath. A tree, two weedy stretches, and it's a road again.",
+   "placeholder": true
+  },
+  {
+   "id": "js_talk_leader",
+   "text": "Talk to the troop leader: X beside them",
+   "placeholder": true
+  },
+  {
+   "id": "js_litter_camp",
+   "text": "Pick up 10 litter near their camp",
+   "placeholder": true
+  },
+  {
+   "id": "jr_story_scouts",
+   "text": "A scout's drawing: a ranger, very tall, holding a very small bag of litter. \"OUR RANGER\" it says.",
+   "placeholder": true
+  },
+  {
+   "id": "jr_scout_drawing",
+   "text": "A scout's drawing, for the notebook",
+   "placeholder": true
+  },
+  {
+   "id": "jn_scouts_badge",
+   "text": "The Scouts' Litter Badge",
+   "placeholder": true
+  },
+  {
+   "id": "jnote_scouts_badge",
+   "text": "Dear Ranger, my troop is working on the Litter badge and they need a real ranger to see them do it. We are at the campground. - Troop Leader",
+   "placeholder": true
+  },
+  {
+   "id": "js_t_clean",
+   "text": "Clean the bathroom at {site}",
+   "placeholder": true
+  },
+  {
+   "id": "jtn_clean_up",
+   "text": "Clean Up at {site}",
+   "placeholder": true
+  },
+  {
+   "id": "jtnote_clean_up_0",
+   "text": "The bathroom at {site} could use you and a mop. The Chief",
+   "placeholder": true
+  },
+  {
+   "id": "jtnote_clean_up_1",
+   "text": "Had a note about the bathroom at {site}. You know what to do.",
+   "placeholder": true
+  },
+  {
+   "id": "jtnote_clean_up_2",
+   "text": "{site}'s bathroom. Need I say more? The Chief",
+   "placeholder": true
+  },
+  {
+   "id": "js_t_empty",
+   "text": "Empty the cans at {site}",
+   "placeholder": true
+  },
+  {
+   "id": "jtn_empty_bins",
+   "text": "Empty the Bins at {site}",
+   "placeholder": true
+  },
+  {
+   "id": "jtnote_empty_bins_0",
+   "text": "The cans at {site} are filling up. Best empty them before the raccoons do.",
+   "placeholder": true
+  },
+  {
+   "id": "jtnote_empty_bins_1",
+   "text": "Bins at {site}, nearly full. The Chief",
+   "placeholder": true
+  },
+  {
+   "id": "jtnote_empty_bins_2",
+   "text": "Someone's been busy at {site}. The bins say so.",
+   "placeholder": true
+  },
+  {
+   "id": "js_t_litter",
+   "text": "Pick up {count} litter near {site}",
+   "placeholder": true
+  },
+  {
+   "id": "jr_lost_belonging",
+   "text": "A chance of a lost belonging",
+   "placeholder": true
+  },
+  {
+   "id": "jtn_litter_trail",
+   "text": "Litter on the {site} Trail",
+   "placeholder": true
+  },
+  {
+   "id": "jtnote_litter_trail_0",
+   "text": "Visitors have been dropping things along the way to {site}. A walk with a bag would sort it.",
+   "placeholder": true
+  },
+  {
+   "id": "jtnote_litter_trail_1",
+   "text": "Litter on the trail to {site}. The Chief",
+   "placeholder": true
+  },
+  {
+   "id": "jtnote_litter_trail_2",
+   "text": "The way to {site} has picked up some litter.",
+   "placeholder": true
+  },
+  {
+   "id": "js_t_cans",
+   "text": "Put out trash cans at {site}",
+   "placeholder": true
+  },
+  {
+   "id": "jr_can_back",
+   "text": "A trash can back, free",
+   "placeholder": true
+  },
+  {
+   "id": "jtn_more_cans",
+   "text": "More Cans for {site}",
+   "placeholder": true
+  },
+  {
+   "id": "jtnote_more_cans_0",
+   "text": "{site} gets visitors and has hardly anywhere to put their rubbish. Two cans would help. The Chief",
+   "placeholder": true
+  },
+  {
+   "id": "jtnote_more_cans_1",
+   "text": "Folks at {site} keep asking where the bins are.",
+   "placeholder": true
+  },
+  {
+   "id": "jtnote_more_cans_2",
+   "text": "{site} needs more trash cans.",
+   "placeholder": true
+  },
+  {
+   "id": "js_t_bench",
+   "text": "Put out a bench at {site}",
+   "placeholder": true
+  },
+  {
+   "id": "jtn_a_seat",
+   "text": "A Seat at {site}",
+   "placeholder": true
+  },
+  {
+   "id": "jtnote_a_seat_0",
+   "text": "Nowhere to sit at {site}. A bench would be a kindness.",
+   "placeholder": true
+  },
+  {
+   "id": "jtnote_a_seat_1",
+   "text": "{site} could use a bench. The Chief",
+   "placeholder": true
+  },
+  {
+   "id": "jtnote_a_seat_2",
+   "text": "People stand about at {site}. Give them a seat.",
+   "placeholder": true
+  },
+  {
+   "id": "js_t_restock",
+   "text": "Put 10 firewood in the {building}'s chest",
+   "placeholder": true
+  },
+  {
+   "id": "jtn_restock",
+   "text": "Restock the {building}",
+   "placeholder": true
+  },
+  {
+   "id": "jtnote_restock_0",
+   "text": "The {building}'s woodpile is running low.",
+   "placeholder": true
+  },
+  {
+   "id": "jtnote_restock_1",
+   "text": "Firewood at the {building}: nearly gone. The Chief",
+   "placeholder": true
+  },
+  {
+   "id": "jtnote_restock_2",
+   "text": "The {building} could use more firewood in the chest.",
+   "placeholder": true
+  },
+  {
+   "id": "js_t_shoo",
+   "text": "Shoo the badger at {site}",
+   "placeholder": true
+  },
+  {
+   "id": "js_t_badger_mess",
+   "text": "Clear the mess that drew it",
+   "placeholder": true
+  },
+  {
+   "id": "jtn_badger_at",
+   "text": "A Badger at {site}",
+   "placeholder": true
+  },
+  {
+   "id": "jtnote_badger_at_0",
+   "text": "A troll badger has moved in at {site}. Shoo it off, and tidy whatever drew it.",
+   "placeholder": true
+  },
+  {
+   "id": "jtnote_badger_at_1",
+   "text": "Badger at {site}. Again. The Chief",
+   "placeholder": true
+  },
+  {
+   "id": "jtnote_badger_at_2",
+   "text": "Something with stripes and opinions has taken over {site}.",
+   "placeholder": true
+  },
+  {
+   "id": "js_t_trunk",
+   "text": "Clear the trunk",
+   "placeholder": true
+  },
+  {
+   "id": "jtn_tree_down",
+   "text": "Tree Down on the {site} Trail",
+   "placeholder": true
+  },
+  {
+   "id": "jtnote_tree_down_0",
+   "text": "A storm's put a tree across the trail to {site}.",
+   "placeholder": true
+  },
+  {
+   "id": "jtnote_tree_down_1",
+   "text": "Tree down on the way to {site}. The Chief",
+   "placeholder": true
+  },
+  {
+   "id": "jtnote_tree_down_2",
+   "text": "The trail to {site} has a tree lying on it.",
+   "placeholder": true
+  },
+  {
+   "id": "js_t_fill",
+   "text": "Fill in the diggings",
+   "placeholder": true
+  },
+  {
+   "id": "jtn_diggings",
+   "text": "Badger Diggings on the {site} Trail",
+   "placeholder": true
+  },
+  {
+   "id": "jtnote_diggings_0",
+   "text": "A badger's dug up the trail near {site}. Fill it in before someone turns an ankle.",
+   "placeholder": true
+  },
+  {
+   "id": "jtnote_diggings_1",
+   "text": "Diggings on the trail near {site}. The Chief",
+   "placeholder": true
+  },
+  {
+   "id": "jtnote_diggings_2",
+   "text": "The trail by {site} has holes in it again.",
+   "placeholder": true
+  },
+  {
+   "id": "js_t_pointer",
+   "text": "Put up a pointer at {junction}",
+   "placeholder": true
+  },
+  {
+   "id": "jr_blank_sign",
+   "text": "A blank sign",
+   "placeholder": true
+  },
+  {
+   "id": "jtn_point_junction",
+   "text": "Point the Way at {junction}",
+   "placeholder": true
+  },
+  {
+   "id": "jtnote_point_junction_0",
+   "text": "Three trails meet at {junction} and nothing says where any of them go.",
+   "placeholder": true
+  },
+  {
+   "id": "jtnote_point_junction_1",
+   "text": "A pointer at {junction} would help. The Chief",
+   "placeholder": true
+  },
+  {
+   "id": "jtnote_point_junction_2",
+   "text": "People keep getting turned round at {junction}.",
+   "placeholder": true
+  },
+  {
+   "id": "js_t_name",
+   "text": "Put up a sign naming {site}",
+   "placeholder": true
+  },
+  {
+   "id": "jtn_name_site",
+   "text": "Name {site}",
+   "placeholder": true
+  },
+  {
+   "id": "jtnote_name_site_0",
+   "text": "{site}'s name sign has gone. People like to know where they are.",
+   "placeholder": true
+  },
+  {
+   "id": "jtnote_name_site_1",
+   "text": "No sign at {site} any more. The Chief",
+   "placeholder": true
+  },
+  {
+   "id": "jtnote_name_site_2",
+   "text": "Put a name back up at {site}.",
+   "placeholder": true
+  },
+  {
+   "id": "js_t_v_bench",
+   "text": "Put out a bench at {site}",
+   "placeholder": true
+  },
+  {
+   "id": "jr_thanks_card",
+   "text": "A thank-you card",
+   "placeholder": true
+  },
+  {
+   "id": "jtn_v_bench",
+   "text": "A Bench, Please",
+   "placeholder": true
+  },
+  {
+   "id": "jtnote_v_bench_0",
+   "text": "{card}",
+   "placeholder": true
+  },
+  {
+   "id": "js_t_v_picnic",
+   "text": "Put out a picnic table at {site}",
+   "placeholder": true
+  },
+  {
+   "id": "jtn_v_picnic",
+   "text": "Somewhere to Eat",
+   "placeholder": true
+  },
+  {
+   "id": "jtnote_v_picnic_0",
+   "text": "{card}",
+   "placeholder": true
+  },
+  {
+   "id": "js_t_v_sign",
+   "text": "Put up a sign at {site}",
+   "placeholder": true
+  },
+  {
+   "id": "jtn_v_sign",
+   "text": "Which Way?",
+   "placeholder": true
+  },
+  {
+   "id": "jtnote_v_sign_0",
+   "text": "{card}",
+   "placeholder": true
+  },
+  {
+   "id": "js_t_v_bath",
+   "text": "Clean the bathroom at {site}",
+   "placeholder": true
+  },
+  {
+   "id": "jtn_v_bathroom",
+   "text": "The Bathroom at {site}",
+   "placeholder": true
+  },
+  {
+   "id": "jtnote_v_bathroom_0",
+   "text": "{card}",
+   "placeholder": true
+  },
+  {
+   "id": "js_t_lost_go",
+   "text": "Go to where they were last seen",
+   "placeholder": true
+  },
+  {
+   "id": "js_t_lost_find",
+   "text": "Find them, and X beside them",
+   "placeholder": true
+  },
+  {
+   "id": "jr_tip",
+   "text": "A tip of 20 to 50 gold",
+   "placeholder": true
+  },
+  {
+   "id": "jtn_find_lost",
+   "text": "Find the Lost Party",
+   "placeholder": true
+  },
+  {
+   "id": "jtnote_find_lost_0",
+   "text": "The radio: {party} hasn't come back. Last seen near {place}. Probably fine. Probably.",
+   "placeholder": true
+  },
+  {
+   "id": "jt_from",
+   "text": "From: {giver}",
+   "placeholder": true
+  },
+  {
+   "id": "jt_need",
+   "text": "You'll need",
+   "placeholder": true
+  },
+  {
+   "id": "jt_steps",
+   "text": "Steps",
+   "placeholder": true
+  },
+  {
+   "id": "jt_rewards",
+   "text": "Rewards",
+   "placeholder": true
+  },
+  {
+   "id": "jt_nothing_to_bring",
+   "text": "Nothing to bring.",
+   "placeholder": true
+  },
+  {
+   "id": "jt_more",
+   "text": "Something more...",
+   "placeholder": true
+  },
+  {
+   "id": "jt_handy",
+   "text": "handy",
+   "placeholder": true
+  },
+  {
+   "id": "jt_tab_current",
+   "text": "Current",
+   "placeholder": true
+  },
+  {
+   "id": "jt_tab_noticed",
+   "text": "Noticed",
+   "placeholder": true
+  },
+  {
+   "id": "jt_tab_done",
+   "text": "Done",
+   "placeholder": true
+  },
+  {
+   "id": "jt_empty_current",
+   "text": "Nothing on the clipboard. The forest's still there.",
+   "placeholder": true
+  },
+  {
+   "id": "jt_empty_noticed",
+   "text": "Keep your eyes open out there.",
+   "placeholder": true
+  },
+  {
+   "id": "jt_empty_done",
+   "text": "Nothing finished yet. Plenty of time.",
+   "placeholder": true
+  },
+  {
+   "id": "jt_pin",
+   "text": "Pin to screen (P)",
+   "placeholder": true
+  },
+  {
+   "id": "jt_unpin",
+   "text": "Unpin (P)",
+   "placeholder": true
+  },
+  {
+   "id": "jt_show_map",
+   "text": "Show on map (M)",
+   "placeholder": true
+  },
+  {
+   "id": "jt_keys",
+   "text": "Q/E tabs   W/S jobs   wheel scrolls   X follows a link   Esc closes",
+   "placeholder": true
+  },
+  {
+   "id": "jt_finished_on",
+   "text": "Finished on day {day}, {season}.",
+   "placeholder": true
+  },
+  {
+   "id": "jt_gave",
+   "text": "Gave",
+   "placeholder": true
+  },
+  {
+   "id": "jt_broken",
+   "text": "broken again",
+   "placeholder": true
+  },
+  {
+   "id": "jt_see_job",
+   "text": "see {job}",
+   "placeholder": true
+  },
+  {
+   "id": "jt_count",
+   "text": "{done} of {total}",
+   "placeholder": true
+  },
+  {
+   "id": "jt_have_need",
+   "text": "{have}/{need}",
+   "placeholder": true
+  },
+  {
+   "id": "jt_new_job",
+   "text": "New job: {name}",
+   "placeholder": true
+  },
+  {
+   "id": "jt_noted",
+   "text": "Noted: {name}",
+   "placeholder": true
+  },
+  {
+   "id": "jt_step_done",
+   "text": "Done: {step}",
+   "placeholder": true
+  },
+  {
+   "id": "jt_step_undone",
+   "text": "{step}: broken again",
+   "placeholder": true
+  },
+  {
+   "id": "jt_count_toast",
+   "text": "{step}: {done} of {total}",
+   "placeholder": true
+  },
+  {
+   "id": "jt_done_stamp",
+   "text": "DONE",
+   "placeholder": true
+  },
+  {
+   "id": "jt_new_on_clipboard",
+   "text": "New on your clipboard: {list}",
+   "placeholder": true
+  },
+  {
+   "id": "jt_card_close",
+   "text": "X or click to carry on",
+   "placeholder": true
+  },
+  {
+   "id": "jt_pinned_done",
+   "text": "Done!",
+   "placeholder": true
+  },
+  {
+   "id": "jt_waiting",
+   "text": "{n} jobs on the clipboard (J)",
+   "placeholder": true
+  },
+  {
+   "id": "jt_waiting_one",
+   "text": "1 job on the clipboard (J)",
+   "placeholder": true
+  },
+  {
+   "id": "jt_nothing",
+   "text": "Nothing on the clipboard",
+   "placeholder": true
+  },
+  {
+   "id": "jt_away_title",
+   "text": "While you were away...",
+   "placeholder": true
+  },
+  {
+   "id": "jt_away_line",
+   "text": "{name}: done",
+   "placeholder": true
+  },
+  {
+   "id": "jt_season_title",
+   "text": "{season}",
+   "placeholder": true
+  },
+  {
+   "id": "jt_season_retired",
+   "text": "{n} jobs retired with the season.",
+   "placeholder": true
+  },
+  {
+   "id": "jt_season_new",
+   "text": "{n} new jobs on the clipboard.",
+   "placeholder": true
+  },
+  {
+   "id": "jt_season_none",
+   "text": "A fresh season. Nothing changed on the clipboard.",
+   "placeholder": true
+  },
+  {
+   "id": "jt_map_rumors",
+   "text": "New rumors on your map.",
+   "placeholder": true
+  },
+  {
+   "id": "jt_map_reveal",
+   "text": "New land on your map.",
+   "placeholder": true
+  },
+  {
+   "id": "jt_map_travel",
+   "text": "Trail travel along the glowing way.",
+   "placeholder": true
+  },
+  {
+   "id": "jt_r_money",
+   "text": "{n} gold",
+   "placeholder": true
+  },
+  {
+   "id": "jt_r_money_got",
+   "text": "{n} gold into your wallet",
+   "placeholder": true
+  },
+  {
+   "id": "jt_r_xp",
+   "text": "{n} {skill} experience",
+   "placeholder": true
+  },
+  {
+   "id": "jt_r_rumor",
+   "text": "A rumor of somewhere new",
+   "placeholder": true
+  },
+  {
+   "id": "jt_r_rumor_got",
+   "text": "A rumor on your map: {name}?",
+   "placeholder": true
+  },
+  {
+   "id": "jt_r_travel",
+   "text": "Trail travel to {name}",
+   "placeholder": true
+  },
+  {
+   "id": "jt_r_unlock_catalog",
+   "text": "The supply catalog",
+   "placeholder": true
+  },
+  {
+   "id": "jt_r_unlock_catalog_bench",
+   "text": "Benches in the catalog",
+   "placeholder": true
+  },
+  {
+   "id": "jt_r_unlock_catalog_picnic_table",
+   "text": "Picnic tables in the catalog",
+   "placeholder": true
+  },
+  {
+   "id": "jt_r_unlock_tower_forecast",
+   "text": "The forecast at the tower",
+   "placeholder": true
+  },
+  {
+   "id": "jt_r_unlock_cabin_chimney",
+   "text": "The cabin stove burns longer",
+   "placeholder": true
+  },
+  {
+   "id": "jt_r_job",
+   "text": "Another job: {name}",
+   "placeholder": true
+  },
+  {
+   "id": "jt_r_things",
+   "text": "{list}",
+   "placeholder": true
+  },
+  {
+   "id": "jt_r_things_got",
+   "text": "{list} in your backpack",
+   "placeholder": true
+  },
+  {
+   "id": "jt_r_things_chest",
+   "text": "{list} in the {place}'s chest",
+   "placeholder": true
+  },
+  {
+   "id": "jt_r_dup",
+   "text": "You already had that: {n} gold instead",
+   "placeholder": true
+  },
+  {
+   "id": "jt_r_story_got",
+   "text": "Kept in your notebook",
+   "placeholder": true
+  },
+  {
+   "id": "jt_r_tip",
+   "text": "A tip",
+   "placeholder": true
+  },
+  {
+   "id": "jt_size_small",
+   "text": "Small",
+   "placeholder": true
+  },
+  {
+   "id": "jt_size_medium",
+   "text": "Medium",
+   "placeholder": true
+  },
+  {
+   "id": "jt_size_large",
+   "text": "Large",
+   "placeholder": true
+  },
+  {
+   "id": "jt_leaf",
+   "text": "Seasonal: retires at the season's end",
+   "placeholder": true
+  },
+  {
+   "id": "jt_where_spot",
+   "text": "(by the station door)",
+   "placeholder": true
+  },
+  {
+   "id": "jt_where_locked_catalog",
+   "text": "(in the catalog, once {what})",
+   "placeholder": true
+  },
+  {
+   "id": "jt_lock_bench",
+   "text": "the outlook is open",
+   "placeholder": true
+  },
+  {
+   "id": "jt_lock_picnic_table",
+   "text": "the gate is spruced up",
+   "placeholder": true
+  },
+  {
+   "id": "jt_lock_catalog",
+   "text": "the station's shipshape",
+   "placeholder": true
+  },
+  {
+   "id": "jt_catalog_locked",
+   "text": "The catalog's in a drawer under the old papers. Get the station shipshape first.",
+   "placeholder": true
+  },
+  {
+   "id": "jt_radio_hiss",
+   "text": "The radio hisses and crackles. It wants a valve before it will say anything useful.",
+   "placeholder": true
+  },
+  {
+   "id": "jt_spot_need",
+   "text": "You'll need {what} for that.",
+   "placeholder": true
+  },
+  {
+   "id": "jt_talk_scouts",
+   "text": "\"You're the ranger! Troop, look sharp!\" The scouts start picking up litter with great ceremony.",
+   "placeholder": true
+  },
+  {
+   "id": "jt_lost_note",
+   "text": "Last seen near {place}",
+   "placeholder": true
+  },
+  {
+   "id": "jt_place_busiest",
+   "text": "the busiest place",
+   "placeholder": true
+  },
+  {
+   "id": "jt_place_camp",
+   "text": "their camp",
+   "placeholder": true
+  },
+  {
+   "id": "jt_place_buildings",
+   "text": "each open cabin and tower",
+   "placeholder": true
+  },
+  {
+   "id": "jt_template_retired_half",
+   "text": "{who} did it first: half pay, {n} gold.",
+   "placeholder": true
+  },
+  {
+   "id": "jt_staff",
+   "text": "Your staff",
+   "placeholder": true
+  },
+  {
+   "id": "jt_debug_title",
+   "text": "Jobs",
+   "placeholder": true
+  },
+  {
+   "id": "ui_options_pinned",
+   "text": "Show pinned job",
+   "placeholder": true
+  },
+  {
+   "id": "ui_options_unlock_map",
+   "text": "Show unlocks on the map",
+   "placeholder": true
+  },
+  {
+   "id": "ui_on",
+   "text": "On",
+   "placeholder": true
+  },
+  {
+   "id": "ui_off",
+   "text": "Off",
+   "placeholder": true
+  },
+  {
+   "id": "book_hint_b",
+   "text": "B opens the book. J opens the clipboard.",
+   "placeholder": true
+  },
+  {
+   "id": "ui_place_bridge_end",
+   "text": "The bridge's end",
+   "placeholder": true
+  },
+  {
+   "id": "jt_thank_you_card",
+   "text": "Thank you, Ranger! It's just what the place needed.",
+   "placeholder": true
+  },
+  {
+   "id": "jt_giver_card",
+   "text": "{who}, by card",
+   "placeholder": true
+  },
+  {
+   "id": "src_jobs",
+   "text": "Jobs",
+   "placeholder": true
+  },
+  {
+   "id": "jtn_v_cans",
+   "text": "Somewhere for Rubbish",
+   "placeholder": true
+  },
+  {
+   "id": "jtnote_v_cans_0",
+   "text": "{card}",
+   "placeholder": true
+  },
+  {
+   "id": "js_t_v_cans",
+   "text": "Put out trash cans at {site}",
+   "placeholder": true
+  },
+  {
+   "id": "landmark_hint_scenic_outlook",
+   "text": "A high place with a view?",
+   "placeholder": true
   }
  ]
 }

@@ -1,0 +1,102 @@
+{
+ "note": "SPOILERS. Where the ranger notices a job: a spot or position, a trigger radius, a condition. Never described in status emails; only counted.",
+ "rows": [
+  {
+   "id": "notice_outlook_seat",
+   "job": "outlook_seat",
+   "radius": 4,
+   "condition": "always",
+   "jot": "jnote_outlook_seat",
+   "spot": "old_bench"
+  },
+  {
+   "id": "notice_the_sign_in_ford",
+   "job": "the_sign_in_ford",
+   "radius": 4,
+   "condition": "always",
+   "jot": "jnote_the_sign_in_ford",
+   "spot": "ford_sign"
+  },
+  {
+   "id": "notice_tiny_doormat",
+   "job": "tiny_doormat",
+   "radius": 4,
+   "condition": "job_done:station_shipshape",
+   "jot": "jnote_tiny_doormat",
+   "pos": [
+    243,
+    1313
+   ]
+  },
+  {
+   "id": "notice_tidy_lean_to",
+   "job": "tidy_lean_to",
+   "radius": 4,
+   "condition": "site_found:kettle_pond",
+   "jot": "jnote_tidy_lean_to",
+   "pos": [
+    405,
+    1115
+   ],
+   "on_add": {
+    "litter": {
+     "at": "point_xy:405,1115",
+     "n": 7,
+     "r": 5
+    }
+   }
+  },
+  {
+   "id": "notice_middle_stake",
+   "job": "middle_stake",
+   "radius": 4,
+   "condition": "site_found:static_tower",
+   "jot": "jnote_middle_stake",
+   "spot": "middle_stake"
+  },
+  {
+   "id": "notice_seventh_mushroom",
+   "job": "seventh_mushroom",
+   "radius": 4,
+   "condition": "season:autumn or rain_recent",
+   "jot": "jnote_seventh_mushroom",
+   "pos": [
+    525,
+    942
+   ]
+  },
+  {
+   "id": "notice_truck_glovebox",
+   "job": "truck_glovebox",
+   "radius": 4,
+   "condition": "site_open:static_tower",
+   "jot": "jnote_truck_glovebox",
+   "pos": [
+    770,
+    849
+   ]
+  },
+  {
+   "id": "notice_cabin_chimney",
+   "job": "cabin_chimney",
+   "radius": 4,
+   "condition": "site_open:old_cabin",
+   "jot": "jnote_cabin_chimney",
+   "pos": [
+    354,
+    1256
+   ]
+  },
+  {
+   "id": "notice_lines_in_sand",
+   "job": "lines_in_sand",
+   "radius": 4,
+   "condition": "find:dawn_ripple and weather:clear and time:360-390",
+   "jot": "jnote_lines_in_sand",
+   "pos": [
+    426,
+    1106
+   ]
+  }
+ ]
+}

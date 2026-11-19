@@ -31,6 +31,9 @@ func _route_tiles(s: GameSession, route_name: String) -> Array[Vector2i]:
 ## lies across it, as a ranger doing all the trail work would.
 func _build_trail_to_tower(s: GameSession) -> Array[Vector2i]:
 	var tiles := _route_tiles(s, "tower")
+	for id: String in s.jobs.spot_ids():
+		if bool(s.jobs.spot_row(id).get("blocks_dig", false)):
+			s.jobs.spots_done[id] = true
 	for o: Array in s.world.meta["obstacles_on_routes"]:
 		s.debug_clear_obstacle(Vector2i(int(o[0]), int(o[1])))
 	var dug: Array[Vector2i] = []
@@ -84,11 +87,17 @@ func test_reach_needs_unbroken_cleared_trail(t: TestCase) -> void:
 	t.check(not s.site_reached(SITE), "no trail joins it at the start")
 	var dug := _build_trail_to_tower(s)
 	t.check(s.site_reached(SITE), "trail all the way, obstacles cleared: reached (%d tiles dug)" % dug.size())
-	# Break it: undo one dug tile somewhere in the middle.
-	var mid := dug[dug.size() / 2]
-	s.debug_dig(mid, false)
-	var still := s.site_reached(SITE)
-	s.debug_dig(mid)
+	# Break it: undo one dug tile the trail cannot go round (since the jobs
+	# rebuild, the stake trail beside the stakes is old trail, a few tiles
+	# wide, so not every dug tile matters).
+	var still := true
+	for k in range(dug.size() / 2, dug.size()):
+		var mid := dug[k]
+		s.debug_dig(mid, false)
+		still = s.site_reached(SITE)
+		s.debug_dig(mid)
+		if not still:
+			break
 	t.check(not still, "a gap in the trail breaks the reach")
 	# Put a trunk back across the old trail, and undo any digging that went
 	# round its ends: blocked again.

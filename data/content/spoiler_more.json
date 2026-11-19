@@ -1,0 +1,177 @@
+{
+ "note": "SPOILERS. Every something more: its reveal text and what it does. Never described in status emails; only counted.",
+ "rows": [
+  {
+   "id": "more_cabin",
+   "text": "more_text_more_cabin",
+   "effects": [
+    {
+     "kind": "notebook"
+    }
+   ]
+  },
+  {
+   "id": "more_pond",
+   "text": "more_text_more_pond",
+   "effects": [
+    {
+     "kind": "notebook"
+    }
+   ]
+  },
+  {
+   "id": "more_tower",
+   "text": "more_text_more_tower",
+   "effects": [
+    {
+     "kind": "notebook"
+    }
+   ]
+  },
+  {
+   "id": "more_radio",
+   "text": "more_text_more_radio",
+   "effects": [
+    {
+     "kind": "notebook"
+    }
+   ]
+  },
+  {
+   "id": "more_stock_cabin",
+   "text": "more_text_more_stock_cabin",
+   "effects": [
+    {
+     "kind": "notebook"
+    },
+    {
+     "kind": "chest",
+     "structure": "test_cabin",
+     "items": {
+      "hazelnuts": 4
+     }
+    }
+   ]
+  },
+  {
+   "id": "more_stock_tower",
+   "text": "more_text_more_stock_tower",
+   "effects": [
+    {
+     "kind": "notebook"
+    }
+   ]
+  },
+  {
+   "id": "more_winter_mess",
+   "text": "more_text_more_winter_mess",
+   "effects": [
+    {
+     "kind": "notebook"
+    }
+   ]
+  },
+  {
+   "id": "more_check_cabins",
+   "text": "more_text_more_check_cabins",
+   "effects": [
+    {
+     "kind": "notebook"
+    },
+    {
+     "kind": "stoves"
+    }
+   ]
+  },
+  {
+   "id": "more_pond_trail",
+   "text": "more_text_more_pond_trail",
+   "effects": [
+    {
+     "kind": "notebook"
+    }
+   ]
+  },
+  {
+   "id": "more_stake_east",
+   "text": "more_text_more_stake_east",
+   "effects": [
+    {
+     "kind": "notebook"
+    }
+   ]
+  },
+  {
+   "id": "more_badger",
+   "text": "more_text_more_badger",
+   "effects": [
+    {
+     "kind": "notebook"
+    }
+   ]
+  },
+  {
+   "id": "more_a",
+   "text": "more_text_more_a",
+   "effects": [
+    {
+     "kind": "notebook"
+    }
+   ]
+  },
+  {
+   "id": "more_b",
+   "text": "more_text_more_b",
+   "effects": [
+    {
+     "kind": "notebook"
+    }
+   ]
+  },
+  {
+   "id": "more_c",
+   "text": "more_text_more_c",
+   "effects": [
+    {
+     "kind": "notebook"
+    }
+   ]
+  },
+  {
+   "id": "more_d",
+   "text": "more_text_more_d",
+   "effects": [
+    {
+     "kind": "notebook"
+    }
+   ]
+  },
+  {
+   "id": "more_e",
+   "text": "more_text_more_e",
+   "effects": [
+    {
+     "kind": "notebook"
+    }
+   ]
+  },
+  {
+   "id": "more_f",
+   "text": "more_text_more_f",
+   "effects": [
+    {
+     "kind": "notebook"
+    }
+   ]
+  },
+  {
+   "id": "more_g",
+   "text": "more_text_more_g",
+   "effects": [
+    {
+     "kind": "notebook"
+    }
+   ]
+  }
+ ]
+}

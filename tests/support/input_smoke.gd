@@ -82,9 +82,15 @@ func _run() -> void:
 	await _tap("open_map")
 	_check(not main.map_screen.visible, "M closes the map")
 	await _tap("jobs")
-	_check(main.book_screen.visible, "J opens the book")
+	_check(main.clipboard.visible, "J opens the clipboard")
+	await _tap("tab_next")
+	_check(main.clipboard.tab == "noticed", "E moves to the next tab")
 	await _tap("jobs")
-	_check(not main.book_screen.visible, "J closes the book")
+	_check(not main.clipboard.visible, "J closes the clipboard")
+	await _tap("book")
+	_check(main.book_screen.visible, "B opens the book")
+	await _tap("book")
+	_check(not main.book_screen.visible, "B closes the book")
 	_check(main.hud.money_label.text == "500 gold", "the wallet shows 500 gold")
 	await _tap("slot_2")
 	_check(s.selected_item() == "lantern", "2 holds the lantern")
@@ -96,6 +102,8 @@ func _run() -> void:
 	await _tap("interact")
 	_check(s.location == "ranger_station", "X at the door enters the station")
 	var layout: InteriorLayout = s.interiors["ranger_station"]
+	# The catalog comes with Get the Station Shipshape's reward.
+	s.jobs.unlocks["catalog"] = true
 	var desk := layout.furniture_rect(layout.find("catalog"))
 	s.interior_pos = Vector2(desk.position.x + 1.0, desk.end.y + 0.5)
 	s.facing = GameSession.FACING_UP

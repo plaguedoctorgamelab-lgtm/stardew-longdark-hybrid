@@ -1,0 +1,47 @@
+{
+ "note": "Who gives jobs, and how: given (envelope), found (note) or noticed (pencil).",
+ "rows": [
+  {
+   "id": "last_ranger",
+   "name": "jt_giver_last_ranger",
+   "how": "found",
+   "voice": "Quick, cheerful, practical scraps; a little scattered; fond of the park."
+  },
+  {
+   "id": "chief",
+   "name": "jt_giver_chief",
+   "how": "given",
+   "voice": "Short, warm, slightly formal letters; now and then knows more than he says."
+  },
+  {
+   "id": "visitors",
+   "name": "jt_giver_visitors",
+   "how": "given",
+   "voice": "A line or two in their own voice: hikers, families, scouts, anglers."
+  },
+  {
+   "id": "ranger",
+   "name": "jt_giver_ranger",
+   "how": "noticed",
+   "voice": "Plain first-person shorthand."
+  },
+  {
+   "id": "townsfolk",
+   "name": "jt_giver_townsfolk",
+   "how": "given",
+   "voice": "Phase 4."
+  },
+  {
+   "id": "troop_leader",
+   "name": "jt_giver_troop_leader",
+   "how": "given",
+   "voice": "A scout leader."
+  },
+  {
+   "id": "lost_party",
+   "name": "jt_giver_radio",
+   "how": "given",
+   "voice": "The radio."
+  }
+ ]
+}

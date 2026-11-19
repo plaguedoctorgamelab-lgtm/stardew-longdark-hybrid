@@ -562,8 +562,12 @@ func refund_for(pad_id: String) -> int:
 ## What can be ordered now: [{id, cat, pad, label, price, enabled}].
 func catalog_options() -> Array:
 	var out := []
+	var jb: Jobs = s().jobs
 	for r: Dictionary in content.rows("catalog"):
 		var price := int(r["price"])
+		# Some lines wait for a job's reward: benches, picnic tables.
+		if str(r.get("unlock", "")) != "" and not jb.unlocks.has(str(r["unlock"]).trim_prefix("catalog_")) and not jb.unlocks.has(str(r["unlock"])):
+			continue
 		if r["kind"] == "kit":
 			for pr: Dictionary in pad_rows():
 				if pr["facility"] != r["facility"] or not pad_shown(pr["id"]) or pad_state(pr["id"]) != "":
@@ -1646,6 +1650,50 @@ func _drop_trash(p: Dictionary, place: String) -> void:
 		events.append({"type": "litter", "place": place})
 
 
+## Scatters litter round a point, for a job that asks it picked up.
+func scatter_litter(at: Vector2, n: int, r: float, seed_value: int) -> void:
+	var g := RandomNumberGenerator.new()
+	g.seed = seed_value
+	var put := 0
+	for attempt in n * 12:
+		if put >= n:
+			break
+		var c := Vector2i(at + Vector2(g.randf_range(-r, r), g.randf_range(-r, r)))
+		if litter.has(c) or things.has(c) or world.is_solid(c) or Vector2(c).distance_to(at) > r:
+			continue
+		if world.ground_at(c) in ["shallows", "deep_water", "rock"]:
+			continue
+		litter[c] = g.randi() % 3
+		put += 1
+	changed.emit()
+
+
+## Litter lying within r tiles of a point.
+func litter_near(at: Vector2, r: float) -> int:
+	var n := 0
+	for t: Vector2i in litter:
+		if Vector2(t).distance_to(at) <= r:
+			n += 1
+	return n
+
+
+## Whether the cans at a place are full enough to want emptying: any can at
+## or above the share of its capacity, or tipped.
+func cans_need_emptying(place: String, share: float = 0.01) -> bool:
+	for t: Vector2i in things_with("trash"):
+		if place_of(Vector2(t)) != place:
+			continue
+		if bool(things[t]["tipped"]) or float(things[t]["trash"]) >= share * tuning.num("upkeep.can_capacity"):
+			return true
+	return false
+
+
+## Visitors this week (the park's count), for templates that want a place
+## people come to.
+func visits_week(_place: String) -> int:
+	return int(week.get("visitors", 0))
+
+
 func _drop_litter_near(t: Vector2i) -> bool:
 	for attempt in 12:
 		var c := t + Vector2i(rng.randi_range(-2, 2), rng.randi_range(-2, 2))
@@ -2110,7 +2158,7 @@ func _write_cards(day: int) -> void:
 		used[r["id"]] = true
 		var e: Dictionary = pair[1]
 		var text := content.text(r["text"], {"site": place_name(str(e.get("place", "gate"))), "n": int(e.get("n", 0))})
-		cards.append({"day": day, "text": text, "asks": bool(r["asks"]), "read": false, "pinned": false})
+		cards.append({"day": day, "text": text, "asks": bool(r["asks"]), "read": false, "pinned": false, "event": str(e["type"]), "place": str(e.get("place", "gate"))})
 		if str(week.get("best_card", "")) == "" or (not bool(r["asks"]) and rng.randf() < 0.3):
 			week["best_card"] = text
 

@@ -12,7 +12,8 @@
      -7,
      6
     ],
-    "radius": 16
+    "radius": 16,
+    "rumor": true
    }
   },
   {
@@ -20,7 +21,16 @@
    "name": "landmark_scenic_outlook",
    "kind": "outlook",
    "reveal_radius": 8,
-   "outlook": true
+   "outlook": true,
+   "hint": {
+    "text": "landmark_hint_scenic_outlook",
+    "offset": [
+     6,
+     -5
+    ],
+    "radius": 14,
+    "rumor": true
+   }
   },
   {
    "id": "kettle_pond",
