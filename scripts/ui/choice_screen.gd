@@ -19,6 +19,7 @@ func setup(s: GameSession) -> void:
 	session = s
 	size = Vector2(360, 230)
 	position = (Vector2(480, 270) - size) / 2.0
+	KitStyle.frame(self)
 	title_label = Label.new()
 	title_label.position = Vector2(8, 4)
 	add_child(title_label)

@@ -9,8 +9,9 @@ extends RefCounted
 
 const PATH := "user://settings.json"
 const HOVER_TIPS := ["first_week", "always", "off"]
+const MUSIC := ["medium", "high", "off", "low"]
 
-static var values: Dictionary = {"hover_tips": "first_week", "show_pinned_job": true, "show_unlocks_on_map": true}
+static var values: Dictionary = {"hover_tips": "first_week", "show_pinned_job": true, "show_unlocks_on_map": true, "music": "medium"}
 static var _loaded: bool = false
 
 
@@ -25,6 +26,9 @@ static func load_once() -> void:
 		var tips := str((parsed as Dictionary).get("hover_tips", "first_week"))
 		if HOVER_TIPS.has(tips):
 			values["hover_tips"] = tips
+		var music := str((parsed as Dictionary).get("music", "medium"))
+		if MUSIC.has(music):
+			values["music"] = music
 		for k in ["show_pinned_job", "show_unlocks_on_map"]:
 			if (parsed as Dictionary).has(k):
 				values[k] = bool(parsed[k])
@@ -48,6 +52,21 @@ static func next_hover_tips() -> String:
 	values["hover_tips"] = HOVER_TIPS[(i + 1) % HOVER_TIPS.size()]
 	save()
 	return values["hover_tips"]
+
+
+## How loud the music plays: "off", "low", "medium" (the start) or "high".
+static func music() -> String:
+	load_once()
+	return str(values.get("music", "medium"))
+
+
+## Moves the music setting on to the next loudness, saves it and returns it.
+static func next_music() -> String:
+	load_once()
+	var i := MUSIC.find(music())
+	values["music"] = MUSIC[(i + 1) % MUSIC.size()]
+	save()
+	return values["music"]
 
 
 ## An on/off setting (the jobs spec's "Show pinned job" and "Show unlocks

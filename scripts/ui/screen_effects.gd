@@ -3,7 +3,9 @@ extends CanvasLayer
 ## Light and weather drawn over the world: the time-of-day tint with weather
 ## tint on top, the lantern's circle of light, fog and blizzard closing in,
 ## the light shifting before a weather change, and moving rain, snow and wind
-## streaks. Indoors is always lit.
+## streaks. Indoors is lit by day; at night a room dims, with warm light
+## round its lamps and lit stove, and an open building's windows glow warm
+## from outside (Art Request 16, "Light in cabins").
 
 const TINT_SHADER := """
 shader_type canvas_item;
@@ -15,6 +17,8 @@ uniform float radius = 0.0;
 uniform vec2 center2 = vec2(240.0, 135.0);
 uniform float radius2 = 0.0;
 uniform vec2 size = vec2(480.0, 270.0);
+uniform vec4 glows[8];
+uniform int glow_count = 0;
 void fragment() {
 	vec2 p = UV * size;
 	float d = distance(p, center);
@@ -22,6 +26,11 @@ void fragment() {
 	float d2 = distance(p, center2);
 	float lit2 = radius2 > 0.0 ? 1.0 - smoothstep(radius2 * 0.4, radius2, d2) : 0.0;
 	lit = max(lit, lit2);
+	for (int i = 0; i < 8; i++) {
+		if (i >= glow_count) { break; }
+		float dg = distance(p, glows[i].xy);
+		lit = max(lit, glows[i].w * (1.0 - smoothstep(glows[i].z * 0.3, glows[i].z, dg)));
+	}
 	vec3 lamp_c = max(tint.rgb, lamp.rgb);
 	COLOR = vec4(mix(tint.rgb, lamp_c, lit), 1.0);
 }
@@ -57,6 +66,8 @@ var ranger_screen: Vector2 = VIEW / 2.0
 var fire_screen: Vector2 = Vector2(-1000, -1000)
 var last_tint: Color = Color.WHITE
 var last_visibility_px: float = 0.0
+## Warm glows this frame, in screen pixels: [Vector4(x, y, radius, strength)].
+var glows: Array[Vector4] = []
 
 
 func setup(s: GameSession) -> void:
@@ -93,9 +104,11 @@ static func _c(a: Variant) -> Color:
 ## The tint for now: time of day times weather, shifting toward the coming
 ## weather during the warning hour.
 func current_tint() -> Color:
-	if session.is_indoors():
-		return Color.WHITE
 	var t := session.tuning
+	if session.is_indoors():
+		if Daylight.is_night(t, session.clock.season_name(), session.clock.minute):
+			return _c(t.value("light.indoor_night_tint"))
+		return Color.WHITE
 	var day := Daylight.tint(t, session.clock.season_name(), session.clock.minute)
 	var w := _c(session.weather_row()["tint"])
 	var warn := session.weather.warning_amount(session.clock.minute)
@@ -125,6 +138,13 @@ func _process(delta: float) -> void:
 	var fire_on := session.campfire_lit() and not session.is_indoors()
 	tm.set_shader_parameter("center2", fire_screen)
 	tm.set_shader_parameter("radius2", t.num("camp.fire_light_tiles") * 16.0 * (0.95 + 0.05 * sin(Time.get_ticks_msec() / 90.0)) if fire_on else 0.0)
+	var gl: Array[Vector4] = []
+	for g in glows.slice(0, 8):
+		gl.append(g)
+	while gl.size() < 8:
+		gl.append(Vector4.ZERO)
+	tm.set_shader_parameter("glows", gl)
+	tm.set_shader_parameter("glow_count", mini(glows.size(), 8))
 	var fm: ShaderMaterial = fog_rect.material
 	var vis := visibility_tiles()
 	last_visibility_px = vis * 16.0

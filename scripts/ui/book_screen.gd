@@ -18,6 +18,7 @@ func setup(s: GameSession) -> void:
 	session = s
 	size = Vector2(380, 236)
 	position = ((Vector2(480, 270) - size) / 2.0).round()
+	KitStyle.frame(self)
 	_tabs = HBoxContainer.new()
 	_tabs.position = Vector2(6, 4)
 	_tabs.add_theme_constant_override("separation", 2)
@@ -26,6 +27,11 @@ func setup(s: GameSession) -> void:
 		var b := Button.new()
 		b.text = s.content.text("book_" + pg)
 		b.focus_mode = Control.FOCUS_NONE
+		# Mark's tab pictures (Art Request 16) where there is one.
+		var icon_kind: String = {"park": "book", "ledger": "ledger"}.get(pg, "")
+		if icon_kind != "" and Art.has_picture("ui_tab_" + icon_kind):
+			b.icon = Art.texture("ui_tab_" + icon_kind)
+			b.expand_icon = false
 		b.pressed.connect(func() -> void: show_page(pg))
 		_tabs.add_child(b)
 	_scroll = ScrollContainer.new()

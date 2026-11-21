@@ -33,6 +33,8 @@ var _map_changes: Array = []     # changes from finished jobs, for the map's flo
 var _map_lines: PackedStringArray = []
 var pinned_button: Button
 var unlocks_button: Button
+var music_button: Button
+var music: Music
 var hint_overlay: HintOverlay
 var options_panel: Panel
 var tips_button: Button
@@ -46,6 +48,9 @@ var started: bool = false
 func _ready() -> void:
 	ui_theme = _make_theme()
 	session = GameSession.new()
+	music = Music.new()
+	add_child(music)
+	music.setup(session.content, session.tuning)
 	ranger = RangerSprite.new()
 	world = _make_world_viewport()
 	world_view = WorldView.new()
@@ -192,7 +197,7 @@ func _build_menus() -> void:
 	clipboard = ClipboardScreen.new()
 	root.add_child(clipboard)
 	clipboard.setup(session)
-	clipboard.show_on_map.connect(func(p: Vector2) -> void: map_screen.open_at(p))
+	clipboard.show_on_map.connect(func(p: Vector2, text: String) -> void: map_screen.open_at(p, text))
 	job_card = JobCardScreen.new()
 	root.add_child(job_card)
 	job_card.setup(session)
@@ -202,6 +207,7 @@ func _build_menus() -> void:
 	dialog.position = Vector2(80, 90)
 	dialog.visible = false
 	root.add_child(dialog)
+	KitStyle.frame(dialog)
 	dialog_label = Label.new()
 	dialog_label.position = Vector2(8, 6)
 	dialog_label.size = Vector2(304, 58)
@@ -251,6 +257,7 @@ func _build_pause_menu(root: Control) -> void:
 	box.reset_size()
 	pause_menu.size = box.get_combined_minimum_size() + Vector2(16, 12)
 	pause_menu.position = ((Vector2(VIEW) - pause_menu.size) / 2.0).round()
+	KitStyle.frame(pause_menu)
 	_build_options(root)
 
 
@@ -264,9 +271,16 @@ func _build_options(root: Control) -> void:
 	box.position = Vector2(8, 6)
 	box.add_theme_constant_override("separation", 5)
 	options_panel.add_child(box)
+	var trow := HBoxContainer.new()
+	trow.add_theme_constant_override("separation", 4)
+	box.add_child(trow)
+	var gear := KitStyle.tab_icon("options")
+	if gear != null:
+		gear.custom_minimum_size = Vector2(12, 12)
+		trow.add_child(gear)
 	var t := Label.new()
 	t.text = session.content.text("ui_options_title")
-	box.add_child(t)
+	trow.add_child(t)
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 6)
 	box.add_child(row)
@@ -288,11 +302,62 @@ func _build_options(root: Control) -> void:
 	box.add_child(note)
 	pinned_button = _toggle_row(box, "ui_options_pinned", "show_pinned_job")
 	unlocks_button = _toggle_row(box, "ui_options_unlock_map", "show_unlocks_on_map")
+	var mrow := HBoxContainer.new()
+	mrow.add_theme_constant_override("separation", 6)
+	box.add_child(mrow)
+	var ml := Label.new()
+	ml.text = session.content.text("ui_options_music")
+	ml.custom_minimum_size = Vector2(110, 0)
+	mrow.add_child(ml)
+	music_button = Button.new()
+	music_button.focus_mode = Control.FOCUS_NONE
+	music_button.custom_minimum_size = Vector2(60, 0)
+	music_button.text = session.content.text("ui_music_" + Settings.music())
+	music_button.pressed.connect(func() -> void:
+		music_button.text = session.content.text("ui_music_" + Settings.next_music()))
+	mrow.add_child(music_button)
 	box.add_child(_button_column([["ui_back", close_options]]))
 	_show_tips_choice()
 	box.reset_size()
 	options_panel.size = box.get_combined_minimum_size() + Vector2(16, 12)
 	options_panel.position = ((Vector2(VIEW) - options_panel.size) / 2.0).round()
+	KitStyle.frame(options_panel)
+
+
+## Warm light at night (Art Request 16): outdoors, each open building's
+## windows and doorstep; indoors, the room's lamps and its stove when lit.
+func _night_glows() -> Array[Vector4]:
+	var out: Array[Vector4] = []
+	var t := session.tuning
+	if not Daylight.is_night(t, session.clock.season_name(), session.clock.minute):
+		return out
+	var xf := world_view.get_canvas_transform()
+	if session.is_indoors():
+		var layout: InteriorLayout = session.interiors[session.location]
+		for f: Dictionary in layout.furniture:
+			var lamp := str(f["sprite"]).begins_with("furniture_oil_lamp")
+			var stove := str(f["kind"]) == "stove" and session.structures.stove_lit(session.location)
+			if lamp or stove:
+				var r := Rect2(Vector2(f["pos"][0], f["pos"][1]), Vector2(f["size"][0], f["size"][1]))
+				var at := xf * (interior_view.position + r.get_center() * TILE)
+				out.append(Vector4(at.x, at.y, t.num("light.lamp_glow_tiles" if lamp else "light.stove_glow_tiles") * TILE, 1.0))
+		return out
+	for id: String in session.structures.ids():
+		if not session.structures.is_open(id) and id != "ranger_station":
+			continue
+		var at := xf * ((session.door_front(id) + Vector2(0, -1.0)) * TILE)
+		if at.x < -80 or at.y < -80 or at.x > VIEW.x + 80 or at.y > VIEW.y + 80:
+			continue
+		out.append(Vector4(at.x, at.y, t.num("light.building_glow_tiles") * TILE, t.num("light.building_glow_strength")))
+	return out
+
+
+## The music follows the moment: the title, the season, night, indoors.
+func _update_music(delta: float) -> void:
+	var on_title := not started or title_screen.visible
+	var season := session.clock.season_name() if not on_title else ""
+	var night := false if on_title else Daylight.is_night(session.tuning, season, session.clock.minute)
+	music.update(delta, on_title, season, night, not on_title and session.is_indoors())
 
 
 ## An on/off setting on the Options screen.
@@ -557,6 +622,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _process(delta: float) -> void:
+	_update_music(delta)
 	if not started:
 		return
 	session.clock.paused = menu_open()
@@ -592,3 +658,4 @@ func _process(delta: float) -> void:
 	if not session.camp.is_empty():
 		var fire_px := (Vector2(session.camp["fire"]) + Vector2(0.5, 0.5)) * TILE
 		effects.fire_screen = world_view.get_canvas_transform() * fire_px
+	effects.glows = _night_glows()

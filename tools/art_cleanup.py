@@ -55,26 +55,29 @@ def has_transparency(img):
     return clear > len(a[::97]) * 0.05
 
 
-def remove_background(img):
+def remove_background(img, box=None):
     """Clears the background by flood fill from the edges, matching the
-    color found around the border. Returns the background color."""
+    color found around the border. Returns the background color. With a box
+    (x0, y0, x1, y1), only that part is filled, from its own edges: used on
+    sheets whose cells are fenced by drawn grid lines."""
+    x0, y0, x1, y1 = box or (0, 0, img.w, img.h)
     border = []
-    for x in range(0, img.w, 7):
-        border.append(img.get(x, 0)[:3])
-        border.append(img.get(x, img.h - 1)[:3])
-    for y in range(0, img.h, 7):
-        border.append(img.get(0, y)[:3])
-        border.append(img.get(img.w - 1, y)[:3])
+    for x in range(x0, x1, 7):
+        border.append(img.get(x, y0)[:3])
+        border.append(img.get(x, y1 - 1)[:3])
+    for y in range(y0, y1, 7):
+        border.append(img.get(x0, y)[:3])
+        border.append(img.get(x1 - 1, y)[:3])
     bg = tuple(sorted(c[i] for c in border)[len(border) // 2] for i in range(3))
     tol2 = BG_TOLERANCE * BG_TOLERANCE
     seen = bytearray(img.w * img.h)
     q = deque()
-    for x in range(img.w):
-        q.append((x, 0))
-        q.append((x, img.h - 1))
-    for y in range(img.h):
-        q.append((0, y))
-        q.append((img.w - 1, y))
+    for x in range(x0, x1):
+        q.append((x, y0))
+        q.append((x, y1 - 1))
+    for y in range(y0, y1):
+        q.append((x0, y))
+        q.append((x1 - 1, y))
     while q:
         x, y = q.popleft()
         i = y * img.w + x
@@ -85,15 +88,24 @@ def remove_background(img):
         if (r - bg[0]) ** 2 + (g - bg[1]) ** 2 + (b - bg[2]) ** 2 > tol2:
             continue
         img.clear(x, y)
-        if x > 0:
+        if x > x0:
             q.append((x - 1, y))
-        if x < img.w - 1:
+        if x < x1 - 1:
             q.append((x + 1, y))
-        if y > 0:
+        if y > y0:
             q.append((x, y - 1))
-        if y < img.h - 1:
+        if y < y1 - 1:
             q.append((x, y + 1))
     return bg
+
+
+def clear_box_edges(img, x0, y0, x1, y1, inset):
+    """Clears a band of inset pixels inside a box's edges (the drawn grid
+    line around a cell), so it is not taken for part of the item."""
+    for y in range(y0, y1):
+        for x in range(x0, x1):
+            if x < x0 + inset or x >= x1 - inset or y < y0 + inset or y >= y1 - inset:
+                img.clear(x, y)
 
 
 def parts_in(img, x0, y0, x1, y1, step=3):
@@ -397,11 +409,16 @@ def main():
             report.append(("%s (%s)" % (entry["file"], entry["label"]), results))
             continue
         notes = []
-        if not full and not has_transparency(img):
-            bg = remove_background(img)
-            notes.append("background %s removed by flood fill" % (bg,))
         cols, rows = entry["grid"]
         cw, ch = w // cols, h // rows
+        # "cell_bg": the cells are fenced by drawn grid lines, so each cell's
+        # background is cleared on its own, from just inside its line.
+        cell_bg = entry.get("cell_bg")
+        if not full and not cell_bg and not has_transparency(img):
+            bg = remove_background(img)
+            notes.append("background %s removed by flood fill" % (bg,))
+        if cell_bg:
+            notes.append("background removed cell by cell inside the grid lines")
         results = []
         sheet_cells = []
         for idx, cell in enumerate(entry["cells"]):
@@ -410,6 +427,14 @@ def main():
             cx, cy = idx % cols, idx // cols
             x0, y0 = cx * cw, cy * ch
             x1, y1 = x0 + cw, y0 + ch
+            # "box" [x, y, w, h]: a cell placed by hand, for a row whose
+            # cells are not on the sheet's grid.
+            if "box" in cell:
+                bx, by, bw, bh = cell["box"]
+                x0, y0, x1, y1 = bx, by, bx + bw, by + bh
+            if cell_bg:
+                clear_box_edges(img, x0, y0, x1, y1, int(cell_bg))
+                remove_background(img, (x0 + int(cell_bg), y0 + int(cell_bg), x1 - int(cell_bg), y1 - int(cell_bg)))
             # "spill": the item may reach this many pixels into empty space
             # beyond its cell (checked by eye on the raw sheet).
             sp = cell.get("spill", 0)
@@ -486,6 +511,47 @@ def main():
         if name in calm_keep:
             pix = calm(tw, th, pix, float(calm_keep[name]))
         save(name, tw, th, pix)
+
+    # "recolor_like": a cell drawn in other colours than the game's ground
+    # keeps its marks' layout but takes today's tile's colours: its main
+    # colour becomes that tile's main colour, every mark that tile's most
+    # common other colour. So a new plain tile sits among the old ones.
+    # "recolor_map": [[from rgb, to rgb], ...]: colours swapped after the
+    # palette snap, so a piece matches the game's own (the wooden frame's
+    # orange wood snapped to coral; the clipboard's wood is brown).
+    for entry in manifest["images"]:
+        for cell in entry.get("cells", []):
+            if not cell or not cell.get("recolor_map"):
+                continue
+            path = os.path.join(FINAL, cell["name"] + ".png")
+            if not os.path.exists(path):
+                continue
+            w, h, px = read_png(path)
+            swap = {tuple(a): tuple(b) for a, b in cell["recolor_map"]}
+            out = []
+            for i in range(0, len(px), 4):
+                c = tuple(px[i:i + 3])
+                out.append(swap.get(c, c) + (px[i + 3],))
+            save(cell["name"], w, h, out)
+    for entry in manifest["images"]:
+        for cell in entry.get("cells", []):
+            if not cell or not cell.get("recolor_like"):
+                continue
+            path = os.path.join(FINAL, cell["name"] + ".png")
+            ref = os.path.join(FINAL, cell["recolor_like"] + ".png")
+            if not (os.path.exists(path) and os.path.exists(ref)):
+                continue
+            w, h, px = read_png(path)
+            _, _, rpx = read_png(ref)
+            mine = Counter(tuple(px[i:i + 3]) for i in range(0, len(px), 4))
+            theirs = Counter(tuple(rpx[i:i + 3]) for i in range(0, len(rpx), 4)).most_common(2)
+            base, mark = theirs[0][0], (theirs[1][0] if len(theirs) > 1 else theirs[0][0])
+            my_base = mine.most_common(1)[0][0]
+            out = []
+            for i in range(0, len(px), 4):
+                c = base if tuple(px[i:i + 3]) == my_base else mark
+                out.append(c + (255,))
+            save(cell["name"], w, h, out)
 
     lines = ["# Art cleanup report", "", "Made by tools/art_cleanup.py. " + pal_note + ". A picture cut pixel for pixel from a refresh sheet replaces any earlier picture of the same name.", ""]
     n_pass = n_fail = 0

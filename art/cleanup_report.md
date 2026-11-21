@@ -1,7 +1,7 @@
 # Art cleanup report
 
 Made by tools/art_cleanup.py. palette from art/palette.json (33 colors). A picture cut pixel for pixel from a refresh sheet replaces any earlier picture of the same name.
-515 images passed, 1 failed.
+589 images passed, 1 failed.
 
 
 ## ChatGPT Image Nov 15, 2026, 07_04_59 AM.png (ground tiles)
@@ -707,6 +707,104 @@ Made by tools/art_cleanup.py. palette from art/palette.json (33 colors). A pictu
 - obj_fallen_branch: **pass** 32x16
 - obj_fallen_branch_snow: **pass** 32x16
 - obj_stake_leaning: **pass** 16x24
+
+## ar16_gathered_draft.png (Art Request 16: gathered item icons)
+
+- item_sticks: **pass** 32x32
+- item_stones: **pass** 32x32
+- item_reeds: **pass** 32x32
+- item_wild_onion: **pass** 32x32
+- item_fiddleheads: **pass** 32x32
+- item_wildflowers: **pass** 32x32
+- item_berries: **pass** 32x32
+- item_hazelnuts: **pass** 32x32
+- item_mushrooms: **pass** 32x32
+- item_rose_hips: **pass** 32x32
+- item_pine_resin: **pass** 32x32
+- item_glowcap: **pass** 32x32
+- item_ember_moss: **pass** 32x32
+- item_lodestone_sliver: **pass** 32x32
+
+## ar16_made_draft.png (Art Request 16: made item icons)
+
+- item_cairn: **pass** 32x32
+- item_rope: **pass** 32x32
+- item_boardwalk: **pass** 32x32
+- item_workbench_kit: **pass** 32x32
+- item_trail_mix: **pass** 32x32
+- item_berry_preserve: **pass** 32x32
+- item_fiddlehead_fry: **pass** 32x32
+- item_roast_hazelnuts: **pass** 32x32
+- item_rose_hip_tea: **pass** 32x32
+- item_glowcap_lantern: **pass** 32x32
+- item_ember_bedroll: **pass** 32x32
+- item_true_compass: **pass** 32x32
+
+## ar16_room_big_draft.png (Art Request 16: small room things (sheet 3, sent under the big sheet's name)): background removed cell by cell inside the grid lines
+
+- furniture_trunk: **pass** 28x22
+- furniture_cupboard_low: **pass** 30x28
+- furniture_washstand: **pass** 26x28
+- furniture_wood_box: **pass** 20x18
+- furniture_table_chairs: **pass** 36x32
+- furniture_oil_lamp: **pass** 14x26
+- furniture_oil_lamp_lit: **pass** 14x26
+
+## ar16_room_small_draft.png (Art Request 16: big room things (sheet 4, sent under the small sheet's name)): background removed cell by cell inside the grid lines
+
+- furniture_bunk_bed: **pass** 32x36
+- furniture_cabin_bed: **pass** 32x32
+- furniture_wardrobe: **pass** 28x40
+- furniture_pantry: **pass** 32x40
+- furniture_cabin_workbench: **pass** 32x36
+- furniture_map_table: **pass** 32x36
+- furniture_coat_rack: **pass** 22x40
+- interior_window_curtains: **pass** 26x32
+- interior_window_curtains_night: **pass** 26x32
+
+## ar16_trees_new_draft.png (Art Request 16: new trees): background removed cell by cell inside the grid lines
+
+- obj_tree_birch: **pass** 32x48
+- obj_tree_spruce: **pass** 32x48
+- obj_tree_maple: **pass** 32x48
+- obj_tree_aspen: **pass** 32x48
+- obj_tree_cedar: **pass** 32x48
+- obj_tree_birch_alt_1: **pass** 32x48
+- obj_tree_spruce_alt_1: **pass** 32x48
+- obj_tree_maple_alt_1: **pass** 32x48
+- obj_tree_aspen_alt_1: **pass** 32x48
+- obj_tree_cedar_alt_1: **pass** 32x48
+
+## ar16_trees_more_draft.png (Art Request 16: more versions of today's trees (row 2 young)): background removed cell by cell inside the grid lines
+
+- obj_tree_pine_alt_2: **pass** 32x48
+- obj_tree_fir_alt_2: **pass** 32x48
+- obj_tree_oak_alt_2: **pass** 32x48
+- obj_tree_dead_alt_2: **pass** 32x48
+- obj_tree_pine_alt_3: **pass** 24x32
+- obj_tree_fir_alt_3: **pass** 24x32
+- obj_tree_oak_alt_3: **pass** 24x32
+- obj_tree_dead_alt_3: **pass** 24x32
+
+## ar16_ground_plain_draft.png (Art Request 16: plain ground (the bog tile is left out: it came out as a white blob))
+
+- ground_grass_plain: **pass** 16x16
+- ground_tall_grass_plain: **pass** 16x16
+- ground_forest_floor_plain: **pass** 16x16
+- ground_trail_plain: **pass** 16x16
+- ground_rock_plain: **pass** 16x16
+- ground_shallows_plain: **pass** 16x16
+- ground_deep_water_plain: **pass** 16x16
+
+## ar16_ui_draft.png (Art Request 16: wooden frame and tab icons)
+
+- ui_wood_frame: **pass** 124x54
+- ui_tab_backpack: **pass** 16x16
+- ui_tab_chest: **pass** 16x16
+- ui_tab_shelf: **pass** 16x16
+- ui_tab_book: **pass** 16x16
+- ui_tab_ledger: **pass** 16x16
+- ui_tab_options: **pass** 16x16
 
 ## calm_ground_a.png
 

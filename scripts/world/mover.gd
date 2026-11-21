@@ -19,6 +19,17 @@ static func box_hits(pos: Vector2, half: Vector2, is_solid: Callable) -> bool:
 
 static func move(pos: Vector2, motion: Vector2, size: Vector2, is_solid: Callable) -> Vector2:
 	var half := size / 2.0
+	# Already standing in something solid (a bathroom built or a can put
+	# down on the ranger's own tile): those tiles do not hold the ranger, so
+	# a step always walks out (tracker #12, #14).
+	if box_hits(pos, half, is_solid):
+		var stuck := {}
+		for y in range(floori(pos.y - half.y), floori(pos.y + half.y - 0.0001) + 1):
+			for x in range(floori(pos.x - half.x), floori(pos.x + half.x - 0.0001) + 1):
+				if is_solid.call(Vector2i(x, y)):
+					stuck[Vector2i(x, y)] = true
+		var inner := is_solid
+		is_solid = func(t: Vector2i) -> bool: return not stuck.has(t) and inner.call(t)
 	# Split long moves so nothing is skipped over.
 	var steps := maxi(1, ceili(motion.length() / 0.25))
 	var step := motion / steps

@@ -748,7 +748,10 @@
     {
      "kind": "clear",
      "label": "js_trunks_pond",
-     "points": "pond_trunks"
+     "points": [
+      "pond_trunks",
+      "pond_brush"
+     ]
     },
     {
      "kind": "dig",
@@ -905,7 +908,10 @@
     {
      "kind": "clear",
      "label": "js_trunk_road",
-     "points": "road_trunk"
+     "points": [
+      "road_trunk",
+      "road_brush"
+     ]
     },
     {
      "kind": "dig",

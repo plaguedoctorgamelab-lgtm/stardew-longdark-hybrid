@@ -220,6 +220,11 @@ func _fill(v: Variant, args: Dictionary) -> Variant:
 		var sv := v as String
 		if sv.begins_with("{") and sv.ends_with("}") and args.has(sv.substr(1, sv.length() - 2)):
 			return args[sv.substr(1, sv.length() - 2)]
+		# A blank inside a longer string ("place:{site_id}") is filled in
+		# as text (tracker #16, #24: these were left unfilled, so the job
+		# looked nowhere and never counted a can or bench).
+		for a: String in args:
+			sv = sv.replace("{" + a + "}", str(args[a]))
 		return sv
 	if v is Array:
 		var out := []
@@ -775,13 +780,16 @@ func _clear_targets(stp: Dictionary) -> Dictionary:
 	# {"tiles": [obstacle tiles to clear], "spots": [spot ids]}
 	var tiles: Array[Vector2i] = []
 	if stp.has("points"):
-		var pts: Variant = (s().world.meta.get("trail_job_points", {}) as Dictionary).get(str(stp["points"]), [])
-		if pts is Array and (pts as Array).size() > 0:
-			if (pts as Array)[0] is Array:
-				for p: Array in pts:
-					tiles.append(Vector2i(int(p[0]), int(p[1])))
-			else:
-				tiles.append(Vector2i(int(pts[0]), int(pts[1])))
+		# One named set of points, or several (trunks and the brush beside them).
+		var names: Array = stp["points"] if stp["points"] is Array else [stp["points"]]
+		for nm: Variant in names:
+			var pts: Variant = (s().world.meta.get("trail_job_points", {}) as Dictionary).get(str(nm), [])
+			if pts is Array and (pts as Array).size() > 0:
+				if (pts as Array)[0] is Array:
+					for p: Array in pts:
+						tiles.append(Vector2i(int(p[0]), int(p[1])))
+				else:
+					tiles.append(Vector2i(int(pts[0]), int(pts[1])))
 	if stp.has("gap_brush"):
 		var gp := gap(str(stp["gap_brush"]))
 		for p: Array in gp.get("tiles", []):
@@ -1713,6 +1721,24 @@ func link_of(k: String, i: int) -> String:
 
 ## Where a job's next step happens, in tiles, or Vector2.INF. A place not yet
 ## found is never given away: those steps have no spot.
+## Where "Show on map" should look for a step: its place, or for a place
+## not found yet the rumor's circle (tracker #22: these showed nothing).
+func map_pos(k: String, i: int) -> Vector2:
+	var p := step_pos(k, i)
+	if p != Vector2.INF or i < 0:
+		return p
+	var stp: Dictionary = def(k)["steps"][i]
+	var lm := str(stp.get("landmark", ""))
+	if stp.has("site"):
+		lm = str(s().content.row("sites", stp["site"])["landmark"])
+	if lm == "":
+		return Vector2.INF
+	for h: Dictionary in MapScreen.hints(s()):
+		if str(h.get("id", "")) == lm:
+			return h["center"]
+	return Vector2.INF
+
+
 func step_pos(k: String, i: int) -> Vector2:
 	var g := s()
 	if i < 0:

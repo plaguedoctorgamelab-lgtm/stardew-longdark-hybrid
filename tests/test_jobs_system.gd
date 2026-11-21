@@ -117,11 +117,12 @@ func test_steps_that_stay_and_steps_that_break(t: TestCase) -> void:
 	t.equal(undone[0], 1, "step_undone fired once")
 	s.debug_dig(Vector2i(int(mid[0]), int(mid[1])))
 	# Clearing (stays done) is recorded once.
-	for p: Array in s.world.meta["trail_job_points"]["pond_trunks"]:
-		s.debug_clear_obstacle(Vector2i(int(p[0]), int(p[1])))
+	for nm in ["pond_trunks", "pond_brush"]:
+		for p: Array in s.world.meta["trail_job_points"][nm]:
+			s.debug_clear_obstacle(Vector2i(int(p[0]), int(p[1])))
 	s.jobs.update(true)
 	var clear_i := 1
-	t.check(bool(s.jobs.check(k, clear_i)["done"]), "trunks sawn")
+	t.check(bool(s.jobs.check(k, clear_i)["done"]), "trunks sawn and brush cleared")
 	for p: Array in s.world.meta["trail_job_points"]["pond_trunks"]:
 		s.debug_clear_obstacle(Vector2i(int(p[0]), int(p[1])), false)
 	s.jobs.update(true)

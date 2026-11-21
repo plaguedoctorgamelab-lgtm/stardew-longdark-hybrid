@@ -280,9 +280,10 @@ func open() -> void:
 	_layout()
 
 
-## Opens the map centred on a point (a job's next step).
-func open_at(p: Vector2) -> void:
-	open()
+## Opens the map centred on a point (a job's next step), with a ring
+## pulsing round it and the step named at the foot (tracker #22).
+func open_at(p: Vector2, text: String = "") -> void:
+	open_flourish([{"kind": "reveal", "pos": p}], text)
 	center = p
 	_layout()
 

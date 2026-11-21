@@ -20,12 +20,26 @@ var drop_button: Button
 var trash_button: Button
 
 
+var _pack_icon: TextureRect
+var _store_icon: TextureRect
+
+
 func setup(s: GameSession) -> void:
 	session = s
 	size = Vector2(300, 150)
 	position = (Vector2(480, 270) - size) / 2.0
+	KitStyle.frame(self)
 	title_label = _label(Vector2(8, 4), s.content.text("ui_backpack"))
 	other_label = _label(Vector2(8, 74), "")
+	# The jobs clipboard's look: a small tab picture before each title.
+	_pack_icon = KitStyle.tab_icon("backpack")
+	if _pack_icon != null:
+		_pack_icon.position = Vector2(8, 4)
+		add_child(_pack_icon)
+		title_label.position.x = 23
+	_store_icon = KitStyle.tab_icon("chest")
+	if _store_icon != null:
+		add_child(_store_icon)
 	info = _label(Vector2(8, 128), "")
 	hint = _label(Vector2(190, 4), s.content.text("ui_close_hint"))
 	_pack_buttons = _grid(Vector2(8, 18), session.backpack.size(), true)
@@ -120,6 +134,10 @@ func open(storage: Inventory, storage_title: String) -> void:
 		other.changed.disconnect(refresh)
 	other = storage
 	other_label.text = storage_title
+	if _store_icon != null:
+		var kind := "shelf" if storage_title == session.content.text("ui_shelf") else "chest"
+		_store_icon.texture = Art.texture("ui_tab_" + kind)
+		_store_icon.visible = other != null
 	if other != null:
 		_other_buttons = _grid(Vector2(8, _other_top() + 14), other.size(), false)
 		other.changed.connect(refresh)
@@ -158,6 +176,10 @@ func _other_top() -> float:
 ## Sizes the screen to the backpack's rows and the open chest's, if any.
 func _layout() -> void:
 	var y := _other_top()
+	if _store_icon != null:
+		_store_icon.position = Vector2(8, y)
+		_store_icon.visible = other != null
+		other_label.position.x = 23
 	other_label.position.y = y
 	if other != null:
 		y += 14 + _rows(other.size()) * (SLOT + 2)

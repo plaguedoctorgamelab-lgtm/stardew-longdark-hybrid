@@ -1,0 +1,10 @@
+{
+ "note": "Mark's music (21 Nov 2026) and when each piece plays. The first row whose 'when' matches is the one that plays: title (the title screen), winter (any time in winter), night (after dark), indoors (inside a building), outdoors (anywhere else). A piece that ends is played again after tuning audio.gap_seconds of quiet; a change of place fades across over audio.fade_seconds.",
+ "rows": [
+  {"id": "title", "when": "title", "file": "res://audio/music/hearthlight.wav", "name": "Hearthlight"},
+  {"id": "winter", "when": "winter", "file": "res://audio/music/lanterns_in_snow.mp3", "name": "Lanterns in Snow"},
+  {"id": "night", "when": "night", "file": "res://audio/music/lanterns_in_snow.mp3", "name": "Lanterns in Snow"},
+  {"id": "indoors", "when": "indoors", "file": "res://audio/music/hearthlight.wav", "name": "Hearthlight"},
+  {"id": "outdoors", "when": "outdoors", "file": "res://audio/music/pine_path.wav", "name": "Pine Path"}
+ ]
+}

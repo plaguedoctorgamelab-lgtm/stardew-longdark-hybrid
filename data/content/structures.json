@@ -18,8 +18,8 @@
    "has_bed": true,
    "interior": {
     "size": [
-     12,
-     10
+     13,
+     11
     ],
     "floor": "interior_plank_floor",
     "wall": "interior_back_wall",
@@ -28,18 +28,18 @@
     "wall_height": 3,
     "entry": [
      6,
-     8
+     9
     ],
     "decor": [
      {
-      "sprite": "interior_window",
+      "sprite": "interior_window_curtains",
       "pos": [
        3,
        0
       ]
      },
      {
-      "sprite": "interior_window",
+      "sprite": "interior_window_curtains",
       "pos": [
        8,
        0
@@ -133,7 +133,7 @@
       "kind": "exit",
       "pos": [
        6,
-       9
+       10
       ],
       "size": [
        1,
@@ -179,6 +179,45 @@
        1
       ],
       "sprite": "furniture_staff_board"
+     },
+     {
+      "id": "coat_rack",
+      "kind": "decor",
+      "pos": [
+       11,
+       3
+      ],
+      "size": [
+       1,
+       1
+      ],
+      "sprite": "furniture_coat_rack"
+     },
+     {
+      "id": "lamp",
+      "kind": "decor",
+      "pos": [
+       4,
+       3
+      ],
+      "size": [
+       1,
+       1
+      ],
+      "sprite": "furniture_oil_lamp"
+     },
+     {
+      "id": "table",
+      "kind": "decor",
+      "pos": [
+       8,
+       8
+      ],
+      "size": [
+       2,
+       2
+      ],
+      "sprite": "furniture_table_chairs"
      }
     ]
    },
@@ -255,8 +294,8 @@
    "has_bed": true,
    "interior": {
     "size": [
-     9,
-     9
+     10,
+     10
     ],
     "floor": "interior_plank_floor",
     "wall": "interior_back_wall",
@@ -265,11 +304,11 @@
     "wall_height": 3,
     "entry": [
      4,
-     7
+     8
     ],
     "decor": [
      {
-      "sprite": "interior_window",
+      "sprite": "interior_window_curtains",
       "pos": [
        6,
        0
@@ -302,9 +341,9 @@
       ],
       "size": [
        2,
-       3
+       2
       ],
-      "sprite": "furniture_bed"
+      "sprite": "furniture_cabin_bed"
      },
      {
       "id": "stove",
@@ -327,29 +366,94 @@
        3
       ],
       "size": [
-       1,
+       2,
        1
       ],
-      "sprite": "furniture_chest"
+      "sprite": "furniture_trunk"
      },
      {
       "id": "door",
       "kind": "exit",
       "pos": [
        4,
-       8
+       9
       ],
       "size": [
        1,
        1
       ],
       "sprite": "furniture_door"
+     },
+     {
+      "id": "cupboard",
+      "kind": "decor",
+      "pos": [
+       3,
+       3
+      ],
+      "size": [
+       2,
+       1
+      ],
+      "sprite": "furniture_cupboard_low"
+     },
+     {
+      "id": "wood_box",
+      "kind": "decor",
+      "pos": [
+       7,
+       4
+      ],
+      "size": [
+       1,
+       1
+      ],
+      "sprite": "furniture_wood_box"
+     },
+     {
+      "id": "lamp",
+      "kind": "decor",
+      "pos": [
+       8,
+       4
+      ],
+      "size": [
+       1,
+       1
+      ],
+      "sprite": "furniture_oil_lamp"
+     },
+     {
+      "id": "washstand",
+      "kind": "decor",
+      "pos": [
+       7,
+       6
+      ],
+      "size": [
+       2,
+       1
+      ],
+      "sprite": "furniture_washstand"
+     },
+     {
+      "id": "pantry",
+      "kind": "decor",
+      "pos": [
+       1,
+       6
+      ],
+      "size": [
+       2,
+       1
+      ],
+      "sprite": "furniture_pantry"
      }
     ],
     "kit_spot": {
      "pos": [
       1,
-      7
+      8
      ],
      "size": [
       3,
@@ -445,8 +549,8 @@
    "has_bed": true,
    "interior": {
     "size": [
-     9,
-     9
+     10,
+     10
     ],
     "floor": "interior_plank_floor",
     "wall": "interior_back_wall",
@@ -455,18 +559,18 @@
     "wall_height": 3,
     "entry": [
      4,
-     7
+     8
     ],
     "decor": [
      {
-      "sprite": "interior_window",
+      "sprite": "interior_window_curtains",
       "pos": [
        2,
        0
       ]
      },
      {
-      "sprite": "interior_window",
+      "sprite": "interior_window_curtains",
       "pos": [
        6,
        0
@@ -499,9 +603,9 @@
       ],
       "size": [
        2,
-       3
+       2
       ],
-      "sprite": "furniture_bed"
+      "sprite": "furniture_bunk_bed"
      },
      {
       "id": "stove",
@@ -537,17 +641,17 @@
        3
       ],
       "size": [
-       1,
+       2,
        1
       ],
-      "sprite": "furniture_chest"
+      "sprite": "furniture_trunk"
      },
      {
       "id": "door",
       "kind": "exit",
       "pos": [
        4,
-       8
+       9
       ],
       "size": [
        1,
@@ -581,12 +685,51 @@
        1
       ],
       "sprite": "furniture_desk"
+     },
+     {
+      "id": "map_table",
+      "kind": "decor",
+      "pos": [
+       1,
+       6
+      ],
+      "size": [
+       2,
+       1
+      ],
+      "sprite": "furniture_map_table"
+     },
+     {
+      "id": "wardrobe",
+      "kind": "decor",
+      "pos": [
+       7,
+       8
+      ],
+      "size": [
+       2,
+       1
+      ],
+      "sprite": "furniture_wardrobe"
+     },
+     {
+      "id": "lamp",
+      "kind": "decor",
+      "pos": [
+       8,
+       6
+      ],
+      "size": [
+       1,
+       1
+      ],
+      "sprite": "furniture_oil_lamp"
      }
     ],
     "kit_spot": {
      "pos": [
       1,
-      7
+      8
      ],
      "size": [
       3,

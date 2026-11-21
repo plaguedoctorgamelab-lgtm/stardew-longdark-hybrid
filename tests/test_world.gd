@@ -144,7 +144,8 @@ func test_ground_and_tree_variety(t: TestCase) -> void:
 				var kind := s.world.object_at(tile)
 				if kind.begins_with("tree_") and not s.chopped.has(tile):
 					trees[view.object_layer.get_cell_source_id(tile)] = true
-	t.equal(seen.size(), 4, "all four grass versions are used")
+	var versions := (s.content.row("art_variety", "ground_grass")["pictures"] as Array).size()
+	t.equal(seen.size(), versions, "all %d grass versions are used" % versions)
 	t.check(int(seen.get(0, 0)) > int(seen.get(1, 0)), "the plain grass is the most common")
 	t.check(details > 0, "small details are scattered (%d)" % details)
 	t.equal(on_objects, 0, "never under an object")

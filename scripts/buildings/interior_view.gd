@@ -11,6 +11,22 @@ var sort_root: Node2D
 var _furniture_sprites: Dictionary = {}   # furniture id -> {"sprite", "row"}
 var _floor: Node2D
 var current: String = ""
+var _night: bool = false   # last drawn as night: lamps lit, night windows
+
+
+## Whether it is night now, for lamps and windows.
+func _is_night() -> bool:
+	return Daylight.is_night(session.tuning, session.clock.season_name(), session.clock.minute)
+
+
+func _process(_delta: float) -> void:
+	if current == "" or not visible:
+		return
+	var n := _is_night()
+	if n != _night:
+		_night = n
+		refresh()
+		_floor.queue_redraw()
 
 
 func setup(s: GameSession) -> void:
@@ -42,6 +58,7 @@ func show_room(structure_id: String, ranger_node: Node2D) -> void:
 		Shadow.attach(spr, r.size.x * TILE, session.tuning)
 		_furniture_sprites[f["id"]] = {"sprite": spr, "row": f}
 	ranger_node.reparent(sort_root)
+	_night = _is_night()
 	refresh()
 	_floor.queue_redraw()
 
@@ -53,6 +70,8 @@ func refresh() -> void:
 		var art_name: String = f["sprite"]
 		if f["kind"] == "stove" and session.structures.stove_lit(current):
 			art_name = "furniture_stove_lit"
+		elif _night and f["kind"] == "decor" and Art.has_picture(art_name + "_lit"):
+			art_name += "_lit"
 		if f["kind"] == "job_spot":
 			art_name = session.jobs.spot_sprite(id)
 			spr.visible = art_name != "" and not session.interiors[current].hidden.has(id)
@@ -87,7 +106,10 @@ func _draw_room() -> void:
 		for x in range(1, w - 1):
 			_floor.draw_texture(floor_tex, Vector2(x, y) * TILE)
 	for d: Dictionary in inside.get("decor", []):
-		_floor.draw_texture(Art.texture(d["sprite"]), Vector2(float(d["pos"][0]), float(d["pos"][1])) * TILE)
+		var dn := str(d["sprite"])
+		if _night and Art.has_picture(dn + "_night"):
+			dn += "_night"
+		_floor.draw_texture(Art.texture(dn), Vector2(float(d["pos"][0]), float(d["pos"][1])) * TILE)
 	for r: Dictionary in inside.get("rugs", []):
 		_floor.draw_texture(Art.texture(r["sprite"]), Vector2(float(r["pos"][0]), float(r["pos"][1])) * TILE)
 	# Thin trim round the room, on the inside edge of the border tiles.

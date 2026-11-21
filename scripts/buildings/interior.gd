@@ -51,7 +51,9 @@ func furniture_near(pos: Vector2, reach: float) -> Dictionary:
 	var best := {}
 	var best_d := reach
 	for f: Dictionary in furniture:
-		if hidden.has(str(f["id"])):
+		# Decor (a lamp, a cupboard) is only to look at: X passes it by for
+		# the bed or chest beside it.
+		if hidden.has(str(f["id"])) or str(f["kind"]) == "decor":
 			continue
 		var r := furniture_rect(f)
 		var closest := Vector2(clampf(pos.x, r.position.x, r.end.x), clampf(pos.y, r.position.y, r.end.y))

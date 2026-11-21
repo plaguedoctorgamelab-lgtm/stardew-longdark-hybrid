@@ -733,7 +733,7 @@
   },
   {
    "id": "msg_sign_need_trail",
-   "text": "A sign goes on a trail.",
+   "text": "A sign goes on a trail, or right beside one.",
    "placeholder": true
   },
   {
@@ -743,7 +743,7 @@
   },
   {
    "id": "msg_marker_up",
-   "text": "You put up a trail marker.",
+   "text": "You put up a trail marker. (The hammer takes it down again.)",
    "placeholder": true
   },
   {
@@ -1468,7 +1468,7 @@
   },
   {
    "id": "msg_cairn_up",
-   "text": "You stack a small cairn.",
+   "text": "You stack a small cairn. (The hammer takes it down again.)",
    "placeholder": true
   },
   {
@@ -2568,7 +2568,7 @@
   },
   {
    "id": "msg_thing_placed",
-   "text": "You put down the {name}.",
+   "text": "You put down the {name}. (The hammer picks it up again.)",
    "placeholder": true
   },
   {
@@ -2753,7 +2753,7 @@
   },
   {
    "id": "book_hint",
-   "text": "J or Esc to close.",
+   "text": "B or Esc to close.",
    "placeholder": true
   },
   {
@@ -3143,7 +3143,7 @@
   },
   {
    "id": "hint_x_camp_sleep",
-   "text": "X: sleep at camp",
+   "text": "X: sleep at camp (the hammer packs it up)",
    "placeholder": true
   },
   {
@@ -3178,7 +3178,7 @@
   },
   {
    "id": "hint_x_read_sign",
-   "text": "X: read the sign",
+   "text": "X: read the sign (the hammer takes it down)",
    "placeholder": true
   },
   {
@@ -3253,7 +3253,7 @@
   },
   {
    "id": "hint_x_trash_can",
-   "text": "X: empty the trash can",
+   "text": "X: empty the trash can (the hammer picks it up)",
    "placeholder": true
   },
   {
@@ -3383,7 +3383,17 @@
   },
   {
    "id": "hint_c_take_down",
-   "text": "C: take the sign down",
+   "text": "C: take it down",
+   "placeholder": true
+  },
+  {
+   "id": "hint_c_pack_camp",
+   "text": "C: pack up the camp",
+   "placeholder": true
+  },
+  {
+   "id": "msg_camp_packed",
+   "text": "You pack up the camp and put out the fire.",
    "placeholder": true
   },
   {
@@ -4683,7 +4693,7 @@
   },
   {
    "id": "js_trunks_pond",
-   "text": "Saw through the three fallen trunks",
+   "text": "Saw through the three fallen trunks and clear the brush",
    "placeholder": true
   },
   {
@@ -4778,7 +4788,7 @@
   },
   {
    "id": "js_trunk_road",
-   "text": "Saw through the fallen trunk",
+   "text": "Saw through the fallen trunk and clear the brush",
    "placeholder": true
   },
   {
@@ -5644,6 +5654,31 @@
   {
    "id": "ui_options_unlock_map",
    "text": "Show unlocks on the map",
+   "placeholder": true
+  },
+  {
+   "id": "ui_options_music",
+   "text": "Music",
+   "placeholder": true
+  },
+  {
+   "id": "ui_music_off",
+   "text": "Off",
+   "placeholder": true
+  },
+  {
+   "id": "ui_music_low",
+   "text": "Quiet",
+   "placeholder": true
+  },
+  {
+   "id": "ui_music_medium",
+   "text": "Medium",
+   "placeholder": true
+  },
+  {
+   "id": "ui_music_high",
+   "text": "Loud",
    "placeholder": true
   },
   {

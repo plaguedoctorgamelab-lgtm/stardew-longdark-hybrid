@@ -1,15 +1,17 @@
 {
- "note": "How the world mixes its pictures. pictures: versions of one ground tile or object, picked per tile by weights. details: small things scattered on that ground, on about detail_chance of its open tiles. The game picks these as it draws: the land itself never changes. Each ground shows its calmest version (the one with the fewest lone pixels) on most tiles; the busier versions and the details are kept rare so the ground reads calm. Details that look like forage (wildflowers, pebbles, twigs, mushrooms, flat stones) are left out, so what can be picked stands apart from what cannot.",
+ "note": "How the world mixes its pictures. pictures: versions of one ground tile or object, picked per tile by weights. details: small things scattered on that ground, on about detail_chance of its open tiles. The game picks these as it draws: the land itself never changes. Each ground shows its calmest version (the one with the fewest lone pixels) on most tiles; the busier versions and the details are kept rare so the ground reads calm. Details that look like forage (wildflowers, pebbles, twigs, mushrooms, flat stones) are left out, so what can be picked stands apart from what cannot. Since Art Request 16 (21 Nov 2026) each main ground also has a plain version from Mark's sheet, in today's colours, shown on about three tiles in four; the details are a third as common as before. Trees: each kind also shows Mark's bigger and younger versions; the firs mix in spruce, the pines a rare old cedar, and the round trees maple, birch and aspen.",
  "rows": [
   {
    "id": "ground_grass",
    "pictures": [
+    "ground_grass_plain",
     "ground_grass",
     "ground_grass_alt_1",
     "ground_grass_alt_2",
     "ground_grass_alt_3"
    ],
    "weights": [
+    60,
     16,
     2,
     1,
@@ -22,17 +24,19 @@
     "detail_grass_tuft",
     "detail_clover"
    ],
-   "detail_chance": 0.0075
+   "detail_chance": 0.0025
   },
   {
    "id": "ground_tall_grass",
    "pictures": [
+    "ground_tall_grass_plain",
     "ground_tall_grass",
     "ground_tall_grass_alt_1",
     "ground_tall_grass_alt_2",
     "ground_tall_grass_alt_3"
    ],
    "weights": [
+    51,
     2,
     12,
     1,
@@ -41,17 +45,19 @@
    "details": [
     "detail_daisies"
    ],
-   "detail_chance": 0.005
+   "detail_chance": 0.00167
   },
   {
    "id": "ground_forest_floor",
    "pictures": [
+    "ground_forest_floor_plain",
     "ground_forest_floor",
     "ground_forest_floor_alt_1",
     "ground_forest_floor_alt_2",
     "ground_forest_floor_alt_3"
    ],
    "weights": [
+    60,
     4,
     3,
     12,
@@ -64,17 +70,19 @@
     "detail_moss",
     "detail_needles"
    ],
-   "detail_chance": 0.0125
+   "detail_chance": 0.00417
   },
   {
    "id": "ground_trail",
    "pictures": [
+    "ground_trail_plain",
     "ground_trail",
     "ground_trail_alt_1",
     "ground_trail_alt_2",
     "ground_trail_alt_3"
    ],
    "weights": [
+    60,
     14,
     3,
     1,
@@ -84,12 +92,14 @@
   {
    "id": "ground_shallows",
    "pictures": [
+    "ground_shallows_plain",
     "ground_shallows",
     "ground_shallows_alt_1",
     "ground_shallows_alt_2",
     "ground_shallows_alt_3"
    ],
    "weights": [
+    54,
     2,
     12,
     3,
@@ -99,12 +109,14 @@
   {
    "id": "ground_deep_water",
    "pictures": [
+    "ground_deep_water_plain",
     "ground_deep_water",
     "ground_deep_water_alt_1",
     "ground_deep_water_alt_2",
     "ground_deep_water_alt_3"
    ],
    "weights": [
+    27,
     3,
     2,
     2,
@@ -114,12 +126,14 @@
   {
    "id": "ground_rock",
    "pictures": [
+    "ground_rock_plain",
     "ground_rock",
     "ground_rock_alt_1",
     "ground_rock_alt_2",
     "ground_rock_alt_3"
    ],
    "weights": [
+    51,
     2,
     12,
     2,
@@ -144,7 +158,7 @@
     "detail_puddle",
     "detail_moss"
    ],
-   "detail_chance": 0.02
+   "detail_chance": 0.00667
   },
   {
    "id": "ground_boards",
@@ -165,9 +179,17 @@
    "id": "obj_tree_pine",
    "pictures": [
     "obj_tree_pine",
-    "obj_tree_pine_alt_1"
+    "obj_tree_pine_alt_1",
+    "obj_tree_pine_alt_2",
+    "obj_tree_pine_alt_3",
+    "obj_tree_cedar",
+    "obj_tree_cedar_alt_1"
    ],
    "weights": [
+    4,
+    4,
+    2,
+    2,
     1,
     1
    ]
@@ -176,33 +198,61 @@
    "id": "obj_tree_fir",
    "pictures": [
     "obj_tree_fir",
-    "obj_tree_fir_alt_1"
+    "obj_tree_fir_alt_1",
+    "obj_tree_fir_alt_2",
+    "obj_tree_fir_alt_3",
+    "obj_tree_spruce",
+    "obj_tree_spruce_alt_1"
    ],
    "weights": [
-    1,
-    1
+    4,
+    4,
+    2,
+    2,
+    3,
+    3
    ]
   },
   {
    "id": "obj_tree_oak",
    "pictures": [
     "obj_tree_oak",
-    "obj_tree_oak_alt_1"
+    "obj_tree_oak_alt_1",
+    "obj_tree_oak_alt_2",
+    "obj_tree_oak_alt_3",
+    "obj_tree_maple",
+    "obj_tree_maple_alt_1",
+    "obj_tree_birch",
+    "obj_tree_birch_alt_1",
+    "obj_tree_aspen",
+    "obj_tree_aspen_alt_1"
    ],
    "weights": [
-    1,
-    1
+    3,
+    3,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2
    ]
   },
   {
    "id": "obj_tree_dead",
    "pictures": [
     "obj_tree_dead",
-    "obj_tree_dead_alt_1"
+    "obj_tree_dead_alt_1",
+    "obj_tree_dead_alt_2",
+    "obj_tree_dead_alt_3"
    ],
    "weights": [
-    1,
-    1
+    3,
+    3,
+    2,
+    2
    ]
   }
  ]

@@ -148,6 +148,44 @@ static func theme() -> Theme:
 	return t
 
 
+## Mark's wooden frame (Art Request 16) round a panel, as the jobs
+## clipboard has: drawn behind the panel's paper and a little outside it.
+## Nothing is added if the picture is missing.
+static func frame(panel: Control, out: float = 7.0) -> void:
+	if not Art.has_picture("ui_wood_frame") or panel.has_node("WoodFrame"):
+		return
+	var f := NinePatchRect.new()
+	f.name = "WoodFrame"
+	f.texture = Art.texture("ui_wood_frame")
+	f.patch_margin_left = 10
+	f.patch_margin_right = 10
+	f.patch_margin_top = 10
+	f.patch_margin_bottom = 10
+	f.draw_center = false
+	f.show_behind_parent = true
+	f.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	f.set_anchors_preset(Control.PRESET_FULL_RECT)
+	f.offset_left = -out
+	f.offset_top = -out
+	f.offset_right = out
+	f.offset_bottom = out
+	panel.add_child(f)
+
+
+## A small tab icon (Art Request 16: backpack, chest, shelf, book, ledger,
+## options) to sit before a title, or null if the picture is missing.
+static func tab_icon(kind: String) -> TextureRect:
+	if not Art.has_picture("ui_tab_" + kind):
+		return null
+	var r := TextureRect.new()
+	r.texture = Art.texture("ui_tab_" + kind)
+	r.size = Vector2(12, 12)
+	r.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	r.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	r.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return r
+
+
 ## Light words with a dark edge, for labels drawn over the world.
 static func over_world(l: Label) -> void:
 	l.add_theme_color_override("font_color", TEXT_LIGHT)

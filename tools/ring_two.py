@@ -297,7 +297,10 @@ def bake(R, G, L, r1, structures, ox, oy):
                 R.solid[y][x] = False
                 objects.pop((x, y), None)
                 R.edits.append((x, y))
-
+    # An old path from the cabin's door through its woods and the ridge to
+    # where the pond trail starts, so trail joins the cabin to the pond once
+    # the pond trail's own trunks, brush and gaps are dealt with (tracker
+    # #19: without it the pond could never count as joined).
     for (x, y) in trail_tiles:
         if r2(x, y) and ground[y][x] not in ("deep_water", "shallows"):
             ground[y][x] = "trail"
@@ -305,6 +308,7 @@ def bake(R, G, L, r1, structures, ox, oy):
         protected.add(t)
         if r2(*t) and ground[t[1]][t[0]] == "rock":
             ground[t[1]][t[0]] = "forest_floor"
+    _lay_cabin_path(R, ground, objects, cab, ox, oy, trail_pts[0], r1y0, r2)
 
     # --- Tower Hill ---------------------------------------------------------------------------
     tw = C["tower"]
@@ -502,25 +506,32 @@ def bake(R, G, L, r1, structures, ox, oy):
     brush = []
 
     # A trunk blocks the whole width of the trail: brush fills its row beside it.
-    for (tx, ty) in trunks:
+    pond_brush = []
+    road_brush = []
+    for ti, (tx, ty) in enumerate(trunks):
+        into = pond_brush if ti < len(tr["trunks"]) else road_brush
         for step in (-1, 1):
             x = tx - 1 if step < 0 else tx + 3
             while ground[ty][x] == "trail" and (x, ty) not in objects:
                 objects[(x, ty)] = "brush"
                 brush.append((x, ty))
+                into.append((x, ty))
                 x += step
 
-    def brush_at(pts, frac, radius):
+    def brush_at(pts, frac, radius, into):
         px, py = pts[int(frac * len(pts))]
         for t in disc(px, py, radius + 0.4):
             if ground[t[1]][t[0]] == "trail" and t not in objects:
                 objects[t] = "brush"
                 brush.append(t)
+                into.append(t)
 
+    # The brush on each route is recorded too: the jobs that reopen them ask
+    # for it cleared (tracker #19: it blocked the pond trail unasked).
     for f in tr["brush"]:
-        brush_at(trail_pts, f, tr["radius"])
+        brush_at(trail_pts, f, tr["radius"], pond_brush)
     for f in ro["brush"]:
-        brush_at(road_pts, f, ro["radius"])
+        brush_at(road_pts, f, ro["radius"], road_brush)
     for (px, py) in stakes:
         objects[(int(px), int(py))] = "survey_stake"
     for gi, g in enumerate(stake_gaps):
@@ -535,8 +546,16 @@ def bake(R, G, L, r1, structures, ox, oy):
     px_, py_ = Pi(*br["post"])
     objects[(px_, py_)] = "bridge_post"
 
+    # Old paths where the trail jobs' joins had breaks no step named: round
+    # the pond from the pond trail's end to the first stake, and (below) from
+    # the top of the steps to the tower's door.
+    pond_path = _lay_path(R, ground, objects, _trail_near(ground, trail_pts[-1], 3), stake_line[0], r1y0, r2,
+                          (int(min(trail_pts[-1][0], stake_line[0][0])) - 40, int(min(trail_pts[-1][1], stake_line[0][1])) - 40,
+                           int(max(trail_pts[-1][0], stake_line[0][0])) + 40, int(max(trail_pts[-1][1], stake_line[0][1])) + 40),
+                          "the pond to the stakes")
+
     # --- hidden things (spoiler table) ---------------------------------------------------------
-    keep_clear = set()
+    keep_clear = set(pond_path)
     for pts, rad in ((trail_pts, tr["radius"] + 0.5), (stake_line, st["corridor"]), (road_pts, ro["radius"]), (steps_pts, tw["steps_radius"] + 0.5)):
         for (px, py) in pts:
             keep_clear.update(disc(px, py, rad))
@@ -554,6 +573,9 @@ def bake(R, G, L, r1, structures, ox, oy):
         for xx in range(tx0, tx0 + fw):
             objects.pop((xx, yy), None)
     R.structures.append(tower)
+    door_front = (tower["door"][0], tower["door"][1] + 1)
+    _lay_path(R, ground, objects, _trail_near(ground, steps_pts[0], 3), door_front, r1y0, r2,
+              (door_front[0] - 20, door_front[1] - 20, door_front[0] + 20, door_front[1] + 20), "the steps to the tower door")
 
     # --- solidity for ring two -------------------------------------------------------------------
     otypes = dict(r1["object_types"])
@@ -668,6 +690,8 @@ def bake(R, G, L, r1, structures, ox, oy):
         "pond_trail_end": [int(trail_pts[-1][0]), int(trail_pts[-1][1])],
         "pond_trunks": [list(t) for t in trunks[:len(tr["trunks"])]],
         "road_trunk": list(trunks[-1]),
+        "pond_brush": [list(t) for t in sorted(pond_brush)],
+        "road_brush": [list(t) for t in sorted(road_brush)],
         "east_snags": [list(g["tiles"][int(f * (len(g["tiles"]) - 1))]) for g in stake_gaps[1:2] for f in st.get("snags", [])],
     }
     R.extra["obstacles_on_routes"] = [[t[0], t[1], "fallen_trunk"] for t in sorted(trunks)] + [[t[0], t[1], "brush"] for t in sorted(brush)]
@@ -891,6 +915,80 @@ def _thin(path):
             out.append(path[i])
     out.append(path[-1])
     return out
+
+
+def _lay_cabin_path(R, ground, objects, cab, ox, oy, end_pt, r1y0, r2):
+    """Lays a one-tile trail by the shortest open walk from the trail at the
+    cabin's door to the pond trail's first point."""
+    door = (cab["pos"][0] + ox + cab["size"][0] // 2, cab["pos"][1] + oy + cab["size"][1])
+    starts = [(door[0] + dx, door[1] + dy) for dy in range(0, 4) for dx in range(-3, 4)
+              if ground[door[1] + dy][door[0] + dx] == "trail" and not R.solid[door[1] + dy][door[0] + dx]]
+    box = (door[0] - 120, int(end_pt[1]) - 6, door[0] + 120, door[1] + 4)
+    return _lay_path(R, ground, objects, starts, end_pt, r1y0, r2, box, "the cabin to the pond trail")
+
+
+def _trail_near(ground, pt, r):
+    """The trail tiles within r of a point."""
+    out = []
+    for dy in range(-r, r + 1):
+        for dx in range(-r, r + 1):
+            t = (int(pt[0]) + dx, int(pt[1]) + dy)
+            if ground[t[1]][t[0]] == "trail":
+                out.append(t)
+    return out
+
+
+def _lay_path(R, ground, objects, starts, end_pt, r1y0, r2, box, what):
+    """Lays a one-tile trail by the shortest open walk from any start tile to
+    beside end_pt, inside box (x0, y0, x1, y1). Only open ground becomes
+    trail; nothing solid is moved, no water is crossed. Returns the tiles
+    laid (tracker #19, #23: the trail jobs' joins had breaks no step named)."""
+    from collections import deque
+    if not starts:
+        R.problems.append("no trail to start the path from %s" % what)
+        return []
+    goal = (int(end_pt[0]), int(end_pt[1]))
+    prev = {s: None for s in starts}
+    q = deque(starts)
+    found = None
+    while q:
+        t = q.popleft()
+        if abs(t[0] - goal[0]) + abs(t[1] - goal[1]) <= 1:
+            found = t
+            break
+        for n in ((t[0] + 1, t[1]), (t[0] - 1, t[1]), (t[0], t[1] + 1), (t[0], t[1] - 1)):
+            if n in prev or not (box[0] <= n[0] <= box[2] and box[1] <= n[1] <= box[3]):
+                continue
+            # Ring one's trees and walls are in R.solid; ring two's ground may
+            # have been opened since its solid map was made, so there the
+            # ground and objects decide.
+            if n in objects or ground[n[1]][n[0]] in ("shallows", "deep_water", "rock"):
+                continue
+            if not r2(*n) and R.solid[n[1]][n[0]]:
+                continue
+            prev[n] = t
+            q.append(n)
+    if found is None:
+        R.problems.append("no open way for the path from %s" % what)
+        return []
+    laid = []
+    # The goal itself becomes trail too (a building counts as joined when
+    # the tile in front of its door is trail), if it is open ground.
+    if found != goal and goal not in objects and ground[goal[1]][goal[0]] not in ("shallows", "deep_water", "rock"):
+        if ground[goal[1]][goal[0]] != "trail":
+            ground[goal[1]][goal[0]] = "trail"
+            laid.append(goal)
+            if not r2(*goal) and goal[1] >= r1y0:
+                R.edits.append(goal)
+    t = found
+    while t is not None:
+        if ground[t[1]][t[0]] != "trail":
+            ground[t[1]][t[0]] = "trail"
+            laid.append(t)
+            if not r2(*t) and t[1] >= r1y0:
+                R.edits.append(t)
+        t = prev[t]
+    return laid
 
 
 def _find_gap(R, r1, ox, oy, cab_center, L):

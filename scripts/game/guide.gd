@@ -209,6 +209,8 @@ func _hammer_hint(s: GameSession, front: Vector2i) -> String:
 	if not s.is_indoors():
 		if s.placed.has(front):
 			return _t("hint_c_take_down")
+		if s.camp_in_reach():
+			return _t("hint_c_pack_camp")
 		if s.thing_in_reach().x >= 0:
 			return _t("hint_c_pick_up_thing")
 		var pad := s.pad_in_reach(s.tuning.num("facilities.reach_tiles"))

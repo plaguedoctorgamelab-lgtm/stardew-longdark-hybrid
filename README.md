@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.5.0** (see [Version history](#version-history)). The
+**Current version: 0.5.1** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -101,6 +101,18 @@ docs/              bible, roadmap, specs, rules, status reports (hidden from God
 
 The version lives in `project.godot` (`application/config/version`). Every
 commit of the build raises it and adds a line here.
+
+### 0.5.1 (21 November 2026): Mark's art and music, and the tracker's jobs fixes
+
+Art Request 16 and the first music are in, and every 0.5.0 tracker report the lab could reach is fixed.
+
+- **Art Request 16** (`docs/art/art_request_16_rooms_trees_water.md`), cut from Mark's eight sheets by `tools/art_cleanup.py` (now able to clear the background cell by cell inside drawn grid lines, cut hand-placed cells, and recolor a piece to the game's own colours): the 26 item icons that were stand-ins; furniture for the rooms (a trunk, cupboards, a wardrobe, pantry shelves, a bunk bed, a cabin bed, a map table, a table and chairs, a coat rack, a lamp unlit and lit, a window with curtains by day and night); five new trees (birch, spruce, maple, aspen, old cedar) and an old and a young version of each of today's four; plain ground tiles in today's colours, shown on about three tiles in four, with the scattered details a third as common; a wooden frame and six tab icons. The bog tile came out broken and is left out. The water waits on Mark's picture.
+- **Rooms one tile bigger** each way (tracker #21) and furnished: the cabin and the tower each get their own bed and a trunk, and the furniture to make them lived in. Decor is passed by when X looks for the bed or chest beside it.
+- **Light at night:** an open building's windows glow warm from outside; inside, the room dims and lamps and a lit stove light it; the curtains show a night sky.
+- **Music:** Mark's Hearthlight (title and indoors), Pine Path (outdoors by day) and Lanterns in Snow (winter, and outdoors at night), crossfading as you go (`scripts/audio/music.gd`, `data/content/music.json`). Options: Music Off, Quiet, Medium or Loud.
+- **The jobs look in other screens:** the backpack, the book, the workbench and cooking lists, the pause menu, Options and dialogs sit in the wooden frame, with tab pictures.
+- **Tracker fixes:** template jobs now fill a blank inside a place ("place:{site_id}"), so trash cans and benches count at the outlook and the cabin (#16, #24); the pond trail's brush is part of its clearing step, and old paths join the cabin to the pond trail, the pond to the stakes and the steps to the tower door, so the pond and tower trail jobs finish (#19, #23); a site counts as joined within 4 tiles of its spot; X at a landmark still to map comes before forage beside it, so the pond's cairn maps (#25); a step always walks out of something put down on the ranger (#12, #14); the hammer packs up a camp (#20) and its taking-down is in the hints and messages (#18); signs and things try the tiles beside the faced one (#17); Show on map rings the step and names it, and goes to the rumor for a place not found yet (#22). The book's hint says B.
+- New tests: `tests/test_tracker_051.gd`, `tests/test_audio_and_art16.gd`; screenshots: `tests/support/screenshots_051.gd`; lab probes `tests/support/probe_tracker.gd` and `probe_trails.gd`.
 
 ### 0.5.0 (19 November 2026): the jobs rebuild
 

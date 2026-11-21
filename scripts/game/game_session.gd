@@ -928,6 +928,17 @@ func interact() -> void:
 			else:
 				feed_campfire()
 			return
+	# A landmark still to map, or ready to declare open, comes first: forage
+	# or a sign beside a cairn must not take the press (tracker #25: the
+	# pond's cairn sits among reeds and was never mapped).
+	var lm := world.interactive_near(outdoor_pos, reach + 0.5)
+	if not lm.is_empty() and str(lm["interact"]).begins_with("landmark:"):
+		var lid0 := str(lm["interact"]).substr(9)
+		var site0 := site_for_landmark(lid0)
+		if not map.is_landmark_mapped(lid0) or (site0 != "" and not sites_open.has(site0) and site_ready(site0)):
+			if not (seasonal_hidden.has(Vector2i(floori(lm["pos"].x), floori(lm["pos"].y))) or _hidden_near(lm["pos"])):
+				_interact_landmark(lid0)
+				return
 	var js := jobs.spot_in_reach("x", outdoor_pos, reach)
 	if js != "":
 		work_job_spot(js)
@@ -961,19 +972,24 @@ func interact() -> void:
 	elif what == "gate":
 		message.emit(content.text("msg_gate_closed"))
 	elif what.begins_with("landmark:"):
-		var lid := what.substr(9)
-		if not map.is_landmark_mapped(lid):
-			map_location(lid)
-			return
-		# A site with no building (the outlook, the pond) is declared open
-		# here, at its post or cairn, as a building is at its door.
-		var site := site_for_landmark(lid)
-		if site != "" and not sites_open.has(site) and site_ready(site):
-			_pending_site = site
-			pending_confirm = "open_site"
-			confirm_requested.emit("open_site", content.text("msg_open_site_confirm", {"name": content.text(content.row("sites", site)["name"])}))
-			return
-		message.emit(content.text(content.row("landmarks", lid)["name"]))
+		_interact_landmark(what.substr(9))
+
+
+## X at a landmark's post or cairn: map it, or declare its site open, or
+## say its name.
+func _interact_landmark(lid: String) -> void:
+	if not map.is_landmark_mapped(lid):
+		map_location(lid)
+		return
+	# A site with no building (the outlook, the pond) is declared open
+	# here, at its post or cairn, as a building is at its door.
+	var site := site_for_landmark(lid)
+	if site != "" and not sites_open.has(site) and site_ready(site):
+		_pending_site = site
+		pending_confirm = "open_site"
+		confirm_requested.emit("open_site", content.text("msg_open_site_confirm", {"name": content.text(content.row("sites", site)["name"])}))
+		return
+	message.emit(content.text(content.row("landmarks", lid)["name"]))
 
 
 ## The site a landmark belongs to, or "".
@@ -1147,6 +1163,8 @@ func hammer() -> Dictionary:
 		var front := ranger_tile() + facing_vector()
 		if placed.has(front):
 			return {"ok": take_down(front), "reason": "took_down"}
+		if camp_in_reach():
+			return {"ok": pack_up_camp(), "reason": "packed_camp"}
 		var th := thing_in_reach()
 		if th.x >= 0:
 			return {"ok": pick_up_park_thing(th), "reason": "picked_up"}
@@ -1211,6 +1229,25 @@ func make_camp() -> bool:
 	skills.act("make_camp")
 	camp_changed.emit()
 	message.emit(content.text("msg_camp_warm_bedroll" if ember else "msg_camp_made"))
+	return true
+
+
+## Whether the camp's bedroll or fire is within reach.
+func camp_in_reach() -> bool:
+	if camp.is_empty() or is_indoors():
+		return false
+	var reach := tuning.num("world.interact_reach_tiles")
+	return outdoor_pos.distance_to(Vector2(camp["bed"]) + Vector2(0.5, 0.5)) <= reach or outdoor_pos.distance_to(Vector2(camp["fire"]) + Vector2(0.5, 0.5)) <= reach
+
+
+## Packs up the camp: the bedroll is kept, the fire put out, the spot left
+## clear (tracker #20: a camp made by mistake stayed until slept in).
+func pack_up_camp() -> bool:
+	if camp.is_empty():
+		return false
+	camp = {}
+	camp_changed.emit()
+	message.emit(content.text("msg_camp_packed"))
 	return true
 
 
@@ -2193,16 +2230,39 @@ func place_problem(t: Vector2i, item: String) -> String:
 	return ""
 
 
-## Starts putting up the held sign or marker on the faced tile. A sign asks
-## which place it should name first.
+## The tiles to try putting something on, best first: the faced tile, then
+## the tiles either side of it, then either side of the ranger (tracker #17:
+## one exact tile was too fussy).
+func place_tiles() -> Array[Vector2i]:
+	var f := facing_vector()
+	var side := Vector2i(f.y, f.x)
+	var me := ranger_tile()
+	return [me + f, me + f + side, me + f - side, me + side, me - side]
+
+
+## The first tile that takes the held sign or marker, or (-1, -1); why is
+## the reason the faced tile would not do.
+func _place_tile(item: String) -> Dictionary:
+	var why := ""
+	for t: Vector2i in place_tiles():
+		var w := place_problem(t, item)
+		if w == "":
+			return {"tile": t, "why": ""}
+		if why == "":
+			why = w
+	return {"tile": Vector2i(-1, -1), "why": why}
+
+
+## Starts putting up the held sign or marker on the faced tile (or one
+## beside it). A sign asks which place it should name first.
 func begin_place() -> bool:
 	if is_indoors():
 		return false
 	var item := selected_item()
-	var t := ranger_tile() + facing_vector()
-	var why := place_problem(t, item)
-	if why != "":
-		message.emit(content.text(why))
+	var pick := _place_tile(item)
+	var t: Vector2i = pick["tile"]
+	if t.x < 0:
+		message.emit(content.text(str(pick["why"])))
 		return false
 	if content.row("items", item).get("names_place", false):
 		_pending_place = t
@@ -3720,12 +3780,16 @@ func place_park_thing() -> bool:
 		return false
 	var item := selected_item()
 	var id := park.thing_for_item(item)
-	var t := ranger_tile() + facing_vector()
-	if not camp.is_empty() and (camp["bed"] == t or camp["fire"] == t):
-		message.emit(content.text("msg_place_bad_spot"))
-		return false
-	var why := park.place_problem(t)
-	if why != "":
+	var t := Vector2i(-1, -1)
+	var why := ""
+	for c: Vector2i in place_tiles():
+		var w := "msg_place_bad_spot" if not camp.is_empty() and (camp["bed"] == c or camp["fire"] == c) else park.place_problem(c)
+		if w == "":
+			t = c
+			break
+		if why == "":
+			why = w
+	if t.x < 0:
 		message.emit(content.text(why))
 		return false
 	if not backpack.remove(item, 1):

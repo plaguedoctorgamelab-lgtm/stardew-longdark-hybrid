@@ -5132,6 +5132,876 @@
      "parts": 2
     }
    ]
+  },
+  {
+   "file": "ar16_gathered_draft.png",
+   "label": "Art Request 16: gathered item icons",
+   "grid": [
+    4,
+    4
+   ],
+   "cells": [
+    {
+     "name": "item_sticks",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_stones",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_reeds",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_wild_onion",
+     "size": [
+      32,
+      32
+     ],
+     "edge_ok": true
+    },
+    {
+     "name": "item_fiddleheads",
+     "size": [
+      32,
+      32
+     ],
+     "parts": 2
+    },
+    {
+     "name": "item_wildflowers",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_berries",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_hazelnuts",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_mushrooms",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_rose_hips",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_pine_resin",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_glowcap",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_ember_moss",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_lodestone_sliver",
+     "size": [
+      32,
+      32
+     ]
+    },
+    null,
+    null
+   ]
+  },
+  {
+   "file": "ar16_made_draft.png",
+   "label": "Art Request 16: made item icons",
+   "grid": [
+    4,
+    3
+   ],
+   "cells": [
+    {
+     "name": "item_cairn",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_rope",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_boardwalk",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_workbench_kit",
+     "size": [
+      32,
+      32
+     ],
+     "parts": 3
+    },
+    {
+     "name": "item_trail_mix",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_berry_preserve",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_fiddlehead_fry",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_roast_hazelnuts",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_rose_hip_tea",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_glowcap_lantern",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_ember_bedroll",
+     "size": [
+      32,
+      32
+     ],
+     "edge_ok": true
+    },
+    {
+     "name": "item_true_compass",
+     "size": [
+      32,
+      32
+     ],
+     "parts": 2
+    }
+   ]
+  },
+  {
+   "file": "ar16_room_big_draft.png",
+   "label": "Art Request 16: small room things (sheet 3, sent under the big sheet's name)",
+   "grid": [
+    4,
+    2
+   ],
+   "cell_bg": 10,
+   "cells": [
+    {
+     "name": "furniture_trunk",
+     "size": [
+      28,
+      22
+     ]
+    },
+    {
+     "name": "furniture_cupboard_low",
+     "size": [
+      30,
+      28
+     ],
+     "parts": 3
+    },
+    {
+     "name": "furniture_washstand",
+     "size": [
+      26,
+      28
+     ],
+     "parts": 2
+    },
+    {
+     "name": "furniture_wood_box",
+     "size": [
+      20,
+      18
+     ]
+    },
+    {
+     "name": "furniture_table_chairs",
+     "size": [
+      36,
+      32
+     ]
+    },
+    {
+     "name": "furniture_oil_lamp",
+     "size": [
+      14,
+      26
+     ]
+    },
+    {
+     "name": "furniture_oil_lamp_lit",
+     "size": [
+      14,
+      26
+     ]
+    },
+    null
+   ]
+  },
+  {
+   "file": "ar16_room_small_draft.png",
+   "label": "Art Request 16: big room things (sheet 4, sent under the small sheet's name)",
+   "grid": [
+    4,
+    2
+   ],
+   "cells": [
+    {
+     "name": "furniture_bunk_bed",
+     "size": [
+      32,
+      36
+     ]
+    },
+    {
+     "name": "furniture_cabin_bed",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "furniture_wardrobe",
+     "size": [
+      28,
+      40
+     ]
+    },
+    {
+     "name": "furniture_pantry",
+     "size": [
+      32,
+      40
+     ],
+     "parts": 2
+    },
+    {
+     "name": "furniture_cabin_workbench",
+     "size": [
+      32,
+      36
+     ],
+     "box": [
+      0,
+      512,
+      384,
+      512
+     ],
+     "parts": 6
+    },
+    {
+     "name": "furniture_map_table",
+     "size": [
+      32,
+      36
+     ],
+     "box": [
+      384,
+      512,
+      384,
+      512
+     ],
+     "parts": 2
+    },
+    {
+     "name": "furniture_coat_rack",
+     "size": [
+      22,
+      40
+     ],
+     "box": [
+      768,
+      512,
+      256,
+      512
+     ],
+     "parts": 2
+    },
+    {
+     "name": "interior_window_curtains",
+     "size": [
+      26,
+      32
+     ],
+     "box": [
+      1024,
+      512,
+      256,
+      512
+     ]
+    },
+    {
+     "name": "interior_window_curtains_night",
+     "size": [
+      26,
+      32
+     ],
+     "box": [
+      1280,
+      512,
+      256,
+      512
+     ]
+    }
+   ],
+   "cell_bg": 6
+  },
+  {
+   "file": "ar16_trees_new_draft.png",
+   "label": "Art Request 16: new trees",
+   "grid": [
+    5,
+    2
+   ],
+   "cell_bg": 8,
+   "cells": [
+    {
+     "name": "obj_tree_birch",
+     "size": [
+      32,
+      48
+     ],
+     "box": [
+      0,
+      0,
+      325,
+      485
+     ],
+     "edge_ok": true
+    },
+    {
+     "name": "obj_tree_spruce",
+     "size": [
+      32,
+      48
+     ],
+     "box": [
+      325,
+      0,
+      322,
+      485
+     ],
+     "edge_ok": true
+    },
+    {
+     "name": "obj_tree_maple",
+     "size": [
+      32,
+      48
+     ],
+     "box": [
+      647,
+      0,
+      325,
+      485
+     ],
+     "edge_ok": true
+    },
+    {
+     "name": "obj_tree_aspen",
+     "size": [
+      32,
+      48
+     ],
+     "box": [
+      972,
+      0,
+      278,
+      485
+     ],
+     "edge_ok": true
+    },
+    {
+     "name": "obj_tree_cedar",
+     "size": [
+      32,
+      48
+     ],
+     "box": [
+      1250,
+      0,
+      369,
+      485
+     ],
+     "edge_ok": true
+    },
+    {
+     "name": "obj_tree_birch_alt_1",
+     "size": [
+      32,
+      48
+     ],
+     "box": [
+      0,
+      485,
+      325,
+      485
+     ],
+     "edge_ok": true
+    },
+    {
+     "name": "obj_tree_spruce_alt_1",
+     "size": [
+      32,
+      48
+     ],
+     "box": [
+      325,
+      485,
+      322,
+      485
+     ],
+     "edge_ok": true
+    },
+    {
+     "name": "obj_tree_maple_alt_1",
+     "size": [
+      32,
+      48
+     ],
+     "box": [
+      647,
+      485,
+      325,
+      485
+     ],
+     "edge_ok": true
+    },
+    {
+     "name": "obj_tree_aspen_alt_1",
+     "size": [
+      32,
+      48
+     ],
+     "box": [
+      972,
+      485,
+      278,
+      485
+     ],
+     "edge_ok": true
+    },
+    {
+     "name": "obj_tree_cedar_alt_1",
+     "size": [
+      32,
+      48
+     ],
+     "box": [
+      1250,
+      485,
+      369,
+      485
+     ],
+     "edge_ok": true
+    }
+   ]
+  },
+  {
+   "file": "ar16_trees_more_draft.png",
+   "label": "Art Request 16: more versions of today's trees (row 2 young)",
+   "grid": [
+    4,
+    2
+   ],
+   "cell_bg": 8,
+   "cells": [
+    {
+     "name": "obj_tree_pine_alt_2",
+     "size": [
+      32,
+      48
+     ],
+     "box": [
+      13,
+      13,
+      355,
+      608
+     ],
+     "edge_ok": true,
+     "parts": 20
+    },
+    {
+     "name": "obj_tree_fir_alt_2",
+     "size": [
+      32,
+      48
+     ],
+     "box": [
+      368,
+      13,
+      355,
+      608
+     ],
+     "edge_ok": true,
+     "parts": 20
+    },
+    {
+     "name": "obj_tree_oak_alt_2",
+     "size": [
+      32,
+      48
+     ],
+     "box": [
+      723,
+      13,
+      357,
+      608
+     ],
+     "edge_ok": true,
+     "parts": 20
+    },
+    {
+     "name": "obj_tree_dead_alt_2",
+     "size": [
+      32,
+      48
+     ],
+     "box": [
+      1080,
+      13,
+      354,
+      608
+     ],
+     "edge_ok": true,
+     "parts": 20
+    },
+    {
+     "name": "obj_tree_pine_alt_3",
+     "size": [
+      24,
+      32
+     ],
+     "box": [
+      13,
+      621,
+      355,
+      450
+     ],
+     "edge_ok": true,
+     "parts": 20
+    },
+    {
+     "name": "obj_tree_fir_alt_3",
+     "size": [
+      24,
+      32
+     ],
+     "box": [
+      368,
+      621,
+      355,
+      450
+     ],
+     "edge_ok": true,
+     "parts": 20
+    },
+    {
+     "name": "obj_tree_oak_alt_3",
+     "size": [
+      24,
+      32
+     ],
+     "box": [
+      723,
+      621,
+      357,
+      450
+     ],
+     "edge_ok": true,
+     "parts": 20
+    },
+    {
+     "name": "obj_tree_dead_alt_3",
+     "size": [
+      24,
+      32
+     ],
+     "box": [
+      1080,
+      621,
+      354,
+      450
+     ],
+     "edge_ok": true,
+     "parts": 20
+    }
+   ]
+  },
+  {
+   "file": "ar16_ground_plain_draft.png",
+   "label": "Art Request 16: plain ground (the bog tile is left out: it came out as a white blob)",
+   "grid": [
+    4,
+    2
+   ],
+   "full": true,
+   "cells": [
+    {
+     "name": "ground_grass_plain",
+     "size": [
+      16,
+      16
+     ],
+     "recolor_like": "ground_grass"
+    },
+    {
+     "name": "ground_tall_grass_plain",
+     "size": [
+      16,
+      16
+     ],
+     "recolor_like": "ground_tall_grass"
+    },
+    {
+     "name": "ground_forest_floor_plain",
+     "size": [
+      16,
+      16
+     ],
+     "recolor_like": "ground_forest_floor"
+    },
+    {
+     "name": "ground_trail_plain",
+     "size": [
+      16,
+      16
+     ],
+     "recolor_like": "ground_trail"
+    },
+    {
+     "name": "ground_rock_plain",
+     "size": [
+      16,
+      16
+     ],
+     "recolor_like": "ground_rock"
+    },
+    null,
+    {
+     "name": "ground_shallows_plain",
+     "size": [
+      16,
+      16
+     ],
+     "recolor_like": "ground_shallows"
+    },
+    {
+     "name": "ground_deep_water_plain",
+     "size": [
+      16,
+      16
+     ],
+     "recolor_like": "ground_deep_water"
+    }
+   ]
+  },
+  {
+   "file": "ar16_ui_draft.png",
+   "label": "Art Request 16: wooden frame and tab icons",
+   "grid": [
+    6,
+    1
+   ],
+   "cells": [
+    {
+     "name": "ui_wood_frame",
+     "size": [
+      124,
+      54
+     ],
+     "box": [
+      60,
+      10,
+      1550,
+      680
+     ],
+     "recolor_map": [
+      [
+       [
+        232,
+        115,
+        95
+       ],
+       [
+        157,
+        102,
+        62
+       ]
+      ],
+      [
+       [
+        251,
+        177,
+        113
+       ],
+       [
+        199,
+        144,
+        95
+       ]
+      ],
+      [
+       [
+        157,
+        102,
+        62
+       ],
+       [
+        93,
+        62,
+        48
+       ]
+      ]
+     ]
+    },
+    {
+     "name": "ui_tab_backpack",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      60,
+      700,
+      250,
+      240
+     ]
+    },
+    {
+     "name": "ui_tab_chest",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      320,
+      700,
+      250,
+      240
+     ]
+    },
+    {
+     "name": "ui_tab_shelf",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      590,
+      700,
+      250,
+      240
+     ],
+     "parts": 4
+    },
+    {
+     "name": "ui_tab_book",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      870,
+      700,
+      230,
+      240
+     ]
+    },
+    {
+     "name": "ui_tab_ledger",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      1115,
+      700,
+      240,
+      240
+     ]
+    },
+    {
+     "name": "ui_tab_options",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      1365,
+      700,
+      250,
+      240
+     ]
+    }
+   ]
   }
  ],
  "calm": {

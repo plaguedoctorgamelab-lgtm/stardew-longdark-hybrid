@@ -8,7 +8,7 @@ extends Control
 ## scroll, so nothing runs off the paper. Only reads the jobs module, apart
 ## from pinning.
 
-signal show_on_map(pos: Vector2)
+signal show_on_map(pos: Vector2, text: String)
 signal closed
 
 const TABS: Array[String] = ["current", "noticed", "done"]
@@ -171,7 +171,7 @@ func refresh() -> void:
 	_empty.text = session.content.text("jt_empty_" + tab)
 	_pin_button.visible = selected != "" and jb.is_active(selected)
 	_pin_button.text = session.content.text("jt_unpin" if selected == jb.pinned and selected != "" else "jt_pin")
-	_map_button.visible = selected != "" and jb.is_active(selected) and jb.step_pos(selected, jb.next_step(selected)) != Vector2.INF
+	_map_button.visible = selected != "" and jb.is_active(selected) and jb.map_pos(selected, jb.next_step(selected)) != Vector2.INF
 	_map_button.text = session.content.text("jt_show_map")
 	if selected != "":
 		jb.mark_seen(selected)
@@ -656,11 +656,12 @@ func _scroll_to_selected() -> void:
 func _show_on_map() -> void:
 	if selected == "" or not session.jobs.is_active(selected):
 		return
-	var p := session.jobs.step_pos(selected, session.jobs.next_step(selected))
+	var i := session.jobs.next_step(selected)
+	var p := session.jobs.map_pos(selected, i)
 	if p == Vector2.INF:
 		return
 	close()
-	show_on_map.emit(p)
+	show_on_map.emit(p, session.jobs.def(selected)["name"] + ": " + session.jobs.step_label(selected, i))
 
 
 func _gui_input(event: InputEvent) -> void:
