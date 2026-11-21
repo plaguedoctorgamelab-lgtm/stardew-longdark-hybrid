@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.5.2** (see [Version history](#version-history)). The
+**Current version: 0.5.3** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -101,6 +101,12 @@ docs/              bible, roadmap, specs, rules, status reports (hidden from God
 
 The version lives in `project.godot` (`application/config/version`). Every
 commit of the build raises it and adds a line here.
+
+### 0.5.3 (21 November 2026): the station's furniture, and water that moves
+
+- **The station's furniture** (Art Request 17, sheet 5): Mark sent it again on a plain background (`art/raw/ar17_station_plain.png`). The bed, stove (cold and lit), workbench, catalog desk, radio, shelf, staff board, note board, chest, logbook desk and door are all his now. The wooden pieces take the game's wood browns, and the staff board's cork its tan.
+- **Water:** open water sways its ripple marks and catches a small glint, and where water meets land a wet-sand rim and a foam line run along the shore, lapping in and out. Made in the game from its own palette (`look.water` in tuning), after the feel of the picture Mark sent. Not where water meets boards.
+- `tools/art_cleanup.py`: boxes can be cleared from a cell before the cut (`erase`: the bed's cell also holds a wall picture and a hat hook), and recolouring touches only pictures cut in the same run, so re-cutting one sheet no longer darkens another's.
 
 ### 0.5.2 (21 November 2026): Art Request 17, the flat pieces redrawn
 

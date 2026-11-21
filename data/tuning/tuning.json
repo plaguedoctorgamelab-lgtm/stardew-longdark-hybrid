@@ -230,6 +230,54 @@
     "no_shadow": [
       "pawprints"
     ],
+    "water": {
+      "note": "Water's look (Mark's water picture, 21 Nov 2026, used for the feel only): open water sways its ripple marks and catches small glints; where it meets land a wet-sand rim and a foam line run along the shore and lap in and out.",
+      "grounds": [
+        "shallows",
+        "deep_water"
+      ],
+      "sway": [
+        0,
+        1,
+        0,
+        -1
+      ],
+      "frame_seconds": 0.9,
+      "glints": 1,
+      "glint_color": {
+        "shallows": [
+          185,
+          228,
+          232
+        ],
+        "deep_water": [
+          95,
+          172,
+          207
+        ]
+      },
+      "shore_from": [
+        "trail",
+        "dug_earth",
+        "bog",
+        "grass",
+        "tall_grass",
+        "forest_floor",
+        "rock"
+      ],
+      "shore_frames": 2,
+      "shore_seconds": 1.4,
+      "shore_sand": [
+        225,
+        189,
+        142
+      ],
+      "shore_foam": [
+        185,
+        228,
+        232
+      ]
+    },
     "visitor_layer_lift": {
       "visitor_hair": 1,
       "visitor_hat_cap": 1,

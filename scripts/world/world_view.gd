@@ -22,6 +22,9 @@ var _object_source: Dictionary = {}   # object kind -> Array of source ids, one 
 var _object_weights: Dictionary = {}  # object kind -> running total of its versions' weights
 var _ground_weights: Dictionary = {}  # ground name -> running total of its versions' weights
 var _ground_details: Dictionary = {}  # ground name -> {"coords": [atlas coords], "chance": float}
+var _ground_frames: Dictionary = {}   # ground name -> frames per version (water moves)
+var _shore_source: int = -1           # the shore where water meets land: 16 masks in a row, frames beside each
+var _shore_frames: int = 1
 var _detail_source: int = -1
 var detail_layer: TileMapLayer
 var shadow_layer: TileMapLayer
@@ -201,23 +204,33 @@ func _build_tileset() -> TileSet:
 		for d: String in details:
 			dsrc.create_tile(details[d])
 		_detail_source = ts.add_source(dsrc)
+	var water: Dictionary = session.tuning.value("look.water")
 	var grounds: Array = session.world.ground_codes.values()
 	# Ground the park can make at run time: a troll badger's diggings.
 	grounds.append("dug_earth")
 	for g: String in grounds:
 		var look := _variety("ground_" + g)
 		var pics: Array = look["pictures"]
+		# Water moves: each version has its frames beside it.
+		var sway: Array = water["sway"] if g in (water["grounds"] as Array) else [0]
+		var nf := sway.size()
+		_ground_frames[g] = nf
 		# Every version of a ground sits side by side in one strip.
-		var strip := Image.create(TILE * pics.size(), TILE, false, Image.FORMAT_RGBA8)
+		var strip := Image.create(TILE * pics.size() * nf, TILE, false, Image.FORMAT_RGBA8)
 		for i in pics.size():
 			var im := Art.image(pics[i])
 			im.convert(Image.FORMAT_RGBA8)
-			strip.blit_rect(im, Rect2i(0, 0, TILE, TILE), Vector2i(i * TILE, 0))
+			for f in nf:
+				var fr := im if nf == 1 else _water_frame(im, int(sway[f]), i * 16 + f, int(water["glints"]), water["glint_color"][g])
+				strip.blit_rect(fr, Rect2i(0, 0, TILE, TILE), Vector2i((i * nf + f) * TILE, 0))
 		var src := TileSetAtlasSource.new()
 		src.texture = ImageTexture.create_from_image(strip)
 		src.texture_region_size = Vector2i(TILE, TILE)
 		for i in pics.size():
-			src.create_tile(Vector2i(i, 0))
+			var at := Vector2i(i * nf, 0)
+			src.create_tile(at)
+			if nf > 1:
+				_animate(src, at, nf, float(water["frame_seconds"]))
 		_ground_source[g] = ts.add_source(src)
 		_ground_weights[g] = _running_total(look["weights"])
 		if look.has("details"):
@@ -236,6 +249,16 @@ func _build_tileset() -> TileSet:
 		for m in 16:
 			edge.create_tile(Vector2i(m % 4, m / 4))
 		_edge_source[g] = ts.add_source(edge)
+	_shore_frames = int(water["shore_frames"])
+	var shore := TileSetAtlasSource.new()
+	shore.texture = ImageTexture.create_from_image(_shore_atlas(water))
+	shore.texture_region_size = Vector2i(TILE, TILE)
+	for m in 16:
+		var at := Vector2i(m * _shore_frames, 0)
+		shore.create_tile(at)
+		if _shore_frames > 1:
+			_animate(shore, at, _shore_frames, float(water["shore_seconds"]))
+	_shore_source = ts.add_source(shore)
 	var types: Dictionary = session.world.meta["object_types"]
 	for kind: String in types:
 		var ot: Dictionary = types[kind]
@@ -363,7 +386,7 @@ func _draw_ground(t: Vector2i) -> void:
 	if not w.in_bounds(t):
 		return
 	var g := w.ground_at(t)
-	ground_layer.set_cell(t, _ground_source[g], Vector2i(pick(t, _ground_weights[g], 0), 0))
+	ground_layer.set_cell(t, _ground_source[g], Vector2i(pick(t, _ground_weights[g], 0) * int(_ground_frames.get(g, 1)), 0))
 	_draw_detail(t)
 	var gi := _ground_index(g)
 	var best := -1
@@ -379,7 +402,10 @@ func _draw_ground(t: Vector2i) -> void:
 				mask = 1 << i
 			elif ni == best:
 				mask |= 1 << i
-	if best >= 0:
+	var water: Dictionary = session.tuning.value("look.water")
+	if best >= 0 and g in (water["grounds"] as Array) and GROUND_ORDER[best] in (water["shore_from"] as Array):
+		edge_layer.set_cell(t, _shore_source, Vector2i(mask * _shore_frames, 0))
+	elif best >= 0:
 		edge_layer.set_cell(t, _edge_source[GROUND_ORDER[best]], Vector2i(mask % 4, mask / 4))
 	else:
 		edge_layer.erase_cell(t)
@@ -433,6 +459,85 @@ func _draw_detail(t: Vector2i) -> void:
 		return
 	var coords: Array = look["coords"]
 	detail_layer.set_cell(t, _detail_source, coords[tile_roll(t, 3) % coords.size()])
+
+
+## Frames of a tile set to play in turn, each tile starting at its own
+## moment so the water doesn't pulse all at once.
+static func _animate(src: TileSetAtlasSource, at: Vector2i, frames: int, seconds: float) -> void:
+	src.set_tile_animation_frames_count(at, frames)
+	for f in frames:
+		src.set_tile_animation_frame_duration(at, f, seconds)
+	src.set_tile_animation_mode(at, TileSetAtlasSource.TILE_ANIMATION_MODE_RANDOM_START_TIMES)
+
+
+## One frame of open water: the tile's ripple marks swayed sideways by
+## `shift` pixels (wrapping), and a few short glints placed by `seed`.
+static func _water_frame(src: Image, shift: int, seed: int, glints: int, glint: Array) -> Image:
+	var counts := {}
+	for y in TILE:
+		for x in TILE:
+			var c := src.get_pixel(x, y)
+			counts[c] = int(counts.get(c, 0)) + 1
+	var base: Color = counts.keys()[0]
+	for c: Color in counts:
+		if int(counts[c]) > int(counts[base]):
+			base = c
+	var out := Image.create(TILE, TILE, false, Image.FORMAT_RGBA8)
+	out.fill(base)
+	for y in TILE:
+		for x in TILE:
+			var c := src.get_pixel(x, y)
+			if c != base:
+				out.set_pixel(posmod(x + shift, TILE), y, c)
+	var gc := Color8(int(glint[0]), int(glint[1]), int(glint[2]))
+	for k in glints:
+		var r := tile_roll(Vector2i(seed, k), 11)
+		var gx := r % TILE
+		var gy := (r / TILE) % TILE
+		out.set_pixel(gx, gy, gc)
+		out.set_pixel((gx + 1) % TILE, gy, gc)
+	return out
+
+
+## The shore, laid on a water tile beside land: on the sides set in mask m
+## (1 = north, 2 = east, 4 = south, 8 = west) a wet-sand rim, then a foam
+## line, both a little wavy. Each mask has its frames beside it, the foam
+## lapping in and out by a pixel.
+static func _shore_atlas(water: Dictionary) -> Image:
+	var frames := int(water["shore_frames"])
+	var sand := Color8(int(water["shore_sand"][0]), int(water["shore_sand"][1]), int(water["shore_sand"][2]))
+	var foam := Color8(int(water["shore_foam"][0]), int(water["shore_foam"][1]), int(water["shore_foam"][2]))
+	var out := Image.create(TILE * 16 * frames, TILE, false, Image.FORMAT_RGBA8)
+	for m in 16:
+		for f in frames:
+			var ox := (m * frames + f) * TILE
+			for y in TILE:
+				for x in TILE:
+					var depth := 99
+					# Depth from each land side, nudged by a wave along it.
+					if m & 1:
+						depth = mini(depth, y - _wave(x))
+					if m & 2:
+						depth = mini(depth, TILE - 1 - x - _wave(y))
+					if m & 4:
+						depth = mini(depth, TILE - 1 - y - _wave(x + 5))
+					if m & 8:
+						depth = mini(depth, x - _wave(y + 5))
+					var c := Color(0, 0, 0, 0)
+					if depth <= 1:
+						c = sand
+					elif depth == 2 + f:
+						c = foam
+					elif depth == 3 + f and (x + y) % 2 == 0:
+						c = foam
+					if c.a > 0.0:
+						out.set_pixel(ox + x, y, c)
+	return out
+
+
+## A gentle wave along a shore: 0 or 1, in runs of three or four pixels.
+static func _wave(p: int) -> int:
+	return 1 if posmod(p, 7) < 3 else 0
 
 
 ## A 4x4 atlas: tile m holds the ground's fringe on the sides set in m

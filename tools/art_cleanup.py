@@ -328,7 +328,11 @@ def calm(w, h, pixels, keep):
     return out
 
 
+CUT = set()   # pictures cut in this run: only these are recoloured
+
+
 def save(name, w, h, pixels):
+    CUT.add(name)
     data = bytearray()
     for p in pixels:
         data.extend(p)
@@ -436,6 +440,13 @@ def main():
             if cell_bg:
                 clear_box_edges(img, x0, y0, x1, y1, int(cell_bg))
                 remove_background(img, (x0 + int(cell_bg), y0 + int(cell_bg), x1 - int(cell_bg), y1 - int(cell_bg)))
+            # "erase": [[x, y, w, h], ...] boxes on the sheet cleared before
+            # the cut (the bed's cell also holds a wall picture and a hat
+            # hook). Only the lab's copy in memory: the raw sheet is untouched.
+            for ex, ey, ew, eh in cell.get("erase", []):
+                for yy in range(max(0, ey), min(h, ey + eh)):
+                    for xx in range(max(0, ex), min(w, ex + ew)):
+                        img.clear(xx, yy)
             # "spill": the item may reach this many pixels into empty space
             # beyond its cell (checked by eye on the raw sheet).
             sp = cell.get("spill", 0)
@@ -529,7 +540,9 @@ def main():
     # orange wood snapped to coral; the clipboard's wood is brown).
     for entry in manifest["images"]:
         for cell in entry.get("cells", []):
-            if not cell or not cell.get("recolor_map"):
+            # Only a picture cut in this run: the swaps chain (orange to
+            # brown, brown to dark brown), so a second pass would darken it.
+            if not cell or not cell.get("recolor_map") or cell["name"] not in CUT:
                 continue
             path = os.path.join(FINAL, cell["name"] + ".png")
             if not os.path.exists(path):
@@ -543,7 +556,7 @@ def main():
             save(cell["name"], w, h, out)
     for entry in manifest["images"]:
         for cell in entry.get("cells", []):
-            if not cell or not cell.get("recolor_like"):
+            if not cell or not cell.get("recolor_like") or cell["name"] not in CUT:
                 continue
             path = os.path.join(FINAL, cell["name"] + ".png")
             ref = os.path.join(FINAL, cell["recolor_like"] + ".png")
