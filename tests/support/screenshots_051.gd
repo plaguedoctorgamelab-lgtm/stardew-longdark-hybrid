@@ -84,6 +84,13 @@ func _run() -> void:
 	await _shot("9_station_grounds")
 	for it in ["sticks", "stones", "reeds", "berries", "hazelnuts", "mushrooms", "glowcap", "rope", "cairn", "trail_mix", "true_compass", "glowcap_lantern"]:
 		s.backpack.add(it, 1)
+	_out(s, Vector2(12.5, 1442.5))
+	s.park.put_thing(Vector2i(15, 1442), "trash_can")
+	s.park.put_thing(Vector2i(16, 1442), "bench")
+	s.park.put_thing(Vector2i(17, 1442), "picnic_table")
+	main.dialog.visible = false
+	s.recipes_new.clear()
+	await _shot("13_gate")
 	main.inventory_screen.open(s.structures.chests["ranger_station"], s.content.text("ui_chest"))
 	await _shot("10_backpack_framed")
 	main.inventory_screen.close()

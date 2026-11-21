@@ -34,7 +34,8 @@ PORT = int(os.environ.get("TRACKER_PORT", "8080"))
 KINDS = ["bug", "feature"]
 PRIORITIES = ["high", "medium", "low"]
 STATUSES = ["open", "in progress", "fixed", "won't fix"]
-FIELDS = {"title", "kind", "priority", "status", "version", "fixed_in", "notes", "who"}
+FIELDS = {"title", "kind", "priority", "status", "version", "fixed_in", "notes", "who", "fix", "check"}
+# fix: what the lab changed; check: how to test that it is fixed.
 
 _lock = threading.Lock()
 
@@ -173,7 +174,7 @@ class Handler(BaseHTTPRequestHandler):
             self._json(400, {"error": "bad request"})
             return
         item = clean(fields, {"kind": "bug", "priority": "medium", "status": "open",
-                              "version": project_version(), "fixed_in": "", "notes": "", "who": ""})
+                              "version": project_version(), "fixed_in": "", "notes": "", "who": "", "fix": "", "check": ""})
         if not item.get("title"):
             self._json(400, {"error": "a title is needed"})
             return

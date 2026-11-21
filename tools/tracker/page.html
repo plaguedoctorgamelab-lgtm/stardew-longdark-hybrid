@@ -45,6 +45,12 @@ textarea { min-height: 70px; resize: vertical; }
 .item.p-medium { border-left-color: var(--medium); }
 .item.p-low { border-left-color: var(--low); }
 .item.closed { opacity: .62; }
+.item.is-fixed { opacity: 1; border-left-color: var(--fixed, #2f8f4e); }
+.fixbox { margin-top: 8px; border: 1px solid var(--fixed, #2f8f4e); border-radius: 8px; padding: 8px 10px; background: color-mix(in srgb, var(--fixed, #2f8f4e) 8%, transparent); font-size: 14px; }
+.fixbox .head { font-weight: 600; color: var(--fixed, #2f8f4e); margin-bottom: 4px; }
+.fixbox .lbl { font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin-top: 6px; }
+.fixbox .txt { white-space: pre-wrap; }
+.tag.fixedtag { color: var(--fixed, #2f8f4e); border-color: var(--fixed, #2f8f4e); font-weight: 600; }
 .item .top { display: flex; gap: 10px; align-items: baseline; justify-content: space-between; flex-wrap: wrap; }
 .item .title { font-weight: 600; cursor: pointer; overflow-wrap: anywhere; }
 .item .id { color: var(--muted); font-weight: 400; margin-right: 4px; }
@@ -144,7 +150,7 @@ function render() {
   let items = state.items.filter((it) =>
     (!k || it.kind === k) && (!p || it.priority === p) &&
     (s === "" || (s === "active" ? !CLOSED.includes(it.status) : it.status === s)) &&
-    (!q || [it.title, it.notes, it.who, it.version, "#" + it.id].join(" ").toLowerCase().includes(q)));
+    (!q || [it.title, it.notes, it.fix, it.check, it.who, it.version, it.fixed_in, "#" + it.id].join(" ").toLowerCase().includes(q)));
   items.sort((a, b) => (CLOSED.includes(a.status) - CLOSED.includes(b.status)) || (PRANK[a.priority] - PRANK[b.priority]) || (SRANK[a.status] - SRANK[b.status]) || (b.id - a.id));
   const open = state.items.filter((i) => !CLOSED.includes(i.status));
   $("counts").textContent = `${open.filter((i) => i.kind === "bug").length} open bugs · ${open.filter((i) => i.kind === "feature").length} open requests · ${state.items.length} in all · showing ${items.length}`;
@@ -153,7 +159,8 @@ function render() {
 
 function row(it) {
   const sel = (name, list, v) => `<select name="${name}">${list.map((o) => `<option ${o === v ? "selected" : ""} value="${esc(o)}">${esc(o[0].toUpperCase() + o.slice(1))}</option>`).join("")}</select>`;
-  return `<div class="item p-${esc(it.priority)} ${CLOSED.includes(it.status) ? "closed" : ""} ${openEdit === it.id ? "open-edit" : ""}" data-id="${it.id}">
+  const fixed = it.status === "fixed";
+  return `<div class="item p-${esc(it.priority)} ${CLOSED.includes(it.status) && !fixed ? "closed" : ""} ${fixed ? "is-fixed" : ""} ${openEdit === it.id ? "open-edit" : ""}" data-id="${it.id}">
     <div class="top">
       <div class="title" data-act="toggle"><span class="id">#${it.id}</span>${esc(it.title)}</div>
       <select class="status" data-act="status" aria-label="Status">${state.choices.status.map((o) => `<option ${o === it.status ? "selected" : ""} value="${esc(o)}">${esc(o[0].toUpperCase() + o.slice(1))}</option>`).join("")}</select>
@@ -162,11 +169,16 @@ function row(it) {
       <span class="tag ${esc(it.kind)}">${esc(it.kind)}</span>
       <span class="tag ${esc(it.priority)}">${esc(it.priority)} priority</span>
       ${it.version ? `<span class="tag">found in ${esc(it.version)}</span>` : ""}
-      ${it.fixed_in ? `<span class="tag">fixed in ${esc(it.fixed_in)}</span>` : ""}
+      ${it.fixed_in ? `<span class="tag ${fixed ? "fixedtag" : ""}">${fixed ? "✓ " : ""}fixed in ${esc(it.fixed_in)}</span>` : ""}
       ${it.who ? `<span class="tag">from ${esc(it.who)}</span>` : ""}
       <span class="tag">${esc(it.created)}</span>
     </div>
     ${it.notes ? `<div class="notes">${esc(it.notes)}</div>` : ""}
+    ${fixed || it.fix || it.check ? `<div class="fixbox">
+      <div class="head">${fixed ? `✓ Fixed${it.fixed_in ? " in " + esc(it.fixed_in) : ""}` : "Lab notes"}</div>
+      ${it.fix ? `<div class="lbl">What was changed</div><div class="txt">${esc(it.fix)}</div>` : ""}
+      ${it.check ? `<div class="lbl">How to check</div><div class="txt">${esc(it.check)}</div>` : ""}
+    </div>` : ""}
     <form class="edit" data-act="save">
       <div class="grid">
         <div class="wide"><label>Title</label><input name="title" value="${esc(it.title)}" required maxlength="300"></div>
@@ -175,6 +187,8 @@ function row(it) {
         <div><label>Found in</label><input name="version" value="${esc(it.version)}"></div>
         <div><label>Fixed in</label><input name="fixed_in" value="${esc(it.fixed_in)}"></div>
         <div class="wide"><label>Notes</label><textarea name="notes">${esc(it.notes)}</textarea></div>
+        <div class="wide"><label>What was changed</label><textarea name="fix">${esc(it.fix || "")}</textarea></div>
+        <div class="wide"><label>How to check</label><textarea name="check">${esc(it.check || "")}</textarea></div>
       </div>
       <div class="row" style="margin-top:8px">
         <button class="primary" type="submit">Save</button>

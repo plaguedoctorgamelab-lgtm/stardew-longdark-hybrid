@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.5.1** (see [Version history](#version-history)). The
+**Current version: 0.5.2** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -101,6 +101,13 @@ docs/              bible, roadmap, specs, rules, status reports (hidden from God
 
 The version lives in `project.godot` (`application/config/version`). Every
 commit of the build raises it and adds a line here.
+
+### 0.5.2 (21 November 2026): Art Request 17, the flat pieces redrawn
+
+- **Art Request 17** (`docs/art/art_request_17_park_things.md`): Mark's redrawn park facilities (the gate's kiosk, suggestion box and bathroom, the bathroom with a badger inside, the picnic area, the outlook sign, the pad stakes and kit crates), the campground and the fishing dock, the small park things (bench, picnic table, trash cans, fire rings, litter, the rent sign, the trail marker, the camp bedroll, the job flag), the backpack icons for things put down plus the radio valve, painted stone and window glass, and four versions of dug earth.
+- The station furniture sheet came back drawn against a log wall, which can't be cut away from the pieces, so the station keeps its furniture until it's redrawn on a plain background.
+- `tools/art_cleanup.py`: a newer sheet can have the final say over an older pixel-for-pixel one of the same name (`final_say`), and the bathroom and crates take the game's wood browns (`recolor_map`).
+- The tracker page shows a fixed item's version, what was changed and how to check it (`fix` and `check` fields).
 
 ### 0.5.1 (21 November 2026): Mark's art and music, and the tracker's jobs fixes
 

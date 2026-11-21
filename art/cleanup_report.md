@@ -1,7 +1,7 @@
 # Art cleanup report
 
 Made by tools/art_cleanup.py. palette from art/palette.json (33 colors). A picture cut pixel for pixel from a refresh sheet replaces any earlier picture of the same name.
-589 images passed, 1 failed.
+625 images passed, 1 failed.
 
 
 ## ChatGPT Image Nov 15, 2026, 07_04_59 AM.png (ground tiles)
@@ -805,6 +805,61 @@ Made by tools/art_cleanup.py. palette from art/palette.json (33 colors). A pictu
 - ui_tab_book: **pass** 16x16
 - ui_tab_ledger: **pass** 16x16
 - ui_tab_options: **pass** 16x16
+
+## ar17_facilities.png (Art Request 17: facilities): background removed cell by cell inside the grid lines
+
+- fac_kiosk: **pass** 49x53
+- fac_suggestion_box: **pass** 19x44
+- fac_bathroom: **pass** 40x44
+- fac_bathroom_badger: **pass** 40x44
+- fac_picnic_area: **pass** 64x32
+- fac_lookout_sign: **pass** 25x37
+- obj_pad_stakes: **pass** 28x37
+- obj_kit_crates: **pass** 25x25
+
+## ar17_camp_dock.png (Art Request 17: the campground and the dock (drawn with their own grass and water))
+
+- fac_campground: **pass** 96x64
+- fac_dock: **pass** 32x112
+
+## ar17_small.png (Art Request 17: small park things): background removed cell by cell inside the grid lines
+
+- obj_bench: **pass** 16x16
+- obj_picnic_table: **pass** 16x16
+- obj_trash_can: **pass** 16x16
+- obj_trash_can_full: **pass** 16x16
+- obj_trash_can_tipped: **pass** 16x16
+- obj_fire_ring: **pass** 16x16
+- obj_fire_ring_lit: **pass** 16x16
+- obj_rent_sign: **pass** 16x16
+- obj_litter_0: **pass** 16x16
+- obj_litter_1: **pass** 16x16
+- obj_litter_2: **pass** 16x16
+- obj_trail_marker: **pass** 16x16
+- obj_camp_bedroll: **pass** 16x16
+- obj_job_flag: **pass** 14x18
+
+## ar17_icons.png (Art Request 17: icons): background removed cell by cell inside the grid lines
+
+- item_bench: **pass** 32x32
+- item_picnic_table: **pass** 32x32
+- item_trash_can: **pass** 32x32
+- item_fire_ring: **pass** 32x32
+- item_radio_valve: **pass** 32x32
+- item_painted_stone: **pass** 32x32
+- item_trail_marker: **pass** 32x32
+- item_window_glass: **pass** 32x32
+
+## ar17_ground.png (Art Request 17: dug earth)
+
+- ground_dug_earth: **pass** 16x16
+- ground_dug_earth_alt_1: **pass** 16x16
+- ground_dug_earth_alt_2: **pass** 16x16
+- ground_dug_earth_alt_3: **pass** 16x16
+
+## ar17_station.png (Art Request 17: station furniture)
+
+- -: **SKIPPED** not used: each piece is drawn against a log wall, which can't be cut away from the furniture; asked again on a plain background
 
 ## calm_ground_a.png
 

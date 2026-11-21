@@ -347,6 +347,7 @@ def main():
     exact = []    # the same, from pixel-for-pixel sheets: saved last, so they win
     soft = set()  # pictures whose see-through pixels keep their alpha
     sheets = []
+    late = []     # pictures from "final_say" sheets: saved after everything
     raw_files = set(os.listdir(RAW))
     listed = set()
     for entry in manifest["images"]:
@@ -461,6 +462,11 @@ def main():
             # A failed image is reported, not used: the stand-in stays in play.
             if not problems or entry.get("sheet"):
                 shrunk.append((cell["name"], tw, th, pix))
+                # "final_say": a newer sheet whose pictures replace older
+                # pixel-for-pixel ones of the same name (Art Request 17
+                # redrew Art Request 09's pieces).
+                if entry.get("final_say"):
+                    late.append((cell["name"], tw, th, pix))
             results.append((cell["name"], "FAIL" if problems else "pass", "; ".join(problems) or "%dx%d" % (tw, th)))
         if entry.get("sheet"):
             sheets.append((entry["sheet"], sheet_cells))
@@ -511,6 +517,8 @@ def main():
         if name in calm_keep:
             pix = calm(tw, th, pix, float(calm_keep[name]))
         save(name, tw, th, pix)
+    for name, tw, th, pix in late:
+        save(name, tw, th, snap(pix, palette))
 
     # "recolor_like": a cell drawn in other colours than the game's ground
     # keeps its marks' layout but takes today's tile's colours: its main

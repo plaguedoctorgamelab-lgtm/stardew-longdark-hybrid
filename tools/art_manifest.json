@@ -6002,6 +6002,465 @@
      ]
     }
    ]
+  },
+  {
+   "file": "ar17_facilities.png",
+   "label": "Art Request 17: facilities",
+   "grid": [
+    4,
+    2
+   ],
+   "cell_bg": 8,
+   "cells": [
+    {
+     "name": "fac_kiosk",
+     "size": [
+      49,
+      53
+     ],
+     "parts": 6
+    },
+    {
+     "name": "fac_suggestion_box",
+     "size": [
+      19,
+      44
+     ],
+     "parts": 3
+    },
+    {
+     "name": "fac_bathroom",
+     "size": [
+      40,
+      44
+     ],
+     "parts": 3,
+     "recolor_map": [
+      [
+       [
+        232,
+        115,
+        95
+       ],
+       [
+        157,
+        102,
+        62
+       ]
+      ],
+      [
+       [
+        251,
+        177,
+        113
+       ],
+       [
+        199,
+        144,
+        95
+       ]
+      ]
+     ]
+    },
+    {
+     "name": "fac_bathroom_badger",
+     "size": [
+      40,
+      44
+     ],
+     "parts": 3,
+     "recolor_map": [
+      [
+       [
+        232,
+        115,
+        95
+       ],
+       [
+        157,
+        102,
+        62
+       ]
+      ],
+      [
+       [
+        251,
+        177,
+        113
+       ],
+       [
+        199,
+        144,
+        95
+       ]
+      ]
+     ]
+    },
+    {
+     "name": "fac_picnic_area",
+     "size": [
+      64,
+      32
+     ],
+     "parts": 6
+    },
+    {
+     "name": "fac_lookout_sign",
+     "size": [
+      25,
+      37
+     ],
+     "parts": 3
+    },
+    {
+     "name": "obj_pad_stakes",
+     "size": [
+      28,
+      37
+     ],
+     "parts": 8
+    },
+    {
+     "name": "obj_kit_crates",
+     "size": [
+      25,
+      25
+     ],
+     "parts": 3,
+     "recolor_map": [
+      [
+       [
+        232,
+        115,
+        95
+       ],
+       [
+        157,
+        102,
+        62
+       ]
+      ],
+      [
+       [
+        251,
+        177,
+        113
+       ],
+       [
+        199,
+        144,
+        95
+       ]
+      ]
+     ]
+    }
+   ],
+   "final_say": true
+  },
+  {
+   "file": "ar17_camp_dock.png",
+   "label": "Art Request 17: the campground and the dock (drawn with their own grass and water)",
+   "grid": [
+    2,
+    1
+   ],
+   "cells": [
+    {
+     "name": "fac_campground",
+     "size": [
+      96,
+      64
+     ],
+     "box": [
+      0,
+      0,
+      1060,
+      1024
+     ],
+     "parts": 20,
+     "edge_ok": true
+    },
+    {
+     "name": "fac_dock",
+     "size": [
+      32,
+      112
+     ],
+     "box": [
+      1070,
+      0,
+      466,
+      1024
+     ],
+     "parts": 10,
+     "edge_ok": true
+    }
+   ],
+   "final_say": true
+  },
+  {
+   "file": "ar17_small.png",
+   "label": "Art Request 17: small park things",
+   "grid": [
+    4,
+    4
+   ],
+   "cell_bg": 6,
+   "cells": [
+    {
+     "name": "obj_bench",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "obj_picnic_table",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "obj_trash_can",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "obj_trash_can_full",
+     "size": [
+      16,
+      16
+     ],
+     "parts": 3
+    },
+    {
+     "name": "obj_trash_can_tipped",
+     "size": [
+      16,
+      16
+     ],
+     "parts": 6
+    },
+    {
+     "name": "obj_fire_ring",
+     "size": [
+      16,
+      16
+     ],
+     "parts": 6
+    },
+    {
+     "name": "obj_fire_ring_lit",
+     "size": [
+      16,
+      16
+     ],
+     "parts": 8
+    },
+    {
+     "name": "obj_rent_sign",
+     "size": [
+      16,
+      16
+     ],
+     "parts": 4
+    },
+    {
+     "name": "obj_litter_0",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "obj_litter_1",
+     "size": [
+      16,
+      16
+     ],
+     "parts": 2
+    },
+    {
+     "name": "obj_litter_2",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "obj_trail_marker",
+     "size": [
+      16,
+      16
+     ],
+     "parts": 5
+    },
+    {
+     "name": "obj_camp_bedroll",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "obj_job_flag",
+     "size": [
+      14,
+      18
+     ],
+     "parts": 4
+    },
+    null,
+    null
+   ],
+   "final_say": true
+  },
+  {
+   "file": "ar17_icons.png",
+   "label": "Art Request 17: icons",
+   "grid": [
+    4,
+    2
+   ],
+   "cell_bg": 8,
+   "cells": [
+    {
+     "name": "item_bench",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_picnic_table",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_trash_can",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_fire_ring",
+     "size": [
+      32,
+      32
+     ],
+     "parts": 3
+    },
+    {
+     "name": "item_radio_valve",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_painted_stone",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "item_trail_marker",
+     "size": [
+      32,
+      32
+     ],
+     "parts": 4
+    },
+    {
+     "name": "item_window_glass",
+     "size": [
+      32,
+      32
+     ]
+    }
+   ],
+   "final_say": true
+  },
+  {
+   "file": "ar17_ground.png",
+   "label": "Art Request 17: dug earth",
+   "grid": [
+    4,
+    1
+   ],
+   "full": true,
+   "cells": [
+    {
+     "name": "ground_dug_earth",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      94,
+      94,
+      490,
+      490
+     ]
+    },
+    {
+     "name": "ground_dug_earth_alt_1",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      592,
+      94,
+      490,
+      490
+     ]
+    },
+    {
+     "name": "ground_dug_earth_alt_2",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      1090,
+      94,
+      490,
+      490
+     ]
+    },
+    {
+     "name": "ground_dug_earth_alt_3",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      1588,
+      94,
+      490,
+      490
+     ]
+    }
+   ],
+   "final_say": true
+  },
+  {
+   "file": "ar17_station.png",
+   "label": "Art Request 17: station furniture",
+   "reference": "not used: each piece is drawn against a log wall, which can't be cut away from the furniture; asked again on a plain background",
+   "grid": [
+    4,
+    3
+   ],
+   "cells": []
   }
  ],
  "calm": {
