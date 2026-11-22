@@ -7750,6 +7750,792 @@
      ]
     }
    ]
+  },
+  {
+   "file": "raw_ar19_shops.png",
+   "label": "Art Request 19, sheet 1: Main Street shops",
+   "grid": [
+    2,
+    2
+   ],
+   "keep_colors": true,
+   "cells": [
+    {
+     "name": "town_outfitters",
+     "size": [
+      96,
+      128
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_gifts",
+     "size": [
+      80,
+      112
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_carpentry",
+     "size": [
+      112,
+      128
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_library",
+     "size": [
+      112,
+      128
+     ],
+     "parts": 20,
+     "edge_ok": true
+    }
+   ]
+  },
+  {
+   "file": "raw_ar19_civic.png",
+   "label": "Art Request 19, sheet 2: the town's centre",
+   "grid": [
+    2,
+    2
+   ],
+   "keep_colors": true,
+   "cells": [
+    {
+     "name": "town_hall",
+     "size": [
+      112,
+      128
+     ],
+     "parts": 20,
+     "edge_ok": true,
+     "box": [
+      0,
+      0,
+      628,
+      611
+     ]
+    },
+    {
+     "name": "town_bandstand",
+     "size": [
+      96,
+      128
+     ],
+     "parts": 20,
+     "edge_ok": true,
+     "box": [
+      662,
+      0,
+      624,
+      611
+     ]
+    },
+    {
+     "name": "town_caravan",
+     "size": [
+      64,
+      80
+     ],
+     "parts": 20,
+     "edge_ok": true,
+     "box": [
+      0,
+      665,
+      643,
+      558
+     ]
+    },
+    {
+     "name": "town_square_compass",
+     "size": [
+      64,
+      64
+     ],
+     "parts": 20,
+     "edge_ok": true,
+     "box": [
+      643,
+      665,
+      643,
+      558
+     ]
+    }
+   ]
+  },
+  {
+   "file": "raw_ar19_houses.png",
+   "label": "Art Request 19, sheet 3: the homes",
+   "grid": [
+    4,
+    2
+   ],
+   "keep_colors": true,
+   "cells": [
+    {
+     "name": "town_house_blue",
+     "size": [
+      80,
+      112
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_house_pink",
+     "size": [
+      80,
+      112
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_house_green",
+     "size": [
+      80,
+      112
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_house_big",
+     "size": [
+      96,
+      128
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_house_yellow",
+     "size": [
+      80,
+      112
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_house_terracotta",
+     "size": [
+      80,
+      112
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_house_log",
+     "size": [
+      80,
+      112
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_house_studio",
+     "size": [
+      80,
+      112
+     ],
+     "parts": 20
+    }
+   ]
+  },
+  {
+   "file": "raw_ar19_street.png",
+   "label": "Art Request 19, sheet 5: the street",
+   "grid": [
+    4,
+    3
+   ],
+   "keep_colors": true,
+   "cells": [
+    {
+     "name": "town_streetlamp",
+     "size": [
+      16,
+      48
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_streetlamp_lit",
+     "size": [
+      16,
+      48
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_notice_board",
+     "size": [
+      32,
+      32
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_bench",
+     "size": [
+      32,
+      24
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_mailbox",
+     "size": [
+      16,
+      24
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_planter",
+     "size": [
+      32,
+      24
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_barrel",
+     "size": [
+      16,
+      20
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_bin",
+     "size": [
+      16,
+      24
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_sandwich_board",
+     "size": [
+      16,
+      16
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_bike_rack",
+     "size": [
+      32,
+      24
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_signpost",
+     "size": [
+      24,
+      32
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_crates",
+     "size": [
+      32,
+      26
+     ],
+     "parts": 20
+    }
+   ]
+  },
+  {
+   "file": "raw_ar19_greenery.png",
+   "label": "Art Request 19, sheet 6: greenery",
+   "grid": [
+    4,
+    3
+   ],
+   "keep_colors": true,
+   "cells": [
+    {
+     "name": "town_bush_small",
+     "size": [
+      16,
+      16
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_bush_medium",
+     "size": [
+      32,
+      32
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_bush_large",
+     "size": [
+      48,
+      40
+     ],
+     "parts": 20,
+     "edge_ok": true
+    },
+    {
+     "name": "town_bush_flowering",
+     "size": [
+      32,
+      32
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_tuft_1",
+     "size": [
+      12,
+      12
+     ],
+     "box": [
+      10,
+      460,
+      82,
+      160
+     ],
+     "parts": 20
+    },
+    null,
+    {
+     "name": "town_reeds",
+     "size": [
+      24,
+      26
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_creek_stones",
+     "size": [
+      32,
+      14
+     ],
+     "parts": 20
+    },
+    {
+     "name": "obj_tree_willow",
+     "size": [
+      64,
+      64
+     ],
+     "parts": 20
+    },
+    {
+     "name": "obj_tree_crabapple",
+     "size": [
+      48,
+      52
+     ],
+     "parts": 20
+    },
+    {
+     "name": "obj_tree_crabapple_bare",
+     "size": [
+      48,
+      52
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_lily_pads",
+     "size": [
+      32,
+      12
+     ],
+     "parts": 20
+    }
+   ]
+  },
+  {
+   "file": "raw_ar19_greenery.png",
+   "label": "Art Request 19, sheet 6: the other tufts and the four wildflowers, cut one by one",
+   "grid": [
+    4,
+    3
+   ],
+   "keep_colors": true,
+   "cells": [
+    {
+     "name": "town_tuft_2",
+     "size": [
+      12,
+      12
+     ],
+     "box": [
+      92,
+      460,
+      80,
+      160
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_tuft_3",
+     "size": [
+      12,
+      12
+     ],
+     "box": [
+      172,
+      460,
+      80,
+      160
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_tuft_4",
+     "size": [
+      12,
+      13
+     ],
+     "box": [
+      252,
+      460,
+      105,
+      160
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_flowers_white",
+     "size": [
+      10,
+      12
+     ],
+     "box": [
+      375,
+      440,
+      82,
+      180
+     ],
+     "parts": 20,
+     "edge_ok": true
+    },
+    {
+     "name": "town_flowers_yellow",
+     "size": [
+      10,
+      12
+     ],
+     "box": [
+      458,
+      440,
+      82,
+      180
+     ],
+     "parts": 20,
+     "edge_ok": true
+    },
+    {
+     "name": "town_flowers_blue",
+     "size": [
+      10,
+      12
+     ],
+     "box": [
+      541,
+      440,
+      82,
+      180
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_flowers_pink",
+     "size": [
+      10,
+      12
+     ],
+     "box": [
+      624,
+      440,
+      92,
+      180
+     ],
+     "parts": 20
+    }
+   ]
+  },
+  {
+   "file": "raw_ar19_yards.png",
+   "label": "Art Request 19, sheet 7: yards and gardens",
+   "grid": [
+    4,
+    3
+   ],
+   "keep_colors": true,
+   "bg": [
+    "light",
+    200
+   ],
+   "cells": [
+    {
+     "name": "town_picket",
+     "size": [
+      24,
+      18
+     ],
+     "box": [
+      12,
+      90,
+      262,
+      220
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_picket_gate",
+     "size": [
+      28,
+      22
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_stone_wall",
+     "size": [
+      22,
+      13
+     ],
+     "box": [
+      732,
+      110,
+      244,
+      190
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_hedge",
+     "size": [
+      24,
+      16
+     ],
+     "box": [
+      1092,
+      110,
+      244,
+      190
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_veg_bed",
+     "size": [
+      32,
+      26
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_flower_bed",
+     "size": [
+      32,
+      20
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_birdbath",
+     "size": [
+      16,
+      24
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_clothesline",
+     "size": [
+      40,
+      28
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_garden_bench",
+     "size": [
+      24,
+      20
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_wheelbarrow",
+     "size": [
+      28,
+      20
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_house_mailbox",
+     "size": [
+      12,
+      22
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_rain_barrel",
+     "size": [
+      16,
+      24
+     ],
+     "parts": 20
+    }
+   ]
+  },
+  {
+   "file": "raw_ar19_yards.png",
+   "label": "Art Request 19, sheet 7: fence post, wall end and hedge end",
+   "grid": [
+    4,
+    3
+   ],
+   "keep_colors": true,
+   "bg": [
+    "light",
+    200
+   ],
+   "cells": [
+    {
+     "name": "town_picket_post",
+     "size": [
+      6,
+      20
+     ],
+     "box": [
+      276,
+      90,
+      76,
+      220
+     ],
+     "parts": 20,
+     "edge_ok": true
+    },
+    {
+     "name": "town_stone_wall_end",
+     "size": [
+      8,
+      14
+     ],
+     "box": [
+      976,
+      110,
+      100,
+      190
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_hedge_end",
+     "size": [
+      9,
+      16
+     ],
+     "box": [
+      1334,
+      110,
+      104,
+      190
+     ],
+     "parts": 20
+    }
+   ]
+  },
+  {
+   "file": "raw_ar19_seasons.png",
+   "label": "Art Request 19, sheet 8: seasons",
+   "grid": [
+    4,
+    2
+   ],
+   "keep_colors": true,
+   "bg": [
+    "light",
+    200
+   ],
+   "cells": [
+    {
+     "name": "town_bunting",
+     "size": [
+      64,
+      24
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_string_lights",
+     "size": [
+      64,
+      24
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_string_lights_lit",
+     "size": [
+      64,
+      24
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_wreath",
+     "size": [
+      20,
+      20
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_petals",
+     "size": [
+      16,
+      16
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_leaf_pile",
+     "size": [
+      32,
+      16
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_leaves_scatter",
+     "size": [
+      16,
+      16
+     ],
+     "parts": 20
+    },
+    {
+     "name": "town_pumpkins",
+     "size": [
+      32,
+      20
+     ],
+     "parts": 20
+    }
+   ]
+  },
+  {
+   "file": "raw_ar19_ground_edges.png",
+   "label": "Art Request 19, sheet 4: ground edges",
+   "reference": "cut by tools/cut_town_ground.gd (3 by 3 tile blocks, inner corners made by the lab)"
   }
  ],
  "calm": {

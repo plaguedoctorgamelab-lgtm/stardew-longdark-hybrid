@@ -564,7 +564,8 @@
     "giftable_kinds": ["food", "fuel", "material", "placeable", "magic", "gift", "park_thing"],
     "talk_reach_tiles": 1.6,
     "door_reach_tiles": 1.4,
-    "gate_offset": [3.5, 0.5]
+    "gate_offset": [3.5, 0.5],
+    "opens_when": "job_done:station_shipshape or day_at_least:4"
   },
   "friendship": {
     "note": "Phase 4 Spec. Friendship never decays.",
@@ -590,16 +591,28 @@
     "counter_reach_tiles": 1.6
   },
   "town_look": {
-    "note": "Humdrum's ground: each code's pictures and how often each shows (Mark's town ground sheet, 21 Nov 2026).",
+    "note": "Humdrum's ground: each code's pictures and how often each shows, and the edge sets laid where one ground meets another (Mark's Art Request 19, 22 Nov 2026). Codes: l lawn, d dark lawn, c cobbles, g gravel, p the square's paving, f flower bed, b boards, s shallow water, w deep water.",
     "ground": {
-      "l": {"pictures": ["town_lawn", "town_lawn_alt_1", "town_lawn_alt_2", "town_lawn_alt_3"], "weights": [6, 2, 1, 1]},
-      "c": {"pictures": ["town_cobbles", "town_cobbles_alt_1", "town_cobbles_alt_2", "town_cobbles_alt_3"], "weights": [3, 2, 2, 1]},
-      "g": {"pictures": ["town_gravel", "town_gravel_alt_1"], "weights": [3, 1]},
-      "f": {"pictures": ["town_flowerbed_warm", "town_flowerbed_cool"], "weights": [1, 1]},
+      "l": {"pictures": ["town_grass_0", "town_grass_1", "town_grass_2", "town_grass_3"], "weights": [6, 2, 1, 1]},
+      "d": {"pictures": ["town_lawn_dark_0", "town_lawn_dark_1", "town_lawn_dark_2", "town_lawn_dark_3", "town_lawn_dark_4", "town_lawn_dark_5", "town_lawn_dark_6", "town_lawn_dark_7", "town_lawn_dark_8"], "weights": [1, 1, 1, 1, 1, 1, 1, 1, 1]},
+      "c": {"pictures": ["town_edge_cobbles_c", "town_edge_cobbles_c1", "town_edge_cobbles_c2", "town_edge_cobbles_c3"], "weights": [3, 2, 2, 2]},
+      "g": {"pictures": ["town_edge_gravel_c", "town_edge_gravel_c1", "town_edge_gravel_c2", "town_edge_gravel_c3"], "weights": [3, 2, 2, 2]},
+      "p": {"pictures": ["town_paving_0", "town_paving_1", "town_paving_2", "town_paving_3", "town_paving_4", "town_paving_5", "town_paving_6", "town_paving_7", "town_paving_8", "town_paving_crack"], "weights": [3, 3, 3, 3, 3, 3, 3, 3, 3, 1]},
+      "f": {"pictures": ["town_edge_bed_c", "town_edge_bed_c1", "town_edge_bed_c2", "town_edge_bed_c3"], "weights": [1, 1, 1, 1]},
       "b": {"pictures": ["town_boards"], "weights": [1]},
-      "s": {"pictures": ["ground_shallows_plain"], "weights": [1]},
-      "w": {"pictures": ["ground_deep_water_plain"], "weights": [1]}
+      "s": {"pictures": ["town_shallows_0", "town_shallows_1", "town_shallows_2", "town_shallows_3", "town_shallows_4", "town_shallows_5", "town_shallows_6", "town_shallows_7", "town_shallows_8"], "weights": [1, 1, 1, 1, 1, 1, 1, 1, 1]},
+      "w": {"pictures": ["town_water_0", "town_water_1", "town_water_2", "town_water_3", "town_water_4", "town_water_5", "town_water_6", "town_water_7", "town_water_8", "town_water_9", "town_water_10", "town_water_11", "town_water_12", "town_water_13", "town_water_14", "town_water_15", "town_water_16", "town_water_17"], "weights": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]}
     },
+    "edges": {
+      "note": "A tile of the code on the left takes its edge set's picture where a neighbour's code is in outside: nw/n/ne/w/e/sw/s/se for sides and corners, inw/ine/isw/ise where only a diagonal is outside.",
+      "c": {"set": "town_edge_cobbles", "outside": ["l", "d"]},
+      "g": {"set": "town_edge_gravel", "outside": ["l", "d"]},
+      "f": {"set": "town_edge_bed", "outside": ["l", "d", "c", "g"]},
+      "p": {"set": "town_edge_paving", "outside": ["c", "l"]},
+      "s": {"set": "town_edge_bank", "outside": ["l", "d", "c", "g"]},
+      "w": {"set": "town_edge_bank", "outside": ["l", "d", "c", "g"]}
+    },
+    "window_glass": {"note": "Window glass in the town's pictures: pale, bluer than red and green, as Art Request 19 asked. At night it glows this warm colour.", "min_light": 0.5, "min_blue_over_red": 0.1, "night": [1.0, 0.82, 0.42]},
     "lamp_glow_tiles": 3.0,
     "lamp_glow_strength": 0.9
   }

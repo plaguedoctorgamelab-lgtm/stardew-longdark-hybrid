@@ -1,7 +1,7 @@
 # Art cleanup report
 
 Made by tools/art_cleanup.py. palette from art/palette.json (33 colors). A picture cut pixel for pixel from a refresh sheet replaces any earlier picture of the same name.
-720 images passed, 1 failed.
+789 images passed, 1 failed.
 
 
 ## ChatGPT Image Nov 15, 2026, 07_04_59 AM.png (ground tiles)
@@ -995,6 +995,106 @@ Made by tools/art_cleanup.py. palette from art/palette.json (33 colors). A pictu
 ## raw_ar18_post_pigeonholes.png (Art Request 18 fix: the post office pigeonholes, a wall piece)
 
 - int_post_pigeonholes: **pass** 32x32
+
+## raw_ar19_shops.png (Art Request 19, sheet 1: Main Street shops)
+
+- town_outfitters: **pass** 96x128
+- town_gifts: **pass** 80x112
+- town_carpentry: **pass** 112x128
+- town_library: **pass** 112x128
+
+## raw_ar19_civic.png (Art Request 19, sheet 2: the town's centre)
+
+- town_hall: **pass** 112x128
+- town_bandstand: **pass** 96x128
+- town_caravan: **pass** 64x80
+- town_square_compass: **pass** 64x64
+
+## raw_ar19_houses.png (Art Request 19, sheet 3: the homes)
+
+- town_house_blue: **pass** 80x112
+- town_house_pink: **pass** 80x112
+- town_house_green: **pass** 80x112
+- town_house_big: **pass** 96x128
+- town_house_yellow: **pass** 80x112
+- town_house_terracotta: **pass** 80x112
+- town_house_log: **pass** 80x112
+- town_house_studio: **pass** 80x112
+
+## raw_ar19_street.png (Art Request 19, sheet 5: the street)
+
+- town_streetlamp: **pass** 16x48
+- town_streetlamp_lit: **pass** 16x48
+- town_notice_board: **pass** 32x32
+- town_bench: **pass** 32x24
+- town_mailbox: **pass** 16x24
+- town_planter: **pass** 32x24
+- town_barrel: **pass** 16x20
+- town_bin: **pass** 16x24
+- town_sandwich_board: **pass** 16x16
+- town_bike_rack: **pass** 32x24
+- town_signpost: **pass** 24x32
+- town_crates: **pass** 32x26
+
+## raw_ar19_greenery.png (Art Request 19, sheet 6: greenery)
+
+- town_bush_small: **pass** 16x16
+- town_bush_medium: **pass** 32x32
+- town_bush_large: **pass** 48x40
+- town_bush_flowering: **pass** 32x32
+- town_tuft_1: **pass** 12x12
+- town_reeds: **pass** 24x26
+- town_creek_stones: **pass** 32x14
+- obj_tree_willow: **pass** 64x64
+- obj_tree_crabapple: **pass** 48x52
+- obj_tree_crabapple_bare: **pass** 48x52
+- town_lily_pads: **pass** 32x12
+
+## raw_ar19_greenery.png (Art Request 19, sheet 6: the other tufts and the four wildflowers, cut one by one)
+
+- town_tuft_2: **pass** 12x12
+- town_tuft_3: **pass** 12x12
+- town_tuft_4: **pass** 12x13
+- town_flowers_white: **pass** 10x12
+- town_flowers_yellow: **pass** 10x12
+- town_flowers_blue: **pass** 10x12
+- town_flowers_pink: **pass** 10x12
+
+## raw_ar19_yards.png (Art Request 19, sheet 7: yards and gardens): light background cleared from the edges
+
+- town_picket: **pass** 24x18
+- town_picket_gate: **pass** 28x22
+- town_stone_wall: **pass** 22x13
+- town_hedge: **pass** 24x16
+- town_veg_bed: **pass** 32x26
+- town_flower_bed: **pass** 32x20
+- town_birdbath: **pass** 16x24
+- town_clothesline: **pass** 40x28
+- town_garden_bench: **pass** 24x20
+- town_wheelbarrow: **pass** 28x20
+- town_house_mailbox: **pass** 12x22
+- town_rain_barrel: **pass** 16x24
+
+## raw_ar19_yards.png (Art Request 19, sheet 7: fence post, wall end and hedge end): light background cleared from the edges
+
+- town_picket_post: **pass** 6x20
+- town_stone_wall_end: **pass** 8x14
+- town_hedge_end: **pass** 9x16
+
+## raw_ar19_seasons.png (Art Request 19, sheet 8: seasons): light background cleared from the edges
+
+- town_bunting: **pass** 64x24
+- town_string_lights: **pass** 64x24
+- town_string_lights_lit: **pass** 64x24
+- town_wreath: **pass** 20x20
+- town_petals: **pass** 16x16
+- town_leaf_pile: **pass** 32x16
+- town_leaves_scatter: **pass** 16x16
+- town_pumpkins: **pass** 32x20
+
+## raw_ar19_ground_edges.png (Art Request 19, sheet 4: ground edges)
+
+- -: **SKIPPED** cut by tools/cut_town_ground.gd (3 by 3 tile blocks, inner corners made by the lab)
 
 ## calm_ground_a.png
 

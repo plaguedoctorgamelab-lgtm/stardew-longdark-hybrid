@@ -389,6 +389,8 @@ func _atom(a: String) -> bool:
 			return g.clock.minute >= int(ab[0]) and g.clock.minute <= int(ab[1])
 		"find":
 			return g.finds_found.has(arg)
+		"day_at_least":
+			return g.clock.absolute_day() + 1 >= int(arg)   # day 1 is the first day
 		"rain_recent":
 			return int(flags.get("rain_day", -99)) >= g.clock.absolute_day() - 1
 		"scouts_camped":

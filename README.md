@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.6.6** (see [Version history](#version-history)). The
+**Current version: 0.6.7** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -102,6 +102,15 @@ docs/              bible, roadmap, specs, rules, status reports (hidden from God
 
 The version lives in `project.godot` (`application/config/version`). Every
 commit of the build raises it and adds a line here.
+
+### 0.6.7 (22 November 2026): Mark's town, and the road opens later
+
+- **Mark's Art Request 19 in Humdrum.** Every building but the Percolator and Casa Luna is Mark's: the four Main Street shops, Town Hall, the bandstand, Esme's caravan and the eight houses. Cut by `tools/art_cleanup.py` (manifest entries for `raw_ar19_*.png`); the ground sheet by `tools/cut_town_ground.gd`, which also makes the inner corners Mark's sheet lacked, flipped middles, and the lawn in Mark's grass colours (`town_grass_*`).
+- **Grounds meet with edges** (`town_look.edges` in tuning): cobbles, gravel, flower beds, the square's paving and the creek's banks take a side, corner or inner corner where they meet another ground.
+- **The town re-laid** (`tools/bake_town.py`): the square's paved half with the compass mosaic, a wandering creek with shallows, reeds, stones and lily pads, backyards with fence, hedge or wall behind the north houses, mailboxes, bushes in clumps, tufts and wildflowers, the willow by the caravan, a two-deep forest edge, and Main Street's signpost, chalk board, planters and crates. No building or door moved; the bandstand is six tiles wide to fit its picture.
+- **Night and seasons:** window glass glows warm at night, drawn above the night's tint (`town_look.window_glass`); streetlamps and winter string lights swap to their lit pictures; crabapple blossom and petals in spring, bunting in summer, leaves and pumpkins in autumn, lights in winter.
+- **The road to town opens later.** A new game starts with it closed ("ROAD CLOSED FOR REPAIRS"); it opens the morning after Get the Station Shipshape is done, or on day 4, with a letter from the chief (`town.opens_when`, new condition `day_at_least`). Old saves have it open; the debug panel still goes to town.
+- Tests: `tests/test_town_gate_067.gd`, `tests/test_town_art_067.gd`. Screenshots: `docs/status/067_shots/` (`tests/support/screenshots_067.gd`). Status note: `docs/status/067_status.md`.
 
 ### 0.6.6 (22 November 2026): Art Request 19, the town
 

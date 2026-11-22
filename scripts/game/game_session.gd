@@ -135,6 +135,9 @@ var shelf_seen: Dictionary = {}      # structure id -> the supply shelf as last 
 var town: Town
 var in_town: bool = false
 var town_pos: Vector2 = Vector2.ZERO
+# 0.6.7: the road to town opens once the ranger has found their feet in the
+# park (tuning town.opens_when), with a letter from the chief.
+var town_open: bool = false
 # Phase 4, step 5: the shops, and the one the ranger is inside ("" outdoors
 # in town). Inside a shop the ranger stands at interior_pos in its room.
 var shops: Shops
@@ -251,6 +254,7 @@ func new_game(new_seed: int = -1) -> void:
 	town_inside = ""
 	in_town = false
 	town_pos = town.entry
+	town_open = false
 
 
 ## Rooms hide the small job things once they are done and gone.
@@ -275,6 +279,7 @@ func to_dict() -> Dictionary:
 			"facing": facing,
 			"selected_slot": selected_slot,
 			"in_town": in_town,
+			"town_open": town_open,
 			"town_pos": [town_pos.x, town_pos.y],
 			"town_inside": town_inside,
 		},
@@ -332,6 +337,8 @@ func from_dict(d: Dictionary) -> void:
 	# Phase 4: a save from before the town has none of it.
 	town.from_dict(d.get("town", {}))
 	in_town = bool(r.get("in_town", false))
+	# A save from before 0.6.7 found the road already open.
+	town_open = bool(r.get("town_open", true)) or in_town
 	var tp: Array = r.get("town_pos", [town.entry.x, town.entry.y])
 	town_pos = Vector2(float(tp[0]), float(tp[1]))
 	if in_town and town.is_solid(Vector2i(floori(town_pos.x), floori(town_pos.y))):
@@ -749,6 +756,7 @@ func _on_day_started(_day: int, _season: int, _year: int) -> void:
 	weather.check_change(clock.minute)
 	park.start_day()
 	jobs.morning(clock.day == 1)
+	_check_town_opens()
 	day_began.emit()
 
 
@@ -995,6 +1003,26 @@ func enter_town() -> void:
 	message.emit(content.text("msg_town_enter"))
 
 
+## X at the park gate: through to town, or the road-closed sign before the
+## road opens (0.6.7).
+func use_gate() -> void:
+	if town_open:
+		enter_town()
+	else:
+		message.emit(content.text("msg_town_road_closed"))
+
+
+## Each morning: once the ranger has done what tuning town.opens_when asks
+## (the first job, or a few days gone by), the road to Humdrum opens and the
+## chief writes to say so.
+func _check_town_opens() -> void:
+	if town_open or not jobs.cond(str(tuning.value("town.opens_when"))):
+		return
+	town_open = true
+	park.letters.append({"day": park.today(), "text": content.text("letter_town_opens"), "read": false})
+	park.morning_lines.append(content.text("msg_town_opens"))
+
+
 ## Back out of town to the park side of the gate.
 func leave_town() -> void:
 	if not in_town:
@@ -1201,7 +1229,7 @@ func interact() -> void:
 	if what.begins_with("find:"):
 		discover(what.substr(5))
 	elif what == "gate":
-		enter_town()
+		use_gate()
 	elif what.begins_with("landmark:"):
 		_interact_landmark(what.substr(9))
 

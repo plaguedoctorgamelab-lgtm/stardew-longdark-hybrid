@@ -64,7 +64,11 @@ func _init(session: GameSession, path: String = "res://data/world/town.json") ->
 				_solid[Vector2i(x, y)] = true
 	for o: Dictionary in objects:
 		if bool(o["solid"]):
-			_solid[Vector2i(int(o["pos"][0]), int(o["pos"][1]))] = true
+			_solid[Vector2i(floori(float(o["pos"][0])), floori(float(o["pos"][1])))] = true
+		# A fence or wall run blocks the tiles it lists (its pieces are
+		# drawn at their own spacing, not one to a tile).
+		for b: Array in o.get("blocks", []):
+			_solid[Vector2i(int(b[0]), int(b[1]))] = true
 
 
 func session() -> GameSession:

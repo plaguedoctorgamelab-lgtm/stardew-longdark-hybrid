@@ -5781,6 +5781,18 @@
    "text": "Staff board"
   },
   {
+   "id": "msg_town_road_closed",
+   "text": "ROAD CLOSED FOR REPAIRS, says a sawhorse across the town road. The station needs you first anyway."
+  },
+  {
+   "id": "msg_town_opens",
+   "text": "The road to Humdrum is open. There's a letter from the chief at the station."
+  },
+  {
+   "id": "letter_town_opens",
+   "text": "Ranger,\n\nThe county crew finished the town road yesterday, so the gate's open both ways now. Humdrum would like to meet its new ranger. Wren at the Percolator says the first coffee's on her.\n\nDon't let them talk you out of the woods.\n\nThe chief"
+  },
+  {
    "id": "msg_town_enter",
    "text": "Through the gate and down the road: Humdrum."
   },
