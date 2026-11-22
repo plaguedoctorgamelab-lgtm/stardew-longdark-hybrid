@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.5.3** (see [Version history](#version-history)). The
+**Current version: 0.5.4** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -101,6 +101,20 @@ docs/              bible, roadmap, specs, rules, status reports (hidden from God
 
 The version lives in `project.godot` (`application/config/version`). Every
 commit of the build raises it and adds a line here.
+
+### 0.5.4 (21 November 2026): the graphics refresh, first pass
+
+From Mark's Graphics Polish request and Interior Art Guide (`docs/art/`).
+
+- **The old cabin** is laid out to the guide's plan, with Mark's new bed, stove (cold and lit), and chest (`art/raw/raw_int_furniture_big_01.png`; his workbench, desk and supply shelf are cut too, ready for the station and tower). The piece the ranger faces indoors shows its name: "Wood stove", "Chest".
+- **Hits:** when the axe, saw, shovel or hammer lands, the ranger holds still a few frames, chips of wood, leaves, dirt or stone burst out, and brush and trunks jolt a pixel. A felled tree tips away in pixel steps and fades.
+- **Signs of life:** standing still, the ranger breathes, rising a pixel and settling.
+- **Depth:** buildings fade while the ranger walks behind them.
+- **Fog and snow** drift over the world as pale patches, two layers at different speeds.
+- **Options** has Motion and Weather effects switches.
+- **The art audit** (`tools/art_audit.py`, `docs/art/art_audit.md`): every finished picture measured and ranked, with ready-to-paste prompts for the ten most worth redoing.
+- `tools/art_cleanup.py`: `bg` clears a painted checkerboard or a glow; `keep_colors` keeps a sheet's own colours where the palette has no near match (people, cobbles). Phase 4's first art is cut: The Percolator, Casa Luna, Wren and the town ground.
+- `tools/make_placeholders.py` runs again (it stopped on the plain ground tiles from 0.5.1).
 
 ### 0.5.3 (21 November 2026): the station's furniture, and water that moves
 

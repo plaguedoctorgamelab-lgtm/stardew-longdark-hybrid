@@ -69,7 +69,7 @@ func refresh() -> void:
 		var f: Dictionary = _furniture_sprites[id]["row"]
 		var art_name: String = f["sprite"]
 		if f["kind"] == "stove" and session.structures.stove_lit(current):
-			art_name = "furniture_stove_lit"
+			art_name = art_name + "_lit" if Art.has_picture(art_name + "_lit") else "furniture_stove_lit"
 		elif _night and f["kind"] == "decor" and Art.has_picture(art_name + "_lit"):
 			art_name += "_lit"
 		if f["kind"] == "job_spot":

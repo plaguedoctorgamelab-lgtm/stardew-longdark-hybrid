@@ -526,9 +526,15 @@ def variety_art():
     with open(os.path.join(ROOT, "data", "content", "art_variety.json"), encoding="utf-8") as f:
         rows = json.load(f)["rows"]
     for r in rows:
-        first = os.path.join(OUT, r["pictures"][0] + ".png")
-        for n in r["pictures"][1:]:
-            shutil.copyfile(first, os.path.join(OUT, n + ".png"))
+        # The first version drawn above stands in for the rest (since 0.5.1
+        # a plain version, with no stand-in of its own, leads some lists).
+        made = [n for n in r["pictures"] if os.path.exists(os.path.join(OUT, n + ".png"))]
+        if not made:
+            continue
+        first = os.path.join(OUT, made[0] + ".png")
+        for n in r["pictures"]:
+            if n != made[0]:
+                shutil.copyfile(first, os.path.join(OUT, n + ".png"))
         for k, n in enumerate(r.get("details", [])):
             c = Canvas(16, 16)
             c.speckle("white" if "flower" in n or "dais" in n else "rock_l", 5, k + 1)
@@ -647,6 +653,8 @@ def main():
     park_placeholders.park_art(Canvas)
     import cursor_placeholders
     cursor_placeholders.cursor_art()
+    import guide_placeholders
+    guide_placeholders.interior_guide_art(Canvas)
     print("placeholders written to", OUT, len(os.listdir(OUT)), "files")
 
 

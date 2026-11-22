@@ -11,7 +11,7 @@ const PATH := "user://settings.json"
 const HOVER_TIPS := ["first_week", "always", "off"]
 const MUSIC := ["medium", "high", "off", "low"]
 
-static var values: Dictionary = {"hover_tips": "first_week", "show_pinned_job": true, "show_unlocks_on_map": true, "music": "medium"}
+static var values: Dictionary = {"hover_tips": "first_week", "show_pinned_job": true, "show_unlocks_on_map": true, "music": "medium", "motion": true, "weather_effects": true}
 static var _loaded: bool = false
 
 
@@ -29,7 +29,7 @@ static func load_once() -> void:
 		var music := str((parsed as Dictionary).get("music", "medium"))
 		if MUSIC.has(music):
 			values["music"] = music
-		for k in ["show_pinned_job", "show_unlocks_on_map"]:
+		for k in ["show_pinned_job", "show_unlocks_on_map", "motion", "weather_effects"]:
 			if (parsed as Dictionary).has(k):
 				values[k] = bool(parsed[k])
 

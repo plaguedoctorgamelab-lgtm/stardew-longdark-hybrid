@@ -5735,6 +5735,50 @@
    "id": "landmark_hint_scenic_outlook",
    "text": "A high place with a view?",
    "placeholder": true
+  },
+  {
+   "id": "ui_options_motion",
+   "text": "Motion"
+  },
+  {
+   "id": "ui_options_weather_effects",
+   "text": "Weather effects"
+  },
+  {
+   "id": "furn_bed",
+   "text": "Bed"
+  },
+  {
+   "id": "furn_stove",
+   "text": "Wood stove"
+  },
+  {
+   "id": "furn_chest",
+   "text": "Chest"
+  },
+  {
+   "id": "furn_workbench",
+   "text": "Workbench"
+  },
+  {
+   "id": "furn_shelf",
+   "text": "Supply shelf"
+  },
+  {
+   "id": "furn_radio",
+   "text": "Radio"
+  },
+  {
+   "id": "furn_catalog",
+   "text": "Supply catalog"
+  },
+  {
+   "id": "furn_note_board",
+   "text": "Note board"
+  },
+  {
+   "id": "furn_staff_board",
+   "text": "Staff board"
   }
  ]
 }

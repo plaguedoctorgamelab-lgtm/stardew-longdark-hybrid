@@ -99,6 +99,45 @@ def remove_background(img, box=None):
     return bg
 
 
+def remove_background_kind(img, kind, limit):
+    """Clears from the edges inwards every pixel of a kind of background:
+    "light", the pale greys of a painted see-through checkerboard (low
+    colour, brighter than limit), or "dark", a dark glow behind a picture
+    (no channel above limit). Stops at the first pixel of anything else."""
+    if kind == "light":
+        def is_bg(r, g, b):
+            return min(r, g, b) >= limit and max(r, g, b) - min(r, g, b) <= 16
+    else:
+        def is_bg(r, g, b):
+            return max(r, g, b) <= limit
+    seen = bytearray(img.w * img.h)
+    q = deque()
+    for x in range(img.w):
+        q.append((x, 0))
+        q.append((x, img.h - 1))
+    for y in range(img.h):
+        q.append((0, y))
+        q.append((img.w - 1, y))
+    while q:
+        x, y = q.popleft()
+        i = y * img.w + x
+        if seen[i]:
+            continue
+        seen[i] = 1
+        r, g, b, a = img.get(x, y)
+        if a >= ALPHA_CUT and not is_bg(r, g, b):
+            continue
+        img.clear(x, y)
+        if x > 0:
+            q.append((x - 1, y))
+        if x < img.w - 1:
+            q.append((x + 1, y))
+        if y > 0:
+            q.append((x, y - 1))
+        if y < img.h - 1:
+            q.append((x, y + 1))
+
+
 def clear_box_edges(img, x0, y0, x1, y1, inset):
     """Clears a band of inset pixels inside a box's edges (the drawn grid
     line around a cell), so it is not taken for part of the item."""
@@ -419,7 +458,13 @@ def main():
         # "cell_bg": the cells are fenced by drawn grid lines, so each cell's
         # background is cleared on its own, from just inside its line.
         cell_bg = entry.get("cell_bg")
-        if not full and not cell_bg and not has_transparency(img):
+        # "bg": ["light", 200] or ["dark", 70]: a background that is not one
+        # flat colour (a painted checkerboard, a glow), cleared by kind.
+        if entry.get("bg"):
+            kind, limit = entry["bg"]
+            remove_background_kind(img, kind, int(limit))
+            notes.append("%s background cleared from the edges" % kind)
+        elif not full and not cell_bg and not has_transparency(img):
             bg = remove_background(img)
             notes.append("background %s removed by flood fill" % (bg,))
         if cell_bg:
@@ -500,9 +545,14 @@ def main():
             f.write("\n")
         pal_note = "stand-in palette of %d colors made from the raw art (art/palette.json)" % len(palette)
 
+    # "keep_colors": a sheet whose colours have no near match in the
+    # palette (a person's skin and clothes, grey cobbles) keeps its own,
+    # rounded to steps of 8 by the shrink.
+    keep = {c["name"] for e in manifest["images"] if e.get("keep_colors") for c in e.get("cells", []) if c}
     by_name = {}
     for name, tw, th, pix in shrunk:
-        pix = snap(pix, palette)
+        if name not in keep:
+            pix = snap(pix, palette)
         by_name[name] = (tw, th, pix)
         save(name, tw, th, pix)
     for sheet, cells in sheets:

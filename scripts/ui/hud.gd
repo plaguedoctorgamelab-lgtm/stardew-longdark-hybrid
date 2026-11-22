@@ -25,6 +25,12 @@ var money_label: Label
 var tip: Panel                  # the hover hint, beside the mouse
 var tip_label: Label
 var world_hint: String = ""     # what X does at the thing under the mouse (set by main)
+## The name over the thing the ranger faces and can use (set by main): a
+## stove, a chest, a person in town. look_at is its top middle on screen.
+var look_text: String = ""
+var look_at: Vector2 = Vector2.ZERO
+var look_tag: Panel
+var look_label: Label
 var _bar_hover: int = -1        # the item-bar slot under the mouse, or -1
 var _message_time: float = 0.0
 
@@ -137,6 +143,16 @@ func setup(s: GameSession, theme: Theme) -> void:
 	tip_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	tip_label.add_theme_color_override("font_color", KitStyle.TEXT_DARK)
 	tip.add_child(tip_label)
+	look_tag = Panel.new()
+	look_tag.add_theme_stylebox_override("panel", KitStyle.tag())
+	look_tag.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	look_tag.visible = false
+	root.add_child(look_tag)
+	look_label = Label.new()
+	look_label.position = Vector2(3, 0)
+	look_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	look_label.add_theme_color_override("font_color", KitStyle.TEXT_DARK)
+	look_tag.add_child(look_label)
 	survey_bar = ProgressBar.new()
 	survey_bar.position = Vector2(200, 226)
 	survey_bar.size = Vector2(80, 6)
@@ -223,6 +239,15 @@ func _process(delta: float) -> void:
 			slot_panels[i].set_meta("held", held)
 			slot_panels[i].add_theme_stylebox_override("panel", KitStyle.peg(held))
 	_update_tip()
+	look_tag.visible = look_text != ""
+	if look_tag.visible:
+		look_label.text = look_text
+		look_label.reset_size()
+		look_tag.size = look_label.get_combined_minimum_size() + Vector2(6, 1)
+		var at := look_at + Vector2(-look_tag.size.x / 2.0, -look_tag.size.y - 2)
+		at.x = clampf(at.x, 0.0, 480.0 - look_tag.size.x)
+		at.y = clampf(at.y, 0.0, 270.0 - look_tag.size.y)
+		look_tag.position = at.round()
 	if _message_time > 0.0:
 		_message_time -= delta
 		message_label.modulate.a = clampf(_message_time, 0.0, 1.0)

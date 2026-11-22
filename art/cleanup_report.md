@@ -1,7 +1,7 @@
 # Art cleanup report
 
 Made by tools/art_cleanup.py. palette from art/palette.json (33 colors). A picture cut pixel for pixel from a refresh sheet replaces any earlier picture of the same name.
-637 images passed, 1 failed.
+678 images passed, 1 failed.
 
 
 ## ChatGPT Image Nov 15, 2026, 07_04_59 AM.png (ground tiles)
@@ -875,6 +875,63 @@ Made by tools/art_cleanup.py. palette from art/palette.json (33 colors). A pictu
 - furniture_chest: **pass** 18x16
 - furniture_desk: **pass** 32x24
 - furniture_door: **pass** 16x16
+
+## raw_int_reference_rooms_01.png (Interior Art Guide: the pieces and three rooms, labelled)
+
+- -: **SKIPPED** a labelled guide picture of the pieces and rooms, used by eye for the layouts
+
+## raw_int_furniture_big_01.png (Interior Art Guide, prompt 3: large furniture): light background cleared from the edges
+
+- int_bed: **pass** 32x48
+- int_stove_lit: **pass** 32x32
+- int_workbench: **pass** 48x32
+- int_desk: **pass** 48x32
+- int_chest: **pass** 32x32
+- int_supply_shelf: **pass** 32x48
+- int_stove: **pass** 32x32
+
+## raw_p4_shops_food_01.png (Phase 4 first pass: The Percolator and Casa Luna)
+
+- town_percolator: **pass** 80x96
+- town_casa_luna: **pass** 96x80
+
+## raw_p4_town_ground_01.png (Phase 4 first pass: town ground)
+
+- town_cobbles: **pass** 16x16
+- town_cobbles_alt_1: **pass** 16x16
+- town_cobbles_alt_2: **pass** 16x16
+- town_cobbles_alt_3: **pass** 16x16
+- town_lawn: **pass** 16x16
+- town_lawn_alt_1: **pass** 16x16
+- town_lawn_alt_2: **pass** 16x16
+- town_lawn_alt_3: **pass** 16x16
+- town_gravel: **pass** 16x16
+- town_gravel_alt_1: **pass** 16x16
+- town_flowerbed_warm: **pass** 16x16
+- town_flowerbed_cool: **pass** 16x16
+- town_kerb: **pass** 16x16
+- town_kerb_alt_1: **pass** 16x16
+- town_boards: **pass** 16x16
+- town_doormat: **pass** 16x16
+
+## raw_p4_npc_wren_01.png (Phase 4 first pass: Wren's walk)
+
+- npc_wren_down_0: **pass** 16x32
+- npc_wren_down_1: **pass** 16x32
+- npc_wren_down_2: **pass** 16x32
+- npc_wren_down_3: **pass** 16x32
+- npc_wren_right_0: **pass** 16x32
+- npc_wren_right_1: **pass** 16x32
+- npc_wren_right_2: **pass** 16x32
+- npc_wren_right_3: **pass** 16x32
+- npc_wren_up_0: **pass** 16x32
+- npc_wren_up_1: **pass** 16x32
+- npc_wren_up_2: **pass** 16x32
+- npc_wren_up_3: **pass** 16x32
+- npc_wren_left_0: **pass** 16x32
+- npc_wren_left_1: **pass** 16x32
+- npc_wren_left_2: **pass** 16x32
+- npc_wren_left_3: **pass** 16x32
 
 ## calm_ground_a.png
 

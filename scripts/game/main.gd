@@ -112,6 +112,12 @@ func _ready() -> void:
 	session.survey_finished.connect(func() -> void:
 		if not menu_open():
 			map_screen.open())
+	# A tool landed: the ranger holds still a few frames (hit-stop).
+	session.tool_landed.connect(func(tool: String, _t: Vector2i, kind: String) -> void:
+		var frames: Dictionary = session.tuning.value("look.polish.hitstop_frames")
+		ranger.freeze(int(frames.get("fell" if kind == "fell" else tool, 3))))
+	ranger.bob_delay = session.tuning.num("look.polish.idle_bob_delay")
+	ranger.bob_period = session.tuning.num("look.polish.idle_bob_period")
 	session.backpack_grew.connect(func() -> void:
 		hud.rebuild_slots()
 		inventory_screen.rebuild_slots())
@@ -302,6 +308,8 @@ func _build_options(root: Control) -> void:
 	box.add_child(note)
 	pinned_button = _toggle_row(box, "ui_options_pinned", "show_pinned_job")
 	unlocks_button = _toggle_row(box, "ui_options_unlock_map", "show_unlocks_on_map")
+	_toggle_row(box, "ui_options_motion", "motion")
+	_toggle_row(box, "ui_options_weather_effects", "weather_effects")
 	var mrow := HBoxContainer.new()
 	mrow.add_theme_constant_override("separation", 6)
 	box.add_child(mrow)
@@ -480,6 +488,23 @@ func _on_location_changed(loc: String) -> void:
 		camera.limit_bottom = 100000
 
 
+## The name over what the ranger faces and can use: a piece of furniture
+## indoors. Hidden while a screen is open.
+func _update_look() -> void:
+	hud.look_text = ""
+	if menu_open() or not session.is_indoors():
+		return
+	var f := session.furniture_in_reach()
+	var label := session.furniture_label(f)
+	if label == "":
+		return
+	var r := Rect2(Vector2(f["pos"][0], f["pos"][1]), Vector2(f["size"][0], f["size"][1]))
+	var tex := Art.texture(str(f["sprite"]))
+	var top := r.end.y * TILE - (tex.get_height() if tex != null else TILE)
+	hud.look_text = label
+	hud.look_at = world_view.get_canvas_transform() * (interior_view.position + Vector2(r.get_center().x * TILE, top))
+
+
 func menu_open() -> bool:
 	return title_screen.visible or pause_menu.visible or options_panel.visible or inventory_screen.visible or map_screen.visible or dialog.visible or choice_screen.visible or book_screen.visible or clipboard.visible or job_card.visible
 
@@ -641,12 +666,15 @@ func _process(delta: float) -> void:
 			_map_lines = PackedStringArray()
 	if not menu_open():
 		var dir := Input.get_vector("move_left", "move_right", "move_up", "move_down")
-		session.move(dir, delta)
+		# A hit-stop holds the ranger still; the world keeps moving.
+		session.move(dir if ranger.frozen == 0 else Vector2.ZERO, delta)
 		session.process(delta)
 	else:
 		session.moving = false
 	var px := session.ranger_pos() * TILE
+	ranger.motion = Settings.flag("motion")
 	ranger.show_state(px, session.facing, session.moving, delta)
+	_update_look()
 	if session.is_indoors():
 		camera.position = interior_view.room_center_px()
 	else:

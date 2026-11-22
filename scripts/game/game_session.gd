@@ -28,6 +28,9 @@ signal list_requested(kind: String, title: String, options: Array)
 signal survey_finished
 ## Things dropped on the ground came or went.
 signal piles_changed
+## A tool landed on a tile (Graphics Polish: hit-stop and hit reactions).
+## kind: "fell", "tree", "brush", "trunk", "dirt" or "stone".
+signal tool_landed(tool: String, tile: Vector2i, kind: String)
 ## The ranger walked the trail somewhere in one go (trail travel).
 signal traveled
 
@@ -1004,6 +1007,22 @@ func _landmark_for_structure(structure_id: String) -> String:
 	return structure_id if content.has("landmarks", structure_id) else ""
 
 
+## The piece of furniture X would use now, or {} (outdoors, or none near).
+func furniture_in_reach() -> Dictionary:
+	if not is_indoors():
+		return {}
+	var layout: InteriorLayout = interiors[location]
+	return layout.furniture_near(interior_pos, tuning.num("world.interact_reach_tiles"))
+
+
+## The name shown over the piece X would use (Interior Art Guide: "what am I
+## looking at?"), or "" for a piece with no name to show.
+func furniture_label(f: Dictionary) -> String:
+	if f.is_empty() or not content.has("text", "furn_" + str(f["kind"])):
+		return ""
+	return content.text("furn_" + str(f["kind"]))
+
+
 func _interact_inside() -> void:
 	var layout: InteriorLayout = interiors[location]
 	var f := layout.furniture_near(interior_pos, tuning.num("world.interact_reach_tiles"))
@@ -1122,18 +1141,23 @@ func use_item() -> void:
 	elif item in ["hammer", "axe"] and not is_indoors() and jobs.spot_in_reach(item, outdoor_pos, tuning.num("clearing.reach_tiles")) != "":
 		work_job_spot(jobs.spot_in_reach(item, outdoor_pos, tuning.num("clearing.reach_tiles")))
 	elif item == "hammer":
-		hammer()
+		if bool(hammer().get("ok", false)):
+			tool_landed.emit(item, ranger_tile() + facing_vector(), "hammer")
 	elif item == "map":
 		start_survey()
 	elif item == "axe":
 		if not obstacle_in_reach("axe").is_empty():
-			clear_obstacle()
+			_landed(item, clear_obstacle())
 		else:
-			chop()
+			var r := chop()
+			if bool(r.get("ok", false)):
+				tool_landed.emit(item, r["tile"], "fell")
 	elif item == "saw":
-		clear_obstacle()
+		_landed(item, clear_obstacle())
 	elif item == "shovel":
-		dig()
+		var t := ranger_tile() + facing_vector()
+		if bool(dig().get("ok", false)):
+			tool_landed.emit(item, t, "dirt")
 	elif family_of(item) == "bedroll":
 		make_camp()
 	elif item == "firewood" and fire_ring_in_reach().x >= 0:
@@ -1143,6 +1167,14 @@ func use_item() -> void:
 			feed_stove()
 		elif not camp.is_empty() and outdoor_pos.distance_to(Vector2(camp["fire"]) + Vector2(0.5, 0.5)) <= tuning.num("world.interact_reach_tiles"):
 			feed_campfire()
+
+
+## Tells the views a tool landed on an obstacle: what it was made of.
+func _landed(tool: String, res: Dictionary) -> void:
+	if not bool(res.get("ok", false)) or not res.has("origin"):
+		return
+	var id := str(res.get("id", ""))
+	tool_landed.emit(tool, res["origin"], "trunk" if id == "fallen_trunk" else ("stone" if id.contains("rock") or id.contains("boulder") else "brush"))
 
 
 func eat(item: String) -> bool:

@@ -230,6 +230,39 @@
     "no_shadow": [
       "pawprints"
     ],
+    "polish": {
+      "note": "Graphics Polish request (21 Nov 2026), part one. Every move snaps to whole game pixels. Switched off by Options: Motion.",
+      "hitstop_frames": {
+        "axe": 3,
+        "saw": 3,
+        "shovel": 3,
+        "hammer": 3,
+        "fell": 5
+      },
+      "chips": 6,
+      "chip_seconds": 0.45,
+      "chip_colors": {
+        "fell": [[157, 102, 62], [199, 144, 95], [56, 142, 76]],
+        "tree": [[157, 102, 62], [56, 142, 76]],
+        "trunk": [[157, 102, 62], [199, 144, 95]],
+        "brush": [[56, 142, 76], [97, 187, 97], [93, 62, 48]],
+        "dirt": [[93, 62, 48], [182, 162, 110]],
+        "stone": [[149, 157, 170], [85, 96, 114]],
+        "hammer": [[199, 144, 95], [157, 102, 62]]
+      },
+      "ghost_step_seconds": 0.05,
+      "fall_steps": 3,
+      "fade_alpha": 0.6,
+      "fade_seconds": 0.25,
+      "idle_bob_delay": 2.0,
+      "idle_bob_period": 2.4
+    },
+    "weather_overlay_color": [246, 236, 208],
+    "weather_overlay": {
+      "fog": {"strength": 0.45, "layers": [[3.0, 0.5, 1.0], [-1.5, 0.25, 0.6]]},
+      "snow": {"strength": 0.25, "layers": [[2.0, 6.0, 1.0], [-1.0, 3.0, 0.5]]},
+      "blizzard": {"strength": 0.4, "layers": [[10.0, 8.0, 1.0], [5.0, 4.0, 0.6]]}
+    },
     "water": {
       "note": "Water's look (Mark's water picture, 21 Nov 2026, used for the feel only): open water sways its ripple marks and catches small glints; where it meets land a wet-sand rim and a foam line run along the shore and lap in and out.",
       "grounds": [

@@ -6778,6 +6778,520 @@
     }
    ],
    "final_say": true
+  },
+  {
+   "file": "raw_int_reference_rooms_01.png",
+   "label": "Interior Art Guide: the pieces and three rooms, labelled",
+   "reference": "a labelled guide picture of the pieces and rooms, used by eye for the layouts",
+   "grid": [
+    1,
+    1
+   ],
+   "cells": []
+  },
+  {
+   "file": "raw_int_furniture_big_01.png",
+   "label": "Interior Art Guide, prompt 3: large furniture",
+   "grid": [
+    3,
+    2
+   ],
+   "bg": [
+    "light",
+    235
+   ],
+   "cells": [
+    {
+     "name": "int_bed",
+     "size": [
+      32,
+      48
+     ],
+     "box": [
+      100,
+      25,
+      330,
+      505
+     ]
+    },
+    {
+     "name": "int_stove_lit",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "int_workbench",
+     "size": [
+      48,
+      32
+     ],
+     "box": [
+      995,
+      115,
+      541,
+      350
+     ],
+     "recolor_map": [
+      [
+       [
+        232,
+        115,
+        95
+       ],
+       [
+        157,
+        102,
+        62
+       ]
+      ],
+      [
+       [
+        251,
+        177,
+        113
+       ],
+       [
+        199,
+        144,
+        95
+       ]
+      ]
+     ]
+    },
+    {
+     "name": "int_desk",
+     "size": [
+      48,
+      32
+     ],
+     "box": [
+      25,
+      640,
+      460,
+      320
+     ],
+     "recolor_map": [
+      [
+       [
+        232,
+        115,
+        95
+       ],
+       [
+        157,
+        102,
+        62
+       ]
+      ],
+      [
+       [
+        251,
+        177,
+        113
+       ],
+       [
+        199,
+        144,
+        95
+       ]
+      ]
+     ]
+    },
+    {
+     "name": "int_chest",
+     "size": [
+      32,
+      32
+     ],
+     "recolor_map": [
+      [
+       [
+        232,
+        115,
+        95
+       ],
+       [
+        157,
+        102,
+        62
+       ]
+      ],
+      [
+       [
+        251,
+        177,
+        113
+       ],
+       [
+        199,
+        144,
+        95
+       ]
+      ]
+     ]
+    },
+    {
+     "name": "int_supply_shelf",
+     "size": [
+      32,
+      48
+     ],
+     "recolor_map": [
+      [
+       [
+        232,
+        115,
+        95
+       ],
+       [
+        157,
+        102,
+        62
+       ]
+      ],
+      [
+       [
+        251,
+        177,
+        113
+       ],
+       [
+        199,
+        144,
+        95
+       ]
+      ]
+     ]
+    },
+    {
+     "name": "int_stove",
+     "size": [
+      32,
+      32
+     ],
+     "box": [
+      512,
+      0,
+      512,
+      512
+     ],
+     "recolor_map": [
+      [
+       [
+        232,
+        115,
+        95
+       ],
+       [
+        93,
+        62,
+        48
+       ]
+      ],
+      [
+       [
+        255,
+        224,
+        102
+       ],
+       [
+        85,
+        96,
+        114
+       ]
+      ],
+      [
+       [
+        252,
+        248,
+        237
+       ],
+       [
+        85,
+        96,
+        114
+       ]
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "file": "raw_p4_shops_food_01.png",
+   "label": "Phase 4 first pass: The Percolator and Casa Luna",
+   "grid": [
+    2,
+    1
+   ],
+   "cells": [
+    {
+     "name": "town_percolator",
+     "size": [
+      80,
+      96
+     ]
+    },
+    {
+     "name": "town_casa_luna",
+     "size": [
+      96,
+      80
+     ]
+    }
+   ]
+  },
+  {
+   "file": "raw_p4_town_ground_01.png",
+   "label": "Phase 4 first pass: town ground",
+   "grid": [
+    4,
+    4
+   ],
+   "full": true,
+   "cells": [
+    {
+     "name": "town_cobbles",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "town_cobbles_alt_1",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "town_cobbles_alt_2",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "town_cobbles_alt_3",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "town_lawn",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "town_lawn_alt_1",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "town_lawn_alt_2",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "town_lawn_alt_3",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "town_gravel",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "town_gravel_alt_1",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "town_flowerbed_warm",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "town_flowerbed_cool",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "town_kerb",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "town_kerb_alt_1",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "town_boards",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "town_doormat",
+     "size": [
+      16,
+      16
+     ]
+    }
+   ],
+   "keep_colors": true
+  },
+  {
+   "file": "raw_p4_npc_wren_01.png",
+   "label": "Phase 4 first pass: Wren's walk",
+   "grid": [
+    4,
+    4
+   ],
+   "sheet": {
+    "name": "npc_wren",
+    "cols": 4
+   },
+   "cells": [
+    {
+     "name": "npc_wren_down_0",
+     "size": [
+      16,
+      32
+     ]
+    },
+    {
+     "name": "npc_wren_down_1",
+     "size": [
+      16,
+      32
+     ]
+    },
+    {
+     "name": "npc_wren_down_2",
+     "size": [
+      16,
+      32
+     ]
+    },
+    {
+     "name": "npc_wren_down_3",
+     "size": [
+      16,
+      32
+     ]
+    },
+    {
+     "name": "npc_wren_right_0",
+     "size": [
+      16,
+      32
+     ]
+    },
+    {
+     "name": "npc_wren_right_1",
+     "size": [
+      16,
+      32
+     ]
+    },
+    {
+     "name": "npc_wren_right_2",
+     "size": [
+      16,
+      32
+     ]
+    },
+    {
+     "name": "npc_wren_right_3",
+     "size": [
+      16,
+      32
+     ]
+    },
+    {
+     "name": "npc_wren_up_0",
+     "size": [
+      16,
+      32
+     ]
+    },
+    {
+     "name": "npc_wren_up_1",
+     "size": [
+      16,
+      32
+     ]
+    },
+    {
+     "name": "npc_wren_up_2",
+     "size": [
+      16,
+      32
+     ]
+    },
+    {
+     "name": "npc_wren_up_3",
+     "size": [
+      16,
+      32
+     ]
+    },
+    {
+     "name": "npc_wren_left_0",
+     "size": [
+      16,
+      32
+     ]
+    },
+    {
+     "name": "npc_wren_left_1",
+     "size": [
+      16,
+      32
+     ]
+    },
+    {
+     "name": "npc_wren_left_2",
+     "size": [
+      16,
+      32
+     ]
+    },
+    {
+     "name": "npc_wren_left_3",
+     "size": [
+      16,
+      32
+     ]
+    }
+   ],
+   "keep_colors": true
   }
  ],
  "calm": {

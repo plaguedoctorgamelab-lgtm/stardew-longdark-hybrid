@@ -41,6 +41,8 @@ var _camp_fire: Sprite2D
 var _time: float = 0.0
 var park_view: ParkView
 var _pile_sprites: Array[Sprite2D] = []
+var polish: Polish
+var _ranger: Node2D
 
 
 func setup(s: GameSession, ranger_node: Node2D) -> void:
@@ -122,6 +124,10 @@ func setup(s: GameSession, ranger_node: Node2D) -> void:
 	_border_lines.z_index = 50
 	_border_lines.draw.connect(_draw_borders)
 	add_child(_border_lines)
+	_ranger = ranger_node
+	polish = Polish.new()
+	add_child(polish)
+	polish.setup(session, self)
 
 
 var _spot_sprites: Array[Sprite2D] = []
@@ -359,6 +365,42 @@ func _draw_placed(t: Vector2i) -> void:
 	_placed_sprites[t] = spr
 
 
+## The picture an object shows on tile t (the standing tree, with
+## `standing`, even once it is chopped), or null if there is none.
+func object_texture(t: Vector2i, standing: bool = false) -> Texture2D:
+	var kind := session.world.object_at(t)
+	if kind == "" or not _object_source.has(kind):
+		return null
+	if session.chopped.has(t) and not standing:
+		return Art.texture(session.content.row("items", "axe")["stump_sprite"])
+	var src_id: int = (_object_source[kind] as Array)[pick(t, _object_weights[kind], 1)]
+	var src := object_layer.tile_set.get_source(src_id) as TileSetAtlasSource
+	return src.texture
+
+
+## Draws tile t's object again (after a jolt hid it a moment).
+func redraw_object(t: Vector2i) -> void:
+	_draw_object(t)
+
+
+## Large things the ranger walks behind (the buildings) fade so the ranger
+## is never lost from view (Graphics Polish, depth sorting).
+func _fade_buildings(delta: float) -> void:
+	if _ranger == null:
+		return
+	var p := _ranger.position
+	var amount := float(session.tuning.value("look.polish.fade_alpha"))
+	var speed := delta / maxf(0.01, float(session.tuning.value("look.polish.fade_seconds")))
+	for id: String in building_sprites:
+		var spr: Sprite2D = building_sprites[id]
+		if spr.texture == null:
+			continue
+		var r := Rect2(spr.position + spr.offset, spr.texture.get_size())
+		var behind := r.has_point(p + Vector2(0, -8)) and p.y < spr.position.y
+		var goal := amount if behind else 1.0
+		spr.modulate.a = move_toward(spr.modulate.a, goal, speed)
+
+
 func _draw_object(t: Vector2i) -> void:
 	var kind := session.world.object_at(t)
 	if kind == "":
@@ -590,6 +632,7 @@ func _process(delta: float) -> void:
 		return
 	_time += delta
 	_ripple.queue_redraw()
+	_fade_buildings(delta)
 	if _camp_fire.visible and session.campfire_lit():
 		_camp_fire.modulate = Color(1.0, 0.85 + 0.15 * sin(_time * 11.0), 0.8 + 0.2 * sin(_time * 7.0))
 	else:

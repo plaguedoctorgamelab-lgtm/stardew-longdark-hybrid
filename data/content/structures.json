@@ -308,16 +308,23 @@
     ],
     "decor": [
      {
+      "sprite": "interior_picture",
+      "pos": [
+       2,
+       1
+      ]
+     },
+     {
       "sprite": "interior_window_curtains",
       "pos": [
-       6,
+       4,
        0
       ]
      },
      {
-      "sprite": "interior_picture",
+      "sprite": "furniture_coat_hook",
       "pos": [
-       3,
+       7,
        1
       ]
      }
@@ -326,8 +333,15 @@
      {
       "sprite": "interior_rug",
       "pos": [
-       3,
-       6
+       4,
+       5
+      ]
+     },
+     {
+      "sprite": "town_doormat",
+      "pos": [
+       4,
+       8
       ]
      }
     ],
@@ -337,39 +351,39 @@
       "kind": "bed",
       "pos": [
        1,
-       3
+       4
       ],
       "size": [
        2,
        2
       ],
-      "sprite": "furniture_cabin_bed"
+      "sprite": "int_bed"
      },
      {
       "id": "stove",
       "kind": "stove",
       "pos": [
-       5,
-       3
-      ],
-      "size": [
-       2,
-       2
-      ],
-      "sprite": "furniture_stove"
-     },
-     {
-      "id": "chest",
-      "kind": "chest",
-      "pos": [
        7,
-       3
+       4
       ],
       "size": [
        2,
        1
       ],
-      "sprite": "furniture_trunk"
+      "sprite": "int_stove"
+     },
+     {
+      "id": "chest",
+      "kind": "chest",
+      "pos": [
+       1,
+       7
+      ],
+      "size": [
+       2,
+       1
+      ],
+      "sprite": "int_chest"
      },
      {
       "id": "door",
@@ -385,24 +399,37 @@
       "sprite": "furniture_door"
      },
      {
-      "id": "cupboard",
+      "id": "table",
       "kind": "decor",
       "pos": [
-       3,
-       3
+       6,
+       8
       ],
       "size": [
        2,
        1
       ],
-      "sprite": "furniture_cupboard_low"
+      "sprite": "furniture_table"
+     },
+     {
+      "id": "chair",
+      "kind": "decor",
+      "pos": [
+       8,
+       8
+      ],
+      "size": [
+       1,
+       1
+      ],
+      "sprite": "furniture_chair"
      },
      {
       "id": "wood_box",
       "kind": "decor",
       "pos": [
-       7,
-       4
+       8,
+       6
       ],
       "size": [
        1,
@@ -414,52 +441,27 @@
       "id": "lamp",
       "kind": "decor",
       "pos": [
-       8,
-       4
+       7,
+       7
       ],
       "size": [
        1,
        1
       ],
       "sprite": "furniture_oil_lamp"
-     },
-     {
-      "id": "washstand",
-      "kind": "decor",
-      "pos": [
-       7,
-       6
-      ],
-      "size": [
-       2,
-       1
-      ],
-      "sprite": "furniture_washstand"
-     },
-     {
-      "id": "pantry",
-      "kind": "decor",
-      "pos": [
-       1,
-       6
-      ],
-      "size": [
-       2,
-       1
-      ],
-      "sprite": "furniture_pantry"
      }
     ],
     "kit_spot": {
      "pos": [
-      1,
-      8
+      3,
+      3
      ],
      "size": [
       3,
       1
      ]
-    }
+    },
+    "note": "Laid out to the Interior Art Guide's plan for the old cabin (21 Nov 2026): a sleeping corner, the stove's warm corner, a table by the door; small things on big things; the floor never more than 40% covered."
    },
    "repair_steps": [
     {
