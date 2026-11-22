@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.6.3** (see [Version history](#version-history)). The
+**Current version: 0.6.4** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -101,6 +101,14 @@ docs/              bible, roadmap, specs, rules, status reports (hidden from God
 
 The version lives in `project.godot` (`application/config/version`). Every
 commit of the build raises it and adds a line here.
+
+### 0.6.4 (22 November 2026): Mark's fixed interior pieces
+
+- Mark's second version of Art Request 18's counters and shop-pieces sheets, and a new wall piece, `raw_ar18_post_pigeonholes.png`.
+- **The Town Hall** has the post office counter again, now just its brass grille (48 x 32), with the pigeonholes on the wall behind: the mayor shows behind his counter.
+- **The Outfitters** has the new coat display; the shop-pieces sheet now comes on a transparent background, so it cuts cleanly.
+- **The Percolator's menu board** shows its chalk cup, drawn bolder.
+- Screenshots: `docs/status/064_shots/`. Still waiting on code: the room's edge piece and the window light shaft.
 
 ### 0.6.3 (22 November 2026): Mark's Art Request 18 in the shops
 

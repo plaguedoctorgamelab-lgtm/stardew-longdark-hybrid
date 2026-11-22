@@ -7444,7 +7444,7 @@
   },
   {
    "file": "raw_ar18_counters.png",
-   "label": "Art Request 18, sheet 2: counters and shelves",
+   "label": "Art Request 18, sheet 2: counters and shelves (Mark's second version: the post counter without its pigeonholes)",
    "grid": [
     4,
     2
@@ -7475,7 +7475,7 @@
      "name": "int_post_counter",
      "size": [
       48,
-      48
+      32
      ]
     },
     {
@@ -7511,12 +7511,11 @@
   },
   {
    "file": "raw_ar18_shop_pieces.png",
-   "label": "Art Request 18, sheet 3: each shop's own pieces",
+   "label": "Art Request 18, sheet 3: each shop's own pieces (Mark's second version: transparent, a bolder chalk cup)",
    "grid": [
     4,
     3
    ],
-   "cell_bg": 6,
    "cells": [
     {
      "name": "int_cafe_table",
@@ -7733,6 +7732,24 @@
     }
    ],
    "keep_colors": true
+  },
+  {
+   "file": "raw_ar18_post_pigeonholes.png",
+   "label": "Art Request 18 fix: the post office pigeonholes, a wall piece",
+   "grid": [
+    1,
+    1
+   ],
+   "keep_colors": true,
+   "cells": [
+    {
+     "name": "int_post_pigeonholes",
+     "size": [
+      32,
+      32
+     ]
+    }
+   ]
   }
  ],
  "calm": {

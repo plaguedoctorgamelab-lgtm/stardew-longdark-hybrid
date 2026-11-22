@@ -1,7 +1,7 @@
 # Art cleanup report
 
 Made by tools/art_cleanup.py. palette from art/palette.json (33 colors). A picture cut pixel for pixel from a refresh sheet replaces any earlier picture of the same name.
-719 images passed, 1 failed.
+720 images passed, 1 failed.
 
 
 ## ChatGPT Image Nov 15, 2026, 07_04_59 AM.png (ground tiles)
@@ -949,18 +949,18 @@ Made by tools/art_cleanup.py. palette from art/palette.json (33 colors). A pictu
 - interior_window_shop_night: **pass** 32x32
 - interior_doormat: **pass** 32x16
 
-## raw_ar18_counters.png (Art Request 18, sheet 2: counters and shelves)
+## raw_ar18_counters.png (Art Request 18, sheet 2: counters and shelves (Mark's second version: the post counter without its pigeonholes))
 
 - int_shop_counter: **pass** 48x32
 - int_shop_counter_cafe: **pass** 48x32
 - int_shop_counter_restaurant: **pass** 48x32
-- int_post_counter: **pass** 48x48
+- int_post_counter: **pass** 48x32
 - int_bookcase: **pass** 32x48
 - int_goods_shelf: **pass** 32x48
 - int_display_table: **pass** 32x32
 - int_front_desk: **pass** 48x32
 
-## raw_ar18_shop_pieces.png (Art Request 18, sheet 3: each shop's own pieces): background removed cell by cell inside the grid lines
+## raw_ar18_shop_pieces.png (Art Request 18, sheet 3: each shop's own pieces (Mark's second version: transparent, a bolder chalk cup))
 
 - int_cafe_table: **pass** 32x32
 - int_menu_board: **pass** 32x24
@@ -991,6 +991,10 @@ Made by tools/art_cleanup.py. palette from art/palette.json (33 colors). A pictu
 - interior_picture_canoe: **pass** 16x20
 - interior_picture_bird: **pass** 16x20
 - interior_picture_pine: **pass** 16x20
+
+## raw_ar18_post_pigeonholes.png (Art Request 18 fix: the post office pigeonholes, a wall piece)
+
+- int_post_pigeonholes: **pass** 32x32
 
 ## calm_ground_a.png
 

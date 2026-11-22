@@ -441,10 +441,10 @@
        7
       ],
       "size": [
-       1,
+       2,
        1
       ],
-      "sprite": "furniture_coat_rack"
+      "sprite": "int_coat_display"
      },
      {
       "id": "boots",
@@ -1083,6 +1083,13 @@
        10,
        0
       ]
+     },
+     {
+      "sprite": "int_post_pigeonholes",
+      "pos": [
+       2,
+       1
+      ]
      }
     ],
     "rugs": [
@@ -1113,7 +1120,7 @@
        3,
        1
       ],
-      "sprite": "int_shop_counter"
+      "sprite": "int_post_counter"
      },
      {
       "id": "desk",

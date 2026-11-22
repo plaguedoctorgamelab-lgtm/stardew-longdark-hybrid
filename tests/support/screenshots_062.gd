@@ -24,7 +24,7 @@ func _shot(name: String) -> void:
 	await RenderingServer.frame_post_draw
 	var img := root.get_texture().get_image()
 	DirAccess.make_dir_recursive_absolute("user://screenshots")
-	var path := "user://screenshots/s063_%s.png" % name
+	var path := "user://screenshots/s064_%s.png" % name
 	img.save_png(path)
 	print("saved ", ProjectSettings.globalize_path(path))
 
