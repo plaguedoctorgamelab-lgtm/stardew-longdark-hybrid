@@ -582,6 +582,13 @@
     "hearts_dating": 10,
     "bouquet_price": 200
   },
+  "shops": {
+    "note": "Phase 4, step 5 (Phase 4 Spec, Shops and services and New tuning values).",
+    "buy_share": 0.5,
+    "coffee_boost": 0.1,
+    "coffee_minutes": 120,
+    "counter_reach_tiles": 1.6
+  },
   "town_look": {
     "note": "Humdrum's ground: each code's pictures and how often each shows (Mark's town ground sheet, 21 Nov 2026).",
     "ground": {

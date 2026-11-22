@@ -85,8 +85,15 @@ func _build_ground() -> void:
 
 
 func _make_person(r: Dictionary) -> Node2D:
-	var node := Node2D.new()
+	var node := person_node(session, r)
 	sort_root.add_child(node)
+	return node
+
+
+## A townsperson's picture: their own walk sheet if drawn, or the visitors'
+## layers in their colours. Also used inside the shops' rooms.
+static func person_node(session: GameSession, r: Dictionary) -> Node2D:
+	var node := Node2D.new()
 	Shadow.attach(node, TILE, session.tuning)
 	var sheet := str(r.get("sprite", ""))
 	if sheet != "" and Art.has_picture(sheet):

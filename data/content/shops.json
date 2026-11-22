@@ -1,0 +1,137 @@
+{
+ "note": "Phase 4, step 5: what each shop sells and buys, from the Phase 4 Spec. here: eaten at a table in the shop (here_minutes pass), or bought to take away for takeaway_extra more. before: only sold before that minute of the day. buys: the gift goods the ranger makes, at tuning shops.buy_share of their kiosk price (items.sell), and the forage listed here at that share of the price given. catalog: the counter takes catalog orders.",
+ "rows": [
+  {
+   "id": "percolator",
+   "here_minutes": 10,
+   "takeaway_extra": 0,
+   "sells": [
+    {
+     "item": "coffee",
+     "price": 5,
+     "here": true
+    },
+    {
+     "item": "hot_chocolate",
+     "price": 5,
+     "here": true
+    },
+    {
+     "item": "muffin",
+     "price": 6,
+     "here": true
+    },
+    {
+     "item": "trail_breakfast",
+     "price": 12,
+     "here": true,
+     "before": 600
+    }
+   ]
+  },
+  {
+   "id": "casa_luna",
+   "here_minutes": 30,
+   "takeaway_extra": 2,
+   "free_plate": {
+    "item": "churros",
+    "chance": 0.2
+   },
+   "sells": [
+    {
+     "item": "tamales",
+     "price": 18,
+     "here": true
+    },
+    {
+     "item": "pozole",
+     "price": 20,
+     "here": true
+    },
+    {
+     "item": "enchiladas",
+     "price": 20,
+     "here": true
+    },
+    {
+     "item": "churros",
+     "price": 8,
+     "here": true
+    }
+   ]
+  },
+  {
+   "id": "outfitters",
+   "note": "Clothing comes in step 6; seeds and the watering can in 4b.",
+   "sells": [
+    {
+     "item": "rope",
+     "price": 12
+    },
+    {
+     "item": "trail_mix",
+     "price": 8
+    },
+    {
+     "item": "firewood",
+     "count": 5,
+     "price": 12
+    }
+   ]
+  },
+  {
+   "id": "gifts",
+   "sells": [
+    {
+     "item": "pressed_flower_card",
+     "price": 10
+    },
+    {
+     "item": "pine_resin_candle",
+     "price": 12
+    }
+   ],
+   "buys": {
+    "prices": {
+     "berries": 4,
+     "hazelnuts": 4,
+     "mushrooms": 5,
+     "wildflowers": 3,
+     "rose_hips": 4,
+     "fiddleheads": 5,
+     "wild_onion": 4,
+     "reeds": 2
+    }
+   }
+  },
+  {
+   "id": "carpentry",
+   "note": "The catalog's prices, the same day.",
+   "sells": [
+    {
+     "item": "planks",
+     "price": 8
+    },
+    {
+     "item": "roofing",
+     "price": 10
+    },
+    {
+     "item": "nails",
+     "count": 10,
+     "price": 15
+    }
+   ]
+  },
+  {
+   "id": "library",
+   "sells": [],
+   "books": true
+  },
+  {
+   "id": "town_hall",
+   "sells": [],
+   "catalog": true
+  }
+ ]
+}

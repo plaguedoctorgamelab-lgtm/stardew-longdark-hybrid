@@ -75,6 +75,16 @@
    "id": "jobs",
    "price": 0,
    "name": "src_jobs"
+  },
+  {
+   "id": "shops",
+   "price": 0,
+   "name": "src_shops"
+  },
+  {
+   "id": "shop_sales",
+   "price": 0,
+   "name": "src_shop_sales"
   }
  ]
 }

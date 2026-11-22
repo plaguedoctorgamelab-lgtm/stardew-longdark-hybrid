@@ -74,7 +74,8 @@ func test_keepers_stand_at_their_open_shops(t: TestCase) -> void:
 	t.check(s.town.is_open("percolator"), "The Percolator is open on a Monday morning")
 	t.check(not s.town.is_open("casa_luna"), "Casa Luna is closed on Mondays")
 	s.town.place_everyone()
-	t.check(s.town.shown("wren"), "Wren is out at her shop's door")
+	# 0.6.2: shops have rooms, so the keeper is inside behind the counter.
+	t.check(not s.town.shown("wren") and s.shops.people_in("percolator").has("wren"), "Wren is inside her shop, behind the counter")
 	t.check(not s.town.shown("agnes") or s.town.routine_place("agnes") == "library", "Agnes is at the library")
 	s.debug_set_time(23 * 60)
 	s.town.place_everyone()

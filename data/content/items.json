@@ -448,6 +448,62 @@
    "stack": 10,
    "icon": "item_glowcap_night_light",
    "sell": 60
+  },
+  {
+   "id": "coffee",
+   "name": "item_coffee",
+   "kind": "food",
+   "stack": 10,
+   "icon": "item_coffee"
+  },
+  {
+   "id": "hot_chocolate",
+   "name": "item_hot_chocolate",
+   "kind": "food",
+   "stack": 10,
+   "icon": "item_hot_chocolate"
+  },
+  {
+   "id": "muffin",
+   "name": "item_muffin",
+   "kind": "food",
+   "stack": 10,
+   "icon": "item_muffin"
+  },
+  {
+   "id": "trail_breakfast",
+   "name": "item_trail_breakfast",
+   "kind": "food",
+   "stack": 5,
+   "icon": "item_trail_breakfast"
+  },
+  {
+   "id": "tamales",
+   "name": "item_tamales",
+   "kind": "food",
+   "stack": 5,
+   "icon": "item_tamales"
+  },
+  {
+   "id": "pozole",
+   "name": "item_pozole",
+   "kind": "food",
+   "stack": 5,
+   "icon": "item_pozole"
+  },
+  {
+   "id": "enchiladas",
+   "name": "item_enchiladas",
+   "kind": "food",
+   "stack": 5,
+   "icon": "item_enchiladas"
+  },
+  {
+   "id": "churros",
+   "name": "item_churros",
+   "kind": "food",
+   "stack": 10,
+   "icon": "item_churros"
   }
  ],
  "note": "Everything that goes in the backpack. family: a tool and its refitted versions share one family, and anything that needs the tool takes any of them. refit: the magical ingredient a refitted tool holds. placeable: put on the faced tile (needs_tool: the tool it needs, \"\" for none; on: trail or open ground; map_when_revealed: shown on the map once that ground is revealed; lays: laid as that ground, on the grounds in tuning trail.boardwalk_on). kit: set up inside a building."

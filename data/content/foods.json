@@ -15,6 +15,14 @@
     {"id": "fiddlehead_fry", "item": "fiddlehead_fry", "energy": 55, "warmth": 0, "cooked": true},
     {"id": "berry_preserve", "item": "berry_preserve", "energy": 40, "warmth": 0, "cooked": true},
     {"id": "roast_hazelnuts", "item": "roast_hazelnuts", "energy": 30, "warmth": 5, "cooked": true},
-    {"id": "rose_hip_tea", "item": "rose_hip_tea", "energy": 10, "warmth": 25, "cooked": true}
+    {"id": "rose_hip_tea", "item": "rose_hip_tea", "energy": 10, "warmth": 25, "cooked": true},
+    {"id": "coffee", "item": "coffee", "energy": 0, "warmth": 0, "boost": "coffee"},
+    {"id": "hot_chocolate", "item": "hot_chocolate", "energy": 0, "warmth": 20},
+    {"id": "muffin", "item": "muffin", "energy": 40, "warmth": 0},
+    {"id": "trail_breakfast", "item": "trail_breakfast", "energy": 90, "warmth": 0},
+    {"id": "tamales", "item": "tamales", "energy": 120, "warmth": 20},
+    {"id": "pozole", "item": "pozole", "energy": 100, "warmth": 40},
+    {"id": "enchiladas", "item": "enchiladas", "energy": 140, "warmth": 0},
+    {"id": "churros", "item": "churros", "energy": 30, "warmth": 0}
   ]
 }

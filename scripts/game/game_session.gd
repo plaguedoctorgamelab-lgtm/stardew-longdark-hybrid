@@ -135,6 +135,10 @@ var shelf_seen: Dictionary = {}      # structure id -> the supply shelf as last 
 var town: Town
 var in_town: bool = false
 var town_pos: Vector2 = Vector2.ZERO
+# Phase 4, step 5: the shops, and the one the ranger is inside ("" outdoors
+# in town). Inside a shop the ranger stands at interior_pos in its room.
+var shops: Shops
+var town_inside: String = ""
 
 
 func _init(tuning_path: String = Tuning.DEFAULT_PATH, content_dir: String = ContentDB.CONTENT_DIR, world_dir: String = WorldData.WORLD_DIR) -> void:
@@ -178,6 +182,7 @@ func _init(tuning_path: String = Tuning.DEFAULT_PATH, content_dir: String = Cont
 			(interiors[sp["where"]] as InteriorLayout).furniture.append({"id": id, "kind": "job_spot", "pos": sp["pos"], "size": sp["size"], "sprite": sp["sprite"]})
 	jobs.spots_changed.connect(_refresh_spot_rooms)
 	town = Town.new(self)
+	shops = Shops.new(self)
 	clock.day_started.connect(func(_d: int, _s: int, _y: int) -> void: town.people = {})
 
 
@@ -242,6 +247,8 @@ func new_game(new_seed: int = -1) -> void:
 	weather.check_change(clock.minute)
 	jobs.new_game()
 	town.new_game()
+	shops.new_game()
+	town_inside = ""
 	in_town = false
 	town_pos = town.entry
 
@@ -269,8 +276,10 @@ func to_dict() -> Dictionary:
 			"selected_slot": selected_slot,
 			"in_town": in_town,
 			"town_pos": [town_pos.x, town_pos.y],
+			"town_inside": town_inside,
 		},
 		"town": town.to_dict(),
+		"shops": shops.to_dict(),
 		"needs": needs.to_dict(),
 		"backpack": backpack.to_array(),
 		"structures": structures.to_dict(),
@@ -327,6 +336,12 @@ func from_dict(d: Dictionary) -> void:
 	town_pos = Vector2(float(tp[0]), float(tp[1]))
 	if in_town and town.is_solid(Vector2i(floori(town_pos.x), floori(town_pos.y))):
 		town_pos = town.entry
+	shops.from_dict(d.get("shops", {}))
+	town_inside = str(r.get("town_inside", ""))
+	if not in_town or not shops.has_room(town_inside):
+		town_inside = ""
+	elif (shops.rooms[town_inside] as InteriorLayout).is_solid(Vector2i(floori(interior_pos.x), floori(interior_pos.y))):
+		interior_pos = (shops.rooms[town_inside] as InteriorLayout).entry
 	needs.from_dict(d["needs"])
 	# Phase 2b state; a phase 2a save has none, and starts at level 0 with the
 	# starting recipes and no ideas.
@@ -440,9 +455,28 @@ func is_indoors() -> bool:
 	return location != ""
 
 
+## Inside one of Humdrum's shops (Phase 4, step 5).
+func in_town_room() -> bool:
+	return in_town and town_inside != ""
+
+
+## A room's layout, park or town, or null.
+func room_layout(id: String) -> InteriorLayout:
+	if shops.has_room(id):
+		return shops.rooms[id]
+	return interiors.get(id)
+
+
+## A room's drawing row (floor, walls, decor), park or town.
+func room_inside(id: String) -> Dictionary:
+	if shops.has_room(id):
+		return shops.inside_row(id)
+	return content.row("structures", id)["interior"]
+
+
 func ranger_pos() -> Vector2:
 	if in_town:
-		return town_pos
+		return interior_pos if town_inside != "" else town_pos
 	return interior_pos if is_indoors() else outdoor_pos
 
 
@@ -541,8 +575,8 @@ func marker_visible() -> bool:
 
 
 func speed_tiles_per_second() -> float:
-	var s := tuning.num("movement.trail_speed_tiles")
-	if is_indoors():
+	var s := tuning.num("movement.trail_speed_tiles") * (1.0 + shops.speed_boost())
+	if is_indoors() or in_town_room():
 		s *= float(tuning.value("movement.ground_speed.grass"))
 	else:
 		var g := ground_here()
@@ -565,8 +599,14 @@ func process(real_delta: float) -> void:
 	clock.process(real_delta)
 	park.advance_to(park_minute())
 	jobs.process(real_delta)
+	shops.process()
 	if in_town:
 		town.update(real_delta)
+		# Closing time: the keeper sees the ranger out.
+		if town_inside != "" and not town.is_open(town_inside):
+			var k := shops.keeper(town_inside)
+			leave_town_room()
+			message.emit(content.text("town_closing", {"keeper": shops.first_name(k)}))
 
 
 ## The clock's minute with the part of the current ten minutes gone by, so
@@ -593,6 +633,12 @@ func move(direction: Vector2, real_delta: float) -> void:
 	var box_arr: Array = tuning.value("movement.ranger_box_tiles")
 	var box := Vector2(float(box_arr[0]), float(box_arr[1]))
 	var motion := dir * speed_tiles_per_second() * real_delta
+	if in_town_room():
+		var room: InteriorLayout = shops.rooms[town_inside]
+		interior_pos = Mover.move(interior_pos, motion, box, room.is_solid)
+		if Vector2i(floori(interior_pos.x), floori(interior_pos.y)) == room.door_tile:
+			leave_town_room()
+		return
 	if in_town:
 		town_pos = Mover.move(town_pos, motion, box, town.is_solid)
 		_walked_this_step += motion.length()
@@ -634,7 +680,7 @@ func _update_trace() -> void:
 
 func needs_context() -> Dictionary:
 	return {
-		"indoors": is_indoors(),
+		"indoors": is_indoors() or in_town_room(),
 		"stove_lit": is_indoors() and structures.stove_lit(location),
 		"weather": weather_row(),
 		"season": clock.season_name(),
@@ -954,6 +1000,7 @@ func leave_town() -> void:
 	if not in_town:
 		return
 	in_town = false
+	town_inside = ""
 	outdoor_pos = gate_front()
 	facing = FACING_RIGHT
 	_last_tile = Vector2i(-9999, -9999)
@@ -972,6 +1019,9 @@ func gate_front() -> Vector2:
 ## X in town: talk to the person in reach; read the notice board; or a
 ## building's door, with its name and hours.
 func _interact_town() -> void:
+	if town_inside != "":
+		_interact_town_room()
+		return
 	var person := town.person_near(town_pos, tuning.num("town.talk_reach_tiles"))
 	if person != "":
 		var talk := town.talk(person)
@@ -983,7 +1033,58 @@ func _interact_town() -> void:
 		return
 	var door := town.door_at(town_pos, tuning.num("town.door_reach_tiles"))
 	if door != "" and content.has("town_places", door):
-		message.emit(place_line(door))
+		if shops.has_room(door) and town.is_open(door):
+			enter_town_room(door)
+		else:
+			message.emit(place_line(door))
+
+
+## Through a shop's door into its room (Phase 4, step 5).
+func enter_town_room(place: String) -> void:
+	if not in_town or not shops.has_room(place):
+		return
+	town_inside = place
+	interior_pos = (shops.rooms[place] as InteriorLayout).entry
+	facing = FACING_UP
+	town_changed.emit(true)
+	message.emit(place_line(place))
+
+
+## Out of a shop onto the street, in front of its door.
+func leave_town_room() -> void:
+	if town_inside == "":
+		return
+	var b := town.building(town_inside)
+	town_inside = ""
+	if not b.is_empty():
+		var f: Array = b.get("front", [b["door"][0], int(b["door"][1]) + 1])
+		town_pos = Vector2(float(f[0]) + 0.5, float(f[1]) + 0.5)
+	facing = FACING_DOWN
+	town_changed.emit(true)
+
+
+## X inside a shop: the counter's menu, a bookshelf, or someone to talk to.
+func _interact_town_room() -> void:
+	var room: InteriorLayout = shops.rooms[town_inside]
+	var f := room.furniture_near(interior_pos, tuning.num("shops.counter_reach_tiles"))
+	var kind := str(f.get("kind", ""))
+	if kind == "counter":
+		var k := shops.keeper(town_inside)
+		if not shops.people_in(town_inside).has(k):
+			if (shops.shop(town_inside).get("sells", []) as Array).is_empty():
+				message.emit(content.text("shop_away", {"name": shops.first_name(k)}))
+				return
+			message.emit(content.text("shop_honour_jar", {"name": shops.first_name(k)}))
+		list_requested.emit("shop:" + town_inside, list_title("shop:" + town_inside), list_options("shop:" + town_inside))
+		return
+	if kind == "bookshelf":
+		list_requested.emit("books", content.text("books_title"), shops.book_options())
+		return
+	var person := shops.person_near(town_inside, interior_pos, tuning.num("town.talk_reach_tiles"))
+	if person != "":
+		var talk := town.talk(person)
+		talk["person"] = person
+		townsperson_spoke.emit(talk)
 
 
 ## A building's door: its name, and whether it is open.
@@ -999,6 +1100,8 @@ func place_line(place: String) -> String:
 
 ## The name over the person X would talk to in town, or "".
 func town_person_in_reach() -> String:
+	if in_town_room():
+		return shops.person_near(town_inside, interior_pos, tuning.num("town.talk_reach_tiles"))
 	if not in_town:
 		return ""
 	return town.person_near(town_pos, tuning.num("town.talk_reach_tiles"))
@@ -1134,6 +1237,8 @@ func _landmark_for_structure(structure_id: String) -> String:
 
 ## The piece of furniture X would use now, or {} (outdoors, or none near).
 func furniture_in_reach() -> Dictionary:
+	if in_town_room():
+		return (shops.rooms[town_inside] as InteriorLayout).furniture_near(interior_pos, tuning.num("shops.counter_reach_tiles"))
 	if not is_indoors():
 		return {}
 	var layout: InteriorLayout = interiors[location]
@@ -4051,6 +4156,14 @@ func assign_options(person: String) -> Array:
 
 ## What a stay-open list shows now, after a pick.
 func list_options(kind: String) -> Array:
+	if kind.begins_with("shop:"):
+		return shops.menu_options(kind.substr(5))
+	if kind.begins_with("buy:"):
+		return shops.buy_options(kind.substr(4))
+	if kind.begins_with("sell:"):
+		return shops.sell_options(kind.substr(5))
+	if kind == "books":
+		return shops.book_options()
 	if kind == "catalog":
 		return park.catalog_options()
 	if kind == "staff":
@@ -4061,6 +4174,13 @@ func list_options(kind: String) -> Array:
 
 
 func list_title(kind: String) -> String:
+	for pre: String in ["shop:", "buy:", "sell:"]:
+		if kind.begins_with(pre):
+			var place := kind.substr(pre.length())
+			var key: String = {"shop:": "shop_title", "buy:": "shop_title_buy", "sell:": "shop_title_sell"}[pre]
+			return content.text(key, {"name": content.row("town_places", place)["name"]}) + "  ·  %dg" % park.money.wallet
+	if kind == "books":
+		return content.text("books_title")
 	if kind == "catalog":
 		return content.text("ui_catalog", {"wallet": park.money.wallet})
 	if kind == "staff":
@@ -4075,6 +4195,42 @@ func list_title(kind: String) -> String:
 func answer_list(kind: String, option_id: String) -> String:
 	if option_id == "":
 		return ""
+	# Phase 4, step 5: the shops. "close" asks the list to shut.
+	if kind.begins_with("shop:"):
+		var place := kind.substr(5)
+		match option_id:
+			"talk":
+				var who := shops.keeper(place)
+				var talk := town.talk(who)
+				talk["person"] = who
+				townsperson_spoke.emit(talk)
+				return "close"
+			"buy":
+				return "buy:" + place
+			"sell":
+				return "sell:" + place
+			"catalog":
+				if not jobs.unlocks.has("catalog"):
+					message.emit(content.text("jt_catalog_locked"))
+					return "close"
+				return "catalog"
+		return ""
+	if kind.begins_with("buy:") or kind.begins_with("sell:"):
+		var place := kind.get_slice(":", 1)
+		if option_id == "back":
+			return "shop:" + place
+		var how := option_id.get_slice(":", 0)
+		var item := option_id.get_slice(":", 1)
+		if how == "sell":
+			shops.sell(place, item)
+		else:
+			shops.buy(place, how, item)
+		return ""
+	if kind == "books":
+		var text := shops.read_book(option_id)
+		if text != "":
+			note_read.emit(text)
+		return "close"
 	if kind == "catalog":
 		var why := park.order(option_id)
 		if why != "":

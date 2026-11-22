@@ -12,6 +12,7 @@ var _furniture_sprites: Dictionary = {}   # furniture id -> {"sprite", "row"}
 var _floor: Node2D
 var current: String = ""
 var _night: bool = false   # last drawn as night: lamps lit, night windows
+var _people: Dictionary = {}   # townsperson id -> Node2D, in a town shop's room
 
 
 ## Whether it is night now, for lamps and windows.
@@ -22,6 +23,7 @@ func _is_night() -> bool:
 func _process(_delta: float) -> void:
 	if current == "" or not visible:
 		return
+	_place_people()
 	var n := _is_night()
 	if n != _night:
 		_night = n
@@ -46,7 +48,8 @@ func show_room(structure_id: String, ranger_node: Node2D) -> void:
 		if c != ranger_node:
 			c.queue_free()
 	_furniture_sprites.clear()
-	var layout: InteriorLayout = session.interiors[structure_id]
+	_people.clear()
+	var layout: InteriorLayout = session.room_layout(structure_id)
 	for f: Dictionary in layout.furniture:
 		if f["kind"] == "exit":
 			continue
@@ -74,7 +77,7 @@ func refresh() -> void:
 			art_name += "_lit"
 		if f["kind"] == "job_spot":
 			art_name = session.jobs.spot_sprite(id)
-			spr.visible = art_name != "" and not session.interiors[current].hidden.has(id)
+			spr.visible = art_name != "" and not session.room_layout(current).hidden.has(id)
 			if not spr.visible:
 				continue
 		spr.texture = Art.texture(art_name)
@@ -82,15 +85,15 @@ func refresh() -> void:
 
 
 func room_center_px() -> Vector2:
-	var layout: InteriorLayout = session.interiors[current]
+	var layout: InteriorLayout = session.room_layout(current)
 	return Vector2(layout.size) * TILE / 2.0
 
 
 func _draw_room() -> void:
 	if current == "":
 		return
-	var layout: InteriorLayout = session.interiors[current]
-	var inside: Dictionary = session.content.row("structures", current)["interior"]
+	var layout: InteriorLayout = session.room_layout(current)
+	var inside: Dictionary = session.room_inside(current)
 	var floor_tex := Art.texture(inside["floor"])
 	var wall_tex := Art.texture(inside["wall"])
 	var base_tex := Art.texture(inside.get("wall_base", inside["wall"]))
@@ -125,3 +128,30 @@ func _draw_room() -> void:
 		_floor.draw_texture_rect(trim, Rect2(left, bottom, right - left + k, k), true)
 	if layout.door_tile.x >= 0:
 		_floor.draw_texture(Art.texture("furniture_door"), Vector2(layout.door_tile * TILE))
+
+
+## Townsfolk in a town shop's room: the keeper behind the counter and anyone
+## visiting, where Shops says they are.
+func _place_people() -> void:
+	if not session.shops.has_room(current):
+		return
+	var here := session.shops.people_in(current)
+	for id: String in here:
+		if not _people.has(id):
+			var node := TownView.person_node(session, session.content.row("townsfolk", id))
+			sort_root.add_child(node)
+			_people[id] = node
+		var node: Node2D = _people[id]
+		node.visible = true
+		node.position = ((here[id] as Vector2) * TILE).round()
+	for id: String in _people:
+		if not here.has(id):
+			(_people[id] as Node2D).visible = false
+
+
+## The top middle of a person's picture in this room, for the name over them.
+func head_of(person: String) -> Vector2:
+	var node: Node2D = _people.get(person)
+	if node == null:
+		return Vector2.ZERO
+	return position + node.position + Vector2(0, -30)

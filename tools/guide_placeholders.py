@@ -210,3 +210,58 @@ def town_art(Canvas):
             c.rect(ox + 4, oy + 16, 8, 10, (232, 180, 60, 255))
             c.rect(ox + 5, oy + 26, 6, 6, (40, 40, 40, 255))
     c.save("npc_wren")
+
+
+# --- Phase 4, step 5: the shops (0.6.2) ---------------------------------------
+
+def shop_art(Canvas):
+    """The shop counter, a goods shelf, a till and the menu items' icons."""
+    for name, top in (("int_shop_counter", (199, 144, 95, 255)), ("int_shop_counter_cafe", (236, 226, 200, 255))):
+        c = Canvas(48, 32)
+        c.rect(0, 8, 48, 6, top)
+        c.rect(0, 14, 48, 18, WOOD)
+        c.rect(2, 16, 44, 1, WOOD_L)
+        for x in (12, 24, 36):
+            c.rect(x, 16, 1, 14, WOOD_D)
+        c.outline(0, 8, 48, 24, WOOD_D)
+        c.rect(4, 2, 8, 6, (90, 92, 100, 255))     # the till, or the coffee machine
+        c.rect(6, 4, 4, 2, (250, 210, 90, 255))
+        c.save(name)
+    c = Canvas(32, 48)
+    c.rect(1, 2, 30, 46, WOOD_D)
+    goods = [(196, 56, 48, 255), (60, 100, 180, 255), (232, 196, 60, 255), (92, 120, 60, 255)]
+    for i, y in enumerate((6, 20, 34)):
+        c.rect(3, y, 26, 11, WOOD)
+        for k in range(3):
+            c.rect(5 + k * 8, y + 3, 6, 8, goods[(i + k) % 4])
+    c.save("int_goods_shelf")
+    # Menu items, 16 by 16 like the other stand-in icons.
+    def icon(name, *shapes):
+        c = Canvas(16, 16)
+        for s in shapes:
+            getattr(c, s[0])(*s[1:])
+        c.save(name)
+    icon("item_coffee", ("rect", 4, 6, 8, 8, "white"), ("rect", 5, 7, 6, 2, "bark"), ("rect", 12, 8, 2, 4, "white"), ("rect", 6, 2, 1, 3, "grey"), ("rect", 9, 1, 1, 4, "grey"))
+    icon("item_hot_chocolate", ("rect", 4, 6, 8, 8, "red"), ("rect", 5, 7, 6, 2, "wood_d"), ("rect", 12, 8, 2, 4, "red"), ("rect", 5, 5, 3, 2, "white"))
+    icon("item_muffin", ("rect", 4, 9, 8, 5, "paper"), ("disc", 8, 8, 4.5, "wood_l", "wood_d"), ("rect", 7, 5, 1, 1, "purple"), ("rect", 9, 7, 1, 1, "purple"))
+    icon("item_trail_breakfast", ("disc", 8, 9, 6, "white", "grey"), ("disc", 6, 8, 2, "yellow"), ("rect", 9, 7, 4, 2, "roof"), ("rect", 8, 11, 5, 2, "wood_l"))
+    icon("item_tamales", ("rect", 3, 5, 10, 7, "leaf_l"), ("rect", 5, 6, 6, 5, "yellow"), ("rect", 3, 8, 10, 1, "bark"))
+    icon("item_pozole", ("rect", 3, 8, 10, 5, "wood_l"), ("rect", 4, 8, 8, 2, "red"), ("rect", 6, 8, 1, 1, "white"), ("rect", 9, 9, 1, 1, "white"), ("rect", 6, 3, 1, 4, "grey"))
+    icon("item_enchiladas", ("disc", 8, 9, 6, "white", "grey"), ("rect", 4, 7, 8, 3, "red"), ("rect", 4, 10, 8, 2, "yellow"))
+    icon("item_churros", *[("rect", 3 + i * 3, 3 + i, 2, 10, "wood_l") for i in range(3)], ("rect", 2, 12, 12, 2, "paper"))
+    # A tall bookcase for the library: two tiles wide, three high.
+    c = Canvas(32, 48)
+    c.rect(1, 2, 30, 46, WOOD_D)
+    spines = [(196, 56, 48, 255), (60, 100, 180, 255), (232, 196, 60, 255), (92, 120, 60, 255), (236, 232, 220, 255)]
+    for i, y in enumerate((5, 19, 33)):
+        c.rect(3, y, 26, 12, (70, 46, 34, 255))
+        x = 4
+        k = i
+        while x < 28:
+            w = 2 + (k % 2)
+            h = 9 + (k % 3)
+            c.rect(x, y + 12 - h, w, h, spines[k % len(spines)])
+            x += w + 1
+            k += 1
+    c.outline(1, 2, 30, 46, INK)
+    c.save("int_bookcase")

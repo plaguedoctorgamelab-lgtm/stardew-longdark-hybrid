@@ -164,8 +164,8 @@ func routine_place(person: String, minute: int = -1, day: String = "", rainy: Va
 	return at
 
 
-## Whether a person at a place is inside (not seen): at home, or at a shop
-## that is shut. A keeper stands at their open shop's door.
+## Whether a person at a place is inside (not seen): at home, or in a shop
+## (the keeper behind its counter). The caravan's keeper stands at its door.
 func is_inside(person: String, place: String) -> bool:
 	if not content.has("town_places", place):
 		return false
@@ -174,6 +174,10 @@ func is_inside(person: String, place: String) -> bool:
 		"home":
 			return true
 		"shop", "caravan":
+			# A shop with a room (Phase 4, step 5): everyone there is inside,
+			# the keeper behind the counter.
+			if content.has("town_interiors", place):
+				return true
 			return str(r.get("keeper", "")) != person or not is_open(place)
 	return false
 

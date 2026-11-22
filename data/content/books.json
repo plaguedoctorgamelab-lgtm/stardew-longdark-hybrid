@@ -1,0 +1,94 @@
+{
+ "note": "Phase 4, step 5: the library's ten books (Phase 4 Spec, The library). Read at the shelves; teaches: a recipe learned the first time it is read. Placeholder wording by the lab.",
+ "rows": [
+  {
+   "id": "humdrum_a_history",
+   "title": "Humdrum: A Short History",
+   "pages": [
+    "Humdrum was laid out in the year the railway didn't come. The surveyors had promised a station; they sent a letter instead.",
+    "The town took it well. It built a bandstand where the station would have been, and has held a fair there every spring since.",
+    "Nothing of note has happened in Humdrum since. The town council would like that to stay true."
+   ]
+  },
+  {
+   "id": "soups_for_cold_days",
+   "title": "Soups for Cold Days",
+   "pages": [
+    "A good soup wants three things: something green, something that grew underground, and time.",
+    "In the woods, wild onion and a handful of mushrooms will do for the first two. A camp fire will do for the third.",
+    "Stir it, wait, and eat it while it is too hot. That is the whole secret."
+   ],
+   "teaches": "hot_soup"
+  },
+  {
+   "id": "the_rose_and_the_hip",
+   "title": "The Rose and the Hip",
+   "pages": [
+    "After the wild rose flowers, it leaves a small red fruit called a hip. Birds love them. So did your grandmother.",
+    "Steeped in hot water, a few hips make a sharp, sweet tea that warms you to the toes on a cold trail."
+   ],
+   "teaches": "rose_hip_tea"
+  },
+  {
+   "id": "a_walkers_pocket",
+   "title": "A Walker's Pocket",
+   "pages": [
+    "Never set out without something in your pocket to eat. Berries and hazelnuts, mixed, keep for days and weigh nothing.",
+    "The author once walked forty miles on a pocket of trail mix and a stubborn mood. Neither is recommended alone."
+   ],
+   "teaches": "trail_mix"
+  },
+  {
+   "id": "knots_and_cords",
+   "title": "Knots and Cords",
+   "pages": [
+    "Reeds from the shallows, twisted and plied, make a rope good enough for most jobs a ranger has.",
+    "A bowline will hold a load and still come undone when you ask it to. Learn that one first."
+   ],
+   "teaches": "rope"
+  },
+  {
+   "id": "reading_the_weather",
+   "title": "Reading the Weather",
+   "pages": [
+    "Fog in the morning burns off by noon more often than not. Fog at dusk means a cold night.",
+    "When the wind backs round to the north and the birds go quiet, look for shelter before you look for anything else.",
+    "Snow is not dangerous. Being wet in the snow is."
+   ]
+  },
+  {
+   "id": "the_old_road",
+   "title": "The Old Road",
+   "pages": [
+    "Before the park had a gate, a cart road ran from Humdrum into the hills. Bits of it still show, if you know where to look.",
+    "Most of it is under brush now. The council voted twice to clear it, and twice voted to think about it some more."
+   ]
+  },
+  {
+   "id": "birds_of_the_valley",
+   "title": "Birds of the Valley",
+   "pages": [
+    "The heron stands in the shallows for hours and catches more than any angler.",
+    "Crows remember faces. Be kind to them.",
+    "If you hear an owl at noon, write it down. Somebody at the library will want to know."
+   ]
+  },
+  {
+   "id": "on_sleeping_out",
+   "title": "On Sleeping Out",
+   "pages": [
+    "A bedroll on the ground beats a bed you can't reach before dark.",
+    "Keep your boots inside the bedroll on a frosty night. You will thank yourself in the morning.",
+    "A fire is company. Put it out before you sleep all the same."
+   ]
+  },
+  {
+   "id": "the_humdrum_fair",
+   "title": "The Humdrum Fair, Every Spring",
+   "pages": [
+    "The fair began as a way to use up a bandstand. It became the town's favourite day of the year.",
+    "There are pies, a band of uncertain size, and a contest for the largest radish that nobody under eighty has ever won."
+   ]
+  }
+ ]
+}

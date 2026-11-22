@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.6.1** (see [Version history](#version-history)). The
+**Current version: 0.6.2** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -31,7 +31,7 @@ Needs Godot 4.7.2 stable (the lab's build uses
 | Key | Action |
 | --- | --- |
 | W A S D | Walk (eight directions) |
-| Right-click or X | Interact: doors, bed, radio, shelf, chest, stove, workbench, landmarks; pick forage, berries and rose hips from bushes, resin from pines; a lit stove or camp fire opens cooking. In the park: the catalog desk and staff board in the station, the kiosk's gift shelf and the suggestion box at the gate, cleaning a bathroom, emptying a trash can, picking up litter, shooing a troll badger, finding a lost party, the rent sign by the old cabin's door |
+| Right-click or X | Interact: doors, bed, radio, shelf, chest, stove, workbench, landmarks; pick forage, berries and rose hips from bushes, resin from pines; a lit stove or camp fire opens cooking. In town: talk to someone, the notice board, a shop's door (in during its hours), a shop's counter (talk, buy, sell), the library's shelves. In the park: the catalog desk and staff board in the station, the kiosk's gift shelf and the suggestion box at the gate, cleaning a bathroom, emptying a trash can, picking up litter, shooing a troll badger, finding a lost party, the rent sign by the old cabin's door |
 | Left-click or C | Use the held item: hammer (repairs; builds a kit at its pad; takes down a facility or picks up a bench, trash can, picnic table or fire ring), map (survey), food, firewood (also lights a fire ring), shovel (dig; fills a badger's hole), signs, markers, cairns, boardwalk, workbench kit, and puts down a bench, trash can, picnic table or fire ring |
 | 1 to 9, 0 or mouse wheel | Choose the held item from the item bar (the first 10 backpack slots, numbered) |
 | E | Backpack (and closes screens) |
@@ -101,6 +101,16 @@ docs/              bible, roadmap, specs, rules, status reports (hidden from God
 
 The version lives in `project.godot` (`application/config/version`). Every
 commit of the build raises it and adds a line here.
+
+### 0.6.2 (22 November 2026): Phase 4, the shops
+
+From `docs/Phase 4 Spec.md`, 4a step 5 (notes for Mark: `docs/status/062_status.md`).
+
+- **Shop insides:** X at an open shop's door goes in; at closing time the keeper sees the ranger out. Seven rooms in `data/content/town_interiors.json`, laid out to the Interior Art Guide and Mark's Stardew pictures, drawn by the same `InteriorView` as the park's buildings. Keepers stand behind their counters; townsfolk visiting a shop are inside at its guest spots, and can be talked to and given gifts.
+- **Buying and selling:** X at the counter: talk, buy, sell (Gifts & Notions), or the catalog (post office). `data/content/shops.json` holds what each sells and buys; tuning `shops`. Café and restaurant dishes are eaten here or taken away. Coffee walks 10% faster for two hours. While a keeper is out, an honour jar still takes money.
+- **The library:** ten books (`data/content/books.json`); four teach a recipe.
+- **Art Request 18** (`docs/art/art_request_18_interiors.md`): the interior sheets, from Mark's Stardew reference pictures. Stand-ins for the counter, goods shelf, bookcase and eight menu items.
+- Code: `scripts/town/shops.gd`; the session's `town_inside`. Tests: `tests/test_shops_062.gd` (rooms laid out well, hours, buying and selling exactly, coffee, books, saves).
 
 ### 0.6.1 (22 November 2026): tracker #26 and #27
 

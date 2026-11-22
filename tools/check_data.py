@@ -10,7 +10,7 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONTENT = os.path.join(ROOT, "data", "content")
-TABLES = ["items", "foods", "weather_types", "weather_odds", "structures", "landmarks", "jobs", "obstacles", "recipes", "sites", "notes", "text", "spoiler_finds", "spoiler_text", "art_variety", "forage", "skills", "specialties", "magic_variants", "ideas", "spoiler_magic", "facilities", "placeables", "catalog", "income_sources", "visitor_types", "staff_roles", "staff_people", "badger_mischief", "suggestion_cards", "chief_letters", "pads", "spoiler_pads", "spoiler_cards", "job_types", "givers", "job_steps", "rewards", "job_templates", "job_spots", "spoiler_jobs", "spoiler_job_spots", "noticeables", "spoiler_more", "music", "townsfolk", "town_places", "routines", "gift_tastes", "dialogue", "spoiler_dialogue"]
+TABLES = ["items", "foods", "weather_types", "weather_odds", "structures", "landmarks", "jobs", "obstacles", "recipes", "sites", "notes", "text", "spoiler_finds", "spoiler_text", "art_variety", "forage", "skills", "specialties", "magic_variants", "ideas", "spoiler_magic", "facilities", "placeables", "catalog", "income_sources", "visitor_types", "staff_roles", "staff_people", "badger_mischief", "suggestion_cards", "chief_letters", "pads", "spoiler_pads", "spoiler_cards", "job_types", "givers", "job_steps", "rewards", "job_templates", "job_spots", "spoiler_jobs", "spoiler_job_spots", "noticeables", "spoiler_more", "music", "townsfolk", "town_places", "routines", "gift_tastes", "dialogue", "spoiler_dialogue", "shops", "town_interiors", "books"]
 
 
 def main():
@@ -313,6 +313,25 @@ def main():
     for r in data.get("landmarks", {}).values():
         if "hint" in r:
             ref("text", r["hint"]["text"], "landmarks/%s hint" % r["id"])
+
+    # Phase 4, step 5: shops, their rooms and the library's books.
+    for r in data.get("shops", {}).values():
+        if r["id"] not in data.get("town_places", {}):
+            problems.append("shops/%s: not a town place" % r["id"])
+        for it in r.get("sells", []):
+            ref("items", it["item"], "shops/%s sells" % r["id"])
+            if it.get("here") and it["item"] not in data.get("foods", {}):
+                problems.append("shops/%s: %s is eaten here but is not a food" % (r["id"], it["item"]))
+        for it in r.get("buys", {}).get("prices", {}):
+            ref("items", it, "shops/%s buys" % r["id"])
+        if r["id"] not in data.get("town_interiors", {}):
+            problems.append("shops/%s: no room in town_interiors" % r["id"])
+    for r in data.get("town_interiors", {}).values():
+        if r["id"] not in data.get("town_places", {}):
+            problems.append("town_interiors/%s: not a town place" % r["id"])
+    for r in data.get("books", {}).values():
+        if r.get("teaches"):
+            ref("recipes", r["teaches"], "books/%s teaches" % r["id"])
 
     # Every text id named in GDScript code must exist in the text table.
     import re

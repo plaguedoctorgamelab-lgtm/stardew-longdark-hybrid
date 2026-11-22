@@ -107,9 +107,11 @@ func _ready() -> void:
 		if choice_screen.STATIONS.has(kind):
 			session.choose_recipe(option_id)
 			choice_screen.refresh()
-		elif kind in ["catalog", "staff"] or kind.begins_with("assign:"):
+		elif kind in ["catalog", "staff", "books"] or kind.begins_with("assign:") or kind.begins_with("shop:") or kind.begins_with("buy:") or kind.begins_with("sell:"):
 			var nxt := session.answer_list(kind, option_id)
-			if nxt != "":
+			if nxt == "close":
+				choice_screen.visible = false
+			elif nxt != "":
 				choice_screen.reopen(nxt, session.list_title(nxt), session.list_options(nxt))
 			elif choice_screen.visible:
 				choice_screen.reopen(kind, session.list_title(kind), session.list_options(kind))
@@ -350,15 +352,15 @@ func _night_glows() -> Array[Vector4]:
 	if not Daylight.is_night(t, session.clock.season_name(), session.clock.minute):
 		return out
 	var xf := world_view.get_canvas_transform()
-	if session.in_town:
+	if session.in_town and not session.in_town_room():
 		for at: Vector2 in town_view.lamps:
 			var sp := xf * at
 			if sp.x < -80 or sp.y < -80 or sp.x > VIEW.x + 80 or sp.y > VIEW.y + 80:
 				continue
 			out.append(Vector4(sp.x, sp.y, t.num("town_look.lamp_glow_tiles") * TILE, t.num("town_look.lamp_glow_strength")))
 		return out
-	if session.is_indoors():
-		var layout: InteriorLayout = session.interiors[session.location]
+	if session.is_indoors() or session.in_town_room():
+		var layout: InteriorLayout = session.room_layout(session.town_inside if session.in_town_room() else session.location)
 		for f: Dictionary in layout.furniture:
 			var lamp := str(f["sprite"]).begins_with("furniture_oil_lamp")
 			var stove := str(f["kind"]) == "stove" and session.structures.stove_lit(session.location)
@@ -382,7 +384,7 @@ func _update_music(delta: float) -> void:
 	var on_title := not started or title_screen.visible
 	var season := session.clock.season_name() if not on_title else ""
 	var night := false if on_title else Daylight.is_night(session.tuning, season, session.clock.minute)
-	music.update(delta, on_title, season, night, not on_title and session.is_indoors())
+	music.update(delta, on_title, season, night, not on_title and (session.is_indoors() or session.in_town_room()))
 
 
 ## An on/off setting on the Options screen.
@@ -486,6 +488,15 @@ func _begin() -> void:
 func _on_location_changed(loc: String) -> void:
 	inventory_screen.close()
 	town_view.visible = false
+	if session.in_town_room():
+		world_view.visible = false
+		interior_view.visible = true
+		interior_view.show_room(session.town_inside, ranger)
+		camera.limit_left = -100000
+		camera.limit_top = -100000
+		camera.limit_right = 100000
+		camera.limit_bottom = 100000
+		return
 	if session.in_town:
 		world_view.visible = false
 		interior_view.visible = false
@@ -526,9 +537,12 @@ func _update_look() -> void:
 		var who := session.town_person_in_reach()
 		if who != "":
 			hud.look_text = str(session.content.row("townsfolk", who)["name"])
-			hud.look_at = world_view.get_canvas_transform() * town_view.head_of(who)
-		return
-	if not session.is_indoors():
+			var head := interior_view.head_of(who) if session.in_town_room() else town_view.head_of(who)
+			hud.look_at = world_view.get_canvas_transform() * head
+			return
+		if not session.in_town_room():
+			return
+	elif not session.is_indoors():
 		return
 	var f := session.furniture_in_reach()
 	var label := session.furniture_label(f)
@@ -711,7 +725,7 @@ func _process(delta: float) -> void:
 	ranger.motion = Settings.flag("motion")
 	ranger.show_state(px, session.facing, session.moving, delta)
 	_update_look()
-	if session.is_indoors():
+	if session.is_indoors() or session.in_town_room():
 		camera.position = interior_view.room_center_px()
 	else:
 		camera.position = px.round()

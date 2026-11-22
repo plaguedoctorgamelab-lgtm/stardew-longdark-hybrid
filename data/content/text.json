@@ -5798,7 +5798,7 @@
   },
   {
    "id": "town_door_open",
-   "text": "{name}: open, {hours}. Inside comes in the next build."
+   "text": "{name}: open, {hours}."
   },
   {
    "id": "town_door_closed",
@@ -5871,6 +5871,266 @@
   {
    "id": "day_sun",
    "text": "Sun"
+  },
+  {
+   "id": "item_coffee",
+   "text": "Coffee",
+   "placeholder": true
+  },
+  {
+   "id": "item_hot_chocolate",
+   "text": "Hot chocolate",
+   "placeholder": true
+  },
+  {
+   "id": "item_muffin",
+   "text": "Muffin of the day",
+   "placeholder": true
+  },
+  {
+   "id": "item_trail_breakfast",
+   "text": "Trail breakfast",
+   "placeholder": true
+  },
+  {
+   "id": "item_tamales",
+   "text": "Tamales",
+   "placeholder": true
+  },
+  {
+   "id": "item_pozole",
+   "text": "Pozole",
+   "placeholder": true
+  },
+  {
+   "id": "item_enchiladas",
+   "text": "Enchiladas",
+   "placeholder": true
+  },
+  {
+   "id": "item_churros",
+   "text": "Churros",
+   "placeholder": true
+  },
+  {
+   "id": "town_door_shop_closed",
+   "text": "{name} is shut. {hours}",
+   "placeholder": true
+  },
+  {
+   "id": "town_closing",
+   "text": "{keeper}: \"We're closing up now. Come back tomorrow!\"",
+   "placeholder": true
+  },
+  {
+   "id": "town_house_shut",
+   "text": "{name}. Nobody answers the door yet.",
+   "placeholder": true
+  },
+  {
+   "id": "furn_counter",
+   "text": "Counter",
+   "placeholder": true
+  },
+  {
+   "id": "furn_bookshelf",
+   "text": "Bookshelf",
+   "placeholder": true
+  },
+  {
+   "id": "furn_post_counter",
+   "text": "Post office counter",
+   "placeholder": true
+  },
+  {
+   "id": "shop_talk",
+   "text": "Talk to {name}",
+   "placeholder": true
+  },
+  {
+   "id": "shop_buy",
+   "text": "Buy",
+   "placeholder": true
+  },
+  {
+   "id": "shop_sell",
+   "text": "Sell",
+   "placeholder": true
+  },
+  {
+   "id": "shop_catalog",
+   "text": "Order from the supply catalog (arrives at the station tomorrow)",
+   "placeholder": true
+  },
+  {
+   "id": "shop_back",
+   "text": "Back",
+   "placeholder": true
+  },
+  {
+   "id": "shop_away",
+   "text": "{name} isn't behind the counter right now.",
+   "placeholder": true
+  },
+  {
+   "id": "shop_buy_line",
+   "text": "{name}  ·  {what}  ·  {price}g",
+   "placeholder": true
+  },
+  {
+   "id": "shop_buy_here",
+   "text": "{name}, here  ·  {what}  ·  {price}g",
+   "placeholder": true
+  },
+  {
+   "id": "shop_buy_away",
+   "text": "{name}, to take away  ·  {price}g",
+   "placeholder": true
+  },
+  {
+   "id": "shop_sell_line",
+   "text": "{name} (you have {n})  ·  {price}g each",
+   "placeholder": true
+  },
+  {
+   "id": "shop_sell_none",
+   "text": "Nothing in your backpack that {name} buys.",
+   "placeholder": true
+  },
+  {
+   "id": "shop_bought",
+   "text": "Bought {item} for {price}g.",
+   "placeholder": true
+  },
+  {
+   "id": "shop_sold",
+   "text": "Sold {item} for {price}g.",
+   "placeholder": true
+  },
+  {
+   "id": "shop_ate_here",
+   "text": "You have the {item} at a table. {effect}",
+   "placeholder": true
+  },
+  {
+   "id": "shop_too_late",
+   "text": "{item} is only served before {time}.",
+   "placeholder": true
+  },
+  {
+   "id": "shop_no_room",
+   "text": "No room in your backpack.",
+   "placeholder": true
+  },
+  {
+   "id": "shop_cant_afford",
+   "text": "You can't afford that.",
+   "placeholder": true
+  },
+  {
+   "id": "shop_free_plate",
+   "text": "Rosa slides a second plate across: \"On the house.\"",
+   "placeholder": true
+  },
+  {
+   "id": "shop_coffee_on",
+   "text": "The coffee kicks in: you walk faster for a while.",
+   "placeholder": true
+  },
+  {
+   "id": "shop_coffee_off",
+   "text": "The coffee has worn off.",
+   "placeholder": true
+  },
+  {
+   "id": "shop_title_buy",
+   "text": "{name}: buy",
+   "placeholder": true
+  },
+  {
+   "id": "shop_title_sell",
+   "text": "{name}: sell (half the kiosk price)",
+   "placeholder": true
+  },
+  {
+   "id": "shop_title",
+   "text": "{name}",
+   "placeholder": true
+  },
+  {
+   "id": "shop_muffin_spring",
+   "text": "Today's muffin is rhubarb.",
+   "placeholder": true
+  },
+  {
+   "id": "shop_muffin_summer",
+   "text": "Today's muffin is blueberry.",
+   "placeholder": true
+  },
+  {
+   "id": "shop_muffin_autumn",
+   "text": "Today's muffin is pumpkin spice.",
+   "placeholder": true
+  },
+  {
+   "id": "shop_muffin_winter",
+   "text": "Today's muffin is gingerbread.",
+   "placeholder": true
+  },
+  {
+   "id": "fx_energy",
+   "text": "+{n} energy",
+   "placeholder": true
+  },
+  {
+   "id": "fx_warmth",
+   "text": "+{n} warmth",
+   "placeholder": true
+  },
+  {
+   "id": "fx_speed",
+   "text": "walk faster for {hours} hours",
+   "placeholder": true
+  },
+  {
+   "id": "fx_before",
+   "text": "only before {time}",
+   "placeholder": true
+  },
+  {
+   "id": "books_title",
+   "text": "The library's shelves",
+   "placeholder": true
+  },
+  {
+   "id": "book_line",
+   "text": "{title}",
+   "placeholder": true
+  },
+  {
+   "id": "book_line_read",
+   "text": "{title} (read)",
+   "placeholder": true
+  },
+  {
+   "id": "book_teaches",
+   "text": "You can make {name} now.",
+   "placeholder": true
+  },
+  {
+   "id": "src_shops",
+   "text": "Shops in town",
+   "placeholder": true
+  },
+  {
+   "id": "src_shop_sales",
+   "text": "Sold in town",
+   "placeholder": true
+  },
+  {
+   "id": "shop_honour_jar",
+   "text": "{name} is out. A note on the counter says: \"Back soon! Leave the money in the jar.\"",
+   "placeholder": true
   }
  ]
 }
