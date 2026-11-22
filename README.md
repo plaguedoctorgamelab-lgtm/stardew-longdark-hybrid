@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.6.2** (see [Version history](#version-history)). The
+**Current version: 0.6.3** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -101,6 +101,13 @@ docs/              bible, roadmap, specs, rules, status reports (hidden from God
 
 The version lives in `project.godot` (`application/config/version`). Every
 commit of the build raises it and adds a line here.
+
+### 0.6.3 (22 November 2026): Mark's Art Request 18 in the shops
+
+- **Art Request 18:** Mark's four interior sheets (`art/raw/raw_ar18_*.png`) cut into 40 pieces: warm floorboards and a checker floor, plank, brick and wallpaper walls, windows by day and night, a doormat, four counters, the bookcase and goods shelf, each shop's own pieces, rugs, plants, an armchair and wall pictures. They keep their own colours (`keep_colors`), since the palette turned the honey floor salmon.
+- **The seven shops re-dressed** with them: a wall and floor for each shop, windows, plants in the corners, rugs marking each area, a doormat at every door. Screenshots: `docs/status/063_shots/`.
+- `InteriorView` draws a wall picture as tall as the whole wall as one strip a column, and mixes a room's `floor_alts` so the boards don't repeat.
+- Not used yet: the room's edge piece and the light shaft (sheet 1), the coat display (white left inside the rack), and the post office counter, whose pigeonholes hide the mayor behind it. The Town Hall uses the plain counter until then.
 
 ### 0.6.2 (22 November 2026): Phase 4, the shops
 

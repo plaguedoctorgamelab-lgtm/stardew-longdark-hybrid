@@ -7292,6 +7292,447 @@
     }
    ],
    "keep_colors": true
+  },
+  {
+   "file": "raw_ar18_shell.png",
+   "label": "Art Request 18, sheet 1: floors and wall faces, cut inside their drawn frames so they tile",
+   "grid": [
+    4,
+    3
+   ],
+   "full": true,
+   "cells": [
+    {
+     "name": "interior_boards_warm",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      66,
+      66,
+      256,
+      248
+     ]
+    },
+    {
+     "name": "interior_boards_warm_alt_1",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      416,
+      66,
+      256,
+      248
+     ]
+    },
+    {
+     "name": "interior_boards_warm_alt_2",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      774,
+      66,
+      256,
+      248
+     ]
+    },
+    {
+     "name": "interior_tiles_checker",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      1122,
+      66,
+      264,
+      248
+     ]
+    },
+    {
+     "name": "interior_wall_planks",
+     "size": [
+      16,
+      48
+     ],
+     "box": [
+      147,
+      398,
+      100,
+      300
+     ]
+    },
+    {
+     "name": "interior_wall_brick",
+     "size": [
+      16,
+      48
+     ],
+     "box": [
+      494,
+      398,
+      100,
+      300
+     ]
+    },
+    {
+     "name": "interior_wall_paper",
+     "size": [
+      16,
+      48
+     ],
+     "box": [
+      849,
+      398,
+      100,
+      300
+     ]
+    },
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "keep_colors": true
+  },
+  {
+   "file": "raw_ar18_shell.png",
+   "label": "Art Request 18, sheet 1: windows and the doormat (the room's edge waits; the light shaft is drawn by the game)",
+   "grid": [
+    4,
+    3
+   ],
+   "cells": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    {
+     "name": "interior_window_shop",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "interior_window_shop_night",
+     "size": [
+      32,
+      32
+     ]
+    },
+    null,
+    {
+     "name": "interior_doormat",
+     "size": [
+      32,
+      16
+     ]
+    }
+   ],
+   "keep_colors": true
+  },
+  {
+   "file": "raw_ar18_counters.png",
+   "label": "Art Request 18, sheet 2: counters and shelves",
+   "grid": [
+    4,
+    2
+   ],
+   "cells": [
+    {
+     "name": "int_shop_counter",
+     "size": [
+      48,
+      32
+     ]
+    },
+    {
+     "name": "int_shop_counter_cafe",
+     "size": [
+      48,
+      32
+     ]
+    },
+    {
+     "name": "int_shop_counter_restaurant",
+     "size": [
+      48,
+      32
+     ]
+    },
+    {
+     "name": "int_post_counter",
+     "size": [
+      48,
+      48
+     ]
+    },
+    {
+     "name": "int_bookcase",
+     "size": [
+      32,
+      48
+     ]
+    },
+    {
+     "name": "int_goods_shelf",
+     "size": [
+      32,
+      48
+     ]
+    },
+    {
+     "name": "int_display_table",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "int_front_desk",
+     "size": [
+      48,
+      32
+     ]
+    }
+   ],
+   "keep_colors": true
+  },
+  {
+   "file": "raw_ar18_shop_pieces.png",
+   "label": "Art Request 18, sheet 3: each shop's own pieces",
+   "grid": [
+    4,
+    3
+   ],
+   "cell_bg": 6,
+   "cells": [
+    {
+     "name": "int_cafe_table",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "int_menu_board",
+     "size": [
+      32,
+      24
+     ]
+    },
+    {
+     "name": "int_restaurant_table",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "int_bunting",
+     "size": [
+      48,
+      16
+     ]
+    },
+    {
+     "name": "int_coat_display",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "int_boot_display",
+     "size": [
+      32,
+      24
+     ]
+    },
+    {
+     "name": "int_lumber_rack",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "int_tool_wall",
+     "size": [
+      32,
+      24
+     ]
+    },
+    {
+     "name": "int_mayor_desk",
+     "size": [
+      48,
+      32
+     ]
+    },
+    {
+     "name": "int_filing_cabinet",
+     "size": [
+      16,
+      32
+     ]
+    },
+    {
+     "name": "int_gift_basket",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "int_reading_lamp",
+     "size": [
+      16,
+      32
+     ]
+    }
+   ],
+   "keep_colors": true
+  },
+  {
+   "file": "raw_ar18_comfort.png",
+   "label": "Art Request 18, sheet 4: rugs, plants, an armchair and wall pictures",
+   "grid": [
+    4,
+    2
+   ],
+   "cell_bg": 6,
+   "cells": [
+    {
+     "name": "interior_rug_large",
+     "size": [
+      64,
+      32
+     ]
+    },
+    {
+     "name": "interior_rug_runner",
+     "size": [
+      48,
+      16
+     ]
+    },
+    {
+     "name": "interior_rug_round",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "int_plant_tall",
+     "size": [
+      16,
+      32
+     ]
+    },
+    {
+     "name": "int_plant_small",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "int_plant_flowering",
+     "size": [
+      16,
+      32
+     ]
+    },
+    {
+     "name": "int_armchair",
+     "size": [
+      32,
+      32
+     ]
+    },
+    {
+     "name": "interior_picture_mountain",
+     "size": [
+      16,
+      20
+     ],
+     "box": [
+      1342,
+      614,
+      106,
+      128
+     ],
+     "parts": 6
+    }
+   ],
+   "keep_colors": true
+  },
+  {
+   "file": "raw_ar18_comfort.png",
+   "label": "Art Request 18, sheet 4: the other three wall pictures",
+   "grid": [
+    4,
+    2
+   ],
+   "cell_bg": 6,
+   "cells": [
+    {
+     "name": "interior_picture_canoe",
+     "size": [
+      16,
+      20
+     ],
+     "box": [
+      1454,
+      614,
+      104,
+      128
+     ],
+     "parts": 6
+    },
+    {
+     "name": "interior_picture_bird",
+     "size": [
+      16,
+      20
+     ],
+     "box": [
+      1562,
+      614,
+      104,
+      128
+     ],
+     "parts": 6
+    },
+    {
+     "name": "interior_picture_pine",
+     "size": [
+      16,
+      20
+     ],
+     "box": [
+      1668,
+      614,
+      102,
+      128
+     ],
+     "parts": 6
+    }
+   ],
+   "keep_colors": true
   }
  ],
  "calm": {

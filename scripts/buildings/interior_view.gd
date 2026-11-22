@@ -101,13 +101,23 @@ func _draw_room() -> void:
 	var h := layout.size.y
 	var wh := layout.wall_height
 	_floor.draw_rect(Rect2(-2000, -2000, 4000, 4000), Color(0.05, 0.04, 0.04))
-	# Back wall: the bottom row of it carries the skirting board.
+	# Back wall: the bottom row of it carries the skirting board. A wall
+	# picture as tall as the whole wall (Art Request 18) is one strip a column.
+	var strip := wall_tex.get_height() >= wh * TILE
 	for y in wh:
 		for x in range(1, w - 1):
-			_floor.draw_texture(base_tex if y == wh - 1 else wall_tex, Vector2(x, y) * TILE)
+			if strip:
+				if y == 0:
+					_floor.draw_texture(wall_tex, Vector2(x, 0) * TILE)
+			else:
+				_floor.draw_texture(base_tex if y == wh - 1 else wall_tex, Vector2(x, y) * TILE)
+	# Floor: a few board pictures mixed so no pattern repeats.
+	var floors: Array[Texture2D] = [floor_tex]
+	for a: String in inside.get("floor_alts", []):
+		floors.append(Art.texture(a))
 	for y in range(wh, h - 1):
 		for x in range(1, w - 1):
-			_floor.draw_texture(floor_tex, Vector2(x, y) * TILE)
+			_floor.draw_texture(floors[posmod(x * 7 + y * 13 + x * y, floors.size())], Vector2(x, y) * TILE)
 	for d: Dictionary in inside.get("decor", []):
 		var dn := str(d["sprite"])
 		if _night and Art.has_picture(dn + "_night"):

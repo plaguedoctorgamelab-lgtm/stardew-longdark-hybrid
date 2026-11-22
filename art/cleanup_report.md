@@ -1,7 +1,7 @@
 # Art cleanup report
 
 Made by tools/art_cleanup.py. palette from art/palette.json (33 colors). A picture cut pixel for pixel from a refresh sheet replaces any earlier picture of the same name.
-678 images passed, 1 failed.
+719 images passed, 1 failed.
 
 
 ## ChatGPT Image Nov 15, 2026, 07_04_59 AM.png (ground tiles)
@@ -932,6 +932,65 @@ Made by tools/art_cleanup.py. palette from art/palette.json (33 colors). A pictu
 - npc_wren_left_1: **pass** 16x32
 - npc_wren_left_2: **pass** 16x32
 - npc_wren_left_3: **pass** 16x32
+
+## raw_ar18_shell.png (Art Request 18, sheet 1: floors and wall faces, cut inside their drawn frames so they tile)
+
+- interior_boards_warm: **pass** 16x16
+- interior_boards_warm_alt_1: **pass** 16x16
+- interior_boards_warm_alt_2: **pass** 16x16
+- interior_tiles_checker: **pass** 16x16
+- interior_wall_planks: **pass** 16x48
+- interior_wall_brick: **pass** 16x48
+- interior_wall_paper: **pass** 16x48
+
+## raw_ar18_shell.png (Art Request 18, sheet 1: windows and the doormat (the room's edge waits; the light shaft is drawn by the game))
+
+- interior_window_shop: **pass** 32x32
+- interior_window_shop_night: **pass** 32x32
+- interior_doormat: **pass** 32x16
+
+## raw_ar18_counters.png (Art Request 18, sheet 2: counters and shelves)
+
+- int_shop_counter: **pass** 48x32
+- int_shop_counter_cafe: **pass** 48x32
+- int_shop_counter_restaurant: **pass** 48x32
+- int_post_counter: **pass** 48x48
+- int_bookcase: **pass** 32x48
+- int_goods_shelf: **pass** 32x48
+- int_display_table: **pass** 32x32
+- int_front_desk: **pass** 48x32
+
+## raw_ar18_shop_pieces.png (Art Request 18, sheet 3: each shop's own pieces): background removed cell by cell inside the grid lines
+
+- int_cafe_table: **pass** 32x32
+- int_menu_board: **pass** 32x24
+- int_restaurant_table: **pass** 32x32
+- int_bunting: **pass** 48x16
+- int_coat_display: **pass** 32x32
+- int_boot_display: **pass** 32x24
+- int_lumber_rack: **pass** 32x32
+- int_tool_wall: **pass** 32x24
+- int_mayor_desk: **pass** 48x32
+- int_filing_cabinet: **pass** 16x32
+- int_gift_basket: **pass** 16x16
+- int_reading_lamp: **pass** 16x32
+
+## raw_ar18_comfort.png (Art Request 18, sheet 4: rugs, plants, an armchair and wall pictures): background removed cell by cell inside the grid lines
+
+- interior_rug_large: **pass** 64x32
+- interior_rug_runner: **pass** 48x16
+- interior_rug_round: **pass** 32x32
+- int_plant_tall: **pass** 16x32
+- int_plant_small: **pass** 16x16
+- int_plant_flowering: **pass** 16x32
+- int_armchair: **pass** 32x32
+- interior_picture_mountain: **pass** 16x20
+
+## raw_ar18_comfort.png (Art Request 18, sheet 4: the other three wall pictures): background removed cell by cell inside the grid lines
+
+- interior_picture_canoe: **pass** 16x20
+- interior_picture_bird: **pass** 16x20
+- interior_picture_pine: **pass** 16x20
 
 ## calm_ground_a.png
 

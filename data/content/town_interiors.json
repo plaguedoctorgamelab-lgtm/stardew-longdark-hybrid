@@ -1,5 +1,5 @@
 {
- "note": "Phase 4, step 5: the insides of Humdrum's shops, laid out to the Interior Art Guide and Mark's Stardew reference pictures (22 Nov 2026). Same format as a structure's interior, plus keeper_at (where the keeper stands behind the counter) and guest_spots (where townsfolk visiting stand or sit). Houses come in the next pass.",
+ "note": "Phase 4, step 5: the insides of Humdrum's shops, laid out to the Interior Art Guide and Mark's Stardew reference pictures (22 Nov 2026). Same format as a structure's interior, plus keeper_at (where the keeper stands behind the counter) and guest_spots (where townsfolk visiting stand or sit). Dressed with Mark's Art Request 18 pieces (22 Nov 2026). Houses come in the next pass.",
  "rows": [
   {
    "id": "percolator",
@@ -8,9 +8,8 @@
      13,
      10
     ],
-    "floor": "interior_plank_floor",
-    "wall": "interior_back_wall",
-    "wall_base": "interior_wall_base",
+    "floor": "interior_boards_warm",
+    "wall": "interior_wall_planks",
     "trim": "interior_trim",
     "wall_height": 3,
     "entry": [
@@ -19,28 +18,36 @@
     ],
     "decor": [
      {
-      "sprite": "interior_window_curtains",
+      "sprite": "interior_window_shop",
       "pos": [
-       4,
+       2,
        0
       ]
      },
      {
-      "sprite": "interior_window_curtains",
+      "sprite": "int_menu_board",
+      "pos": [
+       5,
+       1
+      ]
+     },
+     {
+      "sprite": "interior_window_shop",
       "pos": [
        8,
        0
       ]
-     },
+     }
+    ],
+    "rugs": [
      {
-      "sprite": "interior_picture",
+      "sprite": "interior_doormat",
       "pos": [
        6,
-       1
+       8
       ]
      }
     ],
-    "rugs": [],
     "furniture": [
      {
       "id": "counter",
@@ -79,7 +86,7 @@
        2,
        1
       ],
-      "sprite": "furniture_table_chairs"
+      "sprite": "int_cafe_table"
      },
      {
       "id": "table_2",
@@ -92,7 +99,7 @@
        2,
        1
       ],
-      "sprite": "furniture_table_chairs"
+      "sprite": "int_cafe_table"
      },
      {
       "id": "table_3",
@@ -105,10 +112,10 @@
        2,
        1
       ],
-      "sprite": "furniture_table_chairs"
+      "sprite": "int_cafe_table"
      },
      {
-      "id": "lamp",
+      "id": "plant_1",
       "kind": "decor",
       "pos": [
        11,
@@ -118,7 +125,20 @@
        1,
        1
       ],
-      "sprite": "furniture_oil_lamp"
+      "sprite": "int_plant_tall"
+     },
+     {
+      "id": "plant_2",
+      "kind": "decor",
+      "pos": [
+       11,
+       8
+      ],
+      "size": [
+       1,
+       1
+      ],
+      "sprite": "int_plant_flowering"
      },
      {
       "id": "door",
@@ -152,7 +172,11 @@
       8
      ]
     ],
-    "note": "Stardew reference (Mark, 22 Nov 2026): counter on the left with the keeper behind it, tables on the right, a clear way up the middle."
+    "note": "Stardew reference (Mark, 22 Nov 2026): counter on the left with the keeper behind it, tables on the right, a clear way up the middle.",
+    "floor_alts": [
+     "interior_boards_warm_alt_1",
+     "interior_boards_warm_alt_2"
+    ]
    }
   },
   {
@@ -162,9 +186,8 @@
      14,
      10
     ],
-    "floor": "interior_plank_floor",
-    "wall": "interior_back_wall",
-    "wall_base": "interior_wall_base",
+    "floor": "interior_tiles_checker",
+    "wall": "interior_wall_brick",
     "trim": "interior_trim",
     "wall_height": 3,
     "entry": [
@@ -173,33 +196,40 @@
     ],
     "decor": [
      {
-      "sprite": "interior_window_curtains",
+      "sprite": "interior_window_shop",
       "pos": [
-       3,
+       2,
        0
       ]
      },
      {
-      "sprite": "interior_window_curtains",
+      "sprite": "interior_window_shop",
       "pos": [
-       6,
+       5,
        0
       ]
      },
      {
-      "sprite": "interior_picture",
+      "sprite": "int_bunting",
       "pos": [
-       9,
-       1
+       8,
+       0
       ]
      }
     ],
     "rugs": [
      {
-      "sprite": "interior_rug",
+      "sprite": "interior_rug_large",
       "pos": [
        2,
        5
+      ]
+     },
+     {
+      "sprite": "interior_doormat",
+      "pos": [
+       7,
+       8
       ]
      }
     ],
@@ -215,7 +245,7 @@
        3,
        1
       ],
-      "sprite": "int_shop_counter"
+      "sprite": "int_shop_counter_restaurant"
      },
      {
       "id": "stove",
@@ -241,7 +271,7 @@
        2,
        1
       ],
-      "sprite": "furniture_table_chairs"
+      "sprite": "int_restaurant_table"
      },
      {
       "id": "table_2",
@@ -254,7 +284,7 @@
        2,
        1
       ],
-      "sprite": "furniture_table_chairs"
+      "sprite": "int_restaurant_table"
      },
      {
       "id": "table_3",
@@ -267,20 +297,20 @@
        2,
        1
       ],
-      "sprite": "furniture_table_chairs"
+      "sprite": "int_restaurant_table"
      },
      {
-      "id": "lamp",
+      "id": "plant",
       "kind": "decor",
       "pos": [
        1,
-       3
+       8
       ],
       "size": [
        1,
        1
       ],
-      "sprite": "furniture_oil_lamp"
+      "sprite": "int_plant_tall"
      },
      {
       "id": "door",
@@ -323,9 +353,8 @@
      13,
      10
     ],
-    "floor": "interior_plank_floor",
-    "wall": "interior_back_wall",
-    "wall_base": "interior_wall_base",
+    "floor": "interior_boards_warm",
+    "wall": "interior_wall_planks",
     "trim": "interior_trim",
     "wall_height": 3,
     "entry": [
@@ -334,14 +363,14 @@
     ],
     "decor": [
      {
-      "sprite": "interior_window_curtains",
+      "sprite": "interior_window_shop",
       "pos": [
        8,
        0
       ]
      },
      {
-      "sprite": "interior_picture",
+      "sprite": "interior_picture_mountain",
       "pos": [
        6,
        1
@@ -350,10 +379,17 @@
     ],
     "rugs": [
      {
-      "sprite": "interior_rug",
+      "sprite": "interior_rug_round",
       "pos": [
        5,
        6
+      ]
+     },
+     {
+      "sprite": "interior_doormat",
+      "pos": [
+       6,
+       8
       ]
      }
     ],
@@ -418,10 +454,10 @@
        8
       ],
       "size": [
-       1,
+       2,
        1
       ],
-      "sprite": "furniture_boots_heap"
+      "sprite": "int_boot_display"
      },
      {
       "id": "wardrobe",
@@ -435,6 +471,19 @@
        1
       ],
       "sprite": "furniture_wardrobe"
+     },
+     {
+      "id": "plant",
+      "kind": "decor",
+      "pos": [
+       7,
+       3
+      ],
+      "size": [
+       1,
+       1
+      ],
+      "sprite": "int_plant_tall"
      },
      {
       "id": "door",
@@ -459,6 +508,10 @@
       3,
       6
      ]
+    ],
+    "floor_alts": [
+     "interior_boards_warm_alt_1",
+     "interior_boards_warm_alt_2"
     ]
    }
   },
@@ -469,9 +522,8 @@
      12,
      10
     ],
-    "floor": "interior_plank_floor",
-    "wall": "interior_back_wall",
-    "wall_base": "interior_wall_base",
+    "floor": "interior_boards_warm",
+    "wall": "interior_wall_paper",
     "trim": "interior_trim",
     "wall_height": 3,
     "entry": [
@@ -480,14 +532,14 @@
     ],
     "decor": [
      {
-      "sprite": "interior_window_curtains",
+      "sprite": "interior_window_shop",
       "pos": [
        8,
        0
       ]
      },
      {
-      "sprite": "interior_picture",
+      "sprite": "interior_picture_bird",
       "pos": [
        6,
        1
@@ -496,10 +548,17 @@
     ],
     "rugs": [
      {
-      "sprite": "interior_rug",
+      "sprite": "interior_rug_round",
       "pos": [
        4,
        6
+      ]
+     },
+     {
+      "sprite": "interior_doormat",
+      "pos": [
+       6,
+       8
       ]
      }
     ],
@@ -544,7 +603,7 @@
       "sprite": "int_goods_shelf"
      },
      {
-      "id": "cupboard",
+      "id": "display",
       "kind": "decor",
       "pos": [
        1,
@@ -554,10 +613,23 @@
        2,
        1
       ],
-      "sprite": "furniture_cupboard_low"
+      "sprite": "int_display_table"
      },
      {
-      "id": "lamp",
+      "id": "basket",
+      "kind": "decor",
+      "pos": [
+       3,
+       7
+      ],
+      "size": [
+       1,
+       1
+      ],
+      "sprite": "int_gift_basket"
+     },
+     {
+      "id": "plant",
       "kind": "decor",
       "pos": [
        10,
@@ -567,7 +639,7 @@
        1,
        1
       ],
-      "sprite": "furniture_oil_lamp"
+      "sprite": "int_plant_flowering"
      },
      {
       "id": "door",
@@ -592,6 +664,10 @@
       4,
       8
      ]
+    ],
+    "floor_alts": [
+     "interior_boards_warm_alt_1",
+     "interior_boards_warm_alt_2"
     ]
    }
   },
@@ -602,9 +678,8 @@
      14,
      10
     ],
-    "floor": "interior_floor",
-    "wall": "interior_back_wall",
-    "wall_base": "interior_wall_base",
+    "floor": "interior_boards_warm",
+    "wall": "interior_wall_brick",
     "trim": "interior_trim",
     "wall_height": 3,
     "entry": [
@@ -613,21 +688,36 @@
     ],
     "decor": [
      {
-      "sprite": "interior_window_curtains",
+      "sprite": "interior_window_shop",
       "pos": [
-       5,
+       4,
        0
       ]
      },
      {
-      "sprite": "interior_window_curtains",
+      "sprite": "int_tool_wall",
+      "pos": [
+       8,
+       1
+      ]
+     },
+     {
+      "sprite": "interior_window_shop",
       "pos": [
        11,
        0
       ]
      }
     ],
-    "rugs": [],
+    "rugs": [
+     {
+      "sprite": "interior_doormat",
+      "pos": [
+       7,
+       8
+      ]
+     }
+    ],
     "furniture": [
      {
       "id": "counter",
@@ -656,11 +746,24 @@
       "sprite": "int_workbench"
      },
      {
-      "id": "woodpile",
+      "id": "lumber",
       "kind": "decor",
       "pos": [
        11,
        6
+      ],
+      "size": [
+       2,
+       1
+      ],
+      "sprite": "int_lumber_rack"
+     },
+     {
+      "id": "woodpile",
+      "kind": "decor",
+      "pos": [
+       11,
+       8
       ],
       "size": [
        2,
@@ -717,6 +820,10 @@
       9,
       4
      ]
+    ],
+    "floor_alts": [
+     "interior_boards_warm_alt_1",
+     "interior_boards_warm_alt_2"
     ]
    }
   },
@@ -727,9 +834,8 @@
      15,
      11
     ],
-    "floor": "interior_plank_floor",
-    "wall": "interior_back_wall",
-    "wall_base": "interior_wall_base",
+    "floor": "interior_boards_warm",
+    "wall": "interior_wall_paper",
     "trim": "interior_trim",
     "wall_height": 3,
     "entry": [
@@ -738,33 +844,40 @@
     ],
     "decor": [
      {
-      "sprite": "interior_window_curtains",
+      "sprite": "interior_window_shop",
       "pos": [
        5,
        0
       ]
      },
      {
-      "sprite": "interior_window_curtains",
-      "pos": [
-       9,
-       0
-      ]
-     },
-     {
-      "sprite": "interior_picture",
+      "sprite": "interior_picture_pine",
       "pos": [
        7,
        1
+      ]
+     },
+     {
+      "sprite": "interior_window_shop",
+      "pos": [
+       8,
+       0
       ]
      }
     ],
     "rugs": [
      {
-      "sprite": "interior_rug",
+      "sprite": "interior_rug_large",
       "pos": [
        6,
        7
+      ]
+     },
+     {
+      "sprite": "interior_doormat",
+      "pos": [
+       7,
+       9
       ]
      }
     ],
@@ -832,7 +945,7 @@
        3,
        1
       ],
-      "sprite": "int_shop_counter"
+      "sprite": "int_front_desk"
      },
      {
       "id": "table_1",
@@ -848,7 +961,7 @@
       "sprite": "furniture_table_chairs"
      },
      {
-      "id": "table_2",
+      "id": "armchair",
       "kind": "decor",
       "pos": [
        11,
@@ -858,7 +971,46 @@
        2,
        1
       ],
-      "sprite": "furniture_table_chairs"
+      "sprite": "int_armchair"
+     },
+     {
+      "id": "lamp",
+      "kind": "decor",
+      "pos": [
+       13,
+       7
+      ],
+      "size": [
+       1,
+       1
+      ],
+      "sprite": "int_reading_lamp"
+     },
+     {
+      "id": "archive",
+      "kind": "decor",
+      "pos": [
+       9,
+       3
+      ],
+      "size": [
+       1,
+       1
+      ],
+      "sprite": "int_filing_cabinet"
+     },
+     {
+      "id": "plant",
+      "kind": "decor",
+      "pos": [
+       5,
+       3
+      ],
+      "size": [
+       1,
+       1
+      ],
+      "sprite": "int_plant_tall"
      },
      {
       "id": "door",
@@ -888,7 +1040,11 @@
       8
      ]
     ],
-    "note": "The reading room is the two tables. Books are on the shelves either side."
+    "note": "The reading room is the two tables. Books are on the shelves either side.",
+    "floor_alts": [
+     "interior_boards_warm_alt_1",
+     "interior_boards_warm_alt_2"
+    ]
    }
   },
   {
@@ -898,9 +1054,8 @@
      14,
      10
     ],
-    "floor": "interior_plank_floor",
-    "wall": "interior_back_wall",
-    "wall_base": "interior_wall_base",
+    "floor": "interior_boards_warm",
+    "wall": "interior_wall_planks",
     "trim": "interior_trim",
     "wall_height": 3,
     "entry": [
@@ -909,14 +1064,21 @@
     ],
     "decor": [
      {
-      "sprite": "interior_window_curtains",
+      "sprite": "interior_window_shop",
       "pos": [
        4,
        0
       ]
      },
      {
-      "sprite": "interior_window_curtains",
+      "sprite": "interior_picture_pine",
+      "pos": [
+       7,
+       1
+      ]
+     },
+     {
+      "sprite": "interior_window_shop",
       "pos": [
        10,
        0
@@ -925,10 +1087,17 @@
     ],
     "rugs": [
      {
-      "sprite": "interior_rug",
+      "sprite": "interior_rug_runner",
       "pos": [
        9,
        6
+      ]
+     },
+     {
+      "sprite": "interior_doormat",
+      "pos": [
+       7,
+       8
       ]
      }
     ],
@@ -957,7 +1126,7 @@
        3,
        1
       ],
-      "sprite": "int_desk"
+      "sprite": "int_mayor_desk"
      },
      {
       "id": "board",
@@ -973,7 +1142,7 @@
       "sprite": "furniture_note_board"
      },
      {
-      "id": "cupboard",
+      "id": "archive",
       "kind": "decor",
       "pos": [
        12,
@@ -983,7 +1152,20 @@
        1,
        1
       ],
-      "sprite": "furniture_cupboard_low"
+      "sprite": "int_filing_cabinet"
+     },
+     {
+      "id": "plant",
+      "kind": "decor",
+      "pos": [
+       12,
+       3
+      ],
+      "size": [
+       1,
+       1
+      ],
+      "sprite": "int_plant_tall"
      },
      {
       "id": "door",
@@ -1009,7 +1191,11 @@
       3
      ]
     ],
-    "note": "The post office counter on the left, the mayor's desk on the right."
+    "note": "The post office counter on the left, the mayor's desk on the right.",
+    "floor_alts": [
+     "interior_boards_warm_alt_1",
+     "interior_boards_warm_alt_2"
+    ]
    }
   }
  ]
