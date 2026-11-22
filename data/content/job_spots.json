@@ -24,7 +24,7 @@
    "id": "station_shelf",
    "where": "ranger_station",
    "pos": [
-    10,
+    11,
     5
    ],
    "size": [
@@ -43,7 +43,7 @@
    "id": "station_boots",
    "where": "ranger_station",
    "pos": [
-    10,
+    11,
     8
    ],
    "size": [

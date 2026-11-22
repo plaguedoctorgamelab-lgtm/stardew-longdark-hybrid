@@ -51,6 +51,13 @@
        6,
        1
       ]
+     },
+     {
+      "sprite": "furniture_coat_hook",
+      "pos": [
+       5,
+       1
+      ]
      }
     ],
     "rugs": [
@@ -58,7 +65,7 @@
       "sprite": "interior_rug",
       "pos": [
        5,
-       6
+       5
       ]
      }
     ],
@@ -72,15 +79,15 @@
       ],
       "size": [
        2,
-       3
+       2
       ],
-      "sprite": "furniture_bed"
+      "sprite": "int_bed"
      },
      {
       "id": "note_board",
       "kind": "note_board",
       "pos": [
-       6,
+       7,
        3
       ],
       "size": [
@@ -106,27 +113,27 @@
       "id": "shelf",
       "kind": "shelf",
       "pos": [
-       7,
+       9,
        3
       ],
       "size": [
        2,
        1
       ],
-      "sprite": "furniture_shelf"
+      "sprite": "int_supply_shelf"
      },
      {
       "id": "chest",
       "kind": "chest",
       "pos": [
-       10,
-       3
+       1,
+       9
       ],
       "size": [
-       1,
+       2,
        1
       ],
-      "sprite": "furniture_chest"
+      "sprite": "int_chest"
      },
      {
       "id": "door",
@@ -152,13 +159,13 @@
        3,
        1
       ],
-      "sprite": "furniture_workbench"
+      "sprite": "int_workbench"
      },
      {
       "id": "catalog_desk",
       "kind": "catalog",
       "pos": [
-       8,
+       9,
        6
       ],
       "size": [
@@ -171,7 +178,7 @@
       "id": "staff_board",
       "kind": "staff_board",
       "pos": [
-       9,
+       11,
        3
       ],
       "size": [
@@ -181,23 +188,10 @@
       "sprite": "furniture_staff_board"
      },
      {
-      "id": "coat_rack",
-      "kind": "decor",
-      "pos": [
-       11,
-       3
-      ],
-      "size": [
-       1,
-       1
-      ],
-      "sprite": "furniture_coat_rack"
-     },
-     {
       "id": "lamp",
       "kind": "decor",
       "pos": [
-       4,
+       3,
        3
       ],
       "size": [
@@ -219,7 +213,8 @@
       ],
       "sprite": "furniture_table_chairs"
      }
-    ]
+    ],
+    "note": "Laid out like the old cabin (tracker #27, 22 Nov 2026): a sleeping corner, a work corner, the office on the right, a table by the door, a clear way from the door to the back wall, and a tile between pieces."
    },
    "repair_steps": [],
    "shelf_stock": [
@@ -591,7 +586,7 @@
       "sprite": "interior_rug",
       "pos": [
        3,
-       6
+       5
       ]
      }
     ],
@@ -613,7 +608,7 @@
       "id": "stove",
       "kind": "stove",
       "pos": [
-       5,
+       6,
        3
       ],
       "size": [
@@ -626,7 +621,7 @@
       "id": "radio",
       "kind": "radio",
       "pos": [
-       3,
+       8,
        3
       ],
       "size": [
@@ -639,8 +634,8 @@
       "id": "chest",
       "kind": "chest",
       "pos": [
-       7,
-       3
+       6,
+       8
       ],
       "size": [
        2,
@@ -665,8 +660,8 @@
       "id": "note_board",
       "kind": "note_board",
       "pos": [
-       7,
-       6
+       4,
+       3
       ],
       "size": [
        1,
@@ -679,8 +674,8 @@
       "kind": "find",
       "find": "lookout_log",
       "pos": [
-       5,
-       7
+       6,
+       6
       ],
       "size": [
        2,
@@ -702,24 +697,11 @@
       "sprite": "furniture_map_table"
      },
      {
-      "id": "wardrobe",
-      "kind": "decor",
-      "pos": [
-       7,
-       8
-      ],
-      "size": [
-       2,
-       1
-      ],
-      "sprite": "furniture_wardrobe"
-     },
-     {
       "id": "lamp",
       "kind": "decor",
       "pos": [
-       8,
-       6
+       3,
+       3
       ],
       "size": [
        1,
@@ -737,7 +719,8 @@
       3,
       1
      ]
-    }
+    },
+    "note": "Laid out like the old cabin (tracker #27, 22 Nov 2026): the bunk with room at its foot, the stove's corner, the log desk, the map table, the trunk by the door, nothing under the rug."
    },
    "repair_steps": [
     {

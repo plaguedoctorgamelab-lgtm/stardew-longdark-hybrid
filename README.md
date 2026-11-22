@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.6.0** (see [Version history](#version-history)). The
+**Current version: 0.6.1** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -101,6 +101,12 @@ docs/              bible, roadmap, specs, rules, status reports (hidden from God
 
 The version lives in `project.godot` (`application/config/version`). Every
 commit of the build raises it and adds a line here.
+
+### 0.6.1 (22 November 2026): tracker #26 and #27
+
+- **#26, the pond could never be found:** its landmark is mid-water, more than the find radius from any shore. A site is now found near its landmark or its door. Test: every site is found from its door.
+- **#26, the burn's brush:** what an active job still wants cleared (brush, trunks, branches) gets a small bobbing gold arrow over it (`Jobs.clear_marks()`, tuning `look.job_marks`), since the gap brush looked like the scenery bushes.
+- **#27, crowded insides:** the station and the tower are laid out like the old cabin, using Mark's new bed, chest, workbench and supply shelf in the station. Zones, a clear way from the door, nothing on the rug, a free tile in front of each piece. The station's coat rack became a wall hook, and the tower's wardrobe went. Test: no overlaps, everything reachable. New interior art waits for Mark's reference pictures.
 
 ### 0.6.0 (21 November 2026): Phase 4, first pass: Humdrum
 

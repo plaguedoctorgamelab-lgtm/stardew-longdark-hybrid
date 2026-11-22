@@ -2684,7 +2684,11 @@ func _look_for_sites() -> void:
 	var r := tuning.num("sites.find_radius_tiles")
 	for row: Dictionary in content.rows("sites"):
 		var id: String = row["id"]
-		if not sites_found.has(id) and outdoor_pos.distance_to(site_pos(id)) <= r:
+		# Near its landmark or its door: the pond's landmark is mid-water, out
+		# of reach from any shore (tracker #26).
+		if sites_found.has(id):
+			continue
+		if outdoor_pos.distance_to(site_pos(id)) <= r or outdoor_pos.distance_to(site_door(id)) <= r:
 			sites_found[id] = true
 			jobs.mark_dirty()
 

@@ -1828,6 +1828,39 @@ func dig_gaps() -> Array:
 	return out
 
 
+## What active jobs still want cleared, for the marks over them in the world
+## (tracker #26: the burn's brush was hard to tell from its bushes).
+## [{pos: tiles, top middle of the thing}]
+func clear_marks() -> Array:
+	var out := []
+	var g := s()
+	var seen := {}
+	for k: String in order:
+		if not is_active(k):
+			continue
+		var d := def(k)
+		for i in (d["steps"] as Array).size():
+			var stp: Dictionary = d["steps"][i]
+			if str(stp["kind"]) != "clear" or bool(check(k, i)["done"]):
+				continue
+			var tg := _clear_targets(stp)
+			for t: Vector2i in tg["tiles"]:
+				var ob := g.obstacle_at(t)
+				if ob.is_empty() or seen.has(ob["origin"]):
+					continue
+				var o: Vector2i = ob["origin"]
+				seen[o] = true
+				var w := float(g.world.object_type(g.world.object_at(o))["size"][0])
+				out.append({"pos": Vector2(o.x + w / 2.0, o.y)})
+			for sp: String in tg["spots"]:
+				if spots_done.has(sp):
+					continue
+				var p := spot_pos(sp)
+				if p != Vector2.INF:
+					out.append({"pos": p - Vector2(0, 0.5)})
+	return out
+
+
 ## The map's markers: one per active job with a known next step:
 ## [{pos, color, pinned, name, step}].
 func map_marks() -> Array:

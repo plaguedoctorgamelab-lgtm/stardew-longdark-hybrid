@@ -257,6 +257,14 @@
       "idle_bob_delay": 2.0,
       "idle_bob_period": 2.4
     },
+    "job_marks": {
+      "note": "The small arrows over brush, trunks and branches an active job still wants cleared (tracker #26).",
+      "color": [250, 214, 70],
+      "size_px": 6,
+      "lift_px": 5,
+      "bob_px": 1.5,
+      "bob_speed": 4.0
+    },
     "weather_overlay_color": [246, 236, 208],
     "weather_overlay": {
       "fog": {"strength": 0.45, "layers": [[3.0, 0.5, 1.0], [-1.5, 0.25, 0.6]]},

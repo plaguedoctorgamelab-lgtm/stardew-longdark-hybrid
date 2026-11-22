@@ -120,6 +120,10 @@ func setup(s: GameSession, ranger_node: Node2D) -> void:
 	session.jobs.spots_changed.connect(refresh_job_spots)
 	session.day_began.connect(refresh_job_spots)
 	refresh_job_spots()
+	_job_marks = Node2D.new()
+	_job_marks.z_index = 45
+	_job_marks.draw.connect(_draw_job_marks)
+	add_child(_job_marks)
 	_border_lines = Node2D.new()
 	_border_lines.z_index = 50
 	_border_lines.draw.connect(_draw_borders)
@@ -644,12 +648,35 @@ func _process(delta: float) -> void:
 	if _forage_wait <= 0.0:
 		_forage_wait = 0.25
 		refresh_forage()
+		_marks = session.jobs.clear_marks() if not session.is_indoors() else []
+	_job_marks.queue_redraw()
 	for key: String in forage_sprites:
 		if key.begins_with("s"):
 			(forage_sprites[key] as Sprite2D).modulate.a = 0.45 + 0.4 * sin(_time * 5.0 + float(posmod(key.hash(), 7)))
 	_border_lines.visible = session.debug_overlay
 	if session.debug_overlay:
 		_border_lines.queue_redraw()
+
+
+var _job_marks: Node2D
+var _marks: Array = []
+
+
+## A small bobbing gold arrow over each thing an active job
+## still wants cleared.
+func _draw_job_marks() -> void:
+	var t := session.tuning
+	var sz := t.num("look.job_marks.size_px")
+	var bob := t.num("look.job_marks.bob_px") * sin(_time * t.num("look.job_marks.bob_speed")) if Settings.flag("motion") else 0.0
+	var ink := Color(0.1, 0.08, 0.12)
+	var c: Array = t.value("look.job_marks.color")
+	var fill := Color8(int(c[0]), int(c[1]), int(c[2]))
+	for m: Dictionary in _marks:
+		var p: Vector2 = m["pos"] * TILE - Vector2(0, t.num("look.job_marks.lift_px") + bob)
+		var pts := PackedVector2Array([p + Vector2(-sz, -sz), p + Vector2(sz, -sz), p])
+		_job_marks.draw_colored_polygon(pts, ink)
+		var inner := PackedVector2Array([p + Vector2(-sz + 2.0, -sz + 1.25), p + Vector2(sz - 2.0, -sz + 1.25), p + Vector2(0, -2.5)])
+		_job_marks.draw_colored_polygon(inner, fill)
 
 
 var _overlay_cache: Dictionary = {}   # chunk -> tiles of objects that show fruit (bushes)
