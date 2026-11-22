@@ -548,5 +548,44 @@
       "medium": -12.0,
       "high": -5.0
     }
+  },
+  "town": {
+    "note": "Phase 4, Humdrum (4a first pass).",
+    "walk_tiles_per_second": 2.2,
+    "rain_weathers": ["rain", "storm"],
+    "giftable_kinds": ["food", "fuel", "material", "placeable", "magic", "gift", "park_thing"],
+    "talk_reach_tiles": 1.6,
+    "door_reach_tiles": 1.4,
+    "gate_offset": [3.5, 0.5]
+  },
+  "friendship": {
+    "note": "Phase 4 Spec. Friendship never decays.",
+    "points_per_heart": 250,
+    "max_hearts": 10,
+    "talk_points": 20,
+    "gift_points": {"love": 80, "like": 45, "neutral": 20, "dislike": -20, "hate": -40},
+    "birthday_multiplier": 8,
+    "gifts_per_week": 2,
+    "daily_decay": 0
+  },
+  "romance": {
+    "note": "Phase 4 Spec; dating comes in 4b.",
+    "hearts_before_dating": 8,
+    "hearts_dating": 10,
+    "bouquet_price": 200
+  },
+  "town_look": {
+    "note": "Humdrum's ground: each code's pictures and how often each shows (Mark's town ground sheet, 21 Nov 2026).",
+    "ground": {
+      "l": {"pictures": ["town_lawn", "town_lawn_alt_1", "town_lawn_alt_2", "town_lawn_alt_3"], "weights": [6, 2, 1, 1]},
+      "c": {"pictures": ["town_cobbles", "town_cobbles_alt_1", "town_cobbles_alt_2", "town_cobbles_alt_3"], "weights": [3, 2, 2, 1]},
+      "g": {"pictures": ["town_gravel", "town_gravel_alt_1"], "weights": [3, 1]},
+      "f": {"pictures": ["town_flowerbed_warm", "town_flowerbed_cool"], "weights": [1, 1]},
+      "b": {"pictures": ["town_boards"], "weights": [1]},
+      "s": {"pictures": ["ground_shallows_plain"], "weights": [1]},
+      "w": {"pictures": ["ground_deep_water_plain"], "weights": [1]}
+    },
+    "lamp_glow_tiles": 3.0,
+    "lamp_glow_strength": 0.9
   }
 }

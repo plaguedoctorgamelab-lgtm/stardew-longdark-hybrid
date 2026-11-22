@@ -45,6 +45,17 @@ func day_of(abs_day: int) -> int:
 	return abs_day % days_per_season() + 1
 
 
+## The day of the week, 0 Monday to 6 Sunday (Phase 4: day 1 of every
+## season is a Monday, so the Chief's seventh day is a Sunday).
+func weekday() -> int:
+	return posmod(absolute_day(), 7)
+
+
+## Today's day of the week as a key: "mon" to "sun".
+func weekday_key() -> String:
+	return Town.DAYS[weekday()]
+
+
 func season_name_of(season_index: int) -> String:
 	return SEASONS[clampi(season_index, 0, 3)]
 

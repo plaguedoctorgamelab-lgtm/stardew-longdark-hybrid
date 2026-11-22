@@ -1,0 +1,138 @@
+{
+ "note": "Phase 4: Humdrum's buildings: names, keepers and hours (minutes since midnight), from the Phase 4 Spec. Positions are in data/world/town.json. Insides come in the next pass; for now the keeper stands at the door during hours.",
+ "rows": [
+  {
+   "id": "percolator",
+   "name": "The Percolator",
+   "keeper": "wren",
+   "open": 300,
+   "close": 1080,
+   "closed": [
+    "wed"
+   ],
+   "kind": "shop"
+  },
+  {
+   "id": "casa_luna",
+   "name": "Casa Luna",
+   "keeper": "rosa",
+   "open": 660,
+   "close": 1320,
+   "closed": [
+    "mon"
+   ],
+   "kind": "shop"
+  },
+  {
+   "id": "outfitters",
+   "name": "Humdrum Outfitters",
+   "keeper": "marge",
+   "open": 540,
+   "close": 1020,
+   "closed": [
+    "sun"
+   ],
+   "kind": "shop"
+  },
+  {
+   "id": "gifts",
+   "name": "Gifts & Notions",
+   "keeper": "bev",
+   "open": 600,
+   "close": 1080,
+   "closed": [
+    "tue"
+   ],
+   "kind": "shop"
+  },
+  {
+   "id": "carpentry",
+   "name": "Lindqvist Carpentry",
+   "keeper": "gus",
+   "open": 540,
+   "close": 1020,
+   "closed": [
+    "sat",
+    "sun"
+   ],
+   "kind": "shop"
+  },
+  {
+   "id": "library",
+   "name": "Humdrum Public Library",
+   "keeper": "agnes",
+   "open": 540,
+   "close": 1140,
+   "closed": [
+    "thu"
+   ],
+   "kind": "shop"
+  },
+  {
+   "id": "town_hall",
+   "name": "Town Hall and post office",
+   "keeper": "lyle",
+   "open": 540,
+   "close": 960,
+   "closed": [
+    "sat",
+    "sun"
+   ],
+   "kind": "shop"
+  },
+  {
+   "id": "caravan",
+   "name": "The fortune teller's caravan",
+   "keeper": "esme",
+   "open": 1080,
+   "close": 1380,
+   "closed": [],
+   "kind": "caravan"
+  },
+  {
+   "id": "bandstand",
+   "name": "The bandstand",
+   "kind": "sight"
+  },
+  {
+   "id": "house_pelletier",
+   "name": "The Pelletiers' house",
+   "kind": "home"
+  },
+  {
+   "id": "house_kowalski",
+   "name": "Bev's house",
+   "kind": "home"
+  },
+  {
+   "id": "house_thistlewood",
+   "name": "Agnes's house",
+   "kind": "home"
+  },
+  {
+   "id": "house_pruitt",
+   "name": "The mayor's house",
+   "kind": "home"
+  },
+  {
+   "id": "house_abernathy",
+   "name": "The Abernathys' house",
+   "kind": "home"
+  },
+  {
+   "id": "house_mendoza",
+   "name": "The Mendozas' house",
+   "kind": "home"
+  },
+  {
+   "id": "house_lindqvist",
+   "name": "Gus's house",
+   "kind": "home"
+  },
+  {
+   "id": "house_arden",
+   "name": "Sol's house and studio",
+   "kind": "home"
+  }
+ ]
+}

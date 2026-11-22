@@ -1,0 +1,1067 @@
+{
+ "note": "Phase 4: what the townsfolk say, chosen by conditions: intro (the first time), season, weather (rain covers storms), time (morning before 12:00, afternoon, evening from 18:00), event (something done in the park: site:<id>, milestone:<id>, badger, jobs:<count>) and min_hearts. No line repeats within a week for the same person. 4a first pass: about a dozen lines each.",
+ "rows": [
+  {
+   "id": "wren_01",
+   "speaker": "wren",
+   "text": "You're the new ranger! Sit, sit. First cup's on the house. Every cup's sort of on the house if you look sad enough.",
+   "intro": true
+  },
+  {
+   "id": "wren_02",
+   "speaker": "wren",
+   "text": "Morning. I've been up since four. Don't tell anyone, they'll think something's wrong.",
+   "time": "morning"
+  },
+  {
+   "id": "wren_03",
+   "speaker": "wren",
+   "text": "Rain's good for business. Nobody wants to be anywhere but here.",
+   "weather": "rain"
+  },
+  {
+   "id": "wren_04",
+   "speaker": "wren",
+   "text": "The trick to a good espresso is to stop thinking about it right before it's ready."
+  },
+  {
+   "id": "wren_05",
+   "speaker": "wren",
+   "text": "Agnes takes hers with three sugars and pretends it's one. I pretend I don't see."
+  },
+  {
+   "id": "wren_06",
+   "speaker": "wren",
+   "text": "You smell like pine needles. It's a good look for a ranger."
+  },
+  {
+   "id": "wren_07",
+   "speaker": "wren",
+   "text": "Snow day. I put cinnamon in everything until the thaw. Everything.",
+   "season": "winter"
+  },
+  {
+   "id": "wren_08",
+   "speaker": "wren",
+   "text": "Spring muffins are rhubarb. If you don't like rhubarb, I'll fight you, politely.",
+   "season": "spring"
+  },
+  {
+   "id": "wren_09",
+   "speaker": "wren",
+   "text": "Late? I'm always here late. Well. Here or somewhere near here.",
+   "time": "evening"
+  },
+  {
+   "id": "wren_10",
+   "speaker": "wren",
+   "text": "Someone said the old cabin has its door back on. Was that you? It was you.",
+   "event": "site:old_cabin"
+  },
+  {
+   "id": "wren_11",
+   "speaker": "wren",
+   "text": "Visitors in the park! Two of them came in for coffee and asked if the woods were always like that. I said, like what?",
+   "event": "milestone:first_visitors"
+  },
+  {
+   "id": "wren_12",
+   "speaker": "wren",
+   "text": "You've been busy out there. You've got that look. I'll make it a double.",
+   "event": "jobs:5"
+  },
+  {
+   "id": "wren_13",
+   "speaker": "wren",
+   "text": "You know, most people order and leave. You stay and talk. I like that.",
+   "min_hearts": 2
+  },
+  {
+   "id": "wren_14",
+   "speaker": "wren",
+   "text": "Some mornings this place is so quiet I can hear the milk steamer thinking.",
+   "min_hearts": 4
+  },
+  {
+   "id": "rosa_01",
+   "speaker": "rosa",
+   "text": "You're the ranger. Too thin. Sit down, I'm bringing you something. No, you don't get a choice.",
+   "intro": true
+  },
+  {
+   "id": "rosa_02",
+   "speaker": "rosa",
+   "text": "Teo is in the kitchen being quiet. He's always quiet. I'm loud enough for both of us."
+  },
+  {
+   "id": "rosa_03",
+   "speaker": "rosa",
+   "text": "Mondays I close. Even a cook has to sit down once a week. Teo says twice. Teo is wrong."
+  },
+  {
+   "id": "rosa_04",
+   "speaker": "rosa",
+   "text": "Rain! Good. Pozole weather. Everybody comes in wet and leaves warm.",
+   "weather": "rain"
+  },
+  {
+   "id": "rosa_05",
+   "speaker": "rosa",
+   "text": "In this town nothing happens. I tell you, it's the best thing about it."
+  },
+  {
+   "id": "rosa_06",
+   "speaker": "rosa",
+   "text": "You eat out there in the woods? What do you eat? Beans from a tin? Ay. Come here more."
+  },
+  {
+   "id": "rosa_07",
+   "speaker": "rosa",
+   "text": "Summer, I put chiles on everything. If you cry, it's working.",
+   "season": "summer"
+  },
+  {
+   "id": "rosa_08",
+   "speaker": "rosa",
+   "text": "Evening. The good tables are by the window. Sit anywhere, I'll move you.",
+   "time": "evening"
+  },
+  {
+   "id": "rosa_09",
+   "speaker": "rosa",
+   "text": "The pond is open again? Teo used to fish there when he was small. Caught nothing. Very happy.",
+   "event": "site:kettle_pond"
+  },
+  {
+   "id": "rosa_10",
+   "speaker": "rosa",
+   "text": "There's a badger causing trouble out there, I hear. Bring it here. I'll feed it. It'll calm down.",
+   "event": "badger"
+  },
+  {
+   "id": "rosa_11",
+   "speaker": "rosa",
+   "text": "You come back. That's the main thing. You always come back.",
+   "min_hearts": 2
+  },
+  {
+   "id": "rosa_12",
+   "speaker": "rosa",
+   "text": "You know what this town needed? Somebody to cook for. Now I have you.",
+   "min_hearts": 4
+  },
+  {
+   "id": "teo_01",
+   "speaker": "teo",
+   "text": "Oh. Hi. You're the ranger. Mom told me to say hello. Hello.",
+   "intro": true
+  },
+  {
+   "id": "teo_02",
+   "speaker": "teo",
+   "text": "I'm not really a cook. I'm someone who's cooking. There's a difference."
+  },
+  {
+   "id": "teo_03",
+   "speaker": "teo",
+   "text": "Sometimes the bins out back make a sort of rhythm when the wind's up. Never mind."
+  },
+  {
+   "id": "teo_04",
+   "speaker": "teo",
+   "text": "The library has a book of old songs. I've read it eleven times. Not for any reason."
+  },
+  {
+   "id": "teo_05",
+   "speaker": "teo",
+   "text": "Spring makes everyone in town hum. Haven't you noticed?",
+   "season": "spring"
+  },
+  {
+   "id": "teo_06",
+   "speaker": "teo",
+   "text": "It's raining. Good. Nobody can hear anything but rain.",
+   "weather": "rain"
+  },
+  {
+   "id": "teo_07",
+   "speaker": "teo",
+   "text": "Late shift. I like the town at night. Everything sounds further away.",
+   "time": "evening"
+  },
+  {
+   "id": "teo_08",
+   "speaker": "teo",
+   "text": "You fixed the tower road? I always wanted to see the tower up close. I mean, from a distance. Closer distance.",
+   "event": "site:static_tower"
+  },
+  {
+   "id": "teo_09",
+   "speaker": "teo",
+   "text": "People talk about the park like it's a story. You actually go in it. That's brave.",
+   "event": "jobs:3"
+  },
+  {
+   "id": "teo_10",
+   "speaker": "teo",
+   "text": "You're easy to talk to. I don't say that to people. I don't say a lot of things to people.",
+   "min_hearts": 2
+  },
+  {
+   "id": "teo_11",
+   "speaker": "teo",
+   "text": "I wrote something new. A few bars. Maybe one day I'll let somebody hear it.",
+   "min_hearts": 4
+  },
+  {
+   "id": "marge_01",
+   "speaker": "marge",
+   "text": "Ranger. Good. About time the park had one. Boots off the mat, please, I just swept.",
+   "intro": true
+  },
+  {
+   "id": "marge_02",
+   "speaker": "marge",
+   "text": "Layers. Always layers. The mountain doesn't care how you feel about it."
+  },
+  {
+   "id": "marge_03",
+   "speaker": "marge",
+   "text": "Nell's restless again. She gets it from me. Don't tell her that."
+  },
+  {
+   "id": "marge_04",
+   "speaker": "marge",
+   "text": "Sundays I close. I hike. Slowly. At my age the view comes to you."
+  },
+  {
+   "id": "marge_05",
+   "speaker": "marge",
+   "text": "Winter out there will eat you if you let it. Buy a proper coat. I'll sell you one.",
+   "season": "winter"
+  },
+  {
+   "id": "marge_06",
+   "speaker": "marge",
+   "text": "Rain shell. You need a rain shell. I'm not selling, I'm advising. Also selling.",
+   "weather": "rain"
+  },
+  {
+   "id": "marge_07",
+   "speaker": "marge",
+   "text": "Morning. Coffee? No. Wren's coffee? Fine.",
+   "time": "morning"
+  },
+  {
+   "id": "marge_08",
+   "speaker": "marge",
+   "text": "Heard you made it to the outlook. Good. Some people only look at maps.",
+   "event": "site:outlook"
+  },
+  {
+   "id": "marge_09",
+   "speaker": "marge",
+   "text": "Found a lost party, did you? Good ranger work. Quietly done. That's how it should be.",
+   "event": "milestone:first_found"
+  },
+  {
+   "id": "marge_10",
+   "speaker": "marge",
+   "text": "You're doing all right. I don't say that often. Don't make me say it twice.",
+   "min_hearts": 2
+  },
+  {
+   "id": "marge_11",
+   "speaker": "marge",
+   "text": "I had a ranger's patch once. Long time ago. Lent it to someone. Never got it back. Never minded.",
+   "min_hearts": 4
+  },
+  {
+   "id": "nell_01",
+   "speaker": "nell",
+   "text": "You're the ranger? Lucky. You get to go in every day. I've been meaning to for years.",
+   "intro": true
+  },
+  {
+   "id": "nell_02",
+   "speaker": "nell",
+   "text": "Mom thinks I'm going to leave town. I think she might be right. I don't know."
+  },
+  {
+   "id": "nell_03",
+   "speaker": "nell",
+   "text": "Some mornings I walk to the gate and just look down the road. Then I come to work.",
+   "time": "morning"
+  },
+  {
+   "id": "nell_04",
+   "speaker": "nell",
+   "text": "The rock round here is good rock. Nobody climbs it. That's a crime."
+  },
+  {
+   "id": "nell_05",
+   "speaker": "nell",
+   "text": "Summer. Best light for climbing. Worst light for selling coats.",
+   "season": "summer"
+  },
+  {
+   "id": "nell_06",
+   "speaker": "nell",
+   "text": "Rain. Everybody buys a rain shell and tells me about their knees.",
+   "weather": "rain"
+  },
+  {
+   "id": "nell_07",
+   "speaker": "nell",
+   "text": "If you ever need someone to carry the other end of something heavy, I'm free after five."
+  },
+  {
+   "id": "nell_08",
+   "speaker": "nell",
+   "text": "The tower's open? Is it as tall as it looks from the road? Taller? Don't tell me. Tell me.",
+   "event": "site:static_tower"
+  },
+  {
+   "id": "nell_09",
+   "speaker": "nell",
+   "text": "People are camping out there now. In tents. In the park. I'm jealous of strangers.",
+   "event": "milestone:first_visitors"
+  },
+  {
+   "id": "nell_10",
+   "speaker": "nell",
+   "text": "Thanks for listening. Most people just tell me to go or stay.",
+   "min_hearts": 2
+  },
+  {
+   "id": "nell_11",
+   "speaker": "nell",
+   "text": "You make it look easy, out there. I know it isn't. That's why it's impressive.",
+   "min_hearts": 4
+  },
+  {
+   "id": "agnes_01",
+   "speaker": "agnes",
+   "text": "So you're the ranger. Good. Do you read? You look like someone who reads. Or someone who wants to.",
+   "intro": true
+  },
+  {
+   "id": "agnes_02",
+   "speaker": "agnes",
+   "text": "A question is a door. An answer is a wall. I prefer doors."
+  },
+  {
+   "id": "agnes_03",
+   "speaker": "agnes",
+   "text": "The library closes Thursdays. Even books need a day with nobody looking at them."
+  },
+  {
+   "id": "agnes_04",
+   "speaker": "agnes",
+   "text": "Rainy afternoons are for reading rooms. And for napping in them, quietly, with a book open.",
+   "weather": "rain"
+  },
+  {
+   "id": "agnes_05",
+   "speaker": "agnes",
+   "text": "Morning. You're early. Early people find the best books. Late people find the funniest.",
+   "time": "morning"
+  },
+  {
+   "id": "agnes_06",
+   "speaker": "agnes",
+   "text": "The archive has a drawer for every year of the park. Some drawers are fuller than others."
+  },
+  {
+   "id": "agnes_07",
+   "speaker": "agnes",
+   "text": "Autumn is the park's best season for reading about. Not for being in. Too many leaves.",
+   "season": "autumn"
+  },
+  {
+   "id": "agnes_08",
+   "speaker": "agnes",
+   "text": "You opened the old cabin? There's a photograph of it in the archive. Same door. Different paint.",
+   "event": "site:old_cabin"
+  },
+  {
+   "id": "agnes_09",
+   "speaker": "agnes",
+   "text": "Kettle Pond, open again. There's a poem about it in the local history section. It's not a good poem.",
+   "event": "site:kettle_pond"
+  },
+  {
+   "id": "agnes_10",
+   "speaker": "agnes",
+   "text": "You ask good questions. Keep asking them. I'll keep not answering them properly.",
+   "min_hearts": 2
+  },
+  {
+   "id": "agnes_11",
+   "speaker": "agnes",
+   "text": "I've worked here forty years. You're the first ranger to ask for the history section.",
+   "min_hearts": 4
+  },
+  {
+   "id": "bev_01",
+   "speaker": "bev",
+   "text": "A ranger! Ooh. Do you find things out there? Interesting things? Things people might want?",
+   "intro": true
+  },
+  {
+   "id": "bev_02",
+   "speaker": "bev",
+   "text": "Everything in this shop is either a bargain or a treasure. Sometimes both. Never neither."
+  },
+  {
+   "id": "bev_03",
+   "speaker": "bev",
+   "text": "Tuesdays I close and go bargain hunting. I always come back with something. Usually a teapot."
+  },
+  {
+   "id": "bev_04",
+   "speaker": "bev",
+   "text": "Have you heard about Gus? No? Neither have I. Nothing ever happens to Gus. Terribly frustrating."
+  },
+  {
+   "id": "bev_05",
+   "speaker": "bev",
+   "text": "Rain keeps the browsers in. Browsers are buyers who haven't admitted it yet.",
+   "weather": "rain"
+  },
+  {
+   "id": "bev_06",
+   "speaker": "bev",
+   "text": "Winter. I sell candles by the crate. Everybody wants to look cozy.",
+   "season": "winter"
+  },
+  {
+   "id": "bev_07",
+   "speaker": "bev",
+   "text": "Evening. I do my sums. They come out different every time. It's very exciting.",
+   "time": "evening"
+  },
+  {
+   "id": "bev_08",
+   "speaker": "bev",
+   "text": "Visitors! In the park! Do they shop? Send them to me. Say Bev sent you. No, say you sent them.",
+   "event": "milestone:first_visitors"
+  },
+  {
+   "id": "bev_09",
+   "speaker": "bev",
+   "text": "A badger? Making mischief? Oh, I'd pay to see that. I'd sell tickets.",
+   "event": "badger"
+  },
+  {
+   "id": "bev_10",
+   "speaker": "bev",
+   "text": "You've got good taste. For a person who lives in a hut.",
+   "min_hearts": 2
+  },
+  {
+   "id": "bev_11",
+   "speaker": "bev",
+   "text": "Between us, the best things in this shop aren't for sale. Don't tell the mayor.",
+   "min_hearts": 4
+  },
+  {
+   "id": "gus_01",
+   "speaker": "gus",
+   "text": "Ranger.",
+   "intro": true
+  },
+  {
+   "id": "gus_02",
+   "speaker": "gus",
+   "text": "Good wood's honest. Tells you where it wants to split."
+  },
+  {
+   "id": "gus_03",
+   "speaker": "gus",
+   "text": "Weekends I'm closed. I still come in. Just to look at things."
+  },
+  {
+   "id": "gus_04",
+   "speaker": "gus",
+   "text": "Rain. Wood swells. Wait a day.",
+   "weather": "rain"
+  },
+  {
+   "id": "gus_05",
+   "speaker": "gus",
+   "text": "Morning.",
+   "time": "morning"
+  },
+  {
+   "id": "gus_06",
+   "speaker": "gus",
+   "text": "Planks, roofing, nails. Same price as the catalog. Same day."
+  },
+  {
+   "id": "gus_07",
+   "speaker": "gus",
+   "text": "Summer's for decks. Winter's for drawers. Spring's for fixing what winter did.",
+   "season": "spring"
+  },
+  {
+   "id": "gus_08",
+   "speaker": "gus",
+   "text": "The cabin door's back on. Good hinges, those. I know because I made them.",
+   "event": "site:old_cabin"
+  },
+  {
+   "id": "gus_09",
+   "speaker": "gus",
+   "text": "You've been building. I can tell from your hands.",
+   "event": "jobs:5"
+  },
+  {
+   "id": "gus_10",
+   "speaker": "gus",
+   "text": "Thanks for stopping in.",
+   "min_hearts": 2
+  },
+  {
+   "id": "gus_11",
+   "speaker": "gus",
+   "text": "Measure twice. Cut once. Talk... less than that.",
+   "min_hearts": 4
+  },
+  {
+   "id": "sol_01",
+   "speaker": "sol",
+   "text": "Oh! The ranger. I paint the park. From photographs. I've never actually... it's a long story. It's a short story.",
+   "intro": true
+  },
+  {
+   "id": "sol_02",
+   "speaker": "sol",
+   "text": "The light by the creek in the afternoon is the closest I get to the forest. I'm working up to it."
+  },
+  {
+   "id": "sol_03",
+   "speaker": "sol",
+   "text": "Every painting I do of the park comes out a little different. I think the park's doing it."
+  },
+  {
+   "id": "sol_04",
+   "speaker": "sol",
+   "text": "Rain. I paint inside on rainy days. Mostly I watch the rain and call it research.",
+   "weather": "rain"
+  },
+  {
+   "id": "sol_05",
+   "speaker": "sol",
+   "text": "Autumn colours. Every year I run out of orange.",
+   "season": "autumn"
+  },
+  {
+   "id": "sol_06",
+   "speaker": "sol",
+   "text": "Afternoon. I've been sitting here an hour looking at one tree. It's going well.",
+   "time": "afternoon"
+  },
+  {
+   "id": "sol_07",
+   "speaker": "sol",
+   "text": "You opened the outlook? What does it look like from up there? Really look like?",
+   "event": "site:outlook"
+  },
+  {
+   "id": "sol_08",
+   "speaker": "sol",
+   "text": "Somebody saw the pond's open. I've painted that pond four times. I've never seen it.",
+   "event": "site:kettle_pond"
+  },
+  {
+   "id": "sol_09",
+   "speaker": "sol",
+   "text": "You describe the park better than my photographs do. Keep talking.",
+   "min_hearts": 2
+  },
+  {
+   "id": "sol_10",
+   "speaker": "sol",
+   "text": "Maybe one day I'll walk in with you. Not today. But one day. Probably.",
+   "min_hearts": 4
+  },
+  {
+   "id": "lyle_01",
+   "speaker": "lyle",
+   "text": "Welcome, welcome! Mayor Pruitt. Welcome to Humdrum, the most ordinary town in the region. We're very proud.",
+   "intro": true
+  },
+  {
+   "id": "lyle_02",
+   "speaker": "lyle",
+   "text": "Humdrum has won no awards. We're extremely consistent about it."
+  },
+  {
+   "id": "lyle_03",
+   "speaker": "lyle",
+   "text": "Nothing happened here yesterday. Nothing is scheduled for tomorrow. Marvellous."
+  },
+  {
+   "id": "lyle_04",
+   "speaker": "lyle",
+   "text": "The weather is entirely normal for the time of year. I checked."
+  },
+  {
+   "id": "lyle_05",
+   "speaker": "lyle",
+   "text": "Rain! Ordinary rain. Wonderful.",
+   "weather": "rain"
+  },
+  {
+   "id": "lyle_06",
+   "speaker": "lyle",
+   "text": "Weekends I'm at the bandstand, practising announcements. There's nothing to announce. Practice is important."
+  },
+  {
+   "id": "lyle_07",
+   "speaker": "lyle",
+   "text": "Spring! The Thaw Fair is coming. It'll be exactly as nice as last year. I'm very excited.",
+   "season": "spring"
+  },
+  {
+   "id": "lyle_08",
+   "speaker": "lyle",
+   "text": "The park's having visitors? Ordinary people doing ordinary things. Splendid. Put it in the newsletter.",
+   "event": "milestone:first_visitors"
+  },
+  {
+   "id": "lyle_09",
+   "speaker": "lyle",
+   "text": "A troll badger in the park? Well, that's a perfectly normal sort of badger to have.",
+   "event": "badger"
+  },
+  {
+   "id": "lyle_10",
+   "speaker": "lyle",
+   "text": "You're a credit to this town. And to ordinariness generally.",
+   "min_hearts": 2
+  },
+  {
+   "id": "lyle_11",
+   "speaker": "lyle",
+   "text": "I wrote you into this month's newsletter. 'Ranger continues to be fine.' Front page.",
+   "min_hearts": 4
+  },
+  {
+   "id": "esme_01",
+   "speaker": "esme",
+   "text": "Hello, ranger. I wondered when you'd come. Not in a mysterious way. You walk past here a lot.",
+   "intro": true
+  },
+  {
+   "id": "esme_02",
+   "speaker": "esme",
+   "text": "The cards say you'll have soup this week. The cards are very literal on Tuesdays."
+  },
+  {
+   "id": "esme_03",
+   "speaker": "esme",
+   "text": "I open one evening a week. Which one? That's the fun."
+  },
+  {
+   "id": "esme_04",
+   "speaker": "esme",
+   "text": "Rain is the sky being honest.",
+   "weather": "rain"
+  },
+  {
+   "id": "esme_05",
+   "speaker": "esme",
+   "text": "Evening. My favourite. Things are clearer when there's less to see.",
+   "time": "evening"
+  },
+  {
+   "id": "esme_06",
+   "speaker": "esme",
+   "text": "Winter nights are long. Long nights are good for questions.",
+   "season": "winter"
+  },
+  {
+   "id": "esme_07",
+   "speaker": "esme",
+   "text": "The willow knows more than I do. It just won't say."
+  },
+  {
+   "id": "esme_08",
+   "speaker": "esme",
+   "text": "You've been to the tower. I can tell. You're standing like someone who climbed stairs.",
+   "event": "site:static_tower"
+  },
+  {
+   "id": "esme_09",
+   "speaker": "esme",
+   "text": "You found people who were lost. That's the right kind of finding.",
+   "event": "milestone:first_found"
+  },
+  {
+   "id": "esme_10",
+   "speaker": "esme",
+   "text": "You're learning to look sideways at things. Good. That's where most things are.",
+   "min_hearts": 2
+  },
+  {
+   "id": "esme_11",
+   "speaker": "esme",
+   "text": "Nothing I tell you is a secret. Some of it just takes a while to be true.",
+   "min_hearts": 4
+  },
+  {
+   "id": "pip_01",
+   "speaker": "pip",
+   "text": "Are you the RANGER? The real one? Have you seen Bigfoot? Have you seen ANYTHING? I'm Pip.",
+   "intro": true
+  },
+  {
+   "id": "pip_02",
+   "speaker": "pip",
+   "text": "Grandma says I can come to the square if I'm home before the lamps come on. They come on at dusk."
+  },
+  {
+   "id": "pip_03",
+   "speaker": "pip",
+   "text": "I'm making a field guide. It has eleven pages. Ten are Bigfoot. One is a squirrel I wasn't sure about."
+  },
+  {
+   "id": "pip_04",
+   "speaker": "pip",
+   "text": "Do rangers have to do homework? You should. It's only fair."
+  },
+  {
+   "id": "pip_05",
+   "speaker": "pip",
+   "text": "It's raining! Footprints are easier to find in mud. That's science.",
+   "weather": "rain"
+  },
+  {
+   "id": "pip_06",
+   "speaker": "pip",
+   "text": "Summer holidays! I'm going to be a junior ranger all summer. Starting now.",
+   "season": "summer"
+  },
+  {
+   "id": "pip_07",
+   "speaker": "pip",
+   "text": "When I grow up I'm going to be a ranger too. I'll have my own station. With a slide."
+  },
+  {
+   "id": "pip_08",
+   "speaker": "pip",
+   "text": "Grandpa says the badger in the park is just a badger. Grandpa has never seen a badger, though.",
+   "event": "badger"
+  },
+  {
+   "id": "pip_09",
+   "speaker": "pip",
+   "text": "There are PEOPLE camping in the park now? Did they see anything? Can you ask them?",
+   "event": "milestone:first_visitors"
+  },
+  {
+   "id": "pip_10",
+   "speaker": "pip",
+   "text": "You're the best ranger I know. You're the only ranger I know. Still the best though.",
+   "min_hearts": 2
+  },
+  {
+   "id": "pip_11",
+   "speaker": "pip",
+   "text": "I drew you. You're taller in the drawing. It's a good drawing.",
+   "min_hearts": 4
+  },
+  {
+   "id": "wren_15",
+   "speaker": "wren",
+   "text": "Mondays everyone orders a double. Fridays everyone orders a treat. Wednesdays I sleep."
+  },
+  {
+   "id": "wren_16",
+   "speaker": "wren",
+   "text": "If you see Gus, tell him his usual is ready. It's always ready. He always looks surprised."
+  },
+  {
+   "id": "wren_17",
+   "speaker": "wren",
+   "text": "I named the espresso machine. I'm not telling you what. It knows."
+  },
+  {
+   "id": "wren_18",
+   "speaker": "wren",
+   "text": "The square's quiet today. Quiet's my favourite flavour, after cinnamon."
+  },
+  {
+   "id": "wren_19",
+   "speaker": "wren",
+   "text": "You've got sap on your sleeve. Badge of honour, around here."
+  },
+  {
+   "id": "rosa_13",
+   "speaker": "rosa",
+   "text": "My mother's recipe, my grandmother's pot, my kitchen. Teo's apron. He'll grow into it."
+  },
+  {
+   "id": "rosa_14",
+   "speaker": "rosa",
+   "text": "You want to know a secret? Extra lime. On everything. That's the secret."
+  },
+  {
+   "id": "rosa_15",
+   "speaker": "rosa",
+   "text": "The mayor says Humdrum is ordinary. The mayor has never eaten my mole."
+  },
+  {
+   "id": "rosa_16",
+   "speaker": "rosa",
+   "text": "Sit down for once. The forest isn't going anywhere. I checked."
+  },
+  {
+   "id": "teo_12",
+   "speaker": "teo",
+   "text": "Mom says I should talk to customers more. Hi. That's me talking to a customer."
+  },
+  {
+   "id": "teo_13",
+   "speaker": "teo",
+   "text": "Have you ever had a song stuck in your head that you've never actually heard?"
+  },
+  {
+   "id": "teo_14",
+   "speaker": "teo",
+   "text": "The square sounds different on market mornings. Busier. Like a rhythm section."
+  },
+  {
+   "id": "teo_15",
+   "speaker": "teo",
+   "text": "I'm practising the guitar. Quietly. Very quietly. Basically just holding it."
+  },
+  {
+   "id": "teo_16",
+   "speaker": "teo",
+   "text": "Wren says I'm a morning person who doesn't know it yet. I don't know it yet."
+  },
+  {
+   "id": "marge_12",
+   "speaker": "marge",
+   "text": "Socks matter more than boots. Nobody believes me until their third blister."
+  },
+  {
+   "id": "marge_13",
+   "speaker": "marge",
+   "text": "Nell reorganised the rope wall by colour. It's lovely. Nobody can find anything."
+  },
+  {
+   "id": "marge_14",
+   "speaker": "marge",
+   "text": "I've climbed higher than anyone in this town. Mind you, it's a low town."
+  },
+  {
+   "id": "marge_15",
+   "speaker": "marge",
+   "text": "Bring a spare everything. Then a spare spare."
+  },
+  {
+   "id": "marge_16",
+   "speaker": "marge",
+   "text": "Ask me about weather and I'll tell you what my knees say. They're never wrong."
+  },
+  {
+   "id": "nell_12",
+   "speaker": "nell",
+   "text": "I've got a list of every peak within a day's drive. I've climbed none of them. Yet."
+  },
+  {
+   "id": "nell_13",
+   "speaker": "nell",
+   "text": "Mom says Pelletiers don't sit still. She's been sitting on that stool for twenty years."
+  },
+  {
+   "id": "nell_14",
+   "speaker": "nell",
+   "text": "The best view in town is from the outfitters' roof. Don't tell Mom I go up there."
+  },
+  {
+   "id": "nell_15",
+   "speaker": "nell",
+   "text": "Wren's coffee could get you up a cliff. Or at least to the bottom of one."
+  },
+  {
+   "id": "nell_16",
+   "speaker": "nell",
+   "text": "Sometimes I just walk the lane end to end. Twice. It's not much of a hike."
+  },
+  {
+   "id": "agnes_12",
+   "speaker": "agnes",
+   "text": "Overdue books are like old friends. They come back when they're ready."
+  },
+  {
+   "id": "agnes_13",
+   "speaker": "agnes",
+   "text": "Pip has read every book we have about Bigfoot. Twice. We have three."
+  },
+  {
+   "id": "agnes_14",
+   "speaker": "agnes",
+   "text": "The quietest sound in the world is a library at closing time. I collect it."
+  },
+  {
+   "id": "agnes_15",
+   "speaker": "agnes",
+   "text": "If you're looking for something, look one shelf to the left. It's always there."
+  },
+  {
+   "id": "agnes_16",
+   "speaker": "agnes",
+   "text": "The mayor borrowed a book on excitement once. Returned it unread. Very sensible of him."
+  },
+  {
+   "id": "bev_12",
+   "speaker": "bev",
+   "text": "I've got a teapot shaped like a teapot. It's my most ordinary item. The mayor loves it."
+  },
+  {
+   "id": "bev_13",
+   "speaker": "bev",
+   "text": "Everything's half price on Fridays. Everything's also double price on Thursdays. It evens out."
+  },
+  {
+   "id": "bev_14",
+   "speaker": "bev",
+   "text": "Rosa says I talk too much. Rosa talks more than me. I counted."
+  },
+  {
+   "id": "bev_15",
+   "speaker": "bev",
+   "text": "A ranger's hat would sell for a fortune in here. Just saying. Just mentioning it."
+  },
+  {
+   "id": "bev_16",
+   "speaker": "bev",
+   "text": "I once sold a lamp to the same person three times. They kept giving it as a present."
+  },
+  {
+   "id": "gus_12",
+   "speaker": "gus",
+   "text": "Hm."
+  },
+  {
+   "id": "gus_13",
+   "speaker": "gus",
+   "text": "Oak's slow. Pine's quick. Both good."
+  },
+  {
+   "id": "gus_14",
+   "speaker": "gus",
+   "text": "Wren's coffee. Good."
+  },
+  {
+   "id": "gus_15",
+   "speaker": "gus",
+   "text": "Bring your hammer in sometime. I'll look at the handle."
+  },
+  {
+   "id": "gus_16",
+   "speaker": "gus",
+   "text": "Nice weather for sanding."
+  },
+  {
+   "id": "sol_11",
+   "speaker": "sol",
+   "text": "I mix a colour called Park Green. It's not quite right. It's never quite right."
+  },
+  {
+   "id": "sol_12",
+   "speaker": "sol",
+   "text": "Do you think trees know when they're being painted? They hold very still."
+  },
+  {
+   "id": "sol_13",
+   "speaker": "sol",
+   "text": "I sold a painting of the lake to a tourist. I've never seen the lake. Neither had they."
+  },
+  {
+   "id": "sol_14",
+   "speaker": "sol",
+   "text": "Agnes says I should paint the town. I said the town is already painted. Badly. By Bev."
+  },
+  {
+   "id": "sol_15",
+   "speaker": "sol",
+   "text": "Every morning I put my boots by the door, just in case today's the day."
+  },
+  {
+   "id": "sol_16",
+   "speaker": "sol",
+   "text": "Wren gives me free refills if I sketch her customers. I've drawn the mayor forty times."
+  },
+  {
+   "id": "lyle_12",
+   "speaker": "lyle",
+   "text": "The town clock is exactly on time. I adjust it every morning to make sure."
+  },
+  {
+   "id": "lyle_13",
+   "speaker": "lyle",
+   "text": "Our population is entirely steady. Nobody leaves. Nobody arrives. Except you. Welcome."
+  },
+  {
+   "id": "lyle_14",
+   "speaker": "lyle",
+   "text": "I'm drafting a speech for the Thaw Fair. It's about the importance of thawing."
+  },
+  {
+   "id": "lyle_15",
+   "speaker": "lyle",
+   "text": "Humdrum's motto: Nothing To Report. I'm very proud of it. I wrote it."
+  },
+  {
+   "id": "esme_12",
+   "speaker": "esme",
+   "text": "The moon was early last night. Not by much. It knows I noticed."
+  },
+  {
+   "id": "esme_13",
+   "speaker": "esme",
+   "text": "Bring me a question sometime. The cards prefer questions to statements."
+  },
+  {
+   "id": "esme_14",
+   "speaker": "esme",
+   "text": "Everyone in town has the same future: breakfast. After that it gets interesting."
+  },
+  {
+   "id": "esme_15",
+   "speaker": "esme",
+   "text": "The creek runs both ways if you watch it long enough. Not really. But it's nice to think so."
+  },
+  {
+   "id": "esme_16",
+   "speaker": "esme",
+   "text": "I knew you'd say hello. I'm glad you did anyway."
+  },
+  {
+   "id": "pip_12",
+   "speaker": "pip",
+   "text": "Did you know a raccoon can open a jar? I can't. That's not fair."
+  },
+  {
+   "id": "pip_13",
+   "speaker": "pip",
+   "text": "I'm practising tracking. I tracked Grandma to the kitchen. She was making soup."
+  },
+  {
+   "id": "pip_14",
+   "speaker": "pip",
+   "text": "If you need a junior ranger I'm available after school and on Saturdays and also Sundays."
+  },
+  {
+   "id": "pip_15",
+   "speaker": "pip",
+   "text": "My field guide has a new page. It's about you. It says 'tall, has a hat'."
+  }
+ ]
+}

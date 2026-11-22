@@ -10,6 +10,7 @@ var world: SubViewport
 var session: GameSession
 var world_view: WorldView
 var interior_view: InteriorView
+var town_view: TownView
 var ranger: RangerSprite
 var camera: Camera2D
 var effects: ScreenEffects
@@ -60,6 +61,10 @@ func _ready() -> void:
 	interior_view.visible = false
 	world.add_child(interior_view)
 	interior_view.setup(session)
+	town_view = TownView.new()
+	town_view.visible = false
+	world.add_child(town_view)
+	town_view.setup(session)
 	hint_overlay = HintOverlay.new()
 	world.add_child(hint_overlay)
 	hint_overlay.setup(session)
@@ -81,6 +86,11 @@ func _ready() -> void:
 			clipboard.open(key))
 
 	session.location_changed.connect(_on_location_changed)
+	session.town_changed.connect(func(_in: bool) -> void: _on_location_changed(session.location))
+	session.townsperson_spoke.connect(func(talk: Dictionary) -> void:
+		var h := int(talk["hearts"])
+		var hearts := session.content.text("town_heart_1") if h == 1 else session.content.text("town_hearts", {"n": h})
+		_show_dialog("talk", "%s  ·  %s\n\n%s" % [talk["name"], hearts, talk["text"]]))
 	session.storage_opened.connect(func(title: String, inv: Inventory) -> void: inventory_screen.open(inv, title))
 	session.radio_heard.connect(func(lines: PackedStringArray) -> void: _show_dialog("radio", "\n".join(lines)))
 	session.confirm_requested.connect(func(kind: String, text: String) -> void: _show_dialog(kind, text))
@@ -340,6 +350,13 @@ func _night_glows() -> Array[Vector4]:
 	if not Daylight.is_night(t, session.clock.season_name(), session.clock.minute):
 		return out
 	var xf := world_view.get_canvas_transform()
+	if session.in_town:
+		for at: Vector2 in town_view.lamps:
+			var sp := xf * at
+			if sp.x < -80 or sp.y < -80 or sp.x > VIEW.x + 80 or sp.y > VIEW.y + 80:
+				continue
+			out.append(Vector4(sp.x, sp.y, t.num("town_look.lamp_glow_tiles") * TILE, t.num("town_look.lamp_glow_strength")))
+		return out
 	if session.is_indoors():
 		var layout: InteriorLayout = session.interiors[session.location]
 		for f: Dictionary in layout.furniture:
@@ -468,6 +485,17 @@ func _begin() -> void:
 
 func _on_location_changed(loc: String) -> void:
 	inventory_screen.close()
+	town_view.visible = false
+	if session.in_town:
+		world_view.visible = false
+		interior_view.visible = false
+		town_view.visible = true
+		ranger.reparent(town_view.sort_root)
+		camera.limit_left = 0
+		camera.limit_top = 0
+		camera.limit_right = session.town.size.x * TILE
+		camera.limit_bottom = session.town.size.y * TILE
+		return
 	if loc == "":
 		interior_view.visible = false
 		world_view.visible = true
@@ -492,7 +520,15 @@ func _on_location_changed(loc: String) -> void:
 ## indoors. Hidden while a screen is open.
 func _update_look() -> void:
 	hud.look_text = ""
-	if menu_open() or not session.is_indoors():
+	if menu_open():
+		return
+	if session.in_town:
+		var who := session.town_person_in_reach()
+		if who != "":
+			hud.look_text = str(session.content.row("townsfolk", who)["name"])
+			hud.look_at = world_view.get_canvas_transform() * town_view.head_of(who)
+		return
+	if not session.is_indoors():
 		return
 	var f := session.furniture_in_reach()
 	var label := session.furniture_label(f)

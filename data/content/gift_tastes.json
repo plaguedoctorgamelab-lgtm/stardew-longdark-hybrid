@@ -1,0 +1,245 @@
+{
+ "note": "Phase 4: what each person loves, likes, dislikes and hates. An item may be named, or a group (group:<item kind>). Anything not named is neutral. Each person loves at least one thing found only in the park.",
+ "rows": [
+  {
+   "id": "_all",
+   "note": "Everyone: what nobody minds.",
+   "love": [],
+   "like": [
+    "group:gift"
+   ],
+   "dislike": [],
+   "hate": []
+  },
+  {
+   "id": "wren",
+   "love": [
+    "roast_hazelnuts",
+    "berry_preserve",
+    "rose_hip_tea"
+   ],
+   "like": [
+    "berries",
+    "hazelnuts",
+    "pressed_flower_card",
+    "apple",
+    "wildflowers"
+   ],
+   "dislike": [
+    "stones",
+    "sticks"
+   ],
+   "hate": [
+    "nails"
+   ]
+  },
+  {
+   "id": "rosa",
+   "love": [
+    "wild_onion",
+    "hot_soup",
+    "fiddlehead_fry"
+   ],
+   "like": [
+    "fiddleheads",
+    "mushrooms",
+    "apple",
+    "pine_resin_candle"
+   ],
+   "dislike": [
+    "trail_mix"
+   ],
+   "hate": [
+    "tin_of_beans"
+   ]
+  },
+  {
+   "id": "teo",
+   "love": [
+    "carved_pinecone_figure",
+    "reeds"
+   ],
+   "like": [
+    "rose_hip_tea",
+    "sandwich",
+    "painted_stone",
+    "berries"
+   ],
+   "dislike": [
+    "roofing"
+   ],
+   "hate": [
+    "pine_resin"
+   ]
+  },
+  {
+   "id": "marge",
+   "love": [
+    "rope",
+    "trail_mix"
+   ],
+   "like": [
+    "roast_hazelnuts",
+    "hot_soup",
+    "stones",
+    "firewood"
+   ],
+   "dislike": [
+    "pressed_flower_card"
+   ],
+   "hate": [
+    "wildflowers"
+   ]
+  },
+  {
+   "id": "nell",
+   "love": [
+    "rope",
+    "fiddleheads"
+   ],
+   "like": [
+    "trail_mix",
+    "apple",
+    "hazelnuts",
+    "stones"
+   ],
+   "dislike": [
+    "planks"
+   ],
+   "hate": [
+    "sandwich"
+   ]
+  },
+  {
+   "id": "agnes",
+   "love": [
+    "pressed_flower_card",
+    "rose_hip_tea"
+   ],
+   "like": [
+    "wildflowers",
+    "painted_stone",
+    "apple",
+    "berries"
+   ],
+   "dislike": [
+    "firewood"
+   ],
+   "hate": [
+    "nails"
+   ]
+  },
+  {
+   "id": "bev",
+   "love": [
+    "carved_pinecone_figure",
+    "painted_stone",
+    "pine_resin_candle",
+    "pine_resin"
+   ],
+   "like": [
+    "pressed_flower_card",
+    "berry_preserve",
+    "wildflowers"
+   ],
+   "dislike": [
+    "sticks"
+   ],
+   "hate": [
+    "stones"
+   ]
+  },
+  {
+   "id": "gus",
+   "love": [
+    "planks",
+    "roast_hazelnuts"
+   ],
+   "like": [
+    "pine_resin",
+    "firewood",
+    "nails",
+    "hot_soup"
+   ],
+   "dislike": [
+    "wildflowers"
+   ],
+   "hate": [
+    "berry_preserve"
+   ]
+  },
+  {
+   "id": "sol",
+   "love": [
+    "wildflowers",
+    "painted_stone"
+   ],
+   "like": [
+    "reeds",
+    "pressed_flower_card",
+    "mushrooms",
+    "rose_hips"
+   ],
+   "dislike": [
+    "nails"
+   ],
+   "hate": [
+    "trail_mix"
+   ]
+  },
+  {
+   "id": "lyle",
+   "love": [
+    "tin_of_beans"
+   ],
+   "like": [
+    "sandwich",
+    "apple",
+    "planks"
+   ],
+   "dislike": [
+    "mushrooms"
+   ],
+   "hate": [
+    "carved_pinecone_figure"
+   ]
+  },
+  {
+   "id": "esme",
+   "love": [
+    "rose_hips",
+    "pine_resin_candle"
+   ],
+   "like": [
+    "mushrooms",
+    "reeds",
+    "rose_hip_tea"
+   ],
+   "dislike": [
+    "tin_of_beans"
+   ],
+   "hate": [
+    "apple"
+   ]
+  },
+  {
+   "id": "pip",
+   "love": [
+    "berries",
+    "carved_pinecone_figure"
+   ],
+   "like": [
+    "apple",
+    "trail_mix",
+    "painted_stone",
+    "sticks"
+   ],
+   "dislike": [
+    "mushrooms"
+   ],
+   "hate": [
+    "rose_hip_tea"
+   ]
+  }
+ ]
+}

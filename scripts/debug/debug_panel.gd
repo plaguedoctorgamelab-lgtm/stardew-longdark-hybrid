@@ -82,8 +82,18 @@ func setup(s: GameSession) -> void:
 	r = _row()
 	for spot: String in ["station", "fork", "outlook", "cabin", "pond", "tower", "bridge"]:
 		_btn(r, spot.capitalize(), func() -> void:
+			session.leave_town()
 			session.debug_teleport(spot)
 			on_teleport.call())
+	# Phase 4: Humdrum, and friendship to try the heart lines.
+	_btn(r, "Town", func() -> void:
+		if session.is_indoors():
+			session.leave_building()
+		session.enter_town())
+	_btn(r, "+1 heart all", func() -> void:
+		for id: String in session.content.ids("townsfolk"):
+			session.town.add_points(id, session.tuning.integer("friendship.points_per_heart"))
+		session.message.emit("Everyone in town: +1 heart."))
 
 	r = _row()
 	_btn(r, "Clear in front", func() -> void: session.debug_clear_obstacle(session.ranger_tile() + session.facing_vector()))

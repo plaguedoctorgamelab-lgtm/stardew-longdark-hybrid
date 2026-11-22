@@ -168,7 +168,7 @@
   },
   {
    "id": "hud_date",
-   "text": "{season} {day}, Year {year}",
+   "text": "{weekday} {season} {day}, Y{year}",
    "placeholder": true
   },
   {
@@ -5779,6 +5779,98 @@
   {
    "id": "furn_staff_board",
    "text": "Staff board"
+  },
+  {
+   "id": "msg_town_enter",
+   "text": "Through the gate and down the road: Humdrum."
+  },
+  {
+   "id": "town_notice_board",
+   "text": "The Humdrum notice board. A lost glove, a lost cat (found), the Thaw Fair's date, and a card that says: \"Odd jobs? Ask in person.\" Favors will be pinned here soon."
+  },
+  {
+   "id": "town_door_home",
+   "text": "{name}. Someone's home."
+  },
+  {
+   "id": "town_hours",
+   "text": "{open} to {close}"
+  },
+  {
+   "id": "town_door_open",
+   "text": "{name}: open, {hours}. Inside comes in the next build."
+  },
+  {
+   "id": "town_door_closed",
+   "text": "{name}: closed now. Open {hours}."
+  },
+  {
+   "id": "town_gift_love",
+   "text": "{name} loves the {item}!"
+  },
+  {
+   "id": "town_gift_like",
+   "text": "{name} likes the {item}."
+  },
+  {
+   "id": "town_gift_neutral",
+   "text": "{name} thanks you for the {item}."
+  },
+  {
+   "id": "town_gift_dislike",
+   "text": "{name} takes the {item}, politely."
+  },
+  {
+   "id": "town_gift_hate",
+   "text": "{name} looks at the {item} for a long moment."
+  },
+  {
+   "id": "town_gift_birthday",
+   "text": "A birthday gift! {name} is delighted with the {item}."
+  },
+  {
+   "id": "town_gift_no",
+   "text": "That's not something to give away."
+  },
+  {
+   "id": "town_gift_limit",
+   "text": "{name} has had two gifts this week already."
+  },
+  {
+   "id": "town_hearts",
+   "text": "{n} of 10 hearts"
+  },
+  {
+   "id": "town_heart_1",
+   "text": "1 heart"
+  },
+  {
+   "id": "day_mon",
+   "text": "Mon"
+  },
+  {
+   "id": "day_tue",
+   "text": "Tue"
+  },
+  {
+   "id": "day_wed",
+   "text": "Wed"
+  },
+  {
+   "id": "day_thu",
+   "text": "Thu"
+  },
+  {
+   "id": "day_fri",
+   "text": "Fri"
+  },
+  {
+   "id": "day_sat",
+   "text": "Sat"
+  },
+  {
+   "id": "day_sun",
+   "text": "Sun"
   }
  ]
 }

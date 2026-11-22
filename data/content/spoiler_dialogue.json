@@ -1,0 +1,77 @@
+{
+ "note": "SPOILERS. Phase 4: what each person remembers of the last ranger, from the Phase 4 spoiler addendum. Hints only, each from one point of view; none settles what happened. Read like dialogue.json.",
+ "rows": [
+  {
+   "id": "mem_wren",
+   "speaker": "wren",
+   "text": "There's a mug on the hook behind the counter. Big, plain, black. Somebody had a large black coffee here at five every morning, once. Then one morning, they didn't.",
+   "min_hearts": 3
+  },
+  {
+   "id": "mem_rosa",
+   "speaker": "rosa",
+   "text": "The last ranger ate tamales on Fridays and always paid for whoever came in after them. Lonely, I think. A person who pays for strangers is lonely.",
+   "min_hearts": 3
+  },
+  {
+   "id": "mem_teo",
+   "speaker": "teo",
+   "text": "The last ranger used to hum something. A tune. I've never been able to place it. I wrote it down, though. Just in case.",
+   "min_hearts": 3
+  },
+  {
+   "id": "mem_marge",
+   "speaker": "marge",
+   "text": "The last ranger bought nails. Far more nails than one person needs. 'Building something,' they said. Never said what.",
+   "min_hearts": 3
+  },
+  {
+   "id": "mem_nell",
+   "speaker": "nell",
+   "text": "The last ranger told me once that the view from the tower was different at night. I've wanted to climb it ever since.",
+   "min_hearts": 3
+  },
+  {
+   "id": "mem_agnes",
+   "speaker": "agnes",
+   "text": "The last ranger borrowed every book we have on the park's early days. They brought them all back. Well. All but one.",
+   "min_hearts": 3
+  },
+  {
+   "id": "mem_bev",
+   "speaker": "bev",
+   "text": "The last ranger sold me carvings of animals. I didn't recognise a single one. I kept one. It's on the high shelf. Not for sale.",
+   "min_hearts": 3
+  },
+  {
+   "id": "mem_gus",
+   "speaker": "gus",
+   "text": "Built the cabin's door for the last ranger. To their pattern. Strange pattern. I still have it.",
+   "min_hearts": 3
+  },
+  {
+   "id": "mem_sol",
+   "speaker": "sol",
+   "text": "I never met the last ranger. I have a photograph of them, though, waving from a bridge. I don't know who took it.",
+   "min_hearts": 3
+  },
+  {
+   "id": "mem_lyle",
+   "speaker": "lyle",
+   "text": "The last ranger? Perfectly ordinary. A thoroughly ordinary person. Highest praise I have.",
+   "min_hearts": 3
+  },
+  {
+   "id": "mem_esme",
+   "speaker": "esme",
+   "text": "The last ranger asked better questions than you. You'll catch up.",
+   "min_hearts": 3
+  },
+  {
+   "id": "mem_pip",
+   "speaker": "pip",
+   "text": "I met the last ranger when I was five! They showed me a footprint and said, don't tell anyone, they're shy. So I didn't. Except now. And you're a ranger, so it's allowed.",
+   "min_hearts": 3
+  }
+ ]
+}

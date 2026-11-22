@@ -1,0 +1,441 @@
+{
+ "note": "Phase 4: the people of Humdrum, as proposed in the Phase 4 Spec (the designer's to keep, cut or change). birthday: season 0 spring .. 3 winter. sprite: a person's own walk sheet (16 x 32 frames, rows down, right, up, left), or empty for one built from the visitors' layers in look's colours.",
+ "rows": [
+  {
+   "id": "wren",
+   "name": "Wren Okafor",
+   "age": "30s",
+   "role": "Runs The Percolator",
+   "home": "percolator",
+   "romance": true,
+   "birthday": {
+    "season": 1,
+    "day": 9
+   },
+   "sprite": "npc_wren",
+   "look": {}
+  },
+  {
+   "id": "rosa",
+   "name": "Rosa Mendoza",
+   "age": "50s",
+   "role": "Runs Casa Luna",
+   "home": "house_mendoza",
+   "romance": false,
+   "birthday": {
+    "season": 2,
+    "day": 3
+   },
+   "sprite": "",
+   "look": {
+    "skin": [
+     196,
+     140,
+     98
+    ],
+    "hair": [
+     40,
+     32,
+     32
+    ],
+    "shirt": [
+     176,
+     64,
+     52
+    ],
+    "pants": [
+     60,
+     52,
+     64
+    ],
+    "hat": ""
+   }
+  },
+  {
+   "id": "teo",
+   "name": "Teo Mendoza",
+   "age": "20s",
+   "role": "Cooks at Casa Luna",
+   "home": "house_mendoza",
+   "romance": true,
+   "birthday": {
+    "season": 0,
+    "day": 22
+   },
+   "sprite": "",
+   "look": {
+    "skin": [
+     196,
+     140,
+     98
+    ],
+    "hair": [
+     32,
+     26,
+     26
+    ],
+    "shirt": [
+     236,
+     232,
+     220
+    ],
+    "pants": [
+     58,
+     72,
+     104
+    ],
+    "hat": "visitor_hat_beanie",
+    "hat_color": [
+     176,
+     64,
+     52
+    ]
+   }
+  },
+  {
+   "id": "marge",
+   "name": "Marge Pelletier",
+   "age": "60s",
+   "role": "Runs Humdrum Outfitters",
+   "home": "house_pelletier",
+   "romance": false,
+   "birthday": {
+    "season": 3,
+    "day": 11
+   },
+   "sprite": "",
+   "look": {
+    "skin": [
+     236,
+     188,
+     150
+    ],
+    "hair": [
+     210,
+     210,
+     214
+    ],
+    "shirt": [
+     56,
+     110,
+     80
+    ],
+    "pants": [
+     120,
+     96,
+     70
+    ],
+    "hat": ""
+   }
+  },
+  {
+   "id": "nell",
+   "name": "Nell Pelletier",
+   "age": "30s",
+   "role": "Works at the outfitters",
+   "home": "house_pelletier",
+   "romance": true,
+   "birthday": {
+    "season": 1,
+    "day": 26
+   },
+   "sprite": "",
+   "look": {
+    "skin": [
+     236,
+     188,
+     150
+    ],
+    "hair": [
+     150,
+     84,
+     50
+    ],
+    "shirt": [
+     232,
+     150,
+     60
+    ],
+    "pants": [
+     70,
+     80,
+     96
+    ],
+    "hat": "visitor_hat_beanie",
+    "hat_color": [
+     56,
+     110,
+     80
+    ]
+   }
+  },
+  {
+   "id": "agnes",
+   "name": "Agnes Thistlewood",
+   "age": "70s",
+   "role": "Librarian",
+   "home": "house_thistlewood",
+   "romance": false,
+   "birthday": {
+    "season": 3,
+    "day": 4
+   },
+   "sprite": "",
+   "look": {
+    "skin": [
+     240,
+     200,
+     170
+    ],
+    "hair": [
+     226,
+     226,
+     232
+    ],
+    "shirt": [
+     120,
+     84,
+     140
+    ],
+    "pants": [
+     90,
+     70,
+     96
+    ],
+    "hat": ""
+   }
+  },
+  {
+   "id": "bev",
+   "name": "Bev Kowalski",
+   "age": "40s",
+   "role": "Runs Gifts & Notions",
+   "home": "house_kowalski",
+   "romance": false,
+   "birthday": {
+    "season": 0,
+    "day": 6
+   },
+   "sprite": "",
+   "look": {
+    "skin": [
+     236,
+     190,
+     160
+    ],
+    "hair": [
+     200,
+     150,
+     60
+    ],
+    "shirt": [
+     220,
+     110,
+     150
+    ],
+    "pants": [
+     80,
+     60,
+     96
+    ],
+    "hat": ""
+   }
+  },
+  {
+   "id": "gus",
+   "name": "Gus Lindqvist",
+   "age": "50s",
+   "role": "The carpenter",
+   "home": "house_lindqvist",
+   "romance": false,
+   "birthday": {
+    "season": 2,
+    "day": 15
+   },
+   "sprite": "",
+   "look": {
+    "skin": [
+     230,
+     180,
+     140
+    ],
+    "hair": [
+     170,
+     140,
+     100
+    ],
+    "shirt": [
+     150,
+     60,
+     50
+    ],
+    "pants": [
+     90,
+     74,
+     56
+    ],
+    "hat": ""
+   }
+  },
+  {
+   "id": "sol",
+   "name": "Sol Arden",
+   "age": "30s",
+   "role": "A painter by the creek",
+   "home": "house_arden",
+   "romance": true,
+   "birthday": {
+    "season": 0,
+    "day": 17
+   },
+   "sprite": "",
+   "look": {
+    "skin": [
+     170,
+     120,
+     90
+    ],
+    "hair": [
+     60,
+     44,
+     40
+    ],
+    "shirt": [
+     100,
+     150,
+     190
+    ],
+    "pants": [
+     200,
+     190,
+     160
+    ],
+    "hat": "visitor_hat_wide",
+    "hat_color": [
+     200,
+     170,
+     100
+    ]
+   }
+  },
+  {
+   "id": "lyle",
+   "name": "Mayor Lyle Pruitt",
+   "age": "60s",
+   "role": "Town Hall",
+   "home": "house_pruitt",
+   "romance": false,
+   "birthday": {
+    "season": 1,
+    "day": 2
+   },
+   "sprite": "",
+   "look": {
+    "skin": [
+     236,
+     196,
+     166
+    ],
+    "hair": [
+     150,
+     150,
+     156
+    ],
+    "shirt": [
+     70,
+     74,
+     90
+    ],
+    "pants": [
+     60,
+     62,
+     74
+    ],
+    "hat": ""
+   }
+  },
+  {
+   "id": "esme",
+   "name": "Esme Vale",
+   "age": "Unknown",
+   "role": "The fortune teller",
+   "home": "caravan",
+   "romance": false,
+   "birthday": {
+    "season": 2,
+    "day": 27
+   },
+   "sprite": "",
+   "look": {
+    "skin": [
+     214,
+     170,
+     130
+    ],
+    "hair": [
+     90,
+     56,
+     96
+    ],
+    "shirt": [
+     90,
+     60,
+     130
+    ],
+    "pants": [
+     60,
+     44,
+     80
+    ],
+    "hat": "visitor_hat_wide",
+    "hat_color": [
+     60,
+     44,
+     80
+    ]
+   }
+  },
+  {
+   "id": "pip",
+   "name": "Pip Abernathy",
+   "age": "10",
+   "role": "Wants to be a ranger",
+   "home": "house_abernathy",
+   "romance": false,
+   "birthday": {
+    "season": 3,
+    "day": 19
+   },
+   "sprite": "",
+   "child": true,
+   "look": {
+    "skin": [
+     236,
+     190,
+     150
+    ],
+    "hair": [
+     180,
+     110,
+     60
+    ],
+    "shirt": [
+     60,
+     130,
+     80
+    ],
+    "pants": [
+     150,
+     120,
+     80
+    ],
+    "hat": "visitor_hat_wide",
+    "hat_color": [
+     196,
+     160,
+     104
+    ]
+   }
+  }
+ ]
+}

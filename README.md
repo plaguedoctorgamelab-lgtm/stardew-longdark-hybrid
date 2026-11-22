@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.5.4** (see [Version history](#version-history)). The
+**Current version: 0.6.0** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -101,6 +101,17 @@ docs/              bible, roadmap, specs, rules, status reports (hidden from God
 
 The version lives in `project.godot` (`application/config/version`). Every
 commit of the build raises it and adds a line here.
+
+### 0.6.0 (21 November 2026): Phase 4, first pass: Humdrum
+
+From `docs/Phase 4 Spec.md`, 4a steps 1 to 4 (notes for Mark: `docs/status/060_status.md`).
+
+- **Humdrum** (`scripts/town/`, `tools/bake_town.py`, `data/world/town.json`): X at the park gate leads into town, walking east along the road leads back. While in town the park keeps the ranger at its gate, so weather, warmth and the clock carry on. Main Street, the square with its bandstand and notice board, two lanes, Dusk Creek and its footbridge, eight houses, the shops, the library, Town Hall and the caravan. Streetlamps glow at night. Mark's Percolator, Casa Luna, town ground and Wren; lab stand-ins for the rest.
+- **Named days:** day 1 of each season is a Monday; the clock shows the day; the Chief's report falls on Sundays.
+- **Twelve townsfolk** (`townsfolk`, `routines`, `town_places`): homes, birthdays, a routine per day with rain and weekday exceptions, walking between places along paths; keepers at their open shops' doors, everyone inside at home.
+- **Talking and friendship** (`dialogue`, `spoiler_dialogue`, tuning `friendship`): one line a day, none repeated within a week, lines about what was done in the park, heart lines; 20 points for talking once a day; hearts never go down; romance candidates stop at 8 hearts until dating.
+- **Gifts** (`gift_tastes`): loved, liked, neutral, disliked and hated, two a week plus a birthday gift worth eight times.
+- Debug panel: Town, and +1 heart all.
 
 ### 0.5.4 (21 November 2026): the graphics refresh, first pass
 

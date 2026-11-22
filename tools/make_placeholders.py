@@ -655,6 +655,7 @@ def main():
     cursor_placeholders.cursor_art()
     import guide_placeholders
     guide_placeholders.interior_guide_art(Canvas)
+    guide_placeholders.town_art(Canvas)
     print("placeholders written to", OUT, len(os.listdir(OUT)), "files")
 
 

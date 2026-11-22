@@ -207,7 +207,7 @@ func _process(delta: float) -> void:
 	if session == null:
 		return
 	var c := session.clock
-	date_label.text = session.content.text("hud_date", {"season": session.content.text("season_" + c.season_name()).substr(0, 3), "day": c.day, "year": c.year})
+	date_label.text = session.content.text("hud_date", {"weekday": session.content.text("day_" + c.weekday_key()), "season": session.content.text("season_" + c.season_name()).substr(0, 3), "day": c.day, "year": c.year})
 	time_label.text = c.time_text()
 	money_label.text = session.content.text("hud_money", {"n": session.park.money.wallet})
 	weather_icon.texture = Art.texture(session.weather_icon())

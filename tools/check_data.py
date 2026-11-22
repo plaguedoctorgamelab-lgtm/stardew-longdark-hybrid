@@ -10,7 +10,7 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONTENT = os.path.join(ROOT, "data", "content")
-TABLES = ["items", "foods", "weather_types", "weather_odds", "structures", "landmarks", "jobs", "obstacles", "recipes", "sites", "notes", "text", "spoiler_finds", "spoiler_text", "art_variety", "forage", "skills", "specialties", "magic_variants", "ideas", "spoiler_magic", "facilities", "placeables", "catalog", "income_sources", "visitor_types", "staff_roles", "staff_people", "badger_mischief", "suggestion_cards", "chief_letters", "pads", "spoiler_pads", "spoiler_cards", "job_types", "givers", "job_steps", "rewards", "job_templates", "job_spots", "spoiler_jobs", "spoiler_job_spots", "noticeables", "spoiler_more"]
+TABLES = ["items", "foods", "weather_types", "weather_odds", "structures", "landmarks", "jobs", "obstacles", "recipes", "sites", "notes", "text", "spoiler_finds", "spoiler_text", "art_variety", "forage", "skills", "specialties", "magic_variants", "ideas", "spoiler_magic", "facilities", "placeables", "catalog", "income_sources", "visitor_types", "staff_roles", "staff_people", "badger_mischief", "suggestion_cards", "chief_letters", "pads", "spoiler_pads", "spoiler_cards", "job_types", "givers", "job_steps", "rewards", "job_templates", "job_spots", "spoiler_jobs", "spoiler_job_spots", "noticeables", "spoiler_more", "music", "townsfolk", "town_places", "routines", "gift_tastes", "dialogue", "spoiler_dialogue"]
 
 
 def main():

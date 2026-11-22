@@ -31,6 +31,10 @@ signal piles_changed
 ## A tool landed on a tile (Graphics Polish: hit-stop and hit reactions).
 ## kind: "fell", "tree", "brush", "trunk", "dirt" or "stone".
 signal tool_landed(tool: String, tile: Vector2i, kind: String)
+## The ranger walked into Humdrum through the park gate, or back out.
+signal town_changed(in_town: bool)
+## A townsperson spoke: {"person", "name", "text", "hearts"}.
+signal townsperson_spoke(talk: Dictionary)
 ## The ranger walked the trail somewhere in one go (trail travel).
 signal traveled
 
@@ -126,6 +130,11 @@ var last_collapse_cause: String = ""   # why the ranger last passed out
 var bench_boxes: Dictionary = {}       # structure id -> Inventory: each workbench's own small box
 var recipes_new: Array[String] = []    # recipes learned since the last "you can make this now" pop-up
 var shelf_seen: Dictionary = {}      # structure id -> the supply shelf as last looked at
+# Phase 4: Humdrum, outside the gate. While in town the park still has the
+# ranger at its gate (outdoor_pos), so the park's rules carry on unchanged.
+var town: Town
+var in_town: bool = false
+var town_pos: Vector2 = Vector2.ZERO
 
 
 func _init(tuning_path: String = Tuning.DEFAULT_PATH, content_dir: String = ContentDB.CONTENT_DIR, world_dir: String = WorldData.WORLD_DIR) -> void:
@@ -168,6 +177,8 @@ func _init(tuning_path: String = Tuning.DEFAULT_PATH, content_dir: String = Cont
 		if str(sp["where"]) != "outdoor" and not sp.has("furniture") and interiors.has(sp["where"]):
 			(interiors[sp["where"]] as InteriorLayout).furniture.append({"id": id, "kind": "job_spot", "pos": sp["pos"], "size": sp["size"], "sprite": sp["sprite"]})
 	jobs.spots_changed.connect(_refresh_spot_rooms)
+	town = Town.new(self)
+	clock.day_started.connect(func(_d: int, _s: int, _y: int) -> void: town.people = {})
 
 
 # --- starting and loading ---------------------------------------------------
@@ -230,6 +241,9 @@ func new_game(new_seed: int = -1) -> void:
 	camp_changed.emit()
 	weather.check_change(clock.minute)
 	jobs.new_game()
+	town.new_game()
+	in_town = false
+	town_pos = town.entry
 
 
 ## Rooms hide the small job things once they are done and gone.
@@ -253,7 +267,10 @@ func to_dict() -> Dictionary:
 			"location": location,
 			"facing": facing,
 			"selected_slot": selected_slot,
+			"in_town": in_town,
+			"town_pos": [town_pos.x, town_pos.y],
 		},
+		"town": town.to_dict(),
 		"needs": needs.to_dict(),
 		"backpack": backpack.to_array(),
 		"structures": structures.to_dict(),
@@ -303,6 +320,13 @@ func from_dict(d: Dictionary) -> void:
 		interior_pos = clear_spot(layout, interior_pos)
 	facing = int(r["facing"])
 	selected_slot = int(r["selected_slot"])
+	# Phase 4: a save from before the town has none of it.
+	town.from_dict(d.get("town", {}))
+	in_town = bool(r.get("in_town", false))
+	var tp: Array = r.get("town_pos", [town.entry.x, town.entry.y])
+	town_pos = Vector2(float(tp[0]), float(tp[1]))
+	if in_town and town.is_solid(Vector2i(floori(town_pos.x), floori(town_pos.y))):
+		town_pos = town.entry
 	needs.from_dict(d["needs"])
 	# Phase 2b state; a phase 2a save has none, and starts at level 0 with the
 	# starting recipes and no ideas.
@@ -417,6 +441,8 @@ func is_indoors() -> bool:
 
 
 func ranger_pos() -> Vector2:
+	if in_town:
+		return town_pos
 	return interior_pos if is_indoors() else outdoor_pos
 
 
@@ -539,6 +565,8 @@ func process(real_delta: float) -> void:
 	clock.process(real_delta)
 	park.advance_to(park_minute())
 	jobs.process(real_delta)
+	if in_town:
+		town.update(real_delta)
 
 
 ## The clock's minute with the part of the current ten minutes gone by, so
@@ -565,6 +593,13 @@ func move(direction: Vector2, real_delta: float) -> void:
 	var box_arr: Array = tuning.value("movement.ranger_box_tiles")
 	var box := Vector2(float(box_arr[0]), float(box_arr[1]))
 	var motion := dir * speed_tiles_per_second() * real_delta
+	if in_town:
+		town_pos = Mover.move(town_pos, motion, box, town.is_solid)
+		_walked_this_step += motion.length()
+		# The park road's end, east: back through the gate.
+		if town_pos.x >= town.exit_x:
+			leave_town()
+		return
 	if is_indoors():
 		var layout: InteriorLayout = interiors[location]
 		interior_pos = Mover.move(interior_pos, motion, box, layout.is_solid)
@@ -900,8 +935,98 @@ func leave_building() -> void:
 
 # --- interacting and using items -------------------------------------------
 
+## Through the park gate into Humdrum (Phase 4): like walking into a
+## building, but outdoors.
+func enter_town() -> void:
+	if in_town:
+		return
+	_cancel_survey()
+	in_town = true
+	town_pos = town.entry
+	facing = FACING_LEFT
+	town.place_everyone()
+	town_changed.emit(true)
+	message.emit(content.text("msg_town_enter"))
+
+
+## Back out of town to the park side of the gate.
+func leave_town() -> void:
+	if not in_town:
+		return
+	in_town = false
+	outdoor_pos = gate_front()
+	facing = FACING_RIGHT
+	_last_tile = Vector2i(-9999, -9999)
+	town_changed.emit(false)
+
+
+## The park side of the gate, where the ranger comes back from town.
+func gate_front() -> Vector2:
+	var g: Array = world.meta.get("gate", [2, 1442])
+	var p := Vector2(float(g[0]) + float(tuning.value("town.gate_offset")[0]), float(g[1]) + float(tuning.value("town.gate_offset")[1]))
+	if world.is_solid(Vector2i(p)):
+		return world.spawn("station")
+	return p
+
+
+## X in town: talk to the person in reach; read the notice board; or a
+## building's door, with its name and hours.
+func _interact_town() -> void:
+	var person := town.person_near(town_pos, tuning.num("town.talk_reach_tiles"))
+	if person != "":
+		var talk := town.talk(person)
+		talk["person"] = person
+		townsperson_spoke.emit(talk)
+		return
+	if town.notice_board_near(town_pos, tuning.num("town.door_reach_tiles")):
+		note_read.emit(content.text("town_notice_board"))
+		return
+	var door := town.door_at(town_pos, tuning.num("town.door_reach_tiles"))
+	if door != "" and content.has("town_places", door):
+		message.emit(place_line(door))
+
+
+## A building's door: its name, and whether it is open.
+func place_line(place: String) -> String:
+	var r := content.row("town_places", place)
+	if not r.has("open"):
+		return content.text("town_door_home", {"name": r["name"]})
+	var hours := content.text("town_hours", {"open": GameClock.time_of(int(r["open"])), "close": GameClock.time_of(int(r["close"]))})
+	if town.is_open(place):
+		return content.text("town_door_open", {"name": r["name"], "hours": hours})
+	return content.text("town_door_closed", {"name": r["name"], "hours": hours})
+
+
+## The name over the person X would talk to in town, or "".
+func town_person_in_reach() -> String:
+	if not in_town:
+		return ""
+	return town.person_near(town_pos, tuning.num("town.talk_reach_tiles"))
+
+
+## C in town with something held: give it to the person in reach.
+func _use_in_town() -> void:
+	var person := town_person_in_reach()
+	var item := selected_item()
+	if person == "" or item == "":
+		return
+	var res := town.give(person, item)
+	var who := str(content.row("townsfolk", person)["name"]).get_slice(" ", 0)
+	if str(person) == "lyle":
+		who = "Mayor Pruitt"
+	if not res["ok"]:
+		if res["reason"] in ["no", "limit"]:
+			message.emit(content.text("town_gift_" + str(res["reason"]), {"name": who}))
+		return
+	var key := "town_gift_birthday" if bool(res.get("birthday", false)) else "town_gift_" + str(res["taste"])
+	message.emit(content.text(key, {"name": who, "item": content.item_name(item).to_lower()}))
+
+
 func interact() -> void:
 	if pending_confirm != "":
+		return
+	if in_town:
+		_interact_town()
 		return
 	if is_indoors():
 		_interact_inside()
@@ -973,7 +1098,7 @@ func interact() -> void:
 	if what.begins_with("find:"):
 		discover(what.substr(5))
 	elif what == "gate":
-		message.emit(content.text("msg_gate_closed"))
+		enter_town()
 	elif what.begins_with("landmark:"):
 		_interact_landmark(what.substr(9))
 
@@ -1121,6 +1246,9 @@ func work_job_spot(id: String) -> void:
 ## Uses the held item.
 func use_item() -> void:
 	if pending_confirm != "":
+		return
+	if in_town:
+		_use_in_town()
 		return
 	var item := selected_item()
 	if item == "":
