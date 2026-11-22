@@ -586,6 +586,12 @@ func _close_dialog(yes: bool) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	# F12 takes a picture anywhere, the title screen included.
+	if event.is_action_pressed("screenshot"):
+		var path := Screenshot.take(get_viewport())
+		if started:
+			session.message.emit(session.content.text("msg_screenshot", {"file": path.get_file()}) if path != "" else session.content.text("msg_screenshot_failed"))
+		return
 	if not started:
 		return
 	if event.is_action_pressed("debug_panel") and OS.is_debug_build():

@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.6.4** (see [Version history](#version-history)). The
+**Current version: 0.6.5** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -43,6 +43,7 @@ Needs Godot 4.7.2 stable (the lab's build uses
 | L | Skills page (and choose a waiting specialty) |
 | Y or Enter / N | Answer a question (sleep) |
 | V | Show the version number |
+| F12 | Screenshot, saved to your Downloads folder as "Strange Ranger" and the date and time |
 | F1 | Debug panel (test builds only) |
 
 The lantern lights the dark while it is the held item. Saving happens only
@@ -101,6 +102,10 @@ docs/              bible, roadmap, specs, rules, status reports (hidden from God
 
 The version lives in `project.godot` (`application/config/version`). Every
 commit of the build raises it and adds a line here.
+
+### 0.6.5 (22 November 2026): F12 screenshots
+
+- **F12** saves what's on screen to the Downloads folder, named with the game and the date and time ("Strange Ranger 2026-11-22 10-05-56.png"); two in one second get " (2)". It works anywhere, the title screen included, and says where it went. Without a Downloads folder it saves to the game's user folder. Code: `scripts/core/screenshot.gd`; test: `tests/test_screenshot_065.gd`.
 
 ### 0.6.4 (22 November 2026): Mark's fixed interior pieces
 

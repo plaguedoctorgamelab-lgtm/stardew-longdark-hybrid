@@ -6131,6 +6131,16 @@
    "id": "shop_honour_jar",
    "text": "{name} is out. A note on the counter says: \"Back soon! Leave the money in the jar.\"",
    "placeholder": true
+  },
+  {
+   "id": "msg_screenshot",
+   "text": "Screenshot saved to Downloads: {file}",
+   "placeholder": true
+  },
+  {
+   "id": "msg_screenshot_failed",
+   "text": "The screenshot couldn't be saved.",
+   "placeholder": true
   }
  ]
 }
