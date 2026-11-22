@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.6.5** (see [Version history](#version-history)). The
+**Current version: 0.6.6** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -102,6 +102,10 @@ docs/              bible, roadmap, specs, rules, status reports (hidden from God
 
 The version lives in `project.godot` (`application/config/version`). Every
 commit of the build raises it and adds a line here.
+
+### 0.6.6 (22 November 2026): Art Request 19, the town
+
+- **Art Request 19** (`docs/art/art_request_19_town.md`), written from Mark's three Stardew town pictures (in `ref/stardew_town/`, not in git): eight sheets covering the fifteen stand-in buildings, ground edges, street furniture, greenery, yards and seasonal touches. Pictures of the town as it looks now are in `docs/art/ar19_town_today/`, taken with `tests/support/screenshots_town_today.gd`. No game changes.
 
 ### 0.6.5 (22 November 2026): F12 screenshots
 
