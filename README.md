@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.7.7** (see [Version history](#version-history)). The
+**Current version: 0.7.8** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -44,6 +44,7 @@ Needs Godot 4.7.2 stable (the lab's build uses
 | Y or Enter / N | Answer a question (sleep) |
 | V | Show the version number |
 | O | People page and calendar (Q / E to turn) |
+| C | Ranger page: the clothes worn, what each does, and the spare clothes |
 | F11 | Full screen or a window (the game starts full screen) |
 | F12 | Screenshot, saved to your Downloads folder as "Strange Ranger" and the date and time |
 | F1 | Debug panel (test builds only) |
@@ -104,6 +105,27 @@ docs/              bible, roadmap, specs, rules, status reports (hidden from God
 
 The version lives in `project.godot` (`application/config/version`). Every
 commit of the build raises it and adds a line here.
+
+**How the numbers go (from 0.7.8).** The middle number moves only when a
+phase is finished; the last number counts every build and runs on past 9
+(0.7.9, 0.7.10, 0.7.11, and so on), so the version can't reach 1.0 early.
+
+| Version | When |
+| --- | --- |
+| 0.7.x | the rest of Phase 4, Humdrum |
+| 0.8.x | Phase 5, Creatures and night |
+| 0.9.x | Phase 6, The whole forest |
+| 0.10.x | Phase 7, Year one polish |
+| 0.11.x to 0.14.x | Phases 8 to 11, one region each |
+| 1.0.0 | every phase done |
+
+### 0.7.8 (23 November 2026): Mark's lunchtime tracker reports on 0.7.7
+
+- **The mailbox is off the path** (tracker #42): it stands against the station's right-hand wall now (`GameSession.mailbox_pos`), and opens from a step further away.
+- **The catalog shows what's on order** (#43, #44): today's orders, and anything waiting for room on the supply shelf, are listed greyed at the top of the catalog (`Park.ordered_lines`).
+- **The Ranger page, on C** (#45): the hat, coat and boots worn, each with what it does, and everything added up (`scripts/ui/ranger_screen.gd`). Clothes not being worn are kept as spare clothes (`Wardrobe.spare`, saved): they take no room in the backpack. Click one to put it on; what comes off joins them, so a full backpack no longer stops a change of clothes. Clothes bought in town go straight there.
+- **Slower version numbers**: see "How the numbers go" above. The middle number moves only when a phase is finished.
+- Tests: `tests/test_tracker_078.gd`, and `test_clothing` now expects taken-off clothes in the spare clothes. Screenshots: `docs/status/078_shots/` (`tests/support/screenshots_078.gd`).
 
 ### 0.7.7 (23 November 2026): Mark's portraits
 

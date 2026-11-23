@@ -29,6 +29,7 @@ var title_note: Label
 var pause_menu: Panel
 var book_screen: BookScreen
 var social_screen: SocialScreen
+var ranger_screen: RangerScreen   # the Ranger page: clothes worn and spare (C)
 var clipboard: ClipboardScreen
 var job_card: JobCardScreen
 var job_note: JobNote
@@ -222,6 +223,9 @@ func _build_menus() -> void:
 	social_screen = SocialScreen.new()
 	root.add_child(social_screen)
 	social_screen.setup(session)
+	ranger_screen = RangerScreen.new()
+	root.add_child(ranger_screen)
+	ranger_screen.setup(session)
 	clipboard = ClipboardScreen.new()
 	root.add_child(clipboard)
 	clipboard.setup(session)
@@ -598,7 +602,7 @@ func _update_look() -> void:
 
 
 func menu_open() -> bool:
-	return title_screen.visible or pause_menu.visible or options_panel.visible or inventory_screen.visible or map_screen.visible or dialog.visible or choice_screen.visible or book_screen.visible or social_screen.visible or clipboard.visible or job_card.visible
+	return title_screen.visible or pause_menu.visible or options_panel.visible or inventory_screen.visible or map_screen.visible or dialog.visible or choice_screen.visible or book_screen.visible or social_screen.visible or ranger_screen.visible or clipboard.visible or job_card.visible
 
 
 ## The speaker's portrait for the talk box: Mark's portrait in the mood
@@ -709,6 +713,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			book_screen.close()
 		elif social_screen.visible:
 			social_screen.close()
+		elif ranger_screen.visible:
+			ranger_screen.close()
 		elif map_screen.visible:
 			map_screen.close()
 		elif inventory_screen.visible:
@@ -738,6 +744,13 @@ func _unhandled_input(event: InputEvent) -> void:
 			social_screen.turn()
 		elif event.is_action_pressed("social") or event.is_action_pressed("cancel"):
 			social_screen.close()
+		return
+	if ranger_screen.visible:
+		if event.is_action_pressed("character") or event.is_action_pressed("cancel") or event.is_action_pressed("backpack"):
+			ranger_screen.close()
+		return
+	if event.is_action_pressed("character") and not menu_open():
+		ranger_screen.open()
 		return
 	if event.is_action_pressed("social") and not menu_open():
 		social_screen.open()

@@ -33,15 +33,15 @@ func test_each_piece_adds_its_warmth(t: TestCase) -> void:
 		t.check(Art.has_picture(str(r["overlay"])), "%s is drawn on the ranger" % r["id"])
 
 
-func test_putting_on_swaps_into_the_backpack(t: TestCase) -> void:
+func test_putting_on_swaps_into_the_spare_clothes(t: TestCase) -> void:
 	var s := TestCase.new_session()
 	s.backpack.add("wool_coat", 1)
 	t.check(s.put_on("wool_coat"), "the wool coat goes on")
 	t.equal(s.wardrobe.worn["coat"], "wool_coat", "and is worn")
 	t.equal(s.backpack.count("wool_coat"), 0, "out of the backpack")
-	t.equal(s.backpack.count("ranger_jacket"), 1, "the jacket goes into the backpack")
+	t.check(s.wardrobe.spare.has("ranger_jacket"), "the jacket goes with the spare clothes (0.7.8)")
 	t.check(s.put_on("ranger_jacket"), "and can go back on")
-	t.equal(s.backpack.count("wool_coat"), 1, "the coat back in the pack")
+	t.check(s.wardrobe.spare.has("wool_coat"), "the coat kept with the spare clothes")
 	s.backpack.add("wool_toque", 1)
 	s.put_on("wool_toque")
 	t.equal(s.wardrobe.base_sheet(), "ranger_nohat", "under a toque the ranger's hat comes off")

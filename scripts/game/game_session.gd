@@ -1148,9 +1148,11 @@ func _interact_town_room() -> void:
 		_talk_to(person)
 
 
-## Where the station's mailbox stands: beside the door, on the path.
+## Where the station's mailbox stands: against the station's right-hand
+## wall, off the path.
 func mailbox_pos() -> Vector2:
-	return door_front("ranger_station") + Vector2(2.0, 0.0)
+	var p: Dictionary = world.structure_placement("ranger_station")
+	return Vector2(float(p["pos"][0]) + float(p["size"][0]) + 1.5, float(p["pos"][1]) + float(p["size"][1]) - 0.5)
 
 
 ## Talks to someone in town. A favor step that wanted a word counts, and
@@ -1265,7 +1267,7 @@ func interact() -> void:
 		return
 	var reach := tuning.num("world.interact_reach_tiles")
 	# The station's mailbox: letters from town (Phase 4, Townsfolk Favors).
-	if town_open and outdoor_pos.distance_to(mailbox_pos()) <= 1.0:
+	if town_open and outdoor_pos.distance_to(mailbox_pos()) <= 1.5:
 		note_read.emit(content.text("fv_mailbox") + "\n\n" + favors.read_mail())
 		return
 	var sid := structure_at_door(outdoor_pos)
@@ -1484,15 +1486,16 @@ func work_job_spot(id: String) -> void:
 ## Uses the held item.
 ## Puts on a piece of clothing from the backpack; what it replaces goes
 ## into the backpack in its place (Phase 4, 4a step 6).
+## Puts on a piece from the backpack or the spare clothes. What comes off
+## goes with the spare clothes, so it never needs room in the backpack.
 func put_on(item: String) -> bool:
-	if not wardrobe.is_clothing(item) or backpack.count(item) == 0:
+	if not wardrobe.is_clothing(item):
 		return false
-	var slot := str(wardrobe.row(item)["slot"])
-	var off := str(wardrobe.worn.get(slot, ""))
-	backpack.remove(item, 1)
-	if off != "" and backpack.add(off, 1) > 0:
-		backpack.add(item, 1)
-		message.emit(content.text("msg_put_on_full", {"item": content.item_name(off).to_lower()}))
+	if wardrobe.spare.has(item):
+		pass
+	elif backpack.count(item) > 0:
+		backpack.remove(item, 1)
+	else:
 		return false
 	wardrobe.put_on(item)
 	message.emit(content.text("msg_put_on", {"item": content.item_name(item).to_lower()}))

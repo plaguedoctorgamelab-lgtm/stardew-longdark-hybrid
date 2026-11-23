@@ -6311,6 +6311,70 @@
    "text": "Wearing: {hat}, {coat}, {boots} (+{warmth} warmth outdoors)"
   },
   {
+   "id": "ui_catalog_ordered",
+   "text": "On order: {name}  -  here at 6:00"
+  },
+  {
+   "id": "ui_catalog_kit_for",
+   "text": "{name} for {place}"
+  },
+  {
+   "id": "ui_catalog_waiting",
+   "text": "On order: {name} ×{count}  -  waiting for room on the supply shelf"
+  },
+  {
+   "id": "shop_bought_clothes",
+   "text": "Bought: {item}, {price} gold. It's with your spare clothes: C to put it on."
+  },
+  {
+   "id": "item_use_ranger_hat",
+   "text": "the park's own hat: keeps the sun off, no extra warmth"
+  },
+  {
+   "id": "item_use_ranger_jacket",
+   "text": "+1 warmth outdoors"
+  },
+  {
+   "id": "item_use_work_boots",
+   "text": "sturdy boots, nothing special"
+  },
+  {
+   "id": "ui_ranger_title",
+   "text": "Ranger"
+  },
+  {
+   "id": "ui_ranger_hint",
+   "text": "C to close · click a spare piece to put it on"
+  },
+  {
+   "id": "ui_ranger_slot_hat",
+   "text": "Hat"
+  },
+  {
+   "id": "ui_ranger_slot_coat",
+   "text": "Coat"
+  },
+  {
+   "id": "ui_ranger_slot_boots",
+   "text": "Boots"
+  },
+  {
+   "id": "ui_ranger_totals",
+   "text": "All together: +{warmth} warmth every ten minutes outdoors · walking speed {speed}%"
+  },
+  {
+   "id": "ui_ranger_spare",
+   "text": "Spare clothes  (kept at the station: they take no room in the backpack)"
+  },
+  {
+   "id": "ui_ranger_none",
+   "text": "No spare clothes yet. The shops in town sell more."
+  },
+  {
+   "id": "ui_ranger_wear",
+   "text": "Put on"
+  },
+  {
    "id": "item_use_wool_toque",
    "text": "+1 warmth outdoors"
   },

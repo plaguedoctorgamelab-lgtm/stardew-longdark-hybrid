@@ -10,6 +10,7 @@ const SLOTS: Array[String] = ["hat", "coat", "boots"]
 
 var content: ContentDB
 var worn: Dictionary = {}   # slot -> clothing id
+var spare: Array[String] = []   # clothes owned but not worn: kept at the station, not in the backpack
 
 
 func _init(c: ContentDB) -> void:
@@ -19,6 +20,7 @@ func _init(c: ContentDB) -> void:
 
 func new_game() -> void:
 	worn = {}
+	spare = []
 	for r: Dictionary in content.rows("clothing"):
 		if bool(r.get("start", false)):
 			worn[str(r["slot"])] = str(r["id"])
@@ -63,7 +65,26 @@ func put_on(id: String) -> String:
 	var slot := str(row(id)["slot"])
 	var off := str(worn.get(slot, ""))
 	worn[slot] = id
+	spare.erase(id)
+	if off != "":
+		spare.append(off)
 	return off
+
+
+## Keeps a piece with the spare clothes (bought, or taken off).
+func keep(id: String) -> void:
+	if is_clothing(id):
+		spare.append(id)
+
+
+## Spare clothes in a steady order: by slot, then name.
+func spares_by_slot() -> Array[String]:
+	var out: Array[String] = spare.duplicate()
+	out.sort_custom(func(a: String, b: String) -> bool:
+		var sa := SLOTS.find(str(row(a)["slot"]))
+		var sb := SLOTS.find(str(row(b)["slot"]))
+		return sa < sb if sa != sb else a < b)
+	return out
 
 
 ## The ranger's picture: without the hat when another hat is worn, and an
@@ -83,7 +104,7 @@ func overlays() -> Array[String]:
 
 
 func to_dict() -> Dictionary:
-	return {"worn": worn.duplicate()}
+	return {"worn": worn.duplicate(), "spare": spare.duplicate()}
 
 
 func from_dict(d: Dictionary) -> void:
@@ -92,3 +113,6 @@ func from_dict(d: Dictionary) -> void:
 		var id := str(d["worn"][slot])
 		if is_clothing(id) and str(row(id)["slot"]) == slot:
 			worn[slot] = id
+	for id: Variant in (d.get("spare", []) as Array):
+		if is_clothing(str(id)):
+			spare.append(str(id))

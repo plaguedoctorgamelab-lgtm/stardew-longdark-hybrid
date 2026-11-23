@@ -210,7 +210,8 @@ func buy(place: String, kind: String, item: String) -> String:
 		s.message.emit(content.text("shop_cant_afford"))
 		return "shop_cant_afford"
 	var count := int(it.get("count", 1))
-	if kind != "here" and s.backpack.room_for(item) < count:
+	var clothes := s.wardrobe.is_clothing(item)
+	if kind != "here" and not clothes and s.backpack.room_for(item) < count:
 		s.message.emit(content.text("shop_no_room"))
 		return "shop_no_room"
 	s.park.money.spend(s.clock.absolute_day(), "shops", price)
@@ -228,6 +229,11 @@ func buy(place: String, kind: String, item: String) -> String:
 			s.needs.eat(food)
 			s.message.emit(content.text("shop_free_plate"))
 		s.pass_minutes(int(r.get("here_minutes", 0)))
+	elif clothes:
+		# Clothes go with the spare clothes, not the backpack: C to put them on.
+		for i in count:
+			s.wardrobe.keep(item)
+		s.message.emit(content.text("shop_bought_clothes", {"item": content.item_name(item).to_lower(), "price": price}))
 	else:
 		s.backpack.add(item, count)
 		s.message.emit(content.text("shop_bought", {"item": content.item_name(item).to_lower(), "price": price}))

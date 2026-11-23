@@ -561,7 +561,7 @@ func refund_for(pad_id: String) -> int:
 
 ## What can be ordered now: [{id, cat, pad, label, price, enabled}].
 func catalog_options() -> Array:
-	var out := []
+	var out := ordered_lines()
 	var jb: Jobs = s().jobs
 	for r: Dictionary in content.rows("catalog"):
 		var price := int(r["price"])
@@ -579,6 +579,24 @@ func catalog_options() -> Array:
 			out.append({"id": r["id"], "cat": r["id"], "pad": "", "price": price,
 				"label": content.text("ui_catalog_line", {"name": content.text(r["name"]), "price": price}),
 				"enabled": money.can_afford(price)})
+	return out
+
+
+## What's already ordered, shown greyed at the top of the catalog: today's
+## orders (here at 6:00) and anything still waiting for room on the shelf.
+func ordered_lines() -> Array:
+	var out := []
+	var n := 0
+	for o: Dictionary in orders:
+		var r := content.row("catalog", o["cat"])
+		var name := content.text(r["name"])
+		if str(o.get("pad", "")) != "":
+			name = content.text("ui_catalog_kit_for", {"name": name, "place": place_name(str(pad_row(o["pad"]).get("site", "")))})
+		out.append({"id": "ordered:%d" % n, "label": content.text("ui_catalog_ordered", {"name": name}), "enabled": false})
+		n += 1
+	for w: Array in shelf_waiting:
+		out.append({"id": "ordered:%d" % n, "label": content.text("ui_catalog_waiting", {"name": content.item_name(str(w[0])), "count": int(w[1])}), "enabled": false})
+		n += 1
 	return out
 
 
