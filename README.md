@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.7.1** (see [Version history](#version-history)). The
+**Current version: 0.7.2** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -103,6 +103,10 @@ docs/              bible, roadmap, specs, rules, status reports (hidden from God
 
 The version lives in `project.godot` (`application/config/version`). Every
 commit of the build raises it and adds a line here.
+
+### 0.7.2 (23 November 2026): Art Request 21, the rest of Phase 4
+
+- **Art Request 21** (`docs/art/art_request_21_rest_of_phase_4.md`): every picture the rest of Phase 4 needs. Part A (4a, wanted first) asks for the eleven townsfolk walk sheets, six clothing overlays for the ranger with their icons, the eight houses' insides, and the Social page, calendar, mailbox and favor pieces. Part B (4b) asks for emote bubbles, romance items, the fortune teller's cards, the four festivals' pieces, the station's upgrades with 30 decorating pieces and three walls and floors, and the garden's plot, nine crops and seeds. Portraits are an optional last section. No game changes.
 
 ### 0.7.1 (23 November 2026): Mark's Art Request 20
 
