@@ -1121,8 +1121,18 @@ func place_line(place: String) -> String:
 	if not r.has("open"):
 		return content.text("town_door_home", {"name": r["name"]})
 	var hours := content.text("town_hours", {"open": GameClock.time_of(int(r["open"])), "close": GameClock.time_of(int(r["close"]))})
+	# The days it shuts are part of its hours (tracker #30: the Percolator
+	# was shut on a Wednesday while its door said "open 5 am to 6 pm").
+	var shut: Array = r.get("closed", [])
+	if not shut.is_empty():
+		var names: Array[String] = []
+		for d: String in shut:
+			names.append(content.text("day_" + d))
+		hours = content.text("town_hours_closed_days", {"hours": hours, "days": ", ".join(names)})
 	if town.is_open(place):
 		return content.text("town_door_open", {"name": r["name"], "hours": hours})
+	if shut.has(town.weekday()):
+		return content.text("town_door_closed_today", {"name": r["name"], "day": content.text("day_" + town.weekday()), "hours": hours})
 	return content.text("town_door_closed", {"name": r["name"], "hours": hours})
 
 
@@ -1446,8 +1456,19 @@ func eat(item: String) -> bool:
 		var k := skills.value("cooked_food", 1.0)
 		food["energy"] = float(food["energy"]) * k
 		food["warmth"] = float(food["warmth"]) * k
+	var e0 := needs.energy
+	var w0 := needs.warmth
 	needs.eat(food)
-	message.emit(content.text("msg_ate", {"item": content.item_name(item).to_lower()}))
+	# Say what it did (tracker #32: hot soup seemed not to warm at all).
+	var gains: Array[String] = []
+	if needs.warmth > w0 + 0.5:
+		gains.append(content.text("msg_ate_warmth", {"n": roundi(needs.warmth - w0)}))
+	if needs.energy > e0 + 0.5:
+		gains.append(content.text("msg_ate_energy", {"n": roundi(needs.energy - e0)}))
+	var line := content.text("msg_ate", {"item": content.item_name(item).to_lower()})
+	if not gains.is_empty():
+		line += " " + content.text("msg_ate_gains", {"gains": ", ".join(gains)})
+	message.emit(line)
 	return true
 
 
@@ -1615,7 +1636,19 @@ func camp_sleep() -> void:
 
 func _is_choppable(t: Vector2i) -> bool:
 	var trees: Array = tuning.value("axe.trees")
-	return trees.has(world.object_at(t)) and not chopped.has(t)
+	return trees.has(world.object_at(t)) and not chopped.has(t) and not _kept_trees().has(t)
+
+
+## Trees the axe leaves alone: the dead tree that marks the fork (tuning
+## axe.keep, in the first ring's tiles), though the burn's dead trees are
+## felled (tracker #31).
+var _kept_tree_set: Dictionary = {}
+func _kept_trees() -> Dictionary:
+	if _kept_tree_set.is_empty():
+		for p: Array in tuning.value("axe.keep")["ring_one_tiles"]:
+			_kept_tree_set[world.r1(int(p[0]), int(p[1]))] = true
+		_kept_tree_set[Vector2i(-99999, -99999)] = true   # filled, even if there are none
+	return _kept_tree_set
 
 
 ## The tree the axe would hit: the one in front if any, else the nearest in reach.
@@ -1656,8 +1689,9 @@ func chop() -> Dictionary:
 	if t.x < 0:
 		message.emit(content.text("msg_no_tree"))
 		return {"ok": false}
+	var extra := int((tuning.value("axe.firewood_extra") as Dictionary).get(world.object_at(t), 0))
 	_set_chopped(t, clock.absolute_day())
-	var n := roundi(skills.value("chop_firewood", tuning.num("axe.firewood")))
+	var n := roundi(skills.value("chop_firewood", tuning.num("axe.firewood"))) + extra
 	var left := backpack.add("firewood", n)
 	needs.spend(tuning.num("axe.energy") * skills.energy_for("chop"))
 	skills.act("chop")

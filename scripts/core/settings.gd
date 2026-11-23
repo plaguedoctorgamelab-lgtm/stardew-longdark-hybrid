@@ -6,12 +6,15 @@ extends RefCounted
 ##   hover_tips  "first_week": the hover tips show for the first days of a
 ##               game (tuning ui.hover_tip_days), then stop;
 ##               "always", or "off".
+##   fullscreen  true (the start, tracker #37): the game fills the screen,
+##               drawn at the biggest whole-number scale that fits (4 times
+##               on a 1920 x 1080 screen). F11 or Options switches it.
 
 const PATH := "user://settings.json"
 const HOVER_TIPS := ["first_week", "always", "off"]
 const MUSIC := ["medium", "high", "off", "low"]
 
-static var values: Dictionary = {"hover_tips": "first_week", "show_pinned_job": true, "show_unlocks_on_map": true, "music": "medium", "motion": true, "weather_effects": true}
+static var values: Dictionary = {"hover_tips": "first_week", "show_pinned_job": true, "show_unlocks_on_map": true, "music": "medium", "motion": true, "weather_effects": true, "fullscreen": true}
 static var _loaded: bool = false
 
 
@@ -29,7 +32,7 @@ static func load_once() -> void:
 		var music := str((parsed as Dictionary).get("music", "medium"))
 		if MUSIC.has(music):
 			values["music"] = music
-		for k in ["show_pinned_job", "show_unlocks_on_map", "motion", "weather_effects"]:
+		for k in ["show_pinned_job", "show_unlocks_on_map", "motion", "weather_effects", "fullscreen"]:
 			if (parsed as Dictionary).has(k):
 				values[k] = bool(parsed[k])
 
@@ -91,3 +94,21 @@ static func tips_showing(day: int, first_days: int) -> bool:
 		"off":
 			return false
 	return day <= first_days
+
+
+## Fills the screen or shows a window, as the setting says. A window is
+## sized to the biggest whole-number scale of 480 x 270 that fits the
+## screen's usable area, so it is never shrunk a step by its title bar.
+static func apply_window() -> void:
+	load_once()
+	if DisplayServer.get_name() == "headless":
+		return
+	if flag("fullscreen"):
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+		return
+	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+	var area := DisplayServer.screen_get_usable_rect()
+	var k := maxi(1, mini(int((area.size.x - 16) / 480.0), int((area.size.y - 48) / 270.0)))
+	var size := Vector2i(480 * k, 270 * k)
+	DisplayServer.window_set_size(size)
+	DisplayServer.window_set_position(area.position + (area.size - size) / 2)

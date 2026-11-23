@@ -30,6 +30,16 @@ const GROUND_COLORS := {
 const ZOOMS: Array[float] = [0.25, 0.5, 1.0, 2.0]
 const VIEW_SIZE := Vector2(384, 250)
 const PAN_SPEED := 160.0   # map pixels per second at zoom 1
+# The town plan: each town tile drawn this many pixels, and its colours.
+const TOWN_PX := 4.0
+const TOWN_COLORS := {
+	"l": Color8(132, 186, 92), "d": Color8(88, 140, 70), "c": Color8(176, 168, 152),
+	"g": Color8(214, 186, 132), "p": Color8(226, 212, 186), "f": Color8(156, 104, 72),
+	"b": Color8(150, 105, 70), "s": Color8(126, 196, 214), "w": Color8(70, 136, 192),
+}
+const TOWN_SHOP := Color8(200, 112, 84)
+const TOWN_HOME := Color8(150, 128, 170)
+const TOWN_OTHER := Color8(220, 190, 120)
 
 var session: GameSession
 var clip: Control
@@ -53,6 +63,7 @@ var foot: Label                      # a line at the map's foot (the jobs' big m
 var _flourish: Array = []            # changes to draw in: [{kind, pos|landmark|place}]
 var _flourish_age: float = 0.0
 var _hover_label: Label              # the job under the mouse: its name and next step
+var town_plan: Control               # the map of Humdrum, shown in town instead (tracker #41)
 
 
 func setup(s: GameSession) -> void:
@@ -124,6 +135,13 @@ func setup(s: GameSession) -> void:
 	_hover_label.visible = false
 	_hover_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	clip.add_child(_hover_label)
+	town_plan = Control.new()
+	town_plan.position = clip.position
+	town_plan.size = VIEW_SIZE
+	town_plan.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	town_plan.draw.connect(_draw_town_plan)
+	town_plan.visible = false
+	add_child(town_plan)
 	visible = false
 
 
@@ -265,6 +283,13 @@ func zoom() -> float:
 
 
 func open() -> void:
+	_show_town(session.in_town)
+	if session.in_town:
+		title.text = session.content.text("map_town_title")
+		visible = true
+		town_plan.queue_redraw()
+		return
+	title.text = session.content.text("map_title")
 	refresh_picture()
 	percent.text = session.content.text("map_revealed", {"percent": "%d" % int(session.map.percent_revealed())})
 	var shown := session.marker_visible()
@@ -583,8 +608,86 @@ func close() -> void:
 	visible = false
 
 
+## In town the park's map has nothing to show: the plan of Humdrum takes
+## its place, and the park's parts (travel, percent, lost) are hidden.
+func _show_town(on: bool) -> void:
+	town_plan.visible = on
+	for n: Control in [clip, percent, lost, travel_box, foot]:
+		n.visible = not on
+	if not on:
+		_fill_travel()
+
+
+func _town_origin() -> Vector2:
+	var t := session.town
+	return ((VIEW_SIZE - Vector2(t.size) * TOWN_PX) / 2.0).round()
+
+
+## The plan of Humdrum: its grounds, its buildings named, and the ranger.
+func _draw_town_plan() -> void:
+	var t := session.town
+	var o := _town_origin()
+	town_plan.draw_rect(Rect2(Vector2.ZERO, VIEW_SIZE), PAPER)
+	for y in t.size.y:
+		for x in t.size.x:
+			var c: Color = TOWN_COLORS.get(t.ground_at(Vector2i(x, y)), TOWN_COLORS["l"])
+			town_plan.draw_rect(Rect2(o + Vector2(x, y) * TOWN_PX, Vector2(TOWN_PX, TOWN_PX)), c)
+	var f := get_theme_default_font()
+	var taken: Array[Rect2] = []
+	for b: Dictionary in t.buildings:
+		var r := Rect2(o + Vector2(float(b["pos"][0]), float(b["pos"][1])) * TOWN_PX, Vector2(float(b["size"][0]), float(b["size"][1])) * TOWN_PX)
+		var id := str(b["id"])
+		var kind := str(session.content.row("town_places", id).get("kind", "")) if session.content.has("town_places", id) else ""
+		var col := TOWN_SHOP if kind == "shop" else (TOWN_HOME if kind == "home" else TOWN_OTHER)
+		town_plan.draw_rect(r, col)
+		town_plan.draw_rect(r, TRACE, false, 1.0)
+		var name := map_name(id)
+		if name == "":
+			continue
+		var w := f.get_string_size(name, HORIZONTAL_ALIGNMENT_LEFT, -1, 6).x
+		var at := Vector2(r.get_center().x - w / 2.0, r.position.y - 2.0).round()
+		at.x = clampf(at.x, 1.0, VIEW_SIZE.x - w - 1.0)
+		# A name that would run into its neighbour's goes under the building.
+		var box := Rect2(at - Vector2(1, 6), Vector2(w + 2, 7))
+		for k: Rect2 in taken:
+			if k.intersects(box):
+				at.y = r.end.y + 7.0
+				box.position.y = at.y - 6.0
+				break
+		taken.append(box)
+		town_plan.draw_string_outline(f, at, name, HORIZONTAL_ALIGNMENT_LEFT, -1, 6, 2, PAPER)
+		town_plan.draw_string(f, at, name, HORIZONTAL_ALIGNMENT_LEFT, -1, 6, INK)
+	# The ranger: in a shop, at its door.
+	var p := session.town_pos
+	if session.in_town_room():
+		var b := t.building(session.town_inside)
+		if not b.is_empty():
+			p = Vector2(float(b["door"][0]) + 0.5, float(b["door"][1]) + 0.5)
+	var rp := o + p * TOWN_PX
+	town_plan.draw_circle(rp, 3.5, PAPER)
+	town_plan.draw_circle(rp, 2.5, Color(0.85, 0.1, 0.1))
+	# The road back to the park, on the east edge.
+	var road := session.content.text("map_town_to_park")
+	var rw := f.get_string_size(road, HORIZONTAL_ALIGNMENT_LEFT, -1, 6).x
+	var ry := o.y + 33.0 * TOWN_PX + 7.0   # just under Main Street, where it leaves town
+	town_plan.draw_string(f, Vector2(o.x + float(t.size.x) * TOWN_PX - rw - 2.0, ry), road, HORIZONTAL_ALIGNMENT_LEFT, -1, 6, INK)
+
+
+## A building's short name on the town plan: the text table's map_<id>, or
+## its full name.
+func map_name(id: String) -> String:
+	var c := session.content
+	if c.has("text", "map_" + id):
+		return c.text("map_" + id)
+	if c.has("town_places", id):
+		return str(c.row("town_places", id)["name"])
+	return ""
+
+
 func _process(delta: float) -> void:
 	if not visible:
+		return
+	if town_plan.visible:
 		return
 	pan(Input.get_vector("move_left", "move_right", "move_up", "move_down"), delta)
 	if not _flourish.is_empty():

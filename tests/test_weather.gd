@@ -60,7 +60,8 @@ func test_snow_only_in_winter_and_shoulders(t: TestCase) -> void:
 	t.equal(counts["mid_autumn"], 0, "no snow in mid autumn")
 	# Half of the 20% rain falls as snow: about 10%.
 	t.near(100.0 * counts["late_autumn"] / 4000.0, 10.0, 2.5, "late autumn snow share")
-	t.near(100.0 * counts["early_spring"] / 4000.0, 10.0, 2.5, "early spring snow share")
+	# Spring keeps only 15% of its first-week rain as snow: about 3% (tracker #33).
+	t.near(100.0 * counts["early_spring"] / 4000.0, 3.0, 1.5, "early spring snow share")
 
 
 func test_forecast_accuracy(t: TestCase) -> void:

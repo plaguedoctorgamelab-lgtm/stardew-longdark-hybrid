@@ -24,6 +24,11 @@ var debug_label: Label
 var money_label: Label
 var tip: Panel                  # the hover hint, beside the mouse
 var tip_label: Label
+## Where words start on a paper tag (past its string hole) and the room left
+## for its pointed end.
+const TAG_LEFT := 8.0
+const TAG_RIGHT := 5.0
+
 var world_hint: String = ""     # what X does at the thing under the mouse (set by main)
 ## The name over the thing the ranger faces and can use (set by main): a
 ## stove, a chest, a person in town. look_at is its top middle on screen.
@@ -139,7 +144,9 @@ func setup(s: GameSession, theme: Theme) -> void:
 	tip.visible = false
 	root.add_child(tip)
 	tip_label = Label.new()
-	tip_label.position = Vector2(3, 0)
+	# Clear of the tag's string hole on its left (tracker #39: the hole and
+	# string crossed out the first letter).
+	tip_label.position = Vector2(TAG_LEFT, 0)
 	tip_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	tip_label.add_theme_color_override("font_color", KitStyle.TEXT_DARK)
 	tip.add_child(tip_label)
@@ -149,7 +156,7 @@ func setup(s: GameSession, theme: Theme) -> void:
 	look_tag.visible = false
 	root.add_child(look_tag)
 	look_label = Label.new()
-	look_label.position = Vector2(3, 0)
+	look_label.position = Vector2(TAG_LEFT, 0)
 	look_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	look_label.add_theme_color_override("font_color", KitStyle.TEXT_DARK)
 	look_tag.add_child(look_label)
@@ -243,7 +250,7 @@ func _process(delta: float) -> void:
 	if look_tag.visible:
 		look_label.text = look_text
 		look_label.reset_size()
-		look_tag.size = look_label.get_combined_minimum_size() + Vector2(6, 1)
+		look_tag.size = look_label.get_combined_minimum_size() + Vector2(TAG_LEFT + TAG_RIGHT, 1)
 		var at := look_at + Vector2(-look_tag.size.x / 2.0, -look_tag.size.y - 2)
 		at.x = clampf(at.x, 0.0, 480.0 - look_tag.size.x)
 		at.y = clampf(at.y, 0.0, 270.0 - look_tag.size.y)
@@ -281,7 +288,7 @@ func _update_tip() -> void:
 		return
 	tip_label.text = text
 	tip_label.reset_size()
-	tip.size = tip_label.get_combined_minimum_size() + Vector2(6, 1)
+	tip.size = tip_label.get_combined_minimum_size() + Vector2(TAG_LEFT + TAG_RIGHT, 1)
 	var m := root.get_local_mouse_position() + Vector2(8, -4 - tip.size.y)
 	m.x = clampf(m.x, 0.0, 480.0 - tip.size.x)
 	m.y = clampf(m.y, 0.0, 270.0 - tip.size.y)

@@ -66,7 +66,7 @@ func test_hot_soup_warms(t: TestCase) -> void:
 	s.debug_set_needs(100, 50)
 	s.debug_add_item("hot_soup")
 	t.check(s.eat("hot_soup"), "ate soup")
-	t.equal(s.needs.warmth, 65.0, "hot soup +15 warmth")
+	t.equal(s.needs.warmth, 85.0, "hot soup +35 warmth (0.7.0, tracker #32)")
 	t.equal(s.needs.energy, 170.0, "hot soup +70 energy")
 
 

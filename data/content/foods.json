@@ -11,7 +11,7 @@
     {"id": "fiddleheads", "item": "fiddleheads", "energy": 7, "warmth": 0, "raw": true},
     {"id": "rose_hips", "item": "rose_hips", "energy": 6, "warmth": 0, "raw": true},
     {"id": "trail_mix", "item": "trail_mix", "energy": 45, "warmth": 0},
-    {"id": "hot_soup", "item": "hot_soup", "energy": 70, "warmth": 15, "cooked": true},
+    {"id": "hot_soup", "item": "hot_soup", "energy": 70, "warmth": 35, "cooked": true},
     {"id": "fiddlehead_fry", "item": "fiddlehead_fry", "energy": 55, "warmth": 0, "cooked": true},
     {"id": "berry_preserve", "item": "berry_preserve", "energy": 40, "warmth": 0, "cooked": true},
     {"id": "roast_hazelnuts", "item": "roast_hazelnuts", "energy": 30, "warmth": 5, "cooked": true},

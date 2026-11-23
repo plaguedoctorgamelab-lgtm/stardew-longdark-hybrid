@@ -238,7 +238,11 @@
      "kind": "join_trail",
      "label": "js_join_tower",
      "site": "static_tower",
-     "link": "stake_east"
+     "link": [
+      "stake_east",
+      "stake_west",
+      "reopen_pond_trail"
+     ]
     },
     {
      "kind": "sign",

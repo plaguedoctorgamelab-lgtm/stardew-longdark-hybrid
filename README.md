@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.6.9** (see [Version history](#version-history)). The
+**Current version: 0.7.0** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -43,6 +43,7 @@ Needs Godot 4.7.2 stable (the lab's build uses
 | L | Skills page (and choose a waiting specialty) |
 | Y or Enter / N | Answer a question (sleep) |
 | V | Show the version number |
+| F11 | Full screen or a window (the game starts full screen) |
 | F12 | Screenshot, saved to your Downloads folder as "Strange Ranger" and the date and time |
 | F1 | Debug panel (test builds only) |
 
@@ -102,6 +103,24 @@ docs/              bible, roadmap, specs, rules, status reports (hidden from God
 
 The version lives in `project.godot` (`application/config/version`). Every
 commit of the build raises it and adds a line here.
+
+### 0.7.0 (22 November 2026): Mark's tracker reports on 0.6.8
+
+Fixes for tracker #28 to #41. Tests in `tests/test_tracker_070.gd`; pictures from `tests/support/screenshots_070.gd`.
+
+- **#37, full screen.** The game starts full screen, drawn at 4 times on a 1920 x 1080 screen. Before, its 1920 x 1080 window didn't fit with a title bar, so it dropped to 3 times with black borders. F11 or Options switches to a window, sized to the biggest whole scale that fits (`Settings.apply_window`).
+- **#28, the title sky** is one clear blue, without the bands.
+- **#29, The Sign in the Ford.** A sign counts from its tile's middle, with half a tile to spare, and anywhere within 8 tiles of the ford (was 6).
+- **#34, the tower's trail.** The tower's "join it to the station" step needs trail all the way from the station. It now names the first job still to do on that way (Stake Trail East, then West, then the pond trail), not a finished one. With all of them done, the gap still to dig is marked on the map.
+- **#30, the Percolator's hours.** It shuts on Wednesdays. Its door now says so ("closed Wed"), and on a Wednesday it says "closed all day".
+- **#31, burnt trees** in the burn can be chopped, for one more firewood than a green tree (`axe.firewood_extra`).
+- **#32, hot soup** warms by 35 (was 15). Eating anything now says what it gave, for example "(+35 warmth, +70 energy)".
+- **#33, spring snow** is rare: 15% of first-week rain (was half). Autumn's last week is unchanged.
+- **#38, the finishing card** is larger, stretched as a nine-patch so Mark's corners, bolts and leaves stay as drawn. Every word sits on the paper, clear of the leaves, the bolts and the DONE stamp.
+- **#39, hover tags and toasts.** A tag's words start past its string hole. Toasts lose the coloured stripe at their start, are as long as their words, and clip anything longer.
+- **#40, the purple square** was the "new job" reward's missing icon. It now uses the clipboard note, and a test checks every reward icon.
+- **#41, the map in town** shows a plan of Humdrum: its streets, the creek, every building named, and where you are.
+- **#36, graphics.** The interior floors are calmer copies at half contrast, without the nail heads (`tools/calm_floors.gd`, `*_calm.png`). Art Request 20 (`docs/art/art_request_20_touch_ups.md`) asks Mark for the pad flags, the floors and the catalog desk.
 
 ### 0.6.9 (22 November 2026): town fixes
 

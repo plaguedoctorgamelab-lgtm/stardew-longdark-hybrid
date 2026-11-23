@@ -74,7 +74,9 @@ func draw(season_name: String, day_in_season: int, rng: RandomNumberGenerator) -
 			break
 		r -= w
 	if picked == "rain" and is_shoulder(season_name, day_in_season):
-		if rng.randf() < tuning.num("weather.shoulder_snow_share"):
+		# Spring snow is rare (tracker #33): a late flurry, not a second winter.
+		var share := tuning.num("weather.shoulder_snow_share_spring" if season_name == "spring" else "weather.shoulder_snow_share")
+		if rng.randf() < share:
 			picked = "snow"
 	return picked
 

@@ -10,6 +10,8 @@ extends Control
 signal note_clicked(key: String)
 
 const NOTE_SIZE := Vector2(132, 26)
+const TOAST_ICON_X := 7.0      # past the toast flag's ragged left edge
+const TOAST_MOST_W := 230.0
 
 var session: GameSession
 var _note: Panel
@@ -118,10 +120,12 @@ func _process(delta: float) -> void:
 		_bubble.position = (bubble_at + Vector2(-6, -34 - 3.0 * sin(bubble_time * 8.0))).round()
 
 
-func _make_toast(icon: String, color: Color, text: String) -> Panel:
+func _make_toast(icon: String, _color: Color, text: String) -> Panel:
 	var p := Panel.new()
-	p.size = Vector2(150, 14)
 	p.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	# Nothing drawn past the flag's end (tracker #39: long words ran out
+	# past it and its end cap crossed a letter out).
+	p.clip_contents = true
 	if Art.has_picture("ui_toast"):
 		var sb := StyleBoxTexture.new()
 		sb.texture = Art.texture("ui_toast")
@@ -129,28 +133,33 @@ func _make_toast(icon: String, color: Color, text: String) -> Panel:
 		p.add_theme_stylebox_override("panel", sb)
 	else:
 		p.add_theme_stylebox_override("panel", KitStyle.tag())
-	var stripe := ColorRect.new()
-	stripe.color = color
-	stripe.position = Vector2(4, 3)
-	stripe.size = Vector2(2, 8)
-	p.add_child(stripe)
+	# No coloured stripe before the icon any more: beside the flag's ragged
+	# left edge it read as a line through the start (tracker #39). The
+	# type's icon carries its colour.
 	var ic := TextureRect.new()
 	ic.texture = Art.texture(icon)
 	ic.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	ic.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	ic.size = Vector2(10, 10)
-	ic.position = Vector2(8, 2)
+	ic.position = Vector2(TOAST_ICON_X, 2)
 	p.add_child(ic)
 	var l := Label.new()
-	l.text = text
-	l.position = Vector2(20, 0)
-	l.size = Vector2(126, 12)
+	# Clipped before it is sized, or it grows to fit all its words.
 	l.clip_text = true
 	l.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	l.text = text
 	l.add_theme_font_size_override("font_size", 6)
 	l.add_theme_color_override("font_color", KitStyle.TEXT_DARK)
 	p.add_child(l)
 	add_child(p)
+	# The flag is as long as its words, up to a most; longer ones end "...".
+	# Measured in the game's own font, now the toast is on screen.
+	var font := l.get_theme_font("font")
+	var w := font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, 6).x if font != null else 120.0
+	var text_x := TOAST_ICON_X + 12.0
+	p.size = Vector2(clampf(text_x + ceilf(w) + 7.0, 60.0, TOAST_MOST_W), 14)
+	l.position = Vector2(text_x, 0)
+	l.size = Vector2(p.size.x - text_x - 6.0, 12)
 	return p
 
 

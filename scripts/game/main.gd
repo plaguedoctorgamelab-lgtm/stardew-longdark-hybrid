@@ -35,6 +35,7 @@ var _map_lines: PackedStringArray = []
 var pinned_button: Button
 var unlocks_button: Button
 var music_button: Button
+var fullscreen_button: Button
 var music: Music
 var hint_overlay: HintOverlay
 var options_panel: Panel
@@ -47,6 +48,7 @@ var started: bool = false
 
 
 func _ready() -> void:
+	Settings.apply_window()
 	ui_theme = _make_theme()
 	session = GameSession.new()
 	music = Music.new()
@@ -322,6 +324,7 @@ func _build_options(root: Control) -> void:
 	unlocks_button = _toggle_row(box, "ui_options_unlock_map", "show_unlocks_on_map")
 	_toggle_row(box, "ui_options_motion", "motion")
 	_toggle_row(box, "ui_options_weather_effects", "weather_effects")
+	fullscreen_button = _toggle_row(box, "ui_options_fullscreen", "fullscreen", Settings.apply_window)
 	var mrow := HBoxContainer.new()
 	mrow.add_theme_constant_override("separation", 6)
 	box.add_child(mrow)
@@ -388,7 +391,7 @@ func _update_music(delta: float) -> void:
 
 
 ## An on/off setting on the Options screen.
-func _toggle_row(box: VBoxContainer, label_id: String, key: String) -> Button:
+func _toggle_row(box: VBoxContainer, label_id: String, key: String, then: Callable = Callable()) -> Button:
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 6)
 	box.add_child(row)
@@ -401,7 +404,9 @@ func _toggle_row(box: VBoxContainer, label_id: String, key: String) -> Button:
 	b.custom_minimum_size = Vector2(40, 0)
 	b.text = session.content.text("ui_on" if Settings.flag(key) else "ui_off")
 	b.pressed.connect(func() -> void:
-		b.text = session.content.text("ui_on" if Settings.toggle(key) else "ui_off"))
+		b.text = session.content.text("ui_on" if Settings.toggle(key) else "ui_off")
+		if then.is_valid():
+			then.call())
 	row.add_child(b)
 	return b
 
@@ -586,6 +591,13 @@ func _close_dialog(yes: bool) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	# F11 switches between full screen and a window (tracker #37).
+	if event.is_action_pressed("fullscreen"):
+		Settings.toggle("fullscreen")
+		Settings.apply_window()
+		if fullscreen_button != null:
+			fullscreen_button.text = session.content.text("ui_on" if Settings.flag("fullscreen") else "ui_off")
+		return
 	# F12 takes a picture anywhere, the title screen included.
 	if event.is_action_pressed("screenshot"):
 		var path := Screenshot.take(get_viewport())

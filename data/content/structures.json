@@ -21,7 +21,7 @@
      13,
      11
     ],
-    "floor": "interior_plank_floor",
+    "floor": "interior_plank_floor_calm",
     "wall": "interior_back_wall",
     "wall_base": "interior_wall_base",
     "trim": "interior_trim",
@@ -292,7 +292,7 @@
      10,
      10
     ],
-    "floor": "interior_plank_floor",
+    "floor": "interior_plank_floor_calm",
     "wall": "interior_back_wall",
     "wall_base": "interior_wall_base",
     "trim": "interior_trim",
@@ -549,7 +549,7 @@
      10,
      10
     ],
-    "floor": "interior_plank_floor",
+    "floor": "interior_plank_floor_calm",
     "wall": "interior_back_wall",
     "wall_base": "interior_wall_base",
     "trim": "interior_trim",

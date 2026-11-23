@@ -1,15 +1,15 @@
 class_name TitleScreen
 extends Control
 ## The title screen: the entrance to Dusk River Park at dusk
-## (docs/art/visual_direction_brief.md). A banded dusk sky, layered mountains
+## (docs/art/visual_direction_brief.md). A clear one-colour sky, layered mountains
 ## and pines with the Dusk River winding through, drifting slowly; fireflies
 ## and fog; the game's name in big poster letters; and the park's routed-wood
 ## entrance sign with its compass-and-eye emblem and a lantern, the menu
 ## hanging under it on planks.
 ##
 ## Mark's Art Request 11 pictures (title_*) are used when they are there; the
-## code-drawn stand-ins remain for any that are missing. The sky's bands, the
-## sun, the fog and the chains are always drawn in code. Words for the
+## code-drawn stand-ins remain for any that are missing. The sky, the fog
+## and the chains are always drawn in code. Words for the
 ## stand-ins come from the text table; Mark's sign and logo carry their own.
 
 const W := 480.0
@@ -219,20 +219,10 @@ func _layer(layer: String) -> void:
 # --- the landscape ---------------------------------------------------------------
 
 func _draw_sky() -> void:
-	# Flat bands, as a poster would print them.
-	var bands := [[0, NIGHT], [34, BLUE], [62, VIOLET], [84, PINK], [102, CORAL], [116, ORANGE], [130, BUTTER]]
-	for i in bands.size():
-		var y0: float = bands[i][0]
-		var y1: float = bands[i + 1][0] if i + 1 < bands.size() else 175.0
-		draw_rect(Rect2(0, y0, W, y1 - y0), bands[i][1])
-	# A few early stars in the top band.
-	for p: Vector2 in [Vector2(40, 10), Vector2(96, 22), Vector2(150, 8), Vector2(300, 16), Vector2(352, 6), Vector2(430, 24)]:
-		var a := 0.55 + 0.45 * sin(_time * 1.3 + p.x)
-		draw_rect(Rect2(p, Vector2(1, 1)), Color(PAPER, a))
-	# The low sun, half behind the far range.
-	var sun := Vector2(372, 138)
-	draw_circle(sun, 19, BUTTER)
-	draw_circle(sun, 15, GOLD)
+	# One colour (tracker #28: the banded gradient did not work behind
+	# Mark's pictures): a clear blue from the palette, the logo's gold and
+	# the snowy peaks standing out against it.
+	draw_rect(Rect2(0, 0, W, 175.0), WATER)
 
 
 func _ridge(base: float, peaks: Array, drift: float, col: Color) -> void:

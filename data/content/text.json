@@ -257,6 +257,18 @@
    "placeholder": true
   },
   {
+   "id": "msg_ate_gains",
+   "text": "({gains})"
+  },
+  {
+   "id": "msg_ate_warmth",
+   "text": "+{n} warmth"
+  },
+  {
+   "id": "msg_ate_energy",
+   "text": "+{n} energy"
+  },
+  {
    "id": "msg_survey_start",
    "text": "You unfold the map and start surveying. Stand still...",
    "placeholder": true
@@ -360,6 +372,82 @@
    "id": "map_title",
    "text": "Map",
    "placeholder": true
+  },
+  {
+   "id": "map_town_title",
+   "text": "Map of Humdrum"
+  },
+  {
+   "id": "map_town_to_park",
+   "text": "To the park >"
+  },
+  {
+   "id": "map_percolator",
+   "text": "Percolator"
+  },
+  {
+   "id": "map_casa_luna",
+   "text": "Casa Luna"
+  },
+  {
+   "id": "map_outfitters",
+   "text": "Outfitters"
+  },
+  {
+   "id": "map_gifts",
+   "text": "Gifts"
+  },
+  {
+   "id": "map_carpentry",
+   "text": "Carpentry"
+  },
+  {
+   "id": "map_library",
+   "text": "Library"
+  },
+  {
+   "id": "map_town_hall",
+   "text": "Town Hall"
+  },
+  {
+   "id": "map_caravan",
+   "text": "Caravan"
+  },
+  {
+   "id": "map_bandstand",
+   "text": "Bandstand"
+  },
+  {
+   "id": "map_house_pelletier",
+   "text": "Pelletiers"
+  },
+  {
+   "id": "map_house_kowalski",
+   "text": "Bev"
+  },
+  {
+   "id": "map_house_thistlewood",
+   "text": "Agnes"
+  },
+  {
+   "id": "map_house_pruitt",
+   "text": "Mayor"
+  },
+  {
+   "id": "map_house_abernathy",
+   "text": "Abernathys"
+  },
+  {
+   "id": "map_house_mendoza",
+   "text": "Mendozas"
+  },
+  {
+   "id": "map_house_lindqvist",
+   "text": "Gus"
+  },
+  {
+   "id": "map_house_arden",
+   "text": "Sol"
   },
   {
    "id": "map_revealed",
@@ -4428,7 +4516,7 @@
   },
   {
    "id": "js_join_tower",
-   "text": "Join it to the park's trails",
+   "text": "Join it to the station by trail, all the way",
    "placeholder": true
   },
   {
@@ -5745,6 +5833,10 @@
    "text": "Weather effects"
   },
   {
+   "id": "ui_options_fullscreen",
+   "text": "Full screen (F11)"
+  },
+  {
    "id": "furn_bed",
    "text": "Bed"
   },
@@ -5815,6 +5907,14 @@
   {
    "id": "town_door_closed",
    "text": "{name}: closed now. Open {hours}."
+  },
+  {
+   "id": "town_hours_closed_days",
+   "text": "{hours}, closed {days}"
+  },
+  {
+   "id": "town_door_closed_today",
+   "text": "{name}: closed all day ({day}). Open {hours}."
   },
   {
    "id": "town_gift_love",

@@ -876,7 +876,9 @@ func _check_sign(key: String, stp: Dictionary) -> Dictionary:
 	var n := 0
 	for pl: String in places:
 		for t: Vector2i in g.placed:
-			if str(g.placed[t]["item"]) != "trail_sign" or Vector2(t).distance_to(at) > float(stp["r"]):
+			# Measured from the tile's middle, with half a tile to spare, as
+			# for things put down (tracker #29).
+			if str(g.placed[t]["item"]) != "trail_sign" or (Vector2(t) + Vector2(0.5, 0.5)).distance_to(at) > float(stp["r"]) + 0.5:
 				continue
 			if pl == "any" or str(g.placed[t]["place"]) == pl:
 				n += 1
@@ -1715,10 +1717,22 @@ func toggle_pin(k: String) -> void:
 
 
 ## The job a step links to, or "" (a step another job would complete).
+## "link" may list several jobs along the way (the tower's trail needs Stake
+## Trail East, then West, then the pond trail): the first still to do is
+## named, so a finished one never leaves the step pointing at it (tracker
+## #34). With all of them done, nothing is named and the gap still to dig
+## is marked instead.
 func link_of(k: String, i: int) -> String:
 	var stp: Dictionary = def(k)["steps"][i]
-	var l := str(stp.get("link", ""))
-	return l if known.has(l) and not bool(check(k, i)["done"]) else ""
+	if bool(check(k, i)["done"]):
+		return ""
+	var links: Variant = stp.get("link", [])
+	if links is String:
+		links = [links]
+	for l: String in links:
+		if known.has(l) and not is_done(l):
+			return l
+	return ""
 
 
 ## Where a job's next step happens, in tiles, or Vector2.INF. A place not yet

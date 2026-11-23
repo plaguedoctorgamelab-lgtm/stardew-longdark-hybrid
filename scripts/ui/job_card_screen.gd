@@ -10,6 +10,21 @@ extends Control
 
 signal finished(card: Dictionary)
 
+# Mark's card picture (250 x 170) is stretched as a nine-patch to this
+# size: the corners (bolts, the leaves in the top right) stay as drawn and
+# the paper between grows, so a big job's rewards fit on it (tracker #38).
+const CARD_SIZE := Vector2(330, 196)
+const CARD_MARGINS := [84, 80, 122, 48]   # left, top, right, bottom, of the picture
+# Where the words go on the card, clear of its frame, bolts and leaves.
+const ICON_AT := Vector2(44, 32)
+const TITLE_AT := Vector2(56, 31)
+const TITLE_W := 150.0         # stops short of the leaves
+const LINES_AT := Vector2(44, 48)
+const LINES_W := 192.0         # left of the DONE stamp
+const STAMP_AT := Vector2(244, 92)
+const FOOT_W := 196.0          # left of the stamp, between the bottom bolts
+const FOOT_MAX_Y := 148.0      # the foot's top, at most
+
 var session: GameSession
 var card: Dictionary = {}
 var _panel: Panel
@@ -37,18 +52,21 @@ func setup(s: GameSession) -> void:
 	dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(dim)
 	_panel = Panel.new()
-	_panel.size = Vector2(250, 170)
+	_panel.size = CARD_SIZE
 	_panel.position = ((size - _panel.size) / 2.0).round()
 	_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_panel)
 	if Art.has_picture("ui_job_card"):
-		_panel.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
-		var bg := TextureRect.new()
-		bg.texture = Art.texture("ui_job_card")
-		bg.size = _panel.size
-		bg.stretch_mode = TextureRect.STRETCH_SCALE
-		bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		_panel.add_child(bg)
+		var sb := StyleBoxTexture.new()
+		sb.texture = Art.texture("ui_job_card")
+		sb.texture_margin_left = CARD_MARGINS[0]
+		sb.texture_margin_top = CARD_MARGINS[1]
+		sb.texture_margin_right = CARD_MARGINS[2]
+		sb.texture_margin_bottom = CARD_MARGINS[3]
+		# The frame's wood repeats along the longer sides rather than stretching.
+		sb.axis_stretch_horizontal = StyleBoxTexture.AXIS_STRETCH_MODE_TILE_FIT
+		sb.axis_stretch_vertical = StyleBoxTexture.AXIS_STRETCH_MODE_TILE_FIT
+		_panel.add_theme_stylebox_override("panel", sb)
 	_season_pic = TextureRect.new()
 	_season_pic.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	_season_pic.stretch_mode = TextureRect.STRETCH_SCALE
@@ -59,20 +77,19 @@ func setup(s: GameSession) -> void:
 	_icon = TextureRect.new()
 	_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	_icon.size = Vector2(16, 16)
-	_icon.position = Vector2(22, 28)
+	_icon.position = ICON_AT
 	_icon.size = Vector2(10, 10)
 	_panel.add_child(_icon)
 	_title = Label.new()
-	_title.position = Vector2(34, 26)
-	_title.size = Vector2(102, 14)
+	_title.position = TITLE_AT
+	_title.size = Vector2(TITLE_W, 12)
 	_title.clip_text = true
 	_title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	_title.add_theme_font_size_override("font_size", 8)
 	_panel.add_child(_title)
 	_stamp = Control.new()
 	_stamp.size = Vector2(56, 26)
-	_stamp.position = Vector2(176, 62)
+	_stamp.position = STAMP_AT
 	_stamp.pivot_offset = _stamp.size / 2.0
 	_stamp.rotation = -0.18
 	_panel.add_child(_stamp)
@@ -90,12 +107,12 @@ func setup(s: GameSession) -> void:
 	_stamp_label.add_theme_color_override("font_color", Color8(178, 34, 40))
 	_stamp.add_child(_stamp_label)
 	_lines = VBoxContainer.new()
-	_lines.position = Vector2(24, 42)
-	_lines.custom_minimum_size = Vector2(150, 0)
+	_lines.position = LINES_AT
+	_lines.custom_minimum_size = Vector2(LINES_W, 0)
 	_lines.add_theme_constant_override("separation", 0)
 	_panel.add_child(_lines)
 	_foot = Label.new()
-	_foot.size = Vector2(204, 22)
+	_foot.size = Vector2(FOOT_W, 20)
 	_foot.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_foot.add_theme_font_size_override("font_size", 6)
 	_foot.add_theme_color_override("font_color", KitStyle.PINE)
@@ -175,11 +192,11 @@ func _layout_season() -> void:
 		for n: Control in [_lines, _title, _close_hint]:
 			if n.get_parent() != _panel:
 				n.reparent(_panel)
-		_lines.position = Vector2(24, 42)
-		_lines.custom_minimum_size = Vector2(150, 0)
-		_title.position = Vector2(34, 26)
-		_title.size = Vector2(102, 14)
-		_close_hint.position = Vector2(24, _panel.size.y + 2)
+		_lines.position = LINES_AT
+		_lines.custom_minimum_size = Vector2(LINES_W, 0)
+		_title.position = TITLE_AT
+		_title.size = Vector2(TITLE_W, 12)
+		_close_hint.position = Vector2(LINES_AT.x, _panel.size.y + 2)
 		_close_hint.add_theme_color_override("font_color", KitStyle.TEXT_LIGHT)
 
 
@@ -198,7 +215,7 @@ func _process(delta: float) -> void:
 		var e: Array = _all_lines[_shown_lines]
 		_lines.add_child(_line(e[0], e[1]))
 		_shown_lines += 1
-	_foot.position = Vector2(24, minf(_lines.position.y + _lines.get_combined_minimum_size().y + 2, _panel.size.y - 40))
+	_foot.position = Vector2(LINES_AT.x, minf(_lines.position.y + _lines.get_combined_minimum_size().y + 2, FOOT_MAX_Y))
 	_close_hint.visible = can_close()
 
 
@@ -209,13 +226,15 @@ func _line(icon: String, text: String) -> Control:
 	ic.texture = Art.texture(icon)
 	ic.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	ic.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	ic.custom_minimum_size = Vector2(12, 12)
+	ic.custom_minimum_size = Vector2(10, 10)
 	h.add_child(ic)
 	var l := Label.new()
 	l.text = text
 	l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	l.custom_minimum_size = Vector2(_lines.custom_minimum_size.x - 16, 0)
-	l.add_theme_font_size_override("font_size", 6 if str(card.get("kind", "")) == "season" else 7)
+	# Many lines (a big job's rewards) shrink a size so they stay on the paper.
+	var small := str(card.get("kind", "")) == "season" or _all_lines.size() > 7
+	l.add_theme_font_size_override("font_size", 6 if small else 7)
 	h.add_child(l)
 	return h
 

@@ -57,7 +57,7 @@
      "kind": "sign",
      "label": "js_ford_pointer",
      "at": "spot:ford_sign",
-     "r": 6,
+     "r": 8,
      "places": [
       "any"
      ]

@@ -118,6 +118,7 @@
       1080
     ],
     "shoulder_snow_share": 0.5,
+    "shoulder_snow_share_spring": 0.15,
     "shoulder_days": 7,
     "first_day": "clear"
   },
@@ -170,8 +171,11 @@
     "trees": [
       "tree_pine",
       "tree_fir",
-      "tree_oak"
-    ]
+      "tree_oak",
+      "tree_dead"
+    ],
+    "firewood_extra": {"note": "More firewood from some trees: the burn's dead trees are dry and seasoned (tracker #31).", "tree_dead": 1},
+    "keep": {"note": "Trees never felled: the dead tree that marks the fork (layout dead_tree), in the first ring's tiles.", "ring_one_tiles": [[243, 96]]}
   },
   "clearing": {
     "reach_tiles": 1.6,
