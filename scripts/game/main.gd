@@ -241,7 +241,12 @@ func _build_menus() -> void:
 		world_view.reset_chunks()
 	title_screen = TitleScreen.new()
 	root.add_child(title_screen)
-	title_screen.setup(session.content, version_text(), [["ui_new_game", _start_new], ["ui_continue", _continue], ["ui_quit", func() -> void: get_tree().quit()]])
+	var title_actions: Array = [["ui_new_game", _start_new], ["ui_continue", _continue]]
+	# Playtest builds also offer a start with the first sites open.
+	if OS.is_debug_build():
+		title_actions.append(["ui_playtest_start", _start_playtest])
+	title_actions.append(["ui_quit", func() -> void: get_tree().quit()])
+	title_screen.setup(session.content, version_text(), title_actions)
 	title_note = title_screen.note
 	_build_pause_menu(root)
 
@@ -472,6 +477,13 @@ func _show_title() -> void:
 
 func _start_new() -> void:
 	session.new_game()
+	_begin()
+
+
+## Playtest builds: a new game with the station shipshape and the cabin,
+## outlook, pond and tower open (GameSession.debug_sites_open_start).
+func _start_playtest() -> void:
+	session.debug_sites_open_start()
 	_begin()
 
 

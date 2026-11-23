@@ -490,6 +490,10 @@
    "placeholder": true
   },
   {
+   "id": "ui_playtest_start",
+   "text": "Playtest start"
+  },
+  {
    "id": "ui_quit",
    "text": "Quit",
    "placeholder": true

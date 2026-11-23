@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.7.2** (see [Version history](#version-history)). The
+**Current version: 0.7.3** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -103,6 +103,11 @@ docs/              bible, roadmap, specs, rules, status reports (hidden from God
 
 The version lives in `project.godot` (`application/config/version`). Every
 commit of the build raises it and adds a line here.
+
+### 0.7.3 (23 November 2026): a playtest start
+
+- **Playtest start** on the title screen of playtest (debug) builds: a new game in which Get the Station Shipshape is done and the old cabin, the scenic outlook, Kettle Pond and the static tower are open. It is all done in the world as a ranger would: the trail dug out to each site (Reopen the Pond Trail and both halves of the Stake Trail with it), the cabin and the tower repaired, a sign at each, each site found, mapped and opened. It starts the next morning with the road to town open (`GameSession.debug_sites_open_start`). Test: `tests/test_playtest_start.gd`.
+- `ParkHelpers.open_route` moved into the game as `GameSession.debug_open_route`, so the playtest start and the tests dig trail the same way.
 
 ### 0.7.2 (23 November 2026): Art Request 21, the rest of Phase 4
 

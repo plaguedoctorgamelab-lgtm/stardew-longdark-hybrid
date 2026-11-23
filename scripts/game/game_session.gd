@@ -3807,6 +3807,94 @@ func debug_cabin_step(step: String, complete: bool) -> void:
 
 
 ## Completes, or undoes, every repair step of a building.
+## Opens trail along a baked route as a ranger with a shovel and saw
+## would: fells the snags standing in a gap, clears what is in the way and
+## digs where the trail is missing, three tiles wide.
+func debug_open_route(route_name: String) -> void:
+	for id: String in jobs.spot_ids():
+		if bool(jobs.spot_row(id).get("blocks_dig", false)):
+			jobs.spots_done[id] = true
+	var pts := world.route(route_name)
+	for i in range(pts.size() - 1):
+		var a := pts[i]
+		var b := pts[i + 1]
+		var n := maxi(1, ceili(a.distance_to(b) * 2.0))
+		for k in n + 1:
+			var p := a.lerp(b, float(k) / n)
+			for o: Vector2i in [Vector2i(0, 0), Vector2i(1, 0), Vector2i(0, 1), Vector2i(-1, 0), Vector2i(0, -1)]:
+				var t := Vector2i(floori(p.x), floori(p.y)) + o
+				if not obstacle_at(t).is_empty():
+					debug_clear_obstacle(t)
+				if world.ground_at(t) != "trail" and world.ground_at(t) != "boards":
+					if (tuning.value("trail.boardwalk_on") as Array).has(world.ground_at(t)):
+						_set_boardwalk(t, true)
+					else:
+						debug_dig(t)
+
+
+## Puts up a sign naming a place on the nearest good spot by a point.
+func debug_sign_near(at: Vector2, place: String) -> bool:
+	for r in range(1, 9):
+		for dy in range(-r, r + 1):
+			for dx in range(-r, r + 1):
+				var t := Vector2i(at) + Vector2i(dx, dy)
+				if place_problem(t, "trail_sign") == "" and debug_put_up(t, "trail_sign", place):
+					return true
+	return false
+
+
+const PLAYTEST_SITES: Array[String] = ["old_cabin", "outlook", "kettle_pond", "static_tower"]
+const PLAYTEST_ROUTES: Array[String] = ["cabin", "outlook", "pond", "tower"]
+const PLAYTEST_TRAIL_JOBS: Array[String] = ["reopen_pond_trail", "stake_west", "stake_east"]
+
+
+## A playtest start: a new game in which Get the Station Shipshape is done,
+## and the old cabin, the scenic outlook, Kettle Pond and the static tower
+## are found, mapped, joined by trail, repaired, signed and open. All of it
+## is done in the world as a ranger would, so the park is as a player who
+## got this far would find it. It ends on a fresh morning, the road to town
+## open. Offered on the title screen of playtest (debug) builds.
+func debug_sites_open_start(new_seed: int = -1) -> void:
+	new_game(new_seed)
+	# Get the Station Shipshape.
+	for id in ["station_papers", "station_shelf", "station_boots"]:
+		jobs.work_spot(id)
+	if backpack.count("axe") == 0:
+		backpack.add("axe")
+		structures.chests["ranger_station"].remove("axe", 1)
+	jobs.work_spot("station_branch")
+	jobs.work_spot("station_can")
+	var m := Vector2i(jobs.spot_pos("gate_marker"))
+	for t: Vector2i in [m, m + Vector2i(1, 0), m + Vector2i(-1, 0), m + Vector2i(0, -1)]:
+		if park.place_problem(t) == "" and park.put_thing(t, "trash_can"):
+			backpack.remove("trash_can", 1)
+			break
+	jobs.update(true)
+	# The trail out to each site.
+	for r: String in PLAYTEST_ROUTES:
+		debug_open_route(r)
+	# Each site found, mapped, repaired, signed and opened.
+	for id: String in PLAYTEST_SITES:
+		var row := content.row("sites", id)
+		sites_found[id] = true
+		map.mark_landmark(row["landmark"])
+		if str(row["structure"]) != "":
+			debug_repair_all(row["structure"], true)
+		debug_sign_near(site_door(id), row["landmark"])
+		jobs.update(true)
+		open_site(id)
+	# The trail jobs on the way, done by the digging above.
+	for k: String in PLAYTEST_TRAIL_JOBS:
+		if not jobs.is_done(k):
+			if not jobs.is_active(k):
+				jobs.add(k, "playtest")
+			jobs.debug_finish(k)
+	jobs.update(true)
+	location = ""
+	outdoor_pos = door_front("ranger_station") + Vector2(0, 1)
+	debug_skip_day()
+
+
 func debug_repair_all(structure_id: String, complete: bool) -> void:
 	for st: Dictionary in content.row("structures", structure_id)["repair_steps"]:
 		if complete:
