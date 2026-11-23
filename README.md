@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.7.10** (see [Version history](#version-history)). The
+**Current version: 0.7.11** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -119,6 +119,12 @@ phase is finished; the last number counts every build and runs on past 9
 | 0.10.x | Phase 7, Year one polish |
 | 0.11.x to 0.14.x | Phases 8 to 11, one region each |
 | 1.0.0 | every phase done |
+
+### 0.7.11 (23 November 2026): Mark's gear wall art
+
+- **Art Request 22 is in** (`art/raw/raw_ar22_G1_patches.png` to `G4_textures.png`, cut by `tools/art_manifest.json`). It brings the six scout patches (`ui_patch_*`, 24 x 24, drawn pixel for pixel, the open page's lifted with a gold ring) and the ID photo's dusk backdrop (`ui_portrait_backdrop`). It also brings the peg, hanger, boot mat, belt buckles, card clip and the Leave No Trace bin (`ui_gear_*`), and tiling textures for the wall boards, the pack canvas and the belt webbing (`ui_wall_boards`, `ui_pack_canvas`, `ui_belt_webbing`).
+- Each piece replaces what was drawn in code. The code drawing stays as a fallback if a picture is missing.
+- Screenshots: `docs/status/0711_shots/`.
 
 ### 0.7.10 (23 November 2026): the gear wall
 

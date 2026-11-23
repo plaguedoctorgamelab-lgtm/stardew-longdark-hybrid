@@ -67,6 +67,8 @@ var _tip: ItemTip
 func setup(s: GameSession) -> void:
 	session = s
 	mouse_filter = Control.MOUSE_FILTER_STOP
+	texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
+	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	size = Vector2(WALL_X + WALL_W + 8, 160)
 	KitStyle.frame(self)
 	_tip = ItemTip.new()
@@ -234,7 +236,7 @@ func _build_pack_bar() -> void:
 		refresh())
 	trash_button = Button.new()
 	trash_button.text = session.content.text("ui_bin")
-	trash_button.icon = Art.texture("item_trash_can") if Art.has_picture("item_trash_can") else null
+	trash_button.icon = Art.texture("ui_gear_bin") if Art.has_picture("ui_gear_bin") else (Art.texture("item_trash_can") if Art.has_picture("item_trash_can") else null)
 	trash_button.expand_icon = true
 	trash_button.add_theme_constant_override("icon_max_width", 12)
 	trash_button.tooltip_text = session.content.text("ui_trash_hint")
@@ -522,9 +524,17 @@ func _on_hover(i: int, is_pack: bool) -> void:
 
 # --- drawing: the boards, the ID card, the pack, the pegs -------------------------------------
 
+## Mark's picture by name, or null (Art Request 22).
+func _pic(name: String) -> Texture2D:
+	return Art.texture(name) if Art.has_picture(name) else null
+
+
 func _draw() -> void:
-	# The wall: upright boards with dark seams and a nail head on each.
-	var x := 0.0
+	var boards := _pic("ui_wall_boards")
+	if boards != null:
+		draw_texture_rect(boards, Rect2(Vector2.ZERO, size), true)
+	# The wall without Mark's boards: upright boards with dark seams.
+	var x := 0.0 if boards == null else size.x
 	var k := 0
 	while x < size.x:
 		var w := minf(18.0, size.x - x)
@@ -553,9 +563,13 @@ func _draw_id_card() -> void:
 	draw_rect(Rect2(r.position, Vector2(r.size.x, 13)), PARK_GREEN)
 	draw_string(ThemeDB.fallback_font, r.position + Vector2(0, 10), session.content.text("ui_pack_id_title"), HORIZONTAL_ALIGNMENT_CENTER, r.size.x, 8, KitStyle.CREAM)
 	# A clip at the top, as if it hangs on the wall.
-	var clip := Rect2(r.get_center().x - 6, r.position.y - 4, 12, 6)
-	draw_rect(clip, Color8(170, 170, 176))
-	draw_rect(clip, KitStyle.INK, false, 1.0)
+	var clip_pic := _pic("ui_gear_clip")
+	if clip_pic != null:
+		draw_texture_rect(clip_pic, Rect2(r.position.x + 6, r.position.y - 11, 8, 15), false)
+	else:
+		var clip := Rect2(r.get_center().x - 6, r.position.y - 4, 12, 6)
+		draw_rect(clip, Color8(170, 170, 176))
+		draw_rect(clip, KitStyle.INK, false, 1.0)
 
 
 func _stitch_rect(r: Rect2, col: Color) -> void:
@@ -575,28 +589,52 @@ func _draw_pack() -> void:
 	# The main compartment: canvas with a stitched seam.
 	var main := Rect2(PACK_X, MAIN_Y - 6, PACK_W, _main_bottom - MAIN_Y + 24)
 	draw_rect(Rect2(main.position + Vector2(1, 2), main.size), Color(KitStyle.INK, 0.4))
-	draw_rect(main, CANVAS)
+	var canvas := _pic("ui_pack_canvas")
+	if canvas != null:
+		draw_texture_rect(canvas, main, true)
+	else:
+		draw_rect(main, CANVAS)
 	draw_rect(main, CANVAS_DARK, false, 1.0)
 	_stitch_rect(main.grow(-3), CANVAS_DARK)
 	# The hip belt: webbing over the top, with a buckle at each end.
 	var belt := Rect2(PACK_X - 4, BELT_Y, PACK_W + 8, BELT_H)
 	draw_rect(Rect2(belt.position + Vector2(1, 2), belt.size), Color(KitStyle.INK, 0.4))
-	draw_rect(belt, BELT)
+	var webbing := _pic("ui_belt_webbing")
+	if webbing != null:
+		draw_texture_rect(webbing, belt, true)
+	else:
+		draw_rect(belt, BELT)
 	draw_rect(belt, BELT_DARK, false, 1.0)
 	_stitch_rect(belt.grow(-2), Color8(140, 146, 96))
+	var buckle := _pic("ui_gear_buckle")
 	for bx: float in [belt.position.x - 3, belt.end.x - 5]:
-		draw_rect(Rect2(bx, belt.position.y + 12, 8, 12), Color8(190, 190, 196))
-		draw_rect(Rect2(bx, belt.position.y + 12, 8, 12), KitStyle.INK, false, 1.0)
+		if buckle != null:
+			draw_texture_rect(buckle, Rect2(bx - 3, belt.position.y + 14, 14, 9), false)
+		else:
+			draw_rect(Rect2(bx, belt.position.y + 12, 8, 12), Color8(190, 190, 196))
+			draw_rect(Rect2(bx, belt.position.y + 12, 8, 12), KitStyle.INK, false, 1.0)
 
 
 func _draw_gear_wall() -> void:
 	var y := 14.0
 	var wire := Color8(190, 190, 196)
+	var peg_pic := _pic("ui_gear_peg")
+	var hanger := _pic("ui_gear_hanger")
+	var mat := _pic("ui_gear_mat")
 	for slot: String in Wardrobe.SLOTS:
 		var peg := Vector2(WALL_X + 15, y + 2)
-		draw_rect(Rect2(peg - Vector2(2, 2), Vector2(5, 5)), KitStyle.WOOD_DARK)
-		draw_rect(Rect2(peg - Vector2(1, 1), Vector2(3, 3)), KitStyle.WOOD_LIGHT)
-		if slot == "coat":
+		if slot == "boots" and mat != null:
+			draw_texture_rect(mat, Rect2(WALL_X + 1, y + 22, 28, 12), false)
+			y += 30.0
+			continue
+		if peg_pic != null:
+			draw_texture_rect(peg_pic, Rect2(peg - Vector2(4, 5), Vector2(8, 9)), false)
+		else:
+			draw_rect(Rect2(peg - Vector2(2, 2), Vector2(5, 5)), KitStyle.WOOD_DARK)
+			draw_rect(Rect2(peg - Vector2(1, 1), Vector2(3, 3)), KitStyle.WOOD_LIGHT)
+		if slot == "coat" and hanger != null:
+			draw_texture_rect(hanger, Rect2(peg + Vector2(-12, 1), Vector2(24, 12)), false)
+		elif slot == "coat":
 			# A wire hanger: the hook and the shoulders.
 			draw_line(peg + Vector2(0, 2), peg + Vector2(0, 5), wire)
 			draw_line(peg + Vector2(0, 5), peg + Vector2(-10, 9), wire)
@@ -610,6 +648,9 @@ func _draw_gear_wall() -> void:
 	# A rail of spare pegs.
 	for k in 3:
 		var p := Vector2(WALL_X + 15 + k * 26, y + 13)
-		draw_rect(Rect2(p - Vector2(1, 1), Vector2(3, 3)), KitStyle.WOOD_DARK)
+		if peg_pic != null:
+			draw_texture_rect(peg_pic, Rect2(p - Vector2(3, 4), Vector2(6, 7)), false)
+		else:
+			draw_rect(Rect2(p - Vector2(1, 1), Vector2(3, 3)), KitStyle.WOOD_DARK)
 	if session.wardrobe.spare.is_empty():
 		draw_string(ThemeDB.fallback_font, Vector2(WALL_X + 4, y + 34), session.content.text("ui_gear_spare_none"), HORIZONTAL_ALIGNMENT_LEFT, WALL_W - 6, 7, Color(KitStyle.CREAM, 0.85))

@@ -1,7 +1,7 @@
 # Art cleanup report
 
 Made by tools/art_cleanup.py. palette from art/palette.json (33 colors). A picture cut pixel for pixel from a refresh sheet replaces any earlier picture of the same name.
-1101 images passed, 1 failed.
+1117 images passed, 1 failed.
 
 
 ## ChatGPT Image Nov 15, 2026, 07_04_59 AM.png (ground tiles)
@@ -1520,6 +1520,34 @@ Made by tools/art_cleanup.py. palette from art/palette.json (33 colors). A pictu
 - portrait_esme_happy: **pass** 64x64
 - portrait_esme_sad: **pass** 64x64
 - portrait_esme_surprised: **pass** 64x64
+
+## raw_ar22_G1_patches.png (Art Request 22, G1: the menu's six scout patches)
+
+- ui_patch_pack: **pass** 24x24
+- ui_patch_jobs: **pass** 24x24
+- ui_patch_map: **pass** 24x24
+- ui_patch_town: **pass** 24x24
+- ui_patch_make: **pass** 24x24
+- ui_patch_book: **pass** 24x24
+
+## raw_ar22_G2_backdrop.png (Art Request 22, G2: the ranger's ID photo backdrop at dusk)
+
+- ui_portrait_backdrop: **pass** 56x60
+
+## raw_ar22_G3_pieces.png (Art Request 22, G3: the gear wall's peg, hanger, mat, buckle, clip and bin)
+
+- ui_gear_peg: **pass** 12x14
+- ui_gear_hanger: **pass** 24x19
+- ui_gear_mat: **pass** 28x19
+- ui_gear_buckle: **pass** 14x9
+- ui_gear_clip: **pass** 8x15
+- ui_gear_bin: **pass** 13x16
+
+## raw_ar22_G4_textures.png (Art Request 22, G4: wall boards, pack canvas and belt webbing tiles)
+
+- ui_wall_boards: **pass** 64x64
+- ui_pack_canvas: **pass** 32x32
+- ui_belt_webbing: **pass** 32x32
 
 ## calm_ground_a.png
 

@@ -13487,6 +13487,270 @@
      ]
     }
    ]
+  },
+  {
+   "file": "raw_ar22_G1_patches.png",
+   "label": "Art Request 22, G1: the menu's six scout patches",
+   "keep_colors": true,
+   "final_say": true,
+   "cells": [
+    {
+     "name": "ui_patch_pack",
+     "size": [
+      24,
+      24
+     ],
+     "box": [
+      33,
+      180,
+      348,
+      362
+     ],
+     "edge_ok": true
+    },
+    {
+     "name": "ui_patch_jobs",
+     "size": [
+      24,
+      24
+     ],
+     "box": [
+      385,
+      180,
+      348,
+      362
+     ],
+     "edge_ok": true
+    },
+    {
+     "name": "ui_patch_map",
+     "size": [
+      24,
+      24
+     ],
+     "box": [
+      736,
+      180,
+      348,
+      362
+     ],
+     "edge_ok": true
+    },
+    {
+     "name": "ui_patch_town",
+     "size": [
+      24,
+      24
+     ],
+     "box": [
+      1087,
+      180,
+      348,
+      362
+     ],
+     "edge_ok": true
+    },
+    {
+     "name": "ui_patch_make",
+     "size": [
+      24,
+      24
+     ],
+     "box": [
+      1439,
+      180,
+      348,
+      362
+     ],
+     "edge_ok": true
+    },
+    {
+     "name": "ui_patch_book",
+     "size": [
+      24,
+      24
+     ],
+     "box": [
+      1790,
+      180,
+      348,
+      362
+     ],
+     "edge_ok": true
+    }
+   ],
+   "grid": [
+    6,
+    1
+   ]
+  },
+  {
+   "file": "raw_ar22_G2_backdrop.png",
+   "label": "Art Request 22, G2: the ranger's ID photo backdrop at dusk",
+   "full": true,
+   "keep_colors": true,
+   "final_say": true,
+   "cells": [
+    {
+     "name": "ui_portrait_backdrop",
+     "size": [
+      56,
+      60
+     ],
+     "box": [
+      0,
+      0,
+      1086,
+      1164
+     ]
+    }
+   ],
+   "grid": [
+    1,
+    1
+   ]
+  },
+  {
+   "file": "raw_ar22_G3_pieces.png",
+   "label": "Art Request 22, G3: the gear wall's peg, hanger, mat, buckle, clip and bin",
+   "keep_colors": true,
+   "final_say": true,
+   "cells": [
+    {
+     "name": "ui_gear_peg",
+     "size": [
+      12,
+      14
+     ],
+     "box": [
+      64,
+      223,
+      244,
+      279
+     ]
+    },
+    {
+     "name": "ui_gear_hanger",
+     "size": [
+      24,
+      19
+     ],
+     "box": [
+      344,
+      217,
+      365,
+      289
+     ]
+    },
+    {
+     "name": "ui_gear_mat",
+     "size": [
+      28,
+      19
+     ],
+     "box": [
+      738,
+      242,
+      386,
+      271
+     ]
+    },
+    {
+     "name": "ui_gear_buckle",
+     "size": [
+      14,
+      9
+     ],
+     "box": [
+      1163,
+      260,
+      364,
+      226
+     ]
+    },
+    {
+     "name": "ui_gear_clip",
+     "size": [
+      8,
+      15
+     ],
+     "box": [
+      1584,
+      207,
+      170,
+      310
+     ]
+    },
+    {
+     "name": "ui_gear_bin",
+     "size": [
+      13,
+      16
+     ],
+     "box": [
+      1835,
+      191,
+      278,
+      344
+     ]
+    }
+   ],
+   "grid": [
+    6,
+    1
+   ]
+  },
+  {
+   "file": "raw_ar22_G4_textures.png",
+   "label": "Art Request 22, G4: wall boards, pack canvas and belt webbing tiles",
+   "full": true,
+   "keep_colors": true,
+   "final_say": true,
+   "cells": [
+    {
+     "name": "ui_wall_boards",
+     "size": [
+      64,
+      64
+     ],
+     "box": [
+      0,
+      0,
+      721,
+      727
+     ]
+    },
+    {
+     "name": "ui_pack_canvas",
+     "size": [
+      32,
+      32
+     ],
+     "box": [
+      722,
+      0,
+      721,
+      727
+     ]
+    },
+    {
+     "name": "ui_belt_webbing",
+     "size": [
+      32,
+      32
+     ],
+     "box": [
+      1443,
+      0,
+      721,
+      727
+     ]
+    }
+   ],
+   "grid": [
+    3,
+    1
+   ]
   }
  ],
  "calm": {

@@ -18,7 +18,7 @@ const TABS := [
 ]
 const R := 10.0          # a patch's radius
 const R_OPEN := 12.0
-const STEP := 26.0
+const STEP := 27.0
 
 var current: String = ""
 var _hover: int = -1
@@ -88,6 +88,18 @@ func _draw() -> void:
 		var open := str(TABS[i][0]) == current
 		var r := R_OPEN if open else R
 		var c := _center(i) + (Vector2(0, 0) if open else Vector2(0, 1))
+		var art: String = "ui_patch_" + str(["pack", "jobs", "map", "town", "make", "book"][i])
+		if Art.has_picture(art):
+			# Mark's patches (Art Request 22): the open one bigger, the rest
+			# a touch dimmer until pointed at.
+			var s := 24.0   # pixel for pixel, so the stitching stays crisp
+			c.y = R_OPEN + 2 - (2.0 if open else 0.0)
+			var m := Color.WHITE if open or i == _hover else Color(0.82, 0.8, 0.78)
+			draw_circle(c + Vector2(0, 1.5), s / 2.0, Color(KitStyle.INK, 0.45))
+			draw_texture_rect(Art.texture(art), Rect2((c - Vector2(s, s) / 2.0).round(), Vector2(s, s)), false, m)
+			if open:
+				draw_arc(c, s / 2.0 + 0.5, 0, TAU, 32, KitStyle.GOLD, 1.0)
+			continue
 		var col: Color = TABS[i][3]
 		if not open:
 			col = col.lerp(Color8(120, 110, 100), 0.35)
