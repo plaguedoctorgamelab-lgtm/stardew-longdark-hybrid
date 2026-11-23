@@ -41,9 +41,10 @@ func test_every_shop_room_is_laid_out_well(t: TestCase) -> void:
 			t.check(not a.has_point(entry), "%s: %s keeps off the doorway" % [place, pieces[i]["id"]])
 			for j in range(i + 1, pieces.size()):
 				t.check(not a.intersects(room.furniture_rect(pieces[j])), "%s: %s and %s don't overlap" % [place, pieces[i]["id"], pieces[j]["id"]])
-		# The keeper's spot and the guests' spots are open floor.
-		var ka: Array = inside["keeper_at"]
-		t.check(not room.is_solid(Vector2i(int(ka[0]), int(ka[1]))), "%s: the keeper stands on open floor" % place)
+		# The keeper's spot (a shop's) and the guests' spots are open floor.
+		if inside.has("keeper_at"):
+			var ka: Array = inside["keeper_at"]
+			t.check(not room.is_solid(Vector2i(int(ka[0]), int(ka[1]))), "%s: the keeper stands on open floor" % place)
 		for g: Array in inside.get("guest_spots", []):
 			t.check(not room.is_solid(Vector2i(int(g[0]), int(g[1]))), "%s: guest spot %s is open floor" % [place, g])
 		# Every counter and bookshelf can be walked up to from the door, from in front.

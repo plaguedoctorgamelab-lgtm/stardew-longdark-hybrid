@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.7.4** (see [Version history](#version-history)). The
+**Current version: 0.7.5** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -104,6 +104,11 @@ docs/              bible, roadmap, specs, rules, status reports (hidden from God
 
 The version lives in `project.godot` (`application/config/version`). Every
 commit of the build raises it and adds a line here.
+
+### 0.7.5 (23 November 2026): the houses' insides
+
+- **The eight houses** have insides (`data/content/town_interiors.json`), dressed with Art Request 21's home set and each household's own pieces: the Pelletiers' gear wall, Bev's curio cabinet and snow globes, Agnes's books, typewriter and cat, the mayor's portrait and trophies, Pip's cryptid posters and toy chest, the Mendozas' family table and chillies, Gus's log bed and tool wall, Sol's easel and window seat. Three new walls and floors from B8 are used too.
+- **Knocking:** X at a house's door lets the ranger in when someone who lives there is home, between 8:00 and 21:00 (tuning `town.visit_from`, `visit_until`); they stand inside, to talk to and give gifts as anywhere. When it gets late, or the last of them goes out, they see the ranger to the door. Otherwise the door says nobody's home, or that it's too early or late to knock. Tests: `tests/test_houses.gd`; screenshots: `docs/status/075_shots/` (`tests/support/screenshots_075.gd`).
 
 ### 0.7.4 (23 November 2026): Art Request 21 in, the townsfolk, clothing, and the People page
 

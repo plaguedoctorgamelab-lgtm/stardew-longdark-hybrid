@@ -186,6 +186,35 @@ func is_inside(person: String, place: String) -> bool:
 	return false
 
 
+## Who lives in a house (townsfolk whose home it is).
+func residents(place: String) -> Array[String]:
+	var out: Array[String] = []
+	for r: Dictionary in content.rows("townsfolk"):
+		if str(r["home"]) == place:
+			out.append(str(r["id"]))
+	return out
+
+
+## The first resident at home now, or "".
+func someone_home(place: String, minute: int = -1) -> String:
+	for id in residents(place):
+		if routine_place(id, minute) == place:
+			return id
+	return ""
+
+
+## Whether the ranger may go into a house now: someone who lives there is
+## home, and it isn't too early or too late to knock (tuning town.visit_*).
+func can_visit(place: String, minute: int = -1) -> bool:
+	if not content.has("town_places", place) or str(content.row("town_places", place)["kind"]) != "home":
+		return false
+	if minute < 0:
+		minute = session().clock.minute
+	if minute < tuning.integer("town.visit_from") or minute >= tuning.integer("town.visit_until"):
+		return false
+	return someone_home(place, minute) != ""
+
+
 ## Whether a person is out where the ranger can see them: walking, or
 ## standing somewhere outdoors (not inside at home or a shut shop).
 func shown(person: String) -> bool:

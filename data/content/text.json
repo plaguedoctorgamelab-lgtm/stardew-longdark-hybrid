@@ -6397,6 +6397,22 @@
   {
    "id": "cal_festival",
    "text": "{name}"
+  },
+  {
+   "id": "town_knock_in",
+   "text": "You knock, and {name} lets you in."
+  },
+  {
+   "id": "town_home_late",
+   "text": "{keeper} sees you to the door: it's getting late."
+  },
+  {
+   "id": "town_home_nobody",
+   "text": "{name}: nobody's home."
+  },
+  {
+   "id": "town_home_too_late",
+   "text": "{name}: it's too early or too late to knock."
   }
  ]
 }

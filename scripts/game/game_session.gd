@@ -621,11 +621,13 @@ func process(real_delta: float) -> void:
 	shops.process()
 	if in_town:
 		town.update(real_delta)
-		# Closing time: the keeper sees the ranger out.
-		if town_inside != "" and not town.is_open(town_inside):
-			var k := shops.keeper(town_inside)
+		# Closing time: the keeper sees the ranger out. In a house, when it
+		# gets late or nobody is home any more.
+		if town_inside != "" and not town.is_open(town_inside) and not town.can_visit(town_inside):
+			var home := str(content.row("town_places", town_inside)["kind"]) == "home"
+			var k := town.residents(town_inside)[0] if home else shops.keeper(town_inside)
 			leave_town_room()
-			message.emit(content.text("town_closing", {"keeper": shops.first_name(k)}))
+			message.emit(content.text("town_home_late" if home else "town_closing", {"keeper": shops.first_name(k)}))
 
 
 ## The clock's minute with the part of the current ten minutes gone by, so
@@ -1077,6 +1079,10 @@ func _interact_town() -> void:
 	if door != "" and content.has("town_places", door):
 		if shops.has_room(door) and town.is_open(door):
 			enter_town_room(door)
+		elif shops.has_room(door) and town.can_visit(door):
+			# A house: knock, and whoever is home lets the ranger in.
+			enter_town_room(door)
+			message.emit(content.text("town_knock_in", {"name": shops.first_name(town.someone_home(door))}))
 		else:
 			message.emit(place_line(door))
 
@@ -1133,6 +1139,10 @@ func _interact_town_room() -> void:
 func place_line(place: String) -> String:
 	var r := content.row("town_places", place)
 	if not r.has("open"):
+		if str(r["kind"]) == "home" and shops.has_room(place):
+			if town.someone_home(place) == "":
+				return content.text("town_home_nobody", {"name": r["name"]})
+			return content.text("town_home_too_late", {"name": r["name"]})
 		return content.text("town_door_home", {"name": r["name"]})
 	var hours := content.text("town_hours", {"open": GameClock.time_of(int(r["open"])), "close": GameClock.time_of(int(r["close"]))})
 	# The days it shuts are part of its hours (tracker #30: the Percolator

@@ -568,7 +568,9 @@
     "talk_reach_tiles": 1.6,
     "door_reach_tiles": 1.4,
     "gate_offset": [3.5, 0.5],
-    "opens_when": "job_done:station_shipshape or day_at_least:4"
+    "opens_when": "job_done:station_shipshape or day_at_least:4",
+    "visit_from": 480,
+    "visit_until": 1260
   },
   "friendship": {
     "note": "Phase 4 Spec. Friendship never decays.",
