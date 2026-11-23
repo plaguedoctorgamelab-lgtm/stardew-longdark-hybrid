@@ -12,11 +12,14 @@ var wallet: int = 0
 var days: Dictionary = {}
 ## What the wallet held before the oldest day kept in the ledger.
 var opening: int = 0
+## Everything ever earned, for the backpack's "total earnings" (0.7.9).
+var earned: int = 0
 
 
 func reset(start: int) -> void:
 	wallet = start
 	opening = start
+	earned = 0
 	days = {}
 	changed.emit()
 
@@ -25,6 +28,7 @@ func earn(day: int, source: String, amount: int) -> void:
 	if amount <= 0:
 		return
 	wallet += amount
+	earned += amount
 	_book(day, source, amount)
 
 
@@ -98,12 +102,13 @@ func to_dict() -> Dictionary:
 	var d := {}
 	for day: int in days:
 		d[str(day)] = (days[day] as Dictionary).duplicate()
-	return {"wallet": wallet, "opening": opening, "days": d}
+	return {"wallet": wallet, "opening": opening, "days": d, "earned": earned}
 
 
 func from_dict(d: Dictionary) -> void:
 	wallet = int(d.get("wallet", 0))
 	opening = int(d.get("opening", wallet))
+	earned = int(d.get("earned", 0))
 	days = {}
 	for k: String in d.get("days", {}):
 		var row := {}

@@ -230,7 +230,7 @@ func buy(place: String, kind: String, item: String) -> String:
 			s.message.emit(content.text("shop_free_plate"))
 		s.pass_minutes(int(r.get("here_minutes", 0)))
 	elif clothes:
-		# Clothes go with the spare clothes, not the backpack: C to put them on.
+		# Clothes go with the spare clothes, not the backpack: R to put them on.
 		for i in count:
 			s.wardrobe.keep(item)
 		s.message.emit(content.text("shop_bought_clothes", {"item": content.item_name(item).to_lower(), "price": price}))

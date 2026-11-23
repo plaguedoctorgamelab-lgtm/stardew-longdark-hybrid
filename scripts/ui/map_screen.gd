@@ -71,8 +71,8 @@ func setup(s: GameSession) -> void:
 	size = Vector2(400, 270)
 	position = Vector2(40, 0)
 	title = _label(Vector2(8, 2), s.content.text("map_title"))
-	percent = _label(Vector2(150, 2), "")
-	lost = _label(Vector2(250, 2), "")
+	percent = _label(Vector2(40, 2), "")   # left of the menu tabs
+	lost = _label(Vector2(100, 2), "")
 	clip = Control.new()
 	clip.position = Vector2(8, 13)
 	clip.size = VIEW_SIZE
@@ -168,7 +168,7 @@ func _fill_travel() -> void:
 			session.travel_to(id))
 		travel_box.add_child(b)
 	travel_box.reset_size()
-	travel_box.position = Vector2(size.x - 6 - travel_box.get_combined_minimum_size().x, 16)
+	travel_box.position = Vector2(size.x - 6 - travel_box.get_combined_minimum_size().x, 26)   # under the menu tabs
 
 
 func _label(pos: Vector2, text: String) -> Label:

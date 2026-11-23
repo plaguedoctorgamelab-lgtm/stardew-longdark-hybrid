@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.7.8** (see [Version history](#version-history)). The
+**Current version: 0.7.9** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -44,7 +44,8 @@ Needs Godot 4.7.2 stable (the lab's build uses
 | Y or Enter / N | Answer a question (sleep) |
 | V | Show the version number |
 | O | People page and calendar (Q / E to turn) |
-| C | Ranger page: the clothes worn, what each does, and the spare clothes |
+| R | Ranger page: the clothes worn, what each does, and the spare clothes |
+| Tabs | With any menu page open, the picture tabs along its top turn to the others: Backpack, Ranger, Jobs, Map, People, Crafting, Book |
 | F11 | Full screen or a window (the game starts full screen) |
 | F12 | Screenshot, saved to your Downloads folder as "Strange Ranger" and the date and time |
 | F1 | Debug panel (test builds only) |
@@ -118,6 +119,20 @@ phase is finished; the last number counts every build and runs on past 9
 | 0.10.x | Phase 7, Year one polish |
 | 0.11.x to 0.14.x | Phases 8 to 11, one region each |
 | 1.0.0 | every phase done |
+
+### 0.7.9 (23 November 2026): the game menu made over
+
+- **One game menu with picture tabs.** Backpack, Ranger, Jobs, Map, People, Crafting and Book each have a tab along the top edge of whichever page is open (`scripts/ui/menu_tabs.gd`, `Main.open_tab`). Each page still has its own key.
+- **The backpack page** (`scripts/ui/inventory_screen.gd`, rebuilt):
+  - Mark's slot tiles, with the item bar's row numbered with its keys and the held slot in gold.
+  - Below a rule, the ranger's half. The ranger stands in a little window on the park at dusk, wearing what they wear (`scripts/ui/ranger_portrait.gd`). The hat, coat and boots are in slots beside them: drag clothes onto a slot to wear them, or click one for the Ranger page. Alongside are the park's name, the wallet, everything earned so far (`Money.earned`, new and saved), the clothes' warmth and the date.
+  - Beside the page: a trash can, a sort button and Drop. Sort tidies the backpack below the item bar (`Inventory.sort_from`).
+  - With a chest or the shelf open, its slots take the ranger's place.
+- **Item cards.** Pointing at an item shows a card with its picture, name and kind, what it's for, what eating it does, which slot it's worn in, and what a shop pays for it (`scripts/ui/item_tip.gd`). Every item now has a line of its own (`item_desc_*`, `kind_*`).
+- **The Ranger page moves to R.** C was already "use the held item", so 0.7.8's C for the Ranger page took that away. R is free.
+- The map's percent and lost lines sit left of the tabs, and its trail travel list sits a little lower.
+- **Art Request 22** (`docs/art/art_request_22_game_menu.md`): the tab pictures, the ranger's window backdrop, a coin and a sort button, to replace today's stand-ins. Nothing waits on it.
+- Tests: `tests/test_game_menu_079.gd`. Screenshots: `docs/status/079_shots/` (`tests/support/screenshots_079.gd`).
 
 ### 0.7.8 (23 November 2026): Mark's lunchtime tracker reports on 0.7.7
 

@@ -29,6 +29,7 @@ var title_note: Label
 var pause_menu: Panel
 var book_screen: BookScreen
 var social_screen: SocialScreen
+var menu_tabs: MenuTabs   # the game menu's picture tabs over the open page (0.7.9)
 var ranger_screen: RangerScreen   # the Ranger page: clothes worn and spare (C)
 var clipboard: ClipboardScreen
 var job_card: JobCardScreen
@@ -234,6 +235,11 @@ func _build_menus() -> void:
 	root.add_child(job_card)
 	job_card.setup(session)
 	job_card.finished.connect(_on_card_closed)
+	menu_tabs = MenuTabs.new()
+	root.add_child(menu_tabs)
+	menu_tabs.setup(session.content)
+	menu_tabs.chosen.connect(open_tab)
+	inventory_screen.want_tab.connect(open_tab)
 	dialog = Panel.new()
 	dialog.size = Vector2(320, 70)
 	dialog.position = Vector2(80, 90)
@@ -601,6 +607,55 @@ func _update_look() -> void:
 	hud.look_at = world_view.get_canvas_transform() * (interior_view.position + Vector2(r.get_center().x * TILE, top))
 
 
+## Turns the game menu to one of its pages, closing whichever was open.
+func open_tab(id: String) -> void:
+	if inventory_screen.visible:
+		inventory_screen.close()
+	for scr: Control in [ranger_screen, clipboard, map_screen, social_screen, book_screen]:
+		if scr.visible:
+			scr.call("close")
+	if choice_screen.visible:
+		choice_screen.close()
+	match id:
+		"backpack":
+			inventory_screen.open(null, "")
+		"ranger":
+			ranger_screen.open()
+		"jobs":
+			clipboard.open()
+		"map":
+			map_screen.open()
+		"people":
+			social_screen.open()
+		"crafting":
+			choice_screen.open_station("anywhere")
+		"book":
+			book_screen.open()
+
+
+## Which game-menu page is open, and its top-left corner, for the tabs.
+func _tab_page() -> Array:
+	if dialog.visible or job_card.visible or pause_menu.visible or title_screen.visible:
+		return []
+	if inventory_screen.visible:
+		return ["backpack", inventory_screen.position] if inventory_screen.other == null else []
+	if ranger_screen.visible:
+		return ["ranger", ranger_screen.position + Vector2(34, 0)]
+	if clipboard.visible:
+		return ["jobs", ClipboardScreen.FRAME.position + Vector2(24, 4)]
+	if map_screen.visible:
+		return ["map", map_screen.position + Vector2(196, 0)]
+	if social_screen.visible:
+		# Beside the leather strap that carries the page's title.
+		var paper := social_screen._paper("ui_social" if social_screen.page == "people" else "ui_calendar")
+		return ["people", Vector2(paper.get_center().x + 26, paper.position.y + 6)]
+	if choice_screen.visible and choice_screen.kind == "anywhere":
+		return ["crafting", choice_screen.position]
+	if book_screen.visible:
+		return ["book", book_screen.position]
+	return []
+
+
 func menu_open() -> bool:
 	return title_screen.visible or pause_menu.visible or options_panel.visible or inventory_screen.visible or map_screen.visible or dialog.visible or choice_screen.visible or book_screen.visible or social_screen.visible or ranger_screen.visible or clipboard.visible or job_card.visible
 
@@ -811,6 +866,11 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _process(delta: float) -> void:
+	var page := _tab_page()
+	if page.is_empty():
+		menu_tabs.visible = false
+	else:
+		menu_tabs.show_over(page[0], page[1])
 	_update_music(delta)
 	if not started:
 		return

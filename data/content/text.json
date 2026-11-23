@@ -6307,6 +6307,434 @@
    "text": "Your backpack is full: no room for the {item} you'd take off."
   },
   {
+   "id": "item_desc_hammer",
+   "text": "Repairs what's broken, builds a kit at its pad, and takes down what you've put up."
+  },
+  {
+   "id": "item_desc_lantern",
+   "text": "Light to walk by after dark."
+  },
+  {
+   "id": "item_desc_map",
+   "text": "Fills in as you walk. Use it out on the trail to survey."
+  },
+  {
+   "id": "item_desc_compass",
+   "text": "Points north. Surveying needs it."
+  },
+  {
+   "id": "item_desc_pencil",
+   "text": "For marking the map. Surveying needs it."
+  },
+  {
+   "id": "item_desc_axe",
+   "text": "Chops trees down for firewood."
+  },
+  {
+   "id": "item_desc_bedroll",
+   "text": "Makes camp anywhere: a bed and a small fire for the night."
+  },
+  {
+   "id": "item_desc_tin_of_beans",
+   "text": "Cold, but filling."
+  },
+  {
+   "id": "item_desc_apple",
+   "text": "Crisp and a little sour."
+  },
+  {
+   "id": "item_desc_sandwich",
+   "text": "Wrapped in wax paper this morning."
+  },
+  {
+   "id": "item_desc_hot_soup",
+   "text": "Still steaming. Warms you through."
+  },
+  {
+   "id": "item_desc_firewood",
+   "text": "Burns in a stove, a campfire or a fire ring."
+  },
+  {
+   "id": "item_desc_planks",
+   "text": "Sawn boards, for repairs and building."
+  },
+  {
+   "id": "item_desc_nails",
+   "text": "For repairs and building."
+  },
+  {
+   "id": "item_desc_roofing",
+   "text": "Shingles for a roof that leaks."
+  },
+  {
+   "id": "item_desc_window_glass",
+   "text": "A pane for an empty window frame."
+  },
+  {
+   "id": "item_desc_saw",
+   "text": "Cuts through a fallen trunk across the trail."
+  },
+  {
+   "id": "item_desc_shovel",
+   "text": "Digs new trail, and fills a hole a badger dug."
+  },
+  {
+   "id": "item_desc_trail_sign",
+   "text": "Put it up at a junction so people know the way."
+  },
+  {
+   "id": "item_desc_trail_marker",
+   "text": "A post that shows where the trail goes."
+  },
+  {
+   "id": "item_desc_repair_kit",
+   "text": "Everything a small repair needs, in one bundle."
+  },
+  {
+   "id": "item_desc_berries",
+   "text": "Picked by the trail."
+  },
+  {
+   "id": "item_desc_mushrooms",
+   "text": "Picked in the shade. The safe kind."
+  },
+  {
+   "id": "item_desc_pine_resin",
+   "text": "Sticky and fragrant, scraped from pine bark."
+  },
+  {
+   "id": "item_desc_glowcap",
+   "text": "Glowcap. A small violet mushroom that gives off its own light. It only seems to show itself at night."
+  },
+  {
+   "id": "item_desc_trail_mix",
+   "text": "Nuts and dried fruit for the trail."
+  },
+  {
+   "id": "item_desc_sticks",
+   "text": "Kindling, and useful for making things."
+  },
+  {
+   "id": "item_desc_stones",
+   "text": "For cairns and building."
+  },
+  {
+   "id": "item_desc_reeds",
+   "text": "Long and tough. They twist into rope."
+  },
+  {
+   "id": "item_desc_wild_onion",
+   "text": "Sharp and green. Better cooked."
+  },
+  {
+   "id": "item_desc_fiddleheads",
+   "text": "Young fern curls. Spring only."
+  },
+  {
+   "id": "item_desc_wildflowers",
+   "text": "A handful from the meadow."
+  },
+  {
+   "id": "item_desc_hazelnuts",
+   "text": "Gathered from under the hazels."
+  },
+  {
+   "id": "item_desc_rose_hips",
+   "text": "Bright red, full of seeds. Good in tea."
+  },
+  {
+   "id": "item_desc_ember_moss",
+   "text": "Ember moss. An orange moss on dead wood, warm to the touch, even in the snow."
+  },
+  {
+   "id": "item_desc_lodestone_sliver",
+   "text": "Lodestone sliver. A splinter of dark stone that pulls at anything iron. The compass needle won't sit still near it."
+  },
+  {
+   "id": "item_desc_cairn",
+   "text": "A stack of stones to mark the way."
+  },
+  {
+   "id": "item_desc_rope",
+   "text": "Twisted from reeds."
+  },
+  {
+   "id": "item_desc_boardwalk",
+   "text": "Planks to lay over bog and shallows."
+  },
+  {
+   "id": "item_desc_workbench_kit",
+   "text": "Put it down to build a workbench."
+  },
+  {
+   "id": "item_desc_berry_preserve",
+   "text": "A jar of summer."
+  },
+  {
+   "id": "item_desc_fiddlehead_fry",
+   "text": "Fiddleheads fried with wild onion."
+  },
+  {
+   "id": "item_desc_roast_hazelnuts",
+   "text": "Warm from the pan."
+  },
+  {
+   "id": "item_desc_rose_hip_tea",
+   "text": "Tart and warming."
+  },
+  {
+   "id": "item_desc_glowcap_lantern",
+   "text": "A lantern that never needs fuel."
+  },
+  {
+   "id": "item_desc_ember_bedroll",
+   "text": "A bedroll that keeps you warm without a fire."
+  },
+  {
+   "id": "item_desc_true_compass",
+   "text": "A compass that seems to know more than north."
+  },
+  {
+   "id": "item_desc_bench",
+   "text": "Put it down where visitors want to sit."
+  },
+  {
+   "id": "item_desc_trash_can",
+   "text": "Put it down where litter gathers."
+  },
+  {
+   "id": "item_desc_picnic_table",
+   "text": "Put it down at a good spot for lunch."
+  },
+  {
+   "id": "item_desc_fire_ring",
+   "text": "Put it down for a safe campfire."
+  },
+  {
+   "id": "item_desc_radio_valve",
+   "text": "A spare valve for the fire tower's radio."
+  },
+  {
+   "id": "item_desc_pressed_flower_card",
+   "text": "A card with flowers pressed into it. A nice gift."
+  },
+  {
+   "id": "item_desc_pine_resin_candle",
+   "text": "Smells of the forest. A nice gift."
+  },
+  {
+   "id": "item_desc_carved_pinecone_figure",
+   "text": "A little figure carved from pinecones. A nice gift."
+  },
+  {
+   "id": "item_desc_painted_stone",
+   "text": "A stone painted in park colours. A nice gift."
+  },
+  {
+   "id": "item_desc_glowcap_night_light",
+   "text": "A soft glow for a dark room. A lovely gift."
+  },
+  {
+   "id": "item_desc_coffee",
+   "text": "Hot and strong. A spring in your step for a while."
+  },
+  {
+   "id": "item_desc_hot_chocolate",
+   "text": "Sweet, and warms the hands."
+  },
+  {
+   "id": "item_desc_muffin",
+   "text": "The bakery's muffin of the day."
+  },
+  {
+   "id": "item_desc_trail_breakfast",
+   "text": "Eggs, beans and toast: a proper start."
+  },
+  {
+   "id": "item_desc_tamales",
+   "text": "Wrapped in corn husks, still warm."
+  },
+  {
+   "id": "item_desc_pozole",
+   "text": "A big bowl of hominy stew."
+  },
+  {
+   "id": "item_desc_enchiladas",
+   "text": "Rolled, sauced and baked."
+  },
+  {
+   "id": "item_desc_churros",
+   "text": "Sugared and crisp."
+  },
+  {
+   "id": "item_desc_song_notebook",
+   "text": "Teo's notebook of songs. He'll want it back."
+  },
+  {
+   "id": "item_desc_parcel",
+   "text": "A parcel to be delivered."
+  },
+  {
+   "id": "item_desc_lost_mitten",
+   "text": "Someone in town is missing this."
+  },
+  {
+   "id": "item_desc_lost_keys",
+   "text": "Someone in town is missing these."
+  },
+  {
+   "id": "item_desc_lost_locket",
+   "text": "Someone in town is missing this."
+  },
+  {
+   "id": "item_desc_lost_glasses",
+   "text": "Someone in town is missing these."
+  },
+  {
+   "id": "item_desc_pond_painting",
+   "text": "Sol painted the pond for you."
+  },
+  {
+   "id": "item_desc_pip_drawing",
+   "text": "Pip drew you. You're taller in the drawing."
+  },
+  {
+   "id": "item_desc_journal_page_one",
+   "text": "A page from the last ranger's journal."
+  },
+  {
+   "id": "kind_tool",
+   "text": "Tool"
+  },
+  {
+   "id": "kind_food",
+   "text": "Food"
+  },
+  {
+   "id": "kind_fuel",
+   "text": "Fuel"
+  },
+  {
+   "id": "kind_material",
+   "text": "Material"
+  },
+  {
+   "id": "kind_kit",
+   "text": "Kit"
+  },
+  {
+   "id": "kind_clothing",
+   "text": "Clothing"
+  },
+  {
+   "id": "kind_placeable",
+   "text": "To put up"
+  },
+  {
+   "id": "kind_park_thing",
+   "text": "Park thing"
+  },
+  {
+   "id": "kind_gift",
+   "text": "Gift"
+  },
+  {
+   "id": "kind_favor",
+   "text": "For a favor"
+  },
+  {
+   "id": "kind_page",
+   "text": "Page"
+  },
+  {
+   "id": "kind_keepsake",
+   "text": "Keepsake"
+  },
+  {
+   "id": "kind_find",
+   "text": "Find"
+  },
+  {
+   "id": "kind_magic",
+   "text": "Curious find"
+  },
+  {
+   "id": "tip_when_eaten",
+   "text": "Eaten: {what}"
+  },
+  {
+   "id": "tip_worn_as",
+   "text": "Worn as your {slot}. Drag it onto that slot to wear it."
+  },
+  {
+   "id": "tip_sells_for",
+   "text": "Sells for {gold} gold"
+  },
+  {
+   "id": "ui_pack_ranger",
+   "text": "Park Ranger"
+  },
+  {
+   "id": "ui_pack_park",
+   "text": "Dusk River Park"
+  },
+  {
+   "id": "ui_pack_wallet",
+   "text": "Wallet: {gold} gold"
+  },
+  {
+   "id": "ui_pack_earned",
+   "text": "Earned so far: {gold} gold"
+  },
+  {
+   "id": "ui_pack_warmth",
+   "text": "Clothes: +{warmth} warmth outdoors"
+  },
+  {
+   "id": "ui_pack_date",
+   "text": "{weekday}, day {day} of {season}, year {year}"
+  },
+  {
+   "id": "ui_trash_hint",
+   "text": "Trash: drag something here to throw it away"
+  },
+  {
+   "id": "ui_sort_hint",
+   "text": "Tidy the backpack (the item bar stays as it is)"
+  },
+  {
+   "id": "ui_drop_hint",
+   "text": "Drop: drag something here to put it down"
+  },
+  {
+   "id": "menu_tab_backpack",
+   "text": "Backpack (E)"
+  },
+  {
+   "id": "menu_tab_ranger",
+   "text": "Ranger (R)"
+  },
+  {
+   "id": "menu_tab_jobs",
+   "text": "Jobs (J)"
+  },
+  {
+   "id": "menu_tab_map",
+   "text": "Map (M)"
+  },
+  {
+   "id": "menu_tab_people",
+   "text": "People (O)"
+  },
+  {
+   "id": "menu_tab_crafting",
+   "text": "Crafting (K)"
+  },
+  {
+   "id": "menu_tab_book",
+   "text": "Book (B)"
+  },
+  {
    "id": "clothing_line",
    "text": "Wearing: {hat}, {coat}, {boots} (+{warmth} warmth outdoors)"
   },
@@ -6324,7 +6752,7 @@
   },
   {
    "id": "shop_bought_clothes",
-   "text": "Bought: {item}, {price} gold. It's with your spare clothes: C to put it on."
+   "text": "Bought: {item}, {price} gold. It's with your spare clothes: R to put it on."
   },
   {
    "id": "item_use_ranger_hat",
@@ -6344,7 +6772,7 @@
   },
   {
    "id": "ui_ranger_hint",
-   "text": "C to close · click a spare piece to put it on"
+   "text": "R to close · click a spare piece to put it on"
   },
   {
    "id": "ui_ranger_slot_hat",

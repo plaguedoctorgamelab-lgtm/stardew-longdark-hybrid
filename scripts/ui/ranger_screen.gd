@@ -1,6 +1,6 @@
 class_name RangerScreen
 extends Panel
-## The Ranger page, on C (Mark's 0.7.7 playtest): the hat, coat and boots
+## The Ranger page, on R (Mark's 0.7.7 playtest): the hat, coat and boots
 ## being worn, each with what it does, everything added up, and the spare
 ## clothes. Spare clothes are kept at the station, not in the backpack:
 ## click one to put it on, and what comes off joins them.

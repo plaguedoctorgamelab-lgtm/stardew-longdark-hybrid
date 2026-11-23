@@ -271,6 +271,39 @@ func is_empty() -> bool:
 	return true
 
 
+## Tidies the slots from `first` on (the item bar before it is left alone):
+## like stacks merged, then tools, food, materials and the rest in order,
+## each by name.
+func sort_from(first: int) -> void:
+	var counts := {}
+	var order: Array[String] = []
+	for i in range(first, slots.size()):
+		var s: Dictionary = slots[i]
+		if s.is_empty():
+			continue
+		var id := str(s["item"])
+		if not counts.has(id):
+			order.append(id)
+		counts[id] = int(counts.get(id, 0)) + int(s["count"])
+		slots[i] = {}
+	const KINDS := ["tool", "food", "fuel", "material", "kit", "clothing", "placeable", "park_thing", "gift", "favor", "page", "keepsake", "find", "magic"]
+	order.sort_custom(func(a: String, b: String) -> bool:
+		var ka := KINDS.find(str(content.row("items", a).get("kind", "")))
+		var kb := KINDS.find(str(content.row("items", b).get("kind", "")))
+		ka = 99 if ka < 0 else ka
+		kb = 99 if kb < 0 else kb
+		return ka < kb if ka != kb else content.item_name(a) < content.item_name(b))
+	var i := first
+	for id: String in order:
+		var left: int = counts[id]
+		while left > 0 and i < slots.size():
+			var n := mini(left, stack_size(id))
+			slots[i] = {"item": id, "count": n}
+			left -= n
+			i += 1
+	changed.emit()
+
+
 func swap(a: int, b: int) -> void:
 	var t: Dictionary = slots[a]
 	slots[a] = slots[b]
