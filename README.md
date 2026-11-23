@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.7.9** (see [Version history](#version-history)). The
+**Current version: 0.7.10** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -44,8 +44,8 @@ Needs Godot 4.7.2 stable (the lab's build uses
 | Y or Enter / N | Answer a question (sleep) |
 | V | Show the version number |
 | O | People page and calendar (Q / E to turn) |
-| R | Ranger page: the clothes worn, what each does, and the spare clothes |
-| Tabs | With any menu page open, the picture tabs along its top turn to the others: Backpack, Ranger, Jobs, Map, People, Crafting, Book |
+| R | The pack, like E: the gear wall with the clothes worn and the spare clothes |
+| Patches | With any menu page open, the round patches along its top turn to the others: Pack, Jobs, Map, Town, Make, Book |
 | F11 | Full screen or a window (the game starts full screen) |
 | F12 | Screenshot, saved to your Downloads folder as "Strange Ranger" and the date and time |
 | F1 | Debug panel (test builds only) |
@@ -119,6 +119,21 @@ phase is finished; the last number counts every build and runs on past 9
 | 0.10.x | Phase 7, Year one polish |
 | 0.11.x to 0.14.x | Phases 8 to 11, one region each |
 | 1.0.0 | every phase done |
+
+### 0.7.10 (23 November 2026): the gear wall
+
+The designer found 0.7.9's menu too close to Stardew Valley, so the pack page is now our own: **the gear wall at the trailhead.** Everything works as before (the same slots, keys, dragging and cards); only the look and where things live changed.
+
+- **The pack page** (`scripts/ui/inventory_screen.gd`, rebuilt again) is a wall of boards with three things hung on it:
+  - **The park ID card**, clipped to the wall: the ranger's photo at dusk (`RangerPortrait`) with the park patch (`title_emblem`) stamped on its corner, the park, the funds, everything earned and the date.
+  - **The pack, opened.** The hip belt's ten pockets are the item bar, numbered with their keys and buckled at each end, over the main compartment's stitched canvas. Under it: **Repack** (tidies the compartment, `Inventory.sort_from`), Drop and the **Leave No Trace bin**.
+  - **The gear wall.** The hat hangs on a peg, the coat on a hanger, and the boots stand on a mat, each named beside it. Spare clothes hang on a rail of pegs below. Drag clothes onto the hat, coat or boots to wear them, or onto the spare pegs to hang them out of the pack (`GameSession.hang_up`). Click a spare piece to put it on.
+  - A chest or the shelf opens as a crate under the pack.
+- **The Ranger page is folded in**: the gear wall does its job. R now opens the pack, like E. `ranger_screen.gd` is gone.
+- **Scout patches for tabs** (`scripts/ui/menu_tabs.gd`): round stitched patches, one colour each: Pack, Jobs, Map, Town, Make, Book. The open page's patch is bigger, with gold stitching.
+- **Item tags** (`scripts/ui/item_tip.gd`): a paper tag with a brass-ringed hole hangs from the pointer on a bit of twine, with the kind stamped in red like a specimen label.
+- **Art Request 22, revised** (`docs/art/art_request_22_game_menu.md`): the patches, the photo backdrop, the pegs, hanger, mat, buckle, clip and bin, and optional textures. It replaces the first version.
+- Screenshots: `docs/status/0710_shots/` (`tests/support/screenshots_079.gd`).
 
 ### 0.7.9 (23 November 2026): the game menu made over
 

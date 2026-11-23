@@ -1503,6 +1503,21 @@ func put_on(item: String) -> bool:
 	return true
 
 
+## Hangs a piece of clothing from a backpack or chest slot on the gear
+## wall's spare pegs, out of the pack (0.7.9). Returns false if it isn't
+## clothing.
+func hang_up(inv: Inventory, i: int) -> bool:
+	var item := inv.item_at(i)
+	if item == "" or not wardrobe.is_clothing(item):
+		return false
+	var n := int(inv.slot(i)["count"])
+	inv.remove(item, n)
+	for k in n:
+		wardrobe.keep(item)
+	clothes_changed.emit()
+	return true
+
+
 func use_item() -> void:
 	if pending_confirm != "":
 		return

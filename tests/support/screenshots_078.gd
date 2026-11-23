@@ -44,9 +44,9 @@ func _run() -> void:
 	s.wardrobe.keep("wool_toque")
 	s.wardrobe.keep("waterproof_boots")
 	s.put_on("wool_toque")
-	main.ranger_screen.open()
+	main.open_tab("backpack")
 	await _shot("2_ranger_page")
-	main.ranger_screen.close()
+	main.inventory_screen.close()
 	s.park.money.wallet = 400
 	s.park.order("planks")
 	s.open_catalog()

@@ -44,8 +44,5 @@ func test_clothes_take_no_backpack_room(t: TestCase) -> void:
 
 func test_ranger_page_says_what_clothes_do(t: TestCase) -> void:
 	var s := TestCase.new_session()
-	var r := RangerScreen.new()
-	r.setup(s)
 	for row: Dictionary in s.content.rows("clothing"):
-		t.check(r.buff_text(str(row["id"])) != "", "%s says what it does" % row["id"])
-	r.free()
+		t.check(s.content.has("text", "item_use_" + str(row["id"])), "%s says what it does on its tag" % row["id"])

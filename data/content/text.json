@@ -6680,19 +6680,15 @@
   },
   {
    "id": "ui_pack_wallet",
-   "text": "Wallet: {gold} gold"
+   "text": "Funds: {gold}g"
   },
   {
    "id": "ui_pack_earned",
-   "text": "Earned so far: {gold} gold"
-  },
-  {
-   "id": "ui_pack_warmth",
-   "text": "Clothes: +{warmth} warmth outdoors"
+   "text": "Earned: {gold}g"
   },
   {
    "id": "ui_pack_date",
-   "text": "{weekday}, day {day} of {season}, year {year}"
+   "text": "Day {day}, {season}, year {year}"
   },
   {
    "id": "ui_trash_hint",
@@ -6708,11 +6704,7 @@
   },
   {
    "id": "menu_tab_backpack",
-   "text": "Backpack (E)"
-  },
-  {
-   "id": "menu_tab_ranger",
-   "text": "Ranger (R)"
+   "text": "Pack (E or R)"
   },
   {
    "id": "menu_tab_jobs",
@@ -6724,11 +6716,11 @@
   },
   {
    "id": "menu_tab_people",
-   "text": "People (O)"
+   "text": "Town (O)"
   },
   {
    "id": "menu_tab_crafting",
-   "text": "Crafting (K)"
+   "text": "Make (K)"
   },
   {
    "id": "menu_tab_book",
@@ -6752,7 +6744,7 @@
   },
   {
    "id": "shop_bought_clothes",
-   "text": "Bought: {item}, {price} gold. It's with your spare clothes: R to put it on."
+   "text": "Bought: {item}, {price} gold. It's on the gear wall's spare pegs: open the pack (E) to put it on."
   },
   {
    "id": "item_use_ranger_hat",
@@ -7421,6 +7413,38 @@
   {
    "id": "fv_found_thing",
    "text": "You found the {item}!"
+  },
+  {
+   "id": "ui_pack_id_title",
+   "text": "PARK RANGER"
+  },
+  {
+   "id": "ui_pack_hint",
+   "text": "E / Esc to close  ·  drag to move  ·  point at anything for its tag"
+  },
+  {
+   "id": "ui_repack",
+   "text": "Repack"
+  },
+  {
+   "id": "ui_bin",
+   "text": "Bin"
+  },
+  {
+   "id": "ui_gear_spare",
+   "text": "Spare pegs"
+  },
+  {
+   "id": "ui_gear_spare_hint",
+   "text": "Drag clothes here to hang them up, out of the pack"
+  },
+  {
+   "id": "ui_gear_spare_tag",
+   "text": "Spare: click to wear"
+  },
+  {
+   "id": "ui_gear_spare_none",
+   "text": "Nothing spare yet. Town sells more."
   }
  ]
 }

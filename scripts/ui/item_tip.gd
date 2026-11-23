@@ -1,8 +1,9 @@
 class_name ItemTip
 extends PanelContainer
-## The card that follows the pointer over a slot (0.7.9): the item's picture
-## and name, what kind of thing it is, what it's for, what eating it or
-## wearing it does, and what a shop would give for it.
+## The tag that swings from the pointer over a slot (0.7.9): a paper luggage
+## tag on a bit of twine, with the item's picture and name, its kind stamped
+## in red like a specimen label, what it's for, what eating or wearing it
+## does, and what a shop would give for it.
 
 var session: GameSession
 var _pic: TextureRect
@@ -16,7 +17,22 @@ func setup(s: GameSession) -> void:
 	top_level = true
 	z_index = 50
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_theme_stylebox_override("panel", KitStyle.paper())
+	# A plain paper tag: the hole and the twine are drawn on top.
+	var tag := StyleBoxFlat.new()
+	tag.bg_color = Color8(250, 240, 214)
+	tag.border_color = KitStyle.WOOD
+	tag.set_border_width_all(1)
+	tag.set_corner_radius_all(2)
+	tag.corner_radius_top_left = 6
+	tag.corner_radius_bottom_left = 6
+	tag.shadow_color = Color(KitStyle.INK, 0.35)
+	tag.shadow_size = 1
+	tag.shadow_offset = Vector2(1, 2)
+	tag.content_margin_left = 13
+	tag.content_margin_right = 6
+	tag.content_margin_top = 4
+	tag.content_margin_bottom = 4
+	add_theme_stylebox_override("panel", tag)
 	var v := VBoxContainer.new()
 	v.add_theme_constant_override("separation", 1)
 	v.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -35,7 +51,20 @@ func setup(s: GameSession) -> void:
 	names.add_theme_constant_override("separation", -2)
 	head.add_child(names)
 	_name = _label(names, 9, KitStyle.TEXT_DARK)
-	_kind = _label(names, 7, Color(KitStyle.TEXT_DARK, 0.6))
+	# The kind, stamped in red ink in a little box.
+	var stamp := PanelContainer.new()
+	var sb := StyleBoxFlat.new()
+	sb.bg_color = Color(0, 0, 0, 0)
+	sb.border_color = Color(KitStyle.CORAL.darkened(0.2), 0.9)
+	sb.set_border_width_all(1)
+	sb.set_content_margin_all(1)
+	sb.content_margin_left = 2
+	sb.content_margin_right = 2
+	stamp.add_theme_stylebox_override("panel", sb)
+	stamp.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	stamp.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	names.add_child(stamp)
+	_kind = _label(stamp, 7, KitStyle.CORAL.darkened(0.2))
 	var rule := ColorRect.new()
 	rule.color = Color(KitStyle.WOOD_MID, 0.6)
 	rule.custom_minimum_size = Vector2(0, 1)
@@ -89,7 +118,8 @@ func show_item(item: String, count: int = 1, heading: String = "") -> void:
 	var row := session.content.row("items", item)
 	_pic.texture = Art.texture(str(row["icon"])) if Art.has_picture(str(row["icon"])) else null
 	_name.text = session.content.item_name(item) + ("  ×%d" % count if count > 1 else "")
-	_kind.text = heading if heading != "" else kind_text(session, item)
+	_kind.text = (heading if heading != "" else kind_text(session, item)).to_upper()
+	_kind.get_parent().visible = _kind.text != ""
 	_body.text = "\n".join(lines_for(session, item))
 	_body.visible = _body.text != ""
 	reset_size()
@@ -104,6 +134,18 @@ func hide_tip() -> void:
 func _process(_delta: float) -> void:
 	if visible:
 		_follow()
+		queue_redraw()
+
+
+## The twine, from the tag's hole back up to the pointer.
+func _draw() -> void:
+	var hole := Vector2(6, size.y / 2.0)
+	# The punched hole with its brass ring.
+	draw_circle(hole, 2.5, Color8(200, 160, 80))
+	draw_circle(hole, 1.5, Color(KitStyle.INK, 0.8))
+	var to := get_global_mouse_position() - global_position
+	var mid := (hole + to) / 2.0 + Vector2(0, 5)
+	draw_polyline(PackedVector2Array([to, mid, hole]), Color8(196, 170, 120), 1.0)
 
 
 ## Sits below and right of the pointer, turned back to stay on screen.

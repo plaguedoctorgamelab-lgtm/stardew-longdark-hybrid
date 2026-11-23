@@ -1,10 +1,16 @@
-# Strange Ranger: Art Request 22, the game menu
+# Strange Ranger: Art Request 22 (revised), the gear wall
 
-From the lab, 23 November 2026. A small request. In 0.7.9 the backpack became a game menu, with picture tabs along the top: Backpack, Ranger, Jobs, Map, People, Crafting and Book. The Backpack page now has the ranger's half below the backpack. The ranger stands in a little window, their hat, coat and boots sit in slots beside them, and the park, the wallet and the date are written alongside. Pointing at an item shows a card saying what it is.
+From the lab, 23 November 2026. **This replaces the first Art Request 22**, which asked for tab pictures and a backdrop for a farming-game style menu. The designer found that menu too close to Stardew Valley, so in 0.7.10 the menu became something of our own: **the gear wall at the trailhead.**
 
-It all works now, using stand-in pictures borrowed from elsewhere in the game (item icons for the tabs, a backdrop drawn by code). These sheets replace the stand-ins. **Nothing waits on them**, so send them whenever suits you.
+The pack page is a wall of boards. On it hang:
 
-The screenshots attached to the email show the menu as it is today.
+- the ranger's **park ID card**, with their photo at dusk and the park patch stamped on its corner
+- the **pack**, opened, with the hip belt's ten pockets (the item bar) over the main compartment's stitched canvas, and a Repack strap, Drop and a Leave No Trace bin below it
+- the **gear wall**: the hat on a peg, the coat on a hanger, the boots on a mat, and spare clothes on a rail of pegs
+
+The menu's tabs are **round scout patches** sewn along the top. Pointing at an item swings down a **paper tag on twine**, with its kind stamped in red.
+
+All of it works now, drawn by code with the game's existing pictures. These sheets would give it your hand. **Nothing waits on them.** The screenshots in the email show it as it is.
 
 ## Rules
 
@@ -14,31 +20,38 @@ The same as Art Requests 17 to 21: the bright palette, a one-pixel dark outline,
 
 > True pixel art, crisp hard-edged pixels on an exact grid, every pixel a solid square, no anti-aliasing, no blur, no gradients, warm cozy 16-bit farming game style, bright cheerful palette, mid-century national park poster and scout patch feel, light from the top left.
 
-## M1. Seven tab pictures
+## G1. Six scout patches (the tabs)
 
-One sheet, 7 cells in a row, each **16 × 16**, on a plain background. They sit on the existing blue tab (`ui_tab`), so keep the pictures bold and readable at a glance.
+One sheet, 6 cells in a row, each **24 × 24**: round embroidered patches with a stitched rim, like your skill badges. Each has a bold picture in the middle, readable at a glance.
 
-| Cell | Name | Picture | Today's stand-in |
+| Cell | Name | Patch colour | Picture |
 | --- | --- | --- | --- |
-| 1 | `ui_tab_backpack` | **Keep the one you drew** (Art Request 16). Leave this cell empty. | yours |
-| 2 | `ui_tab_ranger` | The ranger's flat hat with a tiny park badge | the hat item |
-| 3 | `ui_tab_jobs` | A clipboard with a pinned note | the ledger tab |
-| 4 | `ui_tab_map` | A folded trail map | the map item |
-| 5 | `ui_tab_people` | Two small faces, or a heart over a little house | a heart |
-| 6 | `ui_tab_crafting` | A hammer crossed with a saw | the hammer item |
-| 7 | `ui_tab_book` | **Keep the one you drew.** Leave this cell empty. | yours |
+| 1 | `ui_patch_pack` | pine green | a backpack |
+| 2 | `ui_patch_jobs` | tan | a clipboard |
+| 3 | `ui_patch_map` | sky blue | a folded trail map |
+| 4 | `ui_patch_town` | coral | a little main street, or a house with a heart |
+| 5 | `ui_patch_make` | brown | a hammer and saw crossed |
+| 6 | `ui_patch_book` | violet | an open field book |
 
-## M2. The ranger's window
+## G2. The ranger's photo backdrop
 
-`ui_portrait_backdrop`, **56 × 72**, portrait shape. The view behind the ranger on the backpack page: Dusk River Park at dusk, with a violet-to-orange sky, a first star, far blue hills, a ridge of pines, and a strip of grass across the bottom 14 pixels. The ranger stands on that grass, so keep the middle third of the lower half plain. No frame: the game draws the wooden edge.
+`ui_portrait_backdrop`, **56 × 60**: the view behind the ranger in their ID photo. Dusk River Park at dusk: a violet-to-orange sky, a first star, far blue hills, a ridge of pines, and a strip of grass along the bottom 12 pixels for the ranger to stand on. Keep the middle third of the lower half plain. No frame.
 
-## M3. Small pieces
+## G3. Gear wall pieces
 
-One sheet, 2 cells in a row.
+One sheet, cells in a row.
 
 | Cell | Name | Size | Picture |
 | --- | --- | --- | --- |
-| 1 | `ui_coin` | 10 × 10 | A gold coin with the park's pine on it, for the wallet line |
-| 2 | `ui_sort` | 16 × 16 | Two arrows, up and down, painted like a trail sign, for the "tidy the backpack" button |
+| 1 | `ui_gear_peg` | 8 × 8 | a turned wooden peg, seen from the front |
+| 2 | `ui_gear_hanger` | 24 × 10 | a wire coat hanger |
+| 3 | `ui_gear_mat` | 30 × 6 | a little woven boot mat |
+| 4 | `ui_gear_buckle` | 8 × 12 | a hip-belt buckle, grey plastic or brass |
+| 5 | `ui_gear_clip` | 12 × 6 | the metal clip the ID card hangs from |
+| 6 | `ui_gear_bin` | 12 × 12 | a small Leave No Trace bin with the park pine on it |
 
-Name the sheets `ar22_M1_tabs.png`, `ar22_M2_backdrop.png` and `ar22_M3_pieces.png`. The lab cuts them and drops them straight in.
+## G4. Textures (optional)
+
+Tiling textures for what the lab draws as flat colour today: `ui_wall_boards` (32 × 32, upright boards), `ui_pack_canvas` (16 × 16, khaki canvas weave) and `ui_belt_webbing` (16 × 16, olive webbing). Tiles must join seamlessly on all four sides.
+
+Name the sheets `ar22_G1_patches.png`, `ar22_G2_backdrop.png`, `ar22_G3_pieces.png` and `ar22_G4_textures.png`. The lab cuts them and drops them in.
