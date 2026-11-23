@@ -365,7 +365,18 @@ func talk(person: String) -> Dictionary:
 	if not line.is_empty():
 		heard[str(line["id"])] = day
 		today_line[person] = [day, str(line["id"])]
-	return {"name": str(content.row("townsfolk", person)["name"]), "text": str(line.get("text", "")), "hearts": hearts(person)}
+	return {"name": str(content.row("townsfolk", person)["name"]), "text": str(line.get("text", "")), "hearts": hearts(person), "mood": mood_of(line, first)}
+
+
+## The face a person makes saying a line, for their portrait: glad to meet
+## the ranger and in their friendship lines, surprised at news from the
+## park, otherwise as they are.
+static func mood_of(line: Dictionary, first: bool) -> String:
+	if first or int(line.get("min_hearts", 0)) >= 2:
+		return "happy"
+	if line.has("event"):
+		return "surprised"
+	return "neutral"
 
 
 ## Every line a person could say now, best first: the first meeting, then

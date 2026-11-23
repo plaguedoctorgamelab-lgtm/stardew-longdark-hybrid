@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.7.6** (see [Version history](#version-history)). The
+**Current version: 0.7.7** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -104,6 +104,12 @@ docs/              bible, roadmap, specs, rules, status reports (hidden from God
 
 The version lives in `project.godot` (`application/config/version`). Every
 commit of the build raises it and adds a line here.
+
+### 0.7.7 (23 November 2026): Mark's portraits
+
+- **Portraits in the talk box.** Mark's optional portraits (`art/raw/raw_portraits_*.png`), cut to 64 x 64 in four moods each: neutral, happy, sad, surprised (`portrait_<id>_<mood>`). The talk box shows the speaker's portrait on the left, in the mood the line calls for (`Town.mood_of`: happy at a first meeting and in friendship lines, surprised at news from the park), and the asker's when a favor is asked. Without a portrait it shows a big crop of the person's sprite head.
+- **Wren's portrait waits.** Mark's sheet for Wren is "a provisional ranger design" (his note), not Wren's look, so it is kept in `art/raw/` but not used; the talk box shows her sprite's face until it's redrawn.
+- Tests: `tests/test_portraits.gd`; screenshots: `docs/status/077_shots/` (`tests/support/screenshots_077.gd`).
 
 ### 0.7.6 (23 November 2026): Townsfolk Favors
 

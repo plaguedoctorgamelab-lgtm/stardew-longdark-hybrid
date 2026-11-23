@@ -1,7 +1,7 @@
 # Art cleanup report
 
 Made by tools/art_cleanup.py. palette from art/palette.json (33 colors). A picture cut pixel for pixel from a refresh sheet replaces any earlier picture of the same name.
-1057 images passed, 1 failed.
+1101 images passed, 1 failed.
 
 
 ## ChatGPT Image Nov 15, 2026, 07_04_59 AM.png (ground tiles)
@@ -1439,6 +1439,87 @@ Made by tools/art_cleanup.py. palette from art/palette.json (33 colors). A pictu
 - item_bedroll_big: **pass** 32x32
 - item_lamp_oil: **pass** 32x32
 - item_matches: **pass** 32x32
+
+## raw_portraits_nell.png (Portraits: nell, neutral, happy, sad and surprised)
+
+- portrait_nell_neutral: **pass** 64x64
+- portrait_nell_happy: **pass** 64x64
+- portrait_nell_sad: **pass** 64x64
+- portrait_nell_surprised: **pass** 64x64
+
+## raw_portraits_teo.png (Portraits: teo, neutral, happy, sad and surprised)
+
+- portrait_teo_neutral: **pass** 64x64
+- portrait_teo_happy: **pass** 64x64
+- portrait_teo_sad: **pass** 64x64
+- portrait_teo_surprised: **pass** 64x64
+
+## raw_portraits_wren_provisional.png (Portraits: a provisional ranger drawn for Wren)
+
+- -: **SKIPPED** not Wren's look (her sprite has dark curly hair and an apron): waiting for a redraw
+
+## raw_portraits_rosa.png (Portraits: rosa, neutral, happy, sad and surprised)
+
+- portrait_rosa_neutral: **pass** 64x64
+- portrait_rosa_happy: **pass** 64x64
+- portrait_rosa_sad: **pass** 64x64
+- portrait_rosa_surprised: **pass** 64x64
+
+## raw_portraits_gus.png (Portraits: gus, neutral, happy, sad and surprised)
+
+- portrait_gus_neutral: **pass** 64x64
+- portrait_gus_happy: **pass** 64x64
+- portrait_gus_sad: **pass** 64x64
+- portrait_gus_surprised: **pass** 64x64
+
+## raw_portraits_lyle.png (Portraits: lyle, neutral, happy, sad and surprised)
+
+- portrait_lyle_neutral: **pass** 64x64
+- portrait_lyle_happy: **pass** 64x64
+- portrait_lyle_sad: **pass** 64x64
+- portrait_lyle_surprised: **pass** 64x64
+
+## raw_portraits_bev.png (Portraits: bev, neutral, happy, sad and surprised)
+
+- portrait_bev_neutral: **pass** 64x64
+- portrait_bev_happy: **pass** 64x64
+- portrait_bev_sad: **pass** 64x64
+- portrait_bev_surprised: **pass** 64x64
+
+## raw_portraits_pip.png (Portraits: pip, neutral, happy, sad and surprised)
+
+- portrait_pip_neutral: **pass** 64x64
+- portrait_pip_happy: **pass** 64x64
+- portrait_pip_sad: **pass** 64x64
+- portrait_pip_surprised: **pass** 64x64
+
+## raw_portraits_marge.png (Portraits: marge, neutral, happy, sad and surprised)
+
+- portrait_marge_neutral: **pass** 64x64
+- portrait_marge_happy: **pass** 64x64
+- portrait_marge_sad: **pass** 64x64
+- portrait_marge_surprised: **pass** 64x64
+
+## raw_portraits_agnes.png (Portraits: agnes, neutral, happy, sad and surprised)
+
+- portrait_agnes_neutral: **pass** 64x64
+- portrait_agnes_happy: **pass** 64x64
+- portrait_agnes_sad: **pass** 64x64
+- portrait_agnes_surprised: **pass** 64x64
+
+## raw_portraits_sol.png (Portraits: sol, neutral, happy, sad and surprised)
+
+- portrait_sol_neutral: **pass** 64x64
+- portrait_sol_happy: **pass** 64x64
+- portrait_sol_sad: **pass** 64x64
+- portrait_sol_surprised: **pass** 64x64
+
+## raw_portraits_esme.png (Portraits: esme, neutral, happy, sad and surprised)
+
+- portrait_esme_neutral: **pass** 64x64
+- portrait_esme_happy: **pass** 64x64
+- portrait_esme_sad: **pass** 64x64
+- portrait_esme_surprised: **pass** 64x64
 
 ## calm_ground_a.png
 

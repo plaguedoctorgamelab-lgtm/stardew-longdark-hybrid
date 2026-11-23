@@ -23,6 +23,7 @@ var choice_screen: ChoiceScreen
 var debug_panel: DebugPanel
 var dialog: Panel
 var dialog_label: Label
+var dialog_face: TextureRect   # the speaker's portrait in the talk box (Phase 4)
 var title_screen: TitleScreen
 var title_note: Label
 var pause_menu: Panel
@@ -95,6 +96,7 @@ func _ready() -> void:
 	session.townsperson_spoke.connect(func(talk: Dictionary) -> void:
 		var h := int(talk["hearts"])
 		var hearts := session.content.text("town_heart_1") if h == 1 else session.content.text("town_hearts", {"n": h})
+		_face(str(talk.get("person", "")), str(talk.get("mood", "neutral")))
 		_show_dialog("talk", "%s  ·  %s\n\n%s" % [talk["name"], hearts, talk["text"]]))
 	session.storage_opened.connect(func(title: String, inv: Inventory) -> void: inventory_screen.open(inv, title))
 	session.radio_heard.connect(func(lines: PackedStringArray) -> void: _show_dialog("radio", "\n".join(lines)))
@@ -239,6 +241,14 @@ func _build_menus() -> void:
 	dialog_label.size = Vector2(304, 58)
 	dialog_label.autowrap_mode = TextServer.AUTOWRAP_WORD
 	dialog.add_child(dialog_label)
+	dialog_face = TextureRect.new()
+	dialog_face.position = Vector2(6, 6)
+	dialog_face.size = Vector2(64, 64)
+	dialog_face.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	dialog_face.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	dialog_face.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	dialog_face.visible = false
+	dialog.add_child(dialog_face)
 	debug_panel = DebugPanel.new()
 	root.add_child(debug_panel)
 	debug_panel.setup(session)
@@ -591,15 +601,46 @@ func menu_open() -> bool:
 	return title_screen.visible or pause_menu.visible or options_panel.visible or inventory_screen.visible or map_screen.visible or dialog.visible or choice_screen.visible or book_screen.visible or social_screen.visible or clipboard.visible or job_card.visible
 
 
+## The speaker's portrait for the talk box: Mark's portrait in the mood
+## the line calls for, or a big crop of their sprite's head until one is
+## drawn. "" hides it.
+func _face(person: String, mood: String) -> void:
+	dialog_face.texture = null
+	if person == "" or not session.content.has("townsfolk", person):
+		return
+	var pic := "portrait_%s_%s" % [person, mood]
+	if not Art.has_picture(pic):
+		pic = "portrait_%s_neutral" % person
+	if Art.has_picture(pic):
+		dialog_face.texture = Art.texture(pic)
+		return
+	var sheet := str(session.content.row("townsfolk", person).get("sprite", ""))
+	if sheet != "" and Art.has_picture(sheet):
+		var head := AtlasTexture.new()
+		head.atlas = Art.texture(sheet)
+		head.region = Rect2(0, 4, 16, 16)
+		dialog_face.texture = head
+
+
 func _show_dialog(kind: String, text: String) -> void:
 	_dialog_kind = kind
+	# A favor asked: the asker's face, pleased to ask.
+	if kind.begins_with("favor:"):
+		var id := kind.substr(6)
+		_face(str(session.content.row("town_favors", id)["from"]) if session.content.has("town_favors", id) else "", "happy")
+	elif kind != "talk":
+		dialog_face.texture = null
+	dialog_face.visible = dialog_face.texture != null
+	var inset := 76.0 if dialog_face.visible else 8.0
+	dialog_label.position.x = inset
+	dialog_label.size.x = dialog.size.x - inset - 8.0
 	dialog_label.text = text
 	dialog.visible = true
 	# Grow the box to fit the text, and keep it centred.
 	var line_h := dialog_label.get_line_height() + dialog_label.get_theme_constant("line_spacing")
 	var h := dialog_label.get_line_count() * line_h + 14
 	dialog_label.size.y = h - 12
-	dialog.size.y = maxi(40, h)
+	dialog.size.y = maxi(76 if dialog_face.visible else 40, h)
 	dialog.position.y = (VIEW.y - dialog.size.y) / 2.0
 
 
