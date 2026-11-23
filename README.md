@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.7.3** (see [Version history](#version-history)). The
+**Current version: 0.7.4** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -43,6 +43,7 @@ Needs Godot 4.7.2 stable (the lab's build uses
 | L | Skills page (and choose a waiting specialty) |
 | Y or Enter / N | Answer a question (sleep) |
 | V | Show the version number |
+| O | People page and calendar (Q / E to turn) |
 | F11 | Full screen or a window (the game starts full screen) |
 | F12 | Screenshot, saved to your Downloads folder as "Strange Ranger" and the date and time |
 | F1 | Debug panel (test builds only) |
@@ -103,6 +104,16 @@ docs/              bible, roadmap, specs, rules, status reports (hidden from God
 
 The version lives in `project.godot` (`application/config/version`). Every
 commit of the build raises it and adds a line here.
+
+### 0.7.4 (23 November 2026): Art Request 21 in, the townsfolk, clothing, and the People page
+
+Mark sent every sheet of Art Request 21 (`art/raw/raw_ar21_*.png`). Status note: `docs/status/074_status.md`; screenshots: `docs/status/074_shots/` (`tests/support/screenshots_074.gd`).
+
+- **All of Art Request 21 is cut** (224 pieces by `tools/art_cleanup.py`, the rest by `tools/cut_ar21_people.py`): the home set and each household's pieces, the Social page, calendar, mailbox and favor pieces, emotes, romance, Esme's cards, all four festivals' pieces, the station's upgrades and 30 decorating pieces with three walls and floors, and the garden with nine crops and their seeds. New in the cleanup: a "scale" so a sheet's pieces (a crop's stages, a fire's frames) keep one size; light backgrounds cleared from inside drawn cards ("bg_seeds"); and a sheet's own colours kept on pixel and final-say sheets. One stand-in: Mark drew no picked pumpkin, so `item_pumpkin` is cut from the grown plant.
+- **The townsfolk in their own sprites.** All eleven besides Wren, and the Big Foot costume, cut by `tools/cut_ar21_people.py`: every frame of a person at one scale, feet on one row, heads lined up, so the walk holds still.
+- **Clothing** (Phase 4, 4a step 6; `scripts/game/wardrobe.gd`, `data/content/clothing.json`). The ranger wears a hat, a coat and boots; the starting three give the old +1 warmth. The outfitters sells the wool toque, rain shell (half the rain's chill), wool coat, down parka (+3, 5% slower), waterproof boots (no slowdown in shallows and bog) and insulated boots, and the big bedroll (5% more rest at camp). Put clothes on by using them, or by dragging them onto Put on in the backpack, which also says what's worn. Mark's garments are fitted over the ranger's own frames, and a new hat takes the ranger's hat off. Tests: `tests/test_clothing.gd`.
+- **The People page and the calendar** (Phase 4, 4a step 4), on O; Q and E turn between them (`scripts/ui/social_screen.gd`). Everyone met, with face, hearts (locked past a romance's cap), birthday, talked today and gifts this week; and the season's calendar with today, every birthday and the festival day (`data/content/festivals.json`). Tests: `tests/test_social_calendar.gd`.
+- **The playtest start** no longer opens on a stack of old "done" cards, and its map shows what was seen along the trails.
 
 ### 0.7.3 (23 November 2026): a playtest start
 

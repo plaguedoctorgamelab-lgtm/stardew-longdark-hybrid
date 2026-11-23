@@ -37,6 +37,8 @@ signal town_changed(in_town: bool)
 signal townsperson_spoke(talk: Dictionary)
 ## The ranger walked the trail somewhere in one go (trail travel).
 signal traveled
+## What the ranger wears changed: the views redraw the ranger.
+signal clothes_changed
 
 const FACING_DOWN := 0
 const FACING_RIGHT := 1
@@ -141,6 +143,7 @@ var town_open: bool = false
 # Phase 4, step 5: the shops, and the one the ranger is inside ("" outdoors
 # in town). Inside a shop the ranger stands at interior_pos in its room.
 var shops: Shops
+var wardrobe: Wardrobe
 var town_inside: String = ""
 
 
@@ -186,6 +189,7 @@ func _init(tuning_path: String = Tuning.DEFAULT_PATH, content_dir: String = Cont
 	jobs.spots_changed.connect(_refresh_spot_rooms)
 	town = Town.new(self)
 	shops = Shops.new(self)
+	wardrobe = Wardrobe.new(content)
 	clock.day_started.connect(func(_d: int, _s: int, _y: int) -> void: town.people = {})
 
 
@@ -251,6 +255,8 @@ func new_game(new_seed: int = -1) -> void:
 	jobs.new_game()
 	town.new_game()
 	shops.new_game()
+	wardrobe.new_game()
+	clothes_changed.emit()
 	town_inside = ""
 	in_town = false
 	town_pos = town.entry
@@ -285,6 +291,7 @@ func to_dict() -> Dictionary:
 		},
 		"town": town.to_dict(),
 		"shops": shops.to_dict(),
+		"wardrobe": wardrobe.to_dict(),
 		"needs": needs.to_dict(),
 		"backpack": backpack.to_array(),
 		"structures": structures.to_dict(),
@@ -344,6 +351,8 @@ func from_dict(d: Dictionary) -> void:
 	if in_town and town.is_solid(Vector2i(floori(town_pos.x), floori(town_pos.y))):
 		town_pos = town.entry
 	shops.from_dict(d.get("shops", {}))
+	wardrobe.from_dict(d.get("wardrobe", {}))
+	clothes_changed.emit()
 	town_inside = str(r.get("town_inside", ""))
 	if not in_town or not shops.has_room(town_inside):
 		town_inside = ""
@@ -591,13 +600,16 @@ func speed_tiles_per_second() -> float:
 		var gs := float(table.get(g, 1.0))
 		if g == "tall_grass" and skills.flag("tall_grass_unslowed"):
 			gs = float(table.get("grass", 1.0))
+		# Waterproof boots: no slowdown wading shallows or crossing bog.
+		if (g == "shallows" or g == "bog") and wardrobe.has_effect("wade"):
+			gs = float(table.get("grass", 1.0))
 		s *= gs
 		if not on_trail():
 			s *= skills.value("offtrail_speed", 1.0)
 		s *= float(weather_row().get("speed", 1.0))
 	if needs.is_exhausted():
 		s *= tuning.num("movement.exhausted_speed")
-	return s
+	return s * wardrobe.speed_factor()
 
 
 # --- each frame ---------------------------------------------------------------
@@ -695,6 +707,8 @@ func needs_context() -> Dictionary:
 		"walked": _walked_this_step > 0.05 or _traveling,
 		"rough": _rough_this_step,
 		"campfire": near_lit_fire() or near_warm_camp(),
+		"clothing": wardrobe.warmth(),
+		"rain_half": wardrobe.has_effect("rain_half"),
 	}
 
 
@@ -1149,6 +1163,9 @@ func town_person_in_reach() -> String:
 func _use_in_town() -> void:
 	var person := town_person_in_reach()
 	var item := selected_item()
+	if item != "" and person == "" and wardrobe.is_clothing(item):
+		put_on(item)
+		return
 	if person == "" or item == "":
 		return
 	var res := town.give(person, item)
@@ -1387,6 +1404,24 @@ func work_job_spot(id: String) -> void:
 
 
 ## Uses the held item.
+## Puts on a piece of clothing from the backpack; what it replaces goes
+## into the backpack in its place (Phase 4, 4a step 6).
+func put_on(item: String) -> bool:
+	if not wardrobe.is_clothing(item) or backpack.count(item) == 0:
+		return false
+	var slot := str(wardrobe.row(item)["slot"])
+	var off := str(wardrobe.worn.get(slot, ""))
+	backpack.remove(item, 1)
+	if off != "" and backpack.add(off, 1) > 0:
+		backpack.add(item, 1)
+		message.emit(content.text("msg_put_on_full", {"item": content.item_name(off).to_lower()}))
+		return false
+	wardrobe.put_on(item)
+	message.emit(content.text("msg_put_on", {"item": content.item_name(item).to_lower()}))
+	clothes_changed.emit()
+	return true
+
+
 func use_item() -> void:
 	if pending_confirm != "":
 		return
@@ -1397,7 +1432,9 @@ func use_item() -> void:
 	if item == "":
 		return
 	var row := content.row("items", item)
-	if row["kind"] == "food":
+	if row["kind"] == "clothing":
+		put_on(item)
+	elif row["kind"] == "food":
 		eat(item)
 	elif row["kind"] == "park_thing":
 		place_park_thing()
@@ -1539,7 +1576,7 @@ func make_camp() -> bool:
 	if not ember and not backpack.remove("firewood", 1):
 		message.emit(content.text("msg_camp_need_wood"))
 		return false
-	camp = {"bed": bed, "fire": fire, "fire_minutes": 0 if ember else fire_minutes_per_firewood(), "ember": ember}
+	camp = {"bed": bed, "fire": fire, "fire_minutes": 0 if ember else fire_minutes_per_firewood(), "ember": ember, "bedroll": tool_in_pack("bedroll")}
 	skills.act("make_camp")
 	camp_changed.emit()
 	message.emit(content.text("msg_camp_warm_bedroll" if ember else "msg_camp_made"))
@@ -1617,6 +1654,9 @@ func camp_sleep() -> void:
 	var ef := tuning.num("refits.ember_bedroll_restore") if ember else tuning.num("camp.wake_energy_fraction")
 	var wf := tuning.num("refits.ember_bedroll_restore") if ember else tuning.num("camp.wake_warmth_fraction")
 	var extra := skills.value("camp_restore", 0.0)
+	var bonus := float(content.row("items", str(camp.get("bedroll", "bedroll"))).get("rest_bonus", 0.0))
+	ef += bonus
+	wf += bonus
 	needs.set_values(
 		maxf(needs.energy, minf(needs.max_energy(), needs.max_energy() * ef + extra)),
 		maxf(needs.warmth, minf(needs.max_warmth(), needs.max_warmth() * wf + extra)))
@@ -3846,6 +3886,7 @@ func debug_sign_near(at: Vector2, place: String) -> bool:
 const PLAYTEST_SITES: Array[String] = ["old_cabin", "outlook", "kettle_pond", "static_tower"]
 const PLAYTEST_ROUTES: Array[String] = ["cabin", "outlook", "pond", "tower"]
 const PLAYTEST_TRAIL_JOBS: Array[String] = ["reopen_pond_trail", "stake_west", "stake_east"]
+const PLAYTEST_SEEN := 10.0   # tiles of map seen either side of each trail walked
 
 
 ## A playtest start: a new game in which Get the Station Shipshape is done,
@@ -3870,9 +3911,11 @@ func debug_sites_open_start(new_seed: int = -1) -> void:
 			backpack.remove("trash_can", 1)
 			break
 	jobs.update(true)
-	# The trail out to each site.
+	# The trail out to each site, and the map of what was seen walking it.
 	for r: String in PLAYTEST_ROUTES:
 		debug_open_route(r)
+		for p: Vector2 in world.route(r):
+			map.reveal_circle(p, PLAYTEST_SEEN)
 	# Each site found, mapped, repaired, signed and opened.
 	for id: String in PLAYTEST_SITES:
 		var row := content.row("sites", id)
@@ -3893,6 +3936,9 @@ func debug_sites_open_start(new_seed: int = -1) -> void:
 	location = ""
 	outdoor_pos = door_front("ranger_station") + Vector2(0, 1)
 	debug_skip_day()
+	# Their "done" cards were for the ranger who did the work, not for the
+	# player starting here.
+	jobs.cards.clear()
 
 
 func debug_repair_all(structure_id: String, complete: bool) -> void:

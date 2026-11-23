@@ -479,6 +479,47 @@ func give(person: String, item: String) -> Dictionary:
 	return {"ok": true, "taste": t, "points": pts, "birthday": bday}
 
 
+# --- the Social page and the calendar ------------------------------------------
+
+## Everyone met, in the cast's order, for the Social page: their hearts and
+## cap, birthday, whether talked to today and gifts given this week.
+func social_rows() -> Array:
+	var s := session()
+	var per := tuning.integer("friendship.points_per_heart")
+	var out := []
+	for r: Dictionary in content.rows("townsfolk"):
+		var id := str(r["id"])
+		if not met.has(id):
+			continue
+		out.append({
+			"id": id,
+			"name": str(r["name"]),
+			"sprite": str(r.get("sprite", "")),
+			"hearts": hearts(id),
+			"cap": cap(id) / per,
+			"birthday": r["birthday"],
+			"talked": int(talked_day.get(id, -1)) == s.clock.absolute_day(),
+			"gifts": tuning.integer("friendship.gifts_per_week") - gifts_left(id),
+		})
+	return out
+
+
+## A season's days for the calendar: [{day, birthdays: [ids], festival}].
+## Birthdays show for everyone, met or not, as on a town calendar.
+func calendar(season: int) -> Array:
+	var out := []
+	for d in range(1, session().clock.days_per_season() + 1):
+		out.append({"day": d, "birthdays": [], "festival": ""})
+	for r: Dictionary in content.rows("townsfolk"):
+		var b: Dictionary = r["birthday"]
+		if int(b["season"]) == season and int(b["day"]) <= out.size():
+			(out[int(b["day"]) - 1]["birthdays"] as Array).append(str(r["id"]))
+	for f: Dictionary in content.rows("festivals"):
+		if int(f["season"]) == season and int(f["day"]) <= out.size():
+			out[int(f["day"]) - 1]["festival"] = str(f["id"])
+	return out
+
+
 # --- saving -------------------------------------------------------------------
 
 func to_dict() -> Dictionary:

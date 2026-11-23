@@ -27,6 +27,7 @@ var title_screen: TitleScreen
 var title_note: Label
 var pause_menu: Panel
 var book_screen: BookScreen
+var social_screen: SocialScreen
 var clipboard: ClipboardScreen
 var job_card: JobCardScreen
 var job_note: JobNote
@@ -89,6 +90,8 @@ func _ready() -> void:
 
 	session.location_changed.connect(_on_location_changed)
 	session.town_changed.connect(func(_in: bool) -> void: _on_location_changed(session.location))
+	session.clothes_changed.connect(_dress_ranger)
+	_dress_ranger()
 	session.townsperson_spoke.connect(func(talk: Dictionary) -> void:
 		var h := int(talk["hearts"])
 		var hearts := session.content.text("town_heart_1") if h == 1 else session.content.text("town_hearts", {"n": h})
@@ -214,6 +217,9 @@ func _build_menus() -> void:
 	book_screen = BookScreen.new()
 	root.add_child(book_screen)
 	book_screen.setup(session)
+	social_screen = SocialScreen.new()
+	root.add_child(social_screen)
+	social_screen.setup(session)
 	clipboard = ClipboardScreen.new()
 	root.add_child(clipboard)
 	clipboard.setup(session)
@@ -475,6 +481,11 @@ func _show_title() -> void:
 	session.clock.paused = true
 
 
+## Draws what the ranger wears.
+func _dress_ranger() -> void:
+	ranger.set_clothes(session.wardrobe.base_sheet(), session.wardrobe.overlays())
+
+
 func _start_new() -> void:
 	session.new_game()
 	_begin()
@@ -484,6 +495,10 @@ func _start_new() -> void:
 ## outlook, pond and tower open (GameSession.debug_sites_open_start).
 func _start_playtest() -> void:
 	session.debug_sites_open_start()
+	# Nothing from the work done for the player waits to pop up.
+	job_note._waiting.clear()
+	_map_changes = []
+	_map_lines = PackedStringArray()
 	_begin()
 
 
@@ -573,7 +588,7 @@ func _update_look() -> void:
 
 
 func menu_open() -> bool:
-	return title_screen.visible or pause_menu.visible or options_panel.visible or inventory_screen.visible or map_screen.visible or dialog.visible or choice_screen.visible or book_screen.visible or clipboard.visible or job_card.visible
+	return title_screen.visible or pause_menu.visible or options_panel.visible or inventory_screen.visible or map_screen.visible or dialog.visible or choice_screen.visible or book_screen.visible or social_screen.visible or clipboard.visible or job_card.visible
 
 
 func _show_dialog(kind: String, text: String) -> void:
@@ -648,6 +663,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			choice_screen.close()
 		elif book_screen.visible:
 			book_screen.close()
+		elif social_screen.visible:
+			social_screen.close()
 		elif map_screen.visible:
 			map_screen.close()
 		elif inventory_screen.visible:
@@ -670,6 +687,16 @@ func _unhandled_input(event: InputEvent) -> void:
 	if book_screen.visible:
 		if event.is_action_pressed("book") or event.is_action_pressed("jobs") or event.is_action_pressed("cancel") or event.is_action_pressed("backpack"):
 			book_screen.close()
+		return
+	# The People page and calendar: Q and E turn between them.
+	if social_screen.visible:
+		if event.is_action_pressed("tab_prev") or event.is_action_pressed("tab_next"):
+			social_screen.turn()
+		elif event.is_action_pressed("social") or event.is_action_pressed("cancel"):
+			social_screen.close()
+		return
+	if event.is_action_pressed("social") and not menu_open():
+		social_screen.open()
 		return
 	if event.is_action_pressed("craft") and not menu_open():
 		choice_screen.open_station("anywhere")

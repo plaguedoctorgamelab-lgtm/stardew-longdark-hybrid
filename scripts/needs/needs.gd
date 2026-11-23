@@ -36,16 +36,21 @@ func is_chilled() -> bool:
 
 
 ## Warmth change for one step. ctx keys: indoors, stove_lit, weather (row),
-## season (name), night (bool).
+## season (name), night (bool), clothing (warmth from what is worn),
+## rain_half (the rain shell).
 func warmth_delta(ctx: Dictionary) -> float:
 	if ctx.get("indoors", false):
 		return tuning.num("warmth.indoors_stove") if ctx.get("stove_lit", false) else tuning.num("warmth.indoors")
 	var w: Dictionary = ctx["weather"]
 	var d := float(w["warmth"])
+	# The rain shell: rain and storms take half as much warmth.
+	if ctx.get("rain_half", false) and d < 0.0 and str(w.get("id", "")) in ["rain", "storm"]:
+		d *= 0.5
 	d += tuning.num("warmth.season." + str(ctx["season"]))
 	if ctx.get("night", false):
 		d += tuning.num("warmth.night")
-	d += tuning.num("warmth.clothing")
+	# What the ranger wears (the starting clothes give 1).
+	d += float(ctx.get("clothing", 1.0))
 	if ctx.get("campfire", false):
 		d += tuning.num("camp.fire_warmth")
 	return d

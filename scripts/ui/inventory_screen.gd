@@ -18,6 +18,7 @@ var _pack_buttons: Array[Button] = []
 var _other_buttons: Array[Button] = []
 var drop_button: Button
 var trash_button: Button
+var wear_button: Button
 
 
 var _pack_icon: TextureRect
@@ -45,6 +46,13 @@ func setup(s: GameSession) -> void:
 	_pack_buttons = _grid(Vector2(8, 18), session.backpack.size(), true)
 	drop_button = _target("ui_drop", func(d: Dictionary) -> void: session.drop_slot(d["inv"], d["i"]))
 	trash_button = _target("ui_trash", func(d: Dictionary) -> void: session.trash_slot(d["inv"], d["i"]))
+	# Clothes: drag a piece onto Put on to wear it (Phase 4, 4a step 6).
+	wear_button = _target("ui_put_on", func(d: Dictionary) -> void:
+		var inv: Inventory = d["inv"]
+		if inv == session.backpack:
+			session.put_on(inv.item_at(int(d["i"]))))
+	wear_button.tooltip_text = s.content.text("ui_put_on_hint")
+	session.clothes_changed.connect(refresh)
 	_layout()
 	session.backpack.changed.connect(refresh)
 	visible = false
@@ -183,16 +191,21 @@ func _layout() -> void:
 	other_label.position.y = y
 	if other != null:
 		y += 14 + _rows(other.size()) * (SLOT + 2)
+	# What is worn (or the item pointed at) on its own line, the drag
+	# targets on the line below.
 	info.position.y = y + 2
-	drop_button.position = Vector2(size.x - 92, y + 3)
-	trash_button.position = Vector2(size.x - 48, y + 3)
+	drop_button.position = Vector2(size.x - 92, y + 17)
+	trash_button.position = Vector2(size.x - 48, y + 17)
 	drop_button.size = Vector2(40, 12)
 	trash_button.size = Vector2(40, 12)
-	size.y = y + 18
+	wear_button.position = Vector2(size.x - 136, y + 17)
+	wear_button.size = Vector2(40, 12)
+	size.y = y + 32
 	position = (Vector2(480, 270) - size) / 2.0
 
 
 func refresh() -> void:
+	info.text = wearing_text()
 	_fill(_pack_buttons, session.backpack, true)
 	if other != null:
 		_fill(_other_buttons, other, false)
@@ -227,9 +240,16 @@ func _on_slot(i: int, is_pack: bool) -> void:
 	refresh()
 
 
+## What the ranger is wearing, shown when no slot is pointed at.
+func wearing_text() -> String:
+	var w := session.wardrobe
+	var n := func(slot: String) -> String: return session.content.item_name(str(w.worn.get(slot, "")))
+	return session.content.text("clothing_line", {"hat": n.call("hat"), "coat": n.call("coat"), "boots": n.call("boots"), "warmth": int(w.warmth())})
+
+
 func _on_hover(i: int, is_pack: bool) -> void:
 	var inv := session.backpack if is_pack else other
 	if inv == null:
 		return
 	var s := inv.slot(i)
-	info.text = "" if s.is_empty() else "%s x%d" % [session.content.item_name(s["item"]), s["count"]]
+	info.text = wearing_text() if s.is_empty() else "%s x%d" % [session.content.item_name(s["item"]), s["count"]]

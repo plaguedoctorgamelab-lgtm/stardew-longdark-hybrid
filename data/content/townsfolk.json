@@ -26,7 +26,7 @@
     "season": 2,
     "day": 3
    },
-   "sprite": "",
+   "sprite": "npc_rosa",
    "look": {
     "skin": [
      196,
@@ -62,7 +62,7 @@
     "season": 0,
     "day": 22
    },
-   "sprite": "",
+   "sprite": "npc_teo",
    "look": {
     "skin": [
      196,
@@ -103,7 +103,7 @@
     "season": 3,
     "day": 11
    },
-   "sprite": "",
+   "sprite": "npc_marge",
    "look": {
     "skin": [
      236,
@@ -139,7 +139,7 @@
     "season": 1,
     "day": 26
    },
-   "sprite": "",
+   "sprite": "npc_nell",
    "look": {
     "skin": [
      236,
@@ -180,7 +180,7 @@
     "season": 3,
     "day": 4
    },
-   "sprite": "",
+   "sprite": "npc_agnes",
    "look": {
     "skin": [
      240,
@@ -216,7 +216,7 @@
     "season": 0,
     "day": 6
    },
-   "sprite": "",
+   "sprite": "npc_bev",
    "look": {
     "skin": [
      236,
@@ -252,7 +252,7 @@
     "season": 2,
     "day": 15
    },
-   "sprite": "",
+   "sprite": "npc_gus",
    "look": {
     "skin": [
      230,
@@ -288,7 +288,7 @@
     "season": 0,
     "day": 17
    },
-   "sprite": "",
+   "sprite": "npc_sol",
    "look": {
     "skin": [
      170,
@@ -329,7 +329,7 @@
     "season": 1,
     "day": 2
    },
-   "sprite": "",
+   "sprite": "npc_lyle",
    "look": {
     "skin": [
      236,
@@ -365,7 +365,7 @@
     "season": 2,
     "day": 27
    },
-   "sprite": "",
+   "sprite": "npc_esme",
    "look": {
     "skin": [
      214,
@@ -406,7 +406,7 @@
     "season": 3,
     "day": 19
    },
-   "sprite": "",
+   "sprite": "npc_pip",
    "child": true,
    "look": {
     "skin": [

@@ -6257,6 +6257,146 @@
    "id": "msg_screenshot_failed",
    "text": "The screenshot couldn't be saved.",
    "placeholder": true
+  },
+  {
+   "id": "item_ranger_hat",
+   "text": "Ranger hat"
+  },
+  {
+   "id": "item_ranger_jacket",
+   "text": "Ranger jacket"
+  },
+  {
+   "id": "item_work_boots",
+   "text": "Work boots"
+  },
+  {
+   "id": "item_wool_toque",
+   "text": "Wool toque"
+  },
+  {
+   "id": "item_rain_shell",
+   "text": "Rain shell"
+  },
+  {
+   "id": "item_wool_coat",
+   "text": "Wool coat"
+  },
+  {
+   "id": "item_down_parka",
+   "text": "Down parka"
+  },
+  {
+   "id": "item_waterproof_boots",
+   "text": "Waterproof boots"
+  },
+  {
+   "id": "item_insulated_boots",
+   "text": "Insulated boots"
+  },
+  {
+   "id": "item_bedroll_big",
+   "text": "Big bedroll"
+  },
+  {
+   "id": "msg_put_on",
+   "text": "You put on the {item}."
+  },
+  {
+   "id": "msg_put_on_full",
+   "text": "Your backpack is full: no room for the {item} you'd take off."
+  },
+  {
+   "id": "clothing_line",
+   "text": "Wearing: {hat}, {coat}, {boots} (+{warmth} warmth outdoors)"
+  },
+  {
+   "id": "item_use_wool_toque",
+   "text": "+1 warmth outdoors"
+  },
+  {
+   "id": "item_use_rain_shell",
+   "text": "+1 warmth, keeps off half the rain's chill"
+  },
+  {
+   "id": "item_use_wool_coat",
+   "text": "+2 warmth outdoors"
+  },
+  {
+   "id": "item_use_down_parka",
+   "text": "+3 warmth, but 5% slower to walk in"
+  },
+  {
+   "id": "item_use_waterproof_boots",
+   "text": "no slowdown in shallows and bog"
+  },
+  {
+   "id": "item_use_insulated_boots",
+   "text": "+1 warmth outdoors"
+  },
+  {
+   "id": "item_use_bedroll_big",
+   "text": "rests 5% more at camp"
+  },
+  {
+   "id": "ui_put_on",
+   "text": "Put on"
+  },
+  {
+   "id": "ui_put_on_hint",
+   "text": "Drag clothes here to wear them"
+  },
+  {
+   "id": "fest_thaw_fair",
+   "text": "The Thaw Fair"
+  },
+  {
+   "id": "fest_lantern_night",
+   "text": "Lantern Night"
+  },
+  {
+   "id": "fest_big_foot_supper",
+   "text": "The Big Foot Supper"
+  },
+  {
+   "id": "fest_long_night",
+   "text": "The Long Night"
+  },
+  {
+   "id": "ui_social_title",
+   "text": "People"
+  },
+  {
+   "id": "ui_calendar_title",
+   "text": "{season}, year {year}"
+  },
+  {
+   "id": "ui_social_hint",
+   "text": "O to close · Q / E: people or calendar"
+  },
+  {
+   "id": "social_none",
+   "text": "You haven't met anyone in Humdrum yet."
+  },
+  {
+   "id": "social_birthday",
+   "text": "Birthday: {season} {day}"
+  },
+  {
+   "id": "social_more",
+   "text": "Page {page} of {pages} (click to turn)"
+  },
+  {
+   "id": "cal_today",
+   "text": "Today"
+  },
+  {
+   "id": "cal_birthday",
+   "text": "{name}'s birthday"
+  },
+  {
+   "id": "cal_festival",
+   "text": "{name}"
   }
  ]
 }

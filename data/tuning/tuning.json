@@ -101,7 +101,6 @@
       "winter": -3
     },
     "night": -2,
-    "clothing": 1,
     "indoors": 10,
     "indoors_stove": 25,
     "stove_minutes_per_firewood": 180,

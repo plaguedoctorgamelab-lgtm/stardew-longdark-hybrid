@@ -20,6 +20,10 @@ func test_the_playtest_start_opens_the_first_sites(t: TestCase) -> void:
 	t.check(s.town_open, "the road to town is open")
 	t.equal(s.location, "", "the ranger is outside")
 	t.check(s.clock.day >= 2, "on a fresh morning")
+	t.equal(s.jobs.take_card_to_show(), {}, "no old \"done\" cards wait to pop up")
+	for id: String in GameSession.PLAYTEST_SITES:
+		var lm := str(s.content.row("sites", id)["landmark"])
+		t.check(s.map.is_landmark_mapped(lm), "%s is on the map" % id)
 
 
 func test_the_playtest_start_saves_and_loads(t: TestCase) -> void:

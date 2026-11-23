@@ -62,7 +62,7 @@
   },
   {
    "id": "outfitters",
-   "note": "Clothing comes in step 6; seeds and the watering can in 4b.",
+   "note": "Clothing (4a step 6) and the big bedroll; seeds and the watering can in 4b.",
    "sells": [
     {
      "item": "rope",
@@ -76,6 +76,34 @@
      "item": "firewood",
      "count": 5,
      "price": 12
+    },
+    {
+     "item": "wool_toque",
+     "price": 40
+    },
+    {
+     "item": "rain_shell",
+     "price": 120
+    },
+    {
+     "item": "wool_coat",
+     "price": 180
+    },
+    {
+     "item": "down_parka",
+     "price": 350
+    },
+    {
+     "item": "waterproof_boots",
+     "price": 150
+    },
+    {
+     "item": "insulated_boots",
+     "price": 160
+    },
+    {
+     "item": "bedroll_big",
+     "price": 200
     }
    ]
   },

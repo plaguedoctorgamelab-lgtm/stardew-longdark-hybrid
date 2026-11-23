@@ -1,0 +1,37 @@
+{
+ "note": "Phase 4: one festival each season, in the town square (4b). The calendar shows their days from 4a. start and end are minutes of the day.",
+ "rows": [
+  {
+   "id": "thaw_fair",
+   "name": "fest_thaw_fair",
+   "season": 0,
+   "day": 13,
+   "start": 540,
+   "end": 840
+  },
+  {
+   "id": "lantern_night",
+   "name": "fest_lantern_night",
+   "season": 1,
+   "day": 20,
+   "start": 1140,
+   "end": 1380
+  },
+  {
+   "id": "big_foot_supper",
+   "name": "fest_big_foot_supper",
+   "season": 2,
+   "day": 18,
+   "start": 1020,
+   "end": 1320
+  },
+  {
+   "id": "long_night",
+   "name": "fest_long_night",
+   "season": 3,
+   "day": 25,
+   "start": 1080,
+   "end": 1440
+  }
+ ]
+}

@@ -19,7 +19,7 @@ func test_warmth_per_weather_season_night(t: TestCase) -> void:
 	for w: String in s.content.ids("weather_types"):
 		for season: String in GameClock.SEASONS:
 			for night in [false, true]:
-				var expect := float(s.weather.row(w)["warmth"]) + tun.num("warmth.season." + season) + tun.num("warmth.clothing")
+				var expect := float(s.weather.row(w)["warmth"]) + tun.num("warmth.season." + season) + 1.0
 				if night:
 					expect += tun.num("warmth.night")
 				t.equal(n.warmth_delta(_ctx(s, w, season, night)), expect, "%s %s night=%s" % [w, season, night])

@@ -99,14 +99,17 @@ def remove_background(img, box=None):
     return bg
 
 
-def remove_background_kind(img, kind, limit):
+def remove_background_kind(img, kind, limit, spread=16, seeds=()):
     """Clears from the edges inwards every pixel of a kind of background:
     "light", the pale greys of a painted see-through checkerboard (low
     colour, brighter than limit), or "dark", a dark glow behind a picture
-    (no channel above limit). Stops at the first pixel of anything else."""
+    (no channel above limit). Stops at the first pixel of anything else.
+    "spread" is how far a light background's channels may differ (cream
+    cards are warmer than grey); "seeds" are extra places to start, for
+    background shut inside drawn frames."""
     if kind == "light":
         def is_bg(r, g, b):
-            return min(r, g, b) >= limit and max(r, g, b) - min(r, g, b) <= 16
+            return min(r, g, b) >= limit and max(r, g, b) - min(r, g, b) <= spread
     else:
         def is_bg(r, g, b):
             return max(r, g, b) <= limit
@@ -118,6 +121,8 @@ def remove_background_kind(img, kind, limit):
     for y in range(img.h):
         q.append((0, y))
         q.append((img.w - 1, y))
+    for sx, sy in seeds:
+        q.append((int(sx), int(sy)))
     while q:
         x, y = q.popleft()
         i = y * img.w + x
@@ -187,18 +192,20 @@ def parts_in(img, x0, y0, x1, y1, step=3):
     return len(big), bbox, touches
 
 
-def shrink(img, box, tw, th, stretch, full, anchor="bottom"):
+def shrink(img, box, tw, th, stretch, full, anchor="bottom", scale=0.0):
     """Shrinks the box to tw x th by the most common color per block. Keeps
     the item's shape unless stretched, standing it on the bottom middle, or
     with anchor "top_left" in the top-left corner (a cursor, whose point
-    must be the corner pixel)."""
+    must be the corner pixel). A "scale" (sheet pixels per game pixel) keeps
+    every piece of a sheet at one size, so a crop's stages or a fire's
+    frames match; a piece too big for its picture is shrunk to fit."""
     bx0, by0, bx1, by1 = box
     bw, bh = bx1 - bx0, by1 - by0
     if stretch or full:
         sx, sy = bw / tw, bh / th
         ow, oh, ox, oy = tw, th, 0, 0
     else:
-        s = max(bw / tw, bh / th)
+        s = max(bw / tw, bh / th, scale)
         sx = sy = s
         ow, oh = max(1, round(bw / s)), max(1, round(bh / s))
         ox, oy = (0, 0) if anchor == "top_left" else ((tw - ow) // 2, th - oh)
@@ -461,8 +468,9 @@ def main():
         # "bg": ["light", 200] or ["dark", 70]: a background that is not one
         # flat colour (a painted checkerboard, a glow), cleared by kind.
         if entry.get("bg"):
-            kind, limit = entry["bg"]
-            remove_background_kind(img, kind, int(limit))
+            kind, limit = entry["bg"][:2]
+            spread = int(entry["bg"][2]) if len(entry["bg"]) > 2 else 16
+            remove_background_kind(img, kind, int(limit), spread, entry.get("bg_seeds", []))
             notes.append("%s background cleared from the edges" % kind)
         elif not full and not cell_bg and not has_transparency(img):
             bg = remove_background(img)
@@ -513,7 +521,7 @@ def main():
             expected = cell.get("parts", 1)
             if parts > expected:
                 problems.append("%d separate pieces, expected %d" % (parts, expected))
-            pix = shrink(img, box, tw, th, cell.get("stretch", False), full, cell.get("anchor", "bottom"))
+            pix = shrink(img, box, tw, th, cell.get("stretch", False), full, cell.get("anchor", "bottom"), float(cell.get("scale", entry.get("scale", 0.0))))
             sheet_cells.append((cell["name"], tw, th))
             # A failed image is reported, not used: the stand-in stays in play.
             if not problems or entry.get("sheet"):

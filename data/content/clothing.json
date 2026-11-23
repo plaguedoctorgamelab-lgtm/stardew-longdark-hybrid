@@ -1,0 +1,75 @@
+{
+ "note": "Phase 4, 4a step 6: what the ranger wears. warmth is added every ten minutes outdoors; the starting three add up to the old single clothing value. effect: rain_half (rain and storms take half as much warmth), slow (speed kept), wade (no slowdown in shallows and bog).",
+ "rows": [
+  {
+   "id": "ranger_hat",
+   "slot": "hat",
+   "warmth": 0,
+   "price": 0,
+   "start": true,
+   "overlay": ""
+  },
+  {
+   "id": "ranger_jacket",
+   "slot": "coat",
+   "warmth": 1,
+   "price": 0,
+   "start": true,
+   "overlay": ""
+  },
+  {
+   "id": "work_boots",
+   "slot": "boots",
+   "warmth": 0,
+   "price": 0,
+   "start": true,
+   "overlay": ""
+  },
+  {
+   "id": "wool_toque",
+   "slot": "hat",
+   "warmth": 1,
+   "price": 40,
+   "overlay": "ranger_wear_wool_toque"
+  },
+  {
+   "id": "rain_shell",
+   "slot": "coat",
+   "warmth": 1,
+   "price": 120,
+   "effect": "rain_half",
+   "overlay": "ranger_wear_rain_shell"
+  },
+  {
+   "id": "wool_coat",
+   "slot": "coat",
+   "warmth": 2,
+   "price": 180,
+   "overlay": "ranger_wear_wool_coat"
+  },
+  {
+   "id": "down_parka",
+   "slot": "coat",
+   "warmth": 3,
+   "price": 350,
+   "effect": "slow",
+   "speed": 0.95,
+   "overlay": "ranger_wear_down_parka"
+  },
+  {
+   "id": "waterproof_boots",
+   "slot": "boots",
+   "warmth": 0,
+   "price": 150,
+   "effect": "wade",
+   "overlay": "ranger_wear_waterproof_boots"
+  },
+  {
+   "id": "insulated_boots",
+   "slot": "boots",
+   "warmth": 1,
+   "price": 160,
+   "overlay": "ranger_wear_insulated_boots"
+  }
+ ]
+}

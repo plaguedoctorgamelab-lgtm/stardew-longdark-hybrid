@@ -1,7 +1,7 @@
 # Art cleanup report
 
 Made by tools/art_cleanup.py. palette from art/palette.json (33 colors). A picture cut pixel for pixel from a refresh sheet replaces any earlier picture of the same name.
-796 images passed, 1 failed.
+1057 images passed, 1 failed.
 
 
 ## ChatGPT Image Nov 15, 2026, 07_04_59 AM.png (ground tiles)
@@ -1115,6 +1115,330 @@ Made by tools/art_cleanup.py. palette from art/palette.json (33 colors). A pictu
 - interior_boards_warm: **pass** 16x16 pixel for pixel
 - interior_boards_warm_alt_1: **pass** 16x16 pixel for pixel
 - interior_boards_warm_alt_2: **pass** 16x16 pixel for pixel
+
+## raw_ar21_A5a_home_set.png (Art Request 21, A5a: the home set)
+
+- home_bed_double: **pass** 48x48
+- home_bed_single: **pass** 32x48
+- home_bed_child: **pass** 32x40
+- home_kitchen_sink: **pass** 48x32
+- home_kitchen_range: **pass** 32x32
+- home_dresser: **pass** 32x32
+- home_wardrobe: **pass** 32x48
+- home_sofa: **pass** 48x32
+- home_dining_table: **pass** 48x32
+- home_side_table: **pass** 16x32
+- home_fireplace: **pass** 48x48
+
+## raw_ar21_A5b_homes.png (Art Request 21, A5b: each home's own pieces (cream cards cleared from inside)): light background cleared from the edges
+
+- home_gear_wall: **pass** 36x28
+- home_summit_photo: **pass** 21x24
+- home_hangboard: **pass** 30x10
+- home_boots_pair: **pass** 15x13
+- home_fern: **pass** 21x24
+- home_curio_cabinet: **pass** 25x46
+- home_snow_globes: **pass** 33x15
+- home_armchair_frilly: **pass** 33x31
+- home_books_stack: **pass** 19x18
+- home_books_pile: **pass** 19x13
+- home_reading_chair: **pass** 27x48
+- home_writing_desk: **pass** 30x36
+- home_cat_cushion: **pass** 29x18
+- home_mayor_desk: **pass** 36x30
+- home_mayor_portrait: **pass** 21x26
+- home_grandfather_clock: **pass** 17x36
+- home_trophy_shelf: **pass** 37x22
+- home_cryptid_posters: **pass** 56x27
+- home_toy_chest: **pass** 28x28
+- home_rocking_chair_knit: **pass** 29x32
+- home_ranger_hq_sign: **pass** 55x17
+- home_photo_shelf: **pass** 44x25
+- home_chillies: **pass** 9x25
+- home_family_table: **pass** 43x44
+- home_guitar: **pass** 15x39
+- home_log_bed: **pass** 41x31
+- home_carved_bear: **pass** 18x34
+- home_whittling_stool: **pass** 32x17
+- home_tool_wall: **pass** 51x22
+- home_easel: **pass** 24x39
+- home_paint_table: **pass** 36x31
+- home_canvases: **pass** 22x28
+- home_window_seat: **pass** 38x41
+
+## raw_ar21_A6_town_ui.png (Art Request 21, A6: Social page, calendar, mailbox and favors)
+
+- ui_calendar: **pass** 240x160
+- ui_social: **pass** 240x160
+- ui_heart_full: **pass** 8x8
+- ui_heart_empty: **pass** 8x8
+- ui_heart_locked: **pass** 8x8
+- ui_gift_tick: **pass** 8x8
+- ui_talk_tick: **pass** 8x8
+- ui_cal_birthday: **pass** 12x12
+- ui_cal_festival: **pass** 12x12
+- obj_station_mailbox: **pass** 16x24
+- obj_station_mailbox_full: **pass** 16x24
+- item_letter: **pass** 32x32
+- item_parcel: **pass** 32x32
+- item_song_notebook: **pass** 32x32
+- item_lost_mitten: **pass** 32x32
+- town_note_pinned: **pass** 16x16
+- item_lost_keys: **pass** 32x32
+- item_lost_locket: **pass** 32x32
+- item_lost_glasses: **pass** 32x32
+- decor_pond_painting: **pass** 32x32
+- decor_pip_drawing: **pass** 24x18
+
+## raw_ar21_B1_emotes.png (Art Request 21, B1: emote bubbles)
+
+- emote_heart: **pass** 16x16
+- emote_alarm: **pass** 16x16
+- emote_question: **pass** 16x16
+- emote_music: **pass** 16x16
+- emote_sweat: **pass** 16x16
+- emote_dots: **pass** 16x16
+- emote_happy: **pass** 16x16
+- emote_cross: **pass** 16x16
+- emote_sleep: **pass** 16x16
+- emote_idea: **pass** 16x16
+
+## raw_ar21_B2_romance.png (Art Request 21, B2: romance (cut inside the drawn frame))
+
+- item_bouquet: **pass** 32x32
+- ranger_hold_bouquet: **pass** 16x16
+- item_gift_wrapped: **pass** 32x32
+
+## raw_ar21_B3_fortune.png (Art Request 21, B3: the fortune teller's cards)
+
+- fortune_card_sky: **pass** 48x72
+- fortune_card_path: **pass** 48x72
+- fortune_card_heart: **pass** 48x72
+- fortune_card_back: **pass** 48x72
+- fortune_cloth: **pass** 240x120
+- map_fortune_path: **pass** 16x16
+
+## raw_ar21_B4_thaw_fair.png (Art Request 21, B4: the Thaw Fair)
+
+- fest_display_table: **pass** 48x40
+- fest_judges_stand: **pass** 64x40
+- fest_stall: **pass** 48x48
+- fest_garland_spring: **pass** 48x14
+- decor_ribbon_thaw: **pass** 16x24
+
+## raw_ar21_B5_lantern_night.png (Art Request 21, B5: Lantern Night)
+
+- fest_lantern_float_red_0: **pass** 16x16
+- fest_lantern_float_orange_0: **pass** 16x16
+- fest_lantern_float_yellow_0: **pass** 16x16
+- fest_lantern_float_green_0: **pass** 16x16
+- fest_lantern_float_blue_0: **pass** 16x16
+- fest_lantern_float_violet_0: **pass** 16x16
+- fest_lantern_float_red_1: **pass** 16x16
+- fest_lantern_float_orange_1: **pass** 16x16
+- fest_lantern_float_yellow_1: **pass** 16x16
+- fest_lantern_float_green_1: **pass** 16x16
+- fest_lantern_float_blue_1: **pass** 16x16
+- fest_lantern_float_violet_1: **pass** 16x16
+- fest_lantern_stick: **pass** 16x32
+- fest_lantern_string: **pass** 48x16
+- decor_paper_lantern: **pass** 16x32
+
+## raw_ar21_B6_big_foot_supper.png (Art Request 21, B6: the Big Foot Supper (costume frames: tools/cut_ar21_people.py))
+
+- fest_supper_table: **pass** 64x40
+- fest_supper_bench: **pass** 64x16
+- fest_hay_bale: **pass** 32x24
+- item_judges_sash: **pass** 32x32
+
+## raw_ar21_B7_long_night.png (Art Request 21, B7: the Long Night)
+
+- fest_bonfire_0: **pass** 48x64
+- fest_bonfire_1: **pass** 48x64
+- fest_bonfire_2: **pass** 48x64
+- fest_bonfire_3: **pass** 48x64
+- fest_log_bench: **pass** 48x18
+- fest_cocoa_stall: **pass** 48x48
+- fest_log_bench_blanket: **pass** 48x18
+- decor_blanket: **pass** 32x16
+
+## raw_ar21_B8_station.png (Art Request 21, B8: the station upgraded, and decorating (walls and floors: tools/cut_ar21_people.py))
+
+- building_station_shipshape: **pass** 96x68
+- building_station_two_rooms: **pass** 140x68
+- furniture_cooking_range: **pass** 18x31
+- furniture_cooking_range_lit: **pass** 19x31
+- furniture_pantry: **pass** 19x37
+- furniture_reading_chair: **pass** 25x30
+- deco_rocking_chair: **pass** 25x28
+- deco_bench_carved: **pass** 35x21
+- deco_stool: **pass** 11x14
+- deco_loveseat: **pass** 39x21
+- deco_coffee_table: **pass** 37x26
+- deco_writing_desk: **pass** 40x28
+- deco_plant_stand: **pass** 23x28
+- deco_bookshelf_low: **pass** 32x23
+- deco_trunk: **pass** 22x16
+- deco_coat_tree: **pass** 15x29
+- deco_cabinet_glass: **pass** 24x28
+- deco_floor_lamp: **pass** 14x27
+- deco_table_lamp: **pass** 15x18
+- deco_lantern_hanging: **pass** 8x19
+- deco_candles: **pass** 14x15
+- deco_fern: **pass** 23x20
+- deco_cactus: **pass** 13x20
+- deco_monstera: **pass** 18x23
+- deco_herb_pots: **pass** 27x20
+- deco_antlers: **pass** 27x24
+- deco_park_map: **pass** 30x25
+- deco_pennants: **pass** 21x25
+- deco_clock: **pass** 15x25
+- deco_mirror: **pass** 15x25
+- deco_snowshoes: **pass** 21x25
+- deco_radio: **pass** 19x14
+- deco_globe: **pass** 15x22
+- deco_teapot: **pass** 20x17
+- deco_binoculars: **pass** 17x16
+- deco_pinecone_bowl: **pass** 20x16
+
+## raw_ar21_B9_garden.png (Art Request 21, B9: the garden)
+
+- garden_fence_h: **pass** 25x16
+- garden_fence_v: **pass** 12x23
+- garden_fence_post: **pass** 8x17
+- garden_gate: **pass** 24x18
+- garden_soil_dry: **pass** 16x16
+- garden_soil_wet: **pass** 16x16
+- garden_soil_snow: **pass** 16x16
+- item_watering_can: **pass** 32x32
+- fx_water_0: **pass** 16x16
+- fx_water_1: **pass** 16x16
+- fx_water_2: **pass** 16x16
+- crop_peas_0: **pass** 16x32
+- crop_peas_1: **pass** 16x32
+- crop_peas_2: **pass** 16x32
+- crop_peas_3: **pass** 16x32
+- crop_peas_regrow: **pass** 16x32
+- crop_radish_0: **pass** 16x16
+- crop_radish_1: **pass** 16x16
+- crop_radish_2: **pass** 16x16
+- crop_radish_3: **pass** 16x16
+- crop_rhubarb_0: **pass** 16x16
+- crop_rhubarb_1: **pass** 16x16
+- crop_rhubarb_2: **pass** 16x16
+- crop_rhubarb_3: **pass** 16x16
+- crop_tomato_0: **pass** 16x32
+- crop_tomato_1: **pass** 16x32
+- crop_tomato_2: **pass** 16x32
+- crop_tomato_3: **pass** 16x32
+- crop_tomato_regrow: **pass** 16x32
+- crop_squash_0: **pass** 16x16
+- crop_squash_1: **pass** 16x16
+- crop_squash_2: **pass** 16x16
+- crop_squash_3: **pass** 16x16
+- crop_corn_0: **pass** 16x32
+- crop_corn_1: **pass** 16x32
+- crop_corn_2: **pass** 16x32
+- crop_corn_3: **pass** 16x32
+- crop_beans_0: **pass** 16x32
+- crop_beans_1: **pass** 16x32
+- crop_beans_2: **pass** 16x32
+- crop_beans_3: **pass** 16x32
+- crop_beans_regrow: **pass** 16x32
+- crop_pumpkin_0: **pass** 16x16
+- crop_pumpkin_1: **pass** 16x16
+- crop_pumpkin_2: **pass** 16x16
+- crop_pumpkin_3: **pass** 16x16
+- crop_kale_0: **pass** 16x16
+- crop_kale_1: **pass** 16x16
+- crop_kale_2: **pass** 16x16
+- crop_kale_3: **pass** 16x16
+- crop_withered: **pass** 16x16
+- item_peas: **pass** 32x32
+- item_radish: **pass** 32x32
+- item_rhubarb: **pass** 32x32
+- item_tomato: **pass** 32x32
+- item_beans: **pass** 32x32
+- item_corn: **pass** 32x32
+- item_squash: **pass** 32x32
+- item_kale: **pass** 32x32
+- item_pumpkin: **pass** 32x32
+- item_seeds_peas: **pass** 32x32
+- item_seeds_radish: **pass** 32x32
+- item_seeds_rhubarb: **pass** 32x32
+- item_seeds_tomato: **pass** 32x32
+- item_seeds_beans: **pass** 32x32
+- item_seeds_corn: **pass** 32x32
+- item_seeds_pumpkin: **pass** 32x32
+- item_seeds_squash: **pass** 32x32
+- item_seeds_kale: **pass** 32x32
+- item_tomato_soup: **pass** 32x32
+- item_pumpkin_pie: **pass** 32x32
+- item_garden_salad: **pass** 32x32
+
+## raw_ar21_A1_rosa_teo_marge_nell.png (Art Request 21, A1: Rosa, Teo, Marge and Nell)
+
+- -: **SKIPPED** cut by tools/cut_ar21_people.py into raw_ar21_people_16.png, every frame of a person at one scale
+
+## raw_ar21_A2_agnes_bev_gus_sol.png (Art Request 21, A2: Agnes, Bev, Gus and Sol)
+
+- -: **SKIPPED** cut by tools/cut_ar21_people.py into raw_ar21_people_16.png, every frame of a person at one scale
+
+## raw_ar21_A3_lyle_esme_pip.png (Art Request 21, A3: Lyle, Esme and Pip)
+
+- -: **SKIPPED** cut by tools/cut_ar21_people.py into raw_ar21_people_16.png, every frame of a person at one scale
+
+## raw_ar21_people_16.png (Art Request 21, A1 to A3 and B6: the townsfolk and the Big Foot costume, cut by tools/cut_ar21_people.py)
+
+- npc_rosa: **pass** 64x128 pixel for pixel
+- npc_teo: **pass** 64x128 pixel for pixel
+- npc_marge: **pass** 64x128 pixel for pixel
+- npc_nell: **pass** 64x128 pixel for pixel
+- npc_agnes: **pass** 64x128 pixel for pixel
+- npc_bev: **pass** 64x128 pixel for pixel
+- npc_gus: **pass** 64x128 pixel for pixel
+- npc_sol: **pass** 64x128 pixel for pixel
+- npc_lyle: **pass** 64x128 pixel for pixel
+- npc_esme: **pass** 64x128 pixel for pixel
+- npc_pip: **pass** 64x128 pixel for pixel
+- fest_bigfoot_suit: **pass** 64x128 pixel for pixel
+
+## raw_ar21_wear_16.png (Art Request 21, A4: the ranger without a hat, and the clothes fitted over the ranger's frames, by tools/cut_ar21_people.py)
+
+- ranger_nohat: **pass** 64x128 pixel for pixel
+- ranger_wear_wool_toque: **pass** 64x128 pixel for pixel
+- ranger_wear_rain_shell: **pass** 64x128 pixel for pixel
+- ranger_wear_wool_coat: **pass** 64x128 pixel for pixel
+- ranger_wear_down_parka: **pass** 64x128 pixel for pixel
+- ranger_wear_waterproof_boots: **pass** 64x128 pixel for pixel
+- ranger_wear_insulated_boots: **pass** 64x128 pixel for pixel
+
+## raw_ar21_walls_16.png (Art Request 21, B8: three new walls, by tools/cut_ar21_people.py)
+
+- interior_wall_stripes: **pass** 16x48 pixel for pixel
+- interior_wall_pines: **pass** 16x48 pixel for pixel
+- interior_wall_logs: **pass** 16x48 pixel for pixel
+
+## raw_ar21_floors_16.png (Art Request 21, B8: three new floors, by tools/cut_ar21_people.py)
+
+- interior_floor_slate: **pass** 16x16 pixel for pixel
+- interior_floor_herringbone: **pass** 16x16 pixel for pixel
+- interior_floor_rag_rug: **pass** 16x16 pixel for pixel
+
+## raw_ar21_A4_clothes.png (Art Request 21, A4: clothing and outfitters icons (the worn clothes: tools/cut_ar21_people.py))
+
+- item_ranger_hat: **pass** 32x32
+- item_ranger_jacket: **pass** 32x32
+- item_work_boots: **pass** 32x32
+- item_wool_toque: **pass** 32x32
+- item_rain_shell: **pass** 32x32
+- item_wool_coat: **pass** 32x32
+- item_down_parka: **pass** 32x32
+- item_waterproof_boots: **pass** 32x32
+- item_insulated_boots: **pass** 32x32
+- item_bedroll_big: **pass** 32x32
+- item_lamp_oil: **pass** 32x32
+- item_matches: **pass** 32x32
 
 ## calm_ground_a.png
 

@@ -504,6 +504,83 @@
    "kind": "food",
    "stack": 10,
    "icon": "item_churros"
+  },
+  {
+   "id": "ranger_hat",
+   "name": "item_ranger_hat",
+   "kind": "clothing",
+   "stack": 1,
+   "icon": "item_ranger_hat"
+  },
+  {
+   "id": "ranger_jacket",
+   "name": "item_ranger_jacket",
+   "kind": "clothing",
+   "stack": 1,
+   "icon": "item_ranger_jacket"
+  },
+  {
+   "id": "work_boots",
+   "name": "item_work_boots",
+   "kind": "clothing",
+   "stack": 1,
+   "icon": "item_work_boots"
+  },
+  {
+   "id": "wool_toque",
+   "name": "item_wool_toque",
+   "kind": "clothing",
+   "stack": 1,
+   "icon": "item_wool_toque"
+  },
+  {
+   "id": "rain_shell",
+   "name": "item_rain_shell",
+   "kind": "clothing",
+   "stack": 1,
+   "icon": "item_rain_shell"
+  },
+  {
+   "id": "wool_coat",
+   "name": "item_wool_coat",
+   "kind": "clothing",
+   "stack": 1,
+   "icon": "item_wool_coat"
+  },
+  {
+   "id": "down_parka",
+   "name": "item_down_parka",
+   "kind": "clothing",
+   "stack": 1,
+   "icon": "item_down_parka"
+  },
+  {
+   "id": "waterproof_boots",
+   "name": "item_waterproof_boots",
+   "kind": "clothing",
+   "stack": 1,
+   "icon": "item_waterproof_boots"
+  },
+  {
+   "id": "insulated_boots",
+   "name": "item_insulated_boots",
+   "kind": "clothing",
+   "stack": 1,
+   "icon": "item_insulated_boots"
+  },
+  {
+   "id": "bedroll_big",
+   "name": "item_bedroll_big",
+   "kind": "tool",
+   "stack": 1,
+   "icon": "item_bedroll_big",
+   "camp_sprites": {
+    "bed": "obj_camp_bedroll",
+    "fire": "obj_campfire",
+    "fire_out": "obj_firepit"
+   },
+   "family": "bedroll",
+   "rest_bonus": 0.05
   }
  ],
  "note": "Everything that goes in the backpack. family: a tool and its refitted versions share one family, and anything that needs the tool takes any of them. refit: the magical ingredient a refitted tool holds. placeable: put on the faced tile (needs_tool: the tool it needs, \"\" for none; on: trail or open ground; map_when_revealed: shown on the map once that ground is revealed; lays: laid as that ground, on the grounds in tuning trail.boardwalk_on). kit: set up inside a building."
