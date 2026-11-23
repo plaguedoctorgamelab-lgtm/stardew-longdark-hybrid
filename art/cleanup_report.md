@@ -1,7 +1,7 @@
 # Art cleanup report
 
 Made by tools/art_cleanup.py. palette from art/palette.json (33 colors). A picture cut pixel for pixel from a refresh sheet replaces any earlier picture of the same name.
-789 images passed, 1 failed.
+796 images passed, 1 failed.
 
 
 ## ChatGPT Image Nov 15, 2026, 07_04_59 AM.png (ground tiles)
@@ -867,7 +867,6 @@ Made by tools/art_cleanup.py. palette from art/palette.json (33 colors). A pictu
 - furniture_stove: **pass** 32x40
 - furniture_stove_lit: **pass** 32x40
 - furniture_workbench: **pass** 48x32
-- furniture_catalog_desk: **pass** 32x24
 - furniture_radio: **pass** 16x24
 - furniture_shelf: **pass** 32x32
 - furniture_staff_board: **pass** 16x24
@@ -1095,6 +1094,27 @@ Made by tools/art_cleanup.py. palette from art/palette.json (33 colors). A pictu
 ## raw_ar19_ground_edges.png (Art Request 19, sheet 4: ground edges)
 
 - -: **SKIPPED** cut by tools/cut_town_ground.gd (3 by 3 tile blocks, inner corners made by the lab)
+
+## raw_ar20_stakes.png (Art Request 20, sheet 1: the pad stake and its flagging tape (the tape cut from the straight middle of each run, so it repeats along a pad's edge))
+
+- obj_pad_stakes: **pass** 16x32
+- obj_pad_tape_h: **pass** 16x5
+- obj_pad_tape_v: **pass** 5x16
+
+## raw_ar20_desk.png (Art Request 20, sheet 2: the catalog desk)
+
+- furniture_catalog_desk: **pass** 32x24
+
+## raw_ar20_floors.png (Art Request 20, sheet 3: the floors at full size)
+
+- -: **SKIPPED** cut by tools/cut_ar20_floors.py into raw_ar20_floors_16.png, which keeps the seams a pixel wide
+
+## raw_ar20_floors_16.png (Art Request 20, sheet 3: the floors, cut to 16 x 16 by tools/cut_ar20_floors.py)
+
+- interior_plank_floor: **pass** 16x16 pixel for pixel
+- interior_boards_warm: **pass** 16x16 pixel for pixel
+- interior_boards_warm_alt_1: **pass** 16x16 pixel for pixel
+- interior_boards_warm_alt_2: **pass** 16x16 pixel for pixel
 
 ## calm_ground_a.png
 

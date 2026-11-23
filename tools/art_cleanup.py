@@ -571,7 +571,9 @@ def main():
             os.remove(os.path.join(FINAL, name + ".png"))
     calm_keep = manifest.get("calm", {}).get("tiles", {})
     for name, tw, th, pix in exact:
-        snapped = snap(pix, palette)
+        # A pixel sheet marked "keep_colors" (the floors cut by
+        # tools/cut_ar20_floors.py) keeps the colours it was cut with.
+        snapped = pix if name in keep else snap(pix, palette)
         if name in soft:
             snapped = [q[:3] + (p[3],) if p[3] else q for q, p in zip(snapped, pix)]
         pix = snapped
@@ -579,7 +581,7 @@ def main():
             pix = calm(tw, th, pix, float(calm_keep[name]))
         save(name, tw, th, pix)
     for name, tw, th, pix in late:
-        save(name, tw, th, snap(pix, palette))
+        save(name, tw, th, pix if name in keep else snap(pix, palette))
 
     # "recolor_like": a cell drawn in other colours than the game's ground
     # keeps its marks' layout but takes today's tile's colours: its main

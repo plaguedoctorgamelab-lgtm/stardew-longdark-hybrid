@@ -8,7 +8,7 @@
      13,
      10
     ],
-    "floor": "interior_boards_warm_calm",
+    "floor": "interior_boards_warm",
     "wall": "interior_wall_planks",
     "trim": "interior_trim",
     "wall_height": 3,
@@ -174,8 +174,8 @@
     ],
     "note": "Stardew reference (Mark, 22 Nov 2026): counter on the left with the keeper behind it, tables on the right, a clear way up the middle.",
     "floor_alts": [
-     "interior_boards_warm_alt_1_calm",
-     "interior_boards_warm_alt_2_calm"
+     "interior_boards_warm_alt_1",
+     "interior_boards_warm_alt_2"
     ]
    }
   },
@@ -353,7 +353,7 @@
      13,
      10
     ],
-    "floor": "interior_boards_warm_calm",
+    "floor": "interior_boards_warm",
     "wall": "interior_wall_planks",
     "trim": "interior_trim",
     "wall_height": 3,
@@ -510,8 +510,8 @@
      ]
     ],
     "floor_alts": [
-     "interior_boards_warm_alt_1_calm",
-     "interior_boards_warm_alt_2_calm"
+     "interior_boards_warm_alt_1",
+     "interior_boards_warm_alt_2"
     ]
    }
   },
@@ -522,7 +522,7 @@
      12,
      10
     ],
-    "floor": "interior_boards_warm_calm",
+    "floor": "interior_boards_warm",
     "wall": "interior_wall_paper",
     "trim": "interior_trim",
     "wall_height": 3,
@@ -666,8 +666,8 @@
      ]
     ],
     "floor_alts": [
-     "interior_boards_warm_alt_1_calm",
-     "interior_boards_warm_alt_2_calm"
+     "interior_boards_warm_alt_1",
+     "interior_boards_warm_alt_2"
     ]
    }
   },
@@ -678,7 +678,7 @@
      14,
      10
     ],
-    "floor": "interior_boards_warm_calm",
+    "floor": "interior_boards_warm",
     "wall": "interior_wall_brick",
     "trim": "interior_trim",
     "wall_height": 3,
@@ -822,8 +822,8 @@
      ]
     ],
     "floor_alts": [
-     "interior_boards_warm_alt_1_calm",
-     "interior_boards_warm_alt_2_calm"
+     "interior_boards_warm_alt_1",
+     "interior_boards_warm_alt_2"
     ]
    }
   },
@@ -834,7 +834,7 @@
      15,
      11
     ],
-    "floor": "interior_boards_warm_calm",
+    "floor": "interior_boards_warm",
     "wall": "interior_wall_paper",
     "trim": "interior_trim",
     "wall_height": 3,
@@ -1042,8 +1042,8 @@
     ],
     "note": "The reading room is the two tables. Books are on the shelves either side.",
     "floor_alts": [
-     "interior_boards_warm_alt_1_calm",
-     "interior_boards_warm_alt_2_calm"
+     "interior_boards_warm_alt_1",
+     "interior_boards_warm_alt_2"
     ]
    }
   },
@@ -1054,7 +1054,7 @@
      14,
      10
     ],
-    "floor": "interior_boards_warm_calm",
+    "floor": "interior_boards_warm",
     "wall": "interior_wall_planks",
     "trim": "interior_trim",
     "wall_height": 3,
@@ -1200,8 +1200,8 @@
     ],
     "note": "The post office counter on the left, the mayor's desk on the right.",
     "floor_alts": [
-     "interior_boards_warm_alt_1_calm",
-     "interior_boards_warm_alt_2_calm"
+     "interior_boards_warm_alt_1",
+     "interior_boards_warm_alt_2"
     ]
    }
   }

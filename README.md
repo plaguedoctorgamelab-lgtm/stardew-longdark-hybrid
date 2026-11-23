@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.7.0** (see [Version history](#version-history)). The
+**Current version: 0.7.1** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -103,6 +103,15 @@ docs/              bible, roadmap, specs, rules, status reports (hidden from God
 
 The version lives in `project.godot` (`application/config/version`). Every
 commit of the build raises it and adds a line here.
+
+### 0.7.1 (23 November 2026): Mark's Art Request 20
+
+Mark's touch-ups for tracker #36. Tests in `tests/test_art_request_20.gd`; pictures from `tests/support/screenshots_071.gd`.
+
+- **The pads are roped off.** A staked-out pad now has one of Mark's flagged stakes at each corner, with his red-and-white flagging tape between them, a piece per tile along each edge (`ParkView._rope_pad`). The tape is cut from the straight middle of each run Mark drew, so it repeats. The tower's lookout keeps its single stake by the door.
+- **Calmer floors.** Mark's plank floor in the station, the cabin and the tower, and his warm boards with their two variants in the shops. `tools/cut_ar20_floors.py` cuts the big tiles to 16 x 16 and keeps each seam a single pixel wide, which a plain shrink would lose. The lab's stand-in calm copies from 0.7.0 are gone.
+- **The catalog desk** is Mark's new one: an open catalog, a telephone, an order pad and a plant.
+- The art cleanup now keeps a sheet's own colours ("keep_colors") on pixel sheets and on sheets that have the final say, so the tape stays red and the flag orange.
 
 ### 0.7.0 (22 November 2026): Mark's tracker reports on 0.6.8
 

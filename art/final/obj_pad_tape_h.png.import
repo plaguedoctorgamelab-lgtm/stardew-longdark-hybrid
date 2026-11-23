@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://crucr5a82a3gy"
-path="res://.godot/imported/interior_boards_warm_alt_1_calm.png-c9d64f866a08d7fc69fb19443902ff86.ctex"
+uid="uid://wm8xglwnnckf"
+path="res://.godot/imported/obj_pad_tape_h.png-77b8b7d547ac756850e90d2d23a96772.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/final/interior_boards_warm_alt_1_calm.png"
-dest_files=["res://.godot/imported/interior_boards_warm_alt_1_calm.png-c9d64f866a08d7fc69fb19443902ff86.ctex"]
+source_file="res://art/final/obj_pad_tape_h.png"
+dest_files=["res://.godot/imported/obj_pad_tape_h.png-77b8b7d547ac756850e90d2d23a96772.ctex"]
 
 [params]
 

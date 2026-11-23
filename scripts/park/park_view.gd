@@ -7,6 +7,7 @@ extends Node2D
 ## from the same record, so nothing about them changes when they appear.
 
 const TILE := 16
+const TAPE_TIE := 25           # the tape is tied this many pixels up a pad stake (Art Request 20)
 const SKIN: Array[Color] = [Color(0.98, 0.84, 0.72), Color(0.9, 0.7, 0.55), Color(0.76, 0.56, 0.4), Color(0.55, 0.38, 0.26), Color(0.38, 0.26, 0.18)]
 const HAIR: Array[Color] = [Color(0.2, 0.14, 0.1), Color(0.45, 0.3, 0.18), Color(0.8, 0.65, 0.35), Color(0.6, 0.25, 0.12), Color(0.75, 0.75, 0.75)]
 const CLOTH: Array[Color] = [Color(0.85, 0.3, 0.25), Color(0.25, 0.45, 0.8), Color(0.95, 0.75, 0.25), Color(0.35, 0.65, 0.4), Color(0.7, 0.4, 0.75), Color(0.95, 0.55, 0.2), Color(0.3, 0.7, 0.75), Color(0.9, 0.9, 0.85)]
@@ -17,6 +18,7 @@ const PACKS: Array[String] = ["", "visitor_pack_small", "visitor_pack_big"]
 var session: GameSession
 var sort_root: Node2D
 var _fac: Dictionary = {}      # pad id -> Sprite2D
+var _rope: Dictionary = {}     # pad id -> Array of Sprite2D: a staked pad's corner stakes and tape
 var _things: Dictionary = {}   # tile -> Sprite2D
 var _litter: Dictionary = {}   # tile -> Sprite2D
 var _badgers: Array = []       # Sprite2D
@@ -59,6 +61,37 @@ func _set_art(spr: Sprite2D, art: String) -> void:
 		spr.offset = Vector2(-tex.get_width() / 2.0, -tex.get_height())
 
 
+func _free_rope(id: String) -> void:
+	for n: Node in _rope[id]:
+		n.queue_free()
+	_rope.erase(id)
+
+
+## A pad's roping: four corner stakes, and a piece of tape per tile along
+## each edge, tied TAPE_TIE pixels up the stakes. Each piece is sorted one
+## pixel in front of the edge's ground line so the stakes stand over it.
+func _rope_pad(rc: Rect2i) -> Array:
+	var out := []
+	for c: Vector2i in [rc.position, Vector2i(rc.end.x, rc.position.y), Vector2i(rc.position.x, rc.end.y), rc.end]:
+		var stake := _sprite("obj_pad_stakes")
+		_place(stake, Vector2(c))
+		out.append(stake)
+	for i in rc.size.x:
+		for gy: int in [rc.position.y, rc.end.y]:
+			var h := _sprite("obj_pad_tape_h")
+			var th := h.texture.get_height()
+			h.position = Vector2((rc.position.x + i) * TILE, gy * TILE - 1)
+			h.offset = Vector2(0, 1 - TAPE_TIE - ceili(th / 2.0))
+			out.append(h)
+	for i in rc.size.y:
+		for gx: int in [rc.position.x, rc.end.x]:
+			var v := _sprite("obj_pad_tape_v")
+			v.position = Vector2(gx * TILE, (rc.position.y + i + 1) * TILE - 1)
+			v.offset = Vector2(-floori(v.texture.get_width() / 2.0), 1 - TILE - TAPE_TIE)
+			out.append(v)
+	return out
+
+
 ## Redraws the facilities, placed things, litter and badgers.
 func refresh() -> void:
 	if session == null:
@@ -99,6 +132,18 @@ func refresh() -> void:
 		elif park.pad_row(id)["facility"] == "dock":
 			spr.z_index = -15
 		_place(spr, at)
+		# A staked pad is roped off: a stake at each corner and flagging
+		# tape between them. The tower's lookout keeps its single stake by
+		# the door.
+		var roped: bool = want[id] == "obj_pad_stakes" and park.pad_row(id)["facility"] != "tower_lookout"
+		spr.visible = not roped
+		if roped and not _rope.has(id):
+			_rope[id] = _rope_pad(rc)
+		elif not roped and _rope.has(id):
+			_free_rope(id)
+	for id: String in _rope.keys():
+		if not want.has(id):
+			_free_rope(id)
 	# Small things.
 	for t: Vector2i in _things.keys():
 		if not park.things.has(t):

@@ -6576,39 +6576,7 @@
       ]
      ]
     },
-    {
-     "name": "furniture_catalog_desk",
-     "size": [
-      32,
-      24
-     ],
-     "recolor_map": [
-      [
-       [
-        232,
-        115,
-        95
-       ],
-       [
-        157,
-        102,
-        62
-       ]
-      ],
-      [
-       [
-        251,
-        177,
-        113
-       ],
-       [
-        199,
-        144,
-        95
-       ]
-      ]
-     ]
-    },
+    null,
     {
      "name": "furniture_radio",
      "size": [
@@ -8536,6 +8504,124 @@
    "file": "raw_ar19_ground_edges.png",
    "label": "Art Request 19, sheet 4: ground edges",
    "reference": "cut by tools/cut_town_ground.gd (3 by 3 tile blocks, inner corners made by the lab)"
+  },
+  {
+   "file": "raw_ar20_stakes.png",
+   "label": "Art Request 20, sheet 1: the pad stake and its flagging tape (the tape cut from the straight middle of each run, so it repeats along a pad's edge)",
+   "grid": [
+    3,
+    1
+   ],
+   "final_say": true,
+   "cells": [
+    {
+     "name": "obj_pad_stakes",
+     "size": [
+      16,
+      32
+     ],
+     "parts": 2
+    },
+    {
+     "name": "obj_pad_tape_h",
+     "size": [
+      16,
+      5
+     ],
+     "box": [
+      914,
+      318,
+      312,
+      112
+     ],
+     "stretch": true,
+     "edge_ok": true,
+     "parts": 4
+    },
+    {
+     "name": "obj_pad_tape_v",
+     "size": [
+      5,
+      16
+     ],
+     "box": [
+      1750,
+      180,
+      100,
+      312
+     ],
+     "stretch": true,
+     "edge_ok": true,
+     "parts": 4
+    }
+   ],
+   "keep_colors": true
+  },
+  {
+   "file": "raw_ar20_desk.png",
+   "label": "Art Request 20, sheet 2: the catalog desk",
+   "grid": [
+    1,
+    1
+   ],
+   "final_say": true,
+   "cells": [
+    {
+     "name": "furniture_catalog_desk",
+     "size": [
+      32,
+      24
+     ],
+     "parts": 6
+    }
+   ],
+   "keep_colors": true
+  },
+  {
+   "file": "raw_ar20_floors.png",
+   "label": "Art Request 20, sheet 3: the floors at full size",
+   "reference": "cut by tools/cut_ar20_floors.py into raw_ar20_floors_16.png, which keeps the seams a pixel wide"
+  },
+  {
+   "file": "raw_ar20_floors_16.png",
+   "label": "Art Request 20, sheet 3: the floors, cut to 16 x 16 by tools/cut_ar20_floors.py",
+   "pixel": true,
+   "full": true,
+   "keep_colors": true,
+   "grid": [
+    4,
+    1
+   ],
+   "cells": [
+    {
+     "name": "interior_plank_floor",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "interior_boards_warm",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "interior_boards_warm_alt_1",
+     "size": [
+      16,
+      16
+     ]
+    },
+    {
+     "name": "interior_boards_warm_alt_2",
+     "size": [
+      16,
+      16
+     ]
+    }
+   ]
   }
  ],
  "calm": {
