@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.6.8** (see [Version history](#version-history)). The
+**Current version: 0.6.9** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -102,6 +102,13 @@ docs/              bible, roadmap, specs, rules, status reports (hidden from God
 
 The version lives in `project.godot` (`application/config/version`). Every
 commit of the build raises it and adds a line here.
+
+### 0.6.9 (22 November 2026): town fixes
+
+- **The creek's bends.** Inner corners are now made from the two side tiles that meet there (`tools/cut_town_ground.gd`): the lawn is a small nub in the corner with the sand rim running round it, so where Dusk Creek steps up or down the shore turns a corner instead of showing a square of grass. The cobbles' and gravel's inner corners are made the same way.
+- **The Percolator's windows glow at night,** and Casa Luna's glass glows rather than its turquoise frames. Their glass is darker than Art Request 19's pale blue, so `town_look.window_glass.pictures` gives each its window boxes and light range.
+- **Bigger yard fences.** The picket fence, hedge, stone wall and their ends are cut half as big again (the picket 36 x 27), so they lose the speckle and stand taller. The runs are spaced by the new widths, the hedge and wall overlapping by 2 pixels so they have no gaps.
+- New tests in `tests/test_town_fixes_069.gd`; screenshots from `tests/support/screenshots_069.gd`.
 
 ### 0.6.8 (22 November 2026): Mark's new music
 

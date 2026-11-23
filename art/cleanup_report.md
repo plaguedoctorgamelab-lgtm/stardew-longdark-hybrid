@@ -1062,10 +1062,10 @@ Made by tools/art_cleanup.py. palette from art/palette.json (33 colors). A pictu
 
 ## raw_ar19_yards.png (Art Request 19, sheet 7: yards and gardens): light background cleared from the edges
 
-- town_picket: **pass** 24x18
-- town_picket_gate: **pass** 28x22
-- town_stone_wall: **pass** 22x13
-- town_hedge: **pass** 24x16
+- town_picket: **pass** 36x27
+- town_picket_gate: **pass** 42x33
+- town_stone_wall: **pass** 33x20
+- town_hedge: **pass** 36x24
 - town_veg_bed: **pass** 32x26
 - town_flower_bed: **pass** 32x20
 - town_birdbath: **pass** 16x24
@@ -1077,9 +1077,9 @@ Made by tools/art_cleanup.py. palette from art/palette.json (33 colors). A pictu
 
 ## raw_ar19_yards.png (Art Request 19, sheet 7: fence post, wall end and hedge end): light background cleared from the edges
 
-- town_picket_post: **pass** 6x20
-- town_stone_wall_end: **pass** 8x14
-- town_hedge_end: **pass** 9x16
+- town_picket_post: **pass** 9x30
+- town_stone_wall_end: **pass** 12x21
+- town_hedge_end: **pass** 14x24
 
 ## raw_ar19_seasons.png (Art Request 19, sheet 8: seasons): light background cleared from the edges
 

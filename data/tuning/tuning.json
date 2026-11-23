@@ -612,7 +612,12 @@
       "s": {"set": "town_edge_bank", "outside": ["l", "d", "c", "g"]},
       "w": {"set": "town_edge_bank", "outside": ["l", "d", "c", "g"]}
     },
-    "window_glass": {"note": "Window glass in the town's pictures: pale, bluer than red and green, as Art Request 19 asked. At night it glows this warm colour.", "min_light": 0.5, "min_blue_over_red": 0.1, "night": [1.0, 0.82, 0.42]},
+    "window_glass": {"note": "Window glass in the town's pictures: pale, bluer than red and green, as Art Request 19 asked. At night it glows this warm colour.", "min_light": 0.5, "min_blue_over_red": 0.1, "night": [1.0, 0.82, 0.42],
+      "pictures": {
+        "note": "Older pictures with dark glass: only bluish pixels inside the boxes [x, y, w, h] glow, between min_light and max_light.",
+        "town_percolator": {"boxes": [[24, 28, 18, 13], [6, 65, 28, 13], [40, 65, 9, 11]], "min_light": 0.1, "max_light": 0.5, "min_blue_over_red": 0.05},
+        "town_casa_luna": {"boxes": [[7, 40, 16, 17], [59, 40, 16, 17]], "min_light": 0.1, "max_light": 0.3, "min_blue_over_red": 0.05}
+      }},
     "lamp_glow_tiles": 3.0,
     "lamp_glow_strength": 0.9
   }

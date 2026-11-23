@@ -7,8 +7,11 @@ extends SceneTree
 ##
 ## Edge sets (lawn outside, the other ground inside) come out as
 ## town_edge_<set>_<nw|n|ne|w|c|e|sw|s|se>. The inner corners on Mark's
-## sheet are drawn as small ponds, so the lab makes its own: the middle tile
-## with the outer corner tile's corner pasted in, as _inw, _ine, _isw, _ise.
+## sheet are drawn as small ponds, so the lab makes its own (_inw, _ine,
+## _isw, _ise) from the two side tiles that meet there: the lawn is where
+## both sides have lawn, a small nub in the corner, and each pixel of the
+## nub comes from the side whose shore it is nearer, so the rim (sand on
+## the creek, stones round the cobbles) runs round the nub on both sides.
 ## The plain grounds come out as numbered versions (town_water_0..17).
 ## Each set's middle tile also comes flipped (_c1, _c2, _c3) for variety.
 ##
@@ -22,7 +25,7 @@ const RAW := "res://art/raw/raw_ar19_ground_edges.png"
 const OUT := "res://art/final/"
 const TILE := 16
 const INSET := 0.06   # of a tile, cut off each side to lose the drawn lines
-const CORNER := 5     # pixels of an outer corner pasted into an inner one
+const SAME := 0.07     # a colour this close to one in the middle tile is "inside"
 
 # Where each block lies on the sheet, roughly: [x0, y0, x1, y1]. The block's
 # exact edges are found inside by its solid pixels.
@@ -118,13 +121,49 @@ func _edge_set(set_name: String, cx: int, cy: int) -> int:
 	var t := _tiles(cx, cy)
 	for i in 9:
 		_save(t[i], "town_edge_%s_%s" % [set_name, POS[i]])
-	# Inner corners: the middle with the outer corner's corner pasted in.
+	# Inner corners, from the side tiles: [name, top or bottom side, left or right side].
 	var mid: Image = t[4]
-	for c: Array in [["inw", 0, Vector2i(0, 0)], ["ine", 2, Vector2i(TILE - CORNER, 0)], ["isw", 6, Vector2i(0, TILE - CORNER)], ["ise", 8, Vector2i(TILE - CORNER, TILE - CORNER)]]:
-		var img := mid.duplicate() as Image
-		img.blit_rect(t[c[1]], Rect2i(c[2], Vector2i(CORNER, CORNER)), c[2])
-		_save(img, "town_edge_%s_%s" % [set_name, c[0]])
+	for c: Array in [["inw", 1, 3], ["ine", 1, 5], ["isw", 7, 3], ["ise", 7, 5]]:
+		_save(_inner(mid, t[c[1]], t[c[2]], c[1] == 7, c[2] == 5), "town_edge_%s_%s" % [set_name, c[0]])
 	return 13
+
+
+## An inner corner: lawn only where both side tiles have lawn. Each side's
+## lawn depth is counted in from its outer edge, up to the first pixel the
+## colour of the middle tile.
+func _inner(mid: Image, horiz: Image, vert: Image, bottom: bool, right: bool) -> Image:
+	var inside := {}
+	for y in TILE:
+		for x in TILE:
+			inside[mid.get_pixel(x, y)] = true
+	var is_inside := func(c: Color) -> bool:
+		for m: Color in inside:
+			if absf(c.r - m.r) <= SAME and absf(c.g - m.g) <= SAME and absf(c.b - m.b) <= SAME:
+				return true
+		return false
+	# Depth of the lawn and rim in from the outer edge: per column for the
+	# top or bottom side, per row for the left or right side.
+	var dh: Array[int] = []
+	var dv: Array[int] = []
+	for i in TILE:
+		var d := 0
+		while d < TILE and not is_inside.call(horiz.get_pixel(i, TILE - 1 - d if bottom else d)):
+			d += 1
+		dh.append(d)
+		d = 0
+		while d < TILE and not is_inside.call(vert.get_pixel(TILE - 1 - d if right else d, i)):
+			d += 1
+		dv.append(d)
+	var img := mid.duplicate() as Image
+	for y in TILE:
+		for x in TILE:
+			var from_h := (TILE - 1 - y) if bottom else y
+			var from_v := (TILE - 1 - x) if right else x
+			var left_h := dh[x] - from_h
+			var left_v := dv[y] - from_v
+			if left_h > 0 and left_v > 0:
+				img.set_pixel(x, y, horiz.get_pixel(x, y) if left_h <= left_v else vert.get_pixel(x, y))
+	return img
 
 
 func _numbered(prefix: String, cx: int, cy: int, first: int) -> int:

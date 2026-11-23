@@ -8282,8 +8282,8 @@
     {
      "name": "town_picket",
      "size": [
-      24,
-      18
+      36,
+      27
      ],
      "box": [
       12,
@@ -8296,16 +8296,16 @@
     {
      "name": "town_picket_gate",
      "size": [
-      28,
-      22
+      42,
+      33
      ],
      "parts": 20
     },
     {
      "name": "town_stone_wall",
      "size": [
-      22,
-      13
+      33,
+      20
      ],
      "box": [
       732,
@@ -8318,8 +8318,8 @@
     {
      "name": "town_hedge",
      "size": [
-      24,
-      16
+      36,
+      24
      ],
      "box": [
       1092,
@@ -8411,8 +8411,8 @@
     {
      "name": "town_picket_post",
      "size": [
-      6,
-      20
+      9,
+      30
      ],
      "box": [
       276,
@@ -8426,8 +8426,8 @@
     {
      "name": "town_stone_wall_end",
      "size": [
-      8,
-      14
+      12,
+      21
      ],
      "box": [
       976,
@@ -8440,8 +8440,8 @@
     {
      "name": "town_hedge_end",
      "size": [
-      9,
-      16
+      14,
+      24
      ],
      "box": [
       1334,

@@ -47,7 +47,7 @@ func setup(s: GameSession) -> void:
 	for b: Dictionary in town.buildings:
 		var spr := _stand(str(b["sprite"]), Vector2(float(b["pos"][0]) + float(b["size"][0]) / 2.0, float(b["pos"][1]) + float(b["size"][1])))
 		Shadow.attach(spr, float(b["size"][0]) * TILE, session.tuning)
-		var glow := window_glow(spr.texture.get_image(), session.tuning)
+		var glow := window_glow(spr.texture.get_image(), session.tuning, str(b["sprite"]))
 		if glow != null:
 			var g := Sprite2D.new()
 			g.centered = false
@@ -267,8 +267,12 @@ func _update_lights(force: bool) -> void:
 ## A building's lit windows: its window glass (pale, bluer than red, as Art
 ## Request 19 asked: tuning town_look.window_glass) in a warm colour, every
 ## other pixel clear. Null when the picture has no glass.
-static func window_glow(img: Image, tuning: Tuning) -> Image:
+## A picture listed under window_glass.pictures has darker glass than the
+## pale blue Art Request 19 asked for (the Percolator, Casa Luna): its glass
+## is any bluish pixel inside its window boxes, within its own light range.
+static func window_glow(img: Image, tuning: Tuning, art_name: String = "") -> Image:
 	var wg: Dictionary = tuning.value("town_look.window_glass")
+	var own: Dictionary = (wg.get("pictures", {}) as Dictionary).get(art_name, {})
 	var night: Array = wg["night"]
 	var warm := Color(float(night[0]), float(night[1]), float(night[2]))
 	img = img.duplicate() as Image
@@ -281,7 +285,8 @@ static func window_glow(img: Image, tuning: Tuning) -> Image:
 	for y in h:
 		for x in w:
 			var c := img.get_pixel(x, y)
-			glass[y * w + x] = 1 if c.a > 0.5 and is_glass(c, wg) else 0
+			var g := is_glass(c, wg) if own.is_empty() else _in_boxes(x, y, own["boxes"]) and is_dark_glass(c, own)
+			glass[y * w + x] = 1 if c.a > 0.5 and g else 0
 	# A pane is a patch: a glass pixel with fewer than two glass neighbours
 	# is a highlight on a blue roof or trim, not a window.
 	var found := false
@@ -298,6 +303,18 @@ static func window_glow(img: Image, tuning: Tuning) -> Image:
 
 static func is_glass(c: Color, wg: Dictionary) -> bool:
 	return c.get_luminance() >= float(wg["min_light"]) and c.b - c.r >= float(wg["min_blue_over_red"]) and c.b >= c.g - 0.02
+
+
+static func is_dark_glass(c: Color, own: Dictionary) -> bool:
+	var l := c.get_luminance()
+	return l >= float(own["min_light"]) and l <= float(own["max_light"]) and c.b - c.r >= float(own["min_blue_over_red"]) and c.b >= c.g - 0.02
+
+
+static func _in_boxes(x: int, y: int, boxes: Array) -> bool:
+	for r: Array in boxes:
+		if x >= int(r[0]) and y >= int(r[1]) and x < int(r[0]) + int(r[2]) and y < int(r[1]) + int(r[3]):
+			return true
+	return false
 
 
 ## The top middle of a person's picture, in this view's pixels, for the name

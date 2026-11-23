@@ -183,7 +183,7 @@ def main():
         x = x0 + step / 2.0 - 0.5
         first = True
         while x <= x1 + 0.01:
-            o = {"sprite": piece, "pos": [round(x, 2), y], "solid": False}
+            o = {"sprite": piece, "pos": [round(x, 4), y], "solid": False}
             if first:
                 o["blocks"] = blocks
                 first = False
@@ -191,9 +191,12 @@ def main():
             x += step
         objects.append({"sprite": end, "pos": [x1 + 0.5, y], "solid": False})
 
-    run("town_picket", "town_picket_post", 8, 27, 3, 1.5)
-    run("town_hedge", "town_hedge_end", 45, 52, 3, 1.5)
-    run("town_stone_wall", "town_stone_wall_end", 53, 74, 3, 1.375)
+    # Steps are each piece's width in tiles (36, 36 and 33 pixels since
+    # 0.6.9); the hedge and wall overlap by 2 pixels so their rounded ends
+    # leave no gaps.
+    run("town_picket", "town_picket_post", 8, 27, 3, 2.25)
+    run("town_hedge", "town_hedge_end", 45, 52, 3, 2.125)
+    run("town_stone_wall", "town_stone_wall_end", 53, 74, 3, 1.9375)
     for sprite, x, y in (
             ("town_clothesline", 10, 5), ("town_rain_barrel", 12, 6),                                  # the Pelletiers
             ("town_birdbath", 16, 5), ("town_flower_bed", 18, 6), ("town_bush_flowering", 19, 4),     # Bev
