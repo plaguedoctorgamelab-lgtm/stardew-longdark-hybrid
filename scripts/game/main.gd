@@ -607,8 +607,11 @@ func _close_dialog(yes: bool) -> void:
 	dialog.visible = false
 	var kind := _dialog_kind
 	_dialog_kind = ""
-	if kind in ["sleep", "camp_sleep", "open_site", "rent_sign"] or kind.begins_with("take_down:"):
+	if kind in ["sleep", "camp_sleep", "open_site", "rent_sign"] or kind.begins_with("take_down:") or kind.begins_with("favor:"):
 		session.answer_confirm(yes)
+	# After someone's line: a favor they'd like to ask.
+	if kind == "talk" and not dialog.visible:
+		session.offer_favor()
 	# After reading the suggestion box: pin a card that asks for something.
 	if not dialog.visible and session.box_offer:
 		session.offer_pins()

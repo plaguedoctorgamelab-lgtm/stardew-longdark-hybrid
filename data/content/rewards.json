@@ -60,6 +60,16 @@
    "id": "note",
    "icon": "reward_story",
    "value": 0
+  },
+  {
+   "id": "friendship",
+   "icon": "ui_heart_full",
+   "value": 0
+  },
+  {
+   "id": "recipe",
+   "icon": "reward_unlock",
+   "value": 20
   }
  ]
 }

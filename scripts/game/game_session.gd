@@ -124,6 +124,8 @@ var _pending_pad: String = ""
 var piles: Dictionary = {}           # tile -> Inventory: things the ranger dropped on the ground
 var guide: Guide                     # what X and C do here, the "?" marks
 var jobs: Jobs                       # the jobs module: every job, its steps and rewards
+var favors: Favors                   # where Townsfolk Favors come from: the board, asking, the mailbox
+var favor_offer: String = ""         # a favor the person just talked to would ask for
 var visits: Dictionary = {}          # travel place id -> times the ranger has arrived there
 var _near_place: String = ""         # the travel place the ranger is at now, if any
 var _traveling: bool = false
@@ -178,6 +180,7 @@ func _init(tuning_path: String = Tuning.DEFAULT_PATH, content_dir: String = Cont
 	park.note.connect(func(text: String) -> void: message.emit(text))
 	guide = Guide.new(self)
 	jobs = Jobs.new(self)
+	favors = Favors.new(self)
 	land_changed.connect(func(_t: Vector2i) -> void: jobs.mark_dirty())
 	tree_changed.connect(func(_t: Vector2i) -> void: jobs.mark_dirty())
 	backpack.changed.connect(func() -> void: jobs.mark_dirty())
@@ -253,6 +256,7 @@ func new_game(new_seed: int = -1) -> void:
 	camp_changed.emit()
 	weather.check_change(clock.minute)
 	jobs.new_game()
+	favors.new_game()
 	town.new_game()
 	shops.new_game()
 	wardrobe.new_game()
@@ -320,6 +324,7 @@ func to_dict() -> Dictionary:
 		"park": park.to_dict(),
 		"visits": visits.duplicate(),
 		"jobs2": jobs.to_dict(),
+		"favors": favors.to_dict(),
 		"bench_boxes": bench_boxes.keys().map(func(k: String) -> Array: return [k, (bench_boxes[k] as Inventory).to_array()]),
 		"piles": piles.keys().map(func(t: Vector2i) -> Array: return [t.x, t.y, (piles[t] as Inventory).to_array()]),
 	}
@@ -445,6 +450,7 @@ func from_dict(d: Dictionary) -> void:
 	# Saves from before the jobs rebuild have no jobs: they are worked out
 	# from the world, and those already done are finished and paid.
 	jobs.from_dict(d.get("jobs2", {}), not d.has("jobs2"))
+	favors.from_dict(d.get("favors", {}))
 
 
 func save_game() -> bool:
@@ -717,6 +723,8 @@ func needs_context() -> Dictionary:
 func _on_step(_minute: int) -> void:
 	var step_minutes := clock.step_minutes()
 	needs.step(needs_context())
+	if in_town_room() and town.is_open(town_inside):
+		jobs.event("help", {"place": town_inside, "n": step_minutes})
 	_walked_this_step = 0.0
 	_rough_this_step = false
 	structures.burn(step_minutes)
@@ -772,6 +780,7 @@ func _on_day_started(_day: int, _season: int, _year: int) -> void:
 	weather.check_change(clock.minute)
 	park.start_day()
 	jobs.morning(clock.day == 1)
+	favors.morning()
 	_check_town_opens()
 	day_began.emit()
 
@@ -897,6 +906,9 @@ func request_sleep() -> void:
 func answer_confirm(yes: bool) -> void:
 	var kind := pending_confirm
 	pending_confirm = ""
+	if kind.begins_with("favor:"):
+		message.emit(favors.answer(kind.substr(6), yes))
+		return
 	if kind.begins_with("take_down:"):
 		if yes:
 			_take_down_facility(kind.substr(10))
@@ -1068,12 +1080,10 @@ func _interact_town() -> void:
 		return
 	var person := town.person_near(town_pos, tuning.num("town.talk_reach_tiles"))
 	if person != "":
-		var talk := town.talk(person)
-		talk["person"] = person
-		townsperson_spoke.emit(talk)
+		_talk_to(person)
 		return
 	if town.notice_board_near(town_pos, tuning.num("town.door_reach_tiles")):
-		note_read.emit(content.text("town_notice_board"))
+		note_read.emit(content.text("fv_board_title") + "\n\n" + favors.read_board())
 		return
 	var door := town.door_at(town_pos, tuning.num("town.door_reach_tiles"))
 	if door != "" and content.has("town_places", door):
@@ -1096,6 +1106,11 @@ func enter_town_room(place: String) -> void:
 	facing = FACING_UP
 	town_changed.emit(true)
 	message.emit(place_line(place))
+	# A favor's parcel waiting here is handed over.
+	for item: String in jobs.collect_here(place):
+		backpack.add(item, 1)
+		jobs.event("collect", {"place": place})
+		message.emit(content.text("fv_collected"))
 
 
 ## Out of a shop onto the street, in front of its door.
@@ -1130,9 +1145,33 @@ func _interact_town_room() -> void:
 		return
 	var person := shops.person_near(town_inside, interior_pos, tuning.num("town.talk_reach_tiles"))
 	if person != "":
-		var talk := town.talk(person)
-		talk["person"] = person
-		townsperson_spoke.emit(talk)
+		_talk_to(person)
+
+
+## Where the station's mailbox stands: beside the door, on the path.
+func mailbox_pos() -> Vector2:
+	return door_front("ranger_station") + Vector2(2.0, 0.0)
+
+
+## Talks to someone in town. A favor step that wanted a word counts, and
+## if they have a favor to ask, it waits until their line is read.
+func _talk_to(person: String) -> void:
+	var talk := town.talk(person)
+	talk["person"] = person
+	jobs.event("talk", {"person": person})
+	favor_offer = favors.ask_offer(person)
+	townsperson_spoke.emit(talk)
+
+
+## After someone's line is read: the favor they ask, as a yes or no.
+func offer_favor() -> void:
+	if favor_offer == "":
+		return
+	var id := favor_offer
+	favor_offer = ""
+	var r := content.row("town_favors", id)
+	pending_confirm = "favor:" + id
+	confirm_requested.emit(pending_confirm, content.text("fv_ask", {"name": shops.first_name(str(r["from"])), "name_job": content.text(str(r["name"])), "note": content.text(str(r["note"]))}))
 
 
 ## A building's door: its name, and whether it is open.
@@ -1169,6 +1208,27 @@ func town_person_in_reach() -> String:
 	return town.person_near(town_pos, tuning.num("town.talk_reach_tiles"))
 
 
+## Hands a favor's things to the person who asked: not a gift, and not
+## counted against the week's gifts. Something only shown is handed back.
+func _hand_over(person: String, item: String, want: Dictionary) -> void:
+	var n := mini(backpack.count(item), int(want["left"]))
+	if n <= 0:
+		return
+	var keep := bool(want["keep"])
+	if not keep:
+		backpack.remove(item, n)
+	town.met[person] = true
+	jobs.event("give_to", {"person": person, "item": item, "n": n})
+	var who := shops.first_name(person)
+	var name := content.item_name(item).to_lower()
+	if keep:
+		message.emit(content.text("fv_shown", {"name": who, "item": name}))
+	elif int(want["left"]) > n:
+		message.emit(content.text("fv_handed_n", {"name": who, "n": n, "item": name, "have": n, "want": int(want["left"])}))
+	else:
+		message.emit(content.text("fv_handed", {"name": who, "item": name}))
+
+
 ## C in town with something held: give it to the person in reach.
 func _use_in_town() -> void:
 	var person := town_person_in_reach()
@@ -1177,6 +1237,10 @@ func _use_in_town() -> void:
 		put_on(item)
 		return
 	if person == "" or item == "":
+		return
+	var want := jobs.wants(person, item)
+	if not want.is_empty():
+		_hand_over(person, item, want)
 		return
 	var res := town.give(person, item)
 	var who := str(content.row("townsfolk", person)["name"]).get_slice(" ", 0)
@@ -1200,6 +1264,10 @@ func interact() -> void:
 		_interact_inside()
 		return
 	var reach := tuning.num("world.interact_reach_tiles")
+	# The station's mailbox: letters from town (Phase 4, Townsfolk Favors).
+	if town_open and outdoor_pos.distance_to(mailbox_pos()) <= 1.0:
+		note_read.emit(content.text("fv_mailbox") + "\n\n" + favors.read_mail())
+		return
 	var sid := structure_at_door(outdoor_pos)
 	if sid != "":
 		if _landmark_for_structure(sid) != "" and not map.is_landmark_mapped(_landmark_for_structure(sid)):

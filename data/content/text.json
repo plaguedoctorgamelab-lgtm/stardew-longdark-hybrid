@@ -4200,7 +4200,7 @@
   },
   {
    "id": "jt_giver_townsfolk",
-   "text": "Someone in Humdrum",
+   "text": "Townsfolk",
    "placeholder": true
   },
   {
@@ -6413,6 +6413,522 @@
   {
    "id": "town_home_too_late",
    "text": "{name}: it's too early or too late to knock."
+  },
+  {
+   "id": "fvs_wren_preserve",
+   "text": "Bring Wren 2 jars of berry preserve"
+  },
+  {
+   "id": "fv_wren_pastry_case",
+   "text": "Something for the Pastry Case"
+  },
+  {
+   "id": "fvnote_wren_pastry_case",
+   "text": "\"I want to put out a little jar of something next to the muffins. Your berry preserve, maybe? Two jars, and I'll call it Ranger's Own.\""
+  },
+  {
+   "id": "fvs_ask_bev",
+   "text": "Ask Bev what she heard"
+  },
+  {
+   "id": "fvs_ask_agnes",
+   "text": "Ask Agnes what she heard"
+  },
+  {
+   "id": "fvs_tell_wren",
+   "text": "Tell Wren what they said"
+  },
+  {
+   "id": "fv_wren_rumor_run",
+   "text": "Wren's Rumor Run"
+  },
+  {
+   "id": "fvnote_wren_rumor_run",
+   "text": "\"Bev says she heard something about the old bridge, and Agnes says Bev has it backwards. Would you ask them both? Then come tell me. For science.\" (pinned by Wren)"
+  },
+  {
+   "id": "fvs_rosa_onions",
+   "text": "Bring Rosa 6 wild onions"
+  },
+  {
+   "id": "fv_rosa_wild_onions",
+   "text": "Rosa's Spring Onions"
+  },
+  {
+   "id": "fvnote_rosa_wild_onions",
+   "text": "WANTED: wild onions, six, for the first green salsa of the year. Casa Luna pays in tamales. - R. Mendoza"
+  },
+  {
+   "id": "fvs_soup_marge",
+   "text": "Take Marge a hot soup"
+  },
+  {
+   "id": "fvs_tell_rosa",
+   "text": "Tell Rosa Marge ate it"
+  },
+  {
+   "id": "fv_rosa_soup_for_marge",
+   "text": "Soup for Marge"
+  },
+  {
+   "id": "fvnote_rosa_soup_for_marge",
+   "text": "\"Marge eats nothing but trail mix, that woman. Take her a bowl of hot soup, and don't let her tell you she's not hungry.\""
+  },
+  {
+   "id": "fvs_find_notebook",
+   "text": "Find Teo's notebook along the trail, near the mark on your map"
+  },
+  {
+   "id": "fvs_give_notebook",
+   "text": "Give Teo his notebook back"
+  },
+  {
+   "id": "fv_teo_notebook",
+   "text": "Teo's Missing Notebook"
+  },
+  {
+   "id": "fvnote_teo_notebook",
+   "text": "\"I had a notebook. Songs, mostly. Not good ones. I think it fell out of my bag on the park road. Don't read it. Please.\""
+  },
+  {
+   "id": "fvs_teo_reeds",
+   "text": "Bring Teo 6 reeds"
+  },
+  {
+   "id": "fv_teo_reeds",
+   "text": "Reeds for a Whistle"
+  },
+  {
+   "id": "fvnote_teo_reeds",
+   "text": "\"Ranger - I'm trying to make a reed whistle. Mom says it's a waste of time, which means it's a good idea. Could you bring six reeds from the pond? - Teo\""
+  },
+  {
+   "id": "fvs_marge_rope",
+   "text": "Bring Marge 3 coils of rope"
+  },
+  {
+   "id": "fv_marge_window_rope",
+   "text": "Rope for the Window"
+  },
+  {
+   "id": "fvnote_marge_window_rope",
+   "text": "Humdrum Outfitters needs three good coils of rope for the window display. Hand-made preferred. Paid on delivery. - M. Pelletier"
+  },
+  {
+   "id": "fvs_survey_tower",
+   "text": "Survey from the static tower"
+  },
+  {
+   "id": "fvs_tell_marge",
+   "text": "Tell Marge what you saw"
+  },
+  {
+   "id": "fv_marge_old_route",
+   "text": "Marge's Old Route"
+  },
+  {
+   "id": "fvnote_marge_old_route",
+   "text": "\"I used to climb up past that tower. Forty years ago. Go and look from there for me, would you? Take a survey. Tell me if it's how I remember.\""
+  },
+  {
+   "id": "fvs_nell_fiddleheads",
+   "text": "Bring Nell 5 fiddleheads"
+  },
+  {
+   "id": "fv_nell_fiddleheads",
+   "text": "Fiddleheads for Nell"
+  },
+  {
+   "id": "fvnote_nell_fiddleheads",
+   "text": "Five fiddleheads, please, for a climber's breakfast. Leave them with me at the outfitters. - Nell"
+  },
+  {
+   "id": "fvs_go_outlook",
+   "text": "Stand at the scenic outlook"
+  },
+  {
+   "id": "fvs_tell_nell",
+   "text": "Tell Nell about the view"
+  },
+  {
+   "id": "fv_nell_outlook",
+   "text": "Somewhere Else, for an Afternoon"
+  },
+  {
+   "id": "fvnote_nell_outlook",
+   "text": "\"Sometimes I just want to stand somewhere high and look at somewhere else. Is the outlook as good as people say? Go and look. Then tell me.\""
+  },
+  {
+   "id": "fvs_show_page",
+   "text": "Show Agnes the last ranger's first journal page"
+  },
+  {
+   "id": "fv_agnes_archive",
+   "text": "What the Archive Doesn't Say"
+  },
+  {
+   "id": "fvnote_agnes_archive",
+   "text": "\"The archive has nothing from the last ranger's first year. Nothing. If you ever find a page of their journal, bring it to me. I'll copy it and give it straight back.\""
+  },
+  {
+   "id": "fvs_agnes_cards",
+   "text": "Bring Agnes 2 pressed flower cards"
+  },
+  {
+   "id": "fv_agnes_pressed_flowers",
+   "text": "Pressed for the Archive"
+  },
+  {
+   "id": "fvnote_agnes_pressed_flowers",
+   "text": "\"Dear Ranger, the archive's flower book has gaps. Two pressed flower cards would fill them nicely. With thanks, A. Thistlewood\""
+  },
+  {
+   "id": "fvs_bev_candles",
+   "text": "Bring Bev 3 pine resin candles"
+  },
+  {
+   "id": "fv_bev_candles",
+   "text": "Candles for Gifts & Notions"
+  },
+  {
+   "id": "fvnote_bev_candles",
+   "text": "GIFTS & NOTIONS will take three pine resin candles off anyone's hands. Good price. Ask for Bev. (Bev is always here.)"
+  },
+  {
+   "id": "fvs_bev_stones",
+   "text": "Bring Bev 2 painted stones"
+  },
+  {
+   "id": "fv_bev_painted_stones",
+   "text": "Bev's Window"
+  },
+  {
+   "id": "fvnote_bev_painted_stones",
+   "text": "\"I'm doing the window in park colors. Two painted stones, front and center. People will stop dead in the street. Well. They'll stop.\""
+  },
+  {
+   "id": "fvs_gus_planks",
+   "text": "Bring Gus 10 planks"
+  },
+  {
+   "id": "fv_gus_planks",
+   "text": "Lindqvist Carpentry: Planks Wanted"
+  },
+  {
+   "id": "fvnote_gus_planks",
+   "text": "Ten planks. Straight. - G.L."
+  },
+  {
+   "id": "fvs_help_gus",
+   "text": "Spend an hour helping at the carpentry"
+  },
+  {
+   "id": "fv_gus_hand",
+   "text": "A Hand in the Workshop"
+  },
+  {
+   "id": "fvnote_gus_hand",
+   "text": "\"Could use a hand. An hour. Holding things.\" He looks at the floor. \"If you've got an hour.\""
+  },
+  {
+   "id": "fvs_survey_pond",
+   "text": "Survey Kettle Pond on a clear day"
+  },
+  {
+   "id": "fvs_tell_sol",
+   "text": "Bring Sol your survey"
+  },
+  {
+   "id": "fv_sol_pond_sketch",
+   "text": "A Sketch of the Pond"
+  },
+  {
+   "id": "fvnote_sol_pond_sketch",
+   "text": "\"I paint the park from photographs. I've never quite dared to go in. Would you survey the pond for me, on a clear day? I want the light right.\""
+  },
+  {
+   "id": "fvs_sol_flowers",
+   "text": "Bring Sol 8 wildflowers"
+  },
+  {
+   "id": "fv_sol_wildflowers",
+   "text": "Wildflowers for a Still Life"
+  },
+  {
+   "id": "fvnote_sol_wildflowers",
+   "text": "Looking for eight wildflowers for a still life. Any color. Bring them to the house by the creek. - Sol"
+  },
+  {
+   "id": "fvs_lyle_beans",
+   "text": "Bring the mayor 2 tins of beans"
+  },
+  {
+   "id": "fv_lyle_lunch",
+   "text": "The Mayor's Lunch"
+  },
+  {
+   "id": "fvnote_lyle_lunch",
+   "text": "\"The Mayor of Humdrum eats beans from a tin at his desk every day at noon, and he is proud of it. I have run out. Two tins, if you'd be so kind.\""
+  },
+  {
+   "id": "fvs_collect_parcel",
+   "text": "Pick up the parcel at the post office"
+  },
+  {
+   "id": "fvs_parcel_agnes",
+   "text": "Deliver the parcel to Agnes"
+  },
+  {
+   "id": "fv_lyle_parcel",
+   "text": "Official Business"
+  },
+  {
+   "id": "fvnote_lyle_parcel",
+   "text": "\"OFFICE OF THE MAYOR. A parcel for the library is waiting at the post office counter. Delivery by a uniformed official is preferred. You have a uniform. - L. Pruitt, Mayor\""
+  },
+  {
+   "id": "fvs_esme_hips",
+   "text": "Bring Esme 4 rose hips"
+  },
+  {
+   "id": "fv_esme_rose_hips",
+   "text": "For the Caravan's Kettle"
+  },
+  {
+   "id": "fvnote_esme_rose_hips",
+   "text": "Rose hips, four, for a winter tea. The caravan by the willow. - E."
+  },
+  {
+   "id": "fvs_esme_candle",
+   "text": "Bring Esme a pine resin candle"
+  },
+  {
+   "id": "fv_esme_candle",
+   "text": "A Light for the Window"
+  },
+  {
+   "id": "fvnote_esme_candle",
+   "text": "\"A candle, I think. Pine resin. Something that smells of the park. Don't ask me why. I don't know either.\""
+  },
+  {
+   "id": "fvs_pip_start",
+   "text": "Tell Pip you're ready"
+  },
+  {
+   "id": "fvs_pip_survey",
+   "text": "Show Pip a survey at the forest edge, before dusk"
+  },
+  {
+   "id": "fvs_pip_done",
+   "text": "Tell Pip they passed"
+  },
+  {
+   "id": "fv_pip_ranger_test",
+   "text": "Pip's Ranger Test"
+  },
+  {
+   "id": "fvnote_pip_ranger_test",
+   "text": "\"Can I come to the forest edge with you? Just to the edge! And you show me a survey, and that's my ranger test. Before dark. Gran says before dark.\""
+  },
+  {
+   "id": "fvs_pip_berries",
+   "text": "Bring Pip 5 berries"
+  },
+  {
+   "id": "fv_pip_berries",
+   "text": "Pip's Berry Hunt"
+  },
+  {
+   "id": "fvnote_pip_berries",
+   "text": "WANTED: BERRIES. 5. For a CRYPTID TRAP (not a real trap). Pay: my best rock. - PIP"
+  },
+  {
+   "id": "fvt_forage",
+   "text": "{person_name} Would Love Some {item_name}"
+  },
+  {
+   "id": "fvtn_forage_0",
+   "text": "\"If you see any {item_name} out there, I'd love {count}.\" (pinned by {person_name})"
+  },
+  {
+   "id": "fvtn_forage_1",
+   "text": "{count} {item_name}, please. Ask for {person_name}."
+  },
+  {
+   "id": "fvts_give",
+   "text": "Bring {person_name} {count} {item_name}"
+  },
+  {
+   "id": "fvt_hot",
+   "text": "Something Hot for {person_name}"
+  },
+  {
+   "id": "fvtn_hot_0",
+   "text": "\"I'd give anything for some {item_name}.\" (pinned by {person_name})"
+  },
+  {
+   "id": "fvtn_hot_1",
+   "text": "Wanted: one {item_name}, hot. - {person_name}"
+  },
+  {
+   "id": "fvts_give_one",
+   "text": "Bring {person_name} {item_name}"
+  },
+  {
+   "id": "fvt_parcel",
+   "text": "A Parcel for {person_name}"
+  },
+  {
+   "id": "fvtn_parcel_0",
+   "text": "POST OFFICE: a parcel for {person_name} is waiting at the counter. Carriers welcome."
+  },
+  {
+   "id": "fvts_collect",
+   "text": "Pick up the parcel at the post office"
+  },
+  {
+   "id": "fvts_parcel_give",
+   "text": "Deliver the parcel to {person_name}"
+  },
+  {
+   "id": "fvt_lost",
+   "text": "{person_name}'s Lost {item_name}"
+  },
+  {
+   "id": "fvtn_lost_0",
+   "text": "LOST: one {item_name}, somewhere along the trail, I think. Reward. - {person_name}"
+  },
+  {
+   "id": "fvts_find",
+   "text": "Find {person_name}'s {item_name} near the mark on your map"
+  },
+  {
+   "id": "fvts_return",
+   "text": "Give {person_name} the {item_name}"
+  },
+  {
+   "id": "fvt_hand",
+   "text": "A Hand at {shop_name}"
+  },
+  {
+   "id": "fvtn_hand_0",
+   "text": "\"Could you mind the shop with me for an hour? It's never busy. That's not the point.\" (pinned by {person_name})"
+  },
+  {
+   "id": "fvts_help",
+   "text": "Spend an hour helping at {shop_name}"
+  },
+  {
+   "id": "jt_kind_give_to",
+   "text": "Hand over"
+  },
+  {
+   "id": "jt_kind_collect",
+   "text": "Collect"
+  },
+  {
+   "id": "jt_kind_help",
+   "text": "Lend a hand"
+  },
+  {
+   "id": "jt_kind_find_thing",
+   "text": "Find"
+  },
+  {
+   "id": "item_song_notebook",
+   "text": "Teo's song notebook"
+  },
+  {
+   "id": "item_parcel",
+   "text": "Parcel"
+  },
+  {
+   "id": "item_lost_mitten",
+   "text": "Mitten"
+  },
+  {
+   "id": "item_lost_keys",
+   "text": "Keys"
+  },
+  {
+   "id": "item_lost_locket",
+   "text": "Locket"
+  },
+  {
+   "id": "item_lost_glasses",
+   "text": "Glasses"
+  },
+  {
+   "id": "item_pond_painting",
+   "text": "Sol's painting of the pond"
+  },
+  {
+   "id": "item_pip_drawing",
+   "text": "Pip's drawing"
+  },
+  {
+   "id": "jt_r_friendship",
+   "text": "{n} friendship with {name}"
+  },
+  {
+   "id": "jt_r_recipe",
+   "text": "A recipe: {name}"
+  },
+  {
+   "id": "fv_board_title",
+   "text": "The Humdrum notice board"
+  },
+  {
+   "id": "fv_board_new",
+   "text": "You take down {n} note(s): {names}. They're on your clipboard."
+  },
+  {
+   "id": "fv_board_none",
+   "text": "Nothing new pinned up today. The Thaw Fair poster, a lost cat (found), and a card: \"Odd jobs? Ask in person.\""
+  },
+  {
+   "id": "fv_ask",
+   "text": "{name} asks a favor: {name_job}\n\n{note}\n\nY: \"I'll see what I can do.\"   N: \"Not now.\""
+  },
+  {
+   "id": "fv_ask_yes",
+   "text": "{name}: \"Thank you. Really.\" It's on your clipboard."
+  },
+  {
+   "id": "fv_ask_no",
+   "text": "{name}: \"Another time, then.\""
+  },
+  {
+   "id": "fv_handed",
+   "text": "You hand {name} the {item}."
+  },
+  {
+   "id": "fv_handed_n",
+   "text": "You hand {name} {n} {item}. ({have} of {want})"
+  },
+  {
+   "id": "fv_shown",
+   "text": "You show {name} the {item}. They copy it carefully and give it back."
+  },
+  {
+   "id": "fv_collected",
+   "text": "The post office hands you a parcel."
+  },
+  {
+   "id": "fv_mailbox",
+   "text": "The mailbox"
+  },
+  {
+   "id": "fv_mail_none",
+   "text": "The mailbox is empty."
+  },
+  {
+   "id": "fv_mail_new",
+   "text": "{n} letter(s). {names}: on your clipboard."
+  },
+  {
+   "id": "fv_found_thing",
+   "text": "You found the {item}!"
   }
  ]
 }

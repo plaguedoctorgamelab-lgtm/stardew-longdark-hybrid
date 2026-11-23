@@ -47,7 +47,7 @@ var rng := RandomNumberGenerator.new()
 func _init(session: GameSession) -> void:
 	_s = weakref(session)
 	var c := session.content
-	for r: Dictionary in c.rows("jobs") + c.rows("spoiler_jobs"):
+	for r: Dictionary in c.rows("jobs") + c.rows("spoiler_jobs") + c.rows("town_favors"):
 		_rows[r["id"]] = r
 	for r: Dictionary in c.rows("job_templates"):
 		_tpl[r["id"]] = r
@@ -193,6 +193,9 @@ func def(key: String) -> Dictionary:
 		d["name"] = _t(r["name"])
 		d["note"] = _t(r["note"])
 		d["giver"] = str(r.get("giver", s().content.row("job_types", r["type"])["giver"]))
+		# A Townsfolk Favor is signed by the person who asked.
+		if r.has("from"):
+			d["giver_name"] = str(s().content.row("townsfolk", r["from"])["name"])
 	d["key"] = key
 	_defs[key] = d
 	return d
@@ -397,6 +400,13 @@ func _atom(a: String) -> bool:
 			return not _scout_party().is_empty()
 		"site_open_any_building":
 			return not _open_buildings().is_empty()
+		"met":
+			return g.town.met.has(arg)
+		"hearts":
+			var hp := arg.split(":")
+			return g.town.hearts(hp[0]) >= int(hp[1])
+		"town_open":
+			return g.town_open
 	push_error("Jobs: unknown condition %s" % a)
 	return false
 
@@ -610,12 +620,18 @@ func event(kind: String, data: Dictionary) -> void:
 			var stp: Dictionary = d["steps"][i]
 			if not _event_matches(k, stp, kind, data):
 				continue
+			# A favor's steps are done one after another: telling Wren
+			# what Bev said only counts once Bev has said it.
+			if str(d["type"]) == "townsfolk" and not _earlier_done(k, i):
+				continue
+			if str(d["type"]) == "townsfolk" and bool(check(k, i)["done"]):
+				continue
 			var key := str(i)
 			if kind == "clean" and data.has("pad"):
 				key = str(i) + ":" + str(data["pad"])
 			elif kind == "light" and data.has("structure"):
 				key = str(i) + ":" + str(data["structure"])
-			known[k]["counts"][key] = int(known[k]["counts"].get(key, 0)) + 1
+			known[k]["counts"][key] = int(known[k]["counts"].get(key, 0)) + int(data.get("n", 1))
 			working = k
 	_dirty = true
 	update()
@@ -639,13 +655,33 @@ func _event_matches(key: String, stp: Dictionary, kind: String, data: Dictionary
 		"survey":
 			if kind != "survey":
 				return false
+			# A favor may want a clear day, or the work done before dusk.
+			if stp.has("weather") and s().current_weather() != str(stp["weather"]):
+				return false
+			if stp.has("before") and s().clock.minute >= int(stp["before"]):
+				return false
 			var at := _where(key, str(stp["at"]))
 			return at != Vector2.INF and (data["pos"] as Vector2).distance_to(at) <= float(stp["r"])
 		"light":
 			return kind == "light"
 		"talk_to":
+			if stp.has("person"):
+				return kind == "talk" and str(stp["person"]) == str(data.get("person", ""))
 			return kind == "talk" and (str(stp["party"]) == str(data.get("party", "")))
+		"give_to":
+			return kind == "give_to" and str(stp["person"]) == str(data.get("person", "")) and str(stp["item"]) == str(data.get("item", ""))
+		"collect", "help":
+			return kind == str(stp["kind"]) and str(stp["place"]) == str(data.get("place", ""))
+		"find_thing":
+			return kind == "pick" and str(stp["item"]) == str(data.get("item", ""))
 	return false
+
+
+func _earlier_done(key: String, i: int) -> bool:
+	for j in i:
+		if not bool(check(key, j)["done"]):
+			return false
+	return true
 
 
 # --- the step checks -------------------------------------------------------------------
@@ -736,6 +772,18 @@ func check(key: String, i: int) -> Dictionary:
 			return {"done": n >= bs.size() and not bs.is_empty(), "n": n, "total": bs.size() if bs.size() > 1 else 0}
 		"open":
 			return {"done": g.sites_open.has(stp["site"]), "n": 0, "total": 0}
+		"give_to":
+			var n := int(st["counts"].get(str(i), 0))
+			var want := int(stp["n"])
+			return {"done": n >= want, "n": mini(n, want), "total": want if want > 1 else 0}
+		"collect":
+			return {"done": int(st["counts"].get(str(i), 0)) > 0, "n": 0, "total": 0}
+		"help":
+			var m := int(st["counts"].get(str(i), 0))
+			var want := int(stp["minutes"])
+			return {"done": m >= want, "n": mini(m, want), "total": want}
+		"find_thing":
+			return {"done": int(st["counts"].get(str(i), 0)) > 0 or g.backpack.count(str(stp["item"])) > 0, "n": 0, "total": 0}
 	return {"done": false, "n": 0, "total": 0}
 
 
@@ -1089,7 +1137,7 @@ func _watch_landmarks() -> void:
 func _appear(season_turn: bool = false) -> void:
 	for id: String in _rows:
 		var r: Dictionary = _rows[id]
-		if known.has(id) or bool(r.get("noticed", false)):
+		if known.has(id) or bool(r.get("noticed", false)) or r.has("offer"):
 			continue
 		var season := str(r.get("season", "until_done"))
 		if season not in ["until_done", "template"]:
@@ -1386,6 +1434,15 @@ func _give(k: String, r: Dictionary, card: Dictionary) -> String:
 			return _t(str(r["label"]))
 		"tip", "note":
 			return _t(str(r["label"]))
+		"friendship":
+			var who := str(r["person"])
+			g.town.met[who] = true
+			g.town.add_points(who, int(r["n"]))
+			return _t("jt_r_friendship", {"n": int(r["n"]), "name": g.shops.first_name(who)})
+		"recipe":
+			var rid := str(r["recipe"])
+			g.learn_recipe(rid)
+			return _t("jt_r_recipe", {"name": _t(g.content.row("recipes", rid)["name"])})
 	return ""
 
 
@@ -1584,7 +1641,101 @@ func candidates(tid: String) -> Array:
 					out.append(_blanks(id, {}))
 		"tree_down", "junction_no_pointer":
 			pass   # needs storms that drop trees, and named junctions: not yet in the game
+		# Townsfolk Favors (Phase 4, 4a step 7): one per person someone met.
+		"forage_wish", "hot_dish":
+			var season := g.clock.season_name()
+			for id: String in _met_people():
+				for it: String in _likes(id):
+					if not g.content.has("items", it):
+						continue
+					var ok := false
+					if check_id == "forage_wish":
+						ok = g.content.has("forage", it) and (g.content.row("forage", it)["seasons"] as Array).has(season) and str(g.content.row("items", it)["kind"]) != "magic"
+					else:
+						ok = str(g.content.row("items", it)["kind"]) == "food" and g.content.has("recipes", it)
+					if ok:
+						out.append(_person_blanks(id, {"item": it, "item_name": g.content.item_name(it).to_lower(), "count": 4}))
+						break
+		"parcel":
+			for id: String in _met_people():
+				if id != "lyle":
+					out.append(_person_blanks(id, {}))
+		"lost_thing":
+			var things := ["lost_mitten", "lost_keys", "lost_locket", "lost_glasses"]
+			for id: String in _met_people():
+				var it: String = things[absi(hash(id)) % things.size()]
+				out.append(_person_blanks(id, {"item": it, "item_name": g.content.item_name(it).to_lower(), "at": "trail"}))
+		"shop_hand":
+			for pl: Dictionary in g.content.rows("town_places"):
+				var keeper := str(pl.get("keeper", ""))
+				if str(pl["kind"]) == "shop" and keeper != "" and g.town.met.has(keeper) and g.shops.has_room(str(pl["id"])):
+					var b := _person_blanks(keeper, {"place": str(pl["id"]), "shop_name": str(pl["name"])})
+					b["_at"] = str(pl["id"])
+					out.append(b)
 	return out
+
+
+func _met_people() -> Array[String]:
+	var out: Array[String] = []
+	for r: Dictionary in s().content.rows("townsfolk"):
+		if s().town.met.has(str(r["id"])):
+			out.append(str(r["id"]))
+	return out
+
+
+## The things a person loves and likes, plain items only.
+func _likes(person: String) -> Array[String]:
+	var out: Array[String] = []
+	var c := s().content
+	if not c.has("gift_tastes", person):
+		return out
+	var r := c.row("gift_tastes", person)
+	for it: String in (r.get("love", []) as Array) + (r.get("like", []) as Array):
+		if not it.begins_with("group:"):
+			out.append(it)
+	return out
+
+
+func _person_blanks(person: String, extra: Dictionary) -> Dictionary:
+	var g := s()
+	var b := {"person": person, "person_name": g.shops.first_name(person), "_giver": str(g.content.row("townsfolk", person)["name"]), "_at": person}
+	b.merge(extra, true)
+	return b
+
+
+## The things favors collect at a place now (a parcel at the post office):
+## each collect step there whose turn has come.
+func collect_here(place: String) -> Array[String]:
+	var out: Array[String] = []
+	for k: String in order:
+		if not is_active(k) or str(def(k)["type"]) != "townsfolk":
+			continue
+		var d := def(k)
+		for i in (d["steps"] as Array).size():
+			var stp: Dictionary = d["steps"][i]
+			if str(stp["kind"]) == "collect" and str(stp["place"]) == place and not bool(check(k, i)["done"]) and _earlier_done(k, i):
+				out.append(str(stp["item"]))
+	return out
+
+
+## The give-to step of an active favor that wants this item from the ranger
+## for this person now: {key, i, left, keep}, or {}.
+func wants(person: String, item: String) -> Dictionary:
+	for k: String in order:
+		if not is_active(k):
+			continue
+		var d := def(k)
+		if str(d["type"]) != "townsfolk":
+			continue
+		for i in (d["steps"] as Array).size():
+			var stp: Dictionary = d["steps"][i]
+			if str(stp["kind"]) != "give_to" or str(stp["person"]) != person or str(stp["item"]) != item:
+				continue
+			if bool(check(k, i)["done"]) or not _earlier_done(k, i):
+				continue
+			var left := int(stp["n"]) - int(known[k]["counts"].get(str(i), 0))
+			return {"key": k, "i": i, "left": left, "keep": bool(d.get("keep_items", false))}
+	return {}
 
 
 func _blanks(place: String, extra: Dictionary) -> Dictionary:
@@ -1816,9 +1967,16 @@ func step_pos(k: String, i: int) -> Vector2:
 		"empty", "shoo":
 			return g.park.place_spot(str(stp["place"]))
 		"talk_to":
+			if stp.has("person"):
+				return Vector2.INF
 			if str(stp["party"]) == "lost":
 				return _where(k, "lost")
 			return _where(k, "scout_camp")
+		"find_thing":
+			var b: Dictionary = known[k].get("blanks", {}) if known.has(k) else {}
+			if b.has("lost_cx"):
+				return Vector2(float(b["lost_cx"]), float(b["lost_cy"]))
+			return Vector2.INF
 		"light":
 			return Vector2.INF
 	return Vector2.INF

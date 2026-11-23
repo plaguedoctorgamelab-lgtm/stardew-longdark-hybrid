@@ -519,6 +519,169 @@
    ],
    "giver": "visitors",
    "card": true
+  },
+  {
+   "id": "fv_forage_wish",
+   "type": "townsfolk",
+   "check": "forage_wish",
+   "name": "fvt_forage",
+   "notes": [
+    "fvtn_forage_0",
+    "fvtn_forage_1"
+   ],
+   "size": "small",
+   "steps": [
+    {
+     "kind": "give_to",
+     "label": "fvts_give",
+     "person": "{person}",
+     "item": "{item}",
+     "n": "{count}"
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "friendship",
+     "person": "{person}",
+     "n": 100
+    },
+    {
+     "kind": "money",
+     "n": 20
+    }
+   ]
+  },
+  {
+   "id": "fv_hot_dish",
+   "type": "townsfolk",
+   "check": "hot_dish",
+   "name": "fvt_hot",
+   "notes": [
+    "fvtn_hot_0",
+    "fvtn_hot_1"
+   ],
+   "size": "small",
+   "steps": [
+    {
+     "kind": "give_to",
+     "label": "fvts_give_one",
+     "person": "{person}",
+     "item": "{item}",
+     "n": 1
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "friendship",
+     "person": "{person}",
+     "n": 120
+    },
+    {
+     "kind": "money",
+     "n": 15
+    }
+   ]
+  },
+  {
+   "id": "fv_parcel",
+   "type": "townsfolk",
+   "check": "parcel",
+   "name": "fvt_parcel",
+   "notes": [
+    "fvtn_parcel_0"
+   ],
+   "size": "small",
+   "steps": [
+    {
+     "kind": "collect",
+     "label": "fvts_collect",
+     "place": "town_hall",
+     "item": "parcel"
+    },
+    {
+     "kind": "give_to",
+     "label": "fvts_parcel_give",
+     "person": "{person}",
+     "item": "parcel",
+     "n": 1
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "friendship",
+     "person": "{person}",
+     "n": 80
+    },
+    {
+     "kind": "money",
+     "n": 15
+    }
+   ]
+  },
+  {
+   "id": "fv_lost_thing",
+   "type": "townsfolk",
+   "check": "lost_thing",
+   "name": "fvt_lost",
+   "notes": [
+    "fvtn_lost_0"
+   ],
+   "size": "small",
+   "steps": [
+    {
+     "kind": "find_thing",
+     "label": "fvts_find",
+     "item": "{item}",
+     "at": "{at}"
+    },
+    {
+     "kind": "give_to",
+     "label": "fvts_return",
+     "person": "{person}",
+     "item": "{item}",
+     "n": 1
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "friendship",
+     "person": "{person}",
+     "n": 150
+    },
+    {
+     "kind": "money",
+     "n": 20
+    }
+   ]
+  },
+  {
+   "id": "fv_shop_hand",
+   "type": "townsfolk",
+   "check": "shop_hand",
+   "name": "fvt_hand",
+   "notes": [
+    "fvtn_hand_0"
+   ],
+   "size": "small",
+   "steps": [
+    {
+     "kind": "help",
+     "label": "fvts_help",
+     "place": "{place}",
+     "minutes": 60
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "friendship",
+     "person": "{person}",
+     "n": 100
+    },
+    {
+     "kind": "money",
+     "n": 30
+    }
+   ]
   }
  ]
 }

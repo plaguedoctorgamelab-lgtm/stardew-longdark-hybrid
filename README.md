@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.7.5** (see [Version history](#version-history)). The
+**Current version: 0.7.6** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -104,6 +104,14 @@ docs/              bible, roadmap, specs, rules, status reports (hidden from God
 
 The version lives in `project.godot` (`application/config/version`). Every
 commit of the build raises it and adds a line here.
+
+### 0.7.6 (23 November 2026): Townsfolk Favors
+
+Phase 4, 4a step 7: Townsfolk Favors are the jobs system's fifth live type (`data/content/town_favors.json`, `scripts/town/favors.gd`). Status note: `docs/status/076_status.md`; screenshots: `docs/status/076_shots/` (`tests/support/screenshots_076.gd`); tests: `tests/test_favors.gd`.
+
+- **24 hand-written favors,** two for each townsperson, and **five templates** (a forage wish, something hot, a parcel, a lost thing, a hand at a shop). Every favor gives friendship with whoever asked, as well as its other rewards.
+- **Three ways in:** notes pinned on the town notice board (read it to take them all; the board is kept at three template favors each morning), asked in person (after someone's line, Y "I'll see what I can do" or N "Not now", which leaves it on offer for a week), and letters in the station's new mailbox beside the door (its red flag is up when a letter waits).
+- **New step kinds:** hand something to a townsperson (with C, as a gift is given; not counted as a gift, and something only shown is handed back), talk to someone, collect a parcel at the post office, an hour helping at a shop during its hours, and find a lost thing put out on a trail near a mark on the map. A favor's steps count in order. A survey step can want a clear day or to be done before dusk. New conditions: `met:`, `hearts:person:n`, `town_open`. New rewards: friendship and a recipe.
 
 ### 0.7.5 (23 November 2026): the houses' insides
 

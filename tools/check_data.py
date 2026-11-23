@@ -10,7 +10,7 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONTENT = os.path.join(ROOT, "data", "content")
-TABLES = ["items", "foods", "weather_types", "weather_odds", "structures", "landmarks", "jobs", "obstacles", "recipes", "sites", "notes", "text", "spoiler_finds", "spoiler_text", "art_variety", "forage", "skills", "specialties", "magic_variants", "ideas", "spoiler_magic", "facilities", "placeables", "catalog", "income_sources", "visitor_types", "staff_roles", "staff_people", "badger_mischief", "suggestion_cards", "chief_letters", "pads", "spoiler_pads", "spoiler_cards", "job_types", "givers", "job_steps", "rewards", "job_templates", "job_spots", "spoiler_jobs", "spoiler_job_spots", "noticeables", "spoiler_more", "music", "townsfolk", "town_places", "routines", "gift_tastes", "dialogue", "spoiler_dialogue", "shops", "town_interiors", "books", "clothing", "festivals"]
+TABLES = ["items", "foods", "weather_types", "weather_odds", "structures", "landmarks", "jobs", "obstacles", "recipes", "sites", "notes", "text", "spoiler_finds", "spoiler_text", "art_variety", "forage", "skills", "specialties", "magic_variants", "ideas", "spoiler_magic", "facilities", "placeables", "catalog", "income_sources", "visitor_types", "staff_roles", "staff_people", "badger_mischief", "suggestion_cards", "chief_letters", "pads", "spoiler_pads", "spoiler_cards", "job_types", "givers", "job_steps", "rewards", "job_templates", "job_spots", "spoiler_jobs", "spoiler_job_spots", "noticeables", "spoiler_more", "music", "townsfolk", "town_places", "routines", "gift_tastes", "dialogue", "spoiler_dialogue", "shops", "town_interiors", "books", "clothing", "festivals", "town_favors"]
 
 
 def main():
@@ -275,8 +275,21 @@ def main():
     # reward kind and step kind is a real row; handy things are items.
     texts_all = dict(data.get("text", {}))
     texts_all.update(data.get("spoiler_text", {}))
-    for table in ("jobs", "spoiler_jobs"):
+    for table in ("jobs", "spoiler_jobs", "town_favors"):
         for r in data.get(table, {}).values():
+            if table == "town_favors":
+                ref("townsfolk", r["from"], "town_favors/%s from" % r["id"])
+                for st in r["steps"]:
+                    for k in ("person",):
+                        if k in st:
+                            ref("townsfolk", st[k], "town_favors/%s step" % r["id"])
+                    if "item" in st:
+                        ref("items", st["item"], "town_favors/%s step" % r["id"])
+                for rw in r["rewards"]:
+                    if rw["kind"] == "friendship":
+                        ref("townsfolk", rw["person"], "town_favors/%s reward" % r["id"])
+                    if rw["kind"] == "recipe":
+                        ref("recipes", rw["recipe"], "town_favors/%s reward" % r["id"])
             for k in ("name", "note"):
                 if r[k] not in texts_all:
                     problems.append("%s/%s: no text %s" % (table, r["id"], r[k]))

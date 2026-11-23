@@ -24,6 +24,7 @@ var _litter: Dictionary = {}   # tile -> Sprite2D
 var _badgers: Array = []       # Sprite2D
 var _people: Dictionary = {}   # "party:member" -> Node2D
 var _rent: Sprite2D
+var _mailbox: Sprite2D
 var _time: float = 0.0
 var _wait: float = 0.0
 var show_all: bool = false     # debug: visitors are drawn wherever they are loaded
@@ -35,6 +36,8 @@ func setup(s: GameSession, root: Node2D) -> void:
 	_rent = _sprite("obj_rent_sign")
 	var rt := session.rent_sign_tile()
 	_place(_rent, Vector2(rt) + Vector2(0.5, 1.0))
+	_mailbox = _sprite("obj_station_mailbox")
+	_place(_mailbox, session.mailbox_pos() + Vector2(0, 0.5))
 	session.park.changed.connect(refresh)
 	session.day_began.connect(refresh)
 	refresh()
@@ -98,6 +101,9 @@ func refresh() -> void:
 		return
 	var park := session.park
 	_rent.visible = session.structures.is_open("test_cabin")
+	# The mailbox comes with the town; its flag is up when a letter waits.
+	_mailbox.visible = session.town_open
+	_set_art(_mailbox, "obj_station_mailbox_full" if not session.favors.mailbox.is_empty() else "obj_station_mailbox")
 	# Facilities, pads and kits.
 	var want := {}
 	for r: Dictionary in park.pad_rows():

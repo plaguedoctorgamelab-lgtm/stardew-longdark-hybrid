@@ -1,0 +1,845 @@
+{
+ "note": "Phase 4, 4a step 7: the 24 hand-written Townsfolk Favors, two for each person, in the jobs system's format. from: who asks. offer: board (pinned on the town notice board), ask (asked when talked to), mail (a letter in the station's mailbox).",
+ "rows": [
+  {
+   "id": "wren_pastry_case",
+   "type": "townsfolk",
+   "giver": "townsfolk",
+   "from": "wren",
+   "offer": "ask",
+   "appears": "met:wren and hearts:wren:1",
+   "name": "fv_wren_pastry_case",
+   "note": "fvnote_wren_pastry_case",
+   "size": "small",
+   "season": "until_done",
+   "steps": [
+    {
+     "kind": "give_to",
+     "label": "fvs_wren_preserve",
+     "person": "wren",
+     "item": "berry_preserve",
+     "n": 2
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "friendship",
+     "person": "wren",
+     "n": 150
+    },
+    {
+     "kind": "money",
+     "n": 30
+    }
+   ]
+  },
+  {
+   "id": "wren_rumor_run",
+   "type": "townsfolk",
+   "giver": "townsfolk",
+   "from": "wren",
+   "offer": "board",
+   "appears": "met:wren",
+   "name": "fv_wren_rumor_run",
+   "note": "fvnote_wren_rumor_run",
+   "size": "small",
+   "season": "until_done",
+   "steps": [
+    {
+     "kind": "talk_to",
+     "label": "fvs_ask_bev",
+     "person": "bev"
+    },
+    {
+     "kind": "talk_to",
+     "label": "fvs_ask_agnes",
+     "person": "agnes"
+    },
+    {
+     "kind": "talk_to",
+     "label": "fvs_tell_wren",
+     "person": "wren"
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "friendship",
+     "person": "wren",
+     "n": 120
+    },
+    {
+     "kind": "rumor",
+     "landmark": "broken_bridge",
+     "job": "find_bridge"
+    }
+   ]
+  },
+  {
+   "id": "rosa_wild_onions",
+   "type": "townsfolk",
+   "giver": "townsfolk",
+   "from": "rosa",
+   "offer": "board",
+   "appears": "met:rosa and season:spring",
+   "name": "fv_rosa_wild_onions",
+   "note": "fvnote_rosa_wild_onions",
+   "size": "small",
+   "season": "until_done",
+   "steps": [
+    {
+     "kind": "give_to",
+     "label": "fvs_rosa_onions",
+     "person": "rosa",
+     "item": "wild_onion",
+     "n": 6
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "friendship",
+     "person": "rosa",
+     "n": 150
+    },
+    {
+     "kind": "money",
+     "n": 20
+    },
+    {
+     "kind": "things",
+     "items": {
+      "tamales": 2
+     }
+    }
+   ]
+  },
+  {
+   "id": "rosa_soup_for_marge",
+   "type": "townsfolk",
+   "giver": "townsfolk",
+   "from": "rosa",
+   "offer": "ask",
+   "appears": "met:rosa and met:marge and hearts:rosa:2",
+   "name": "fv_rosa_soup_for_marge",
+   "note": "fvnote_rosa_soup_for_marge",
+   "size": "small",
+   "season": "until_done",
+   "steps": [
+    {
+     "kind": "give_to",
+     "label": "fvs_soup_marge",
+     "person": "marge",
+     "item": "hot_soup",
+     "n": 1
+    },
+    {
+     "kind": "talk_to",
+     "label": "fvs_tell_rosa",
+     "person": "rosa"
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "friendship",
+     "person": "rosa",
+     "n": 200
+    },
+    {
+     "kind": "friendship",
+     "person": "marge",
+     "n": 50
+    }
+   ]
+  },
+  {
+   "id": "teo_notebook",
+   "type": "townsfolk",
+   "giver": "townsfolk",
+   "from": "teo",
+   "offer": "ask",
+   "appears": "met:teo",
+   "name": "fv_teo_notebook",
+   "note": "fvnote_teo_notebook",
+   "size": "small",
+   "season": "until_done",
+   "steps": [
+    {
+     "kind": "find_thing",
+     "label": "fvs_find_notebook",
+     "item": "song_notebook",
+     "at": "road"
+    },
+    {
+     "kind": "give_to",
+     "label": "fvs_give_notebook",
+     "person": "teo",
+     "item": "song_notebook",
+     "n": 1
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "friendship",
+     "person": "teo",
+     "n": 200
+    },
+    {
+     "kind": "recipe",
+     "recipe": "fiddlehead_fry"
+    }
+   ]
+  },
+  {
+   "id": "teo_reeds",
+   "type": "townsfolk",
+   "giver": "townsfolk",
+   "from": "teo",
+   "offer": "mail",
+   "appears": "met:teo and hearts:teo:2",
+   "name": "fv_teo_reeds",
+   "note": "fvnote_teo_reeds",
+   "size": "small",
+   "season": "until_done",
+   "steps": [
+    {
+     "kind": "give_to",
+     "label": "fvs_teo_reeds",
+     "person": "teo",
+     "item": "reeds",
+     "n": 6
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "friendship",
+     "person": "teo",
+     "n": 150
+    },
+    {
+     "kind": "money",
+     "n": 20
+    }
+   ]
+  },
+  {
+   "id": "marge_window_rope",
+   "type": "townsfolk",
+   "giver": "townsfolk",
+   "from": "marge",
+   "offer": "board",
+   "appears": "met:marge",
+   "name": "fv_marge_window_rope",
+   "note": "fvnote_marge_window_rope",
+   "size": "small",
+   "season": "until_done",
+   "steps": [
+    {
+     "kind": "give_to",
+     "label": "fvs_marge_rope",
+     "person": "marge",
+     "item": "rope",
+     "n": 3
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "friendship",
+     "person": "marge",
+     "n": 120
+    },
+    {
+     "kind": "money",
+     "n": 40
+    }
+   ]
+  },
+  {
+   "id": "marge_old_route",
+   "type": "townsfolk",
+   "giver": "townsfolk",
+   "from": "marge",
+   "offer": "ask",
+   "appears": "hearts:marge:2 and site_open:static_tower",
+   "name": "fv_marge_old_route",
+   "note": "fvnote_marge_old_route",
+   "size": "medium",
+   "season": "until_done",
+   "steps": [
+    {
+     "kind": "survey",
+     "label": "fvs_survey_tower",
+     "at": "spawn:tower",
+     "r": 10
+    },
+    {
+     "kind": "talk_to",
+     "label": "fvs_tell_marge",
+     "person": "marge"
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "friendship",
+     "person": "marge",
+     "n": 200
+    },
+    {
+     "kind": "xp",
+     "skill": "surveying",
+     "n": 80
+    }
+   ]
+  },
+  {
+   "id": "nell_fiddleheads",
+   "type": "townsfolk",
+   "giver": "townsfolk",
+   "from": "nell",
+   "offer": "board",
+   "appears": "met:nell and season:spring",
+   "name": "fv_nell_fiddleheads",
+   "note": "fvnote_nell_fiddleheads",
+   "size": "small",
+   "season": "until_done",
+   "steps": [
+    {
+     "kind": "give_to",
+     "label": "fvs_nell_fiddleheads",
+     "person": "nell",
+     "item": "fiddleheads",
+     "n": 5
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "friendship",
+     "person": "nell",
+     "n": 120
+    },
+    {
+     "kind": "money",
+     "n": 25
+    }
+   ]
+  },
+  {
+   "id": "nell_outlook",
+   "type": "townsfolk",
+   "giver": "townsfolk",
+   "from": "nell",
+   "offer": "ask",
+   "appears": "hearts:nell:2 and site_open:outlook",
+   "name": "fv_nell_outlook",
+   "note": "fvnote_nell_outlook",
+   "size": "medium",
+   "season": "until_done",
+   "steps": [
+    {
+     "kind": "go_to",
+     "label": "fvs_go_outlook",
+     "at": "spawn:outlook",
+     "r": 8
+    },
+    {
+     "kind": "talk_to",
+     "label": "fvs_tell_nell",
+     "person": "nell"
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "friendship",
+     "person": "nell",
+     "n": 200
+    },
+    {
+     "kind": "money",
+     "n": 30
+    }
+   ]
+  },
+  {
+   "id": "agnes_archive",
+   "type": "townsfolk",
+   "giver": "townsfolk",
+   "from": "agnes",
+   "offer": "ask",
+   "appears": "met:agnes and hearts:agnes:2",
+   "name": "fv_agnes_archive",
+   "note": "fvnote_agnes_archive",
+   "size": "medium",
+   "season": "until_done",
+   "steps": [
+    {
+     "kind": "give_to",
+     "label": "fvs_show_page",
+     "person": "agnes",
+     "item": "journal_page_one",
+     "n": 1
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "friendship",
+     "person": "agnes",
+     "n": 250
+    },
+    {
+     "kind": "rumor",
+     "landmark": "broken_bridge",
+     "job": "find_bridge"
+    }
+   ],
+   "keep_items": true
+  },
+  {
+   "id": "agnes_pressed_flowers",
+   "type": "townsfolk",
+   "giver": "townsfolk",
+   "from": "agnes",
+   "offer": "mail",
+   "appears": "met:agnes",
+   "name": "fv_agnes_pressed_flowers",
+   "note": "fvnote_agnes_pressed_flowers",
+   "size": "small",
+   "season": "until_done",
+   "steps": [
+    {
+     "kind": "give_to",
+     "label": "fvs_agnes_cards",
+     "person": "agnes",
+     "item": "pressed_flower_card",
+     "n": 2
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "friendship",
+     "person": "agnes",
+     "n": 150
+    },
+    {
+     "kind": "money",
+     "n": 30
+    }
+   ]
+  },
+  {
+   "id": "bev_candles",
+   "type": "townsfolk",
+   "giver": "townsfolk",
+   "from": "bev",
+   "offer": "board",
+   "appears": "met:bev",
+   "name": "fv_bev_candles",
+   "note": "fvnote_bev_candles",
+   "size": "small",
+   "season": "until_done",
+   "steps": [
+    {
+     "kind": "give_to",
+     "label": "fvs_bev_candles",
+     "person": "bev",
+     "item": "pine_resin_candle",
+     "n": 3
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "friendship",
+     "person": "bev",
+     "n": 150
+    },
+    {
+     "kind": "money",
+     "n": 45
+    }
+   ]
+  },
+  {
+   "id": "bev_painted_stones",
+   "type": "townsfolk",
+   "giver": "townsfolk",
+   "from": "bev",
+   "offer": "ask",
+   "appears": "met:bev and hearts:bev:1",
+   "name": "fv_bev_painted_stones",
+   "note": "fvnote_bev_painted_stones",
+   "size": "small",
+   "season": "until_done",
+   "steps": [
+    {
+     "kind": "give_to",
+     "label": "fvs_bev_stones",
+     "person": "bev",
+     "item": "painted_stone",
+     "n": 2
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "friendship",
+     "person": "bev",
+     "n": 150
+    },
+    {
+     "kind": "money",
+     "n": 40
+    }
+   ]
+  },
+  {
+   "id": "gus_planks",
+   "type": "townsfolk",
+   "giver": "townsfolk",
+   "from": "gus",
+   "offer": "board",
+   "appears": "met:gus",
+   "name": "fv_gus_planks",
+   "note": "fvnote_gus_planks",
+   "size": "small",
+   "season": "until_done",
+   "steps": [
+    {
+     "kind": "give_to",
+     "label": "fvs_gus_planks",
+     "person": "gus",
+     "item": "planks",
+     "n": 10
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "friendship",
+     "person": "gus",
+     "n": 120
+    },
+    {
+     "kind": "money",
+     "n": 40
+    },
+    {
+     "kind": "xp",
+     "skill": "woodcraft",
+     "n": 50
+    }
+   ]
+  },
+  {
+   "id": "gus_hand",
+   "type": "townsfolk",
+   "giver": "townsfolk",
+   "from": "gus",
+   "offer": "ask",
+   "appears": "met:gus and hearts:gus:1",
+   "name": "fv_gus_hand",
+   "note": "fvnote_gus_hand",
+   "size": "small",
+   "season": "until_done",
+   "steps": [
+    {
+     "kind": "help",
+     "label": "fvs_help_gus",
+     "place": "carpentry",
+     "minutes": 60
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "friendship",
+     "person": "gus",
+     "n": 200
+    },
+    {
+     "kind": "things",
+     "items": {
+      "nails": 10
+     }
+    }
+   ]
+  },
+  {
+   "id": "sol_pond_sketch",
+   "type": "townsfolk",
+   "giver": "townsfolk",
+   "from": "sol",
+   "offer": "ask",
+   "appears": "met:sol and site_open:kettle_pond",
+   "name": "fv_sol_pond_sketch",
+   "note": "fvnote_sol_pond_sketch",
+   "size": "medium",
+   "season": "until_done",
+   "steps": [
+    {
+     "kind": "survey",
+     "label": "fvs_survey_pond",
+     "at": "spawn:pond",
+     "r": 10,
+     "weather": "clear"
+    },
+    {
+     "kind": "talk_to",
+     "label": "fvs_tell_sol",
+     "person": "sol"
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "friendship",
+     "person": "sol",
+     "n": 200
+    },
+    {
+     "kind": "things",
+     "items": {
+      "pond_painting": 1
+     }
+    }
+   ]
+  },
+  {
+   "id": "sol_wildflowers",
+   "type": "townsfolk",
+   "giver": "townsfolk",
+   "from": "sol",
+   "offer": "board",
+   "appears": "met:sol and season:summer",
+   "name": "fv_sol_wildflowers",
+   "note": "fvnote_sol_wildflowers",
+   "size": "small",
+   "season": "until_done",
+   "steps": [
+    {
+     "kind": "give_to",
+     "label": "fvs_sol_flowers",
+     "person": "sol",
+     "item": "wildflowers",
+     "n": 8
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "friendship",
+     "person": "sol",
+     "n": 150
+    },
+    {
+     "kind": "money",
+     "n": 30
+    }
+   ]
+  },
+  {
+   "id": "lyle_lunch",
+   "type": "townsfolk",
+   "giver": "townsfolk",
+   "from": "lyle",
+   "offer": "ask",
+   "appears": "met:lyle",
+   "name": "fv_lyle_lunch",
+   "note": "fvnote_lyle_lunch",
+   "size": "small",
+   "season": "until_done",
+   "steps": [
+    {
+     "kind": "give_to",
+     "label": "fvs_lyle_beans",
+     "person": "lyle",
+     "item": "tin_of_beans",
+     "n": 2
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "friendship",
+     "person": "lyle",
+     "n": 150
+    },
+    {
+     "kind": "money",
+     "n": 50
+    }
+   ]
+  },
+  {
+   "id": "lyle_parcel",
+   "type": "townsfolk",
+   "giver": "townsfolk",
+   "from": "lyle",
+   "offer": "mail",
+   "appears": "met:lyle and met:agnes",
+   "name": "fv_lyle_parcel",
+   "note": "fvnote_lyle_parcel",
+   "size": "small",
+   "season": "until_done",
+   "steps": [
+    {
+     "kind": "collect",
+     "label": "fvs_collect_parcel",
+     "place": "town_hall",
+     "item": "parcel"
+    },
+    {
+     "kind": "give_to",
+     "label": "fvs_parcel_agnes",
+     "person": "agnes",
+     "item": "parcel",
+     "n": 1
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "friendship",
+     "person": "lyle",
+     "n": 120
+    },
+    {
+     "kind": "friendship",
+     "person": "agnes",
+     "n": 60
+    },
+    {
+     "kind": "money",
+     "n": 30
+    }
+   ]
+  },
+  {
+   "id": "esme_rose_hips",
+   "type": "townsfolk",
+   "giver": "townsfolk",
+   "from": "esme",
+   "offer": "board",
+   "appears": "met:esme and season:winter",
+   "name": "fv_esme_rose_hips",
+   "note": "fvnote_esme_rose_hips",
+   "size": "small",
+   "season": "until_done",
+   "steps": [
+    {
+     "kind": "give_to",
+     "label": "fvs_esme_hips",
+     "person": "esme",
+     "item": "rose_hips",
+     "n": 4
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "friendship",
+     "person": "esme",
+     "n": 150
+    },
+    {
+     "kind": "money",
+     "n": 20
+    }
+   ]
+  },
+  {
+   "id": "esme_candle",
+   "type": "townsfolk",
+   "giver": "townsfolk",
+   "from": "esme",
+   "offer": "ask",
+   "appears": "met:esme and hearts:esme:1",
+   "name": "fv_esme_candle",
+   "note": "fvnote_esme_candle",
+   "size": "small",
+   "season": "until_done",
+   "steps": [
+    {
+     "kind": "give_to",
+     "label": "fvs_esme_candle",
+     "person": "esme",
+     "item": "pine_resin_candle",
+     "n": 1
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "friendship",
+     "person": "esme",
+     "n": 150
+    }
+   ]
+  },
+  {
+   "id": "pip_ranger_test",
+   "type": "townsfolk",
+   "giver": "townsfolk",
+   "from": "pip",
+   "offer": "ask",
+   "appears": "met:pip and hearts:pip:1",
+   "name": "fv_pip_ranger_test",
+   "note": "fvnote_pip_ranger_test",
+   "size": "medium",
+   "season": "until_done",
+   "steps": [
+    {
+     "kind": "talk_to",
+     "label": "fvs_pip_start",
+     "person": "pip"
+    },
+    {
+     "kind": "survey",
+     "label": "fvs_pip_survey",
+     "at": "spawn:fork",
+     "r": 10,
+     "before": 1080
+    },
+    {
+     "kind": "talk_to",
+     "label": "fvs_pip_done",
+     "person": "pip"
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "friendship",
+     "person": "pip",
+     "n": 150
+    },
+    {
+     "kind": "things",
+     "items": {
+      "pip_drawing": 1
+     }
+    }
+   ]
+  },
+  {
+   "id": "pip_berries",
+   "type": "townsfolk",
+   "giver": "townsfolk",
+   "from": "pip",
+   "offer": "board",
+   "appears": "met:pip and season:summer",
+   "name": "fv_pip_berries",
+   "note": "fvnote_pip_berries",
+   "size": "small",
+   "season": "until_done",
+   "steps": [
+    {
+     "kind": "give_to",
+     "label": "fvs_pip_berries",
+     "person": "pip",
+     "item": "berries",
+     "n": 5
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "friendship",
+     "person": "pip",
+     "n": 120
+    },
+    {
+     "kind": "things",
+     "items": {
+      "stones": 1
+     }
+    }
+   ]
+  }
+ ]
+}

@@ -49,7 +49,7 @@
    "icon": "job_type_townsfolk",
    "picture": "job_pic_townsfolk",
    "order": 5,
-   "live": false
+   "live": true
   }
  ]
 }

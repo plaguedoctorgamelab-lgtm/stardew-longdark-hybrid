@@ -539,6 +539,7 @@
     "template_money_spread": 0.2,
     "template_target_upkeep": 3,
     "template_target_trail": 2,
+    "template_target_townsfolk": 3,
     "templates_per_morning": 1,
     "cards_offer_most": 3,
     "cans_full_share": 0.75,

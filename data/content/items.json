@@ -581,6 +581,62 @@
    },
    "family": "bedroll",
    "rest_bonus": 0.05
+  },
+  {
+   "id": "song_notebook",
+   "name": "item_song_notebook",
+   "kind": "favor",
+   "stack": 1,
+   "icon": "item_song_notebook"
+  },
+  {
+   "id": "parcel",
+   "name": "item_parcel",
+   "kind": "favor",
+   "stack": 5,
+   "icon": "item_parcel"
+  },
+  {
+   "id": "lost_mitten",
+   "name": "item_lost_mitten",
+   "kind": "favor",
+   "stack": 1,
+   "icon": "item_lost_mitten"
+  },
+  {
+   "id": "lost_keys",
+   "name": "item_lost_keys",
+   "kind": "favor",
+   "stack": 1,
+   "icon": "item_lost_keys"
+  },
+  {
+   "id": "lost_locket",
+   "name": "item_lost_locket",
+   "kind": "favor",
+   "stack": 1,
+   "icon": "item_lost_locket"
+  },
+  {
+   "id": "lost_glasses",
+   "name": "item_lost_glasses",
+   "kind": "favor",
+   "stack": 1,
+   "icon": "item_lost_glasses"
+  },
+  {
+   "id": "pond_painting",
+   "name": "item_pond_painting",
+   "kind": "keepsake",
+   "stack": 1,
+   "icon": "decor_pond_painting"
+  },
+  {
+   "id": "pip_drawing",
+   "name": "item_pip_drawing",
+   "kind": "keepsake",
+   "stack": 1,
+   "icon": "decor_pip_drawing"
   }
  ],
  "note": "Everything that goes in the backpack. family: a tool and its refitted versions share one family, and anything that needs the tool takes any of them. refit: the magical ingredient a refitted tool holds. placeable: put on the faced tile (needs_tool: the tool it needs, \"\" for none; on: trail or open ground; map_when_revealed: shown on the map once that ground is revealed; lays: laid as that ground, on the grounds in tuning trail.boardwalk_on). kit: set up inside a building."

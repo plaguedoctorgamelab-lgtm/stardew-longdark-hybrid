@@ -100,6 +100,26 @@
    "id": "open",
    "stays_done": true,
    "label": "jt_kind_open"
+  },
+  {
+   "id": "give_to",
+   "stays_done": true,
+   "label": "jt_kind_give_to"
+  },
+  {
+   "id": "collect",
+   "stays_done": true,
+   "label": "jt_kind_collect"
+  },
+  {
+   "id": "help",
+   "stays_done": true,
+   "label": "jt_kind_help"
+  },
+  {
+   "id": "find_thing",
+   "stays_done": true,
+   "label": "jt_kind_find_thing"
   }
  ]
 }
