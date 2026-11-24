@@ -147,21 +147,27 @@ func clear(box: Container) -> void:
 
 # --- index tabs -------------------------------------------------------------------
 
-## Paper tabs along the top of the sheet: [{id, label, icon}] (icon may be "").
+## Paper tabs along the top of the sheet: [{id, label, icon}] (icon may be
+## ""). With no label the tab is a picture only, narrower; its word is kept
+## as the button's "label".
 func set_index_tabs(entries: Array, open_id: String, on_pick: Callable) -> void:
 	clear(_tabs)
 	for e: Dictionary in entries:
 		var open := str(e["id"]) == open_id
 		var b := Button.new()
 		b.focus_mode = Control.FOCUS_NONE
-		b.custom_minimum_size = Vector2(40, 13)
+		var pic_only := bool(e.get("picture_only", false))
+		b.custom_minimum_size = Vector2(26 if pic_only else 40, 13)
 		b.add_theme_font_size_override("font_size", 6)
-		b.text = str(e.get("label", ""))
+		b.text = "" if pic_only else str(e.get("label", ""))
+		b.set_meta("label", str(e.get("label", "")))
 		var icon := str(e.get("icon", ""))
 		if icon != "" and Art.has_picture(icon):
 			b.icon = Art.texture(icon)
 			b.expand_icon = true
-			b.add_theme_constant_override("icon_max_width", 9)
+			b.add_theme_constant_override("icon_max_width", 11 if pic_only else 9)
+			if pic_only:
+				b.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		var art := pick(["ui_itab_open", "ui_jtab_open"] if open else ["ui_itab", "ui_jtab"])
 		for st in ["normal", "hover", "pressed"]:
 			b.add_theme_stylebox_override(st, sb(art, 4, 1) if art != "" else KitStyle.tab(open))
@@ -388,6 +394,8 @@ static func _badge(t: String, short: bool) -> Control:
 ## `tone` is "" or "good" (green) or "bad" (red).
 static func chip(icon: String, t: String, tone: String = "") -> Control:
 	var pc := PanelContainer.new()
+	pc.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	pc.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	if Art.has_picture("ui_chip") and tone == "":
 		var cb := sb("ui_chip", 5, 0)
 		cb.content_margin_left = 9

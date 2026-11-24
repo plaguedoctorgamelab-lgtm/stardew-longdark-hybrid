@@ -4447,7 +4447,7 @@ func shoo_badger(i: int) -> void:
 	var b: Dictionary = park.badgers[i]
 	if not park.met_badger:
 		park.met_badger = true
-		park.add_note(content.text("note_first_badger", {"place": park.place_name(b["place"])}))
+		park.add_note(content.text("note_first_badger", {"place": park.place_name(b["place"])}), "badger")
 		message.emit(content.text("msg_badger_first"))
 	park.shoo(i)
 	jobs.event("shoo", {"place": str(b["place"])})

@@ -159,6 +159,8 @@ func refresh() -> void:
 	empty_label.visible = ids.is_empty()
 	empty_label.text = c.text("make_empty_" + tab)
 	var keys := []
+	if station == "anywhere":
+		keys.append([["Tab"], c.text("key_sheets")])
 	keys.append([["Q", "E"], c.text("key_where")])
 	keys.append([["W", "S"], c.text("key_list")])
 	keys.append([["X"], c.text("key_make")])

@@ -9358,6 +9358,154 @@
   {
    "id": "town_just_friends",
    "text": "Just friends"
+  },
+  {
+   "id": "log_key_pages",
+   "text": "pages"
+  },
+  {
+   "id": "log_visitors",
+   "text": "visitors"
+  },
+  {
+   "id": "log_parties",
+   "text": "parties"
+  },
+  {
+   "id": "log_arriving",
+   "text": "arriving today"
+  },
+  {
+   "id": "log_sites",
+   "text": "sites open"
+  },
+  {
+   "id": "log_badgers",
+   "text": "badgers"
+  },
+  {
+   "id": "log_staff",
+   "text": "staff"
+  },
+  {
+   "id": "log_cabin_rent",
+   "text": "to rent"
+  },
+  {
+   "id": "log_cabin_ranger",
+   "text": "yours"
+  },
+  {
+   "id": "log_cabin",
+   "text": "the cabin"
+  },
+  {
+   "id": "log_sky",
+   "text": "the sky now"
+  },
+  {
+   "id": "log_card_pinned",
+   "text": "on the clipboard"
+  },
+  {
+   "id": "log_day",
+   "text": "Day {n}"
+  },
+  {
+   "id": "shop_tab_buy",
+   "text": "Buy"
+  },
+  {
+   "id": "shop_tab_sell",
+   "text": "Sell"
+  },
+  {
+   "id": "shop_key_tabs",
+   "text": "buy or sell"
+  },
+  {
+   "id": "shop_key_buy",
+   "text": "buy"
+  },
+  {
+   "id": "shop_key_sell",
+   "text": "sell"
+  },
+  {
+   "id": "shop_key_leave",
+   "text": "leave"
+  },
+  {
+   "id": "shop_none_today",
+   "text": "Nothing on the shelves today."
+  },
+  {
+   "id": "shop_sold_out_today",
+   "text": "all gone for today"
+  },
+  {
+   "id": "shop_you_have",
+   "text": "you have {n}"
+  },
+  {
+   "id": "shop_eat_here",
+   "text": "Eat here {n}"
+  },
+  {
+   "id": "shop_take_away",
+   "text": "Take away {n}"
+  },
+  {
+   "id": "shop_buy_for",
+   "text": "Buy {n}"
+  },
+  {
+   "id": "shop_pays",
+   "text": "pays {n}"
+  },
+  {
+   "id": "shop_in_pack",
+   "text": "{n} in your pack"
+  },
+  {
+   "id": "shop_keeper_out",
+   "text": "{name} is out"
+  },
+  {
+   "id": "shop_sell_one",
+   "text": "Sell one {n}"
+  },
+  {
+   "id": "shop_sell_all",
+   "text": "Sell all {n}"
+  },
+  {
+   "id": "shop_stamp_talk",
+   "text": "Talk"
+  },
+  {
+   "id": "shop_stamp_catalog",
+   "text": "Catalog"
+  },
+  {
+   "id": "shop_stamp_home",
+   "text": "Station work"
+  },
+  {
+   "id": "toast_new_idea",
+   "text": "NEW IDEA"
+  },
+  {
+   "id": "jt_key_tabs",
+   "text": "tabs"
+  },
+  {
+   "id": "jt_key_pin",
+   "text": "pin"
+  },
+  {
+   "id": "jt_key_map",
+   "text": "map"
   }
  ]
 }

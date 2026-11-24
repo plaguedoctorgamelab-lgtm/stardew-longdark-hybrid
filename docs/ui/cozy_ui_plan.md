@@ -174,3 +174,21 @@ You agreed the plan on 24 November 2026, as written. The four open questions wer
 2. The park ID card moves from Pack to the **Log's Park sheet**.
 3. The map's trail travel list goes on the **right**.
 4. The action chip sits **just above the item bar**.
+
+## Built
+
+All of it, on 24 November 2026:
+
+- **0.7.15:** the shared sheet (`scripts/ui/sheet.gd`) and Make.
+- **0.7.16:** Mark's Art Request 24 art.
+- **0.7.17 and 0.7.18:** Pack, Map and Town.
+- **0.7.19:** the Log, the shops, the action chip and toast, Jobs' stamps and key caps, and Tab between sheets.
+
+What differs from the plan:
+
+- **Keys:** Q and E turn each sheet's own tabs, as on the jobs sheet. Tab and Shift+Tab flip between sheets.
+- **Recipes not yet had** stay unlisted, as before, rather than showing as locked cards.
+- **The Log's Park page** shows only the sky now, not three days, so it doesn't give away Esme's Sky card.
+- **The catalog and Gus's station work** still open as the old word lists from the shop's stamps.
+- **The map's hover label over job flags** stays. It's instant, and it sits on the map itself.
+- **Jobs** still has its own screen code (`clipboard_screen.gd`). It uses the sheet's stamps and key caps but isn't rebuilt on the base.

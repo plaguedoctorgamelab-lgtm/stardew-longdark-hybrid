@@ -1413,7 +1413,7 @@ func _give(k: String, r: Dictionary, card: Dictionary) -> String:
 			if bool(r.get("letter", false)):
 				g.park.letters.append({"day": g.park.today(), "text": text, "read": false})
 			else:
-				g.park.add_note(text)
+				g.park.add_note(text, "story")
 			return _t(str(r["label"]))
 		"things":
 			var items: Dictionary = r["items"]
@@ -1461,7 +1461,7 @@ func _give_more(id: String) -> String:
 	for e: Dictionary in r.get("effects", []):
 		match str(e["kind"]):
 			"notebook":
-				g.park.add_note(text)
+				g.park.add_note(text, "strange")
 			"chest":
 				var sid := str(e["structure"])
 				if g.structures.chests.has(sid):

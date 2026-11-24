@@ -107,7 +107,7 @@ func setup(s: GameSession) -> void:
 	_keys.add_theme_constant_override("separation", 6)
 	_keys.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_keys)
-	Sheet.fill_keys(_keys, [[["E", "Esc"], s.content.text("key_close")], [["C"], s.content.text("key_use")], [[], s.content.text("key_drag")]])
+	Sheet.fill_keys(_keys, [[["Tab"], s.content.text("key_sheets")], [["E", "Esc"], s.content.text("key_close")], [["C"], s.content.text("key_use")], [[], s.content.text("key_drag")]])
 	session.clothes_changed.connect(refresh)
 	session.backpack.changed.connect(refresh)
 	_layout()
@@ -257,7 +257,7 @@ func _clear_chips() -> void:
 
 ## What an item is and does, as chips: energy and warmth when eaten, warmth
 ## when worn, what a shop gives for it.
-static func item_chips(s: GameSession, item: String) -> Array[Control]:
+static func item_chips(s: GameSession, item: String, with_sell: bool = true) -> Array[Control]:
 	var c := s.content
 	var out: Array[Control] = []
 	if c.has("foods", item):
@@ -271,7 +271,7 @@ static func item_chips(s: GameSession, item: String) -> Array[Control]:
 		if wr > 0:
 			out.append(Sheet.chip(Sheet.pick(["icon_warmth"]), c.text("fx_warmth_worn", {"n": wr}), "good"))
 	var row := c.row("items", item)
-	if int(row.get("sell", 0)) > 0:
+	if with_sell and int(row.get("sell", 0)) > 0:
 		out.append(Sheet.chip(Sheet.pick(["icon_coin"]), c.text("fx_sells", {"gold": int(row["sell"])})))
 	return out
 

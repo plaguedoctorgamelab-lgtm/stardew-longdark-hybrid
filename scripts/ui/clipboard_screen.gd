@@ -26,6 +26,7 @@ var _detail_scroll: ScrollContainer
 var _detail: VBoxContainer
 var _pin_button: Button
 var _map_button: Button
+var _stamps: HBoxContainer
 var _empty: Label
 var _cards: Dictionary = {}       # key -> the card's Control
 var _rule: ColorRect
@@ -90,25 +91,30 @@ func setup(s: GameSession) -> void:
 	_detail.custom_minimum_size = Vector2(_detail_scroll.size.x - 8, 0)
 	_detail.add_theme_constant_override("separation", 3)
 	_detail_scroll.add_child(_detail)
-	_pin_button = _button(Vector2(dx, PAPER.end.y - 16), func() -> void:
-		if selected != "" and session.jobs.is_active(selected):
-			session.jobs.toggle_pin(selected)
-			refresh())
-	_map_button = _button(Vector2(dx + 92, PAPER.end.y - 16), func() -> void: _show_on_map())
+	# Pin and Show on map: Mark's stamps under the detail (0.7.19).
+	_stamps = HBoxContainer.new()
+	_stamps.position = Vector2(dx, PAPER.end.y - 18)
+	_stamps.add_theme_constant_override("separation", 4)
+	add_child(_stamps)
+	if Art.has_picture("clip_jobs"):
+		var cl := TextureRect.new()
+		cl.texture = Art.texture("clip_jobs")
+		cl.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		cl.position = Sheet.CLIP_AT - Vector2(14, -1)
+		cl.size = Vector2(28, 28)
+		cl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(cl)
 	_empty = Label.new()
 	_empty.position = PAPER.position + Vector2(8, 26)
 	_empty.size = Vector2(LIST_W - 8, 60)
 	_empty.autowrap_mode = TextServer.AUTOWRAP_WORD
 	_empty.add_theme_font_size_override("font_size", 7)
 	add_child(_empty)
-	var keys := Label.new()
-	keys.text = s.content.text("jt_keys")
-	keys.position = Vector2(FRAME.position.x + 30, FRAME.end.y - 13)
-	keys.add_theme_font_size_override("font_size", 6)
-	keys.add_theme_color_override("font_color", KitStyle.TEXT_LIGHT)
-	keys.add_theme_color_override("font_outline_color", KitStyle.INK)
-	keys.add_theme_constant_override("outline_size", 2)
+	var keys := HBoxContainer.new()
+	keys.position = Vector2(FRAME.position.x + 30, FRAME.end.y - 16)
+	keys.add_theme_constant_override("separation", 6)
 	keys.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	Sheet.fill_keys(keys, [[["Tab"], s.content.text("key_sheets")], [["Q", "E"], s.content.text("jt_key_tabs")], [["W", "S"], s.content.text("key_list")], [["P"], s.content.text("jt_key_pin")], [["M"], s.content.text("jt_key_map")], [["J", "Esc"], s.content.text("key_close")]])
 	add_child(keys)
 
 
@@ -169,10 +175,19 @@ func refresh() -> void:
 	_fill_detail()
 	_empty.visible = keys.is_empty()
 	_empty.text = session.content.text("jt_empty_" + tab)
-	_pin_button.visible = selected != "" and jb.is_active(selected)
-	_pin_button.text = session.content.text("jt_unpin" if selected == jb.pinned and selected != "" else "jt_pin")
-	_map_button.visible = selected != "" and jb.is_active(selected) and jb.map_pos(selected, jb.next_step(selected)) != Vector2.INF
-	_map_button.text = session.content.text("jt_show_map")
+	for st in _stamps.get_children():
+		_stamps.remove_child(st)
+		st.queue_free()
+	if selected != "" and jb.is_active(selected):
+		var pinned := selected == jb.pinned
+		_pin_button = Sheet.stamp_button(Sheet.pick(["icon_marks_map"]), session.content.text("jt_unpin" if pinned else "jt_pin").get_slice(" (", 0), "P", true, func() -> void:
+			if selected != "" and session.jobs.is_active(selected):
+				session.jobs.toggle_pin(selected)
+				refresh())
+		_stamps.add_child(_pin_button)
+		if jb.map_pos(selected, jb.next_step(selected)) != Vector2.INF:
+			_map_button = Sheet.stamp_button(Sheet.pick(["item_map"]), session.content.text("jt_show_map").get_slice(" (", 0), "M", true, func() -> void: _show_on_map())
+			_stamps.add_child(_map_button)
 	if selected != "":
 		jb.mark_seen(selected)
 
@@ -262,6 +277,13 @@ func _card(k: String) -> Control:
 	name.clip_text = true
 	name.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	name.add_theme_font_size_override("font_size", 7)
+	# A long name gets a smaller hand and two lines, never cut off (0.7.19).
+	if name.get_theme_font("font").get_string_size(str(d["name"]), HORIZONTAL_ALIGNMENT_LEFT, -1, 7).x > name.size.x:
+		name.add_theme_font_size_override("font_size", 6)
+		name.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		name.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
+		name.position.y = -1
+		name.size.y = 15
 	name.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	p.add_child(name)
 	var total := (d["steps"] as Array).size()

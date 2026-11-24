@@ -34,8 +34,24 @@ var world_hint: String = ""     # what X does at the thing under the mouse (set 
 ## stove, a chest, a person in town. look_at is its top middle on screen.
 var look_text: String = ""
 var look_at: Vector2 = Vector2.ZERO
-var look_tag: Panel
+var look_tag: Panel             # kept for older callers: never shown (0.7.19)
 var look_label: Label
+## The action chip (the cozy UI plan, 0.7.19): one fixed plate just above
+## the item bar, in place of the tags that floated over the world. It says
+## what X does at what the ranger faces, what's under the pointer, or what
+## the item-bar slot under the pointer is.
+var action_chip: PanelContainer
+var _chip_key: Control
+var _chip_label: Label
+## New ideas: Mark's toast card slides in at the top right, one at a time.
+var toast: Panel
+var _toast_pic: TextureRect
+var _toast_title: Label
+var _toast_name: Label
+var _toasts: Array = []          # [picture, name] waiting
+var _toast_time: float = 0.0
+const CHIP_Y := 224.0
+const TOAST_SECONDS := 4.0
 var _bar_hover: int = -1        # the item-bar slot under the mouse, or -1
 var _message_time: float = 0.0
 
@@ -150,11 +166,14 @@ func setup(s: GameSession, theme: Theme) -> void:
 	tip_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	tip_label.add_theme_color_override("font_color", KitStyle.TEXT_DARK)
 	tip.add_child(tip_label)
+	tip.visible = false
 	look_tag = Panel.new()
 	look_tag.add_theme_stylebox_override("panel", KitStyle.tag())
 	look_tag.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	look_tag.visible = false
 	root.add_child(look_tag)
+	_build_chip()
+	_build_toast()
 	look_label = Label.new()
 	look_label.position = Vector2(TAG_LEFT, 0)
 	look_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -175,6 +194,96 @@ func setup(s: GameSession, theme: Theme) -> void:
 	session.survey_changed.connect(func(active: bool, progress: float) -> void:
 		survey_bar.visible = active
 		survey_bar.value = progress)
+
+
+func _build_chip() -> void:
+	action_chip = PanelContainer.new()
+	action_chip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	if Art.has_picture("ui_chip"):
+		var b := StyleBoxTexture.new()
+		b.texture = Art.texture("ui_chip")
+		b.set_texture_margin_all(5)
+		b.content_margin_left = 9
+		b.content_margin_right = 9
+		b.content_margin_top = 2
+		b.content_margin_bottom = 2
+		action_chip.add_theme_stylebox_override("panel", b)
+	else:
+		action_chip.add_theme_stylebox_override("panel", KitStyle._box(Color8(246, 232, 200), KitStyle.WOOD_DARK, 1, 3, 3))
+	var h := HBoxContainer.new()
+	h.add_theme_constant_override("separation", 3)
+	h.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_chip_key = Sheet.key_cap("X")
+	h.add_child(_chip_key)
+	_chip_label = Label.new()
+	_chip_label.add_theme_font_size_override("font_size", 7)
+	_chip_label.add_theme_color_override("font_color", KitStyle.TEXT_DARK)
+	_chip_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	h.add_child(_chip_label)
+	action_chip.add_child(h)
+	action_chip.visible = false
+	root.add_child(action_chip)
+
+
+func _build_toast() -> void:
+	toast = Panel.new()
+	toast.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	toast.size = Vector2(124, 30)
+	toast.position = Vector2(480 - 128, 60)
+	if Art.has_picture("ui_toast_idea"):
+		var b := StyleBoxTexture.new()
+		b.texture = Art.texture("ui_toast_idea")
+		b.set_texture_margin_all(8)
+		toast.add_theme_stylebox_override("panel", b)
+	else:
+		toast.add_theme_stylebox_override("panel", KitStyle._box(Color8(255, 250, 240), KitStyle.WOOD, 1, 3))
+	_toast_pic = TextureRect.new()
+	_toast_pic.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_toast_pic.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_toast_pic.position = Vector2(13, 9)
+	_toast_pic.size = Vector2(16, 16)
+	_toast_pic.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	toast.add_child(_toast_pic)
+	_toast_title = Label.new()
+	_toast_title.position = Vector2(44, 4)
+	_toast_title.add_theme_font_size_override("font_size", 6)
+	_toast_title.add_theme_color_override("font_color", Color8(180, 60, 40))
+	_toast_title.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	toast.add_child(_toast_title)
+	_toast_name = Label.new()
+	_toast_name.position = Vector2(44, 13)
+	_toast_name.size = Vector2(74, 12)
+	_toast_name.clip_text = true
+	_toast_name.add_theme_font_size_override("font_size", 8)
+	_toast_name.add_theme_color_override("font_color", KitStyle.TEXT_DARK)
+	_toast_name.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	toast.add_child(_toast_name)
+	toast.visible = false
+	root.add_child(toast)
+
+
+## Queues a toast card: a picture and a name ("Lantern refit").
+func show_toast(picture: String, name: String) -> void:
+	_toasts.append([picture, name])
+
+
+func _update_toast(delta: float) -> void:
+	if _toast_time > 0.0:
+		_toast_time -= delta
+		# Slides in from the right edge, then fades.
+		var t := TOAST_SECONDS - _toast_time
+		toast.position.x = 480 - 128 + maxf(0.0, 1.0 - t * 4.0) * 130.0
+		toast.modulate.a = clampf(_toast_time / 0.5, 0.0, 1.0)
+		return
+	toast.visible = false
+	if _toasts.is_empty():
+		return
+	var next: Array = _toasts.pop_front()
+	_toast_pic.texture = Art.texture(str(next[0])) if Art.has_picture(str(next[0])) else null
+	_toast_title.text = session.content.text("toast_new_idea")
+	_toast_name.text = str(next[1])
+	_toast_time = TOAST_SECONDS
+	toast.visible = true
 
 
 func _label(pos: Vector2) -> Label:
@@ -246,15 +355,7 @@ func _process(delta: float) -> void:
 			slot_panels[i].set_meta("held", held)
 			slot_panels[i].add_theme_stylebox_override("panel", KitStyle.peg(held))
 	_update_tip()
-	look_tag.visible = look_text != ""
-	if look_tag.visible:
-		look_label.text = look_text
-		look_label.reset_size()
-		look_tag.size = look_label.get_combined_minimum_size() + Vector2(TAG_LEFT + TAG_RIGHT, 1)
-		var at := look_at + Vector2(-look_tag.size.x / 2.0, -look_tag.size.y - 2)
-		at.x = clampf(at.x, 0.0, 480.0 - look_tag.size.x)
-		at.y = clampf(at.y, 0.0, 270.0 - look_tag.size.y)
-		look_tag.position = at.round()
+	_update_toast(delta)
 	if _message_time > 0.0:
 		_message_time -= delta
 		message_label.modulate.a = clampf(_message_time, 0.0, 1.0)
@@ -265,34 +366,38 @@ func _process(delta: float) -> void:
 		debug_label.text = "tile %d,%d  chunk %d,%d  %s  %s  fps %d" % [t.x, t.y, ch.x, ch.y, session.ground_here(), session.current_weather(), Engine.get_frames_per_second()]
 
 
-## Shows the hover hint beside the mouse: an item-bar slot first, else the
-## thing in the world under it. Hidden when there is nothing to say.
+## The action chip: the item-bar slot under the pointer first, then what
+## the ranger faces, then what X does at the thing under the pointer.
+## Hidden when there is nothing to say. Nothing floats over the world.
 func _update_tip() -> void:
+	tip.visible = false
+	look_tag.visible = false
 	var text := ""
-	# Hover tips show for the first days of a game, always, or never: the
-	# player's choice on the Options screen (tracker #7).
-	if not Settings.tips_showing(session.clock.absolute_day(), session.tuning.integer("ui.hover_tip_days")):
-		tip.visible = false
-		return
+	var key := ""
 	if _bar_hover >= 0 and _bar_hover < session.backpack.size():
 		var item := session.backpack.item_at(_bar_hover)
 		if item != "":
 			text = session.content.item_name(item)
 			var h := session.guide.use_hint(item)
 			if h != "":
-				text += "\n" + h
-	else:
+				text += "  ·  " + h
+	elif look_text != "":
+		key = "X"
+		text = look_text
+	elif Settings.tips_showing(session.clock.absolute_day(), session.tuning.integer("ui.hover_tip_days")):
 		text = world_hint
-	tip.visible = text != ""
-	if not tip.visible:
+		if text.length() > 3 and text[1] == ":" and text[0] in ["X", "C", "E"]:
+			key = text[0]
+			text = text.substr(2).strip_edges()
+	action_chip.visible = text != ""
+	if not action_chip.visible:
 		return
-	tip_label.text = text
-	tip_label.reset_size()
-	tip.size = tip_label.get_combined_minimum_size() + Vector2(TAG_LEFT + TAG_RIGHT, 1)
-	var m := root.get_local_mouse_position() + Vector2(8, -4 - tip.size.y)
-	m.x = clampf(m.x, 0.0, 480.0 - tip.size.x)
-	m.y = clampf(m.y, 0.0, 270.0 - tip.size.y)
-	tip.position = m.round()
+	_chip_key.visible = key != ""
+	if key != "":
+		(_chip_key as Label).text = key
+	_chip_label.text = text.replace("\n", "  ·  ")
+	action_chip.reset_size()
+	action_chip.position = Vector2(round((480.0 - action_chip.size.x) / 2.0), CHIP_Y)
 
 
 ## Icons are drawn at 32 x 32 and shown in a 16-unit slot; the screen is

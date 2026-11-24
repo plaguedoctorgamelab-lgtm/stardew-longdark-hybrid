@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.7.18** (see [Version history](#version-history)). The
+**Current version: 0.7.19** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -119,6 +119,33 @@ phase is finished; the last number counts every build and runs on past 9
 | 0.10.x | Phase 7, Year one polish |
 | 0.11.x to 0.14.x | Phases 8 to 11, one region each |
 | 1.0.0 | every phase done |
+
+### 0.7.19 (24 November 2026): the Log, the shops, and no more tags
+
+The cozy UI plan's last step. Every menu page is now a sheet on the jobs clipboard, at one size, and nothing floats over the world.
+
+- **The Log** (was the Book, B; `scripts/ui/book_screen.gd`). Picture tabs turn its pages, and Q and E turn them too:
+  - **Park:** the day as picture tiles (visitors, parties, arriving, sites open, badgers, staff, the cabin, the sky now), the park's ID card with the wallet and what's been earned, and each facility with its state.
+  - **Ledger:** the wallet, the week so far as little stacks of coins, then today, this week and last week, each source a chip in green or red.
+  - **Cards and letters:** index cards and envelopes in the list; the chosen one large, on Mark's card or stationery.
+  - **Notebook:** sticky notes, each with a doodle for what it's about. The chosen note is shown large. Strange notes are on purple paper. Notes now carry their kind (strange, badger, found, story, heart), saved with them.
+  - **Badges:** as before, on the board.
+- **Shops** (`scripts/ui/shop_sheet.gd`, `ShopSheet`):
+  - Walking into a shop opens its sheet, with Mark's sign on the clip and Buy and Sell tabs.
+  - Goods are cards with their price; what's gone for the day wears his "sold out" stamp.
+  - The chosen one shows what it does as chips and its price, with stamps to buy, or to eat here and take away at the cafés.
+  - Sell lists what the shop would buy from your pack, and what it pays.
+  - Talk, the catalog and Gus's station work are stamps that hand on to what they did before.
+- **The world has no tags** (`scripts/ui/hud.gd`):
+  - The name over what you face, the hover hint and the item-bar hint are now one fixed **action chip** (Mark's) just above the item bar, with the key as a key cap.
+  - **New ideas** come as Mark's toast card at the top right instead of the "You can make something new!" talk box, and play goes on.
+- **Jobs:**
+  - Mark's tree clip.
+  - Pin and Show on map are his stamps.
+  - The keys along the foot are key caps.
+  - Long job names wrap in a smaller hand instead of being cut off.
+- **Tab** (and Shift+Tab) flips between the menu's sheets: Pack, Jobs, Map, Town, Make, Log. Each sheet's foot says so.
+- Tests: `tests/test_cozy_sheets_0719.gd`. Screenshots: `tests/support/screenshots_0719.gd`, `docs/status/0719_shots/`.
 
 ### 0.7.18 (24 November 2026): a tidier gear wall
 

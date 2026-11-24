@@ -21,6 +21,7 @@ var inventory_screen: InventoryScreen
 var map_screen: MapScreen
 var choice_screen: ChoiceScreen
 var make_sheet: MakeSheet   # crafting, the workbench and cooking on the clipboard (0.7.15)
+var shop_sheet: ShopSheet   # a shop on the clipboard (0.7.19)
 var debug_panel: DebugPanel
 var dialog: Panel
 var dialog_label: Label
@@ -129,7 +130,12 @@ func _ready() -> void:
 	session.workbench_opened.connect(func() -> void: make_sheet.open("workbench"))
 	session.cooking_opened.connect(func() -> void: make_sheet.open("fire"))
 	session.choice_requested.connect(func(kind: String, title: String, options: Array) -> void: choice_screen.open(kind, title, options))
-	session.list_requested.connect(func(kind: String, title: String, options: Array) -> void: choice_screen.reopen(kind, title, options))
+	session.list_requested.connect(func(kind: String, title: String, options: Array) -> void:
+		if kind.begins_with("shop:"):
+			choice_screen.visible = false
+			shop_sheet.open(kind.substr(5))
+		else:
+			choice_screen.reopen(kind, title, options))
 	choice_screen.chosen.connect(func(kind: String, option_id: String) -> void:
 		if kind == "scene":
 			choice_screen.visible = false
@@ -142,6 +148,9 @@ func _ready() -> void:
 			var nxt := session.answer_list(kind, option_id)
 			if nxt == "close":
 				choice_screen.visible = false
+			elif nxt.begins_with("shop:"):
+				choice_screen.visible = false
+				shop_sheet.open(nxt.substr(5))
 			elif nxt != "":
 				choice_screen.reopen(nxt, session.list_title(nxt), session.list_options(nxt))
 			elif choice_screen.visible:
@@ -150,7 +159,8 @@ func _ready() -> void:
 			session.answer_choice(kind, option_id))
 	session.backpack.changed.connect(func() -> void:
 		choice_screen.refresh()
-		make_sheet.refresh())
+		make_sheet.refresh()
+		shop_sheet.refresh())
 	session.traveled.connect(func() -> void:
 		_on_location_changed(session.location)
 		world_view.reset_chunks())
@@ -245,6 +255,12 @@ func _build_menus() -> void:
 	make_sheet = MakeSheet.new()
 	root.add_child(make_sheet)
 	make_sheet.setup(session)
+	shop_sheet = ShopSheet.new()
+	root.add_child(shop_sheet)
+	shop_sheet.setup(session)
+	shop_sheet.handed_on.connect(func(nxt: String) -> void:
+		if nxt != "" and nxt != "close":
+			choice_screen.reopen(nxt, session.list_title(nxt), session.list_options(nxt)))
 	book_screen = BookScreen.new()
 	root.add_child(book_screen)
 	book_screen.setup(session)
@@ -679,7 +695,7 @@ func _tab_page() -> Array:
 	if make_sheet.visible and make_sheet.station == "anywhere":
 		return ["crafting", Sheet.FRAME.position + Vector2(24, 4)]
 	if book_screen.visible:
-		return ["book", book_screen.position]
+		return ["book", Sheet.FRAME.position + Vector2(24, 4)]
 	return []
 
 
@@ -688,7 +704,7 @@ func menu_open() -> bool:
 		return true
 	if fortune_screen != null and fortune_screen.visible:
 		return true
-	return title_screen.visible or pause_menu.visible or options_panel.visible or inventory_screen.visible or map_screen.visible or dialog.visible or choice_screen.visible or make_sheet.visible or book_screen.visible or social_screen.visible or clipboard.visible or job_card.visible
+	return title_screen.visible or pause_menu.visible or options_panel.visible or inventory_screen.visible or map_screen.visible or dialog.visible or choice_screen.visible or make_sheet.visible or shop_sheet.visible or book_screen.visible or social_screen.visible or clipboard.visible or job_card.visible
 
 
 ## The speaker's portrait for the talk box: Mark's portrait in the mood
@@ -799,11 +815,23 @@ func _unhandled_input(event: InputEvent) -> void:
 		if event.is_action_pressed("interact") or event.is_action_pressed("confirm") or event.is_action_pressed("cancel") or event.is_action_pressed("pause") or event.is_action_pressed("use_item"):
 			fortune_screen.try_close()
 		return
+	# Tab and Shift+Tab flip between the game menu's sheets (cozy UI plan).
+	if event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo and (event as InputEventKey).keycode == KEY_TAB:
+		var pg := _tab_page()
+		if not pg.is_empty():
+			var order := ["backpack", "jobs", "map", "people", "crafting", "book"]
+			var d := -1 if (event as InputEventKey).shift_pressed else 1
+			open_tab(order[(order.find(pg[0]) + order.size() + d) % order.size()])
+			get_viewport().set_input_as_handled()
+			return
 	if clipboard.visible:
 		clipboard.handle(event)
 		return
 	if make_sheet.visible and not dialog.visible:
 		make_sheet.handle(event)
+		return
+	if shop_sheet.visible and not dialog.visible:
+		shop_sheet.handle(event)
 		return
 	# A heart event between its lines: the scene plays on; keys wait.
 	if scene_player.active() and not dialog.visible and not choice_screen.visible:
@@ -838,6 +866,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			choice_screen.close()
 		return
 	if book_screen.visible:
+		if book_screen.handle(event):
+			return
 		if event.is_action_pressed("book") or event.is_action_pressed("jobs") or event.is_action_pressed("cancel") or event.is_action_pressed("backpack"):
 			book_screen.close()
 		return
@@ -948,7 +978,10 @@ func _process(delta: float) -> void:
 	session.clock.paused = menu_open()
 	# Recipes just learned: "you can make this now" (tracker #4).
 	if not menu_open() and not session.recipes_new.is_empty():
-		_show_dialog("notice", session.take_new_recipes_text())
+		# Mark's toast card for each, top right; play goes on (cozy UI plan).
+		for id: String in session.recipes_new:
+			hud.show_toast(make_sheet.picture_of(id) if session.content.has("recipes", id) else "", session.content.text(session.content.row("recipes", id)["name"]))
+		session.recipes_new.clear()
 	# Finishing cards wait until play resumes: never over a dialog, menu,
 	# sleep or a collapse. Several show one after another, then one map.
 	if not menu_open() and session.pending_confirm == "":

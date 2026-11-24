@@ -174,7 +174,7 @@ func apply_step(id: String, step: Array) -> void:
 		"pts":
 			g.town.add_points(who, int(step[1]))
 		"note":
-			g.park.add_note(str(step[1]))
+			g.park.add_note(str(step[1]), "heart")
 		"flag":
 			flags[str(step[1])] = true
 

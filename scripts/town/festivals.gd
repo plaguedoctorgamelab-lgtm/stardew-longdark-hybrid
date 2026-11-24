@@ -337,7 +337,7 @@ func choose(kind: String, option: String) -> String:
 				out.append(content.text("fest_bonfire_gave", {"item": content.item_name(option).to_lower()}))
 			var story := content.text(story_id())
 			out.append(content.text("fest_story_title") + "\n" + story)
-			g.park.add_note(story)
+			g.park.add_note(story, "story")
 			prize()
 	return "\n\n".join(out)
 

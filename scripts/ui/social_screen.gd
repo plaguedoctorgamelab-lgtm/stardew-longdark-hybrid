@@ -81,7 +81,7 @@ func refresh() -> void:
 		_fill_detail()
 	else:
 		_cal.queue_redraw()
-	set_keys([[["Q", "E"], c.text("town_key_turn")], [["W", "S"], c.text("key_list")], [["O", "Esc"], c.text("key_close")]])
+	set_keys([[["Tab"], c.text("key_sheets")], [["Q", "E"], c.text("town_key_turn")], [["W", "S"], c.text("key_list")], [["O", "Esc"], c.text("key_close")]])
 
 
 ## A face: the top of the person's standing frame.

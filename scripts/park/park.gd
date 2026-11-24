@@ -2044,14 +2044,16 @@ func pick_litter(t: Vector2i) -> String:
 	var found := ""
 	if rng.randf() < tuning.num("upkeep.belonging_chance"):
 		found = content.text("belonging_%d" % (rng.randi_range(1, tuning.integer("upkeep.belongings"))))
-		add_note(content.text("note_belonging", {"thing": found}))
+		add_note(content.text("note_belonging", {"thing": found}), "found")
 	_check_clean(place_of(Vector2(t)))
 	changed.emit()
 	return found
 
 
-func add_note(text: String) -> void:
-	notes.append({"day": today(), "text": text})
+## A line in the ranger's notebook. `kind` picks its doodle and paper on
+## the Log's notebook page: "strange", "badger", "found", "story", "heart".
+func add_note(text: String, kind: String = "") -> void:
+	notes.append({"day": today(), "text": text, "kind": kind})
 
 
 # --- the morning ------------------------------------------------------------------

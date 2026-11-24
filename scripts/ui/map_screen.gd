@@ -161,7 +161,7 @@ func setup(s: GameSession) -> void:
 	_keys.add_theme_constant_override("separation", 6)
 	_keys.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_keys)
-	Sheet.fill_keys(_keys, [[["W", "A", "S", "D"], s.content.text("key_pan")], [[], s.content.text("key_wheel_zoom")], [["M", "Esc"], s.content.text("key_close")]])
+	Sheet.fill_keys(_keys, [[["Tab"], s.content.text("key_sheets")], [["W", "A", "S", "D"], s.content.text("key_pan")], [[], s.content.text("key_wheel_zoom")], [["M", "Esc"], s.content.text("key_close")]])
 	foot = Label.new()
 	foot.position = VIEW_AT + Vector2(4, VIEW_SIZE.y - 12)
 	foot.size = Vector2(VIEW_SIZE.x - 8, 12)
