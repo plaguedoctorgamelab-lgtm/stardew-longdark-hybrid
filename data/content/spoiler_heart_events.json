@@ -1,0 +1,2869 @@
+{
+ "note": "SPOILERS. Phase 4b heart events, from docs/spoilers/phase4_SPOILERS_addendum.md section 3. Each plays once, when the ranger walks into its place in its hours with the hearts, after the person's earlier events. Steps are played by ScenePlayer.",
+ "rows": [
+  {
+   "id": "he_wren_2",
+   "person": "wren",
+   "hearts": 2,
+   "where": "room:percolator",
+   "from": 300,
+   "to": 420,
+   "steps": [
+    [
+     "do",
+     "The Percolator is dim. The espresso machine hisses to itself. Behind it, Wren is standing perfectly still."
+    ],
+    [
+     "emote",
+     "wren",
+     "sleep"
+    ],
+    [
+     "pause",
+     1.0
+    ],
+    [
+     "do",
+     "She's asleep. Standing up. Holding the milk jug."
+    ],
+    [
+     "choice",
+     [
+      [
+       "Make the first coffee of the day yourself",
+       [
+        [
+         "do",
+         "You find the beans, the grinder and, after a struggle, the right button. The machine roars."
+        ],
+        [
+         "emote",
+         "wren",
+         "alarm"
+        ],
+        [
+         "say",
+         "wren",
+         "I'm awake! I'm awake. Who made coffee? You made coffee.",
+         "surprised"
+        ],
+        [
+         "say",
+         "wren",
+         "...It's not bad. It's honestly not bad. Don't tell anyone I was asleep.",
+         "happy"
+        ],
+        [
+         "pts",
+         30
+        ]
+       ]
+      ],
+      [
+       "Clear your throat, gently",
+       [
+        [
+         "emote",
+         "wren",
+         "alarm"
+        ],
+        [
+         "say",
+         "wren",
+         "Morning! Yes. Good morning. I was resting my eyes on my feet.",
+         "surprised"
+        ],
+        [
+         "say",
+         "wren",
+         "Large black coffee? I'll make it strong. For both of us.",
+         "happy"
+        ]
+       ]
+      ]
+     ]
+    ]
+   ],
+   "cast": [
+    [
+     "wren",
+     0,
+     -2
+    ]
+   ]
+  },
+  {
+   "id": "he_wren_4",
+   "person": "wren",
+   "hearts": 4,
+   "where": "town:creek_path",
+   "from": 720,
+   "to": 1080,
+   "steps": [
+    [
+     "do",
+     "Wren is sitting on the creek bank with her shoes off and her feet nearly in the water."
+    ],
+    [
+     "say",
+     "wren",
+     "Oh, hi. This is my afternoon. Fifteen minutes of creek, then back to the machine.",
+     "neutral"
+    ],
+    [
+     "say",
+     "wren",
+     "Can I tell you something? I open at five because I can't sleep. Haven't slept properly since I was a girl. Five o'clock is just when I give up.",
+     "neutral"
+    ],
+    [
+     "emote",
+     "wren",
+     "dots"
+    ],
+    [
+     "say",
+     "wren",
+     "What do you do, out there? When you can't sleep?",
+     "neutral"
+    ],
+    [
+     "choice",
+     [
+      [
+       "\"I count the stars until I lose count.\"",
+       [
+        [
+         "say",
+         "wren",
+         "Huh. I'd lose count at once. Maybe that's the trick.",
+         "happy"
+        ]
+       ]
+      ],
+      [
+       "\"I listen to the creek. It never stops talking.\"",
+       [
+        [
+         "say",
+         "wren",
+         "It doesn't, does it.",
+         "neutral"
+        ],
+        [
+         "pause",
+         0.8
+        ],
+        [
+         "say",
+         "wren",
+         "...I could listen to this one. It's right here.",
+         "happy"
+        ]
+       ]
+      ],
+      [
+       "\"Honestly? I'm asleep before my boots are off.\"",
+       [
+        [
+         "say",
+         "wren",
+         "Rude. Wonderful, but rude.",
+         "happy"
+        ]
+       ]
+      ]
+     ]
+    ],
+    [
+     "pts",
+     20
+    ]
+   ],
+   "cast": [
+    [
+     "wren",
+     1,
+     0
+    ]
+   ]
+  },
+  {
+   "id": "he_wren_6",
+   "person": "wren",
+   "hearts": 6,
+   "where": "town:percolator",
+   "from": 1080,
+   "to": 1200,
+   "steps": [
+    [
+     "do",
+     "The Percolator's sign says CLOSED. Wren unlocks the door and waves you in."
+    ],
+    [
+     "say",
+     "wren",
+     "Come here a second. I want to show you something.",
+     "neutral"
+    ],
+    [
+     "do",
+     "Behind the counter, on its own hook, hangs a heavy green mug with a chip in the handle."
+    ],
+    [
+     "say",
+     "wren",
+     "That's theirs. The last ranger's. Large black coffee, five every morning. Then one morning they just didn't come.",
+     "neutral"
+    ],
+    [
+     "say",
+     "wren",
+     "I've been wondering if I should give it to you. The new one. Or if it should stay on its hook.",
+     "neutral"
+    ],
+    [
+     "choice",
+     [
+      [
+       "\"Give it to me. I'll look after it.\"",
+       [
+        [
+         "say",
+         "wren",
+         "Okay. Okay! Here. It's heavier than it looks.",
+         "happy"
+        ],
+        [
+         "give",
+         "ranger_mug"
+        ],
+        [
+         "say",
+         "wren",
+         "Thank you for not making it a big deal. Even though it is one.",
+         "happy"
+        ]
+       ]
+      ],
+      [
+       "\"Leave it on the hook. In case.\"",
+       [
+        [
+         "say",
+         "wren",
+         "In case. Yeah.",
+         "sad"
+        ],
+        [
+         "pause",
+         0.8
+        ],
+        [
+         "say",
+         "wren",
+         "I like that. I'm glad I asked you.",
+         "happy"
+        ]
+       ]
+      ]
+     ]
+    ],
+    [
+     "pts",
+     30
+    ]
+   ],
+   "cast": [
+    [
+     "wren",
+     1,
+     -1
+    ]
+   ]
+  },
+  {
+   "id": "he_wren_8",
+   "person": "wren",
+   "hearts": 8,
+   "where": "town:square_green",
+   "from": 1080,
+   "to": 1260,
+   "steps": [
+    [
+     "do",
+     "Wren is on the square bench, still in her apron. The Percolator's lights are off. On a weekday."
+    ],
+    [
+     "say",
+     "wren",
+     "I closed early. First time in years. Don't look at me like that.",
+     "neutral"
+    ],
+    [
+     "say",
+     "wren",
+     "I wanted to watch the sunset with someone. With you, I mean. Sit?",
+     "neutral"
+    ],
+    [
+     "do",
+     "You sit. The sky goes orange, then pink, then a deep, quiet blue."
+    ],
+    [
+     "emote",
+     "wren",
+     "heart"
+    ],
+    [
+     "pause",
+     1.2
+    ],
+    [
+     "do",
+     "At some point her head tips onto your shoulder. She's asleep. Properly asleep."
+    ],
+    [
+     "emote",
+     "wren",
+     "sleep"
+    ],
+    [
+     "pause",
+     1.4
+    ],
+    [
+     "do",
+     "You don't move until the first star. When she wakes, she looks rested for the first time since you've known her."
+    ],
+    [
+     "say",
+     "wren",
+     "I slept. Out here. Next to you. How about that.",
+     "happy"
+    ]
+   ],
+   "cast": [
+    [
+     "wren",
+     1,
+     0
+    ]
+   ],
+   "weather": "clear"
+  },
+  {
+   "id": "he_wren_10",
+   "person": "wren",
+   "hearts": 10,
+   "where": "park:porch",
+   "from": 330,
+   "to": 480,
+   "steps": [
+    [
+     "do",
+     "Someone is sitting on the station step with two paper cups. Steam curls off them in the cold."
+    ],
+    [
+     "say",
+     "wren",
+     "Morning, ranger. I brought you one. Large, black.",
+     "happy"
+    ],
+    [
+     "walk",
+     "wren",
+     0,
+     0
+    ],
+    [
+     "say",
+     "wren",
+     "I slept.",
+     "happy"
+    ],
+    [
+     "pause",
+     1.0
+    ],
+    [
+     "say",
+     "wren",
+     "Eight whole hours. I woke up and the first thing I wanted was to come and tell you.",
+     "neutral"
+    ],
+    [
+     "emote",
+     "wren",
+     "heart"
+    ],
+    [
+     "do",
+     "You drink your coffees on the step and watch the park wake up."
+    ],
+    [
+     "pts",
+     30
+    ]
+   ],
+   "cast": [
+    [
+     "wren",
+     1,
+     0
+    ]
+   ],
+   "dating": true
+  },
+  {
+   "id": "he_teo_2",
+   "person": "teo",
+   "hearts": 2,
+   "where": "town:casa_luna",
+   "from": 1080,
+   "to": 1320,
+   "steps": [
+    [
+     "do",
+     "Round the side of Casa Luna, by the bins, someone is playing a guitar very quietly."
+    ],
+    [
+     "emote",
+     "teo",
+     "music"
+    ],
+    [
+     "pause",
+     1.2
+    ],
+    [
+     "do",
+     "It's Teo. He sees you and stops dead, mid-chord."
+    ],
+    [
+     "emote",
+     "teo",
+     "alarm"
+    ],
+    [
+     "say",
+     "teo",
+     "I wasn't playing. That was the radio. From inside. Very realistic radio.",
+     "surprised"
+    ],
+    [
+     "choice",
+     [
+      [
+       "\"It was lovely. Play the rest?\"",
+       [
+        [
+         "say",
+         "teo",
+         "There isn't a rest. Yet. Maybe. Don't tell my mom.",
+         "happy"
+        ],
+        [
+         "pts",
+         20
+        ]
+       ]
+      ],
+      [
+       "\"Nice radio.\"",
+       [
+        [
+         "say",
+         "teo",
+         "Thanks. It's a good radio.",
+         "happy"
+        ],
+        [
+         "pause",
+         0.6
+        ],
+        [
+         "say",
+         "teo",
+         "...It's me. You knew that.",
+         "happy"
+        ]
+       ]
+      ]
+     ]
+    ]
+   ],
+   "cast": [
+    [
+     "teo",
+     2,
+     -1
+    ]
+   ]
+  },
+  {
+   "id": "he_teo_4",
+   "person": "teo",
+   "hearts": 4,
+   "where": "room:library",
+   "from": 720,
+   "to": 1080,
+   "steps": [
+    [
+     "do",
+     "Teo is at the library desk, leaning in to Agnes as if asking for something illegal."
+    ],
+    [
+     "say",
+     "teo",
+     "Do you have a book of old songs? Really old. Folk songs. Hummed ones.",
+     "neutral"
+    ],
+    [
+     "say",
+     "agnes",
+     "Hummed ones. I'll look under H.",
+     "happy"
+    ],
+    [
+     "say",
+     "teo",
+     "There's this tune someone used to hum. I've never been able to place it. It goes...",
+     "neutral"
+    ],
+    [
+     "emote",
+     "teo",
+     "music"
+    ],
+    [
+     "pause",
+     1.4
+    ],
+    [
+     "do",
+     "He hums it. It's an odd tune. It doesn't resolve where you expect it to. Something about it is familiar."
+    ],
+    [
+     "say",
+     "agnes",
+     "Mm. Not in any book I know. I'd remember that.",
+     "neutral"
+    ],
+    [
+     "say",
+     "teo",
+     "Yeah. Nobody knows it. I wrote it down anyway.",
+     "sad"
+    ]
+   ],
+   "cast": [
+    [
+     "teo",
+     1,
+     -1
+    ],
+    [
+     "agnes",
+     2,
+     -2
+    ]
+   ]
+  },
+  {
+   "id": "he_teo_6",
+   "person": "teo",
+   "hearts": 6,
+   "where": "room:casa_luna",
+   "from": 1260,
+   "to": 1320,
+   "steps": [
+    [
+     "do",
+     "Casa Luna is nearly empty. Rosa is wiping tables. Teo has his guitar on a chair beside him."
+    ],
+    [
+     "say",
+     "rosa",
+     "Mijo. Play something for the last customers. Just one.",
+     "happy"
+    ],
+    [
+     "emote",
+     "teo",
+     "sweat"
+    ],
+    [
+     "say",
+     "teo",
+     "Mom. No. There are people.",
+     "surprised"
+    ],
+    [
+     "choice",
+     [
+      [
+       "Sit at the front table and look at him",
+       [
+        [
+         "do",
+         "You pull out the chair nearest him and sit. He looks at you, and only at you."
+        ],
+        [
+         "emote",
+         "teo",
+         "music"
+        ],
+        [
+         "pause",
+         1.6
+        ],
+        [
+         "do",
+         "He plays. Halting at first, then not. When he stops, Rosa is crying a little and pretending not to."
+        ],
+        [
+         "say",
+         "teo",
+         "I just played to you. That helped. Weird. Thanks.",
+         "happy"
+        ],
+        [
+         "pts",
+         30
+        ]
+       ]
+      ],
+      [
+       "\"Play it for your mom.\"",
+       [
+        [
+         "do",
+         "He turns his chair to face Rosa and plays, eyes shut. It's a sweet, simple tune."
+        ],
+        [
+         "say",
+         "rosa",
+         "There he is.",
+         "happy"
+        ],
+        [
+         "pts",
+         20
+        ]
+       ]
+      ]
+     ]
+    ]
+   ],
+   "cast": [
+    [
+     "teo",
+     1,
+     -1
+    ],
+    [
+     "rosa",
+     -2,
+     -1
+    ]
+   ]
+  },
+  {
+   "id": "he_teo_8",
+   "person": "teo",
+   "hearts": 8,
+   "where": "town:bandstand",
+   "from": 1260,
+   "to": 1500,
+   "steps": [
+    [
+     "do",
+     "Someone is sitting on the edge of the dark bandstand, tuning a guitar by streetlight."
+    ],
+    [
+     "say",
+     "teo",
+     "You came. I finished it. The song. Can I play you the whole thing?",
+     "neutral"
+    ],
+    [
+     "emote",
+     "teo",
+     "music"
+    ],
+    [
+     "pause",
+     1.6
+    ],
+    [
+     "do",
+     "It's about a ranger who came in for coffee every morning, until one morning they didn't. It's sad, but it's warm. It's the tune he hummed for Agnes."
+    ],
+    [
+     "do",
+     "The last verse starts the same way. Then he changes it. In the new one, a new ranger comes in for coffee, and stays."
+    ],
+    [
+     "emote",
+     "teo",
+     "heart"
+    ],
+    [
+     "say",
+     "teo",
+     "The old ending was wrong. I didn't know that until you got here.",
+     "happy"
+    ]
+   ],
+   "cast": [
+    [
+     "teo",
+     1,
+     -1
+    ]
+   ]
+  },
+  {
+   "id": "he_teo_10",
+   "person": "teo",
+   "hearts": 10,
+   "where": "park:station",
+   "from": 1080,
+   "to": 1320,
+   "steps": [
+    [
+     "do",
+     "A knock at the station door. Teo, with a folder held very carefully in both hands."
+    ],
+    [
+     "say",
+     "teo",
+     "I wrote it down properly. The tune. Every note.",
+     "neutral"
+    ],
+    [
+     "say",
+     "teo",
+     "It still doesn't end. I think it isn't mine to finish. In case it's yours.",
+     "happy"
+    ],
+    [
+     "give",
+     "teo_song"
+    ],
+    [
+     "emote",
+     "teo",
+     "heart"
+    ],
+    [
+     "do",
+     "The paper is covered in neat notes and crossings-out. In the corner: 'for the ranger'."
+    ],
+    [
+     "pts",
+     30
+    ]
+   ],
+   "cast": [
+    [
+     "teo",
+     0,
+     1
+    ]
+   ],
+   "dating": true
+  },
+  {
+   "id": "he_nell_2",
+   "person": "nell",
+   "hearts": 2,
+   "where": "room:outfitters",
+   "from": 540,
+   "to": 720,
+   "steps": [
+    [
+     "do",
+     "Raised voices from the back of the outfitters. Marge and Nell, nose to nose over a map."
+    ],
+    [
+     "say",
+     "marge",
+     "You've talked about this trip for three years. Go or stop talking.",
+     "neutral"
+    ],
+    [
+     "say",
+     "nell",
+     "I'll go when I'm ready! Ranger. You. Whose side are you on?",
+     "surprised"
+    ],
+    [
+     "choice",
+     [
+      [
+       "\"Nell's. She'll go when she's ready.\"",
+       [
+        [
+         "say",
+         "nell",
+         "Thank you.",
+         "happy"
+        ],
+        [
+         "say",
+         "marge",
+         "Hmph. Traitor.",
+         "happy"
+        ],
+        [
+         "pts",
+         20
+        ]
+       ]
+      ],
+      [
+       "\"Marge's. Go, or stop talking.\"",
+       [
+        [
+         "say",
+         "nell",
+         "Wow. Okay. ...Okay, that's fair.",
+         "sad"
+        ],
+        [
+         "say",
+         "marge",
+         "Ha!",
+         "happy"
+        ]
+       ]
+      ],
+      [
+       "\"I'm staying out of this one.\"",
+       [
+        [
+         "say",
+         "marge",
+         "Smart.",
+         "neutral"
+        ],
+        [
+         "say",
+         "nell",
+         "Coward. Smart coward.",
+         "happy"
+        ],
+        [
+         "pts",
+         10
+        ]
+       ]
+      ]
+     ]
+    ]
+   ],
+   "cast": [
+    [
+     "nell",
+     -1,
+     -1
+    ],
+    [
+     "marge",
+     1,
+     -1
+    ]
+   ]
+  },
+  {
+   "id": "he_nell_4",
+   "person": "nell",
+   "hearts": 4,
+   "where": "park:gate",
+   "from": 300,
+   "to": 480,
+   "steps": [
+    [
+     "do",
+     "Someone is standing at the park gate in the half-light, with a full pack on, staring through."
+    ],
+    [
+     "say",
+     "nell",
+     "Oh. Hi. Don't mind me. Just standing here.",
+     "neutral"
+    ],
+    [
+     "do",
+     "She has an ice axe, two water bottles and a rolled sleeping mat. She doesn't move."
+    ],
+    [
+     "emote",
+     "nell",
+     "dots"
+    ],
+    [
+     "pause",
+     1.2
+    ],
+    [
+     "say",
+     "nell",
+     "Not yet.",
+     "sad"
+    ],
+    [
+     "say",
+     "nell",
+     "But closer than last time. Last time I didn't put the pack on.",
+     "happy"
+    ]
+   ],
+   "cast": [
+    [
+     "nell",
+     1,
+     0
+    ]
+   ]
+  },
+  {
+   "id": "he_nell_6",
+   "person": "nell",
+   "hearts": 6,
+   "where": "park:gate",
+   "from": 720,
+   "to": 1080,
+   "steps": [
+    [
+     "do",
+     "Nell falls in beside you at the gate. No pack this time. Just her boots."
+    ],
+    [
+     "say",
+     "nell",
+     "Walk me to the edge of the forest? Just the edge.",
+     "neutral"
+    ],
+    [
+     "do",
+     "You walk her as far as the first big pines. She looks up at them as if they might say something."
+    ],
+    [
+     "say",
+     "nell",
+     "What's the tower like? The old fire tower. Is it as high as it looks?",
+     "neutral"
+    ],
+    [
+     "choice",
+     [
+      [
+       "\"Higher. You can see the whole park.\"",
+       [
+        [
+         "say",
+         "nell",
+         "The whole park. Huh.",
+         "happy"
+        ]
+       ]
+      ],
+      [
+       "\"Windy. Creaky. The radio talks to itself.\"",
+       [
+        [
+         "say",
+         "nell",
+         "That's the best thing I've ever heard.",
+         "surprised"
+        ]
+       ]
+      ]
+     ]
+    ],
+    [
+     "say",
+     "nell",
+     "Someday. Thanks for walking me.",
+     "neutral"
+    ],
+    [
+     "pts",
+     20
+    ]
+   ],
+   "cast": [
+    [
+     "nell",
+     1,
+     0
+    ]
+   ]
+  },
+  {
+   "id": "he_nell_8",
+   "person": "nell",
+   "hearts": 8,
+   "where": "park:porch",
+   "from": 1080,
+   "to": 1320,
+   "steps": [
+    [
+     "do",
+     "Nell is sitting on the station step, her chin on her knees."
+    ],
+    [
+     "say",
+     "nell",
+     "I've decided something. I'm not leaving Humdrum.",
+     "neutral"
+    ],
+    [
+     "say",
+     "nell",
+     "I always thought staying meant I was scared. That I'd go one day and the staying was just waiting.",
+     "neutral"
+    ],
+    [
+     "say",
+     "nell",
+     "But I'm staying because I want to. That's different. That's completely different.",
+     "happy"
+    ],
+    [
+     "emote",
+     "nell",
+     "heart"
+    ],
+    [
+     "say",
+     "nell",
+     "You helped. Just so you know.",
+     "neutral"
+    ]
+   ],
+   "cast": [
+    [
+     "nell",
+     1,
+     0
+    ]
+   ]
+  },
+  {
+   "id": "he_nell_10",
+   "person": "nell",
+   "hearts": 10,
+   "where": "park:tower_or_outlook",
+   "from": 1260,
+   "to": 1560,
+   "steps": [
+    [
+     "do",
+     "Nell is already here, out of breath, grinning. She climbed it. All of it."
+    ],
+    [
+     "say",
+     "nell",
+     "They said the view was different at night. The last ranger. I always wanted to see.",
+     "neutral"
+    ],
+    [
+     "do",
+     "You stand together at the rail. The park is dark and huge and quiet below."
+    ],
+    [
+     "pause",
+     1.6
+    ],
+    [
+     "do",
+     "Nell looks out for a long time. Whatever she sees, her eyes go wide, then soft."
+    ],
+    [
+     "emote",
+     "nell",
+     "heart"
+    ],
+    [
+     "say",
+     "nell",
+     "Oh.",
+     "surprised"
+    ],
+    [
+     "pause",
+     1.0
+    ],
+    [
+     "say",
+     "nell",
+     "I'm not going to say. I think you have to see it yourself. Stay a bit?",
+     "happy"
+    ],
+    [
+     "note",
+     "Nell climbed up at night and saw what the last ranger meant about the view. She wouldn't say what it was."
+    ]
+   ],
+   "cast": [
+    [
+     "nell",
+     1,
+     0
+    ]
+   ],
+   "dating": true
+  },
+  {
+   "id": "he_sol_2",
+   "person": "sol",
+   "hearts": 2,
+   "where": "room:house_arden",
+   "from": 720,
+   "to": 1080,
+   "steps": [
+    [
+     "do",
+     "Sol's front room is all easels and drop cloths. One canvas faces the window."
+    ],
+    [
+     "say",
+     "sol",
+     "Ranger! Perfect. Look at this and be honest.",
+     "neutral"
+    ],
+    [
+     "do",
+     "It's the park, painted from a photograph. The pines are purple. The creek runs uphill. There's a heron the size of a house."
+    ],
+    [
+     "say",
+     "sol",
+     "Is it accurate?",
+     "neutral"
+    ],
+    [
+     "choice",
+     [
+      [
+       "\"Not at all. It's lovely.\"",
+       [
+        [
+         "say",
+         "sol",
+         "Ha! That's what I was going for. I think.",
+         "happy"
+        ],
+        [
+         "pts",
+         20
+        ]
+       ]
+      ],
+      [
+       "\"The heron's about right.\"",
+       [
+        [
+         "say",
+         "sol",
+         "I KNEW it. Everyone said too big.",
+         "surprised"
+        ]
+       ]
+      ]
+     ]
+    ]
+   ],
+   "cast": [
+    [
+     "sol",
+     1,
+     -1
+    ]
+   ]
+  },
+  {
+   "id": "he_sol_4",
+   "person": "sol",
+   "hearts": 4,
+   "where": "town:square_green",
+   "from": 540,
+   "to": 720,
+   "steps": [
+    [
+     "do",
+     "Sol waves you over to the bench, holding a small faded photograph like something alive."
+    ],
+    [
+     "say",
+     "sol",
+     "I've never shown anyone this. Look.",
+     "neutral"
+    ],
+    [
+     "do",
+     "A figure in a ranger's hat, waving from the footbridge. Taken from the far bank, across the water."
+    ],
+    [
+     "say",
+     "sol",
+     "I never met them. The last ranger. I found this in a frame I bought at Bev's.",
+     "neutral"
+    ],
+    [
+     "say",
+     "sol",
+     "But who took it? Someone stood on the far bank and waved back. Who?",
+     "surprised"
+    ],
+    [
+     "emote",
+     "sol",
+     "question"
+    ]
+   ],
+   "cast": [
+    [
+     "sol",
+     1,
+     0
+    ]
+   ]
+  },
+  {
+   "id": "he_sol_6",
+   "person": "sol",
+   "hearts": 6,
+   "where": "park:gate",
+   "from": 720,
+   "to": 1080,
+   "steps": [
+    [
+     "do",
+     "Sol is at the gate with a folding easel under one arm, looking pale."
+    ],
+    [
+     "say",
+     "sol",
+     "I'm coming in. For real this time. As far as the meadow. Walk with me?",
+     "neutral"
+    ],
+    [
+     "do",
+     "You walk in together. Sol makes it to the first meadow, looks around at all of it, and sits straight down in the grass."
+    ],
+    [
+     "emote",
+     "sol",
+     "sweat"
+    ],
+    [
+     "pause",
+     1.0
+    ],
+    [
+     "say",
+     "sol",
+     "It's so much bigger than the photographs.",
+     "surprised"
+    ],
+    [
+     "do",
+     "Then, after a while, the easel comes out. Sol paints until the light goes."
+    ],
+    [
+     "say",
+     "sol",
+     "Thank you. I couldn't have walked in alone.",
+     "happy"
+    ],
+    [
+     "pts",
+     20
+    ]
+   ],
+   "cast": [
+    [
+     "sol",
+     1,
+     0
+    ]
+   ]
+  },
+  {
+   "id": "he_sol_8",
+   "person": "sol",
+   "hearts": 8,
+   "where": "park:station",
+   "from": 600,
+   "to": 1260,
+   "steps": [
+    [
+     "do",
+     "Rain drums on the station roof. Sol is at the door, dripping, a little canvas under their coat."
+    ],
+    [
+     "say",
+     "sol",
+     "Sit still. Don't argue. I'm painting you.",
+     "neutral"
+    ],
+    [
+     "do",
+     "Sol paints fast and badly and laughs the whole time. Your nose ends up enormous. Your hat is a triangle."
+    ],
+    [
+     "emote",
+     "sol",
+     "happy"
+    ],
+    [
+     "say",
+     "sol",
+     "It's terrible. It's perfect. It goes on your wall.",
+     "happy"
+    ],
+    [
+     "give",
+     "ranger_painting"
+    ]
+   ],
+   "cast": [
+    [
+     "sol",
+     1,
+     0
+    ]
+   ],
+   "weather": "rain"
+  },
+  {
+   "id": "he_sol_10",
+   "person": "sol",
+   "hearts": 10,
+   "where": "park:outlook",
+   "from": 360,
+   "to": 660,
+   "steps": [
+    [
+     "do",
+     "At the outlook, an easel is already set up. Sol is mixing paint, looking out, not at a photograph."
+    ],
+    [
+     "say",
+     "sol",
+     "First one from life. Ever. Stand there? No, there. Perfect.",
+     "neutral"
+    ],
+    [
+     "pause",
+     1.6
+    ],
+    [
+     "do",
+     "The painting is of the view, true for once: the right greens, the creek running the right way."
+    ],
+    [
+     "emote",
+     "sol",
+     "heart"
+    ],
+    [
+     "say",
+     "sol",
+     "It's accurate. It's the most accurate thing I've ever made. I hate it. I love it.",
+     "happy"
+    ],
+    [
+     "note",
+     "Sol painted the view from the outlook from life, the first time they ever painted anything from life."
+    ]
+   ],
+   "cast": [
+    [
+     "sol",
+     1,
+     0
+    ]
+   ],
+   "dating": true,
+   "weather": "clear"
+  },
+  {
+   "id": "he_rosa_2",
+   "person": "rosa",
+   "hearts": 2,
+   "where": "room:casa_luna",
+   "from": 690,
+   "to": 840,
+   "steps": [
+    [
+     "do",
+     "You go to pay for your lunch. Rosa pushes your money back across the counter."
+    ],
+    [
+     "say",
+     "rosa",
+     "No. Today it's on me.",
+     "happy"
+    ],
+    [
+     "do",
+     "You try again. She pushes it back again, harder, with one finger."
+    ],
+    [
+     "say",
+     "rosa",
+     "Ranger. I am a small woman with a very large spoon. Put it away.",
+     "happy"
+    ],
+    [
+     "pts",
+     20
+    ]
+   ],
+   "cast": [
+    [
+     "rosa",
+     0,
+     -2
+    ]
+   ]
+  },
+  {
+   "id": "he_rosa_4",
+   "person": "rosa",
+   "hearts": 4,
+   "where": "town:casa_luna",
+   "from": 540,
+   "to": 660,
+   "steps": [
+    [
+     "do",
+     "Rosa leans out of Casa Luna's door and beckons. Inside, a bowl of masa and a stack of corn husks."
+    ],
+    [
+     "say",
+     "rosa",
+     "Before opening is for lessons. Today: tamales. You fold.",
+     "neutral"
+    ],
+    [
+     "do",
+     "Your first tamale comes apart. Your second looks like a shoe. Your third is somehow both."
+    ],
+    [
+     "emote",
+     "rosa",
+     "happy"
+    ],
+    [
+     "say",
+     "rosa",
+     "Terrible! Wonderful! Teo's first ones were worse. Do another.",
+     "happy"
+    ],
+    [
+     "pts",
+     20
+    ]
+   ],
+   "cast": [
+    [
+     "rosa",
+     1,
+     0
+    ]
+   ]
+  },
+  {
+   "id": "he_rosa_6",
+   "person": "rosa",
+   "hearts": 6,
+   "where": "town:creek_path",
+   "from": 1080,
+   "to": 1320,
+   "steps": [
+    [
+     "do",
+     "Rosa is on the creek bank in a cardigan, watching the water go by."
+    ],
+    [
+     "say",
+     "rosa",
+     "I came here with Teo when he was this high. I meant to stay one summer.",
+     "neutral"
+    ],
+    [
+     "say",
+     "rosa",
+     "Everyone asks why I stayed. I tell them: nothing ever happens here. It's wonderful.",
+     "happy"
+    ],
+    [
+     "do",
+     "Upstream, a frog says something. Rosa nods, as if agreeing."
+    ]
+   ],
+   "cast": [
+    [
+     "rosa",
+     1,
+     0
+    ]
+   ]
+  },
+  {
+   "id": "he_rosa_8",
+   "person": "rosa",
+   "hearts": 8,
+   "where": "room:casa_luna",
+   "from": 690,
+   "to": 1320,
+   "steps": [
+    [
+     "do",
+     "At the window table, a place is set: plate, fork, a folded napkin. Nobody is sitting there."
+    ],
+    [
+     "say",
+     "rosa",
+     "Every Friday since. Tamales for the ranger. Somebody should have a place.",
+     "neutral"
+    ],
+    [
+     "say",
+     "rosa",
+     "This time I want you to sit in it.",
+     "happy"
+    ],
+    [
+     "do",
+     "You sit. Rosa brings the tamales. They are the best you have ever eaten."
+    ],
+    [
+     "emote",
+     "rosa",
+     "heart"
+    ],
+    [
+     "say",
+     "rosa",
+     "There. Now the place is warm again.",
+     "neutral"
+    ]
+   ],
+   "cast": [
+    [
+     "rosa",
+     1,
+     -1
+    ]
+   ],
+   "day": "fri"
+  },
+  {
+   "id": "he_marge_2",
+   "person": "marge",
+   "hearts": 2,
+   "where": "room:outfitters",
+   "from": 540,
+   "to": 720,
+   "steps": [
+    [
+     "do",
+     "Marge looks at your feet, then at your face, then back at your feet."
+    ],
+    [
+     "say",
+     "marge",
+     "Sit. Boots off. Now.",
+     "surprised"
+    ],
+    [
+     "do",
+     "She relaces both boots, tuts at your socks, and moves the tongues where they should have been all along."
+    ],
+    [
+     "say",
+     "marge",
+     "You've been walking the whole park like that? It's a miracle you have ankles.",
+     "neutral"
+    ],
+    [
+     "do",
+     "Your feet feel brand new."
+    ],
+    [
+     "pts",
+     20
+    ]
+   ],
+   "cast": [
+    [
+     "marge",
+     0,
+     -2
+    ]
+   ]
+  },
+  {
+   "id": "he_marge_4",
+   "person": "marge",
+   "hearts": 4,
+   "where": "room:outfitters",
+   "from": 960,
+   "to": 1020,
+   "steps": [
+    [
+     "do",
+     "Marge is closing up. On the counter is an old wooden-handled ice axe, worn pale at the grip."
+    ],
+    [
+     "say",
+     "marge",
+     "Mine. Took it up a mountain I won't name. Turned round three hundred metres from the top.",
+     "neutral"
+    ],
+    [
+     "say",
+     "marge",
+     "Weather came in. Right call. People think I'm sore about it. I'm not.",
+     "neutral"
+    ],
+    [
+     "say",
+     "marge",
+     "The mountain's still there. So am I. That's the deal.",
+     "happy"
+    ]
+   ],
+   "cast": [
+    [
+     "marge",
+     0,
+     -2
+    ]
+   ]
+  },
+  {
+   "id": "he_marge_6",
+   "person": "marge",
+   "hearts": 6,
+   "where": "town:square_green",
+   "from": 720,
+   "to": 1080,
+   "steps": [
+    [
+     "do",
+     "Marge is on the bench with a paper bag of nuts, watching Nell across the square."
+    ],
+    [
+     "say",
+     "marge",
+     "She'll go one day. Up something big. I know it.",
+     "neutral"
+    ],
+    [
+     "say",
+     "marge",
+     "When she does... keep an eye on her. You know the woods. That's all. Don't make a thing of it.",
+     "neutral"
+    ],
+    [
+     "emote",
+     "marge",
+     "dots"
+    ],
+    [
+     "pts",
+     20
+    ]
+   ],
+   "cast": [
+    [
+     "marge",
+     1,
+     0
+    ]
+   ]
+  },
+  {
+   "id": "he_marge_8",
+   "person": "marge",
+   "hearts": 8,
+   "where": "room:outfitters",
+   "from": 540,
+   "to": 720,
+   "steps": [
+    [
+     "do",
+     "Marge drops a parcel on the counter in front of you. Brown paper, string, a scowl."
+    ],
+    [
+     "say",
+     "marge",
+     "Made you a coat. Don't fuss.",
+     "neutral"
+    ],
+    [
+     "do",
+     "It's very thick and very warm. One sleeve is slightly longer than the other."
+    ],
+    [
+     "say",
+     "marge",
+     "Measured you by eye. Eye was off. Wear it anyway.",
+     "happy"
+    ],
+    [
+     "give",
+     "marge_coat"
+    ]
+   ],
+   "cast": [
+    [
+     "marge",
+     0,
+     -2
+    ]
+   ]
+  },
+  {
+   "id": "he_agnes_2",
+   "person": "agnes",
+   "hearts": 2,
+   "where": "room:library",
+   "from": 540,
+   "to": 720,
+   "steps": [
+    [
+     "do",
+     "Agnes unhooks a small key from her cardigan and opens a door you hadn't noticed behind the desk."
+    ],
+    [
+     "say",
+     "agnes",
+     "The town archive. Letters, minutes, maps, a great many complaints about the bandstand.",
+     "neutral"
+    ],
+    [
+     "say",
+     "agnes",
+     "You may use it whenever you like. Gloves on the shelf. I trust you.",
+     "happy"
+    ],
+    [
+     "flag",
+     "archive"
+    ],
+    [
+     "do",
+     "The archive is open to you now, on the library's shelves."
+    ]
+   ],
+   "cast": [
+    [
+     "agnes",
+     1,
+     -1
+    ]
+   ]
+  },
+  {
+   "id": "he_agnes_4",
+   "person": "agnes",
+   "hearts": 4,
+   "where": "room:library",
+   "from": 720,
+   "to": 1080,
+   "steps": [
+    [
+     "do",
+     "Agnes beckons you to the desk and opens a thin drawer of borrowing cards."
+    ],
+    [
+     "say",
+     "agnes",
+     "Every book came back. All but one. Here's its card.",
+     "neutral"
+    ],
+    [
+     "do",
+     "A history of the park's early years. The last borrower's name is the last ranger's. The date stamped beside it is the last day anyone saw them."
+    ],
+    [
+     "say",
+     "agnes",
+     "I've never sent a reminder. It seemed rude.",
+     "sad"
+    ]
+   ],
+   "cast": [
+    [
+     "agnes",
+     1,
+     -1
+    ]
+   ]
+  },
+  {
+   "id": "he_agnes_6",
+   "person": "agnes",
+   "hearts": 6,
+   "where": "room:library",
+   "from": 780,
+   "to": 1080,
+   "steps": [
+    [
+     "do",
+     "Rain on the reading room windows. Agnes brings two cups of tea and sits across from you."
+    ],
+    [
+     "say",
+     "agnes",
+     "When I was a girl, the lights on the lake were brighter. We'd lie on the dock and count them.",
+     "neutral"
+    ],
+    [
+     "say",
+     "agnes",
+     "My father said they were marsh gas. My mother said, 'Agnes, don't be rude to the lights.'",
+     "happy"
+    ],
+    [
+     "say",
+     "agnes",
+     "I've never been rude to them since.",
+     "neutral"
+    ],
+    [
+     "pts",
+     20
+    ]
+   ],
+   "cast": [
+    [
+     "agnes",
+     1,
+     0
+    ]
+   ],
+   "weather": "rain"
+  },
+  {
+   "id": "he_agnes_8",
+   "person": "agnes",
+   "hearts": 8,
+   "where": "room:library",
+   "from": 1080,
+   "to": 1140,
+   "steps": [
+    [
+     "do",
+     "Closing time. Agnes takes a small envelope from the archive drawer and holds it so you can read it."
+    ],
+    [
+     "do",
+     "It's sealed. On the front, in neat handwriting: 'to the next one'."
+    ],
+    [
+     "say",
+     "agnes",
+     "They left it. Before. I've never opened it. It isn't addressed to me.",
+     "neutral"
+    ],
+    [
+     "say",
+     "agnes",
+     "Not yet. You'll know when.",
+     "neutral"
+    ],
+    [
+     "do",
+     "She puts it back in the drawer, and locks it, and pats the drawer as if it were a cat."
+    ]
+   ],
+   "cast": [
+    [
+     "agnes",
+     1,
+     -1
+    ]
+   ]
+  },
+  {
+   "id": "he_bev_2",
+   "person": "bev",
+   "hearts": 2,
+   "where": "room:gifts",
+   "from": 600,
+   "to": 1080,
+   "steps": [
+    [
+     "do",
+     "Bev stops mid-sentence and stares at your backpack."
+    ],
+    [
+     "say",
+     "bev",
+     "What's that? The thing. In there. I'll give you five dollars for it.",
+     "surprised"
+    ],
+    [
+     "choice",
+     [
+      [
+       "\"It's not for sale.\"",
+       [
+        [
+         "say",
+         "bev",
+         "Ten.",
+         "neutral"
+        ],
+        [
+         "pause",
+         0.6
+        ],
+        [
+         "say",
+         "bev",
+         "Fifteen and a candle.",
+         "neutral"
+        ],
+        [
+         "pause",
+         0.6
+        ],
+        [
+         "say",
+         "bev",
+         "Fine. FINE. Everything's for sale eventually, ranger.",
+         "happy"
+        ]
+       ]
+      ],
+      [
+       "\"It's just a rock, Bev.\"",
+       [
+        [
+         "say",
+         "bev",
+         "Then it's a very interesting rock and I want it more.",
+         "happy"
+        ]
+       ]
+      ]
+     ]
+    ],
+    [
+     "pts",
+     20
+    ]
+   ],
+   "cast": [
+    [
+     "bev",
+     0,
+     -2
+    ]
+   ]
+  },
+  {
+   "id": "he_bev_4",
+   "person": "bev",
+   "hearts": 4,
+   "where": "town:square_green",
+   "from": 540,
+   "to": 720,
+   "steps": [
+    [
+     "do",
+     "Bev sits beside you on the bench and lowers her voice."
+    ],
+    [
+     "say",
+     "bev",
+     "Can I tell you something? I've never been into the park. Not once.",
+     "neutral"
+    ],
+    [
+     "say",
+     "bev",
+     "It's full of things that aren't for sale. Makes me nervous.",
+     "sad"
+    ],
+    [
+     "emote",
+     "bev",
+     "sweat"
+    ],
+    [
+     "say",
+     "bev",
+     "Don't tell the mayor. He thinks I go every Sunday.",
+     "happy"
+    ]
+   ],
+   "cast": [
+    [
+     "bev",
+     1,
+     0
+    ]
+   ]
+  },
+  {
+   "id": "he_bev_6",
+   "person": "bev",
+   "hearts": 6,
+   "where": "room:gifts",
+   "from": 1020,
+   "to": 1080,
+   "steps": [
+    [
+     "do",
+     "Bev flips the sign to CLOSED and gets the stepladder out."
+    ],
+    [
+     "say",
+     "bev",
+     "Since you're here. Look at this.",
+     "neutral"
+    ],
+    [
+     "do",
+     "From the high shelf she lifts down a small carved figure. Four legs. Possibly six. Long ears, or horns. It is not any animal you know."
+    ],
+    [
+     "say",
+     "bev",
+     "The last ranger sold me this. Nobody knows what it is. It isn't for sale.",
+     "neutral"
+    ],
+    [
+     "emote",
+     "bev",
+     "question"
+    ]
+   ],
+   "cast": [
+    [
+     "bev",
+     0,
+     -2
+    ]
+   ]
+  },
+  {
+   "id": "he_bev_8",
+   "person": "bev",
+   "hearts": 8,
+   "where": "room:gifts",
+   "from": 600,
+   "to": 720,
+   "steps": [
+    [
+     "do",
+     "Bev is waiting at the counter with the carved figure wrapped in tissue."
+    ],
+    [
+     "say",
+     "bev",
+     "For the station. I'm giving it to you. Don't argue, I'll change my mind.",
+     "neutral"
+    ],
+    [
+     "say",
+     "bev",
+     "It wants to go home, I think. You're closer to home than I am.",
+     "happy"
+    ],
+    [
+     "give",
+     "carved_figure"
+    ]
+   ],
+   "cast": [
+    [
+     "bev",
+     0,
+     -2
+    ]
+   ]
+  },
+  {
+   "id": "he_gus_2",
+   "person": "gus",
+   "hearts": 2,
+   "where": "room:carpentry",
+   "from": 540,
+   "to": 720,
+   "steps": [
+    [
+     "do",
+     "Gus looks up from his bench, nods, and says nothing. For a long time."
+    ],
+    [
+     "pause",
+     1.6
+    ],
+    [
+     "do",
+     "Then he hands you a plane and puts a board in front of you, and guides your hands once along the grain."
+    ],
+    [
+     "do",
+     "A long, perfect curl of wood falls to the floor."
+    ],
+    [
+     "say",
+     "gus",
+     "There.",
+     "happy"
+    ],
+    [
+     "pts",
+     20
+    ]
+   ],
+   "cast": [
+    [
+     "gus",
+     1,
+     -1
+    ]
+   ]
+  },
+  {
+   "id": "he_gus_4",
+   "person": "gus",
+   "hearts": 4,
+   "where": "room:carpentry",
+   "from": 720,
+   "to": 1020,
+   "steps": [
+    [
+     "do",
+     "Gus unrolls a pattern on the bench and weighs the corners down with chisels."
+    ],
+    [
+     "say",
+     "gus",
+     "The cabin door. They drew this for me. I built it as drawn.",
+     "neutral"
+    ],
+    [
+     "do",
+     "The door on the pattern is far too tall and far too narrow for a person."
+    ],
+    [
+     "say",
+     "gus",
+     "Wrong size for a door. I said so. They said, 'it's the right size.'",
+     "neutral"
+    ]
+   ],
+   "cast": [
+    [
+     "gus",
+     1,
+     -1
+    ]
+   ]
+  },
+  {
+   "id": "he_gus_6",
+   "person": "gus",
+   "hearts": 6,
+   "where": "town:creek_path",
+   "from": 1080,
+   "to": 1320,
+   "steps": [
+    [
+     "do",
+     "Gus is on the creek bank, turning a smooth stone over in his big hands."
+    ],
+    [
+     "say",
+     "gus",
+     "My wife liked this spot. Ingrid. She'd sit here and tell me the names of all the birds, every evening, and I'd forget them all by morning, and she'd tell me again. She said that was the best part, telling me again. I've been learning them, since. I know eleven now.",
+     "sad"
+    ],
+    [
+     "pause",
+     1.2
+    ],
+    [
+     "do",
+     "It's the most anyone in Humdrum has ever heard Gus say."
+    ],
+    [
+     "say",
+     "gus",
+     "Twelve, with that one.",
+     "happy"
+    ],
+    [
+     "pts",
+     30
+    ]
+   ],
+   "cast": [
+    [
+     "gus",
+     1,
+     0
+    ]
+   ]
+  },
+  {
+   "id": "he_gus_8",
+   "person": "gus",
+   "hearts": 8,
+   "where": "park:station",
+   "from": 360,
+   "to": 720,
+   "steps": [
+    [
+     "do",
+     "There's something on the station floor that wasn't there last night, with a curl of wood shaving still on it."
+    ],
+    [
+     "do",
+     "A wall shelf, carved with little pines, sanded so smooth it feels warm."
+    ],
+    [
+     "do",
+     "Through the window you see a big figure already halfway down the trail, walking fast so he won't be thanked."
+    ],
+    [
+     "give",
+     "gus_shelf"
+    ]
+   ],
+   "cast": [
+    [
+     "gus",
+     0,
+     0
+    ]
+   ]
+  },
+  {
+   "id": "he_lyle_2",
+   "person": "lyle",
+   "hearts": 2,
+   "where": "room:town_hall",
+   "from": 540,
+   "to": 720,
+   "steps": [
+    [
+     "do",
+     "The mayor ushers you into his office and points at a plaque above the desk."
+    ],
+    [
+     "say",
+     "lyle",
+     "Humdrum. Most Ordinary Town. Seven years running.",
+     "happy"
+    ],
+    [
+     "do",
+     "The plaque is hand-painted. You can see the brush marks."
+    ],
+    [
+     "say",
+     "lyle",
+     "I made it myself. Nobody else gives that award. Somebody had to.",
+     "neutral"
+    ]
+   ],
+   "cast": [
+    [
+     "lyle",
+     1,
+     -1
+    ]
+   ]
+  },
+  {
+   "id": "he_lyle_4",
+   "person": "lyle",
+   "hearts": 4,
+   "where": "town:square_green",
+   "from": 720,
+   "to": 1080,
+   "steps": [
+    [
+     "do",
+     "Mayor Pruitt is standing on the bench with a stack of index cards."
+    ],
+    [
+     "say",
+     "lyle",
+     "Ranger! Just in time. My festival speech. Tell me honestly.",
+     "neutral"
+    ],
+    [
+     "do",
+     "It is very, very long. There's a section on drainage."
+    ],
+    [
+     "emote",
+     "lyle",
+     "dots"
+    ],
+    [
+     "pause",
+     1.4
+    ],
+    [
+     "choice",
+     [
+      [
+       "\"Moving. Truly.\"",
+       [
+        [
+         "say",
+         "lyle",
+         "I knew the drainage part would land.",
+         "happy"
+        ],
+        [
+         "pts",
+         20
+        ]
+       ]
+      ],
+      [
+       "\"Maybe a little shorter?\"",
+       [
+        [
+         "say",
+         "lyle",
+         "Shorter. Yes. I'll cut the second hour.",
+         "surprised"
+        ],
+        [
+         "pts",
+         10
+        ]
+       ]
+      ]
+     ]
+    ]
+   ],
+   "cast": [
+    [
+     "lyle",
+     1,
+     -1
+    ]
+   ]
+  },
+  {
+   "id": "he_lyle_6",
+   "person": "lyle",
+   "hearts": 6,
+   "where": "room:town_hall",
+   "from": 900,
+   "to": 960,
+   "steps": [
+    [
+     "do",
+     "The mayor closes his office door and takes a folded letter out of a locked drawer."
+    ],
+    [
+     "say",
+     "lyle",
+     "I wrote to the Chief once. Invited him to the Thaw Fair. As one leader to another.",
+     "neutral"
+    ],
+    [
+     "say",
+     "lyle",
+     "He wrote back. Very kind. Said he couldn't come. Said he was glad Humdrum was so ordinary.",
+     "happy"
+    ],
+    [
+     "say",
+     "lyle",
+     "I've kept it. I take it out sometimes.",
+     "neutral"
+    ],
+    [
+     "pts",
+     20
+    ]
+   ],
+   "cast": [
+    [
+     "lyle",
+     1,
+     -1
+    ]
+   ]
+  },
+  {
+   "id": "he_lyle_8",
+   "person": "lyle",
+   "hearts": 8,
+   "where": "town:square_green",
+   "from": 360,
+   "to": 1560,
+   "steps": [
+    [
+     "do",
+     "The mayor taps a glass with a spoon. Then, because there is no glass, he taps his own hat."
+    ],
+    [
+     "say",
+     "lyle",
+     "Ranger. On behalf of the people of Humdrum, an honorary key to the town.",
+     "neutral"
+    ],
+    [
+     "do",
+     "It's a large brass key on a ribbon. It doesn't fit any lock. Humdrum has very few locks."
+    ],
+    [
+     "say",
+     "lyle",
+     "It opens nothing. It means everything.",
+     "sad"
+    ],
+    [
+     "emote",
+     "lyle",
+     "heart"
+    ],
+    [
+     "give",
+     "town_key"
+    ]
+   ],
+   "cast": [
+    [
+     "lyle",
+     1,
+     -1
+    ]
+   ],
+   "festival_day": true
+  },
+  {
+   "id": "he_esme_2",
+   "person": "esme",
+   "hearts": 2,
+   "where": "town:caravan",
+   "from": 1080,
+   "to": 1380,
+   "steps": [
+    [
+     "do",
+     "Esme waves you to the little table outside her caravan and shuffles."
+    ],
+    [
+     "say",
+     "esme",
+     "On the house tonight. Sit.",
+     "neutral"
+    ],
+    [
+     "do",
+     "She lays three cards face down and turns them, one by one. All three are blank."
+    ],
+    [
+     "emote",
+     "esme",
+     "question"
+    ],
+    [
+     "pause",
+     1.0
+    ],
+    [
+     "say",
+     "esme",
+     "Interesting.",
+     "surprised"
+    ],
+    [
+     "say",
+     "esme",
+     "Don't worry, ranger. It means the cards are waiting to see what you'll do.",
+     "happy"
+    ]
+   ],
+   "cast": [
+    [
+     "esme",
+     1,
+     -1
+    ]
+   ]
+  },
+  {
+   "id": "he_esme_4",
+   "person": "esme",
+   "hearts": 4,
+   "where": "town:creek_path",
+   "from": 1260,
+   "to": 1500,
+   "steps": [
+    [
+     "do",
+     "Esme is on the creek bank in a long coat, looking east, over the trees, toward where the lake must be."
+    ],
+    [
+     "say",
+     "esme",
+     "The lights over the lake used to come on time. Like trains. You could set a watch.",
+     "neutral"
+    ],
+    [
+     "say",
+     "esme",
+     "Now they're... informal. Still there. Just informal.",
+     "neutral"
+    ],
+    [
+     "do",
+     "You both watch the east for a while. Nothing happens. It's nice."
+    ]
+   ],
+   "cast": [
+    [
+     "esme",
+     1,
+     0
+    ]
+   ]
+  },
+  {
+   "id": "he_esme_6",
+   "person": "esme",
+   "hearts": 6,
+   "where": "town:caravan",
+   "from": 1080,
+   "to": 1380,
+   "steps": [
+    [
+     "do",
+     "Esme brings out a worn deck, held together with a ribbon."
+    ],
+    [
+     "say",
+     "esme",
+     "This belonged to a ranger who asked better questions. I keep it with mine.",
+     "neutral"
+    ],
+    [
+     "do",
+     "She fans it out. There's a gap in the pattern on the backs, where one card should be."
+    ],
+    [
+     "say",
+     "esme",
+     "One card is missing. It was missing when it came to me.",
+     "neutral"
+    ]
+   ],
+   "cast": [
+    [
+     "esme",
+     1,
+     -1
+    ]
+   ]
+  },
+  {
+   "id": "he_esme_8",
+   "person": "esme",
+   "hearts": 8,
+   "where": "town:caravan",
+   "from": 1080,
+   "to": 1380,
+   "steps": [
+    [
+     "do",
+     "Esme slides a single card from her own deck across the table, face up."
+    ],
+    [
+     "do",
+     "It's a lake, drawn in a few quick lines, under a sky full of small marks."
+    ],
+    [
+     "say",
+     "esme",
+     "For your notebook. No, I won't tell you what it means.",
+     "happy"
+    ],
+    [
+     "say",
+     "esme",
+     "You'll ask better questions soon. Then you won't need me to.",
+     "neutral"
+    ],
+    [
+     "give",
+     "esme_card"
+    ],
+    [
+     "note",
+     "Esme gave me a card from her own deck: a lake under a sky full of small marks. She wouldn't say what it means."
+    ]
+   ],
+   "cast": [
+    [
+     "esme",
+     1,
+     -1
+    ]
+   ]
+  },
+  {
+   "id": "he_pip_2",
+   "person": "pip",
+   "hearts": 2,
+   "where": "town:square_green",
+   "from": 780,
+   "to": 1020,
+   "steps": [
+    [
+     "do",
+     "Pip marches up with a notebook and a pencil behind one ear. Their grandparents wave from the bench."
+    ],
+    [
+     "say",
+     "pip",
+     "I'm interviewing you for the school paper. Question one. Is Bigfoot real?",
+     "happy"
+    ],
+    [
+     "say",
+     "pip",
+     "Question two. Have you seen Bigfoot? Question three. Does Bigfoot like sandwiches?",
+     "neutral"
+    ],
+    [
+     "choice",
+     [
+      [
+       "\"No comment.\"",
+       [
+        [
+         "say",
+         "pip",
+         "That's what someone who's seen Bigfoot WOULD say.",
+         "surprised"
+        ]
+       ]
+      ],
+      [
+       "\"I'd guess... cheese sandwiches.\"",
+       [
+        [
+         "say",
+         "pip",
+         "I'm writing that down. Front page.",
+         "happy"
+        ]
+       ]
+      ]
+     ]
+    ],
+    [
+     "say",
+     "pip",
+     "Thank you for your time, Ranger. Grandma says it's time for my snack.",
+     "neutral"
+    ],
+    [
+     "pts",
+     20
+    ]
+   ],
+   "cast": [
+    [
+     "pip",
+     1,
+     -1
+    ]
+   ]
+  },
+  {
+   "id": "he_pip_4",
+   "person": "pip",
+   "hearts": 4,
+   "where": "room:library",
+   "from": 780,
+   "to": 1020,
+   "steps": [
+    [
+     "do",
+     "At the library's big table, Agnes is helping Pip with a book of animal tracks. Pip holds up a drawing."
+    ],
+    [
+     "say",
+     "pip",
+     "I saw this when I was five. A footprint. A ranger showed me. Is it real?",
+     "neutral"
+    ],
+    [
+     "do",
+     "It's a very big footprint, drawn very carefully, with the toes counted twice."
+    ],
+    [
+     "say",
+     "agnes",
+     "Pip's drawn it every year since. It gets more detailed.",
+     "happy"
+    ],
+    [
+     "choice",
+     [
+      [
+       "\"It looks real to me.\"",
+       [
+        [
+         "say",
+         "pip",
+         "I KNEW it.",
+         "happy"
+        ],
+        [
+         "emote",
+         "pip",
+         "alarm"
+        ]
+       ]
+      ],
+      [
+       "\"Keep drawing it. Keep looking.\"",
+       [
+        [
+         "say",
+         "pip",
+         "I will. I'll look forever.",
+         "happy"
+        ]
+       ]
+      ]
+     ]
+    ],
+    [
+     "pts",
+     20
+    ]
+   ],
+   "cast": [
+    [
+     "pip",
+     1,
+     -1
+    ],
+    [
+     "agnes",
+     2,
+     -1
+    ]
+   ]
+  },
+  {
+   "id": "he_pip_6",
+   "person": "pip",
+   "hearts": 6,
+   "where": "town:garden_pip",
+   "from": 780,
+   "to": 1020,
+   "steps": [
+    [
+     "do",
+     "In the Abernathys' front garden, Pip is standing very straight. Their grandparents are on the porch, smiling."
+    ],
+    [
+     "say",
+     "pip",
+     "I made a junior ranger badge. From a bottle cap. Will you award it? Officially?",
+     "neutral"
+    ],
+    [
+     "do",
+     "You pin it to Pip's jumper and shake their hand very seriously. Pip's grandmother takes a photograph."
+    ],
+    [
+     "emote",
+     "pip",
+     "happy"
+    ],
+    [
+     "say",
+     "pip",
+     "I'm going to wear it every day. Even in the bath.",
+     "happy"
+    ],
+    [
+     "pts",
+     30
+    ]
+   ],
+   "cast": [
+    [
+     "pip",
+     1,
+     -1
+    ]
+   ]
+  },
+  {
+   "id": "he_pip_8",
+   "person": "pip",
+   "hearts": 8,
+   "where": "park:gate",
+   "from": 780,
+   "to": 1020,
+   "steps": [
+    [
+     "do",
+     "At the park gate: Pip, and Pip's grandparents, who have walked Pip all the way here to see you off."
+    ],
+    [
+     "say",
+     "pip",
+     "We came to wave. And I drew you something. For your trip.",
+     "happy"
+    ],
+    [
+     "do",
+     "It's a drawing of you, very tall, standing beside something very hairy and very friendly. Both of you are smiling."
+    ],
+    [
+     "give",
+     "pip_bigfoot_drawing"
+    ],
+    [
+     "do",
+     "Pip's grandfather says it's nearly lunchtime. Pip waves until you're out of sight."
+    ],
+    [
+     "pts",
+     20
+    ]
+   ],
+   "cast": [
+    [
+     "pip",
+     1,
+     -1
+    ]
+   ]
+  }
+ ]
+}

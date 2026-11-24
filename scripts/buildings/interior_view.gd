@@ -24,6 +24,7 @@ func _process(_delta: float) -> void:
 	if current == "" or not visible:
 		return
 	_place_people()
+	_ghost.queue_redraw()
 	var n := _is_night()
 	if n != _night:
 		_night = n
@@ -31,8 +32,15 @@ func _process(_delta: float) -> void:
 		_floor.queue_redraw()
 
 
+var _ghost: Node2D   # where held furniture would go, in the station (Phase 4b)
+
+
 func setup(s: GameSession) -> void:
 	session = s
+	_ghost = Node2D.new()
+	_ghost.z_index = 30
+	_ghost.draw.connect(_draw_ghost)
+	add_child(_ghost)
 	_floor = Node2D.new()
 	_floor.z_index = -20
 	_floor.draw.connect(_draw_room)
@@ -140,6 +148,37 @@ func _draw_room() -> void:
 		_floor.draw_texture(Art.texture("furniture_door"), Vector2(layout.door_tile * TILE))
 
 
+## Decorating: the held piece, faint, where C would put it, edged green if it
+## fits and red if not; a lifted station piece the same way.
+func _draw_ghost() -> void:
+	if session.location != Home.STATION or current != Home.STATION:
+		return
+	var item := session.selected_item()
+	var p := {}
+	var art := ""
+	if not session.home.carrying.is_empty():
+		var c: Dictionary = session.home.carrying
+		var sz := Vector2i(int(c["size"][0]), int(c["size"][1]))
+		var rect := session.home.target_rect(session.interior_pos, session.facing, sz, "floor")
+		p = {"rect": rect, "why": session.home.floor_problem(rect, str(c["id"])), "place": "floor"}
+		art = str(c["sprite"])
+	elif item != "" and session.content.has("furniture", item):
+		p = session.home.preview(item)
+		art = str(p.get("sprite", ""))
+	if not p.has("rect"):
+		return
+	var r: Rect2i = p["rect"]
+	var ok := str(p["why"]) == ""
+	var box := Rect2(Vector2(r.position) * TILE, Vector2(r.size) * TILE)
+	var tex := Art.texture(art) if art != "" else null
+	if tex != null:
+		var at := Vector2(box.position.x + box.size.x / 2.0 - tex.get_width() / 2.0, box.end.y - tex.get_height())
+		if str(p["place"]) != "floor":
+			at = box.position
+		_ghost.draw_texture(tex, at.round(), Color(1, 1, 1, 0.55))
+	_ghost.draw_rect(box, Color(0.35, 0.85, 0.4, 0.9) if ok else Color(0.9, 0.3, 0.25, 0.9), false, 1.0)
+
+
 ## Townsfolk in a town shop's room: the keeper behind the counter and anyone
 ## visiting, where Shops says they are.
 func _place_people() -> void:
@@ -152,7 +191,8 @@ func _place_people() -> void:
 			sort_root.add_child(node)
 			_people[id] = node
 		var node: Node2D = _people[id]
-		node.visible = true
+		# Someone in a heart event is drawn by the scene instead.
+		node.visible = not session.life.cast.has(id)
 		node.position = ((here[id] as Vector2) * TILE).round()
 	for id: String in _people:
 		if not here.has(id):

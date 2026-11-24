@@ -1062,6 +1062,447 @@
    "id": "pip_15",
    "speaker": "pip",
    "text": "My field guide has a new page. It's about you. It says 'tall, has a hat'."
+  },
+  {
+   "id": "wren_dating_1",
+   "speaker": "wren",
+   "text": "You're my favourite customer. Don't tell the others. They know.",
+   "dating": true,
+   "_4b": "4b"
+  },
+  {
+   "id": "wren_dating_2",
+   "speaker": "wren",
+   "text": "I saved you the last muffin. I hid it under a cup.",
+   "dating": true,
+   "_4b": "4b"
+  },
+  {
+   "id": "wren_dating_3",
+   "speaker": "wren",
+   "text": "I slept until six today. Six! Look what you've done to me.",
+   "dating": true,
+   "_4b": "4b"
+  },
+  {
+   "id": "teo_dating_1",
+   "speaker": "teo",
+   "text": "I wrote a new verse. It's about your hat. It's a good hat.",
+   "dating": true,
+   "_4b": "4b"
+  },
+  {
+   "id": "teo_dating_2",
+   "speaker": "teo",
+   "text": "Mom keeps setting an extra place for you. She says it's for luck.",
+   "dating": true,
+   "_4b": "4b"
+  },
+  {
+   "id": "teo_dating_3",
+   "speaker": "teo",
+   "text": "I played on the bandstand yesterday. Two people listened. One was you.",
+   "dating": true,
+   "_4b": "4b"
+  },
+  {
+   "id": "nell_dating_1",
+   "speaker": "nell",
+   "text": "Want to go walking? Not far. Just with you.",
+   "dating": true,
+   "_4b": "4b"
+  },
+  {
+   "id": "nell_dating_2",
+   "speaker": "nell",
+   "text": "Mom asked if you're eating properly. I said yes. Are you?",
+   "dating": true,
+   "_4b": "4b"
+  },
+  {
+   "id": "nell_dating_3",
+   "speaker": "nell",
+   "text": "I put your photo on my map wall. Right in the middle.",
+   "dating": true,
+   "_4b": "4b"
+  },
+  {
+   "id": "sol_dating_1",
+   "speaker": "sol",
+   "text": "I've started a new painting. You're in it. Very small, but you.",
+   "dating": true,
+   "_4b": "4b"
+  },
+  {
+   "id": "sol_dating_2",
+   "speaker": "sol",
+   "text": "Everything looks better since you came. I've checked. With paint.",
+   "dating": true,
+   "_4b": "4b"
+  },
+  {
+   "id": "sol_dating_3",
+   "speaker": "sol",
+   "text": "Come by the studio. I'll make tea and get paint on it.",
+   "dating": true,
+   "_4b": "4b"
+  },
+  {
+   "id": "marge_notice_many",
+   "speaker": "marge",
+   "text": "Seeing more than one person, I hear. In a town this size. Brave.",
+   "notice_many": true,
+   "_4b": "4b"
+  },
+  {
+   "id": "lyle_notice_many",
+   "speaker": "lyle",
+   "text": "Ranger, a word. Humdrum is a town of simple arrangements. One sweetheart each is the custom.",
+   "notice_many": true,
+   "_4b": "4b"
+  },
+  {
+   "id": "rosa_notice_many",
+   "speaker": "rosa",
+   "text": "Mijo says you've got a lot of friends. Very good friends. Hmm.",
+   "notice_many": true,
+   "_4b": "4b"
+  },
+  {
+   "id": "wren_fest_thaw_fair",
+   "speaker": "wren",
+   "text": "I made a coffee cake shaped like the bandstand. It collapsed. Like the real one won't.",
+   "festival": "thaw_fair",
+   "_4b": "4b"
+  },
+  {
+   "id": "rosa_fest_thaw_fair",
+   "speaker": "rosa",
+   "text": "I'm judging! I'm very strict. I'm going to cry at everything.",
+   "festival": "thaw_fair",
+   "_4b": "4b"
+  },
+  {
+   "id": "teo_fest_thaw_fair",
+   "speaker": "teo",
+   "text": "Mom made me enter my guitar. It's not even a thing I made. Well, I tuned it.",
+   "festival": "thaw_fair",
+   "_4b": "4b"
+  },
+  {
+   "id": "marge_fest_thaw_fair",
+   "speaker": "marge",
+   "text": "Seeds at the stall are half price till noon. Don't tell Bev.",
+   "festival": "thaw_fair",
+   "_4b": "4b"
+  },
+  {
+   "id": "nell_fest_thaw_fair",
+   "speaker": "nell",
+   "text": "Every year I enter a rock. Every year it doesn't win. It's a very good rock.",
+   "festival": "thaw_fair",
+   "_4b": "4b"
+  },
+  {
+   "id": "agnes_fest_thaw_fair",
+   "speaker": "agnes",
+   "text": "The fair's been held here every spring since the railway didn't come. I've the minutes to prove it.",
+   "festival": "thaw_fair",
+   "_4b": "4b"
+  },
+  {
+   "id": "bev_fest_thaw_fair",
+   "speaker": "bev",
+   "text": "I'm not entering. I'm watching what people enter. For business reasons.",
+   "festival": "thaw_fair",
+   "_4b": "4b"
+  },
+  {
+   "id": "gus_fest_thaw_fair",
+   "speaker": "gus",
+   "text": "Birdhouse.",
+   "festival": "thaw_fair",
+   "_4b": "4b"
+  },
+  {
+   "id": "sol_fest_thaw_fair",
+   "speaker": "sol",
+   "text": "I entered a painting of last year's fair. I painted it from memory. Badly.",
+   "festival": "thaw_fair",
+   "_4b": "4b"
+  },
+  {
+   "id": "lyle_fest_thaw_fair",
+   "speaker": "lyle",
+   "text": "Welcome, welcome! Another perfectly ordinary Thaw Fair. My favourite kind.",
+   "festival": "thaw_fair",
+   "_4b": "4b"
+  },
+  {
+   "id": "esme_fest_thaw_fair",
+   "speaker": "esme",
+   "text": "Enter something you love. The judges can tell. So can I.",
+   "festival": "thaw_fair",
+   "_4b": "4b"
+  },
+  {
+   "id": "pip_fest_thaw_fair",
+   "speaker": "pip",
+   "text": "I entered a drawing of a footprint. It's the best one yet. Grandma helped with the toes.",
+   "festival": "thaw_fair",
+   "_4b": "4b"
+  },
+  {
+   "id": "wren_fest_lantern_night",
+   "speaker": "wren",
+   "text": "I always pick yellow. Like a good morning. Ha. Morning.",
+   "festival": "lantern_night",
+   "_4b": "4b"
+  },
+  {
+   "id": "rosa_fest_lantern_night",
+   "speaker": "rosa",
+   "text": "Every year I wish for nothing to happen. Every year it works.",
+   "festival": "lantern_night",
+   "_4b": "4b"
+  },
+  {
+   "id": "teo_fest_lantern_night",
+   "speaker": "teo",
+   "text": "I'll play something quiet while the lanterns go. Nothing fancy. Mostly.",
+   "festival": "lantern_night",
+   "_4b": "4b"
+  },
+  {
+   "id": "marge_fest_lantern_night",
+   "speaker": "marge",
+   "text": "Mind the bank. It's slippy. I've said it every year for thirty years.",
+   "festival": "lantern_night",
+   "_4b": "4b"
+  },
+  {
+   "id": "nell_fest_lantern_night",
+   "speaker": "nell",
+   "text": "I wish for the same thing every year. One day it'll come true, or I'll just go and do it.",
+   "festival": "lantern_night",
+   "_4b": "4b"
+  },
+  {
+   "id": "agnes_fest_lantern_night",
+   "speaker": "agnes",
+   "text": "The lanterns used to drift east, toward the lake. Now they mostly drift into the reeds.",
+   "festival": "lantern_night",
+   "_4b": "4b"
+  },
+  {
+   "id": "bev_fest_lantern_night",
+   "speaker": "bev",
+   "text": "I sell the lanterns. I also wish on them. Is that a conflict? It's fine.",
+   "festival": "lantern_night",
+   "_4b": "4b"
+  },
+  {
+   "id": "gus_fest_lantern_night",
+   "speaker": "gus",
+   "text": "Mine's always blue. Ingrid's colour.",
+   "festival": "lantern_night",
+   "_4b": "4b"
+  },
+  {
+   "id": "sol_fest_lantern_night",
+   "speaker": "sol",
+   "text": "The water's full of little suns. I'll never paint it right. I'll try anyway.",
+   "festival": "lantern_night",
+   "_4b": "4b"
+  },
+  {
+   "id": "lyle_fest_lantern_night",
+   "speaker": "lyle",
+   "text": "Lantern Night: a cherished tradition of putting things in the creek, carefully.",
+   "festival": "lantern_night",
+   "_4b": "4b"
+  },
+  {
+   "id": "esme_fest_lantern_night",
+   "speaker": "esme",
+   "text": "Make your wish properly, ranger. Out loud, or not at all.",
+   "festival": "lantern_night",
+   "_4b": "4b"
+  },
+  {
+   "id": "pip_fest_lantern_night",
+   "speaker": "pip",
+   "text": "I'm allowed to stay up till ten for Lantern Night. It's the latest I've ever been up.",
+   "festival": "lantern_night",
+   "_4b": "4b"
+  },
+  {
+   "id": "wren_fest_big_foot_supper",
+   "speaker": "wren",
+   "text": "I'm not in a suit this year. I'm in charge of the coffee. It's a lot of coffee.",
+   "festival": "big_foot_supper",
+   "_4b": "4b"
+  },
+  {
+   "id": "rosa_fest_big_foot_supper",
+   "speaker": "rosa",
+   "text": "The pozole is for everyone. The tamales are for people who say nice things about the pozole.",
+   "festival": "big_foot_supper",
+   "_4b": "4b"
+  },
+  {
+   "id": "teo_fest_big_foot_supper",
+   "speaker": "teo",
+   "text": "Last year the winner was the mayor. Nobody's sure how. It's very political.",
+   "festival": "big_foot_supper",
+   "_4b": "4b"
+  },
+  {
+   "id": "marge_fest_big_foot_supper",
+   "speaker": "marge",
+   "text": "My suit's insulated. If Bigfoot's real, he's been doing it wrong.",
+   "festival": "big_foot_supper",
+   "_4b": "4b"
+  },
+  {
+   "id": "nell_fest_big_foot_supper",
+   "speaker": "nell",
+   "text": "Mom's taking the contest very seriously. Please be honest. Please be kind.",
+   "festival": "big_foot_supper",
+   "_4b": "4b"
+  },
+  {
+   "id": "agnes_fest_big_foot_supper",
+   "speaker": "agnes",
+   "text": "We've held the supper since my grandmother's day. Nobody remembers why. It's lovely anyway.",
+   "festival": "big_foot_supper",
+   "_4b": "4b"
+  },
+  {
+   "id": "bev_fest_big_foot_supper",
+   "speaker": "bev",
+   "text": "Look at the craftsmanship. Look at the price tag. I mean, don't look at the price tag.",
+   "festival": "big_foot_supper",
+   "_4b": "4b"
+  },
+  {
+   "id": "gus_fest_big_foot_supper",
+   "speaker": "gus",
+   "text": "The feet are pine. Took a week.",
+   "festival": "big_foot_supper",
+   "_4b": "4b"
+  },
+  {
+   "id": "sol_fest_big_foot_supper",
+   "speaker": "sol",
+   "text": "I sketched every Bigfoot. They're all equally convincing. Which is to say: very.",
+   "festival": "big_foot_supper",
+   "_4b": "4b"
+  },
+  {
+   "id": "lyle_fest_big_foot_supper",
+   "speaker": "lyle",
+   "text": "A solemn evening. We honour our town's most ordinary neighbour, the Big Foot. Pass the pie.",
+   "festival": "big_foot_supper",
+   "_4b": "4b"
+  },
+  {
+   "id": "esme_fest_big_foot_supper",
+   "speaker": "esme",
+   "text": "Judge with your heart, ranger. And your eyes. Mostly your eyes.",
+   "festival": "big_foot_supper",
+   "_4b": "4b"
+  },
+  {
+   "id": "pip_fest_big_foot_supper",
+   "speaker": "pip",
+   "text": "I want to be a Bigfoot when I'm older. Grandpa says I can be one now, at supper.",
+   "festival": "big_foot_supper",
+   "_4b": "4b"
+  },
+  {
+   "id": "wren_fest_long_night",
+   "speaker": "wren",
+   "text": "Cocoa's free tonight. Don't tell anyone, they'll all want some. They're all having some.",
+   "festival": "long_night",
+   "_4b": "4b"
+  },
+  {
+   "id": "rosa_fest_long_night",
+   "speaker": "rosa",
+   "text": "The longest night, and then every day gets a bit longer. I love that. Like soup getting warmer.",
+   "festival": "long_night",
+   "_4b": "4b"
+  },
+  {
+   "id": "teo_fest_long_night",
+   "speaker": "teo",
+   "text": "I brought a page of old verses to burn. For luck. Mostly to get rid of them.",
+   "festival": "long_night",
+   "_4b": "4b"
+  },
+  {
+   "id": "marge_fest_long_night",
+   "speaker": "marge",
+   "text": "Coat's buttoned? Good. Hat? Good. Sit closer, then.",
+   "festival": "long_night",
+   "_4b": "4b"
+  },
+  {
+   "id": "nell_fest_long_night",
+   "speaker": "nell",
+   "text": "I'm burning last year's trip map. Not because I gave up. Because I'm drawing a better one.",
+   "festival": "long_night",
+   "_4b": "4b"
+  },
+  {
+   "id": "agnes_fest_long_night",
+   "speaker": "agnes",
+   "text": "Sit down, sit down. The story starts when the fire's ready. The fire will let me know.",
+   "festival": "long_night",
+   "_4b": "4b"
+  },
+  {
+   "id": "bev_fest_long_night",
+   "speaker": "bev",
+   "text": "I brought a receipt to burn. Don't ask whose. It's for luck, financially.",
+   "festival": "long_night",
+   "_4b": "4b"
+  },
+  {
+   "id": "gus_fest_long_night",
+   "speaker": "gus",
+   "text": "Good fire. Good wood.",
+   "festival": "long_night",
+   "_4b": "4b"
+  },
+  {
+   "id": "sol_fest_long_night",
+   "speaker": "sol",
+   "text": "Firelight makes everyone look like an old painting. Look at the mayor. A masterpiece.",
+   "festival": "long_night",
+   "_4b": "4b"
+  },
+  {
+   "id": "lyle_fest_long_night",
+   "speaker": "lyle",
+   "text": "The Long Night! Our longest-running tradition, if you measure by darkness.",
+   "festival": "long_night",
+   "_4b": "4b"
+  },
+  {
+   "id": "esme_fest_long_night",
+   "speaker": "esme",
+   "text": "Watch the sparks. Some of them go up. Some of them go east.",
+   "festival": "long_night",
+   "_4b": "4b"
+  },
+  {
+   "id": "pip_fest_long_night",
+   "speaker": "pip",
+   "text": "I'm burning a drawing of a monster so it won't come back. It's a friendly monster though. Just to be safe.",
+   "festival": "long_night",
+   "_4b": "4b"
   }
  ]
 }

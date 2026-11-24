@@ -30,6 +30,11 @@ var _days: SpinBox
 var _job_pick: OptionButton
 var _tpl_pick: OptionButton
 var on_teleport: Callable = func() -> void: pass
+var _person_pick: OptionButton
+var _hearts: SpinBox
+var _event_pick: OptionButton
+var _fest_pick: OptionButton
+var _day_pick: OptionButton
 
 
 func setup(s: GameSession) -> void:
@@ -240,6 +245,35 @@ func setup(s: GameSession) -> void:
 	_spec_pick = _pick(r, session.content.ids("specialties"))
 	_btn(r, "Give", func() -> void: session.debug_choose_specialty(_spec_pick.get_item_text(_spec_pick.selected)))
 
+	# Phase 4b: hearts, heart events (behind "show spoilers"), festivals, the
+	# station's upgrades, the garden and the day of the week.
+	r = _row()
+	_person_pick = _pick(r, session.content.ids("townsfolk"))
+	_hearts = _spin(r, 0, 10, 8)
+	_btn(r, "Set hearts", func() -> void: session.debug_set_hearts(_person_pick.get_item_text(_person_pick.selected), int(_hearts.value)))
+	_btn(r, "To routine", func() -> void: session.debug_person_to_routine(_person_pick.get_item_text(_person_pick.selected)))
+	r = _row()
+	_event_pick = OptionButton.new()
+	_event_pick.focus_mode = Control.FOCUS_NONE
+	r.add_child(_event_pick)
+	_btn(r, "Play event", func() -> void:
+		if _event_pick.item_count > 0 and _spoilers.button_pressed:
+			session.debug_play_event(_event_pick.get_item_text(_event_pick.selected)))
+	_spoilers.toggled.connect(func(_on: bool) -> void: _fill_event_pick())
+	_fill_event_pick()
+	r = _row()
+	_fest_pick = _pick(r, session.content.ids("festivals"))
+	_btn(r, "Start festival", func() -> void:
+		session.debug_start_festival(_fest_pick.get_item_text(_fest_pick.selected))
+		on_teleport.call())
+	_btn(r, "Finish upgrade", session.debug_finish_upgrade)
+	_btn(r, "Grow crops", session.debug_grow_crops)
+	r = _row()
+	var days: Array[String] = []
+	days.assign(Town.DAYS)
+	_day_pick = _pick(r, days)
+	_btn(r, "Set weekday", func() -> void: session.debug_set_weekday(_day_pick.get_item_text(_day_pick.selected)))
+
 	r = _row()
 	_btn(r, "Reveal map", session.debug_reveal_map)
 	_btn(r, "Wipe map", session.debug_wipe_map)
@@ -267,6 +301,15 @@ func _fill_park_picks() -> void:
 		for r: Dictionary in session.content.rows("sites"):
 			if not r["id"] in ["old_cabin", "outlook"]:
 				_place_pick.add_item(r["id"])
+
+
+func _fill_event_pick() -> void:
+	_event_pick.clear()
+	if not _spoilers.button_pressed:
+		_event_pick.add_item("(show spoilers)")
+		return
+	for id: String in session.content.ids("spoiler_heart_events"):
+		_event_pick.add_item(id)
 
 
 func _fill_job_pick() -> void:

@@ -210,7 +210,11 @@ func test_honour_jar_while_the_keeper_is_out(t: TestCase) -> void:
 
 func test_library_books(t: TestCase) -> void:
 	var s := _session()
-	t.equal(s.content.rows("books").size(), 10, "ten books")
+	# Ten on the shelves, and the town archive Agnes opens in 4b.
+	t.equal(s.content.rows("books").filter(func(b: Dictionary) -> bool: return not b.has("needs")).size(), 10, "ten books")
+	t.equal(s.shops.book_options().size(), 10, "the archive stays shut until Agnes opens it")
+	s.life.flags["archive"] = true
+	t.equal(s.shops.book_options().size(), 11, "then it's on the shelf")
 	_into(s, "library", 10 * 60)
 	var teaches := ""
 	for b: Dictionary in s.content.rows("books"):

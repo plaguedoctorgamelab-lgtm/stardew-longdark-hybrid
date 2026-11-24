@@ -103,7 +103,9 @@ func refresh() -> void:
 	_rent.visible = session.structures.is_open("test_cabin")
 	# The mailbox comes with the town; its flag is up when a letter waits.
 	_mailbox.visible = session.town_open
-	_set_art(_mailbox, "obj_station_mailbox_full" if not session.favors.mailbox.is_empty() else "obj_station_mailbox")
+	_set_art(_mailbox, "obj_station_mailbox_full" if not session.favors.mailbox.is_empty() or not session.life.mail_gifts.is_empty() else "obj_station_mailbox")
+	# The second room pushes the mailbox along (Phase 4b).
+	_place(_mailbox, session.mailbox_pos() + Vector2(0, 0.5))
 	# Facilities, pads and kits.
 	var want := {}
 	for r: Dictionary in park.pad_rows():

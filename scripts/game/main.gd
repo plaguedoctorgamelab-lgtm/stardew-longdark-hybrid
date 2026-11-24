@@ -30,6 +30,8 @@ var pause_menu: Panel
 var book_screen: BookScreen
 var social_screen: SocialScreen
 var menu_tabs: MenuTabs   # the game menu's picture tabs over the open page (0.7.9)
+var scene_player: ScenePlayer     # heart events (Phase 4b)
+var fortune_screen: FortuneScreen # Esme's cards (Phase 4b)
 var clipboard: ClipboardScreen
 var job_card: JobCardScreen
 var job_note: JobNote
@@ -102,9 +104,25 @@ func _ready() -> void:
 	session.storage_opened.connect(func(title: String, inv: Inventory) -> void: inventory_screen.open(inv, title))
 	session.radio_heard.connect(func(lines: PackedStringArray) -> void: _show_dialog("radio", "\n".join(lines)))
 	session.confirm_requested.connect(func(kind: String, text: String) -> void: _show_dialog(kind, text))
-	session.structures.changed.connect(func(_id: String) -> void:
+	session.structures.changed.connect(func(id: String) -> void:
 		if interior_view.visible:
-			interior_view.refresh())
+			# Decorating changes the station's furniture: build the room again.
+			if id == "ranger_station" and interior_view.current == "ranger_station" and session.location == "ranger_station":
+				interior_view.show_room("ranger_station", ranger)
+			else:
+				interior_view.refresh())
+	scene_player = ScenePlayer.new()
+	add_child(scene_player)
+	scene_player.setup(session)
+	session.scene_started.connect(_start_scene)
+	scene_player.line.connect(func(person: String, mood: String, text: String) -> void:
+		_face(person, mood)
+		var head := ""
+		if person != "" and session.content.has("townsfolk", person):
+			head = str(session.content.row("townsfolk", person)["name"]) + "\n\n"
+		_show_dialog("scene", head + text))
+	scene_player.choose.connect(func(title: String, options: Array) -> void: choice_screen.open("scene", title, options))
+	session.fortune_read.connect(func(r: Dictionary) -> void: fortune_screen.open(r))
 	session.collapsed.connect(func(text: String) -> void: _show_dialog("notice", text))
 	session.note_read.connect(func(text: String) -> void: _show_dialog("notice", text))
 	session.workbench_opened.connect(func() -> void: choice_screen.open_workbench())
@@ -112,10 +130,14 @@ func _ready() -> void:
 	session.choice_requested.connect(func(kind: String, title: String, options: Array) -> void: choice_screen.open(kind, title, options))
 	session.list_requested.connect(func(kind: String, title: String, options: Array) -> void: choice_screen.reopen(kind, title, options))
 	choice_screen.chosen.connect(func(kind: String, option_id: String) -> void:
+		if kind == "scene":
+			choice_screen.visible = false
+			scene_player.pick(int(option_id))
+			return
 		if choice_screen.STATIONS.has(kind):
 			session.choose_recipe(option_id)
 			choice_screen.refresh()
-		elif kind in ["catalog", "staff", "books"] or kind.begins_with("assign:") or kind.begins_with("shop:") or kind.begins_with("buy:") or kind.begins_with("sell:"):
+		elif kind in ["catalog", "staff", "books", "fstall", "home"] or kind.begins_with("assign:") or kind.begins_with("shop:") or kind.begins_with("buy:") or kind.begins_with("sell:"):
 			var nxt := session.answer_list(kind, option_id)
 			if nxt == "close":
 				choice_screen.visible = false
@@ -236,6 +258,12 @@ func _build_menus() -> void:
 	menu_tabs.setup(session.content)
 	menu_tabs.chosen.connect(open_tab)
 	inventory_screen.want_tab.connect(open_tab)
+	fortune_screen = FortuneScreen.new()
+	root.add_child(fortune_screen)
+	fortune_screen.setup(session)
+	social_screen.friends_asked.connect(func(person: String) -> void:
+		social_screen.close()
+		session.ask_just_friends(person))
 	dialog = Panel.new()
 	dialog.size = Vector2(320, 70)
 	dialog.position = Vector2(80, 90)
@@ -649,6 +677,10 @@ func _tab_page() -> Array:
 
 
 func menu_open() -> bool:
+	if scene_player != null and scene_player.active():
+		return true
+	if fortune_screen != null and fortune_screen.visible:
+		return true
 	return title_screen.visible or pause_menu.visible or options_panel.visible or inventory_screen.visible or map_screen.visible or dialog.visible or choice_screen.visible or book_screen.visible or social_screen.visible or clipboard.visible or job_card.visible
 
 
@@ -679,7 +711,9 @@ func _show_dialog(kind: String, text: String) -> void:
 	if kind.begins_with("favor:"):
 		var id := kind.substr(6)
 		_face(str(session.content.row("town_favors", id)["from"]) if session.content.has("town_favors", id) else "", "happy")
-	elif kind != "talk":
+	elif kind == "fortune":
+		_face("esme", "happy")
+	elif kind != "talk" and kind != "scene":
 		dialog_face.texture = null
 	dialog_face.visible = dialog_face.texture != null
 	var inset := 76.0 if dialog_face.visible else 8.0
@@ -699,11 +733,18 @@ func _close_dialog(yes: bool) -> void:
 	dialog.visible = false
 	var kind := _dialog_kind
 	_dialog_kind = ""
-	if kind in ["sleep", "camp_sleep", "open_site", "rent_sign"] or kind.begins_with("take_down:") or kind.begins_with("favor:"):
+	if kind in ["sleep", "camp_sleep", "open_site", "rent_sign", "fortune"] or kind.begins_with("take_down:") or kind.begins_with("favor:") or kind.begins_with("friends:"):
 		session.answer_confirm(yes)
+	# A heart event's line was read: on to the next.
+	if kind == "scene":
+		scene_player.advance()
+		return
 	# After someone's line: a favor they'd like to ask.
 	if kind == "talk" and not dialog.visible:
 		session.offer_favor()
+	# Esme at her caravan: a reading, once her line is read.
+	if kind == "talk" and not dialog.visible:
+		session.offer_reading()
 	# After reading the suggestion box: pin a card that asks for something.
 	if not dialog.visible and session.box_offer:
 		session.offer_pins()
@@ -747,8 +788,15 @@ func _unhandled_input(event: InputEvent) -> void:
 		if event.is_action_pressed("interact") or event.is_action_pressed("confirm") or event.is_action_pressed("cancel") or event.is_action_pressed("pause") or event.is_action_pressed("use_item"):
 			job_card.try_close()
 		return
+	if fortune_screen.visible:
+		if event.is_action_pressed("interact") or event.is_action_pressed("confirm") or event.is_action_pressed("cancel") or event.is_action_pressed("pause") or event.is_action_pressed("use_item"):
+			fortune_screen.try_close()
+		return
 	if clipboard.visible:
 		clipboard.handle(event)
+		return
+	# A heart event between its lines: the scene plays on; keys wait.
+	if scene_player.active() and not dialog.visible and not choice_screen.visible:
 		return
 	if event.is_action_pressed("pause"):
 		# Escape closes whatever screen is open; with none open, it pauses.
@@ -855,7 +903,28 @@ func _unhandled_input(event: InputEvent) -> void:
 			session.selected_slot = (session.selected_slot + n - 1) % n
 
 
+## A heart event begins: its people stand beside the ranger in whichever
+## view the ranger is in.
+func _start_scene(id: String) -> void:
+	var parent: Node2D = world_view.sort_root
+	var at := session.outdoor_pos
+	if session.in_town_room() or session.is_indoors():
+		parent = interior_view.sort_root
+		at = session.interior_pos
+	elif session.in_town:
+		parent = town_view.sort_root
+		at = session.town_pos
+	session.moving = false
+	scene_player.start(id, parent, at * TILE, session.facing)
+
+
 func _process(delta: float) -> void:
+	# A scene's choice closed without a pick comes back: it must be answered.
+	if scene_player.waiting == "choice" and not choice_screen.visible and not dialog.visible:
+		var opts := []
+		for i in scene_player._choice.size():
+			opts.append({"id": str(i), "label": str((scene_player._choice[i] as Array)[0])})
+		choice_screen.open("scene", session.content.text("scene_next"), opts)
 	var page := _tab_page()
 	if page.is_empty():
 		menu_tabs.visible = false

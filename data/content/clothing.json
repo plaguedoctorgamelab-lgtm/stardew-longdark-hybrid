@@ -70,6 +70,16 @@
    "warmth": 1,
    "price": 160,
    "overlay": "ranger_wear_insulated_boots"
+  },
+  {
+   "id": "marge_coat",
+   "slot": "coat",
+   "warmth": 4,
+   "price": 0,
+   "overlay": "ranger_wear_wool_coat",
+   "start": false,
+   "gift": true,
+   "_4b": "4b"
   }
  ]
 }

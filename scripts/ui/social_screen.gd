@@ -18,6 +18,8 @@ const CAL_W := 28.57
 const CAL_H := 24.4
 const PER_PAGE := 6
 
+signal friends_asked(person: String)
+
 var session: GameSession
 var page: String = "people"
 var people_page: int = 0
@@ -56,10 +58,32 @@ func pages() -> int:
 
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and (event as InputEventMouseButton).pressed:
+		# A sweetheart's row: talk about just being friends (Phase 4b).
+		var who := _row_at((event as InputEventMouseButton).position)
+		if who != "" and session.life.dating.has(who):
+			friends_asked.emit(who)
+			accept_event()
+			return
 		if page == "people" and pages() > 1:
 			people_page = (people_page + 1) % pages()
 			queue_redraw()
 		accept_event()
+
+
+## The person on the People page's row under a point, or "".
+func _row_at(p: Vector2) -> String:
+	if page != "people" or _rows.is_empty():
+		return ""
+	var o := _paper("ui_social").position
+	var first := people_page * PER_PAGE
+	for k in range(PER_PAGE):
+		if first + k >= _rows.size():
+			break
+		var top: float = o.y + float(SOCIAL_ROWS[k]) * SCALE
+		var bottom: float = o.y + float(SOCIAL_ROWS[k + 1]) * SCALE
+		if p.y >= top and p.y < bottom:
+			return str(_rows[first + k]["id"])
+	return ""
 
 
 func _paper(name: String) -> Rect2:
@@ -114,6 +138,12 @@ func _draw_people() -> void:
 		_face(str(row["sprite"]), Vector2(x, top + 2), h - 4)
 		x += h + 2
 		_text(Vector2(x, top + 11), str(row["name"]), KitStyle.TEXT_DARK, 8)
+		if session.life.dating.has(str(row["id"])):
+			var dx := x + 96
+			if Art.has_picture("ui_heart_sweet"):
+				draw_texture_rect(Art.texture("ui_heart_sweet"), Rect2(Vector2(dx, top + 4), Vector2(8, 8)), false)
+				dx += 10
+			_text(Vector2(dx, top + 11), session.content.text("social_dating"), KitStyle.CORAL.darkened(0.2), 7)
 		var b: Dictionary = row["birthday"]
 		_text(Vector2(x, top + h - 3), session.content.text("social_birthday", {"season": session.content.text("season_" + GameClock.SEASONS[int(b["season"])]), "day": int(b["day"])}), Color(KitStyle.TEXT_DARK, 0.75), 7)
 		# Ten hearts: earned, open, or locked past the cap.

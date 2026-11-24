@@ -39,6 +39,9 @@ signal townsperson_spoke(talk: Dictionary)
 signal traveled
 ## What the ranger wears changed: the views redraw the ranger.
 signal clothes_changed
+## Phase 4b: a heart event starts (ScenePlayer plays it), and Esme's cards.
+signal scene_started(id: String)
+signal fortune_read(reading: Dictionary)
 
 const FACING_DOWN := 0
 const FACING_RIGHT := 1
@@ -147,6 +150,14 @@ var town_open: bool = false
 var shops: Shops
 var wardrobe: Wardrobe
 var town_inside: String = ""
+# Phase 4b, a life there: heart events and romance, Esme's readings, the
+# festivals, the station as a home, and the garden.
+var life: HeartEvents
+var fortune: Fortune
+var festivals: Festivals
+var home: Home
+var garden: Garden
+var _reading_offer: bool = false     # talking to Esme at her caravan offers a reading
 
 
 func _init(tuning_path: String = Tuning.DEFAULT_PATH, content_dir: String = ContentDB.CONTENT_DIR, world_dir: String = WorldData.WORLD_DIR) -> void:
@@ -194,6 +205,12 @@ func _init(tuning_path: String = Tuning.DEFAULT_PATH, content_dir: String = Cont
 	shops = Shops.new(self)
 	wardrobe = Wardrobe.new(content)
 	clock.day_started.connect(func(_d: int, _s: int, _y: int) -> void: town.people = {})
+	life = HeartEvents.new(self)
+	life.scene_started.connect(func(id: String) -> void: scene_started.emit(id))
+	fortune = Fortune.new(self)
+	festivals = Festivals.new(self)
+	home = Home.new(self)
+	garden = Garden.new(self)
 
 
 # --- starting and loading ---------------------------------------------------
@@ -265,6 +282,12 @@ func new_game(new_seed: int = -1) -> void:
 	in_town = false
 	town_pos = town.entry
 	town_open = false
+	life.new_game()
+	fortune.new_game()
+	festivals.new_game()
+	home.new_game()
+	garden.new_game()
+	_after_home()
 
 
 ## Rooms hide the small job things once they are done and gone.
@@ -325,6 +348,11 @@ func to_dict() -> Dictionary:
 		"visits": visits.duplicate(),
 		"jobs2": jobs.to_dict(),
 		"favors": favors.to_dict(),
+		"life": life.to_dict(),
+		"fortune": fortune.to_dict(),
+		"festivals": festivals.to_dict(),
+		"home": home.to_dict(),
+		"garden": garden.to_dict(),
 		"bench_boxes": bench_boxes.keys().map(func(k: String) -> Array: return [k, (bench_boxes[k] as Inventory).to_array()]),
 		"piles": piles.keys().map(func(t: Vector2i) -> Array: return [t.x, t.y, (piles[t] as Inventory).to_array()]),
 	}
@@ -451,6 +479,17 @@ func from_dict(d: Dictionary) -> void:
 	# from the world, and those already done are finished and paid.
 	jobs.from_dict(d.get("jobs2", {}), not d.has("jobs2"))
 	favors.from_dict(d.get("favors", {}))
+	# Phase 4b: a save from before has none of it.
+	life.from_dict(d.get("life", {}))
+	fortune.from_dict(d.get("fortune", {}))
+	festivals.from_dict(d.get("festivals", {}))
+	if festivals.active != "" and not (in_town and festivals.on_now()):
+		festivals.active = ""
+	home.from_dict(d.get("home", {}))
+	garden.from_dict(d.get("garden", {}))
+	_after_home()
+	if location == Home.STATION and (interiors[location] as InteriorLayout).is_solid(Vector2i(floori(interior_pos.x), floori(interior_pos.y))):
+		interior_pos = clear_spot(interiors[location], (interiors[location] as InteriorLayout).entry)
 
 
 func save_game() -> bool:
@@ -493,6 +532,8 @@ func room_layout(id: String) -> InteriorLayout:
 func room_inside(id: String) -> Dictionary:
 	if shops.has_room(id):
 		return shops.inside_row(id)
+	if id == Home.STATION:
+		return home.inside_row()
 	return content.row("structures", id)["interior"]
 
 
@@ -621,7 +662,9 @@ func speed_tiles_per_second() -> float:
 # --- each frame ---------------------------------------------------------------
 
 func process(real_delta: float) -> void:
-	clock.process(real_delta)
+	# At a festival time stands still (Phase 4 Spec, Festivals).
+	if festivals.active == "":
+		clock.process(real_delta)
 	park.advance_to(park_minute())
 	jobs.process(real_delta)
 	shops.process()
@@ -634,6 +677,8 @@ func process(real_delta: float) -> void:
 			var k := town.residents(town_inside)[0] if home else shops.keeper(town_inside)
 			leave_town_room()
 			message.emit(content.text("town_home_late" if home else "town_closing", {"keeper": shops.first_name(k)}))
+		festivals.update()
+	life.check(real_delta)
 
 
 ## The clock's minute with the part of the current ten minutes gone by, so
@@ -723,6 +768,8 @@ func needs_context() -> Dictionary:
 func _on_step(_minute: int) -> void:
 	var step_minutes := clock.step_minutes()
 	needs.step(needs_context())
+	if location == Home.STATION and home.warmth_bonus() > 0.0:
+		needs.add_warmth(home.warmth_bonus())
 	if in_town_room() and town.is_open(town_inside):
 		jobs.event("help", {"place": town_inside, "n": step_minutes})
 	_walked_this_step = 0.0
@@ -782,6 +829,11 @@ func _on_day_started(_day: int, _season: int, _year: int) -> void:
 	jobs.morning(clock.day == 1)
 	favors.morning()
 	_check_town_opens()
+	festivals.active = ""
+	life.morning()
+	home.morning()
+	_after_home()
+	garden.morning(int(jobs.flags.get("rain_day", -9)) == clock.absolute_day() - 1)
 	day_began.emit()
 
 
@@ -909,6 +961,15 @@ func answer_confirm(yes: bool) -> void:
 	if kind.begins_with("favor:"):
 		message.emit(favors.answer(kind.substr(6), yes))
 		return
+	if kind == "fortune":
+		if yes:
+			read_fortune()
+		return
+	if kind.begins_with("friends:"):
+		var who := kind.substr(8)
+		if yes and life.end_dating(who):
+			message.emit(content.text("romance_friends", {"name": shops.first_name(who)}))
+		return
 	if kind.begins_with("take_down:"):
 		if yes:
 			_take_down_facility(kind.substr(10))
@@ -1007,6 +1068,8 @@ func enter_building(structure_id: String) -> bool:
 func leave_building() -> void:
 	if not is_indoors():
 		return
+	if location == Home.STATION:
+		home.drop_carrying()
 	outdoor_pos = door_front(location)
 	location = ""
 	facing = FACING_DOWN
@@ -1078,9 +1141,17 @@ func _interact_town() -> void:
 	if town_inside != "":
 		_interact_town_room()
 		return
+	# At a festival its stall, activity and supper table come first.
+	if festivals.active != "" and _interact_festival():
+		return
 	var person := town.person_near(town_pos, tuning.num("town.talk_reach_tiles"))
 	if person != "":
 		_talk_to(person)
+		return
+	# The caravan's door, while Esme reads: a reading.
+	if town.door_at(town_pos, tuning.num("town.door_reach_tiles")) == "caravan" and fortune.open_now():
+		_reading_offer = true
+		offer_reading()
 		return
 	if town.notice_board_near(town_pos, tuning.num("town.door_reach_tiles")):
 		note_read.emit(content.text("fv_board_title") + "\n\n" + favors.read_board())
@@ -1152,7 +1223,8 @@ func _interact_town_room() -> void:
 ## wall, off the path.
 func mailbox_pos() -> Vector2:
 	var p: Dictionary = world.structure_placement("ranger_station")
-	return Vector2(float(p["pos"][0]) + float(p["size"][0]) + 1.5, float(p["pos"][1]) + float(p["size"][1]) - 0.5)
+	var extra := home.extra_width() if home != null else 0
+	return Vector2(float(p["pos"][0]) + float(p["size"][0]) + extra + 1.5, float(p["pos"][1]) + float(p["size"][1]) - 0.5)
 
 
 ## Talks to someone in town. A favor step that wanted a word counts, and
@@ -1162,6 +1234,8 @@ func _talk_to(person: String) -> void:
 	talk["person"] = person
 	jobs.event("talk", {"person": person})
 	favor_offer = favors.ask_offer(person)
+	# Esme at her open caravan offers a reading once her line is read.
+	_reading_offer = person == "esme" and fortune.open_now() and not in_town_room() and not fortune.read_today()
 	townsperson_spoke.emit(talk)
 
 
@@ -1240,6 +1314,12 @@ func _use_in_town() -> void:
 		return
 	if person == "" or item == "":
 		return
+	# The bouquet (Phase 4b, romance).
+	if item == "bouquet":
+		var key := life.give_bouquet(person)
+		if key != "":
+			message.emit(content.text(key, {"name": shops.first_name(person)}))
+		return
 	var want := jobs.wants(person, item)
 	if not want.is_empty():
 		_hand_over(person, item, want)
@@ -1268,8 +1348,29 @@ func interact() -> void:
 	var reach := tuning.num("world.interact_reach_tiles")
 	# The station's mailbox: letters from town (Phase 4, Townsfolk Favors).
 	if town_open and outdoor_pos.distance_to(mailbox_pos()) <= 1.5:
-		note_read.emit(content.text("fv_mailbox") + "\n\n" + favors.read_mail())
+		var gifts := life.take_mail_gifts()
+		var had_mail := not favors.mailbox.is_empty()
+		var mail := favors.read_mail()
+		var parts := PackedStringArray([content.text("fv_mailbox")])
+		parts.append_array(gifts)
+		if had_mail or gifts.is_empty():
+			parts.append(mail)
+		note_read.emit("\n\n".join(parts))
 		return
+	# The garden: pick what's ripe, clear what's withered, or see how it's doing.
+	var gt := garden.faced()
+	if gt.x >= 0:
+		var picked := garden.pick(gt)
+		if picked != "":
+			message.emit(content.text("garden_picked", {"item": content.item_name(picked).to_lower()}))
+			return
+		if garden.tiles.has(gt) and bool(garden.tiles[gt]["withered"]):
+			message.emit(content.text(garden.dig(gt)))
+			return
+		var st := garden.status_text(gt)
+		if st != "":
+			message.emit(st)
+			return
 	var sid := structure_at_door(outdoor_pos)
 	if sid != "":
 		if _landmark_for_structure(sid) != "" and not map.is_landmark_mapped(_landmark_for_structure(sid)):
@@ -1428,6 +1529,14 @@ func _interact_inside() -> void:
 				feed_stove()
 		"note_board":
 			read_note_board()
+		"range":
+			cooking_opened.emit()
+		"pantry":
+			storage_opened.emit(content.text("ui_pantry"), home.pantry)
+		"reading_chair":
+			needs.add_energy(tuning.num("home.reading_chair_energy"))
+			pass_minutes(tuning.integer("home.reading_chair_minutes"))
+			message.emit(content.text("home_read_chair", {"n": tuning.integer("home.reading_chair_energy")}))
 		"workbench":
 			workbench_opened.emit()
 		"find":
@@ -1525,9 +1634,20 @@ func use_item() -> void:
 		_use_in_town()
 		return
 	var item := selected_item()
+	# Decorating the station (Phase 4b): set down, pick up, move.
+	if location == Home.STATION and (item == "" or content.has("furniture", item) or not home.carrying.is_empty()):
+		decorate(item)
+		return
 	if item == "":
 		return
 	var row := content.row("items", item)
+	if content.has("furniture", item) and not is_indoors():
+		message.emit(content.text("home_only_station"))
+		return
+	# The garden: seeds, the watering can, the shovel on the plot.
+	if not is_indoors() and garden.faced().x >= 0 and (row["kind"] == "seed" or item == "watering_can" or item == "shovel"):
+		use_in_garden(item)
+		return
 	if row["kind"] == "clothing":
 		put_on(item)
 	elif row["kind"] == "food":
@@ -2743,6 +2863,10 @@ func answer_choice(kind: String, option_id: String) -> void:
 	if kind.begins_with("specialty:") and option_id != "":
 		choose_specialty(kind.split(":")[1], option_id)
 		return
+	if kind.begins_with("fest:"):
+		if option_id != "":
+			answer_festival(kind, option_id)
+		return
 	if kind == "pin_card" and option_id != "":
 		park.pin_card(int(option_id))
 		message.emit(content.text("msg_box_pinned"))
@@ -3686,6 +3810,15 @@ func sparkle_tiles() -> Array[Vector2i]:
 
 ## Cooking needs a lit stove indoors or a lit camp fire outdoors.
 func can_cook_here() -> bool:
+	# The kitchen's range cooks without a fire (Phase 4b).
+	if location == Home.STATION and home.has("kitchen"):
+		var lay: InteriorLayout = interiors[location]
+		var r := lay.find("range")
+		if not r.is_empty():
+			var rr := lay.furniture_rect(r)
+			var c := Vector2(clampf(interior_pos.x, rr.position.x, rr.end.x), clampf(interior_pos.y, rr.position.y, rr.end.y))
+			if c.distance_to(interior_pos) <= tuning.num("world.interact_reach_tiles") + 0.5:
+				return true
 	if is_indoors():
 		return structures.stove_minutes.has(location) and structures.stove_lit(location)
 	return near_lit_fire()
@@ -4456,6 +4589,10 @@ func list_options(kind: String) -> Array:
 		return shops.sell_options(kind.substr(5))
 	if kind == "books":
 		return shops.book_options()
+	if kind == "fstall":
+		return festivals.stall_options()
+	if kind == "home":
+		return home.order_options()
 	if kind == "catalog":
 		return park.catalog_options()
 	if kind == "staff":
@@ -4473,6 +4610,10 @@ func list_title(kind: String) -> String:
 			return content.text(key, {"name": content.row("town_places", place)["name"]}) + "  ·  %dg" % park.money.wallet
 	if kind == "books":
 		return content.text("books_title")
+	if kind == "fstall":
+		return content.text("fest_stall_title") + "  ·  %dg" % park.money.wallet
+	if kind == "home":
+		return content.text("home_menu") + "  ·  %dg" % park.money.wallet
 	if kind == "catalog":
 		return content.text("ui_catalog", {"wallet": park.money.wallet})
 	if kind == "staff":
@@ -4506,6 +4647,26 @@ func answer_list(kind: String, option_id: String) -> String:
 					message.emit(content.text("jt_catalog_locked"))
 					return "close"
 				return "catalog"
+			"home":
+				return "home"
+		return ""
+	if kind == "fstall":
+		if option_id == "back":
+			return "close"
+		festivals.buy(option_id.get_slice(":", 1))
+		return ""
+	if kind == "home":
+		if option_id == "back":
+			return "shop:carpentry"
+		var up := option_id.get_slice(":", 1)
+		var why := home.order(up)
+		if why == "home_cant_afford":
+			message.emit(home.order_problem_text(up))
+		elif why != "":
+			message.emit(content.text(why))
+		else:
+			message.emit(content.text("home_ordered", {"name": content.text("home_" + up)}))
+			structures.changed.emit(Home.STATION)
 		return ""
 	if kind.begins_with("buy:") or kind.begins_with("sell:"):
 		var place := kind.get_slice(":", 1)
@@ -4629,3 +4790,181 @@ func debug_run_unattended(days: int) -> String:
 		low = mini(low, park.money.wallet)
 	park.morning_lines = []
 	return "Ran %d days: wallet %dg to %dg (lowest %dg), %d parties now in the park, %d badgers, %d litter, %d cards waiting, %d letters." % [days, start_wallet, park.money.wallet, low, park.parties.size(), park.badgers.size(), park.litter.size(), park.unread_cards().size(), park.letters.size()]
+
+
+# --- Phase 4b: a life there ----------------------------------------------------------
+
+## After the station's upgrades change: the second room's extra footprint is
+## solid outside, and the room is rebuilt.
+func _after_home() -> void:
+	var p: Dictionary = world.structure_placement(Home.STATION)
+	var w := int(p["size"][0])
+	for x in range(w, w + 2):
+		for y in int(p["size"][1]):
+			world.set_blocked(Vector2i(int(p["pos"][0]) + x, int(p["pos"][1]) + y), x < w + home.extra_width())
+	structures.changed.emit(Home.STATION)
+
+
+## C in the station with furniture held, or an empty hand.
+func decorate(item: String) -> void:
+	var args := {"what": content.text("home_way_door")}
+	if not home.carrying.is_empty() or item == "" or not content.has("furniture", item):
+		var r0 := home.use_empty_hand()
+		structures.changed.emit(Home.STATION)
+		if r0 != "" and r0 != "picked" and r0 != "lifted":
+			message.emit(content.text(r0, args))
+		return
+	var why := home.place_held(item)
+	structures.changed.emit(Home.STATION)
+	if why != "":
+		message.emit(content.text(why, args))
+		return
+	var key := "home_surface" if bool(content.row("furniture", item).get("surface", false)) else "home_placed"
+	message.emit(content.text(key, {"item": content.item_name(item).to_lower()}))
+
+
+## C on the garden plot with seeds, the watering can or the shovel.
+func use_in_garden(item: String) -> void:
+	var gt := garden.faced()
+	var kind := str(content.row("items", item)["kind"])
+	var res := ""
+	if kind == "seed":
+		res = garden.plant(gt, item)
+	elif item == "watering_can":
+		res = garden.water(gt)
+		if res == "garden_watered":
+			tool_landed.emit(item, gt, "water")
+	else:
+		res = garden.dig(gt)
+		if res == "garden_dug" or res == "garden_cleared":
+			needs.spend(tuning.num("trail.energy"))
+			tool_landed.emit(item, gt, "dirt")
+	if res == "":
+		return
+	var cid := garden.crop_for_seed(item)
+	var season := content.text("season_" + str(garden.crop(cid)["season"])) if cid != "" else ""
+	message.emit(content.text(res, {"item": content.item_name(item).to_lower(), "season": season}))
+
+
+## After Esme's line at her open caravan: a reading, as a yes or no.
+func offer_reading() -> bool:
+	if not _reading_offer:
+		return false
+	_reading_offer = false
+	if fortune.read_today():
+		message.emit(fortune.line("already"))
+		return false
+	pending_confirm = "fortune"
+	confirm_requested.emit("fortune", fortune.line("offer"))
+	return true
+
+
+func read_fortune() -> void:
+	var r := fortune.reading()
+	if r.is_empty():
+		message.emit(fortune.line("already" if fortune.read_today() else "shut"))
+		return
+	if bool(r.get("cant_afford", false)):
+		message.emit(content.text("fortune_cant_afford"))
+		return
+	fortune_read.emit(r)
+
+
+## The Social page: a sweetheart's row asks about just being friends.
+func ask_just_friends(person: String) -> void:
+	if not life.dating.has(person):
+		return
+	pending_confirm = "friends:" + person
+	confirm_requested.emit(pending_confirm, content.text("romance_friends_ask", {"name": shops.first_name(person)}))
+
+
+## X at the festival's spots: the activity, the stall or the supper table.
+func _interact_festival() -> bool:
+	var spot := festivals.spot_here(town_pos)
+	match spot:
+		"activity":
+			var a := festivals.activity()
+			if a.has("text"):
+				note_read.emit(str(a["text"]))
+			elif not a.is_empty():
+				choice_requested.emit(str(a["kind"]), str(a["title"]), a["options"])
+			return true
+		"stall":
+			list_requested.emit("fstall", content.text("fest_stall_title") + "  ·  %dg" % park.money.wallet, festivals.stall_options())
+			return true
+		"supper":
+			note_read.emit(festivals.supper())
+			return true
+	return false
+
+
+## The festival's activity answered: the judges, the wish, the winner, the
+## fire. A lantern's colour asks for the wish next.
+func answer_festival(kind: String, option: String) -> void:
+	var text := festivals.choose(kind, option)
+	if text != "":
+		note_read.emit(text)
+	if kind == "fest:colour":
+		var a := festivals.activity()
+		if a.has("kind"):
+			choice_requested.emit(str(a["kind"]), str(a["title"]), a["options"])
+
+
+# --- 4b debug tools (also used by the tests) -------------------------------------------
+
+func debug_set_hearts(person: String, hearts: int) -> void:
+	town.met[person] = true
+	town.friendship[person] = mini(hearts * tuning.integer("friendship.points_per_heart"), town.cap(person))
+
+
+func debug_play_event(id: String) -> void:
+	if content.has("spoiler_heart_events", id):
+		var who := str(life.row(id)["person"])
+		if town.hearts(who) < int(life.row(id)["hearts"]):
+			debug_set_hearts(who, int(life.row(id)["hearts"]))
+		life.start(id)
+
+
+func debug_start_festival(id: String) -> void:
+	var r := festivals.row(id)
+	clock.season = int(r["season"])
+	clock.day = int(r["day"])
+	clock.set_minute(int(r["start"]))
+	town_open = true
+	if not in_town:
+		enter_town()
+	if town_inside != "":
+		leave_town_room()
+	festivals.attended.erase("%s:%d" % [id, clock.year])
+	var c: Array = r["center"]
+	town_pos = Vector2(float(c[0]) + 0.5, float(c[1]) + 0.5)
+	festivals.update()
+
+
+func debug_finish_upgrade() -> void:
+	if home.building == "":
+		for u: Dictionary in home.upgrades_in_order():
+			if not home.has(str(u["id"])):
+				home.building = str(u["id"])
+				break
+	home.finish_now()
+	_after_home()
+
+
+## Puts a townsperson where their routine has them now, without the walk.
+func debug_person_to_routine(person: String) -> void:
+	if not town.people.has(person):
+		town.place_everyone()
+	var at := town.routine_place(person)
+	var t: Vector2i = town.places.get(at, town.places["square_green"])
+	town.people[person] = {"pos": Vector2(t) + Vector2(0.5, 0.5), "path": [], "facing": FACING_DOWN, "goal": at}
+
+
+func debug_grow_crops() -> void:
+	garden.grow_all()
+
+
+func debug_set_weekday(day: String) -> void:
+	var want := Town.DAYS.find(day)
+	while want >= 0 and town.weekday() != day:
+		clock.start_next_day()

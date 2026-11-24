@@ -1,0 +1,149 @@
+{
+ "note": "Phase 4b: the garden's crops (Phase 4 Spec, The garden). days are watered days to ripen; regrow is the watered days between pickings (0: picked once).",
+ "rows": [
+  {
+   "id": "peas",
+   "season": "spring",
+   "days": 6,
+   "regrow": 3,
+   "tall": true,
+   "item": "peas",
+   "seed": "seeds_peas",
+   "stages": [
+    "crop_peas_0",
+    "crop_peas_1",
+    "crop_peas_2",
+    "crop_peas_3"
+   ],
+   "regrow_sprite": "crop_peas_regrow"
+  },
+  {
+   "id": "radish",
+   "season": "spring",
+   "days": 4,
+   "regrow": 0,
+   "tall": false,
+   "item": "radish",
+   "seed": "seeds_radish",
+   "stages": [
+    "crop_radish_0",
+    "crop_radish_1",
+    "crop_radish_2",
+    "crop_radish_3"
+   ],
+   "regrow_sprite": ""
+  },
+  {
+   "id": "rhubarb",
+   "season": "spring",
+   "days": 8,
+   "regrow": 0,
+   "tall": false,
+   "item": "rhubarb",
+   "seed": "seeds_rhubarb",
+   "stages": [
+    "crop_rhubarb_0",
+    "crop_rhubarb_1",
+    "crop_rhubarb_2",
+    "crop_rhubarb_3"
+   ],
+   "regrow_sprite": ""
+  },
+  {
+   "id": "tomato",
+   "season": "summer",
+   "days": 8,
+   "regrow": 3,
+   "tall": true,
+   "item": "tomato",
+   "seed": "seeds_tomato",
+   "stages": [
+    "crop_tomato_0",
+    "crop_tomato_1",
+    "crop_tomato_2",
+    "crop_tomato_3"
+   ],
+   "regrow_sprite": "crop_tomato_regrow"
+  },
+  {
+   "id": "beans",
+   "season": "summer",
+   "days": 7,
+   "regrow": 3,
+   "tall": true,
+   "item": "beans",
+   "seed": "seeds_beans",
+   "stages": [
+    "crop_beans_0",
+    "crop_beans_1",
+    "crop_beans_2",
+    "crop_beans_3"
+   ],
+   "regrow_sprite": "crop_beans_regrow"
+  },
+  {
+   "id": "corn",
+   "season": "summer",
+   "days": 10,
+   "regrow": 0,
+   "tall": true,
+   "item": "corn",
+   "seed": "seeds_corn",
+   "stages": [
+    "crop_corn_0",
+    "crop_corn_1",
+    "crop_corn_2",
+    "crop_corn_3"
+   ],
+   "regrow_sprite": ""
+  },
+  {
+   "id": "pumpkin",
+   "season": "autumn",
+   "days": 10,
+   "regrow": 0,
+   "tall": false,
+   "item": "pumpkin",
+   "seed": "seeds_pumpkin",
+   "stages": [
+    "crop_pumpkin_0",
+    "crop_pumpkin_1",
+    "crop_pumpkin_2",
+    "crop_pumpkin_3"
+   ],
+   "regrow_sprite": ""
+  },
+  {
+   "id": "squash",
+   "season": "autumn",
+   "days": 7,
+   "regrow": 0,
+   "tall": false,
+   "item": "squash",
+   "seed": "seeds_squash",
+   "stages": [
+    "crop_squash_0",
+    "crop_squash_1",
+    "crop_squash_2",
+    "crop_squash_3"
+   ],
+   "regrow_sprite": ""
+  },
+  {
+   "id": "kale",
+   "season": "autumn",
+   "days": 5,
+   "regrow": 0,
+   "tall": false,
+   "item": "kale",
+   "seed": "seeds_kale",
+   "stages": [
+    "crop_kale_0",
+    "crop_kale_1",
+    "crop_kale_2",
+    "crop_kale_3"
+   ],
+   "regrow_sprite": ""
+  }
+ ]
+}

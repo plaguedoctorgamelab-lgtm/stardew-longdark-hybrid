@@ -637,6 +637,771 @@
    "kind": "keepsake",
    "stack": 1,
    "icon": "decor_pip_drawing"
+  },
+  {
+   "id": "deco_rocking_chair",
+   "name": "item_deco_rocking_chair",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "deco_rocking_chair",
+   "_4b": "4b"
+  },
+  {
+   "id": "deco_bench_carved",
+   "name": "item_deco_bench_carved",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "deco_bench_carved",
+   "_4b": "4b"
+  },
+  {
+   "id": "deco_stool",
+   "name": "item_deco_stool",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "deco_stool",
+   "_4b": "4b"
+  },
+  {
+   "id": "deco_loveseat",
+   "name": "item_deco_loveseat",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "deco_loveseat",
+   "_4b": "4b"
+  },
+  {
+   "id": "int_armchair",
+   "name": "item_int_armchair",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "int_armchair",
+   "_4b": "4b"
+  },
+  {
+   "id": "deco_coffee_table",
+   "name": "item_deco_coffee_table",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "deco_coffee_table",
+   "_4b": "4b"
+  },
+  {
+   "id": "deco_writing_desk",
+   "name": "item_deco_writing_desk",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "deco_writing_desk",
+   "_4b": "4b"
+  },
+  {
+   "id": "deco_plant_stand",
+   "name": "item_deco_plant_stand",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "deco_plant_stand",
+   "_4b": "4b"
+  },
+  {
+   "id": "int_cafe_table",
+   "name": "item_int_cafe_table",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "int_cafe_table",
+   "_4b": "4b"
+  },
+  {
+   "id": "deco_bookshelf_low",
+   "name": "item_deco_bookshelf_low",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "deco_bookshelf_low",
+   "_4b": "4b"
+  },
+  {
+   "id": "deco_trunk",
+   "name": "item_deco_trunk",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "deco_trunk",
+   "_4b": "4b"
+  },
+  {
+   "id": "deco_coat_tree",
+   "name": "item_deco_coat_tree",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "deco_coat_tree",
+   "_4b": "4b"
+  },
+  {
+   "id": "deco_cabinet_glass",
+   "name": "item_deco_cabinet_glass",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "deco_cabinet_glass",
+   "_4b": "4b"
+  },
+  {
+   "id": "int_bookcase",
+   "name": "item_int_bookcase",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "int_bookcase",
+   "_4b": "4b"
+  },
+  {
+   "id": "deco_floor_lamp",
+   "name": "item_deco_floor_lamp",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "deco_floor_lamp",
+   "_4b": "4b"
+  },
+  {
+   "id": "deco_table_lamp",
+   "name": "item_deco_table_lamp",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "deco_table_lamp",
+   "_4b": "4b"
+  },
+  {
+   "id": "deco_lantern_hanging",
+   "name": "item_deco_lantern_hanging",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "deco_lantern_hanging",
+   "_4b": "4b"
+  },
+  {
+   "id": "deco_candles",
+   "name": "item_deco_candles",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "deco_candles",
+   "_4b": "4b"
+  },
+  {
+   "id": "int_reading_lamp",
+   "name": "item_int_reading_lamp",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "int_reading_lamp",
+   "_4b": "4b"
+  },
+  {
+   "id": "deco_fern",
+   "name": "item_deco_fern",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "deco_fern",
+   "_4b": "4b"
+  },
+  {
+   "id": "deco_cactus",
+   "name": "item_deco_cactus",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "deco_cactus",
+   "_4b": "4b"
+  },
+  {
+   "id": "deco_monstera",
+   "name": "item_deco_monstera",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "deco_monstera",
+   "_4b": "4b"
+  },
+  {
+   "id": "deco_herb_pots",
+   "name": "item_deco_herb_pots",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "deco_herb_pots",
+   "_4b": "4b"
+  },
+  {
+   "id": "int_plant_flowering",
+   "name": "item_int_plant_flowering",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "int_plant_flowering",
+   "_4b": "4b"
+  },
+  {
+   "id": "int_plant_small",
+   "name": "item_int_plant_small",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "int_plant_small",
+   "_4b": "4b"
+  },
+  {
+   "id": "int_plant_tall",
+   "name": "item_int_plant_tall",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "int_plant_tall",
+   "_4b": "4b"
+  },
+  {
+   "id": "deco_antlers",
+   "name": "item_deco_antlers",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "deco_antlers",
+   "_4b": "4b"
+  },
+  {
+   "id": "deco_park_map",
+   "name": "item_deco_park_map",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "deco_park_map",
+   "_4b": "4b"
+  },
+  {
+   "id": "deco_pennants",
+   "name": "item_deco_pennants",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "deco_pennants",
+   "_4b": "4b"
+  },
+  {
+   "id": "deco_clock",
+   "name": "item_deco_clock",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "deco_clock",
+   "_4b": "4b"
+  },
+  {
+   "id": "deco_mirror",
+   "name": "item_deco_mirror",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "deco_mirror",
+   "_4b": "4b"
+  },
+  {
+   "id": "deco_snowshoes",
+   "name": "item_deco_snowshoes",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "deco_snowshoes",
+   "_4b": "4b"
+  },
+  {
+   "id": "interior_picture_bird",
+   "name": "item_interior_picture_bird",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "interior_picture_bird",
+   "_4b": "4b"
+  },
+  {
+   "id": "interior_picture_canoe",
+   "name": "item_interior_picture_canoe",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "interior_picture_canoe",
+   "_4b": "4b"
+  },
+  {
+   "id": "interior_picture_mountain",
+   "name": "item_interior_picture_mountain",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "interior_picture_mountain",
+   "_4b": "4b"
+  },
+  {
+   "id": "interior_picture_pine",
+   "name": "item_interior_picture_pine",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "interior_picture_pine",
+   "_4b": "4b"
+  },
+  {
+   "id": "deco_radio",
+   "name": "item_deco_radio",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "deco_radio",
+   "_4b": "4b"
+  },
+  {
+   "id": "deco_globe",
+   "name": "item_deco_globe",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "deco_globe",
+   "_4b": "4b"
+  },
+  {
+   "id": "deco_teapot",
+   "name": "item_deco_teapot",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "deco_teapot",
+   "_4b": "4b"
+  },
+  {
+   "id": "deco_binoculars",
+   "name": "item_deco_binoculars",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "deco_binoculars",
+   "_4b": "4b"
+  },
+  {
+   "id": "deco_pinecone_bowl",
+   "name": "item_deco_pinecone_bowl",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "deco_pinecone_bowl",
+   "_4b": "4b"
+  },
+  {
+   "id": "interior_rug",
+   "name": "item_interior_rug",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "interior_rug",
+   "_4b": "4b"
+  },
+  {
+   "id": "interior_rug_large",
+   "name": "item_interior_rug_large",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "interior_rug_large",
+   "_4b": "4b"
+  },
+  {
+   "id": "interior_rug_round",
+   "name": "item_interior_rug_round",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "interior_rug_round",
+   "_4b": "4b"
+  },
+  {
+   "id": "interior_rug_runner",
+   "name": "item_interior_rug_runner",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "interior_rug_runner",
+   "_4b": "4b"
+  },
+  {
+   "id": "decor_ribbon_thaw",
+   "name": "item_decor_ribbon_thaw",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "decor_ribbon_thaw",
+   "_4b": "4b"
+  },
+  {
+   "id": "decor_paper_lantern",
+   "name": "item_decor_paper_lantern",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "decor_paper_lantern",
+   "_4b": "4b"
+  },
+  {
+   "id": "decor_blanket",
+   "name": "item_decor_blanket",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "decor_blanket",
+   "_4b": "4b"
+  },
+  {
+   "id": "ranger_painting",
+   "name": "item_ranger_painting",
+   "kind": "keepsake",
+   "stack": 1,
+   "icon": "decor_pond_painting",
+   "art_wanted": "decor_ranger_painting",
+   "_4b": "4b"
+  },
+  {
+   "id": "carved_figure",
+   "name": "item_carved_figure",
+   "kind": "keepsake",
+   "stack": 1,
+   "icon": "deco_pinecone_bowl",
+   "art_wanted": "decor_carved_figure",
+   "_4b": "4b"
+  },
+  {
+   "id": "gus_shelf",
+   "name": "item_gus_shelf",
+   "kind": "keepsake",
+   "stack": 1,
+   "icon": "deco_bookshelf_low",
+   "art_wanted": "decor_gus_shelf",
+   "_4b": "4b"
+  },
+  {
+   "id": "pip_bigfoot_drawing",
+   "name": "item_pip_bigfoot_drawing",
+   "kind": "keepsake",
+   "stack": 1,
+   "icon": "decor_pip_drawing",
+   "art_wanted": "decor_pip_bigfoot_drawing",
+   "_4b": "4b"
+  },
+  {
+   "id": "wallpaper_planks",
+   "name": "item_wallpaper_planks",
+   "kind": "wallpaper",
+   "stack": 1,
+   "icon": "interior_wall_planks",
+   "_4b": "4b"
+  },
+  {
+   "id": "wallpaper_brick",
+   "name": "item_wallpaper_brick",
+   "kind": "wallpaper",
+   "stack": 1,
+   "icon": "interior_wall_brick",
+   "_4b": "4b"
+  },
+  {
+   "id": "wallpaper_paper",
+   "name": "item_wallpaper_paper",
+   "kind": "wallpaper",
+   "stack": 1,
+   "icon": "interior_wall_paper",
+   "_4b": "4b"
+  },
+  {
+   "id": "wallpaper_stripes",
+   "name": "item_wallpaper_stripes",
+   "kind": "wallpaper",
+   "stack": 1,
+   "icon": "interior_wall_stripes",
+   "_4b": "4b"
+  },
+  {
+   "id": "wallpaper_pines",
+   "name": "item_wallpaper_pines",
+   "kind": "wallpaper",
+   "stack": 1,
+   "icon": "interior_wall_pines",
+   "_4b": "4b"
+  },
+  {
+   "id": "wallpaper_logs",
+   "name": "item_wallpaper_logs",
+   "kind": "wallpaper",
+   "stack": 1,
+   "icon": "interior_wall_logs",
+   "_4b": "4b"
+  },
+  {
+   "id": "flooring_warm",
+   "name": "item_flooring_warm",
+   "kind": "flooring",
+   "stack": 1,
+   "icon": "interior_boards_warm",
+   "_4b": "4b"
+  },
+  {
+   "id": "flooring_checker",
+   "name": "item_flooring_checker",
+   "kind": "flooring",
+   "stack": 1,
+   "icon": "interior_tiles_checker",
+   "_4b": "4b"
+  },
+  {
+   "id": "flooring_slate",
+   "name": "item_flooring_slate",
+   "kind": "flooring",
+   "stack": 1,
+   "icon": "interior_floor_slate",
+   "_4b": "4b"
+  },
+  {
+   "id": "flooring_herringbone",
+   "name": "item_flooring_herringbone",
+   "kind": "flooring",
+   "stack": 1,
+   "icon": "interior_floor_herringbone",
+   "_4b": "4b"
+  },
+  {
+   "id": "flooring_rag_rug",
+   "name": "item_flooring_rag_rug",
+   "kind": "flooring",
+   "stack": 1,
+   "icon": "interior_floor_rag_rug",
+   "_4b": "4b"
+  },
+  {
+   "id": "flooring_plain",
+   "name": "item_flooring_plain",
+   "kind": "flooring",
+   "stack": 1,
+   "icon": "interior_floor",
+   "_4b": "4b"
+  },
+  {
+   "id": "peas",
+   "name": "item_peas",
+   "kind": "crop",
+   "stack": 20,
+   "icon": "item_peas",
+   "sell": 8,
+   "_4b": "4b"
+  },
+  {
+   "id": "seeds_peas",
+   "name": "item_seeds_peas",
+   "kind": "seed",
+   "stack": 30,
+   "icon": "item_seeds_peas",
+   "_4b": "4b"
+  },
+  {
+   "id": "radish",
+   "name": "item_radish",
+   "kind": "crop",
+   "stack": 20,
+   "icon": "item_radish",
+   "sell": 14,
+   "_4b": "4b"
+  },
+  {
+   "id": "seeds_radish",
+   "name": "item_seeds_radish",
+   "kind": "seed",
+   "stack": 30,
+   "icon": "item_seeds_radish",
+   "_4b": "4b"
+  },
+  {
+   "id": "rhubarb",
+   "name": "item_rhubarb",
+   "kind": "crop",
+   "stack": 20,
+   "icon": "item_rhubarb",
+   "sell": 34,
+   "_4b": "4b"
+  },
+  {
+   "id": "seeds_rhubarb",
+   "name": "item_seeds_rhubarb",
+   "kind": "seed",
+   "stack": 30,
+   "icon": "item_seeds_rhubarb",
+   "_4b": "4b"
+  },
+  {
+   "id": "tomato",
+   "name": "item_tomato",
+   "kind": "crop",
+   "stack": 20,
+   "icon": "item_tomato",
+   "sell": 16,
+   "_4b": "4b"
+  },
+  {
+   "id": "seeds_tomato",
+   "name": "item_seeds_tomato",
+   "kind": "seed",
+   "stack": 30,
+   "icon": "item_seeds_tomato",
+   "_4b": "4b"
+  },
+  {
+   "id": "beans",
+   "name": "item_beans",
+   "kind": "crop",
+   "stack": 20,
+   "icon": "item_beans",
+   "sell": 10,
+   "_4b": "4b"
+  },
+  {
+   "id": "seeds_beans",
+   "name": "item_seeds_beans",
+   "kind": "seed",
+   "stack": 30,
+   "icon": "item_seeds_beans",
+   "_4b": "4b"
+  },
+  {
+   "id": "corn",
+   "name": "item_corn",
+   "kind": "crop",
+   "stack": 20,
+   "icon": "item_corn",
+   "sell": 32,
+   "_4b": "4b"
+  },
+  {
+   "id": "seeds_corn",
+   "name": "item_seeds_corn",
+   "kind": "seed",
+   "stack": 30,
+   "icon": "item_seeds_corn",
+   "_4b": "4b"
+  },
+  {
+   "id": "pumpkin",
+   "name": "item_pumpkin",
+   "kind": "crop",
+   "stack": 20,
+   "icon": "item_pumpkin",
+   "sell": 64,
+   "_4b": "4b"
+  },
+  {
+   "id": "seeds_pumpkin",
+   "name": "item_seeds_pumpkin",
+   "kind": "seed",
+   "stack": 30,
+   "icon": "item_seeds_pumpkin",
+   "_4b": "4b"
+  },
+  {
+   "id": "squash",
+   "name": "item_squash",
+   "kind": "crop",
+   "stack": 20,
+   "icon": "item_squash",
+   "sell": 28,
+   "_4b": "4b"
+  },
+  {
+   "id": "seeds_squash",
+   "name": "item_seeds_squash",
+   "kind": "seed",
+   "stack": 30,
+   "icon": "item_seeds_squash",
+   "_4b": "4b"
+  },
+  {
+   "id": "kale",
+   "name": "item_kale",
+   "kind": "crop",
+   "stack": 20,
+   "icon": "item_kale",
+   "sell": 18,
+   "_4b": "4b"
+  },
+  {
+   "id": "seeds_kale",
+   "name": "item_seeds_kale",
+   "kind": "seed",
+   "stack": 30,
+   "icon": "item_seeds_kale",
+   "_4b": "4b"
+  },
+  {
+   "id": "watering_can",
+   "name": "item_watering_can",
+   "kind": "tool",
+   "stack": 1,
+   "icon": "item_watering_can",
+   "_4b": "4b"
+  },
+  {
+   "id": "tomato_soup",
+   "name": "item_tomato_soup",
+   "kind": "food",
+   "stack": 10,
+   "icon": "item_tomato_soup",
+   "sell": 30,
+   "_4b": "4b"
+  },
+  {
+   "id": "pumpkin_pie",
+   "name": "item_pumpkin_pie",
+   "kind": "food",
+   "stack": 10,
+   "icon": "item_pumpkin_pie",
+   "sell": 30,
+   "_4b": "4b"
+  },
+  {
+   "id": "garden_salad",
+   "name": "item_garden_salad",
+   "kind": "food",
+   "stack": 10,
+   "icon": "item_garden_salad",
+   "sell": 30,
+   "_4b": "4b"
+  },
+  {
+   "id": "bouquet",
+   "name": "item_bouquet",
+   "kind": "romance",
+   "stack": 1,
+   "icon": "item_bouquet",
+   "_4b": "4b"
+  },
+  {
+   "id": "ranger_mug",
+   "name": "item_ranger_mug",
+   "kind": "keepsake",
+   "stack": 1,
+   "icon": "item_coffee",
+   "art_wanted": "item_ranger_mug",
+   "_4b": "4b"
+  },
+  {
+   "id": "teo_song",
+   "name": "item_teo_song",
+   "kind": "keepsake",
+   "stack": 1,
+   "icon": "item_song_notebook",
+   "art_wanted": "item_teo_song",
+   "_4b": "4b"
+  },
+  {
+   "id": "town_key",
+   "name": "item_town_key",
+   "kind": "keepsake",
+   "stack": 1,
+   "icon": "item_letter",
+   "art_wanted": "item_town_key",
+   "_4b": "4b"
+  },
+  {
+   "id": "esme_card",
+   "name": "item_esme_card",
+   "kind": "keepsake",
+   "stack": 1,
+   "icon": "fortune_card_back",
+   "art_wanted": "item_esme_card",
+   "_4b": "4b"
+  },
+  {
+   "id": "judges_sash",
+   "name": "item_judges_sash",
+   "kind": "keepsake",
+   "stack": 1,
+   "icon": "item_judges_sash",
+   "_4b": "4b"
+  },
+  {
+   "id": "marge_coat",
+   "name": "item_marge_coat",
+   "kind": "clothing",
+   "stack": 1,
+   "icon": "item_wool_coat",
+   "art_wanted": "item_marge_coat",
+   "_4b": "4b"
   }
  ],
  "note": "Everything that goes in the backpack. family: a tool and its refitted versions share one family, and anything that needs the tool takes any of them. refit: the magical ingredient a refitted tool holds. placeable: put on the faced tile (needs_tool: the tool it needs, \"\" for none; on: trail or open ground; map_when_revealed: shown on the map once that ground is revealed; lays: laid as that ground, on the grounds in tuning trail.boardwalk_on). kit: set up inside a building."

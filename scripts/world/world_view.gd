@@ -15,6 +15,7 @@ var edge_layer: TileMapLayer
 var sort_root: Node2D
 var object_layer: TileMapLayer
 var building_sprites: Dictionary = {}   # structure id -> Sprite2D
+var garden_view: GardenView
 var loaded: Dictionary = {}   # Vector2i chunk -> true
 var _ground_source: Dictionary = {}   # ground name -> source id
 var _edge_source: Dictionary = {}     # ground name -> source id (4x4 atlas of masks)
@@ -82,6 +83,10 @@ func setup(s: GameSession, ranger_node: Node2D) -> void:
 		building_sprites[st["id"]] = spr
 	refresh_buildings()
 	session.structures.changed.connect(func(_id: String) -> void: refresh_buildings())
+	# The garden behind the station (Phase 4b).
+	garden_view = GardenView.new()
+	add_child(garden_view)
+	garden_view.setup(session, sort_root)
 	if ranger_node.get_parent():
 		ranger_node.reparent(sort_root)
 	else:
@@ -189,9 +194,26 @@ func refresh_buildings() -> void:
 	for id: String in building_sprites:
 		var row := session.content.row("structures", id)
 		var art_name: String = row["sprite_repaired"] if session.structures.is_open(id) else row["sprite"]
+		if id == Home.STATION:
+			art_name = session.home.station_sprite()
 		var spr: Sprite2D = building_sprites[id]
 		spr.texture = Art.texture(art_name)
 		spr.offset = Vector2(-spr.texture.get_width() / 2.0, -spr.texture.get_height())
+		# The station's second room is added on the right: its door stays put.
+		if id == Home.STATION:
+			var fw := float(session.world.structure_placement(id)["size"][0]) * TILE
+			spr.offset.x = -fw / 2.0
+			# Scaffolding while Gus's crew is at work (Art Request 23).
+			var sc := spr.get_node_or_null("Scaffold") as Sprite2D
+			if sc == null and Art.has_picture("building_station_scaffold"):
+				sc = Sprite2D.new()
+				sc.name = "Scaffold"
+				sc.centered = false
+				sc.texture = Art.texture("building_station_scaffold")
+				spr.add_child(sc)
+			if sc != null:
+				sc.offset = Vector2(-fw / 2.0, -sc.texture.get_height())
+				sc.visible = session.home.building != ""
 
 
 func _build_tileset() -> TileSet:

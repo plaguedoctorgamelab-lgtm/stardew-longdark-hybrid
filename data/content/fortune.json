@@ -1,0 +1,116 @@
+{
+ "note": "Phase 4b: Esme Vale's readings (Phase 4 Spec, The fortune teller). One line per card; the Sky is chosen by the weather two days ahead.",
+ "rows": [
+  {
+   "id": "intro",
+   "text": "Esme shuffles three times, taps the deck twice, and lays out three cards."
+  },
+  {
+   "id": "intro_free",
+   "text": "\"Nothing much left to tell you, ranger. Sit anyway. No charge.\""
+  },
+  {
+   "id": "sky_clear",
+   "card": "sky",
+   "weather": "clear",
+   "text": "The Sky. Two days from now: blue all day. Wear a hat."
+  },
+  {
+   "id": "sky_cloudy",
+   "card": "sky",
+   "weather": "cloudy",
+   "text": "The Sky. Two days from now: grey, and in no hurry about it."
+  },
+  {
+   "id": "sky_rain",
+   "card": "sky",
+   "weather": "rain",
+   "text": "The Sky. Two days from now: rain. The kind that finds the gap in your collar."
+  },
+  {
+   "id": "sky_storm",
+   "card": "sky",
+   "weather": "storm",
+   "text": "The Sky. Two days from now: a storm. Stay where the roof is."
+  },
+  {
+   "id": "sky_fog",
+   "card": "sky",
+   "weather": "fog",
+   "text": "The Sky. Two days from now: fog. The trees will keep their secrets."
+  },
+  {
+   "id": "sky_snow",
+   "card": "sky",
+   "weather": "snow",
+   "text": "The Sky. Two days from now: snow. Quiet, and lots of it."
+  },
+  {
+   "id": "sky_wind",
+   "card": "sky",
+   "weather": "wind",
+   "text": "The Sky. Two days from now: wind. Hold on to your map."
+  },
+  {
+   "id": "sky_other",
+   "card": "sky",
+   "text": "The Sky. Two days from now: {weather}. The sky told me plainly."
+  },
+  {
+   "id": "path_landmark",
+   "card": "path",
+   "text": "The Path. Something waits that you haven't found. I've drawn where to look, roughly. Roughly, ranger."
+  },
+  {
+   "id": "path_find",
+   "card": "path",
+   "text": "The Path. Something small and old, off the trail. Look inside the circle, and look down."
+  },
+  {
+   "id": "path_job",
+   "card": "path",
+   "text": "The Path. Something wants doing that you've only half noticed. It's in the circle."
+  },
+  {
+   "id": "path_none",
+   "card": "path",
+   "text": "The Path. Blank, for once. You've found everything that's ready to be found. Well done."
+  },
+  {
+   "id": "heart_love",
+   "card": "heart",
+   "text": "The Heart. A gift for {name}: {item}. Their eyes would light up. Don't say I told you."
+  },
+  {
+   "id": "heart_birthday",
+   "card": "heart",
+   "text": "The Heart. {name} has a birthday coming: {when}. Cake is traditional. So are gifts."
+  },
+  {
+   "id": "heart_where",
+   "card": "heart",
+   "text": "The Heart. Tomorrow at {time}, {name} will be at {place}. Or so the card says, and it's never wrong."
+  },
+  {
+   "id": "heart_none",
+   "card": "heart",
+   "text": "The Heart. It shows you, smiling. You'll meet more people soon."
+  },
+  {
+   "id": "paid",
+   "text": "That's 10g, ranger. Pay on your way out."
+  },
+  {
+   "id": "already",
+   "text": "\"One reading a day, ranger. The cards get tired.\""
+  },
+  {
+   "id": "shut",
+   "text": "The caravan's curtains are drawn. Esme reads from six till late."
+  },
+  {
+   "id": "offer",
+   "text": "\"A reading? 10g. Three cards: the sky, the path, the heart.\""
+  }
+ ]
+}

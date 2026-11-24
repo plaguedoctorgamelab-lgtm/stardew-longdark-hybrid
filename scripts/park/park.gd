@@ -886,6 +886,9 @@ func expected_visitors() -> float:
 	n *= float((tuning.value("visitors.weather_multiplier") as Dictionary).get(s().weather.today[0], 1.0))
 	if last_week_mood >= 0.0:
 		n *= 1.0 + (last_week_mood - 0.5) * tuning.num("visitors.mood_effect")
+	# Phase 4b: festival weekends bring twice the visitors, the week before more.
+	if s().festivals != null:
+		n *= s().festivals.visitor_mult()
 	return n
 
 

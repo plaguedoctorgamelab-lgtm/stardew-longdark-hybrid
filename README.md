@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.7.11** (see [Version history](#version-history)). The
+**Current version: 0.7.12** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -32,7 +32,7 @@ Needs Godot 4.7.2 stable (the lab's build uses
 | --- | --- |
 | W A S D | Walk (eight directions) |
 | Right-click or X | Interact: doors, bed, radio, shelf, chest, stove, workbench, landmarks; pick forage, berries and rose hips from bushes, resin from pines; a lit stove or camp fire opens cooking. In town: talk to someone, the notice board, a shop's door (in during its hours), a shop's counter (talk, buy, sell), the library's shelves. In the park: the catalog desk and staff board in the station, the kiosk's gift shelf and the suggestion box at the gate, cleaning a bathroom, emptying a trash can, picking up litter, shooing a troll badger, finding a lost party, the rent sign by the old cabin's door |
-| Left-click or C | Use the held item: hammer (repairs; builds a kit at its pad; takes down a facility or picks up a bench, trash can, picnic table or fire ring), map (survey), food, firewood (also lights a fire ring), shovel (dig; fills a badger's hole), signs, markers, cairns, boardwalk, workbench kit, and puts down a bench, trash can, picnic table or fire ring |
+| Left-click or C | Use the held item: hammer (repairs; builds a kit at its pad; takes down a facility or picks up a bench, trash can, picnic table or fire ring), map (survey), food, firewood (also lights a fire ring), shovel (dig; fills a badger's hole), signs, markers, cairns, boardwalk, workbench kit, and puts down a bench, trash can, picnic table or fire ring. In the station: sets furniture down or hangs it, puts up wallpaper and floors, and with an empty hand picks a piece up or lifts the bed, chest or workbench to move it. In the garden: seeds, the watering can and the shovel. In town: gives the held thing, or the bouquet |
 | 1 to 9, 0 or mouse wheel | Choose the held item from the item bar (the first 10 backpack slots, numbered) |
 | E | Backpack (and closes screens) |
 | Escape | Closes the open screen; with none open, the pause menu (resume, quit to title, quit game) |
@@ -119,6 +119,48 @@ phase is finished; the last number counts every build and runs on past 9
 | 0.10.x | Phase 7, Year one polish |
 | 0.11.x to 0.14.x | Phases 8 to 11, one region each |
 | 1.0.0 | every phase done |
+
+### 0.7.12 (23 November 2026): Phase 4b, a life there
+
+The rest of Phase 4: heart events and romance, the fortune teller, the four festivals, the station as a home, and the garden. The building of Phase 4 is now done; next is the 4b play test. Status note: `docs/status/0712_status.md`. Screenshots: `docs/status/0712_shots/`. The next art request: `docs/art/art_request_23_life_there.md`.
+
+- **Heart events** (`scripts/town/heart_events.gd`, `HeartEvents`; scripts in `data/content/spoiler_heart_events.json`).
+  - 52 short scenes from the spoiler addendum's outlines.
+  - Each starts when the ranger walks into its place in its hours with the hearts, after the person's earlier ones. It plays once and can't be missed for good.
+  - **ScenePlayer** (`scripts/ui/scene_player.gd`) plays them in whichever view the ranger is in: people walk, turn, show an emote bubble (Art Request 21's `emote_*`), speak in the talk box with their portrait, pause and ask for choices.
+- **Romance.**
+  - A 200g bouquet (Gifts & Notions), given with C at 8 hearts, starts dating Wren, Teo, Nell or Sol. Dating lifts the cap to 10 hearts and opens their 10-heart event and their own lines.
+  - Sweethearts sometimes leave a gift in the station's mailbox.
+  - Click a sweetheart on the People page for "just friends"; the hearts stay. Marge, the mayor and Rosa notice two at once.
+  - Pip is never part of it: a test checks, and lists Pip's lines and events.
+- **Esme's readings** (`scripts/town/fortune.gd`, `FortuneScreen`).
+  - At her caravan from 6 pm, 10g, once a day, on her velvet cloth.
+  - **The Sky** is the weather two days ahead, worked out the way the weather will really draw it, so it's always right.
+  - **The Path** draws a big circle (`map_fortune_path`) round an unmapped landmark or a find, never past the river.
+  - **The Heart** gives a loved gift, a birthday within the week, or where someone will be tomorrow.
+  - Free when there's nothing left to tell.
+- **Festivals** (`scripts/town/festivals.gd`; layouts and stalls in `data/content/festivals.json`).
+  - The square is dressed all day, with Art Request 21's pieces.
+  - Walking in during the hours starts the festival: everyone at their spot, a festival line each, and the clock stops until you walk out. Then it jumps to the end time.
+  - The Grand Display, the Lantern Walk, the Big Foot look-alike contest (suits and all) with the supper, and the Long Night's bonfire with one of five stories from Agnes, a new one each year, into the notebook.
+  - Prizes go to the station. The stall's stock changes in even years. Park visitors double on a festival weekend and rise the week before.
+- **The station** (`scripts/game/home.gd`, `Home`).
+  - Gus takes orders for **Shipshape** (warmer inside, `building_station_shipshape`), **a proper kitchen** (a cooking range that cooks without a fire, and a 24-slot pantry for food) and **a second room** (the room grows to 21 tiles wide with a window and a reading chair; outside, `building_station_two_rooms`, and the mailbox moves along).
+  - Three days each, in order.
+- **Decorating.**
+  - 45 pieces sold, 3 prizes, 6 keepsakes, 6 wallpapers and 6 floors (`data/content/furniture.json`). Hold one and press C: floor pieces stand in front of the ranger, pictures hang on the back wall, and rugs lie under things.
+  - A faint outline shows green or red first. C with an empty hand picks a piece up, or lifts the bed, chest, workbench or kitchen to move them (never out of the station).
+  - Nothing may block the way from the door to anything used (`Home.way_problem`).
+- **The garden** (`scripts/game/garden.gd`, `GardenView`).
+  - A fenced 6 x 6 plot behind the station. The shovel digs, seeds go in by hand (nine, sold in season at the outfitters), and the watering can or the rain waters.
+  - Crops grow on watered days only, never die, wither at the season's turn and rest under snow in winter. Three regrow.
+  - The first harvests teach tomato soup, pumpkin pie and garden salad. Crops sell at Gifts & Notions and make good gifts.
+- **Debug (F1).** Set hearts, put someone where their routine has them, play a heart event (only with "show spoilers"), start a festival, finish an upgrade, grow the garden a day, set the weekday.
+- **Fixes.**
+  - Rain and snow no longer fall inside the town's shops and houses.
+  - Money in the new text reads in gold.
+- Mark's Part B art that had only been cut is now copied into `art/placeholder/` too, so every picture the game names exists.
+- **Tests.** `tests/test_heart_events_4b.gd` and `tests/test_life_4b.gd`, 34 in all. Three older tests were updated: festival weekends count in the visitor check, the library's archive book, and Marge's coat, which is a gift and not sold.
 
 ### 0.7.11 (23 November 2026): Mark's gear wall art
 

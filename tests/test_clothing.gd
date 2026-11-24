@@ -76,7 +76,7 @@ func test_clothes_are_sold_and_saved(t: TestCase) -> void:
 	for it: Dictionary in s.content.row("shops", "outfitters")["sells"]:
 		sold[str(it["item"])] = int(it["price"])
 	for r: Dictionary in s.content.rows("clothing"):
-		if not bool(r.get("start", false)):
+		if not bool(r.get("start", false)) and not bool(r.get("gift", false)):
 			t.equal(sold.get(str(r["id"]), -1), int(r["price"]), "the outfitters sells %s for %d" % [r["id"], r["price"]])
 	t.check(sold.has("bedroll_big"), "and the big bedroll")
 	s.backpack.add("insulated_boots", 1)

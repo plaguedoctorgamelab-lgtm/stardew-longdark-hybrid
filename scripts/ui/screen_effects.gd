@@ -105,7 +105,7 @@ static func _c(a: Variant) -> Color:
 ## weather during the warning hour.
 func current_tint() -> Color:
 	var t := session.tuning
-	if session.is_indoors():
+	if (session.is_indoors() or session.in_town_room()):
 		if Daylight.is_night(t, session.clock.season_name(), session.clock.minute):
 			return _c(t.value("light.indoor_night_tint"))
 		return Color.WHITE
@@ -119,7 +119,7 @@ func current_tint() -> Color:
 
 
 func visibility_tiles() -> float:
-	if session.is_indoors():
+	if (session.is_indoors() or session.in_town_room()):
 		return 0.0
 	return float(session.weather_row().get("visibility_tiles", 0))
 
@@ -133,9 +133,9 @@ func _process(delta: float) -> void:
 	tm.set_shader_parameter("tint", last_tint)
 	tm.set_shader_parameter("lamp", _c(t.value("light.lantern_tint")))
 	tm.set_shader_parameter("center", ranger_screen)
-	var lantern := session.lantern_lit() and not session.is_indoors()
+	var lantern := session.lantern_lit() and not (session.is_indoors() or session.in_town_room())
 	tm.set_shader_parameter("radius", session.lantern_radius() * 16.0 if lantern else 0.0)
-	var fire_on := session.campfire_lit() and not session.is_indoors()
+	var fire_on := session.campfire_lit() and not (session.is_indoors() or session.in_town_room())
 	tm.set_shader_parameter("center2", fire_screen)
 	tm.set_shader_parameter("radius2", t.num("camp.fire_light_tiles") * 16.0 * (0.95 + 0.05 * sin(Time.get_ticks_msec() / 90.0)) if fire_on else 0.0)
 	var gl: Array[Vector4] = []
@@ -151,10 +151,10 @@ func _process(delta: float) -> void:
 	fm.set_shader_parameter("center", ranger_screen)
 	fm.set_shader_parameter("radius", last_visibility_px)
 	fm.set_shader_parameter("strength", 1.0 if vis > 0.0 else 0.0)
-	var wid: String = "" if session.is_indoors() else session.current_weather()
+	var wid: String = "" if (session.is_indoors() or session.in_town_room()) else session.current_weather()
 	fm.set_shader_parameter("fog", Color(0.93, 0.95, 1.0) if wid == "blizzard" else Color(0.8, 0.82, 0.84))
-	_effect = "none" if session.is_indoors() else str(session.weather_row().get("effect", "none"))
-	_wind = 0.0 if session.is_indoors() else session.weather.warning_amount(session.clock.minute)
+	_effect = "none" if (session.is_indoors() or session.in_town_room()) else str(session.weather_row().get("effect", "none"))
+	_wind = 0.0 if (session.is_indoors() or session.in_town_room()) else session.weather.warning_amount(session.clock.minute)
 	_move_drops(delta)
 	streaks.queue_redraw()
 

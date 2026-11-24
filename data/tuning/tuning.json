@@ -173,8 +173,19 @@
       "tree_oak",
       "tree_dead"
     ],
-    "firewood_extra": {"note": "More firewood from some trees: the burn's dead trees are dry and seasoned (tracker #31).", "tree_dead": 1},
-    "keep": {"note": "Trees never felled: the dead tree that marks the fork (layout dead_tree), in the first ring's tiles.", "ring_one_tiles": [[243, 96]]}
+    "firewood_extra": {
+      "note": "More firewood from some trees: the burn's dead trees are dry and seasoned (tracker #31).",
+      "tree_dead": 1
+    },
+    "keep": {
+      "note": "Trees never felled: the dead tree that marks the fork (layout dead_tree), in the first ring's tiles.",
+      "ring_one_tiles": [
+        [
+          243,
+          96
+        ]
+      ]
+    }
   },
   "clearing": {
     "reach_tiles": 1.6,
@@ -245,13 +256,100 @@
       "chips": 6,
       "chip_seconds": 0.45,
       "chip_colors": {
-        "fell": [[157, 102, 62], [199, 144, 95], [56, 142, 76]],
-        "tree": [[157, 102, 62], [56, 142, 76]],
-        "trunk": [[157, 102, 62], [199, 144, 95]],
-        "brush": [[56, 142, 76], [97, 187, 97], [93, 62, 48]],
-        "dirt": [[93, 62, 48], [182, 162, 110]],
-        "stone": [[149, 157, 170], [85, 96, 114]],
-        "hammer": [[199, 144, 95], [157, 102, 62]]
+        "fell": [
+          [
+            157,
+            102,
+            62
+          ],
+          [
+            199,
+            144,
+            95
+          ],
+          [
+            56,
+            142,
+            76
+          ]
+        ],
+        "tree": [
+          [
+            157,
+            102,
+            62
+          ],
+          [
+            56,
+            142,
+            76
+          ]
+        ],
+        "trunk": [
+          [
+            157,
+            102,
+            62
+          ],
+          [
+            199,
+            144,
+            95
+          ]
+        ],
+        "brush": [
+          [
+            56,
+            142,
+            76
+          ],
+          [
+            97,
+            187,
+            97
+          ],
+          [
+            93,
+            62,
+            48
+          ]
+        ],
+        "dirt": [
+          [
+            93,
+            62,
+            48
+          ],
+          [
+            182,
+            162,
+            110
+          ]
+        ],
+        "stone": [
+          [
+            149,
+            157,
+            170
+          ],
+          [
+            85,
+            96,
+            114
+          ]
+        ],
+        "hammer": [
+          [
+            199,
+            144,
+            95
+          ],
+          [
+            157,
+            102,
+            62
+          ]
+        ]
       },
       "ghost_step_seconds": 0.05,
       "fall_steps": 3,
@@ -262,17 +360,67 @@
     },
     "job_marks": {
       "note": "The small arrows over brush, trunks and branches an active job still wants cleared (tracker #26).",
-      "color": [250, 214, 70],
+      "color": [
+        250,
+        214,
+        70
+      ],
       "size_px": 6,
       "lift_px": 5,
       "bob_px": 1.5,
       "bob_speed": 4.0
     },
-    "weather_overlay_color": [246, 236, 208],
+    "weather_overlay_color": [
+      246,
+      236,
+      208
+    ],
     "weather_overlay": {
-      "fog": {"strength": 0.45, "layers": [[3.0, 0.5, 1.0], [-1.5, 0.25, 0.6]]},
-      "snow": {"strength": 0.25, "layers": [[2.0, 6.0, 1.0], [-1.0, 3.0, 0.5]]},
-      "blizzard": {"strength": 0.4, "layers": [[10.0, 8.0, 1.0], [5.0, 4.0, 0.6]]}
+      "fog": {
+        "strength": 0.45,
+        "layers": [
+          [
+            3.0,
+            0.5,
+            1.0
+          ],
+          [
+            -1.5,
+            0.25,
+            0.6
+          ]
+        ]
+      },
+      "snow": {
+        "strength": 0.25,
+        "layers": [
+          [
+            2.0,
+            6.0,
+            1.0
+          ],
+          [
+            -1.0,
+            3.0,
+            0.5
+          ]
+        ]
+      },
+      "blizzard": {
+        "strength": 0.4,
+        "layers": [
+          [
+            10.0,
+            8.0,
+            1.0
+          ],
+          [
+            5.0,
+            4.0,
+            0.6
+          ]
+        ]
+      }
     },
     "water": {
       "note": "Water's look (Mark's water picture, 21 Nov 2026, used for the feel only): open water sways its ripple marks and catches small glints; where it meets land a wet-sand rim and a foam line run along the shore and lap in and out.",
@@ -564,11 +712,26 @@
   "town": {
     "note": "Phase 4, Humdrum (4a first pass).",
     "walk_tiles_per_second": 2.2,
-    "rain_weathers": ["rain", "storm"],
-    "giftable_kinds": ["food", "fuel", "material", "placeable", "magic", "gift", "park_thing"],
+    "rain_weathers": [
+      "rain",
+      "storm"
+    ],
+    "giftable_kinds": [
+      "crop",
+      "food",
+      "fuel",
+      "gift",
+      "magic",
+      "material",
+      "park_thing",
+      "placeable"
+    ],
     "talk_reach_tiles": 1.6,
     "door_reach_tiles": 1.4,
-    "gate_offset": [3.5, 0.5],
+    "gate_offset": [
+      3.5,
+      0.5
+    ],
     "opens_when": "job_done:station_shipshape or day_at_least:4",
     "visit_from": 480,
     "visit_until": 1260
@@ -578,16 +741,45 @@
     "points_per_heart": 250,
     "max_hearts": 10,
     "talk_points": 20,
-    "gift_points": {"love": 80, "like": 45, "neutral": 20, "dislike": -20, "hate": -40},
+    "gift_points": {
+      "love": 80,
+      "like": 45,
+      "neutral": 20,
+      "dislike": -20,
+      "hate": -40
+    },
     "birthday_multiplier": 8,
     "gifts_per_week": 2,
     "daily_decay": 0
   },
   "romance": {
-    "note": "Phase 4 Spec; dating comes in 4b.",
+    "note": "Phase 4 Spec, Romance (4b).",
     "hearts_before_dating": 8,
     "hearts_dating": 10,
-    "bouquet_price": 200
+    "bouquet_price": 200,
+    "mailbox_gift_chance": 0.25,
+    "gifts": {
+      "wren": [
+        "muffin",
+        "coffee",
+        "berry_preserve"
+      ],
+      "teo": [
+        "tamales",
+        "churros",
+        "song_notebook"
+      ],
+      "nell": [
+        "trail_mix",
+        "hazelnuts",
+        "painted_stone"
+      ],
+      "sol": [
+        "pressed_flower_card",
+        "painted_stone",
+        "pine_resin_candle"
+      ]
+    }
   },
   "shops": {
     "note": "Phase 4, step 5 (Phase 4 Spec, Shops and services and New tuning values).",
@@ -599,32 +791,341 @@
   "town_look": {
     "note": "Humdrum's ground: each code's pictures and how often each shows, and the edge sets laid where one ground meets another (Mark's Art Request 19, 22 Nov 2026). Codes: l lawn, d dark lawn, c cobbles, g gravel, p the square's paving, f flower bed, b boards, s shallow water, w deep water.",
     "ground": {
-      "l": {"pictures": ["town_grass_0", "town_grass_1", "town_grass_2", "town_grass_3"], "weights": [6, 2, 1, 1]},
-      "d": {"pictures": ["town_lawn_dark_0", "town_lawn_dark_1", "town_lawn_dark_2", "town_lawn_dark_3", "town_lawn_dark_4", "town_lawn_dark_5", "town_lawn_dark_6", "town_lawn_dark_7", "town_lawn_dark_8"], "weights": [1, 1, 1, 1, 1, 1, 1, 1, 1]},
-      "c": {"pictures": ["town_edge_cobbles_c", "town_edge_cobbles_c1", "town_edge_cobbles_c2", "town_edge_cobbles_c3"], "weights": [3, 2, 2, 2]},
-      "g": {"pictures": ["town_edge_gravel_c", "town_edge_gravel_c1", "town_edge_gravel_c2", "town_edge_gravel_c3"], "weights": [3, 2, 2, 2]},
-      "p": {"pictures": ["town_paving_0", "town_paving_1", "town_paving_2", "town_paving_3", "town_paving_4", "town_paving_5", "town_paving_6", "town_paving_7", "town_paving_8", "town_paving_crack"], "weights": [3, 3, 3, 3, 3, 3, 3, 3, 3, 1]},
-      "f": {"pictures": ["town_edge_bed_c", "town_edge_bed_c1", "town_edge_bed_c2", "town_edge_bed_c3"], "weights": [1, 1, 1, 1]},
-      "b": {"pictures": ["town_boards"], "weights": [1]},
-      "s": {"pictures": ["town_shallows_0", "town_shallows_1", "town_shallows_2", "town_shallows_3", "town_shallows_4", "town_shallows_5", "town_shallows_6", "town_shallows_7", "town_shallows_8"], "weights": [1, 1, 1, 1, 1, 1, 1, 1, 1]},
-      "w": {"pictures": ["town_water_0", "town_water_1", "town_water_2", "town_water_3", "town_water_4", "town_water_5", "town_water_6", "town_water_7", "town_water_8", "town_water_9", "town_water_10", "town_water_11", "town_water_12", "town_water_13", "town_water_14", "town_water_15", "town_water_16", "town_water_17"], "weights": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]}
+      "l": {
+        "pictures": [
+          "town_grass_0",
+          "town_grass_1",
+          "town_grass_2",
+          "town_grass_3"
+        ],
+        "weights": [
+          6,
+          2,
+          1,
+          1
+        ]
+      },
+      "d": {
+        "pictures": [
+          "town_lawn_dark_0",
+          "town_lawn_dark_1",
+          "town_lawn_dark_2",
+          "town_lawn_dark_3",
+          "town_lawn_dark_4",
+          "town_lawn_dark_5",
+          "town_lawn_dark_6",
+          "town_lawn_dark_7",
+          "town_lawn_dark_8"
+        ],
+        "weights": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "c": {
+        "pictures": [
+          "town_edge_cobbles_c",
+          "town_edge_cobbles_c1",
+          "town_edge_cobbles_c2",
+          "town_edge_cobbles_c3"
+        ],
+        "weights": [
+          3,
+          2,
+          2,
+          2
+        ]
+      },
+      "g": {
+        "pictures": [
+          "town_edge_gravel_c",
+          "town_edge_gravel_c1",
+          "town_edge_gravel_c2",
+          "town_edge_gravel_c3"
+        ],
+        "weights": [
+          3,
+          2,
+          2,
+          2
+        ]
+      },
+      "p": {
+        "pictures": [
+          "town_paving_0",
+          "town_paving_1",
+          "town_paving_2",
+          "town_paving_3",
+          "town_paving_4",
+          "town_paving_5",
+          "town_paving_6",
+          "town_paving_7",
+          "town_paving_8",
+          "town_paving_crack"
+        ],
+        "weights": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          1
+        ]
+      },
+      "f": {
+        "pictures": [
+          "town_edge_bed_c",
+          "town_edge_bed_c1",
+          "town_edge_bed_c2",
+          "town_edge_bed_c3"
+        ],
+        "weights": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "b": {
+        "pictures": [
+          "town_boards"
+        ],
+        "weights": [
+          1
+        ]
+      },
+      "s": {
+        "pictures": [
+          "town_shallows_0",
+          "town_shallows_1",
+          "town_shallows_2",
+          "town_shallows_3",
+          "town_shallows_4",
+          "town_shallows_5",
+          "town_shallows_6",
+          "town_shallows_7",
+          "town_shallows_8"
+        ],
+        "weights": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "w": {
+        "pictures": [
+          "town_water_0",
+          "town_water_1",
+          "town_water_2",
+          "town_water_3",
+          "town_water_4",
+          "town_water_5",
+          "town_water_6",
+          "town_water_7",
+          "town_water_8",
+          "town_water_9",
+          "town_water_10",
+          "town_water_11",
+          "town_water_12",
+          "town_water_13",
+          "town_water_14",
+          "town_water_15",
+          "town_water_16",
+          "town_water_17"
+        ],
+        "weights": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      }
     },
     "edges": {
       "note": "A tile of the code on the left takes its edge set's picture where a neighbour's code is in outside: nw/n/ne/w/e/sw/s/se for sides and corners, inw/ine/isw/ise where only a diagonal is outside.",
-      "c": {"set": "town_edge_cobbles", "outside": ["l", "d"]},
-      "g": {"set": "town_edge_gravel", "outside": ["l", "d"]},
-      "f": {"set": "town_edge_bed", "outside": ["l", "d", "c", "g"]},
-      "p": {"set": "town_edge_paving", "outside": ["c", "l"]},
-      "s": {"set": "town_edge_bank", "outside": ["l", "d", "c", "g"]},
-      "w": {"set": "town_edge_bank", "outside": ["l", "d", "c", "g"]}
+      "c": {
+        "set": "town_edge_cobbles",
+        "outside": [
+          "l",
+          "d"
+        ]
+      },
+      "g": {
+        "set": "town_edge_gravel",
+        "outside": [
+          "l",
+          "d"
+        ]
+      },
+      "f": {
+        "set": "town_edge_bed",
+        "outside": [
+          "l",
+          "d",
+          "c",
+          "g"
+        ]
+      },
+      "p": {
+        "set": "town_edge_paving",
+        "outside": [
+          "c",
+          "l"
+        ]
+      },
+      "s": {
+        "set": "town_edge_bank",
+        "outside": [
+          "l",
+          "d",
+          "c",
+          "g"
+        ]
+      },
+      "w": {
+        "set": "town_edge_bank",
+        "outside": [
+          "l",
+          "d",
+          "c",
+          "g"
+        ]
+      }
     },
-    "window_glass": {"note": "Window glass in the town's pictures: pale, bluer than red and green, as Art Request 19 asked. At night it glows this warm colour.", "min_light": 0.5, "min_blue_over_red": 0.1, "night": [1.0, 0.82, 0.42],
+    "window_glass": {
+      "note": "Window glass in the town's pictures: pale, bluer than red and green, as Art Request 19 asked. At night it glows this warm colour.",
+      "min_light": 0.5,
+      "min_blue_over_red": 0.1,
+      "night": [
+        1.0,
+        0.82,
+        0.42
+      ],
       "pictures": {
         "note": "Older pictures with dark glass: only bluish pixels inside the boxes [x, y, w, h] glow, between min_light and max_light.",
-        "town_percolator": {"boxes": [[24, 28, 18, 13], [6, 65, 28, 13], [40, 65, 9, 11]], "min_light": 0.1, "max_light": 0.5, "min_blue_over_red": 0.05},
-        "town_casa_luna": {"boxes": [[7, 40, 16, 17], [59, 40, 16, 17]], "min_light": 0.1, "max_light": 0.3, "min_blue_over_red": 0.05}
-      }},
+        "town_percolator": {
+          "boxes": [
+            [
+              24,
+              28,
+              18,
+              13
+            ],
+            [
+              6,
+              65,
+              28,
+              13
+            ],
+            [
+              40,
+              65,
+              9,
+              11
+            ]
+          ],
+          "min_light": 0.1,
+          "max_light": 0.5,
+          "min_blue_over_red": 0.05
+        },
+        "town_casa_luna": {
+          "boxes": [
+            [
+              7,
+              40,
+              16,
+              17
+            ],
+            [
+              59,
+              40,
+              16,
+              17
+            ]
+          ],
+          "min_light": 0.1,
+          "max_light": 0.3,
+          "min_blue_over_red": 0.05
+        }
+      }
+    },
     "lamp_glow_tiles": 3.0,
     "lamp_glow_strength": 0.9
+  },
+  "heart_events": {
+    "note": "Phase 4b: heart events. place_reach_tiles is how near an outdoor place counts as there.",
+    "place_reach_tiles": 6.0,
+    "park_reach_tiles": 5.0,
+    "outlook_reach_tiles": 9.0
+  },
+  "fortune": {
+    "note": "Phase 4 Spec, The fortune teller.",
+    "price": 10,
+    "path_radius_mult": 1.5,
+    "base_radius": 10.0,
+    "days_ahead": 2,
+    "heart_hour": 900
+  },
+  "festivals": {
+    "note": "Phase 4 Spec, Festivals.",
+    "visitor_mult_weekend": 2.0,
+    "visitor_mult_week_before": 1.3,
+    "bigfoot_points": 60,
+    "judge_points": 10,
+    "admired_score": 3,
+    "rival_score": 2.5
+  },
+  "home": {
+    "note": "Phase 4 Spec, Station upgrades and Decorating.",
+    "build_days": 3,
+    "pantry_slots": 24,
+    "reading_chair_energy": 40,
+    "reading_chair_minutes": 30
+  },
+  "garden": {
+    "note": "Phase 4 Spec, The garden. origin is the plot's top-left tile, from the station's top-left: behind (north of) it.",
+    "size": [
+      6,
+      6
+    ],
+    "offset": [
+      0,
+      -9
+    ],
+    "gate": [
+      6,
+      3
+    ]
   }
 }

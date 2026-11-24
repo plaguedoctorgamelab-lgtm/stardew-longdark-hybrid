@@ -1,0 +1,35 @@
+{
+ "note": "Phase 4b: the station's upgrades, ordered from Gus in order (Phase 4 Spec, Station upgrades). Three days to build.",
+ "rows": [
+  {
+   "id": "shipshape",
+   "order": 1,
+   "price": 500,
+   "materials": {
+    "planks": 50
+   },
+   "sprite": "building_station_shipshape",
+   "warmth": 5
+  },
+  {
+   "id": "kitchen",
+   "order": 2,
+   "price": 1500,
+   "materials": {
+    "planks": 100,
+    "window_glass": 10
+   }
+  },
+  {
+   "id": "second_room",
+   "order": 3,
+   "price": 4000,
+   "materials": {
+    "planks": 150,
+    "roofing": 20
+   },
+   "sprite": "building_station_two_rooms",
+   "extra_width": 8
+  }
+ ]
+}

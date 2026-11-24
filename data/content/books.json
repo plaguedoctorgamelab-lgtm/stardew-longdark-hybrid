@@ -89,6 +89,17 @@
     "The fair began as a way to use up a bandstand. It became the town's favourite day of the year.",
     "There are pies, a band of uncertain size, and a contest for the largest radish that nobody under eighty has ever won."
    ]
+  },
+  {
+   "id": "town_archive",
+   "title": "The town archive",
+   "needs": "archive",
+   "pages": [
+    "Minutes of the Humdrum Council, spring of the founding year: 'Resolved, that the bandstand be built where the station would have been, so that the town has somewhere to wait.'",
+    "A letter, undated: 'Dear Council, the lamps on Main Street are too bright and the moths are complaining. Yours, a resident.' Underneath, in another hand: 'Noted.'",
+    "A hand-drawn map of the park gate, with the road marked 'to the ranger' in pencil and a small star beside the station.",
+    "A list headed 'Things that have happened in Humdrum', in the mayor's handwriting. It is blank. At the bottom: 'Long may it stay so.'"
+   ]
   }
  ]
 }

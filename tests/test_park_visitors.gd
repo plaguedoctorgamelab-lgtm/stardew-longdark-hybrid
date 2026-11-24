@@ -125,6 +125,8 @@ func test_arrivals_follow_season_day_and_weather(t: TestCase) -> void:
 		if (s.tuning.value("visitors.busy_days") as Array).has(pk.week_day()):
 			want *= s.tuning.num("visitors.busy_multiplier")
 		want *= float((s.tuning.value("visitors.weather_multiplier") as Dictionary).get(w, 1.0))
+		# Phase 4b: festival weekends, and the week before, are busier.
+		want *= s.festivals.visitor_mult()
 		t.near(e, want, 0.0001, "day %d expected" % day)
 		pk._plan_arrivals()
 		var n := 0

@@ -23,6 +23,9 @@
     {"id": "tamales", "item": "tamales", "energy": 120, "warmth": 20},
     {"id": "pozole", "item": "pozole", "energy": 100, "warmth": 40},
     {"id": "enchiladas", "item": "enchiladas", "energy": 140, "warmth": 0},
-    {"id": "churros", "item": "churros", "energy": 30, "warmth": 0}
+    {"id": "churros", "item": "churros", "energy": 30, "warmth": 0},
+    {"id": "tomato_soup", "item": "tomato_soup", "energy": 120, "warmth": 60, "_4b": "4b"},
+    {"id": "pumpkin_pie", "item": "pumpkin_pie", "energy": 220, "warmth": 20, "_4b": "4b"},
+    {"id": "garden_salad", "item": "garden_salad", "energy": 90, "warmth": 0, "_4b": "4b"}
   ]
 }

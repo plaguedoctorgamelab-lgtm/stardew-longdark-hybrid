@@ -24,6 +24,11 @@ var _seasonal: Array = []        # [sprite, seasons it shows in]
 var _litable: Array = []         # [sprite, day picture, night picture]
 var _night: bool = false
 var _season: String = ""
+# Phase 4b: the festival's dressing in the square, all festival day.
+var _fest_id: String = ""
+var _fest_nodes: Array[Node2D] = []
+var _animated: Array = []        # [sprite, base picture name, frames]
+var _floats: Array = []          # [sprite, colour]
 
 
 func setup(s: GameSession) -> void:
@@ -234,9 +239,14 @@ func _process(delta: float) -> void:
 		return
 	_time += delta
 	_update_lights(false)
+	_update_festival()
 	for id: String in _people:
 		var node: Node2D = _people[id]
-		node.visible = town.shown(id)
+		# Someone in a heart event is drawn by the scene instead.
+		node.visible = town.shown(id) and not session.life.cast.has(id)
+		var suit := node.get_node_or_null("Suit")
+		if suit != null:
+			(suit as Node2D).visible = session.festivals.in_suit(id)
 		if not node.visible:
 			continue
 		var p: Dictionary = town.people[id]
@@ -244,8 +254,65 @@ func _process(delta: float) -> void:
 		var walking := not (p["path"] as Array).is_empty()
 		var frame := int(_time * 6.0) % 4 if walking else 0
 		for c: Node in node.get_children():
-			if c is Sprite2D:
+			if c is Sprite2D and (c as Sprite2D).hframes > 1:
 				(c as Sprite2D).frame = int(p["facing"]) * 4 + frame
+
+
+## The square dressed for today's festival: its tables, stalls, garlands and
+## fire, the floating lanterns on the creek at Lantern Night, and the Bigfoot
+## suits over the contestants at the Big Foot Supper.
+func _update_festival() -> void:
+	var f := session.festivals.today()
+	var id := str(f.get("id", ""))
+	if id != _fest_id:
+		_fest_id = id
+		for n: Node2D in _fest_nodes:
+			n.queue_free()
+		_fest_nodes.clear()
+		_animated.clear()
+		_floats.clear()
+		if id != "":
+			for d: Array in f.get("decor", []):
+				var art := str(d[0])
+				var frames := 0
+				while Art.has_picture("%s_%d" % [art, frames]):
+					frames += 1
+				var first := ("%s_0" % art) if frames > 0 else art
+				if not Art.has_picture(first):
+					continue
+				var spr := _stand(first, Vector2(float(d[1]) + 0.5, float(d[2]) + 1.0))
+				spr.z_index = 0
+				_fest_nodes.append(spr)
+				if frames > 1:
+					_animated.append([spr, art, frames])
+			var colours := ["red", "orange", "yellow", "green", "blue", "violet"]
+			var k := 0
+			for p: Array in f.get("floats", []):
+				var col: String = colours[k % colours.size()]
+				k += 1
+				var spr := _stand("fest_lantern_float_%s_0" % col, Vector2(float(p[0]) + 0.5, float(p[1]) + 1.0))
+				_fest_nodes.append(spr)
+				_floats.append([spr, col])
+			for who: Variant in f.get("contestants", []):
+				var node: Node2D = _people.get(str(who))
+				if node != null and node.get_node_or_null("Suit") == null and Art.has_picture("fest_bigfoot_suit"):
+					var suit := Sprite2D.new()
+					suit.name = "Suit"
+					suit.centered = false
+					suit.texture = Art.texture("fest_bigfoot_suit")
+					suit.hframes = 4
+					suit.vframes = 4
+					suit.offset = Vector2(-8, -30)
+					suit.visible = false
+					node.add_child(suit)
+	for a: Array in _animated:
+		(a[0] as Sprite2D).texture = Art.texture("%s_%d" % [a[1], int(_time * 6.0) % int(a[2])])
+	# The lanterns float only once the walk has begun, in the festival's hours.
+	var lit := session.festivals.on_now() or session.festivals.active != ""
+	for e: Array in _floats:
+		var spr: Sprite2D = e[0]
+		spr.visible = lit
+		spr.texture = Art.texture("fest_lantern_float_%s_%d" % [e[1], int(_time * 2.0 + spr.position.x) % 2])
 
 
 ## Night and season: lit pictures and glowing windows at night, seasonal

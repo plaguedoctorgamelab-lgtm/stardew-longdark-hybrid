@@ -104,6 +104,55 @@
     {
      "item": "bedroll_big",
      "price": 200
+    },
+    {
+     "item": "watering_can",
+     "price": 50
+    },
+    {
+     "item": "seeds_peas",
+     "price": 20,
+     "season": "spring"
+    },
+    {
+     "item": "seeds_radish",
+     "price": 10,
+     "season": "spring"
+    },
+    {
+     "item": "seeds_rhubarb",
+     "price": 30,
+     "season": "spring"
+    },
+    {
+     "item": "seeds_tomato",
+     "price": 25,
+     "season": "summer"
+    },
+    {
+     "item": "seeds_beans",
+     "price": 20,
+     "season": "summer"
+    },
+    {
+     "item": "seeds_corn",
+     "price": 30,
+     "season": "summer"
+    },
+    {
+     "item": "seeds_pumpkin",
+     "price": 40,
+     "season": "autumn"
+    },
+    {
+     "item": "seeds_squash",
+     "price": 25,
+     "season": "autumn"
+    },
+    {
+     "item": "seeds_kale",
+     "price": 15,
+     "season": "autumn"
     }
    ]
   },
@@ -117,6 +166,158 @@
     {
      "item": "pine_resin_candle",
      "price": 12
+    },
+    {
+     "item": "bouquet",
+     "price": 200
+    },
+    {
+     "item": "deco_floor_lamp",
+     "price": 90
+    },
+    {
+     "item": "deco_table_lamp",
+     "price": 45
+    },
+    {
+     "item": "deco_lantern_hanging",
+     "price": 60
+    },
+    {
+     "item": "deco_candles",
+     "price": 20
+    },
+    {
+     "item": "int_reading_lamp",
+     "price": 70
+    },
+    {
+     "item": "deco_fern",
+     "price": 35
+    },
+    {
+     "item": "deco_cactus",
+     "price": 20
+    },
+    {
+     "item": "deco_monstera",
+     "price": 80
+    },
+    {
+     "item": "deco_herb_pots",
+     "price": 40
+    },
+    {
+     "item": "int_plant_flowering",
+     "price": 45
+    },
+    {
+     "item": "int_plant_small",
+     "price": 20
+    },
+    {
+     "item": "int_plant_tall",
+     "price": 60
+    },
+    {
+     "item": "deco_antlers",
+     "price": 90
+    },
+    {
+     "item": "deco_park_map",
+     "price": 70
+    },
+    {
+     "item": "deco_pennants",
+     "price": 30
+    },
+    {
+     "item": "deco_clock",
+     "price": 50
+    },
+    {
+     "item": "deco_mirror",
+     "price": 60
+    },
+    {
+     "item": "deco_snowshoes",
+     "price": 80
+    },
+    {
+     "item": "interior_picture_bird",
+     "price": 40
+    },
+    {
+     "item": "interior_picture_canoe",
+     "price": 40
+    },
+    {
+     "item": "interior_picture_mountain",
+     "price": 40
+    },
+    {
+     "item": "interior_picture_pine",
+     "price": 40
+    },
+    {
+     "item": "deco_radio",
+     "price": 60
+    },
+    {
+     "item": "deco_globe",
+     "price": 55
+    },
+    {
+     "item": "deco_teapot",
+     "price": 25
+    },
+    {
+     "item": "deco_binoculars",
+     "price": 45
+    },
+    {
+     "item": "deco_pinecone_bowl",
+     "price": 15
+    },
+    {
+     "item": "interior_rug",
+     "price": 60
+    },
+    {
+     "item": "interior_rug_large",
+     "price": 120
+    },
+    {
+     "item": "interior_rug_round",
+     "price": 80
+    },
+    {
+     "item": "interior_rug_runner",
+     "price": 70
+    },
+    {
+     "item": "wallpaper_planks",
+     "price": 80
+    },
+    {
+     "item": "wallpaper_brick",
+     "price": 100
+    },
+    {
+     "item": "wallpaper_paper",
+     "price": 90
+    },
+    {
+     "item": "wallpaper_stripes",
+     "price": 90
+    },
+    {
+     "item": "wallpaper_pines",
+     "price": 110
+    },
+    {
+     "item": "wallpaper_logs",
+     "price": 120
     }
    ],
    "buys": {
@@ -129,7 +330,8 @@
      "fiddleheads": 5,
      "wild_onion": 4,
      "reeds": 2
-    }
+    },
+    "crops": true
    }
   },
   {
@@ -148,8 +350,89 @@
      "item": "nails",
      "count": 10,
      "price": 15
+    },
+    {
+     "item": "deco_rocking_chair",
+     "price": 180
+    },
+    {
+     "item": "deco_bench_carved",
+     "price": 220
+    },
+    {
+     "item": "deco_stool",
+     "price": 40
+    },
+    {
+     "item": "deco_loveseat",
+     "price": 320
+    },
+    {
+     "item": "int_armchair",
+     "price": 240
+    },
+    {
+     "item": "deco_coffee_table",
+     "price": 120
+    },
+    {
+     "item": "deco_writing_desk",
+     "price": 260
+    },
+    {
+     "item": "deco_plant_stand",
+     "price": 50
+    },
+    {
+     "item": "int_cafe_table",
+     "price": 90
+    },
+    {
+     "item": "deco_bookshelf_low",
+     "price": 160
+    },
+    {
+     "item": "deco_trunk",
+     "price": 140
+    },
+    {
+     "item": "deco_coat_tree",
+     "price": 70
+    },
+    {
+     "item": "deco_cabinet_glass",
+     "price": 300
+    },
+    {
+     "item": "int_bookcase",
+     "price": 200
+    },
+    {
+     "item": "flooring_warm",
+     "price": 90
+    },
+    {
+     "item": "flooring_checker",
+     "price": 110
+    },
+    {
+     "item": "flooring_slate",
+     "price": 140
+    },
+    {
+     "item": "flooring_herringbone",
+     "price": 150
+    },
+    {
+     "item": "flooring_rag_rug",
+     "price": 100
+    },
+    {
+     "item": "flooring_plain",
+     "price": 60
     }
-   ]
+   ],
+   "upgrades": true
   },
   {
    "id": "library",

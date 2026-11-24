@@ -358,6 +358,50 @@
     "count": 1
    },
    "learned": "idea"
+  },
+  {
+   "id": "tomato_soup",
+   "name": "recipe_tomato_soup",
+   "station": "fire",
+   "inputs": {
+    "tomato": 2
+   },
+   "result": {
+    "item": "tomato_soup",
+    "count": 1
+   },
+   "learned": "garden",
+   "_4b": "4b"
+  },
+  {
+   "id": "pumpkin_pie",
+   "name": "recipe_pumpkin_pie",
+   "station": "fire",
+   "inputs": {
+    "pumpkin": 1,
+    "berries": 2
+   },
+   "result": {
+    "item": "pumpkin_pie",
+    "count": 1
+   },
+   "learned": "garden",
+   "_4b": "4b"
+  },
+  {
+   "id": "garden_salad",
+   "name": "recipe_garden_salad",
+   "station": "fire",
+   "inputs": {
+    "peas": 1,
+    "radish": 1
+   },
+   "result": {
+    "item": "garden_salad",
+    "count": 1
+   },
+   "learned": "garden",
+   "_4b": "4b"
   }
  ]
 }

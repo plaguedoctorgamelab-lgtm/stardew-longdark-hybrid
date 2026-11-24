@@ -227,17 +227,25 @@ func shown(person: String) -> bool:
 ## Sets everyone where their routine has them now: used on entering town and
 ## when time jumps (sleep, debug).
 func place_everyone() -> void:
+	var fest := session().festivals.active
 	for r: Dictionary in content.rows("townsfolk"):
 		var id := str(r["id"])
 		var at := routine_place(id)
 		var t: Vector2i = places.get(at, places["square_green"])
-		people[id] = {"pos": Vector2(t) + Vector2(0.5, 0.5), "path": [], "facing": GameSession.FACING_DOWN, "goal": at}
+		# At a festival everyone is in the square, at their spot.
+		if fest != "":
+			at = "festival"
+			t = session().festivals.spot_of(id)
+		people[id] = {"pos": Vector2(t) + Vector2(0.5, 0.5), "path": [], "facing": GameSession.FACING_UP if fest != "" else GameSession.FACING_DOWN, "goal": at}
 
 
 ## Walks everyone toward where their routine has them now.
 func update(delta: float) -> void:
 	if people.is_empty():
 		place_everyone()
+	# At a festival nobody walks off.
+	if session().festivals.active != "":
+		return
 	var speed := tuning.num("town.walk_tiles_per_second") * delta
 	for id: String in people:
 		var p: Dictionary = people[id]
@@ -312,6 +320,8 @@ func cap(person: String) -> int:
 	var per := tuning.integer("friendship.points_per_heart")
 	var r := content.row("townsfolk", person)
 	if bool(r.get("romance", false)):
+		if session().life != null and session().life.dating.has(person):
+			return per * tuning.integer("romance.hearts_dating")
 		return per * tuning.integer("romance.hearts_before_dating")
 	return per * tuning.integer("friendship.max_hearts")
 
@@ -358,6 +368,9 @@ func talk(person: String) -> Dictionary:
 	# Like Stardew: once spoken to today, a person keeps to today's line.
 	var line := {}
 	var kept: Array = today_line.get(person, [-1, ""])
+	# At a festival everyone has a festival line.
+	if s.festivals.active != "":
+		kept = [-1, ""]
 	if int(kept[0]) == day and not first:
 		line = _line_by_id(str(kept[1]))
 	if line.is_empty():
@@ -406,8 +419,14 @@ func choose_line(person: String, first: bool) -> Dictionary:
 	var top: Array = []
 	for r: Dictionary in pool:
 		var score := 0
-		if r.has("event"):
+		if r.has("festival"):
+			score = 5
+		elif r.has("notice_many"):
+			score = 4
+		elif r.has("event"):
 			score = 3
+		elif r.has("dating"):
+			score = 2
 		elif r.has("min_hearts"):
 			score = 2
 		elif r.has("season") or r.has("weather") or r.has("time"):
@@ -446,6 +465,14 @@ func line_fits(person: String, r: Dictionary) -> bool:
 		if part != str(r["time"]):
 			return false
 	if r.has("event") and not park_event(str(r["event"])):
+		return false
+	# Phase 4b: lines for a festival, for a sweetheart, and about having more
+	# than one.
+	if r.has("festival") and s.festivals.active != str(r["festival"]):
+		return false
+	if bool(r.get("dating", false)) and not s.life.dating.has(person):
+		return false
+	if bool(r.get("notice_many", false)) and s.life.dating.size() < 2:
 		return false
 	return true
 

@@ -7445,6 +7445,1711 @@
   {
    "id": "ui_gear_spare_none",
    "text": "Nothing spare yet. Town sells more."
+  },
+  {
+   "id": "item_deco_rocking_chair",
+   "text": "Rocking chair",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_deco_rocking_chair",
+   "text": "Creaks in a friendly way.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_deco_bench_carved",
+   "text": "Carved bench",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_deco_bench_carved",
+   "text": "Gus's pines run along the back.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_deco_stool",
+   "text": "Stool",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_deco_stool",
+   "text": "Three legs, never wobbles.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_deco_loveseat",
+   "text": "Loveseat",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_deco_loveseat",
+   "text": "Room for two and a cat.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_int_armchair",
+   "text": "Armchair",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_int_armchair",
+   "text": "Deep enough to lose a book in.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_deco_coffee_table",
+   "text": "Coffee table",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_deco_coffee_table",
+   "text": "For mugs and maps.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_deco_writing_desk",
+   "text": "Writing desk",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_deco_writing_desk",
+   "text": "Little drawers for little things.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_deco_plant_stand",
+   "text": "Plant stand",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_deco_plant_stand",
+   "text": "Lifts a plant toward the light.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_int_cafe_table",
+   "text": "Small round table",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_int_cafe_table",
+   "text": "Just the size for two cups.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_deco_bookshelf_low",
+   "text": "Low bookshelf",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_deco_bookshelf_low",
+   "text": "Field guides, mostly.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_deco_trunk",
+   "text": "Old trunk",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_deco_trunk",
+   "text": "Smells of cedar.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_deco_coat_tree",
+   "text": "Coat tree",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_deco_coat_tree",
+   "text": "Hats on top, scarves below.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_deco_cabinet_glass",
+   "text": "Glass cabinet",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_deco_cabinet_glass",
+   "text": "For the things worth looking at.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_int_bookcase",
+   "text": "Tall bookcase",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_int_bookcase",
+   "text": "Every shelf a different height.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_deco_floor_lamp",
+   "text": "Floor lamp",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_deco_floor_lamp",
+   "text": "A warm pool of light.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_deco_table_lamp",
+   "text": "Table lamp",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_deco_table_lamp",
+   "text": "Small, bright and cheerful.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_deco_lantern_hanging",
+   "text": "Hanging lantern",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_deco_lantern_hanging",
+   "text": "Hangs from a hook on the wall.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_deco_candles",
+   "text": "Candles",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_deco_candles",
+   "text": "Three of them, three heights.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_int_reading_lamp",
+   "text": "Reading lamp",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_int_reading_lamp",
+   "text": "Bends to wherever the page is.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_deco_fern",
+   "text": "Fern",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_deco_fern",
+   "text": "Likes the shade. Likes you.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_deco_cactus",
+   "text": "Cactus",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_deco_cactus",
+   "text": "Needs nothing. Asks for nothing.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_deco_monstera",
+   "text": "Big leafy plant",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_deco_monstera",
+   "text": "Takes over the corner, kindly.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_deco_herb_pots",
+   "text": "Herb pots",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_deco_herb_pots",
+   "text": "Mint, thyme and something Rosa named.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_int_plant_flowering",
+   "text": "Flowering plant",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_int_plant_flowering",
+   "text": "Blooms whatever the season.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_int_plant_small",
+   "text": "Little plant",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_int_plant_small",
+   "text": "A start.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_int_plant_tall",
+   "text": "Tall plant",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_int_plant_tall",
+   "text": "Reaching for the roof.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_deco_antlers",
+   "text": "Antlers",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_deco_antlers",
+   "text": "Found, not taken. Bev insists.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_deco_park_map",
+   "text": "Old park map",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_deco_park_map",
+   "text": "The trails as they were long ago.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_deco_pennants",
+   "text": "Pennants",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_deco_pennants",
+   "text": "Souvenirs of places nobody's been.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_deco_clock",
+   "text": "Wall clock",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_deco_clock",
+   "text": "Runs a little slow, like Humdrum.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_deco_mirror",
+   "text": "Mirror",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_deco_mirror",
+   "text": "Checks the hat before town.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_deco_snowshoes",
+   "text": "Snowshoes",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_deco_snowshoes",
+   "text": "Crossed on the wall, for winter.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_interior_picture_bird",
+   "text": "Bird picture",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_interior_picture_bird",
+   "text": "A heron, standing very still.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_interior_picture_canoe",
+   "text": "Canoe picture",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_interior_picture_canoe",
+   "text": "A red canoe on a flat lake.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_interior_picture_mountain",
+   "text": "Mountain picture",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_interior_picture_mountain",
+   "text": "A peak Marge won't name.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_interior_picture_pine",
+   "text": "Pine picture",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_interior_picture_pine",
+   "text": "One pine, very proud of itself.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_deco_radio",
+   "text": "Little radio",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_deco_radio",
+   "text": "Plays the Humdrum station: mostly weather.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_deco_globe",
+   "text": "Globe",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_deco_globe",
+   "text": "Humdrum isn't on it. Nor is the park.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_deco_teapot",
+   "text": "Teapot",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_deco_teapot",
+   "text": "Holds four cups and a secret.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_deco_binoculars",
+   "text": "Binoculars",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_deco_binoculars",
+   "text": "For the birds.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_deco_pinecone_bowl",
+   "text": "Bowl of pinecones",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_deco_pinecone_bowl",
+   "text": "The park, in a bowl.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_interior_rug",
+   "text": "Rag rug",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_interior_rug",
+   "text": "Warm under bare feet.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_interior_rug_large",
+   "text": "Big rug",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_interior_rug_large",
+   "text": "Makes a room feel like a room.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_interior_rug_round",
+   "text": "Round rug",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_interior_rug_round",
+   "text": "No corners to trip on.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_interior_rug_runner",
+   "text": "Runner",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_interior_rug_runner",
+   "text": "Long and narrow, for a hallway you don't have.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_decor_ribbon_thaw",
+   "text": "Thaw Fair ribbon",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_decor_ribbon_thaw",
+   "text": "Most Admired Entry. The mayor wrote it himself.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_decor_paper_lantern",
+   "text": "Paper lantern",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_decor_paper_lantern",
+   "text": "From Lantern Night, still glowing a little.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_decor_blanket",
+   "text": "Long Night blanket",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_decor_blanket",
+   "text": "Smells of woodsmoke and cocoa.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_ranger_painting",
+   "text": "Sol's painting of you",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_ranger_painting",
+   "text": "Your nose is enormous. Your hat is a triangle. It's perfect.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_carved_figure",
+   "text": "The carved figure",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_carved_figure",
+   "text": "Four legs, possibly six. Not any animal you know.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_gus_shelf",
+   "text": "Gus's shelf",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_gus_shelf",
+   "text": "Carved with little pines and sanded warm.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_pip_bigfoot_drawing",
+   "text": "Pip's drawing",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_pip_bigfoot_drawing",
+   "text": "You, very tall, beside a hairy, friendly someone.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_wallpaper_planks",
+   "text": "Plank walls",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_wallpaper_planks",
+   "text": "Covers the whole room. The old one comes back to you.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_wallpaper_brick",
+   "text": "Brick wallpaper",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_wallpaper_brick",
+   "text": "Covers the whole room. The old one comes back to you.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_wallpaper_paper",
+   "text": "Flowered wallpaper",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_wallpaper_paper",
+   "text": "Covers the whole room. The old one comes back to you.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_wallpaper_stripes",
+   "text": "Striped wallpaper",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_wallpaper_stripes",
+   "text": "Covers the whole room. The old one comes back to you.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_wallpaper_pines",
+   "text": "Pine-print wallpaper",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_wallpaper_pines",
+   "text": "Covers the whole room. The old one comes back to you.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_wallpaper_logs",
+   "text": "Log walls",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_wallpaper_logs",
+   "text": "Covers the whole room. The old one comes back to you.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_flooring_warm",
+   "text": "Warm boards",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_flooring_warm",
+   "text": "Covers the whole room. The old one comes back to you.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_flooring_checker",
+   "text": "Checker tiles",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_flooring_checker",
+   "text": "Covers the whole room. The old one comes back to you.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_flooring_slate",
+   "text": "Slate flagstones",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_flooring_slate",
+   "text": "Covers the whole room. The old one comes back to you.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_flooring_herringbone",
+   "text": "Herringbone oak",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_flooring_herringbone",
+   "text": "Covers the whole room. The old one comes back to you.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_flooring_rag_rug",
+   "text": "Wall-to-wall rag rug",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_flooring_rag_rug",
+   "text": "Covers the whole room. The old one comes back to you.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_flooring_plain",
+   "text": "Plain boards",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_flooring_plain",
+   "text": "Covers the whole room. The old one comes back to you.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_peas",
+   "text": "Peas",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_peas",
+   "text": "Sweet straight from the pod.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_seeds_peas",
+   "text": "Pea seeds",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_seeds_peas",
+   "text": "Plant in the garden in spring. Ready in 6 watered days, then again every 3.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_radish",
+   "text": "Radishes",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_radish",
+   "text": "Peppery and pink.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_seeds_radish",
+   "text": "Radish seeds",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_seeds_radish",
+   "text": "Plant in the garden in spring. Ready in 4 watered days.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_rhubarb",
+   "text": "Rhubarb",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_rhubarb",
+   "text": "Sour enough to make you blink.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_seeds_rhubarb",
+   "text": "Rhubarb crowns",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_seeds_rhubarb",
+   "text": "Plant in the garden in spring. Ready in 8 watered days.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_tomato",
+   "text": "Tomatoes",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_tomato",
+   "text": "Warm from the sun.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_seeds_tomato",
+   "text": "Tomato seeds",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_seeds_tomato",
+   "text": "Plant in the garden in summer. Ready in 8 watered days, then again every 3.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_beans",
+   "text": "Beans",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_beans",
+   "text": "Snap them in half: they snap back.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_seeds_beans",
+   "text": "Bean seeds",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_seeds_beans",
+   "text": "Plant in the garden in summer. Ready in 7 watered days, then again every 3.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_corn",
+   "text": "Sweetcorn",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_corn",
+   "text": "Each ear wrapped like a present.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_seeds_corn",
+   "text": "Sweetcorn seeds",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_seeds_corn",
+   "text": "Plant in the garden in summer. Ready in 10 watered days.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_pumpkin",
+   "text": "Pumpkin",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_pumpkin",
+   "text": "Heavier than it looks.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_seeds_pumpkin",
+   "text": "Pumpkin seeds",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_seeds_pumpkin",
+   "text": "Plant in the garden in autumn. Ready in 10 watered days.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_squash",
+   "text": "Squash",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_squash",
+   "text": "Nutty, sweet and very orange.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_seeds_squash",
+   "text": "Squash seeds",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_seeds_squash",
+   "text": "Plant in the garden in autumn. Ready in 7 watered days.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_kale",
+   "text": "Kale",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_kale",
+   "text": "Happier in the cold than you are.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_seeds_kale",
+   "text": "Kale seeds",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_seeds_kale",
+   "text": "Plant in the garden in autumn. Ready in 5 watered days.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_watering_can",
+   "text": "Watering can",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_watering_can",
+   "text": "Waters a garden tile. Rain does it for free.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_use_watering_can",
+   "text": "C on a garden tile",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_use_seeds_peas",
+   "text": "C on dug garden soil",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_use_seeds_radish",
+   "text": "C on dug garden soil",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_use_seeds_rhubarb",
+   "text": "C on dug garden soil",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_use_seeds_tomato",
+   "text": "C on dug garden soil",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_use_seeds_beans",
+   "text": "C on dug garden soil",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_use_seeds_corn",
+   "text": "C on dug garden soil",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_use_seeds_pumpkin",
+   "text": "C on dug garden soil",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_use_seeds_squash",
+   "text": "C on dug garden soil",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_use_seeds_kale",
+   "text": "C on dug garden soil",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_tomato_soup",
+   "text": "Tomato soup",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_tomato_soup",
+   "text": "Thick, red and warming.",
+   "_4b": "4b"
+  },
+  {
+   "id": "recipe_tomato_soup",
+   "text": "Tomato soup",
+   "_4b": "4b"
+  },
+  {
+   "id": "recipe_use_tomato_soup",
+   "text": "warm and filling, from your own tomatoes",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_pumpkin_pie",
+   "text": "Pumpkin pie",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_pumpkin_pie",
+   "text": "Spiced. Gone in minutes.",
+   "_4b": "4b"
+  },
+  {
+   "id": "recipe_pumpkin_pie",
+   "text": "Pumpkin pie",
+   "_4b": "4b"
+  },
+  {
+   "id": "recipe_use_pumpkin_pie",
+   "text": "a whole day's energy, from one pumpkin",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_garden_salad",
+   "text": "Garden salad",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_garden_salad",
+   "text": "Crunchy, green and smug.",
+   "_4b": "4b"
+  },
+  {
+   "id": "recipe_garden_salad",
+   "text": "Garden salad",
+   "_4b": "4b"
+  },
+  {
+   "id": "recipe_use_garden_salad",
+   "text": "a quick lunch from the spring garden",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_bouquet",
+   "text": "Bouquet",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_bouquet",
+   "text": "Wildflowers in brown paper. For someone at eight hearts, if you mean it.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_use_bouquet",
+   "text": "C to give it to someone special",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_ranger_mug",
+   "text": "The green mug",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_ranger_mug",
+   "text": "Heavy, chipped at the handle. Large black coffee.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_teo_song",
+   "text": "Teo's tune",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_teo_song",
+   "text": "Every note written down properly. It still doesn't end.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_town_key",
+   "text": "Key to the town",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_town_key",
+   "text": "Brass, on a ribbon. Opens nothing. Means everything.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_esme_card",
+   "text": "Esme's card",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_esme_card",
+   "text": "A lake under a sky full of small marks.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_judges_sash",
+   "text": "The judge's sash",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_judges_sash",
+   "text": "Big Foot Supper, Official Judge. Worn with pride.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_marge_coat",
+   "text": "Marge's coat",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_desc_marge_coat",
+   "text": "Very thick, very warm. One sleeve is slightly long.",
+   "_4b": "4b"
+  },
+  {
+   "id": "item_use_marge_coat",
+   "text": "+4 warmth outdoors",
+   "_4b": "4b"
+  },
+  {
+   "id": "home_shipshape",
+   "text": "Shipshape",
+   "_4b": "4b"
+  },
+  {
+   "id": "home_shipshape_desc",
+   "text": "The roof and shutters fixed; warmer inside",
+   "_4b": "4b"
+  },
+  {
+   "id": "home_kitchen",
+   "text": "A proper kitchen",
+   "_4b": "4b"
+  },
+  {
+   "id": "home_kitchen_desc",
+   "text": "A cooking range and a pantry",
+   "_4b": "4b"
+  },
+  {
+   "id": "home_second_room",
+   "text": "A second room",
+   "_4b": "4b"
+  },
+  {
+   "id": "home_second_room_desc",
+   "text": "Twice the room, a window and a reading chair",
+   "_4b": "4b"
+  },
+  {
+   "id": "home_order_line",
+   "text": "{name}: {desc}  ·  {price}g, {mats}",
+   "_4b": "4b"
+  },
+  {
+   "id": "home_order_done",
+   "text": "{name}: done",
+   "_4b": "4b"
+  },
+  {
+   "id": "home_order_building",
+   "text": "{name}: Gus's crew is on it ({days} days left)",
+   "_4b": "4b"
+  },
+  {
+   "id": "home_order_later",
+   "text": "{name}: after {before}",
+   "_4b": "4b"
+  },
+  {
+   "id": "home_menu",
+   "text": "Station upgrades",
+   "_4b": "4b"
+  },
+  {
+   "id": "home_ordered",
+   "text": "Gus nods. \"Three days.\" {name} is started.",
+   "_4b": "4b"
+  },
+  {
+   "id": "home_cant_afford",
+   "text": "That needs {price}g and {mats}. The planks can be in your backpack or the station chest.",
+   "_4b": "4b"
+  },
+  {
+   "id": "home_busy",
+   "text": "Gus's crew is still on the last one.",
+   "_4b": "4b"
+  },
+  {
+   "id": "home_finished",
+   "text": "Gus's crew has finished the station: {name}.",
+   "_4b": "4b"
+  },
+  {
+   "id": "home_still_sleep",
+   "text": "Gus's crew is working on the station. You can still sleep there.",
+   "_4b": "4b"
+  },
+  {
+   "id": "furn_range",
+   "text": "Cooking range",
+   "_4b": "4b"
+  },
+  {
+   "id": "furn_pantry",
+   "text": "Pantry",
+   "_4b": "4b"
+  },
+  {
+   "id": "furn_reading_chair",
+   "text": "Reading chair",
+   "_4b": "4b"
+  },
+  {
+   "id": "ui_pantry",
+   "text": "Pantry",
+   "_4b": "4b"
+  },
+  {
+   "id": "home_read_chair",
+   "text": "You sit in the reading chair a while. (+{n} energy)",
+   "_4b": "4b"
+  },
+  {
+   "id": "home_placed",
+   "text": "You put the {item} down.",
+   "_4b": "4b"
+  },
+  {
+   "id": "home_picked",
+   "text": "You pick up the {item}.",
+   "_4b": "4b"
+  },
+  {
+   "id": "home_cant_place",
+   "text": "That won't fit there.",
+   "_4b": "4b"
+  },
+  {
+   "id": "home_blocks",
+   "text": "That would block the way to the {what}.",
+   "_4b": "4b"
+  },
+  {
+   "id": "home_wall_only",
+   "text": "That goes on the wall: face the back wall to hang it.",
+   "_4b": "4b"
+  },
+  {
+   "id": "home_floor_only",
+   "text": "That goes on the floor.",
+   "_4b": "4b"
+  },
+  {
+   "id": "home_only_station",
+   "text": "Decorating is for the station. Take it home.",
+   "_4b": "4b"
+  },
+  {
+   "id": "home_carrying",
+   "text": "You lift the {item}. C to set it down somewhere else.",
+   "_4b": "4b"
+  },
+  {
+   "id": "home_carry_first",
+   "text": "Set the {item} down first.",
+   "_4b": "4b"
+  },
+  {
+   "id": "home_no_room",
+   "text": "No room in the backpack to pick that up.",
+   "_4b": "4b"
+  },
+  {
+   "id": "home_surface",
+   "text": "You put up the {item}.",
+   "_4b": "4b"
+  },
+  {
+   "id": "home_fixed",
+   "text": "The {item} can be moved, but it stays in the station.",
+   "_4b": "4b"
+  },
+  {
+   "id": "home_way_door",
+   "text": "door",
+   "_4b": "4b"
+  },
+  {
+   "id": "fest_start",
+   "text": "{name}! The whole town is here. Time stands still while you stay.",
+   "_4b": "4b"
+  },
+  {
+   "id": "fest_end",
+   "text": "You leave {name}. It's {time}.",
+   "_4b": "4b"
+  },
+  {
+   "id": "fest_stall_title",
+   "text": "The festival stall",
+   "_4b": "4b"
+  },
+  {
+   "id": "fest_today",
+   "text": "Today: {name}, {from} to {to}, in the square.",
+   "_4b": "4b"
+  },
+  {
+   "id": "fest_soon",
+   "text": "{name} is {when}.",
+   "_4b": "4b"
+  },
+  {
+   "id": "fest_tomorrow",
+   "text": "tomorrow",
+   "_4b": "4b"
+  },
+  {
+   "id": "fest_in_days",
+   "text": "in {n} days",
+   "_4b": "4b"
+  },
+  {
+   "id": "fest_thaw_title",
+   "text": "The Grand Display: choose your entry",
+   "_4b": "4b"
+  },
+  {
+   "id": "fest_thaw_nothing",
+   "text": "Nothing to enter: bring something you made, grew or found.",
+   "_4b": "4b"
+  },
+  {
+   "id": "fest_thaw_rival",
+   "text": "Gus's entry, a birdhouse shaped exactly like the town hall, gets a long round of applause.",
+   "_4b": "4b"
+  },
+  {
+   "id": "fest_thaw_win",
+   "text": "Mayor Pruitt clears his throat. \"Most Admired Entry: the ranger's {item}!\" You win the ribbon and 100g.",
+   "_4b": "4b"
+  },
+  {
+   "id": "fest_thaw_lose",
+   "text": "\"Most Admired Entry: Gus's birdhouse!\" The judges shake your hand anyway, and mean it.",
+   "_4b": "4b"
+  },
+  {
+   "id": "fest_thaw_done",
+   "text": "Your entry is already on the table, with a little card in front of it.",
+   "_4b": "4b"
+  },
+  {
+   "id": "judge_lyle_crop",
+   "text": "\"Grown in Humdrum soil! Well, near Humdrum. Splendidly ordinary.\"",
+   "_4b": "4b"
+  },
+  {
+   "id": "judge_lyle_food",
+   "text": "\"Made by hand! I'd shake it, if it had a hand.\"",
+   "_4b": "4b"
+  },
+  {
+   "id": "judge_lyle_made",
+   "text": "\"Built to last. Like our bandstand. Which is still standing.\"",
+   "_4b": "4b"
+  },
+  {
+   "id": "judge_lyle_find",
+   "text": "\"From the park itself! How... remarkably unremarkable.\"",
+   "_4b": "4b"
+  },
+  {
+   "id": "judge_lyle_other",
+   "text": "\"It is certainly a thing. A fine thing. Next!\"",
+   "_4b": "4b"
+  },
+  {
+   "id": "judge_agnes_crop",
+   "text": "\"My mother grew these. Hers were smaller. Don't tell her.\"",
+   "_4b": "4b"
+  },
+  {
+   "id": "judge_agnes_food",
+   "text": "\"I'd like the recipe, written down, with the date.\"",
+   "_4b": "4b"
+  },
+  {
+   "id": "judge_agnes_made",
+   "text": "\"Careful work. I can tell you didn't rush it.\"",
+   "_4b": "4b"
+  },
+  {
+   "id": "judge_agnes_find",
+   "text": "\"That belongs in the archive. Or in a pocket. Either.\"",
+   "_4b": "4b"
+  },
+  {
+   "id": "judge_agnes_other",
+   "text": "\"Hm. I'll make a note of it.\"",
+   "_4b": "4b"
+  },
+  {
+   "id": "judge_rosa_crop",
+   "text": "\"Beautiful. I could cook with this. I will cook with this.\"",
+   "_4b": "4b"
+  },
+  {
+   "id": "judge_rosa_food",
+   "text": "\"Too little salt. I love it.\"",
+   "_4b": "4b"
+  },
+  {
+   "id": "judge_rosa_made",
+   "text": "\"Teo, look! The ranger made this! With hands!\"",
+   "_4b": "4b"
+  },
+  {
+   "id": "judge_rosa_find",
+   "text": "\"From out there? It smells like the woods. Good woods.\"",
+   "_4b": "4b"
+  },
+  {
+   "id": "judge_rosa_other",
+   "text": "\"It's very you, ranger.\"",
+   "_4b": "4b"
+  },
+  {
+   "id": "fest_lantern_title",
+   "text": "The Lantern Walk: choose your lantern's colour",
+   "_4b": "4b"
+  },
+  {
+   "id": "fest_wish_title",
+   "text": "And your wish?",
+   "_4b": "4b"
+  },
+  {
+   "id": "lantern_red",
+   "text": "Red",
+   "_4b": "4b"
+  },
+  {
+   "id": "lantern_orange",
+   "text": "Orange",
+   "_4b": "4b"
+  },
+  {
+   "id": "lantern_yellow",
+   "text": "Yellow",
+   "_4b": "4b"
+  },
+  {
+   "id": "lantern_green",
+   "text": "Green",
+   "_4b": "4b"
+  },
+  {
+   "id": "lantern_blue",
+   "text": "Blue",
+   "_4b": "4b"
+  },
+  {
+   "id": "lantern_violet",
+   "text": "Violet",
+   "_4b": "4b"
+  },
+  {
+   "id": "wish_park",
+   "text": "For the park",
+   "_4b": "4b"
+  },
+  {
+   "id": "wish_friend",
+   "text": "For a friend",
+   "_4b": "4b"
+  },
+  {
+   "id": "wish_self",
+   "text": "For myself",
+   "_4b": "4b"
+  },
+  {
+   "id": "wish_town",
+   "text": "For Humdrum",
+   "_4b": "4b"
+  },
+  {
+   "id": "fest_lantern_set",
+   "text": "You light your {colour} lantern and set it on the creek. It bobs away, glowing, with all the others.",
+   "_4b": "4b"
+  },
+  {
+   "id": "fest_lantern_done",
+   "text": "Your lantern is already out on the water, somewhere among the rest.",
+   "_4b": "4b"
+  },
+  {
+   "id": "wish_reply_park",
+   "text": "{name} watches it go. \"For the park? Then the park will know. It always does.\"",
+   "_4b": "4b"
+  },
+  {
+   "id": "wish_reply_friend",
+   "text": "{name} squeezes your arm. \"Whoever it's for is lucky.\"",
+   "_4b": "4b"
+  },
+  {
+   "id": "wish_reply_self",
+   "text": "{name} smiles. \"Good. You never wish for yourself. I can tell.\"",
+   "_4b": "4b"
+  },
+  {
+   "id": "wish_reply_town",
+   "text": "{name} laughs. \"For Humdrum? Nothing will happen, then. Perfect.\"",
+   "_4b": "4b"
+  },
+  {
+   "id": "fest_bigfoot_title",
+   "text": "The Look-Alike Contest: you are the judge",
+   "_4b": "4b"
+  },
+  {
+   "id": "fest_bigfoot_pick",
+   "text": "{name}",
+   "_4b": "4b"
+  },
+  {
+   "id": "fest_bigfoot_win",
+   "text": "You hang the winner's rosette on {name}'s shaggy chest. {name} is overcome. The town applauds, very seriously.",
+   "_4b": "4b"
+  },
+  {
+   "id": "fest_bigfoot_done",
+   "text": "The contest is judged. {name} is still wearing the rosette, and the suit.",
+   "_4b": "4b"
+  },
+  {
+   "id": "fest_supper",
+   "text": "You sit at the long table. Pie, soup, bread, more pie. You are full and warm to your toes.",
+   "_4b": "4b"
+  },
+  {
+   "id": "fest_supper_done",
+   "text": "You couldn't eat another bite.",
+   "_4b": "4b"
+  },
+  {
+   "id": "bigfoot_gus",
+   "text": "Gus has made his own feet out of pine boards.",
+   "_4b": "4b"
+  },
+  {
+   "id": "bigfoot_lyle",
+   "text": "The mayor's suit has a sash reading BIGFOOT (HONORARY).",
+   "_4b": "4b"
+  },
+  {
+   "id": "bigfoot_marge",
+   "text": "Marge's suit is entirely practical and rated to minus thirty.",
+   "_4b": "4b"
+  },
+  {
+   "id": "bigfoot_bev",
+   "text": "Bev's suit still has a price tag on it.",
+   "_4b": "4b"
+  },
+  {
+   "id": "fest_bonfire_title",
+   "text": "The Bonfire: what will you give the fire, for luck?",
+   "_4b": "4b"
+  },
+  {
+   "id": "fest_bonfire_word",
+   "text": "A kind word for the year",
+   "_4b": "4b"
+  },
+  {
+   "id": "fest_bonfire_gave",
+   "text": "You give the fire your {item}. It flares bright, and the town says \"luck!\" together.",
+   "_4b": "4b"
+  },
+  {
+   "id": "fest_bonfire_gave_word",
+   "text": "You say your kind word into the fire. It crackles, as if pleased. \"Luck!\" says everyone.",
+   "_4b": "4b"
+  },
+  {
+   "id": "fest_bonfire_done",
+   "text": "Agnes's story is told. The fire burns low and friendly.",
+   "_4b": "4b"
+  },
+  {
+   "id": "fest_story_title",
+   "text": "Agnes tells a story",
+   "_4b": "4b"
+  },
+  {
+   "id": "fest_prize",
+   "text": "{item} is yours to keep, for the station.",
+   "_4b": "4b"
+  },
+  {
+   "id": "fest_prize_chest",
+   "text": "{item} is waiting in the station chest.",
+   "_4b": "4b"
+  },
+  {
+   "id": "romance_accept",
+   "text": "{name} takes the bouquet and goes very pink. \"Yes. Yes! I mean, yes.\" You're dating now.",
+   "_4b": "4b"
+  },
+  {
+   "id": "romance_not_yet",
+   "text": "{name} smiles, but hands it back. \"Not yet, ranger. Ask me again when we know each other better.\"",
+   "_4b": "4b"
+  },
+  {
+   "id": "romance_already",
+   "text": "{name} laughs. \"You already won me over. Keep the flowers.\"",
+   "_4b": "4b"
+  },
+  {
+   "id": "romance_not_them",
+   "text": "{name} admires the bouquet and hands it back. \"Lovely. But not for me, I think.\"",
+   "_4b": "4b"
+  },
+  {
+   "id": "romance_friends_ask",
+   "text": "Tell {name} you think you should just be friends?",
+   "_4b": "4b"
+  },
+  {
+   "id": "romance_friends",
+   "text": "\"Oh.\" {name} is quiet for a moment. \"Okay. Friends, then. Good friends.\" The hearts stay.",
+   "_4b": "4b"
+  },
+  {
+   "id": "romance_gift_mail",
+   "text": "A small wrapped gift is tucked in the mailbox, with a tag: \"From {name}.\" Inside: {item}.",
+   "_4b": "4b"
+  },
+  {
+   "id": "social_dating",
+   "text": "Dating",
+   "_4b": "4b"
+  },
+  {
+   "id": "social_click_friends",
+   "text": "Click a sweetheart's row to talk about just being friends.",
+   "_4b": "4b"
+  },
+  {
+   "id": "fortune_title",
+   "text": "Esme's reading",
+   "_4b": "4b"
+  },
+  {
+   "id": "fortune_close",
+   "text": "Click or press X to close",
+   "_4b": "4b"
+  },
+  {
+   "id": "fortune_card_sky",
+   "text": "The Sky",
+   "_4b": "4b"
+  },
+  {
+   "id": "fortune_card_path",
+   "text": "The Path",
+   "_4b": "4b"
+  },
+  {
+   "id": "fortune_card_heart",
+   "text": "The Heart",
+   "_4b": "4b"
+  },
+  {
+   "id": "fortune_map_label",
+   "text": "Esme's Path",
+   "_4b": "4b"
+  },
+  {
+   "id": "fortune_offer",
+   "text": "A reading from Esme? 10g.",
+   "_4b": "4b"
+  },
+  {
+   "id": "fortune_cant_afford",
+   "text": "\"Ten gold, ranger. The cards don't do credit.\"",
+   "_4b": "4b"
+  },
+  {
+   "id": "scene_next",
+   "text": "X: next",
+   "_4b": "4b"
+  },
+  {
+   "id": "debug_4b",
+   "text": "4b",
+   "_4b": "4b"
+  },
+  {
+   "id": "garden_dug",
+   "text": "You turn the soil.",
+   "_4b": "4b"
+  },
+  {
+   "id": "garden_planted",
+   "text": "You plant the {item}.",
+   "_4b": "4b"
+  },
+  {
+   "id": "garden_wrong_season",
+   "text": "Those are for {season}.",
+   "_4b": "4b"
+  },
+  {
+   "id": "garden_watered",
+   "text": "You water the soil.",
+   "_4b": "4b"
+  },
+  {
+   "id": "garden_already_watered",
+   "text": "Already watered today.",
+   "_4b": "4b"
+  },
+  {
+   "id": "garden_needs_soil",
+   "text": "Dig the soil with the shovel first.",
+   "_4b": "4b"
+  },
+  {
+   "id": "garden_occupied",
+   "text": "Something's already growing there.",
+   "_4b": "4b"
+  },
+  {
+   "id": "garden_picked",
+   "text": "You pick the {item}.",
+   "_4b": "4b"
+  },
+  {
+   "id": "garden_cleared",
+   "text": "You clear away the old plants.",
+   "_4b": "4b"
+  },
+  {
+   "id": "garden_winter",
+   "text": "The garden is resting under the snow.",
+   "_4b": "4b"
+  },
+  {
+   "id": "garden_not_ready",
+   "text": "The {item} isn't ready yet: {n} more watered days.",
+   "_4b": "4b"
+  },
+  {
+   "id": "garden_dry",
+   "text": "It's thirsty. Water it, or wait for rain.",
+   "_4b": "4b"
+  },
+  {
+   "id": "garden_learned",
+   "text": "Picking your first {item} gives you an idea: {recipe}.",
+   "_4b": "4b"
+  },
+  {
+   "id": "garden_gate",
+   "text": "The garden gate.",
+   "_4b": "4b"
+  },
+  {
+   "id": "kind_furniture",
+   "text": "Furniture",
+   "_4b": "4b"
+  },
+  {
+   "id": "kind_wallpaper",
+   "text": "Wallpaper",
+   "_4b": "4b"
+  },
+  {
+   "id": "kind_flooring",
+   "text": "Flooring",
+   "_4b": "4b"
+  },
+  {
+   "id": "kind_seed",
+   "text": "Seeds",
+   "_4b": "4b"
+  },
+  {
+   "id": "kind_crop",
+   "text": "Garden crop",
+   "_4b": "4b"
+  },
+  {
+   "id": "kind_romance",
+   "text": "For someone special",
+   "_4b": "4b"
   }
  ]
 }

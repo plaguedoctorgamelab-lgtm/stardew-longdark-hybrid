@@ -112,6 +112,9 @@ func menu_options(place: String) -> Array:
 		out.append({"id": "sell", "label": content.text("shop_sell"), "enabled": here})
 	if bool(r.get("catalog", false)):
 		out.append({"id": "catalog", "label": content.text("shop_catalog"), "enabled": here})
+	# Gus takes orders for the station's upgrades (Phase 4b).
+	if bool(r.get("upgrades", false)):
+		out.append({"id": "home", "label": content.text("home_menu"), "enabled": here})
 	return out
 
 
@@ -136,6 +139,9 @@ func buy_options(place: String) -> Array:
 	var minute := session().clock.minute
 	for it: Dictionary in r.get("sells", []):
 		var item := str(it["item"])
+		# Seeds are sold in their own season.
+		if it.has("season") and str(it["season"]) != session().clock.season_name():
+			continue
 		var name := content.item_name(item)
 		var count := int(it.get("count", 1))
 		if count > 1:
@@ -196,7 +202,7 @@ func buy(place: String, kind: String, item: String) -> String:
 	var r := shop(place)
 	var it := {}
 	for x: Dictionary in r.get("sells", []):
-		if str(x["item"]) == item:
+		if str(x["item"]) == item and (not x.has("season") or str(x["season"]) == s.clock.season_name()):
 			it = x
 	if it.is_empty():
 		return "shop_away"
@@ -281,6 +287,9 @@ func process() -> void:
 func book_options() -> Array:
 	var out := []
 	for b: Dictionary in content.rows("books"):
+		# The town archive opens with Agnes's trust.
+		if b.has("needs") and not session().life.flags.has(str(b["needs"])):
+			continue
 		out.append({"id": str(b["id"]), "label": content.text("book_line_read" if books_read.has(b["id"]) else "book_line", {"title": b["title"]})})
 	return out
 

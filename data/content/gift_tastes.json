@@ -6,7 +6,8 @@
    "note": "Everyone: what nobody minds.",
    "love": [],
    "like": [
-    "group:gift"
+    "group:gift",
+    "group:crop"
    ],
    "dislike": [],
    "hate": []
@@ -16,7 +17,8 @@
    "love": [
     "roast_hazelnuts",
     "berry_preserve",
-    "rose_hip_tea"
+    "rose_hip_tea",
+    "pumpkin_pie"
    ],
    "like": [
     "berries",
@@ -38,7 +40,9 @@
    "love": [
     "wild_onion",
     "hot_soup",
-    "fiddlehead_fry"
+    "fiddlehead_fry",
+    "tomato",
+    "corn"
    ],
    "like": [
     "fiddleheads",
@@ -57,7 +61,8 @@
    "id": "teo",
    "love": [
     "carved_pinecone_figure",
-    "reeds"
+    "reeds",
+    "corn"
    ],
    "like": [
     "rose_hip_tea",
@@ -76,7 +81,8 @@
    "id": "marge",
    "love": [
     "rope",
-    "trail_mix"
+    "trail_mix",
+    "kale"
    ],
    "like": [
     "roast_hazelnuts",
@@ -95,7 +101,8 @@
    "id": "nell",
    "love": [
     "rope",
-    "fiddleheads"
+    "fiddleheads",
+    "garden_salad"
    ],
    "like": [
     "trail_mix",
@@ -114,7 +121,9 @@
    "id": "agnes",
    "love": [
     "pressed_flower_card",
-    "rose_hip_tea"
+    "rose_hip_tea",
+    "rhubarb",
+    "tomato_soup"
    ],
    "like": [
     "wildflowers",
@@ -135,7 +144,8 @@
     "carved_pinecone_figure",
     "painted_stone",
     "pine_resin_candle",
-    "pine_resin"
+    "pine_resin",
+    "pumpkin"
    ],
    "like": [
     "pressed_flower_card",
@@ -153,7 +163,8 @@
    "id": "gus",
    "love": [
     "planks",
-    "roast_hazelnuts"
+    "roast_hazelnuts",
+    "pumpkin_pie"
    ],
    "like": [
     "pine_resin",
@@ -172,7 +183,8 @@
    "id": "sol",
    "love": [
     "wildflowers",
-    "painted_stone"
+    "painted_stone",
+    "squash"
    ],
    "like": [
     "reeds",
@@ -190,7 +202,8 @@
   {
    "id": "lyle",
    "love": [
-    "tin_of_beans"
+    "tin_of_beans",
+    "pumpkin"
    ],
    "like": [
     "sandwich",
@@ -208,7 +221,8 @@
    "id": "esme",
    "love": [
     "rose_hips",
-    "pine_resin_candle"
+    "pine_resin_candle",
+    "radish"
    ],
    "like": [
     "mushrooms",
@@ -226,7 +240,8 @@
    "id": "pip",
    "love": [
     "berries",
-    "carved_pinecone_figure"
+    "carved_pinecone_figure",
+    "peas"
    ],
    "like": [
     "apple",

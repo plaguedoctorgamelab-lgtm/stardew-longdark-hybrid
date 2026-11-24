@@ -1,0 +1,738 @@
+{
+ "note": "Phase 4b: what can be placed in the station (Phase 4 Spec, Decorating). size is in tiles; place is floor, wall or rug; a surface covers the whole room. Built by the lab's 4b data script.",
+ "rows": [
+  {
+   "id": "deco_rocking_chair",
+   "sprite": "deco_rocking_chair",
+   "place": "floor",
+   "size": [
+    2,
+    1
+   ],
+   "price": 180,
+   "sold": "carpentry"
+  },
+  {
+   "id": "deco_bench_carved",
+   "sprite": "deco_bench_carved",
+   "place": "floor",
+   "size": [
+    3,
+    1
+   ],
+   "price": 220,
+   "sold": "carpentry"
+  },
+  {
+   "id": "deco_stool",
+   "sprite": "deco_stool",
+   "place": "floor",
+   "size": [
+    1,
+    1
+   ],
+   "price": 40,
+   "sold": "carpentry"
+  },
+  {
+   "id": "deco_loveseat",
+   "sprite": "deco_loveseat",
+   "place": "floor",
+   "size": [
+    3,
+    1
+   ],
+   "price": 320,
+   "sold": "carpentry"
+  },
+  {
+   "id": "int_armchair",
+   "sprite": "int_armchair",
+   "place": "floor",
+   "size": [
+    2,
+    1
+   ],
+   "price": 240,
+   "sold": "carpentry"
+  },
+  {
+   "id": "deco_coffee_table",
+   "sprite": "deco_coffee_table",
+   "place": "floor",
+   "size": [
+    3,
+    1
+   ],
+   "price": 120,
+   "sold": "carpentry"
+  },
+  {
+   "id": "deco_writing_desk",
+   "sprite": "deco_writing_desk",
+   "place": "floor",
+   "size": [
+    3,
+    1
+   ],
+   "price": 260,
+   "sold": "carpentry"
+  },
+  {
+   "id": "deco_plant_stand",
+   "sprite": "deco_plant_stand",
+   "place": "floor",
+   "size": [
+    2,
+    1
+   ],
+   "price": 50,
+   "sold": "carpentry"
+  },
+  {
+   "id": "int_cafe_table",
+   "sprite": "int_cafe_table",
+   "place": "floor",
+   "size": [
+    2,
+    1
+   ],
+   "price": 90,
+   "sold": "carpentry"
+  },
+  {
+   "id": "deco_bookshelf_low",
+   "sprite": "deco_bookshelf_low",
+   "place": "floor",
+   "size": [
+    2,
+    1
+   ],
+   "price": 160,
+   "sold": "carpentry"
+  },
+  {
+   "id": "deco_trunk",
+   "sprite": "deco_trunk",
+   "place": "floor",
+   "size": [
+    2,
+    1
+   ],
+   "price": 140,
+   "sold": "carpentry"
+  },
+  {
+   "id": "deco_coat_tree",
+   "sprite": "deco_coat_tree",
+   "place": "floor",
+   "size": [
+    1,
+    1
+   ],
+   "price": 70,
+   "sold": "carpentry"
+  },
+  {
+   "id": "deco_cabinet_glass",
+   "sprite": "deco_cabinet_glass",
+   "place": "floor",
+   "size": [
+    2,
+    1
+   ],
+   "price": 300,
+   "sold": "carpentry"
+  },
+  {
+   "id": "int_bookcase",
+   "sprite": "int_bookcase",
+   "place": "floor",
+   "size": [
+    2,
+    1
+   ],
+   "price": 200,
+   "sold": "carpentry"
+  },
+  {
+   "id": "deco_floor_lamp",
+   "sprite": "deco_floor_lamp",
+   "place": "floor",
+   "size": [
+    1,
+    1
+   ],
+   "price": 90,
+   "sold": "gifts"
+  },
+  {
+   "id": "deco_table_lamp",
+   "sprite": "deco_table_lamp",
+   "place": "floor",
+   "size": [
+    1,
+    1
+   ],
+   "price": 45,
+   "sold": "gifts"
+  },
+  {
+   "id": "deco_lantern_hanging",
+   "sprite": "deco_lantern_hanging",
+   "place": "wall",
+   "size": [
+    1,
+    2
+   ],
+   "price": 60,
+   "sold": "gifts"
+  },
+  {
+   "id": "deco_candles",
+   "sprite": "deco_candles",
+   "place": "floor",
+   "size": [
+    1,
+    1
+   ],
+   "price": 20,
+   "sold": "gifts"
+  },
+  {
+   "id": "int_reading_lamp",
+   "sprite": "int_reading_lamp",
+   "place": "floor",
+   "size": [
+    1,
+    1
+   ],
+   "price": 70,
+   "sold": "gifts"
+  },
+  {
+   "id": "deco_fern",
+   "sprite": "deco_fern",
+   "place": "floor",
+   "size": [
+    2,
+    1
+   ],
+   "price": 35,
+   "sold": "gifts"
+  },
+  {
+   "id": "deco_cactus",
+   "sprite": "deco_cactus",
+   "place": "floor",
+   "size": [
+    1,
+    1
+   ],
+   "price": 20,
+   "sold": "gifts"
+  },
+  {
+   "id": "deco_monstera",
+   "sprite": "deco_monstera",
+   "place": "floor",
+   "size": [
+    2,
+    1
+   ],
+   "price": 80,
+   "sold": "gifts"
+  },
+  {
+   "id": "deco_herb_pots",
+   "sprite": "deco_herb_pots",
+   "place": "floor",
+   "size": [
+    2,
+    1
+   ],
+   "price": 40,
+   "sold": "gifts"
+  },
+  {
+   "id": "int_plant_flowering",
+   "sprite": "int_plant_flowering",
+   "place": "floor",
+   "size": [
+    1,
+    1
+   ],
+   "price": 45,
+   "sold": "gifts"
+  },
+  {
+   "id": "int_plant_small",
+   "sprite": "int_plant_small",
+   "place": "floor",
+   "size": [
+    1,
+    1
+   ],
+   "price": 20,
+   "sold": "gifts"
+  },
+  {
+   "id": "int_plant_tall",
+   "sprite": "int_plant_tall",
+   "place": "floor",
+   "size": [
+    1,
+    1
+   ],
+   "price": 60,
+   "sold": "gifts"
+  },
+  {
+   "id": "deco_antlers",
+   "sprite": "deco_antlers",
+   "place": "wall",
+   "size": [
+    2,
+    2
+   ],
+   "price": 90,
+   "sold": "gifts"
+  },
+  {
+   "id": "deco_park_map",
+   "sprite": "deco_park_map",
+   "place": "wall",
+   "size": [
+    2,
+    2
+   ],
+   "price": 70,
+   "sold": "gifts"
+  },
+  {
+   "id": "deco_pennants",
+   "sprite": "deco_pennants",
+   "place": "wall",
+   "size": [
+    2,
+    2
+   ],
+   "price": 30,
+   "sold": "gifts"
+  },
+  {
+   "id": "deco_clock",
+   "sprite": "deco_clock",
+   "place": "wall",
+   "size": [
+    1,
+    2
+   ],
+   "price": 50,
+   "sold": "gifts"
+  },
+  {
+   "id": "deco_mirror",
+   "sprite": "deco_mirror",
+   "place": "wall",
+   "size": [
+    1,
+    2
+   ],
+   "price": 60,
+   "sold": "gifts"
+  },
+  {
+   "id": "deco_snowshoes",
+   "sprite": "deco_snowshoes",
+   "place": "wall",
+   "size": [
+    2,
+    2
+   ],
+   "price": 80,
+   "sold": "gifts"
+  },
+  {
+   "id": "interior_picture_bird",
+   "sprite": "interior_picture_bird",
+   "place": "wall",
+   "size": [
+    1,
+    2
+   ],
+   "price": 40,
+   "sold": "gifts"
+  },
+  {
+   "id": "interior_picture_canoe",
+   "sprite": "interior_picture_canoe",
+   "place": "wall",
+   "size": [
+    1,
+    2
+   ],
+   "price": 40,
+   "sold": "gifts"
+  },
+  {
+   "id": "interior_picture_mountain",
+   "sprite": "interior_picture_mountain",
+   "place": "wall",
+   "size": [
+    1,
+    2
+   ],
+   "price": 40,
+   "sold": "gifts"
+  },
+  {
+   "id": "interior_picture_pine",
+   "sprite": "interior_picture_pine",
+   "place": "wall",
+   "size": [
+    1,
+    2
+   ],
+   "price": 40,
+   "sold": "gifts"
+  },
+  {
+   "id": "deco_radio",
+   "sprite": "deco_radio",
+   "place": "floor",
+   "size": [
+    2,
+    1
+   ],
+   "price": 60,
+   "sold": "gifts"
+  },
+  {
+   "id": "deco_globe",
+   "sprite": "deco_globe",
+   "place": "floor",
+   "size": [
+    1,
+    1
+   ],
+   "price": 55,
+   "sold": "gifts"
+  },
+  {
+   "id": "deco_teapot",
+   "sprite": "deco_teapot",
+   "place": "floor",
+   "size": [
+    2,
+    1
+   ],
+   "price": 25,
+   "sold": "gifts"
+  },
+  {
+   "id": "deco_binoculars",
+   "sprite": "deco_binoculars",
+   "place": "floor",
+   "size": [
+    2,
+    1
+   ],
+   "price": 45,
+   "sold": "gifts"
+  },
+  {
+   "id": "deco_pinecone_bowl",
+   "sprite": "deco_pinecone_bowl",
+   "place": "floor",
+   "size": [
+    2,
+    1
+   ],
+   "price": 15,
+   "sold": "gifts"
+  },
+  {
+   "id": "interior_rug",
+   "sprite": "interior_rug",
+   "place": "rug",
+   "size": [
+    3,
+    2
+   ],
+   "price": 60,
+   "sold": "gifts"
+  },
+  {
+   "id": "interior_rug_large",
+   "sprite": "interior_rug_large",
+   "place": "rug",
+   "size": [
+    4,
+    2
+   ],
+   "price": 120,
+   "sold": "gifts"
+  },
+  {
+   "id": "interior_rug_round",
+   "sprite": "interior_rug_round",
+   "place": "rug",
+   "size": [
+    2,
+    2
+   ],
+   "price": 80,
+   "sold": "gifts"
+  },
+  {
+   "id": "interior_rug_runner",
+   "sprite": "interior_rug_runner",
+   "place": "rug",
+   "size": [
+    3,
+    1
+   ],
+   "price": 70,
+   "sold": "gifts"
+  },
+  {
+   "id": "decor_ribbon_thaw",
+   "sprite": "decor_ribbon_thaw",
+   "place": "wall",
+   "size": [
+    1,
+    2
+   ],
+   "price": 0
+  },
+  {
+   "id": "decor_paper_lantern",
+   "sprite": "decor_paper_lantern",
+   "place": "floor",
+   "size": [
+    1,
+    1
+   ],
+   "price": 0
+  },
+  {
+   "id": "decor_blanket",
+   "sprite": "decor_blanket",
+   "place": "floor",
+   "size": [
+    2,
+    1
+   ],
+   "price": 0
+  },
+  {
+   "id": "ranger_painting",
+   "sprite": "decor_pond_painting",
+   "place": "wall",
+   "size": [
+    2,
+    2
+   ],
+   "price": 0,
+   "art_wanted": "decor_ranger_painting"
+  },
+  {
+   "id": "carved_figure",
+   "sprite": "deco_pinecone_bowl",
+   "place": "floor",
+   "size": [
+    2,
+    1
+   ],
+   "price": 0,
+   "art_wanted": "decor_carved_figure"
+  },
+  {
+   "id": "gus_shelf",
+   "sprite": "deco_bookshelf_low",
+   "place": "wall",
+   "size": [
+    2,
+    2
+   ],
+   "price": 0,
+   "art_wanted": "decor_gus_shelf"
+  },
+  {
+   "id": "pip_bigfoot_drawing",
+   "sprite": "decor_pip_drawing",
+   "place": "wall",
+   "size": [
+    2,
+    2
+   ],
+   "price": 0,
+   "art_wanted": "decor_pip_bigfoot_drawing"
+  },
+  {
+   "id": "pond_painting",
+   "sprite": "decor_pond_painting",
+   "place": "wall",
+   "size": [
+    2,
+    2
+   ],
+   "price": 0
+  },
+  {
+   "id": "pip_drawing",
+   "sprite": "decor_pip_drawing",
+   "place": "wall",
+   "size": [
+    2,
+    2
+   ],
+   "price": 0
+  },
+  {
+   "id": "wallpaper_planks",
+   "sprite": "interior_wall_planks",
+   "place": "wall",
+   "size": [
+    1,
+    1
+   ],
+   "price": 80,
+   "sold": "gifts",
+   "surface": true
+  },
+  {
+   "id": "wallpaper_brick",
+   "sprite": "interior_wall_brick",
+   "place": "wall",
+   "size": [
+    1,
+    1
+   ],
+   "price": 100,
+   "sold": "gifts",
+   "surface": true
+  },
+  {
+   "id": "wallpaper_paper",
+   "sprite": "interior_wall_paper",
+   "place": "wall",
+   "size": [
+    1,
+    1
+   ],
+   "price": 90,
+   "sold": "gifts",
+   "surface": true
+  },
+  {
+   "id": "wallpaper_stripes",
+   "sprite": "interior_wall_stripes",
+   "place": "wall",
+   "size": [
+    1,
+    1
+   ],
+   "price": 90,
+   "sold": "gifts",
+   "surface": true
+  },
+  {
+   "id": "wallpaper_pines",
+   "sprite": "interior_wall_pines",
+   "place": "wall",
+   "size": [
+    1,
+    1
+   ],
+   "price": 110,
+   "sold": "gifts",
+   "surface": true
+  },
+  {
+   "id": "wallpaper_logs",
+   "sprite": "interior_wall_logs",
+   "place": "wall",
+   "size": [
+    1,
+    1
+   ],
+   "price": 120,
+   "sold": "gifts",
+   "surface": true
+  },
+  {
+   "id": "flooring_warm",
+   "sprite": "interior_boards_warm",
+   "place": "floor",
+   "size": [
+    1,
+    1
+   ],
+   "price": 90,
+   "sold": "carpentry",
+   "surface": true
+  },
+  {
+   "id": "flooring_checker",
+   "sprite": "interior_tiles_checker",
+   "place": "floor",
+   "size": [
+    1,
+    1
+   ],
+   "price": 110,
+   "sold": "carpentry",
+   "surface": true
+  },
+  {
+   "id": "flooring_slate",
+   "sprite": "interior_floor_slate",
+   "place": "floor",
+   "size": [
+    1,
+    1
+   ],
+   "price": 140,
+   "sold": "carpentry",
+   "surface": true
+  },
+  {
+   "id": "flooring_herringbone",
+   "sprite": "interior_floor_herringbone",
+   "place": "floor",
+   "size": [
+    1,
+    1
+   ],
+   "price": 150,
+   "sold": "carpentry",
+   "surface": true
+  },
+  {
+   "id": "flooring_rag_rug",
+   "sprite": "interior_floor_rag_rug",
+   "place": "floor",
+   "size": [
+    1,
+    1
+   ],
+   "price": 100,
+   "sold": "carpentry",
+   "surface": true
+  },
+  {
+   "id": "flooring_plain",
+   "sprite": "interior_floor",
+   "place": "floor",
+   "size": [
+    1,
+    1
+   ],
+   "price": 60,
+   "sold": "carpentry",
+   "surface": true
+  }
+ ]
+}
