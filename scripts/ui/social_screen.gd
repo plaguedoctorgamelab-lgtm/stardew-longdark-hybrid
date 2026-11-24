@@ -138,12 +138,14 @@ func _draw_people() -> void:
 		_face(str(row["sprite"]), Vector2(x, top + 2), h - 4)
 		x += h + 2
 		_text(Vector2(x, top + 11), str(row["name"]), KitStyle.TEXT_DARK, 8)
+		# On the birthday line: the name line of the top row sits under the
+		# page's banner.
 		if session.life.dating.has(str(row["id"])):
 			var dx := x + 96
 			if Art.has_picture("ui_heart_sweet"):
-				draw_texture_rect(Art.texture("ui_heart_sweet"), Rect2(Vector2(dx, top + 4), Vector2(8, 8)), false)
+				draw_texture_rect(Art.texture("ui_heart_sweet"), Rect2(Vector2(dx, top + h - 10), Vector2(8, 8)), false)
 				dx += 10
-			_text(Vector2(dx, top + 11), session.content.text("social_dating"), KitStyle.CORAL.darkened(0.2), 7)
+			_text(Vector2(dx, top + h - 3), session.content.text("social_dating"), KitStyle.CORAL.darkened(0.2), 7)
 		var b: Dictionary = row["birthday"]
 		_text(Vector2(x, top + h - 3), session.content.text("social_birthday", {"season": session.content.text("season_" + GameClock.SEASONS[int(b["season"])]), "day": int(b["day"])}), Color(KitStyle.TEXT_DARK, 0.75), 7)
 		# Ten hearts: earned, open, or locked past the cap.

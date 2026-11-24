@@ -212,7 +212,9 @@ func refresh_buildings() -> void:
 				sc.texture = Art.texture("building_station_scaffold")
 				spr.add_child(sc)
 			if sc != null:
-				sc.offset = Vector2(-fw / 2.0, -sc.texture.get_height())
+				# Centred on the station's picture, which starts at its left edge.
+				var mid := roundf((spr.texture.get_width() - sc.texture.get_width()) / 2.0)
+				sc.offset = Vector2(-fw / 2.0 + mid, -sc.texture.get_height())
 				sc.visible = session.home.building != ""
 
 

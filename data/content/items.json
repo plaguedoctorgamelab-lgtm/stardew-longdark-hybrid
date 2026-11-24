@@ -1027,8 +1027,7 @@
    "name": "item_ranger_painting",
    "kind": "keepsake",
    "stack": 1,
-   "icon": "decor_pond_painting",
-   "art_wanted": "decor_ranger_painting",
+   "icon": "decor_ranger_painting",
    "_4b": "4b"
   },
   {
@@ -1036,8 +1035,7 @@
    "name": "item_carved_figure",
    "kind": "keepsake",
    "stack": 1,
-   "icon": "deco_pinecone_bowl",
-   "art_wanted": "decor_carved_figure",
+   "icon": "decor_carved_figure",
    "_4b": "4b"
   },
   {
@@ -1045,8 +1043,7 @@
    "name": "item_gus_shelf",
    "kind": "keepsake",
    "stack": 1,
-   "icon": "deco_bookshelf_low",
-   "art_wanted": "decor_gus_shelf",
+   "icon": "decor_gus_shelf",
    "_4b": "4b"
   },
   {
@@ -1054,8 +1051,7 @@
    "name": "item_pip_bigfoot_drawing",
    "kind": "keepsake",
    "stack": 1,
-   "icon": "decor_pip_drawing",
-   "art_wanted": "decor_pip_bigfoot_drawing",
+   "icon": "decor_pip_bigfoot_drawing",
    "_4b": "4b"
   },
   {
@@ -1355,8 +1351,7 @@
    "name": "item_ranger_mug",
    "kind": "keepsake",
    "stack": 1,
-   "icon": "item_coffee",
-   "art_wanted": "item_ranger_mug",
+   "icon": "item_ranger_mug",
    "_4b": "4b"
   },
   {
@@ -1364,8 +1359,7 @@
    "name": "item_teo_song",
    "kind": "keepsake",
    "stack": 1,
-   "icon": "item_song_notebook",
-   "art_wanted": "item_teo_song",
+   "icon": "item_teo_song",
    "_4b": "4b"
   },
   {
@@ -1373,8 +1367,7 @@
    "name": "item_town_key",
    "kind": "keepsake",
    "stack": 1,
-   "icon": "item_letter",
-   "art_wanted": "item_town_key",
+   "icon": "item_town_key",
    "_4b": "4b"
   },
   {
@@ -1382,8 +1375,7 @@
    "name": "item_esme_card",
    "kind": "keepsake",
    "stack": 1,
-   "icon": "fortune_card_back",
-   "art_wanted": "item_esme_card",
+   "icon": "item_esme_card",
    "_4b": "4b"
   },
   {
@@ -1399,8 +1391,7 @@
    "name": "item_marge_coat",
    "kind": "clothing",
    "stack": 1,
-   "icon": "item_wool_coat",
-   "art_wanted": "item_marge_coat",
+   "icon": "item_marge_coat",
    "_4b": "4b"
   }
  ],

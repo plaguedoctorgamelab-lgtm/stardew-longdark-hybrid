@@ -34,6 +34,12 @@ func s() -> GameSession:
 	return _s.get_ref()
 
 
+## What the ranger wears on top for the festival on now: the judge's sash
+## at the Big Foot Supper (Mark's Art Request 23, facing down only).
+func overlay() -> String:
+	return "ranger_wear_sash" if active == "big_foot_supper" else ""
+
+
 func row(id: String) -> Dictionary:
 	return content.row("festivals", id)
 
@@ -96,6 +102,7 @@ func start(id: String) -> void:
 	active = id
 	g.town.place_everyone()
 	g.message.emit(content.text("fest_start", {"name": name_of(id)}))
+	g.clothes_changed.emit()   # the judge's sash, at the Big Foot Supper
 
 
 ## Out of the square: the clock jumps to the festival's end.
@@ -106,6 +113,7 @@ func end() -> void:
 	var id := active
 	active = ""
 	attended[_key(id)] = true
+	g.clothes_changed.emit()
 	var to := int(row(id)["end"])
 	if g.clock.minute < to:
 		g.clock.set_minute(to)

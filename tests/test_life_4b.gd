@@ -171,7 +171,10 @@ func test_each_activity_gives_its_prize(t: TestCase) -> void:
 	t.near(s.needs.energy, s.needs.max_energy(), 0.01, "the supper restores full energy")
 	t.near(s.needs.warmth, s.needs.max_warmth(), 0.01, "and warmth")
 	t.check(s.have("judges_sash") > 0, "the judge's sash")
+	t.equal(s.festivals.overlay(), "ranger_wear_sash", "worn while judging")
+	t.check(Art.has_picture("ranger_wear_sash"), "Mark's sash is drawn")
 	s.festivals.end()
+	t.equal(s.festivals.overlay(), "", "and off again after the supper")
 	# The Long Night: give the fire something; Agnes's story goes in the notebook.
 	s.debug_start_festival("long_night")
 	var notes := s.park.notes.size()

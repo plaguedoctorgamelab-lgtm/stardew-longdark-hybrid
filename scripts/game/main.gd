@@ -527,7 +527,10 @@ func _show_title() -> void:
 
 ## Draws what the ranger wears.
 func _dress_ranger() -> void:
-	ranger.set_clothes(session.wardrobe.base_sheet(), session.wardrobe.overlays())
+	var over := session.wardrobe.overlays()
+	if session.festivals.overlay() != "":
+		over.append(session.festivals.overlay())
+	ranger.set_clothes(session.wardrobe.base_sheet(), over)
 
 
 func _start_new() -> void:

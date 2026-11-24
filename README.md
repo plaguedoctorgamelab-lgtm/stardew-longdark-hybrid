@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.7.12** (see [Version history](#version-history)). The
+**Current version: 0.7.13** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -119,6 +119,18 @@ phase is finished; the last number counts every build and runs on past 9
 | 0.10.x | Phase 7, Year one polish |
 | 0.11.x to 0.14.x | Phases 8 to 11, one region each |
 | 1.0.0 | every phase done |
+
+### 0.7.13 (24 November 2026): Mark's Art Request 23
+
+Mark's sheets for the last pieces of 4b, cut with `tools/art_cleanup.py` (raw sheets `art/raw/raw_ar23_*.png`) and dropped in, with copies in `art/placeholder/`.
+
+- **The judge's sash, worn.** `tools/cut_ar23_wear.py` lays Mark's sash across the ranger's chest on the facing-down frames (`ranger_wear_sash`). The ranger wears it at the Big Foot Supper (`Festivals.overlay()`), and it comes off when the festival ends.
+- **Scaffolding** (`building_station_scaffold`) over the station while Gus's crew works, centred on the station.
+- **A sweetheart's heart** (`ui_heart_sweet`) on the People page. "Dating" now sits on the birthday line, out from under the page's banner.
+- **Nine keepsakes** replace their stand-ins: six backpack items and three pieces for the station (`art_wanted` became `icon` or `sprite`).
+- **Marge's coat, worn.** It came back as whole ranger figures facing down rather than a layer, so `tools/cut_ar23_wear.py` recolours the wool coat's layer in the browns of Mark's coat (`ranger_wear_marge_coat`).
+- **Wren's portraits are held back.** They show light skin and brown wavy hair, while Wren's sprite has dark skin and black curly hair. Mark is asked which way to go; the talk box keeps the crop of her sprite until then.
+- `tests/support/screenshots_ar23.gd` shoots all of it.
 
 ### 0.7.12 (23 November 2026): Phase 4b, a life there
 

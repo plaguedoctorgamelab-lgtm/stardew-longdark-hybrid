@@ -13751,6 +13751,263 @@
     3,
     1
    ]
+  },
+  {
+   "file": "raw_ar23_A_sash.png",
+   "label": "Art Request 23, A: the judge's sash, shrunk to sit across the ranger's chest; tools/cut_ar23_wear.py lays it on the facing-down frames as ranger_wear_sash",
+   "grid": [
+    1,
+    1
+   ],
+   "keep_colors": true,
+   "final_say": true,
+   "cells": [
+    {
+     "name": "ranger_sash_piece",
+     "size": [
+      7,
+      12
+     ],
+     "box": [
+      74,
+      510,
+      692,
+      1264
+     ]
+    }
+   ]
+  },
+  {
+   "file": "raw_ar23_B_station.png",
+   "label": "Art Request 23, B: the station's scaffolding and a sweetheart's heart",
+   "grid": [
+    1,
+    1
+   ],
+   "keep_colors": true,
+   "final_say": true,
+   "cells": [
+    {
+     "name": "building_station_scaffold",
+     "size": [
+      96,
+      80
+     ],
+     "box": [
+      50,
+      154,
+      1072,
+      884
+     ]
+    },
+    {
+     "name": "ui_heart_sweet",
+     "size": [
+      8,
+      8
+     ],
+     "box": [
+      1190,
+      958,
+      140,
+      140
+     ]
+    }
+   ]
+  },
+  {
+   "file": "raw_ar23_C_keepsakes.png",
+   "label": "Art Request 23, C: keepsakes (the worn coat on the right is whole ranger figures facing down, so tools/cut_ar23_wear.py recolours the wool coat's layer in its colours instead)",
+   "grid": [
+    1,
+    1
+   ],
+   "keep_colors": true,
+   "final_say": true,
+   "cells": [
+    {
+     "name": "item_ranger_mug",
+     "size": [
+      32,
+      32
+     ],
+     "box": [
+      74,
+      78,
+      256,
+      232
+     ]
+    },
+    {
+     "name": "item_teo_song",
+     "size": [
+      32,
+      32
+     ],
+     "box": [
+      350,
+      74,
+      232,
+      252
+     ]
+    },
+    {
+     "name": "item_town_key",
+     "size": [
+      32,
+      32
+     ],
+     "box": [
+      606,
+      62,
+      248,
+      264
+     ]
+    },
+    {
+     "name": "item_esme_card",
+     "size": [
+      32,
+      32
+     ],
+     "box": [
+      898,
+      74,
+      200,
+      248
+     ]
+    },
+    {
+     "name": "item_marge_coat",
+     "size": [
+      32,
+      32
+     ],
+     "box": [
+      42,
+      334,
+      304,
+      268
+     ]
+    },
+    {
+     "name": "decor_ranger_painting",
+     "size": [
+      32,
+      32
+     ],
+     "box": [
+      358,
+      358,
+      228,
+      236
+     ]
+    },
+    {
+     "name": "decor_carved_figure",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      606,
+      398,
+      184,
+      184
+     ]
+    },
+    {
+     "name": "decor_gus_shelf",
+     "size": [
+      32,
+      16
+     ],
+     "box": [
+      810,
+      426,
+      296,
+      144
+     ]
+    },
+    {
+     "name": "decor_pip_bigfoot_drawing",
+     "size": [
+      32,
+      32
+     ],
+     "box": [
+      50,
+      618,
+      272,
+      240
+     ]
+    }
+   ]
+  },
+  {
+   "file": "raw_ar23_D_wren.png",
+   "label": "Art Request 23, D: Wren, neutral, happy, sad and surprised",
+   "grid": [
+    1,
+    1
+   ],
+   "keep_colors": true,
+   "final_say": true,
+   "cells": [
+    {
+     "name": "portrait_wren_neutral",
+     "size": [
+      64,
+      64
+     ],
+     "box": [
+      0,
+      0,
+      627,
+      627
+     ]
+    },
+    {
+     "name": "portrait_wren_happy",
+     "size": [
+      64,
+      64
+     ],
+     "box": [
+      627,
+      0,
+      627,
+      627
+     ]
+    },
+    {
+     "name": "portrait_wren_sad",
+     "size": [
+      64,
+      64
+     ],
+     "box": [
+      0,
+      627,
+      627,
+      627
+     ]
+    },
+    {
+     "name": "portrait_wren_surprised",
+     "size": [
+      64,
+      64
+     ],
+     "box": [
+      627,
+      627,
+      627,
+      627
+     ]
+    }
+   ],
+   "reference": "held back: light skin and brown wavy hair, while Wren's sprite has dark skin and black curly hair (Art Request 23 never gave her look); asked Mark which way to go"
   }
  ],
  "calm": {

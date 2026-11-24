@@ -76,7 +76,7 @@
    "slot": "coat",
    "warmth": 4,
    "price": 0,
-   "overlay": "ranger_wear_wool_coat",
+   "overlay": "ranger_wear_marge_coat",
    "start": false,
    "gift": true,
    "_4b": "4b"

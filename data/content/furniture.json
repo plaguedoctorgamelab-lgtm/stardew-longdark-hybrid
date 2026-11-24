@@ -528,47 +528,43 @@
   },
   {
    "id": "ranger_painting",
-   "sprite": "decor_pond_painting",
+   "sprite": "decor_ranger_painting",
    "place": "wall",
    "size": [
     2,
     2
    ],
-   "price": 0,
-   "art_wanted": "decor_ranger_painting"
+   "price": 0
   },
   {
    "id": "carved_figure",
-   "sprite": "deco_pinecone_bowl",
+   "sprite": "decor_carved_figure",
    "place": "floor",
    "size": [
     2,
     1
    ],
-   "price": 0,
-   "art_wanted": "decor_carved_figure"
+   "price": 0
   },
   {
    "id": "gus_shelf",
-   "sprite": "deco_bookshelf_low",
+   "sprite": "decor_gus_shelf",
    "place": "wall",
    "size": [
     2,
     2
    ],
-   "price": 0,
-   "art_wanted": "decor_gus_shelf"
+   "price": 0
   },
   {
    "id": "pip_bigfoot_drawing",
-   "sprite": "decor_pip_drawing",
+   "sprite": "decor_pip_bigfoot_drawing",
    "place": "wall",
    "size": [
     2,
     2
    ],
-   "price": 0,
-   "art_wanted": "decor_pip_bigfoot_drawing"
+   "price": 0
   },
   {
    "id": "pond_painting",
