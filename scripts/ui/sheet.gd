@@ -59,8 +59,8 @@ func setup_sheet(s: GameSession) -> void:
 		p.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		add_child(p)
 	_clip_pic = TextureRect.new()
-	_clip_pic.position = CLIP_AT - Vector2(8, 0)
-	_clip_pic.size = Vector2(16, 16)
+	_clip_pic.position = CLIP_AT - Vector2(14, -1)
+	_clip_pic.size = Vector2(28, 28)
 	_clip_pic.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	_clip_pic.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	_clip_pic.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -106,7 +106,7 @@ func setup_sheet(s: GameSession) -> void:
 	empty_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(empty_label)
 	_keys = HBoxContainer.new()
-	_keys.position = Vector2(FRAME.position.x + 30, FRAME.end.y - 14)
+	_keys.position = Vector2(FRAME.position.x + 30, FRAME.end.y - 16)
 	_keys.add_theme_constant_override("separation", 6)
 	_keys.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_keys)
@@ -165,8 +165,10 @@ func set_index_tabs(entries: Array, open_id: String, on_pick: Callable) -> void:
 		var art := pick(["ui_itab_open", "ui_jtab_open"] if open else ["ui_itab", "ui_jtab"])
 		for st in ["normal", "hover", "pressed"]:
 			b.add_theme_stylebox_override(st, sb(art, 4, 1) if art != "" else KitStyle.tab(open))
-		b.add_theme_color_override("font_color", KitStyle.TEXT_LIGHT if open else KitStyle.TEXT_DARK)
-		b.add_theme_color_override("font_hover_color", KitStyle.TEXT_LIGHT if open else KitStyle.INK)
+		# Mark's paper tabs are light: dark words on both.
+		var light := art.begins_with("ui_itab")
+		b.add_theme_color_override("font_color", KitStyle.TEXT_DARK if light or not open else KitStyle.TEXT_LIGHT)
+		b.add_theme_color_override("font_hover_color", KitStyle.INK if light or not open else KitStyle.TEXT_LIGHT)
 		var id := str(e["id"])
 		b.pressed.connect(func() -> void: on_pick.call(id))
 		_tabs.add_child(b)
@@ -334,7 +336,7 @@ func tile_row() -> HFlowContainer:
 ## A 24 x 24 tile: a picture, a number badge in the corner, and a frame:
 ## "gold" (enough, or a reward), "plain", "grey" (done or not yet) or "red"
 ## (short). `tip` is kept for the label strip and tests; nothing floats.
-func tile(picture: String, badge: String, frame: String = "gold", tip: String = "") -> Control:
+static func tile(picture: String, badge: String, frame: String = "gold", tip: String = "") -> Control:
 	var p := Panel.new()
 	p.custom_minimum_size = Vector2(24, 24)
 	p.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
@@ -363,14 +365,14 @@ func tile(picture: String, badge: String, frame: String = "gold", tip: String = 
 	return p
 
 
-func _badge(t: String, short: bool) -> Control:
+static func _badge(t: String, short: bool) -> Control:
 	var l := Label.new()
 	l.text = t
 	l.add_theme_font_size_override("font_size", 5)
 	l.add_theme_color_override("font_color", Color.WHITE)
-	if Art.has_picture("ui_badge"):
-		l.add_theme_stylebox_override("normal", sb("ui_badge", 3, 1))
-	else:
+	# A plain dark badge in the look of Mark's ui_badge: his 10 x 6 picture
+	# is too small to stretch round "12/3" and stay readable.
+	if true:
 		var b := StyleBoxFlat.new()
 		b.bg_color = Color8(150, 48, 36) if short else Color8(58, 42, 30)
 		b.set_corner_radius_all(3)
@@ -384,16 +386,24 @@ func _badge(t: String, short: bool) -> Control:
 
 ## A chip: an icon (when drawn) and a few words, on a little paper patch.
 ## `tone` is "" or "good" (green) or "bad" (red).
-func chip(icon: String, t: String, tone: String = "") -> Control:
+static func chip(icon: String, t: String, tone: String = "") -> Control:
 	var pc := PanelContainer.new()
-	var b := StyleBoxFlat.new()
-	b.bg_color = {"good": Color8(220, 239, 207), "bad": Color8(244, 214, 204)}.get(tone, Color8(239, 220, 184))
-	b.set_corner_radius_all(3)
-	b.content_margin_left = 1
-	b.content_margin_right = 3
-	b.content_margin_top = 0
-	b.content_margin_bottom = 0
-	pc.add_theme_stylebox_override("panel", b)
+	if Art.has_picture("ui_chip") and tone == "":
+		var cb := sb("ui_chip", 5, 0)
+		cb.content_margin_left = 9
+		cb.content_margin_right = 7
+		cb.content_margin_top = 2
+		cb.content_margin_bottom = 2
+		pc.add_theme_stylebox_override("panel", cb)
+	else:
+		var b := StyleBoxFlat.new()
+		b.bg_color = {"good": Color8(220, 239, 207), "bad": Color8(244, 214, 204)}.get(tone, Color8(239, 220, 184))
+		b.set_corner_radius_all(3)
+		b.content_margin_left = 1
+		b.content_margin_right = 3
+		b.content_margin_top = 0
+		b.content_margin_bottom = 0
+		pc.add_theme_stylebox_override("panel", b)
 	var h := HBoxContainer.new()
 	h.add_theme_constant_override("separation", 2)
 	if icon != "" and Art.has_picture(icon):
@@ -414,36 +424,82 @@ func chip(icon: String, t: String, tone: String = "") -> Control:
 
 # --- stamps and keys -----------------------------------------------------------------
 
-## A stamp at the foot of the detail: an icon, a word, and the key that
-## does the same. Greyed when it can't be used.
+## A stamp at the foot of the detail: Mark's round rubber stamp with the
+## action's icon in it, the word beside it, and the key that does the same.
+## Greyed when it can't be used. The word is kept as the button's "label".
 func add_stamp(icon: String, t: String, key: String, enabled: bool, action: Callable) -> Button:
+	var b := stamp_button(icon, t, key, enabled, action)
+	stamps.add_child(b)
+	return b
+
+
+## A stamp button on its own, for pages that place their stamps themselves.
+static func stamp_button(icon: String, t: String, key: String, enabled: bool, action: Callable) -> Button:
 	var b := Button.new()
 	b.focus_mode = Control.FOCUS_NONE
-	b.custom_minimum_size = Vector2(0, 16)
-	b.text = t + ("  [" + key + "]" if key != "" else "")
-	b.add_theme_font_size_override("font_size", 7)
-	if icon != "" and Art.has_picture(icon):
-		b.icon = Art.texture(icon)
-		b.expand_icon = false
-		b.add_theme_constant_override("icon_max_width", 11)
-	for st in ["normal", "hover", "pressed", "disabled"]:
-		if Art.has_picture("ui_stamp_round"):
-			b.add_theme_stylebox_override(st, sb("ui_stamp_round_" + st if Art.has_picture("ui_stamp_round_" + st) else "ui_stamp_round", 5, 2))
-		else:
-			var bx := KitStyle._box(Color8(246, 227, 196) if st != "hover" else Color8(252, 238, 212), Color8(165, 64, 44), 1, 3, 3)
-			b.add_theme_stylebox_override(st, bx)
-	b.add_theme_color_override("font_color", Color8(165, 64, 44))
-	b.add_theme_color_override("font_hover_color", Color8(140, 44, 28))
-	b.add_theme_color_override("font_disabled_color", Color(Color8(165, 64, 44), 0.4))
+	b.set_meta("label", t)
 	b.disabled = not enabled
 	b.pressed.connect(action)
-	stamps.add_child(b)
+	var round := Art.has_picture("ui_stamp_round")
+	for st in ["normal", "hover", "pressed", "disabled", "focus"]:
+		if round:
+			b.add_theme_stylebox_override(st, StyleBoxEmpty.new())
+		else:
+			b.add_theme_stylebox_override(st, KitStyle._box(Color8(246, 227, 196) if st != "hover" else Color8(252, 238, 212), Color8(165, 64, 44), 1, 3, 3))
+	var h := HBoxContainer.new()
+	h.add_theme_constant_override("separation", 2)
+	h.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var disc := Control.new()
+	disc.custom_minimum_size = Vector2(18, 18) if round else Vector2(12, 16)
+	if round:
+		var bg := TextureRect.new()
+		bg.texture = Art.texture("ui_stamp_round")
+		bg.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		bg.size = Vector2(18, 18)
+		disc.add_child(bg)
+		b.mouse_entered.connect(func() -> void:
+			if not b.disabled and Art.has_picture("ui_stamp_round_hover"):
+				bg.texture = Art.texture("ui_stamp_round_hover"))
+		b.mouse_exited.connect(func() -> void: bg.texture = Art.texture("ui_stamp_round"))
+		b.button_down.connect(func() -> void:
+			if Art.has_picture("ui_stamp_round_pressed"):
+				bg.texture = Art.texture("ui_stamp_round_pressed"))
+		b.button_up.connect(func() -> void: bg.texture = Art.texture("ui_stamp_round"))
+	if icon != "" and Art.has_picture(icon):
+		var ic := TextureRect.new()
+		ic.texture = Art.texture(icon)
+		ic.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		ic.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		ic.size = Vector2(10, 10) if round else Vector2(11, 11)
+		ic.position = Vector2(4, 3) if round else Vector2(1, 3)
+		disc.add_child(ic)
+	h.add_child(disc)
+	var l := Label.new()
+	l.text = t
+	l.add_theme_font_size_override("font_size", 7)
+	l.add_theme_color_override("font_color", Color8(165, 64, 44))
+	l.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	h.add_child(l)
+	if key != "":
+		var kc := key_cap(key)
+		kc.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		h.add_child(kc)
+	_ignore_mouse(h)
+	b.add_child(h)
+	b.custom_minimum_size = h.get_combined_minimum_size() + Vector2(4 if round else 8, 0)
+	h.position = Vector2(0 if round else 3, 0)
+	if not enabled:
+		b.modulate = Color(1, 1, 1, 0.45)
 	return b
 
 
 ## The key caps along the board's foot: [[["Q", "E"], "sheets"], ...].
 func set_keys(pairs: Array) -> void:
 	clear(_keys)
+	fill_keys(_keys, pairs)
+
+
+static func fill_keys(row: HBoxContainer, pairs: Array) -> void:
 	for pr: Array in pairs:
 		var h := HBoxContainer.new()
 		h.add_theme_constant_override("separation", 1)
@@ -456,20 +512,24 @@ func set_keys(pairs: Array) -> void:
 		l.add_theme_color_override("font_outline_color", KitStyle.INK)
 		l.add_theme_constant_override("outline_size", 2)
 		h.add_child(l)
-		_keys.add_child(h)
+		row.add_child(h)
 
 
 ## A keyboard key with its letter (Art Request 24's ui_key when drawn).
-func key_cap(k: String) -> Control:
+static func key_cap(k: String) -> Control:
 	var l := Label.new()
 	l.text = k
 	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	l.custom_minimum_size = Vector2(maxf(9.0, 4.0 * k.length() + 5.0), 9)
+	l.custom_minimum_size = Vector2(maxf(11.0, 4.0 * k.length() + 7.0), 11)
+	l.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	l.add_theme_font_size_override("font_size", 5)
 	l.add_theme_color_override("font_color", KitStyle.INK)
-	var art := pick(["ui_key_wide"] if k.length() > 1 else ["ui_key"])
+	# Mark's square key stretches to fit longer words ("Esc", "Tab").
+	var art := pick(["ui_key"])
 	if art != "":
-		l.add_theme_stylebox_override("normal", sb(art, 3, 0))
+		var kb := sb(art, 3, 0)
+		kb.set_content_margin_all(0)
+		l.add_theme_stylebox_override("normal", kb)
 	else:
 		var b := StyleBoxFlat.new()
 		b.bg_color = Color8(243, 230, 204)
@@ -483,7 +543,7 @@ func key_cap(k: String) -> Control:
 
 # --- helpers ------------------------------------------------------------------------
 
-func _pic(picture: String, at: Vector2, sz: Vector2) -> TextureRect:
+static func _pic(picture: String, at: Vector2, sz: Vector2) -> TextureRect:
 	var r := TextureRect.new()
 	r.texture = Art.texture(picture)
 	r.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
@@ -494,7 +554,7 @@ func _pic(picture: String, at: Vector2, sz: Vector2) -> TextureRect:
 	return r
 
 
-func _ignore_mouse(c: Control) -> void:
+static func _ignore_mouse(c: Control) -> void:
 	c.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	for k in c.get_children():
 		if k is Control:

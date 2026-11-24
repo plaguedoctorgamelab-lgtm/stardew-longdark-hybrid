@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.7.15** (see [Version history](#version-history)). The
+**Current version: 0.7.16** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -119,6 +119,25 @@ phase is finished; the last number counts every build and runs on past 9
 | 0.10.x | Phase 7, Year one polish |
 | 0.11.x to 0.14.x | Phases 8 to 11, one region each |
 | 1.0.0 | every phase done |
+
+### 0.7.16 (24 November 2026): Mark's Art Request 24, and Wren
+
+Mark's sheets for the cozy UI, and his redrawn Wren and worn coat.
+
+- **Art Request 24**: 107 pieces from eight sheets, in `art/final/`:
+  - the picture mount, label strip, picture tabs, round stamps (with their hover and pressed looks), key caps, mouse buttons, chip, toast card and mapped bar;
+  - 16 fact icons, 13 verb icons, 4 stations and 6 kinds, and 5 town icons;
+  - the logbook's pieces: stat pictures, the ID card, cards, envelopes, stationery, sticky notes, doodles and sky tiles;
+  - the six shop signs, "sold out", and a clip for each sheet.
+- **How they were cut:** the sheets are large drafts with names written under each piece. `tools/prep_ar24.py` clears the cream background and the grid lines, finds each piece by its row (`tools/ar24_boxes.json`), and `tools/art_cleanup.py` cuts them as usual. The red tile came as a wide bar rather than a square, so the tinted stand-in stays.
+- **The Make sheet uses them:**
+  - The stamps are Mark's round rubber stamps, with the action's icon in them and the word beside.
+  - The chips sit on his chip, and the tabs on his paper tabs.
+  - The keys are his key caps, and the big picture sits in his mount.
+  - Stations and kinds have their own pictures, food shows Mark's energy and warmth icons, and the hammer clip shows which sheet you're on.
+  - The have/need numbers stay on a plain dark badge in the look of his, because his 10 × 6 picture can't stretch round "12/3" and stay readable.
+- **Wren's portraits**, redrawn to match her sprite (dark skin, black curly hair), are in the talk box at last.
+- **Marge's coat, worn**, is Mark's own layer now (`art/raw/raw_ar23_marge_coat_layer.png`), in place of the recoloured wool coat.
 
 ### 0.7.15 (24 November 2026): the Make sheet
 

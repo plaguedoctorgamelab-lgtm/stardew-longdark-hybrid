@@ -94,7 +94,7 @@ func test_tabs_sort_by_where_things_are_made(t: TestCase) -> void:
 	t.equal(m.tab, "fire", "at a fire it opens on Fire")
 	var found := false
 	for b in m.stamps.get_children():
-		if (b as Button).text.begins_with(s.content.text("make_firewood", {"n": s.backpack.count("firewood")})):
+		if str((b as Button).get_meta("label", "")).begins_with(s.content.text("make_firewood", {"n": s.backpack.count("firewood")})):
 			found = true
 	t.check(found, "at a fire, a stamp feeds it")
 	m.free()

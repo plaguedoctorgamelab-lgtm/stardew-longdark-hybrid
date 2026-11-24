@@ -4,9 +4,9 @@
   7 x 12) laid across the ranger's chest on the four facing-down frames of a
   64 x 128 layer; the other facings stay empty (the request asked for
   facing down only).
-- ranger_wear_marge_coat: the coat came back as whole ranger figures, not a
-  layer, so the wool coat's layer is recoloured in the browns of Mark's coat
-  (item_marge_coat), shade for shade by brightness.
+- ranger_wear_marge_coat: Mark's own layer (art/raw/raw_ar23_marge_coat_layer.png,
+  sent 24 Nov, already 64 x 128 pixel art) is copied as it is. Without it,
+  the wool coat's layer is recoloured in the browns of Mark's coat.
 
 Run after art_cleanup.py: python tools/cut_ar23_wear.py
 """
@@ -42,6 +42,11 @@ def sash():
 
 
 def coat():
+    mine = os.path.join(ROOT, "art", "raw", "raw_ar23_marge_coat_layer.png")
+    if os.path.exists(mine):
+        w, h, px = read_png(mine)
+        write_png(os.path.join(FINAL, "ranger_wear_marge_coat.png"), w, h, px)
+        return
     w, h, px = load("ranger_wear_wool_coat")
     out = bytearray(px)
     for i in range(0, len(out), 4):

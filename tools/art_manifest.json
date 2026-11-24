@@ -13946,7 +13946,7 @@
   },
   {
    "file": "raw_ar23_D_wren.png",
-   "label": "Art Request 23, D: Wren, neutral, happy, sad and surprised",
+   "label": "Art Request 23, D: Wren, neutral, happy, sad and surprised (redrawn 24 Nov to match her sprite)",
    "grid": [
     1,
     1
@@ -14006,8 +14006,1708 @@
       627
      ]
     }
+   ]
+  },
+  {
+   "file": "raw_ar24_A_sheet.png",
+   "label": "Art Request 24, A: the sheet pieces (cleared and boxed by tools/prep_ar24.py); ui_tile_red left out: drawn as a wide bar, not a square tile, so the tinted stand-in stays",
+   "grid": [
+    1,
+    1
    ],
-   "reference": "held back: light skin and brown wavy hair, while Wren's sprite has dark skin and black curly hair (Art Request 23 never gave her look); asked Mark which way to go"
+   "keep_colors": true,
+   "final_say": true,
+   "cells": [
+    {
+     "name": "ui_mount",
+     "size": [
+      40,
+      40
+     ],
+     "box": [
+      91,
+      19,
+      212,
+      216
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "ui_label_strip",
+     "size": [
+      96,
+      24
+     ],
+     "box": [
+      380,
+      81,
+      424,
+      110
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "ui_badge",
+     "size": [
+      10,
+      8
+     ],
+     "box": [
+      898,
+      99,
+      126,
+      142
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "ui_itab",
+     "size": [
+      28,
+      14
+     ],
+     "box": [
+      45,
+      322,
+      288,
+      126
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "ui_itab_open",
+     "size": [
+      28,
+      14
+     ],
+     "box": [
+      410,
+      320,
+      292,
+      130
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "ui_stamp_round",
+     "size": [
+      20,
+      20
+     ],
+     "box": [
+      812,
+      304,
+      160,
+      158
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "ui_stamp_round_hover",
+     "size": [
+      20,
+      20
+     ],
+     "box": [
+      1159,
+      304,
+      162,
+      158
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "ui_stamp_round_pressed",
+     "size": [
+      20,
+      20
+     ],
+     "box": [
+      122,
+      518,
+      164,
+      150
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "ui_key",
+     "size": [
+      12,
+      12
+     ],
+     "box": [
+      454,
+      536,
+      130,
+      120
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "ui_key_wide",
+     "size": [
+      24,
+      12
+     ],
+     "box": [
+      708,
+      542,
+      306,
+      112
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "ui_mouse_left",
+     "size": [
+      12,
+      12
+     ],
+     "box": [
+      1190,
+      530,
+      110,
+      132
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "ui_mouse_right",
+     "size": [
+      12,
+      12
+     ],
+     "box": [
+      129,
+      733,
+      112,
+      132
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "ui_mouse_wheel",
+     "size": [
+      12,
+      12
+     ],
+     "box": [
+      435,
+      733,
+      112,
+      132
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "ui_chip",
+     "size": [
+      64,
+      14
+     ],
+     "box": [
+      652,
+      755,
+      394,
+      104
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "ui_toast_idea",
+     "size": [
+      96,
+      28
+     ],
+     "box": [
+      1094,
+      700,
+      322,
+      214
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "ui_mapped_bar",
+     "size": [
+      64,
+      10
+     ],
+     "box": [
+      116,
+      898,
+      876,
+      146
+     ],
+     "edge_ok": true,
+     "parts": 40
+    }
+   ]
+  },
+  {
+   "file": "raw_ar24_B_facts.png",
+   "label": "Art Request 24, B: fact icons (cleared and boxed by tools/prep_ar24.py)",
+   "grid": [
+    1,
+    1
+   ],
+   "keep_colors": true,
+   "final_say": true,
+   "cells": [
+    {
+     "name": "icon_energy",
+     "size": [
+      12,
+      12
+     ],
+     "box": [
+      55,
+      63,
+      242,
+      242
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "icon_warmth",
+     "size": [
+      12,
+      12
+     ],
+     "box": [
+      360,
+      59,
+      208,
+      246
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "icon_speed",
+     "size": [
+      12,
+      12
+     ],
+     "box": [
+      620,
+      63,
+      256,
+      238
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "icon_rest",
+     "size": [
+      12,
+      12
+     ],
+     "box": [
+      920,
+      89,
+      254,
+      204
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "icon_carry",
+     "size": [
+      12,
+      12
+     ],
+     "box": [
+      59,
+      386,
+      232,
+      240
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "icon_light",
+     "size": [
+      12,
+      12
+     ],
+     "box": [
+      335,
+      376,
+      250,
+      248
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "icon_time",
+     "size": [
+      12,
+      12
+     ],
+     "box": [
+      635,
+      394,
+      228,
+      228
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "icon_walk",
+     "size": [
+      12,
+      12
+     ],
+     "box": [
+      964,
+      386,
+      166,
+      240
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "icon_coin",
+     "size": [
+      12,
+      12
+     ],
+     "box": [
+      73,
+      715,
+      196,
+      202
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "icon_coins_up",
+     "size": [
+      12,
+      12
+     ],
+     "box": [
+      354,
+      713,
+      204,
+      210
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "icon_coins_down",
+     "size": [
+      12,
+      12
+     ],
+     "box": [
+      640,
+      713,
+      220,
+      210
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "icon_marks_map",
+     "size": [
+      12,
+      12
+     ],
+     "box": [
+      960,
+      705,
+      178,
+      218
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "icon_have",
+     "size": [
+      12,
+      12
+     ],
+     "box": [
+      65,
+      1015,
+      214,
+      178
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "icon_short",
+     "size": [
+      12,
+      12
+     ],
+     "box": [
+      361,
+      1011,
+      184,
+      182
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "icon_lock",
+     "size": [
+      12,
+      12
+     ],
+     "box": [
+      644,
+      1001,
+      186,
+      202
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "icon_unknown",
+     "size": [
+      12,
+      12
+     ],
+     "box": [
+      919,
+      1001,
+      242,
+      202
+     ],
+     "edge_ok": true,
+     "parts": 40
+    }
+   ]
+  },
+  {
+   "file": "raw_ar24_C_verbs.png",
+   "label": "Art Request 24, C: verb icons (cleared and boxed by tools/prep_ar24.py)",
+   "grid": [
+    1,
+    1
+   ],
+   "keep_colors": true,
+   "final_say": true,
+   "cells": [
+    {
+     "name": "verb_talk",
+     "size": [
+      12,
+      12
+     ],
+     "box": [
+      54,
+      64,
+      226,
+      198
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "verb_open",
+     "size": [
+      12,
+      12
+     ],
+     "box": [
+      359,
+      42,
+      202,
+      230
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "verb_pick",
+     "size": [
+      12,
+      12
+     ],
+     "box": [
+      637,
+      42,
+      236,
+      230
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "verb_use",
+     "size": [
+      12,
+      12
+     ],
+     "box": [
+      959,
+      42,
+      194,
+      230
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "verb_read",
+     "size": [
+      12,
+      12
+     ],
+     "box": [
+      40,
+      386,
+      252,
+      188
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "verb_sit",
+     "size": [
+      12,
+      12
+     ],
+     "box": [
+      365,
+      362,
+      188,
+      226
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "verb_sleep",
+     "size": [
+      12,
+      12
+     ],
+     "box": [
+      637,
+      386,
+      232,
+      198
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "verb_buy",
+     "size": [
+      12,
+      12
+     ],
+     "box": [
+      943,
+      370,
+      218,
+      218
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "verb_give",
+     "size": [
+      12,
+      12
+     ],
+     "box": [
+      55,
+      677,
+      224,
+      216
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "verb_dig",
+     "size": [
+      12,
+      12
+     ],
+     "box": [
+      361,
+      665,
+      202,
+      226
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "verb_water",
+     "size": [
+      12,
+      12
+     ],
+     "box": [
+      629,
+      699,
+      258,
+      182
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "verb_cook",
+     "size": [
+      12,
+      12
+     ],
+     "box": [
+      935,
+      669,
+      238,
+      222
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "verb_make",
+     "size": [
+      12,
+      12
+     ],
+     "box": [
+      42,
+      987,
+      228,
+      198
+     ],
+     "edge_ok": true,
+     "parts": 40
+    }
+   ]
+  },
+  {
+   "file": "raw_ar24_D_make.png",
+   "label": "Art Request 24, D: stations and kinds (cleared and boxed by tools/prep_ar24.py)",
+   "grid": [
+    1,
+    1
+   ],
+   "keep_colors": true,
+   "final_say": true,
+   "cells": [
+    {
+     "name": "station_hands",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      36,
+      112,
+      334,
+      226
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "station_workbench",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      393,
+      66,
+      316,
+      294
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "station_campfire",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      748,
+      56,
+      282,
+      304
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "station_range",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      1083,
+      56,
+      298,
+      304
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "kind_tools",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      1427,
+      66,
+      306,
+      294
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "kind_building",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      46,
+      498,
+      300,
+      266
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "kind_food",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      401,
+      486,
+      296,
+      266
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "kind_refits",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      784,
+      452,
+      258,
+      308
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "kind_decor",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      1097,
+      464,
+      278,
+      286
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "kind_garden",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      1457,
+      508,
+      258,
+      242
+     ],
+     "edge_ok": true,
+     "parts": 40
+    }
+   ]
+  },
+  {
+   "file": "raw_ar24_E_town.png",
+   "label": "Art Request 24, E: town icons (cleared and boxed by tools/prep_ar24.py)",
+   "grid": [
+    1,
+    1
+   ],
+   "keep_colors": true,
+   "final_say": true,
+   "cells": [
+    {
+     "name": "icon_cake",
+     "size": [
+      12,
+      12
+     ],
+     "box": [
+      62,
+      116,
+      342,
+      432
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "icon_gift_love",
+     "size": [
+      12,
+      12
+     ],
+     "box": [
+      474,
+      132,
+      370,
+      398
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "icon_gift_like",
+     "size": [
+      12,
+      12
+     ],
+     "box": [
+      903,
+      132,
+      368,
+      398
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "icon_gift_dislike",
+     "size": [
+      12,
+      12
+     ],
+     "box": [
+      1332,
+      132,
+      368,
+      398
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "icon_where",
+     "size": [
+      12,
+      12
+     ],
+     "box": [
+      1777,
+      130,
+      336,
+      404
+     ],
+     "edge_ok": true,
+     "parts": 40
+    }
+   ]
+  },
+  {
+   "file": "raw_ar24_F_logbook.png",
+   "label": "Art Request 24, F: the logbook (cleared and boxed by tools/prep_ar24.py)",
+   "grid": [
+    1,
+    1
+   ],
+   "keep_colors": true,
+   "final_say": true,
+   "cells": [
+    {
+     "name": "log_visitors",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      116,
+      28,
+      90,
+      126
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "log_party",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      291,
+      2,
+      212,
+      152
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "log_arriving",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      566,
+      6,
+      202,
+      148
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "log_site",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      811,
+      10,
+      222,
+      140
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "log_litter",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      1083,
+      10,
+      134,
+      144
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "log_staff",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      1274,
+      32,
+      184,
+      104
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "log_id_card",
+     "size": [
+      96,
+      56
+     ],
+     "box": [
+      27,
+      197,
+      320,
+      220
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "log_bar",
+     "size": [
+      6,
+      32
+     ],
+     "box": [
+      374,
+      225,
+      52,
+      190
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "log_card",
+     "size": [
+      24,
+      24
+     ],
+     "box": [
+      446,
+      303,
+      106,
+      112
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "log_card_big",
+     "size": [
+      120,
+      80
+     ],
+     "box": [
+      571,
+      211,
+      314,
+      206
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "log_stamp_done",
+     "size": [
+      32,
+      16
+     ],
+     "box": [
+      905,
+      247,
+      228,
+      136
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "log_envelope",
+     "size": [
+      24,
+      24
+     ],
+     "box": [
+      1158,
+      275,
+      150,
+      112
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "log_envelope_open",
+     "size": [
+      24,
+      24
+     ],
+     "box": [
+      1335,
+      233,
+      170,
+      154
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "log_letter_paper",
+     "size": [
+      160,
+      112
+     ],
+     "box": [
+      28,
+      464,
+      376,
+      238
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "log_note_yellow",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      442,
+      510,
+      118,
+      134
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "log_note_green",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      600,
+      512,
+      120,
+      132
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "log_note_blue",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      762,
+      512,
+      118,
+      132
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "log_note_purple",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      920,
+      512,
+      122,
+      130
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "log_note_big",
+     "size": [
+      160,
+      112
+     ],
+     "box": [
+      1080,
+      458,
+      428,
+      244
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "doodle_footprint",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      96,
+      747,
+      76,
+      90
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "doodle_paw",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      281,
+      755,
+      86,
+      76
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "doodle_mug",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      439,
+      743,
+      90,
+      94
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "doodle_ribbon",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      588,
+      757,
+      98,
+      72
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "doodle_sign",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      754,
+      739,
+      94,
+      98
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "doodle_eye",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      904,
+      753,
+      90,
+      76
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "doodle_tracks",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      1052,
+      747,
+      100,
+      78
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "doodle_question",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      1246,
+      747,
+      58,
+      82
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "doodle_star",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      1393,
+      747,
+      86,
+      82
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "log_sky_clear",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      248,
+      879,
+      106,
+      100
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "log_sky_cloud",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      465,
+      891,
+      126,
+      72
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "log_sky_rain",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      695,
+      881,
+      122,
+      98
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "log_sky_snow",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      926,
+      883,
+      116,
+      98
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "log_sky_fog",
+     "size": [
+      16,
+      16
+     ],
+     "box": [
+      1137,
+      889,
+      142,
+      78
+     ],
+     "edge_ok": true,
+     "parts": 40
+    }
+   ]
+  },
+  {
+   "file": "raw_ar24_G_shops.png",
+   "label": "Art Request 24, G: shop clips (cleared and boxed by tools/prep_ar24.py)",
+   "grid": [
+    1,
+    1
+   ],
+   "keep_colors": true,
+   "final_say": true,
+   "cells": [
+    {
+     "name": "clip_percolator",
+     "size": [
+      32,
+      32
+     ],
+     "box": [
+      31,
+      42,
+      392,
+      392
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "clip_outfitters",
+     "size": [
+      32,
+      32
+     ],
+     "box": [
+      447,
+      42,
+      392,
+      392
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "clip_gifts",
+     "size": [
+      32,
+      32
+     ],
+     "box": [
+      863,
+      42,
+      394,
+      392
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "shop_sold_out",
+     "size": [
+      24,
+      24
+     ],
+     "box": [
+      1308,
+      415,
+      194,
+      148
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "clip_carpentry",
+     "size": [
+      32,
+      32
+     ],
+     "box": [
+      31,
+      522,
+      392,
+      396
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "clip_library",
+     "size": [
+      32,
+      32
+     ],
+     "box": [
+      447,
+      522,
+      392,
+      396
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "clip_casa_luna",
+     "size": [
+      32,
+      32
+     ],
+     "box": [
+      863,
+      522,
+      394,
+      396
+     ],
+     "edge_ok": true,
+     "parts": 40
+    }
+   ]
+  },
+  {
+   "file": "raw_ar24_H_clips.png",
+   "label": "Art Request 24, H: page clips (cleared and boxed by tools/prep_ar24.py)",
+   "grid": [
+    1,
+    1
+   ],
+   "keep_colors": true,
+   "final_say": true,
+   "cells": [
+    {
+     "name": "clip_pack",
+     "size": [
+      32,
+      32
+     ],
+     "box": [
+      34,
+      102,
+      296,
+      326
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "clip_jobs",
+     "size": [
+      32,
+      32
+     ],
+     "box": [
+      396,
+      102,
+      296,
+      326
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "clip_map",
+     "size": [
+      32,
+      32
+     ],
+     "box": [
+      758,
+      102,
+      296,
+      326
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "clip_town",
+     "size": [
+      32,
+      32
+     ],
+     "box": [
+      1120,
+      102,
+      296,
+      326
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "clip_make",
+     "size": [
+      32,
+      32
+     ],
+     "box": [
+      34,
+      566,
+      296,
+      352
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "clip_log",
+     "size": [
+      32,
+      32
+     ],
+     "box": [
+      396,
+      566,
+      296,
+      352
+     ],
+     "edge_ok": true,
+     "parts": 40
+    },
+    {
+     "name": "clip_chest",
+     "size": [
+      32,
+      32
+     ],
+     "box": [
+      758,
+      566,
+      296,
+      352
+     ],
+     "edge_ok": true,
+     "parts": 40
+    }
+   ]
   }
  ],
  "calm": {
