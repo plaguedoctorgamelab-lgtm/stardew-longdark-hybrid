@@ -9150,6 +9150,146 @@
    "id": "kind_romance",
    "text": "For someone special",
    "_4b": "4b"
+  },
+  {
+   "id": "make_tab_all",
+   "text": "All"
+  },
+  {
+   "id": "make_tab_anywhere",
+   "text": "Hands"
+  },
+  {
+   "id": "make_tab_workbench",
+   "text": "Bench"
+  },
+  {
+   "id": "make_tab_fire",
+   "text": "Fire"
+  },
+  {
+   "id": "make_group_park",
+   "text": "Trail and park"
+  },
+  {
+   "id": "make_group_workshop",
+   "text": "Workshop"
+  },
+  {
+   "id": "make_group_food",
+   "text": "Food"
+  },
+  {
+   "id": "make_group_gifts",
+   "text": "Gifts"
+  },
+  {
+   "id": "make_group_refits",
+   "text": "Refits"
+  },
+  {
+   "id": "make_ready",
+   "text": "ready"
+  },
+  {
+   "id": "make_short",
+   "text": "short"
+  },
+  {
+   "id": "make_at_workbench",
+   "text": "at a workbench"
+  },
+  {
+   "id": "make_at_fire",
+   "text": "at a fire"
+  },
+  {
+   "id": "make_needs",
+   "text": "needs a {tool}"
+  },
+  {
+   "id": "make_pack_full",
+   "text": "pack full"
+  },
+  {
+   "id": "make_where_anywhere",
+   "text": "anywhere"
+  },
+  {
+   "id": "make_where_workbench",
+   "text": "at a workbench"
+  },
+  {
+   "id": "make_where_fire",
+   "text": "at a fire or stove"
+  },
+  {
+   "id": "make_minutes",
+   "text": "{n} min"
+  },
+  {
+   "id": "make_need",
+   "text": "You'll need"
+  },
+  {
+   "id": "make_makes",
+   "text": "Makes"
+  },
+  {
+   "id": "make_does",
+   "text": "Does"
+  },
+  {
+   "id": "make_stamp",
+   "text": "Make"
+  },
+  {
+   "id": "make_stamp_n",
+   "text": "Make {n}"
+  },
+  {
+   "id": "make_firewood",
+   "text": "Add firewood ({n})"
+  },
+  {
+   "id": "make_bench_box",
+   "text": "Bench box"
+  },
+  {
+   "id": "make_empty_all",
+   "text": "Nothing to make yet. Ideas come as you find and do things."
+  },
+  {
+   "id": "make_empty_anywhere",
+   "text": "Nothing to make by hand yet."
+  },
+  {
+   "id": "make_empty_workbench",
+   "text": "No workbench ideas yet."
+  },
+  {
+   "id": "make_empty_fire",
+   "text": "No recipes for the fire yet."
+  },
+  {
+   "id": "key_where",
+   "text": "where"
+  },
+  {
+   "id": "key_list",
+   "text": "list"
+  },
+  {
+   "id": "key_make",
+   "text": "make"
+  },
+  {
+   "id": "key_close",
+   "text": "close"
+  },
+  {
+   "id": "key_sheets",
+   "text": "sheets"
   }
  ]
 }

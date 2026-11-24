@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.7.14** (see [Version history](#version-history)). The
+**Current version: 0.7.15** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -119,6 +119,21 @@ phase is finished; the last number counts every build and runs on past 9
 | 0.10.x | Phase 7, Year one polish |
 | 0.11.x to 0.14.x | Phases 8 to 11, one region each |
 | 1.0.0 | every phase done |
+
+### 0.7.15 (24 November 2026): the Make sheet
+
+The first step of the cozy UI plan (`docs/ui/cozy_ui_plan.md`): the shared clipboard sheet, and crafting built on it.
+
+- **The sheet** (`scripts/ui/sheet.gd`, `Sheet`): the jobs clipboard's board, paper and layout as a base every page will use. It has picture tabs, a list of picture cards under coloured ribbons, a detail side with the big picture in a mount, chips (an icon and a few words), tiles with have/need badges (gold when you have enough, red when short), stamps for actions, and key caps along the foot. Pieces from Art Request 24 are used when they arrive; until then each has a drawn stand-in.
+- **Make** (`scripts/ui/make_sheet.gd`, `MakeSheet`) replaces the crafting, workbench and cooking lists:
+  - **Tabs:** All, Hands, Bench and Fire.
+  - **Cards:** grouped under Trail and park, Workshop, Food, Gifts and Refits. A dot on each says *ready*, *short* or where it's made.
+  - **Detail:** where it's made and how long it takes, what it needs as tiles, what it makes, and what it does (food shows its energy and warmth).
+  - **Stamps:** **Make**, and **Make N** when you have enough for several.
+  - **At a fire**, a stamp adds firewood. **At a workbench**, a stamp opens the bench's box.
+  - Pointing at a card shows it at once; nothing floats.
+- Opened from the menu's Make patch, K, a workbench or a fire. Q and E turn its tabs, W and S move down the list, X makes.
+- Tests: `tests/test_make_sheet.gd`. Screenshots: `tests/support/screenshots_0715.gd`.
 
 ### 0.7.14 (24 November 2026): the cozy UI plan
 

@@ -20,6 +20,7 @@ var ui_theme: Theme
 var inventory_screen: InventoryScreen
 var map_screen: MapScreen
 var choice_screen: ChoiceScreen
+var make_sheet: MakeSheet   # crafting, the workbench and cooking on the clipboard (0.7.15)
 var debug_panel: DebugPanel
 var dialog: Panel
 var dialog_label: Label
@@ -125,8 +126,8 @@ func _ready() -> void:
 	session.fortune_read.connect(func(r: Dictionary) -> void: fortune_screen.open(r))
 	session.collapsed.connect(func(text: String) -> void: _show_dialog("notice", text))
 	session.note_read.connect(func(text: String) -> void: _show_dialog("notice", text))
-	session.workbench_opened.connect(func() -> void: choice_screen.open_workbench())
-	session.cooking_opened.connect(func() -> void: choice_screen.open_station("fire"))
+	session.workbench_opened.connect(func() -> void: make_sheet.open("workbench"))
+	session.cooking_opened.connect(func() -> void: make_sheet.open("fire"))
 	session.choice_requested.connect(func(kind: String, title: String, options: Array) -> void: choice_screen.open(kind, title, options))
 	session.list_requested.connect(func(kind: String, title: String, options: Array) -> void: choice_screen.reopen(kind, title, options))
 	choice_screen.chosen.connect(func(kind: String, option_id: String) -> void:
@@ -147,7 +148,9 @@ func _ready() -> void:
 				choice_screen.reopen(kind, session.list_title(kind), session.list_options(kind))
 		else:
 			session.answer_choice(kind, option_id))
-	session.backpack.changed.connect(func() -> void: choice_screen.refresh())
+	session.backpack.changed.connect(func() -> void:
+		choice_screen.refresh()
+		make_sheet.refresh())
 	session.traveled.connect(func() -> void:
 		_on_location_changed(session.location)
 		world_view.reset_chunks())
@@ -239,6 +242,9 @@ func _build_menus() -> void:
 	choice_screen = ChoiceScreen.new()
 	root.add_child(choice_screen)
 	choice_screen.setup(session)
+	make_sheet = MakeSheet.new()
+	root.add_child(make_sheet)
+	make_sheet.setup(session)
 	book_screen = BookScreen.new()
 	root.add_child(book_screen)
 	book_screen.setup(session)
@@ -638,7 +644,7 @@ func _update_look() -> void:
 func open_tab(id: String) -> void:
 	if inventory_screen.visible:
 		inventory_screen.close()
-	for scr: Control in [clipboard, map_screen, social_screen, book_screen]:
+	for scr: Control in [clipboard, map_screen, social_screen, book_screen, make_sheet]:
 		if scr.visible:
 			scr.call("close")
 	if choice_screen.visible:
@@ -653,7 +659,7 @@ func open_tab(id: String) -> void:
 		"people":
 			social_screen.open()
 		"crafting":
-			choice_screen.open_station("anywhere")
+			make_sheet.open("anywhere")
 		"book":
 			book_screen.open()
 
@@ -672,8 +678,8 @@ func _tab_page() -> Array:
 		# Beside the leather strap that carries the page's title.
 		var paper := social_screen._paper("ui_social" if social_screen.page == "people" else "ui_calendar")
 		return ["people", Vector2(paper.get_center().x + 26, paper.position.y + 6)]
-	if choice_screen.visible and choice_screen.kind == "anywhere":
-		return ["crafting", choice_screen.position]
+	if make_sheet.visible and make_sheet.station == "anywhere":
+		return ["crafting", Sheet.FRAME.position + Vector2(24, 4)]
 	if book_screen.visible:
 		return ["book", book_screen.position]
 	return []
@@ -684,7 +690,7 @@ func menu_open() -> bool:
 		return true
 	if fortune_screen != null and fortune_screen.visible:
 		return true
-	return title_screen.visible or pause_menu.visible or options_panel.visible or inventory_screen.visible or map_screen.visible or dialog.visible or choice_screen.visible or book_screen.visible or social_screen.visible or clipboard.visible or job_card.visible
+	return title_screen.visible or pause_menu.visible or options_panel.visible or inventory_screen.visible or map_screen.visible or dialog.visible or choice_screen.visible or make_sheet.visible or book_screen.visible or social_screen.visible or clipboard.visible or job_card.visible
 
 
 ## The speaker's portrait for the talk box: Mark's portrait in the mood
@@ -798,6 +804,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	if clipboard.visible:
 		clipboard.handle(event)
 		return
+	if make_sheet.visible and not dialog.visible:
+		make_sheet.handle(event)
+		return
 	# A heart event between its lines: the scene plays on; keys wait.
 	if scene_player.active() and not dialog.visible and not choice_screen.visible:
 		return
@@ -852,7 +861,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		social_screen.open()
 		return
 	if event.is_action_pressed("craft") and not menu_open():
-		choice_screen.open_station("anywhere")
+		make_sheet.open("anywhere")
 		return
 	if event.is_action_pressed("skills") and not menu_open():
 		if not session.offer_specialty():
