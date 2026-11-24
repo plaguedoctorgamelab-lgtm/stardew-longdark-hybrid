@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.7.13** (see [Version history](#version-history)). The
+**Current version: 0.7.14** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -119,6 +119,15 @@ phase is finished; the last number counts every build and runs on past 9
 | 0.10.x | Phase 7, Year one polish |
 | 0.11.x to 0.14.x | Phases 8 to 11, one region each |
 | 1.0.0 | every phase done |
+
+### 0.7.14 (24 November 2026): the cozy UI plan
+
+No change to the game itself: the plan for the menus, and the art it needs.
+
+- **The plan** (`docs/ui/cozy_ui_plan.md`): one clipboard, many sheets. Every page (Pack, Jobs, Map, Town, Make, Log, the shops, the chest) becomes a sheet on the jobs clipboard, at its size, laid out the jobs way: picture cards on the left, the chosen one on the right with ribbons, picture tiles and stamps. The floating tags go: a label strip on the Pack sheet, an action chip above the item bar, and a toast card for new ideas. Book becomes Log. To be built over 0.7.15 to 0.7.17.
+- **Art Request 24** (`docs/art/art_request_24_cozy_ui.md`): the icons, key caps, stamps, logbook stationery, doodles and clips the plan needs. Sent to Mark.
+- **Mockups** of nine sheets, made from the game's art, on a design canvas.
+- `tests/support/screenshots_ui_review.gd` shoots every menu page as it is now.
 
 ### 0.7.13 (24 November 2026): Mark's Art Request 23
 
