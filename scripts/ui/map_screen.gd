@@ -10,6 +10,11 @@ extends Panel
 ## pieces (map_*) are used when they are there: his parchment shows through
 ## the land not yet surveyed, and his compass, star, site pictograms, legend
 ## frame and lettering dress the corners; drawn stand-ins fill any gaps.
+##
+## The cozy UI plan (0.7.17): the map is a sheet on the clipboard, the same
+## size as every page. The map fills the paper's left side; trail travel is
+## a column of picture cards on the right (the place's picture, its name, a
+## boot and the hours); the legend is a row of icons along the map's foot.
 
 const PAPER := Color8(225, 205, 160)
 const TRACE := Color8(93, 62, 48)
@@ -28,7 +33,9 @@ const GROUND_COLORS := {
 	"boards": Color8(93, 62, 48),
 }
 const ZOOMS: Array[float] = [0.25, 0.5, 1.0, 2.0]
-const VIEW_SIZE := Vector2(384, 250)
+const VIEW_SIZE := Vector2(272, 160)
+const VIEW_AT := Vector2(46, 60)
+const TRAVEL_X := 324.0
 const PAN_SPEED := 160.0   # map pixels per second at zoom 1
 # The town plan: each town tile drawn this many pixels, and its colours.
 const TOWN_PX := 4.0
@@ -64,17 +71,38 @@ var _flourish: Array = []            # changes to draw in: [{kind, pos|landmark|
 var _flourish_age: float = 0.0
 var _hover_label: Label              # the job under the mouse: its name and next step
 var town_plan: Control               # the map of Humdrum, shown in town instead (tracker #41)
+var legend_strip: Control            # the legend: a row of icons under the map
+var _keys: HBoxContainer
 
 
 func setup(s: GameSession) -> void:
 	session = s
-	size = Vector2(400, 270)
-	position = Vector2(40, 0)
-	title = _label(Vector2(8, 2), s.content.text("map_title"))
-	percent = _label(Vector2(40, 2), "")   # left of the menu tabs
-	lost = _label(Vector2(100, 2), "")
+	size = Vector2(480, 270)
+	position = Vector2.ZERO
+	add_theme_stylebox_override("panel", StyleBoxEmpty.new())
+	var board := Control.new()
+	board.size = size
+	board.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	board.draw.connect(func() -> void:
+		board.draw_rect(Rect2(Vector2.ZERO, size), Color(0, 0, 0, 0.45))
+		if Art.has_picture("ui_clipboard"):
+			board.draw_texture_rect(Art.texture("ui_clipboard"), Sheet.FRAME, false)
+		else:
+			board.draw_rect(Sheet.FRAME, KitStyle.WOOD)
+		if Art.has_picture("clip_map"):
+			board.draw_texture_rect(Art.texture("clip_map"), Rect2(Sheet.CLIP_AT - Vector2(14, -1), Vector2(28, 28)), false)
+		if Art.has_picture("map_compass"):
+			board.draw_texture_rect(Art.texture("map_compass"), Rect2(Vector2(VIEW_AT.x, 44), Vector2(12, 12)), false)
+		board.draw_rect(Rect2(TRAVEL_X - 4, VIEW_AT.y, 1, VIEW_SIZE.y), Color(KitStyle.WOOD, 0.35)))
+	add_child(board)
+	title = _label(Vector2(VIEW_AT.x + 14, 44), s.content.text("map_title"))
+	percent = _label(Vector2(VIEW_AT.x + 44, 44), "")
+	lost = _label(Vector2(VIEW_AT.x + 130, 44), "")
+	for l: Label in [title, percent, lost]:
+		l.add_theme_font_size_override("font_size", 7)
+		l.add_theme_color_override("font_color", KitStyle.TEXT_DARK)
 	clip = Control.new()
-	clip.position = Vector2(8, 13)
+	clip.position = VIEW_AT
 	clip.size = VIEW_SIZE
 	clip.clip_contents = true
 	add_child(clip)
@@ -119,11 +147,23 @@ func setup(s: GameSession) -> void:
 	map_rect.texture = texture
 	# Trail travel: places the ranger can walk to in one go, from the trail.
 	travel_box = VBoxContainer.new()
-	travel_box.position = Vector2(size.x - 4, 16)
-	travel_box.add_theme_constant_override("separation", 1)
+	travel_box.position = Vector2(TRAVEL_X, VIEW_AT.y)
+	travel_box.add_theme_constant_override("separation", 2)
 	add_child(travel_box)
+	legend_strip = Control.new()
+	legend_strip.position = Vector2(VIEW_AT.x, VIEW_AT.y + VIEW_SIZE.y + 2)
+	legend_strip.size = Vector2(VIEW_SIZE.x, 11)
+	legend_strip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	legend_strip.draw.connect(_draw_legend_strip)
+	add_child(legend_strip)
+	_keys = HBoxContainer.new()
+	_keys.position = Vector2(Sheet.FRAME.position.x + 30, Sheet.FRAME.end.y - 16)
+	_keys.add_theme_constant_override("separation", 6)
+	_keys.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_keys)
+	Sheet.fill_keys(_keys, [[["W", "A", "S", "D"], s.content.text("key_pan")], [[], s.content.text("key_wheel_zoom")], [["M", "Esc"], s.content.text("key_close")]])
 	foot = Label.new()
-	foot.position = Vector2(12, VIEW_SIZE.y - 2)
+	foot.position = VIEW_AT + Vector2(4, VIEW_SIZE.y - 12)
 	foot.size = Vector2(VIEW_SIZE.x - 8, 12)
 	foot.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	foot.add_theme_font_size_override("font_size", 8)
@@ -145,7 +185,9 @@ func setup(s: GameSession) -> void:
 	visible = false
 
 
-## Fills the trail travel list; hidden when there is nowhere to go.
+## Fills the trail travel column: a card for each place the ranger can walk
+## to in one go, with its map picture, its name and the hours. Click one to
+## walk there.
 func _fill_travel() -> void:
 	for c in travel_box.get_children():
 		c.queue_free()
@@ -153,22 +195,51 @@ func _fill_travel() -> void:
 	travel_box.visible = not opts.is_empty()
 	if opts.is_empty():
 		return
-	var head := Label.new()
-	head.text = session.content.text("ui_travel_title")
-	head.add_theme_font_size_override("font_size", 8)
+	var head := Panel.new()
+	head.custom_minimum_size = Vector2(Sheet.LIST_W - 2, 12)
+	var hb := StyleBoxFlat.new()
+	hb.bg_color = KitStyle.PINE
+	hb.set_corner_radius_all(2)
+	head.add_theme_stylebox_override("panel", hb)
+	var hl := Label.new()
+	hl.text = session.content.text("ui_travel_title")
+	hl.position = Vector2(4, -1)
+	hl.add_theme_font_size_override("font_size", 7)
+	KitStyle.over_world(hl)
+	hl.add_theme_constant_override("outline_size", 2)
+	head.add_child(hl)
 	travel_box.add_child(head)
 	for o: Dictionary in opts:
-		var b := Button.new()
-		b.text = str(o["label"])
-		b.focus_mode = Control.FOCUS_NONE
-		b.add_theme_font_size_override("font_size", 8)
 		var id: String = o["id"]
+		var b := Button.new()
+		b.focus_mode = Control.FOCUS_NONE
+		b.custom_minimum_size = Vector2(Sheet.LIST_W - 2, 24)
+		for st in ["normal", "hover", "pressed"]:
+			var art := "ui_jcard_selected" if st == "hover" else "ui_jcard"
+			b.add_theme_stylebox_override(st, Sheet.sb(art, 6, 2) if Art.has_picture(art) else KitStyle._box(KitStyle.PAPER, KitStyle.WOOD, 1, 2))
+		b.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
+		var pic := Sheet.pick(["map_icon_" + id, "map_star"])
+		if pic != "":
+			b.add_child(Sheet._pic(pic, Vector2(4, 4), Vector2(16, 16)))
+		var nm := Label.new()
+		nm.text = session.travel_name(id)
+		nm.position = Vector2(23, 1)
+		nm.size = Vector2(Sheet.LIST_W - 30, 10)
+		nm.clip_text = true
+		nm.add_theme_font_size_override("font_size", 7)
+		nm.add_theme_color_override("font_color", KitStyle.TEXT_DARK)
+		b.add_child(nm)
+		var m := int(o.get("minutes", 0))
+		var tc := Sheet.chip(Sheet.pick(["icon_walk"]), session.content.text("ui_hours_minutes", {"h": m / 60, "m": m % 60}))
+		tc.position = Vector2(23, 11)
+		b.add_child(tc)
+		Sheet._ignore_mouse(nm)
+		Sheet._ignore_mouse(tc)
 		b.pressed.connect(func() -> void:
 			close()
 			session.travel_to(id))
+		b.set_meta("place", id)
 		travel_box.add_child(b)
-	travel_box.reset_size()
-	travel_box.position = Vector2(size.x - 6 - travel_box.get_combined_minimum_size().x, 26)   # under the menu tabs
 
 
 func _label(pos: Vector2, text: String) -> Label:
@@ -518,8 +589,6 @@ func _draw_deco() -> void:
 	# Compass rose.
 	var o := Vector2(24, 24)
 	if Art.has_picture("map_compass"):
-		deco.draw_texture(Art.texture("map_compass"), Vector2(6, 6))
-		_draw_legend_and_name()
 		return
 	deco.draw_circle(o, 15, Color(PAPER, 0.85))
 	deco.draw_arc(o, 15, 0, TAU, 32, TRACE, 1.0)
@@ -530,7 +599,39 @@ func _draw_deco() -> void:
 		var side := Vector2(cos(a + PI / 2.0), sin(a + PI / 2.0)) * (2.5 if long else 1.5)
 		deco.draw_colored_polygon(PackedVector2Array([o + side, tip, o - side]), STAR if i == 0 else TRACE)
 	_deco_text("N", o + Vector2(-3, -17), 7, TRACE, 2)
-	_draw_legend_and_name()
+
+
+## The legend as a row of icons under the map (the cozy UI plan): nothing
+## sits over the land.
+func _draw_legend_strip() -> void:
+	var c := session.content
+	var on := legend_strip
+	on.draw_rect(Rect2(Vector2.ZERO, on.size), Color8(239, 220, 184))
+	var rows := [["star", "map_legend_landmark"], ["trail", "map_legend_trail"], ["flag", "map_legend_dig"], ["water", "map_legend_water"], ["forest", "map_legend_forest"], ["you", "map_legend_you"]]
+	var f := ThemeDB.fallback_font
+	var x := 4.0
+	for r: Array in rows:
+		var at := Vector2(x + 4, 5.5)
+		match str(r[0]):
+			"star":
+				if Art.has_picture("map_star"):
+					var st := Art.texture("map_star")
+					on.draw_texture(st, (at - Vector2(st.get_size()) / 2.0).round())
+				else:
+					_star(on, at, 3.0, STAR)
+			"trail":
+				on.draw_line(at - Vector2(4, 0), at + Vector2(4, 0), GROUND_COLORS["trail"], 2.0)
+			"water":
+				on.draw_rect(Rect2(at - Vector2(4, 2), Vector2(8, 4)), GROUND_COLORS["shallows"])
+			"forest":
+				on.draw_rect(Rect2(at - Vector2(4, 2), Vector2(8, 4)), GROUND_COLORS["forest_floor"])
+			"you":
+				on.draw_rect(Rect2(at - Vector2(2, 2), Vector2(4, 4)), marker.color)
+			"flag":
+				_flag(on, at + Vector2(-2, 3))
+		var t := c.text(str(r[1])).to_lower()
+		on.draw_string(f, Vector2(x + 10, 8), t, HORIZONTAL_ALIGNMENT_LEFT, -1, 6, TRACE)
+		x += 14.0 + f.get_string_size(t, HORIZONTAL_ALIGNMENT_LEFT, -1, 6).x + 4.0
 
 
 func _draw_legend_and_name() -> void:
@@ -718,6 +819,9 @@ func _hover_job() -> void:
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed:
 		var mb := event as InputEventMouseButton
+		if mb.button_index == MOUSE_BUTTON_LEFT and not Sheet.FRAME.has_point(mb.position):
+			close()
+			return
 		if mb.button_index == MOUSE_BUTTON_WHEEL_UP:
 			change_zoom(1)
 		elif mb.button_index == MOUSE_BUTTON_WHEEL_DOWN:

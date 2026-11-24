@@ -35,6 +35,7 @@ var met: Dictionary = {}            # id -> true
 var talked_day: Dictionary = {}     # id -> absolute day last talked to
 var gifts_week: Dictionary = {}     # id -> [week number, gifts given that week]
 var birthday_gift_year: Dictionary = {}   # id -> year a birthday gift was last given
+var gifts_known: Dictionary = {}    # id -> {item: taste}: what the ranger has learned by giving
 var heard: Dictionary = {}          # line id -> absolute day last said
 var today_line: Dictionary = {}     # id -> [absolute day, line id]: a person keeps one line a day
 
@@ -542,6 +543,9 @@ func give(person: String, item: String) -> Dictionary:
 		var g: Array = gifts_week.get(person, [week, 0])
 		gifts_week[person] = [week, (int(g[1]) if int(g[0]) == week else 0) + 1]
 	met[person] = true
+	if not gifts_known.has(person):
+		gifts_known[person] = {}
+	gifts_known[person][item] = t
 	add_points(person, pts)
 	return {"ok": true, "taste": t, "points": pts, "birthday": bday}
 
@@ -571,6 +575,23 @@ func social_rows() -> Array:
 	return out
 
 
+## The gifts a person loves or likes (level "love" or "like"), from their
+## own list: [item ids], groups left out.
+func taste_list(person: String, level: String) -> Array[String]:
+	var out: Array[String] = []
+	if content.has("gift_tastes", person):
+		for it: Variant in content.row("gift_tastes", person).get(level, []):
+			if not str(it).begins_with("group:") and content.has("items", str(it)):
+				out.append(str(it))
+	return out
+
+
+## Where a person's day has them now, by name.
+func where_now(person: String) -> String:
+	var place := routine_place(person)
+	return str(content.row("town_places", place)["name"]) if content.has("town_places", place) else place.replace("_", " ")
+
+
 ## A season's days for the calendar: [{day, birthdays: [ids], festival}].
 ## Birthdays show for everyone, met or not, as on a town calendar.
 func calendar(season: int) -> Array:
@@ -596,6 +617,7 @@ func to_dict() -> Dictionary:
 		"talked_day": talked_day.duplicate(),
 		"gifts_week": gifts_week.duplicate(true),
 		"birthday_gift_year": birthday_gift_year.duplicate(),
+		"gifts_known": gifts_known.duplicate(true),
 		"heard": heard.duplicate(),
 		"today_line": today_line.duplicate(true),
 	}
@@ -617,6 +639,11 @@ func from_dict(d: Dictionary) -> void:
 	birthday_gift_year = {}
 	for k: String in d.get("birthday_gift_year", {}):
 		birthday_gift_year[k] = int(d["birthday_gift_year"][k])
+	gifts_known = {}
+	for k: String in d.get("gifts_known", {}):
+		gifts_known[k] = {}
+		for it: String in d["gifts_known"][k]:
+			gifts_known[k][it] = str(d["gifts_known"][k][it])
 	heard = {}
 	for k: String in d.get("heard", {}):
 		heard[k] = int(d["heard"][k])

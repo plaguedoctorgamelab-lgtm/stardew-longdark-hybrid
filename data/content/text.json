@@ -9290,6 +9290,74 @@
   {
    "id": "key_sheets",
    "text": "sheets"
+  },
+  {
+   "id": "key_use",
+   "text": "eat or wear"
+  },
+  {
+   "id": "key_drag",
+   "text": "drag to move"
+  },
+  {
+   "id": "fx_warmth_worn",
+   "text": "+{n} warmth outdoors"
+  },
+  {
+   "id": "fx_sells",
+   "text": "sells {gold}"
+  },
+  {
+   "id": "ui_strip_point",
+   "text": "Point at anything to see it here."
+  },
+  {
+   "id": "key_pan",
+   "text": "look around"
+  },
+  {
+   "id": "key_wheel_zoom",
+   "text": "wheel to zoom"
+  },
+  {
+   "id": "town_tab_people",
+   "text": "People"
+  },
+  {
+   "id": "town_tab_calendar",
+   "text": "Calendar"
+  },
+  {
+   "id": "town_key_turn",
+   "text": "people or calendar"
+  },
+  {
+   "id": "town_birthday",
+   "text": "{season} {day}"
+  },
+  {
+   "id": "town_talked",
+   "text": "talked today"
+  },
+  {
+   "id": "town_not_talked",
+   "text": "not talked today"
+  },
+  {
+   "id": "town_gifts",
+   "text": "{n} of {of} gifts this week"
+  },
+  {
+   "id": "town_loves",
+   "text": "Loves"
+  },
+  {
+   "id": "town_likes",
+   "text": "Likes"
+  },
+  {
+   "id": "town_just_friends",
+   "text": "Just friends"
   }
  ]
 }

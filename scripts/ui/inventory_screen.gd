@@ -1,37 +1,43 @@
 class_name InventoryScreen
 extends Control
-## The pack page of the game menu: the gear wall at the trailhead (0.7.9).
+## The Pack sheet (the cozy UI plan, 0.7.17): the backpack and the gear wall
+## on the ranger's clipboard, at the clipboard's size like every page.
 ##
-## On a wall of boards, left to right:
-## - The ranger's park ID card: their photo at dusk with the park's patch
-##   stamped on its corner, the park's name, the funds, everything earned
-##   so far, and the date.
+## On the paper, left to right:
 ## - The pack, opened: the hip belt's ten pockets (the item bar, numbered
-##   with its keys) over the main compartment's stitched canvas. Under it, a
-##   Repack strap (tidies the compartment), Drop, and the Leave No Trace bin.
+##   with its keys) over the main compartment's stitched canvas.
 ## - The gear wall: the hat on its peg, the coat on its hanger, the boots on
 ##   the mat, and spare clothes on the pegs below. Drag clothes onto the
 ##   hat, coat or boots to wear them, or onto the spare pegs to hang them
 ##   up out of the pack. Click a spare piece to put it on.
-## With a chest or the shelf open, its slots sit under the pack.
+##   With a chest, the shelf or the pantry open, its slots take the wall's
+##   place.
+## - Along the foot, the label strip: whatever is pointed at, at once (its
+##   picture, name, kind and what it does). Nothing floats. With nothing
+##   pointed at, it shows the wallet and the day.
+## - Mark's stamps: Repack (tidies the compartment), Drop and the Leave No
+##   Trace bin, which also take a dragged stack.
 ##
 ## Click a pocket to hold that item; with a chest open, click to move a
-## stack across. Drag a stack onto another slot to move or swap it. Point at
-## anything for its tag.
+## stack across. Drag a stack onto another slot to move or swap it.
 
 signal want_tab(id: String)
 
 const SLOT := 22
 const GAP := 2
 const COLS := 10  # the first row is the item bar: the hip belt
-const ID_RECT := Rect2(8, 10, 90, 132)
-const PACK_X := 110.0
+const OTHER_COLS := 5
+const PACK_X := 48.0
 const PACK_W := 16.0 + COLS * SLOT + (COLS - 1) * GAP
-const WALL_X := PACK_X + PACK_W + 8.0
-const WALL_W := 82.0
-const BELT_Y := 10.0
+const WALL_X := PACK_X + PACK_W + 10.0
+const WALL_W := 124.0
+const BELT_Y := 60.0
 const BELT_H := 36.0
-const MAIN_Y := 52.0
+const MAIN_Y := 102.0
+const STRIP := Rect2(46, 186, 390, 26)
+const STAMP_Y := 216.0
+const PAPER_TOP := 46.0
+const GEAR_Y := 50.0
 
 const CANVAS := Color8(178, 160, 104)
 const CANVAS_DARK := Color8(128, 112, 68)
@@ -52,8 +58,6 @@ var drop_button: Button
 var trash_button: Button
 var sort_button: Button
 var _numbers: Array[Label] = []
-var _portrait: RangerPortrait
-var _id_lines: Array[Label] = []
 var _wear: Dictionary = {}   # slot -> Button
 var _wear_names: Dictionary = {}   # slot -> Label
 var _spare_drop: Control
@@ -61,7 +65,16 @@ var _spare_buttons: Array[Button] = []
 var _store_icon: TextureRect
 var _main_bottom: float = 0.0
 var _other_top: float = 0.0
-var _tip: ItemTip
+var _strip: Control
+var _strip_pic: TextureRect
+var _strip_name: Label
+var _strip_kind: Label
+var _strip_chips: HBoxContainer
+var _strip_line: Label
+var _strip_idle: bool = true
+var _keys: HBoxContainer
+var _warmth: Control
+var _spare_label: Label
 
 
 func setup(s: GameSession) -> void:
@@ -69,19 +82,18 @@ func setup(s: GameSession) -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	size = Vector2(WALL_X + WALL_W + 8, 160)
-	KitStyle.frame(self)
-	_tip = ItemTip.new()
-	_tip.setup(s)
-	add_child(_tip)
-	hint = _label(Vector2(8, 0), s.content.text("ui_pack_hint"), 7, KitStyle.TEXT_LIGHT)
+	size = Vector2(480, 270)
+	position = Vector2.ZERO
+	hint = _label(Vector2(-1000, -1000), "", 7)
+	hint.visible = false
 	info = _label(Vector2(-1000, -1000), "", 7)
 	info.visible = false
-	other_label = _label(Vector2.ZERO, "", 8, KitStyle.TEXT_LIGHT)
+	other_label = _label(Vector2(WALL_X + 18, PAPER_TOP + 2), "", 8)
 	_store_icon = KitStyle.tab_icon("chest")
 	if _store_icon != null:
 		add_child(_store_icon)
-	_build_id_card()
+		_store_icon.position = Vector2(WALL_X, PAPER_TOP + 2)
+	_build_strip()
 	for i in COLS:
 		var n := _label(Vector2(PACK_X + 8 + i * (SLOT + GAP), BELT_Y + 1), "1234567890"[i], 7, KitStyle.CREAM)
 		n.size = Vector2(SLOT, 8)
@@ -90,6 +102,12 @@ func setup(s: GameSession) -> void:
 	_pack_buttons = _make_pack_slots()
 	_build_pack_bar()
 	_build_gear_wall()
+	_keys = HBoxContainer.new()
+	_keys.position = Vector2(Sheet.FRAME.position.x + 30, Sheet.FRAME.end.y - 16)
+	_keys.add_theme_constant_override("separation", 6)
+	_keys.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_keys)
+	Sheet.fill_keys(_keys, [[["E", "Esc"], s.content.text("key_close")], [["C"], s.content.text("key_use")], [[], s.content.text("key_drag")]])
 	session.clothes_changed.connect(refresh)
 	session.backpack.changed.connect(refresh)
 	_layout()
@@ -174,7 +192,7 @@ func _slot_pos(i: int, first_y: float) -> Vector2:
 func _wire(b: Button, i: int, is_pack: bool) -> void:
 	b.pressed.connect(_on_slot.bind(i, is_pack))
 	b.mouse_entered.connect(_on_hover.bind(i, is_pack))
-	b.mouse_exited.connect(_tip.hide_tip)
+	b.mouse_exited.connect(_idle_strip)
 	b.set_drag_forwarding(_drag_from.bind(i, is_pack, b), _can_drop, _drop_on.bind(i, is_pack))
 
 
@@ -190,96 +208,164 @@ func _make_pack_slots() -> Array[Button]:
 func _make_other_slots() -> Array[Button]:
 	var out: Array[Button] = []
 	for i in other.size():
-		var b := _slot_button(Vector2(PACK_X + 8 + (i % COLS) * (SLOT + GAP), _other_top + 6 + (i / COLS) * (SLOT + GAP)))
+		var b := _slot_button(Vector2(WALL_X + 4 + (i % OTHER_COLS) * (SLOT + GAP), _other_top + (i / OTHER_COLS) * (SLOT + GAP)))
 		_wire(b, i, false)
 		out.append(b)
 	return out
 
 
-# --- the ID card ---------------------------------------------------------------------
+# --- the label strip (replaces the tag) ------------------------------------------------
 
-func _build_id_card() -> void:
-	var o := ID_RECT.position
-	_portrait = RangerPortrait.new()
-	_portrait.position = o + Vector2(15, 17)
-	_portrait.size = Vector2(60, 64)
-	add_child(_portrait)
-	var seal := TextureRect.new()
-	seal.texture = Art.texture("title_emblem") if Art.has_picture("title_emblem") else null
-	seal.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	seal.position = o + Vector2(62, 66)
-	seal.size = Vector2(20, 22)
-	seal.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	seal.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	seal.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(seal)
-	for k in 4:
-		var l := _label(o + Vector2(6, 84 + k * 11), "", 7 if k != 0 else 8)
-		l.size = Vector2(ID_RECT.size.x - 12, 10)
-		_id_lines.append(l)
+func _build_strip() -> void:
+	_strip = Panel.new()
+	_strip.position = STRIP.position
+	_strip.size = STRIP.size
+	_strip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	if Art.has_picture("ui_label_strip"):
+		# Mark's flowers sit near each end: keep the ends whole, stretch the middle.
+		var st := Sheet.sb("ui_label_strip", 6, 0)
+		st.texture_margin_left = 22
+		st.texture_margin_right = 22
+		_strip.add_theme_stylebox_override("panel", st)
+	else:
+		_strip.add_theme_stylebox_override("panel", KitStyle._box(Color8(251, 240, 214), Color8(201, 167, 122), 1, 3))
+	add_child(_strip)
+	_strip_pic = TextureRect.new()
+	_strip_pic.position = Vector2(26, 3)
+	_strip_pic.size = Vector2(20, 20)
+	_strip_pic.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_strip_pic.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_strip_pic.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_strip.add_child(_strip_pic)
+	_strip_name = _label(Vector2(50, 1), "", 8, KitStyle.TEXT_DARK, _strip)
+	_strip_kind = _label(Vector2(50, 13), "", 6, KitStyle.CORAL.darkened(0.2), _strip)
+	_strip_chips = HBoxContainer.new()
+	_strip_chips.add_theme_constant_override("separation", 3)
+	_strip_chips.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_strip.add_child(_strip_chips)
+	_strip_line = _label(Vector2(0, 0), "", 7, Color8(52, 60, 110), _strip)
+	_strip_line.size = Vector2(150, 24)
+	_strip_line.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_strip_line.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+
+
+func _clear_chips() -> void:
+	for c in _strip_chips.get_children():
+		_strip_chips.remove_child(c)
+		c.queue_free()
+
+
+## What an item is and does, as chips: energy and warmth when eaten, warmth
+## when worn, what a shop gives for it.
+static func item_chips(s: GameSession, item: String) -> Array[Control]:
+	var c := s.content
+	var out: Array[Control] = []
+	if c.has("foods", item):
+		var f := c.row("foods", item)
+		if int(f.get("energy", 0)) > 0:
+			out.append(Sheet.chip(Sheet.pick(["icon_energy"]), c.text("fx_energy", {"n": int(f["energy"])}), "good"))
+		if int(f.get("warmth", 0)) > 0:
+			out.append(Sheet.chip(Sheet.pick(["icon_warmth"]), c.text("fx_warmth", {"n": int(f["warmth"])}), "good"))
+	if s.wardrobe.is_clothing(item):
+		var wr := int(s.wardrobe.row(item).get("warmth", 0))
+		if wr > 0:
+			out.append(Sheet.chip(Sheet.pick(["icon_warmth"]), c.text("fx_warmth_worn", {"n": wr}), "good"))
+	var row := c.row("items", item)
+	if int(row.get("sell", 0)) > 0:
+		out.append(Sheet.chip(Sheet.pick(["icon_coin"]), c.text("fx_sells", {"gold": int(row["sell"])})))
+	return out
+
+
+## The strip, filled for an item ("" goes back to the wallet and the day).
+## `heading` replaces the kind ("Hat").
+func show_item(item: String, count: int = 1, heading: String = "") -> void:
+	if item == "" or not session.content.has("items", item):
+		_idle_strip()
+		return
+	_strip_idle = false
+	var c := session.content
+	var row := c.row("items", item)
+	_strip_pic.texture = Art.texture(str(row["icon"])) if Art.has_picture(str(row["icon"])) else null
+	_strip_name.text = c.item_name(item) + ("  ×%d" % count if count > 1 else "")
+	_strip_kind.text = (heading if heading != "" else ItemTip.kind_text(session, item)).to_upper()
+	_clear_chips()
+	for ch in item_chips(session, item):
+		_strip_chips.add_child(ch)
+	var line := ""
+	for key: String in ["item_desc_" + item, "item_use_" + item]:
+		if c.has("text", key) and line == "":
+			line = c.text(key)
+	_strip_line.text = line
+	_place_strip()
+
+
+## The strip with nothing pointed at: the park's wallet and the day.
+func _idle_strip() -> void:
+	if session == null:
+		return
+	_strip_idle = true
+	var c := session.content
+	var ck := session.clock
+	_strip_pic.texture = Art.texture("log_id_card") if Art.has_picture("log_id_card") else null
+	_strip_name.text = c.text("ui_pack_park")
+	_strip_kind.text = c.text("ui_pack_date", {"day": ck.day, "season": c.text("season_" + ck.season_name()), "year": ck.year}).to_upper()
+	_clear_chips()
+	_strip_chips.add_child(Sheet.chip(Sheet.pick(["icon_coin"]), c.text("ui_pack_wallet", {"gold": _thousands(session.park.money.wallet)})))
+	_strip_chips.add_child(Sheet.chip(Sheet.pick(["icon_coins_up"]), c.text("ui_pack_earned", {"gold": _thousands(session.park.money.earned)})))
+	_strip_line.text = c.text("ui_strip_point")
+	_place_strip()
+
+
+func _place_strip() -> void:
+	var x := 52.0 + maxf(_strip_name.get_combined_minimum_size().x, _strip_kind.get_combined_minimum_size().x) + 8.0
+	_strip_chips.position = Vector2(x, 6)
+	var cw := _strip_chips.get_combined_minimum_size().x
+	_strip_line.position = Vector2(x + cw + 8, 1)
+	_strip_line.size = Vector2(maxf(60.0, STRIP.size.x - x - cw - 30), 24)
 
 
 # --- the pack's bottom bar --------------------------------------------------------------
 
 func _build_pack_bar() -> void:
-	sort_button = Button.new()
-	sort_button.text = session.content.text("ui_repack")
-	sort_button.tooltip_text = session.content.text("ui_sort_hint")
-	sort_button.pressed.connect(func() -> void:
+	var c := session.content
+	sort_button = Sheet.stamp_button(Sheet.pick(["icon_carry", "ui_gear_buckle"]), c.text("ui_repack"), "", true, func() -> void:
 		session.backpack.sort_from(COLS)
 		refresh())
-	drop_button = Button.new()
-	drop_button.text = session.content.text("ui_drop")
-	drop_button.tooltip_text = session.content.text("ui_drop_hint")
+	drop_button = Sheet.stamp_button(Sheet.pick(["verb_pick"]), c.text("ui_drop"), "", true, func() -> void: pass)
 	drop_button.set_drag_forwarding(func(_at: Vector2) -> Variant: return null, _can_drop, func(_at: Vector2, d: Variant) -> void:
 		session.drop_slot(d["inv"], d["i"])
 		refresh())
-	trash_button = Button.new()
-	trash_button.text = session.content.text("ui_bin")
-	trash_button.icon = Art.texture("ui_gear_bin") if Art.has_picture("ui_gear_bin") else (Art.texture("item_trash_can") if Art.has_picture("item_trash_can") else null)
-	trash_button.expand_icon = true
-	trash_button.add_theme_constant_override("icon_max_width", 12)
-	trash_button.tooltip_text = session.content.text("ui_trash_hint")
+	trash_button = Sheet.stamp_button(Sheet.pick(["ui_gear_bin", "item_trash_can"]), c.text("ui_bin"), "", true, func() -> void: pass)
 	trash_button.set_drag_forwarding(func(_at: Vector2) -> Variant: return null, _can_drop, func(_at: Vector2, d: Variant) -> void:
 		session.trash_slot(d["inv"], d["i"])
 		refresh())
 	for b: Button in [sort_button, drop_button, trash_button]:
-		b.focus_mode = Control.FOCUS_NONE
-		b.add_theme_font_size_override("font_size", 7)
-		for st in ["normal", "hover", "pressed", "focus"]:
-			var sb := StyleBoxFlat.new()
-			sb.bg_color = BELT if st != "hover" else BELT.lightened(0.12)
-			sb.border_color = BELT_DARK
-			sb.set_border_width_all(1)
-			sb.set_corner_radius_all(2)
-			sb.set_content_margin_all(1)
-			b.add_theme_stylebox_override(st, sb)
-		for k in ["font_color", "font_hover_color", "font_pressed_color"]:
-			b.add_theme_color_override(k, KitStyle.CREAM)
 		add_child(b)
 
 
 # --- the gear wall ----------------------------------------------------------------------
 
 func _build_gear_wall() -> void:
-	var y := 14.0
+	var y := GEAR_Y
 	for slot: String in Wardrobe.SLOTS:
 		var b := _slot_button(Vector2(WALL_X + 2, y + 6), "peg")
 		b.size = Vector2(26, 26)
 		b.add_theme_constant_override("icon_max_width", 24)
-		b.mouse_entered.connect(func() -> void: _tip.show_item(str(session.wardrobe.worn.get(slot, "")), 1, session.content.text("ui_ranger_slot_" + slot)))
-		b.mouse_exited.connect(func() -> void: _tip.hide_tip())
+		b.mouse_entered.connect(func() -> void: show_item(str(session.wardrobe.worn.get(slot, "")), 1, session.content.text("ui_ranger_slot_" + slot)))
+		b.mouse_exited.connect(_idle_strip)
 		b.set_drag_forwarding(func(_at: Vector2) -> Variant: return null, _can_wear.bind(slot), _wear_drop)
 		_wear[slot] = b
-		var name_l := _label(Vector2(WALL_X + 30, y + 8), "", 7, KitStyle.TEXT_LIGHT)
-		name_l.size = Vector2(WALL_W - 32, 20)
+		var name_l := _label(Vector2(WALL_X + 32, y + 8), "", 7)
+		name_l.size = Vector2(WALL_W - 34, 20)
 		name_l.autowrap_mode = TextServer.AUTOWRAP_WORD
 		_wear_names[slot] = name_l
 		y += 30.0
-	_label(Vector2(WALL_X + 2, y + 2), session.content.text("ui_gear_spare"), 7, KitStyle.TEXT_LIGHT)
+	_spare_label = _label(Vector2(WALL_X + 2, y + 2), session.content.text("ui_gear_spare"), 7)
+	_warmth = Control.new()
+	add_child(_warmth)
 	_spare_drop = Control.new()
 	_spare_drop.position = Vector2(WALL_X, y + 12)
-	_spare_drop.size = Vector2(WALL_W, 40)
+	_spare_drop.size = Vector2(WALL_W, 26)
 	_spare_drop.tooltip_text = session.content.text("ui_gear_spare_hint")
 	_spare_drop.set_drag_forwarding(func(_at: Vector2) -> Variant: return null, _can_hang, _hang_drop)
 	add_child(_spare_drop)
@@ -317,13 +403,14 @@ func _refresh_spares() -> void:
 	_spare_buttons.clear()
 	var k := 0
 	for id: String in session.wardrobe.spares_by_slot():
-		if k >= 6:
+		if k >= 4:
 			break
-		var b := _slot_button(_spare_drop.position + Vector2(4 + (k % 3) * 26, 2 + (k / 3) * 22), "peg")
+		var b := _slot_button(_spare_drop.position + Vector2(4 + (k % 4) * 26, 2 + (k / 4) * 22), "peg")
 		b.icon = _icon(id)
+		b.visible = other == null
 		b.pressed.connect(func() -> void: session.put_on(id))
-		b.mouse_entered.connect(func() -> void: _tip.show_item(id, 1, session.content.text("ui_gear_spare_tag")))
-		b.mouse_exited.connect(func() -> void: _tip.hide_tip())
+		b.mouse_entered.connect(func() -> void: show_item(id, 1, session.content.text("ui_gear_spare_tag")))
+		b.mouse_exited.connect(_idle_strip)
 		b.set_drag_forwarding(func(_at: Vector2) -> Variant: return null, _can_hang, _hang_drop)
 		_spare_buttons.append(b)
 		k += 1
@@ -346,7 +433,6 @@ func _drag_from(_at: Vector2, i: int, is_pack: bool, b: Button) -> Variant:
 	var inv := _inv(is_pack)
 	if inv == null or inv.slot(i).is_empty():
 		return null
-	_tip.hide_tip()
 	var pic := TextureRect.new()
 	pic.texture = b.icon
 	pic.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
@@ -392,8 +478,6 @@ func open(storage: Inventory, storage_title: String) -> void:
 
 func close() -> void:
 	visible = false
-	if _tip != null:
-		_tip.hide_tip()
 	if other != null and other.changed.is_connected(refresh):
 		other.changed.disconnect(refresh)
 	other = null
@@ -415,29 +499,25 @@ func _main_rows() -> int:
 
 
 func _layout() -> void:
-	_main_bottom = MAIN_Y + 10 + _main_rows() * (SLOT + GAP) + 2
-	# Repack, Drop and the bin on a strap under the compartment.
-	var by := _main_bottom + 4
-	sort_button.position = Vector2(PACK_X + 8, by)
-	sort_button.size = Vector2(60, 13)
-	trash_button.position = Vector2(PACK_X + PACK_W - 8 - 60, by)
-	trash_button.size = Vector2(60, 13)
-	drop_button.position = Vector2(trash_button.position.x - 50, by)
-	drop_button.size = Vector2(46, 13)
-	var bottom := maxf(by + 15, ID_RECT.end.y)
-	bottom = maxf(bottom, _spare_drop.position.y + _spare_drop.size.y)
-	other_label.visible = other != null
+	_main_bottom = MAIN_Y + _main_rows() * (SLOT + GAP) + 2
+	# Repack, Drop and the bin: Mark's stamps under the strip.
+	sort_button.position = Vector2(PACK_X, STAMP_Y)
+	drop_button.position = Vector2(PACK_X + 120, STAMP_Y)
+	trash_button.position = Vector2(PACK_X + 180, STAMP_Y)
+	var gear := other == null
+	for slot: String in _wear:
+		(_wear[slot] as Button).visible = gear
+		(_wear_names[slot] as Label).visible = gear
+	_spare_label.visible = gear
+	_spare_drop.visible = gear
+	for b in _spare_buttons:
+		b.visible = gear
+	other_label.visible = not gear
 	if _store_icon != null:
-		_store_icon.visible = other != null
-	if other != null:
-		_other_top = bottom + 14
-		other_label.position = Vector2(ID_RECT.position.x + 16, _other_top + 4)
-		if _store_icon != null:
-			_store_icon.position = Vector2(ID_RECT.position.x, _other_top + 4)
-		bottom = _other_top + 6 + ceili(float(other.size()) / COLS) * (SLOT + GAP) + 4
-	hint.position = Vector2(8, bottom + 1)
-	size.y = bottom + 12
-	position = ((Vector2(480, 270) - size) / 2.0).round() + Vector2(0, 8)
+		_store_icon.visible = not gear
+	_other_top = PAPER_TOP + 16
+	size = Vector2(480, 270)
+	position = Vector2.ZERO
 	queue_redraw()
 
 
@@ -453,13 +533,15 @@ func refresh() -> void:
 		(_wear[slot] as Button).icon = _icon(id)
 		(_wear_names[slot] as Label).text = session.content.item_name(id) if id != "" else "-"
 	_refresh_spares()
-	_portrait.queue_redraw()
-	var c := session.clock
-	_id_lines[0].text = session.content.text("ui_pack_park")
-	_id_lines[1].text = session.content.text("ui_pack_wallet", {"gold": _thousands(session.park.money.wallet)})
-	_id_lines[2].text = session.content.text("ui_pack_earned", {"gold": _thousands(session.park.money.earned)})
-	_id_lines[3].text = session.content.text("ui_pack_date", {"day": c.day, "season": session.content.text("season_" + c.season_name()), "year": c.year})
+	for ch in _warmth.get_children():
+		ch.queue_free()
+	if other == null:
+		var wc := Sheet.chip(Sheet.pick(["icon_warmth"]), session.content.text("fx_warmth_worn", {"n": int(w.warmth())}), "good")
+		wc.position = Vector2(WALL_X + 34, GEAR_Y + 74)
+		_warmth.add_child(wc)
 	info.text = wearing_text()
+	if _strip_idle:
+		_idle_strip()
 	queue_redraw()
 
 
@@ -517,9 +599,9 @@ func _on_hover(i: int, is_pack: bool) -> void:
 		return
 	var s := inv.slot(i)
 	if s.is_empty():
-		_tip.hide_tip()
+		_idle_strip()
 	else:
-		_tip.show_item(str(s["item"]), int(s["count"]))
+		show_item(str(s["item"]), int(s["count"]))
 
 
 # --- drawing: the boards, the ID card, the pack, the pegs -------------------------------------
@@ -530,46 +612,27 @@ func _pic(name: String) -> Texture2D:
 
 
 func _draw() -> void:
-	var boards := _pic("ui_wall_boards")
-	if boards != null:
-		draw_texture_rect(boards, Rect2(Vector2.ZERO, size), true)
-	# The wall without Mark's boards: upright boards with dark seams.
-	var x := 0.0 if boards == null else size.x
-	var k := 0
-	while x < size.x:
-		var w := minf(18.0, size.x - x)
-		draw_rect(Rect2(x, 0, w, size.y), BOARD[k % 3])
-		draw_rect(Rect2(x + w - 1, 0, 1, size.y), KitStyle.WOOD_DARK)
-		draw_rect(Rect2(x + 8, 4, 1, 1), KitStyle.WOOD_DARK)
-		x += w
-		k += 1
+	draw_rect(Rect2(Vector2.ZERO, size), Color(0, 0, 0, 0.45))
+	var board := _pic("ui_clipboard")
+	if board != null:
+		draw_texture_rect(board, Sheet.FRAME, false)
+	else:
+		draw_rect(Sheet.FRAME, KitStyle.WOOD)
+		draw_rect(Sheet.PAPER, KitStyle.PAPER)
+	var clip := _pic("clip_chest" if other != null else "clip_pack")
+	if clip != null:
+		draw_texture_rect(clip, Rect2(Sheet.CLIP_AT - Vector2(14, -1), Vector2(28, 28)), false)
 	if session == null:
 		return
-	_draw_id_card()
 	_draw_pack()
-	_draw_gear_wall()
-	if other != null:
-		var r := Rect2(PACK_X, _other_top, PACK_W, size.y - 12 - _other_top)
-		draw_rect(r, KitStyle.WOOD_DARK)
-		draw_rect(r.grow(-2), Color8(110, 72, 46))
-
-
-func _draw_id_card() -> void:
-	var r := ID_RECT
-	draw_rect(Rect2(r.position + Vector2(1, 2), r.size), Color(KitStyle.INK, 0.4))
-	draw_rect(r, CARD)
-	draw_rect(r, KitStyle.WOOD_DARK, false, 1.0)
-	# The green band across the top, with the card's title in it.
-	draw_rect(Rect2(r.position, Vector2(r.size.x, 13)), PARK_GREEN)
-	draw_string(ThemeDB.fallback_font, r.position + Vector2(0, 10), session.content.text("ui_pack_id_title"), HORIZONTAL_ALIGNMENT_CENTER, r.size.x, 8, KitStyle.CREAM)
-	# A clip at the top, as if it hangs on the wall.
-	var clip_pic := _pic("ui_gear_clip")
-	if clip_pic != null:
-		draw_texture_rect(clip_pic, Rect2(r.position.x + 6, r.position.y - 11, 8, 15), false)
+	if other == null:
+		_draw_gear_wall()
 	else:
-		var clip := Rect2(r.get_center().x - 6, r.position.y - 4, 12, 6)
-		draw_rect(clip, Color8(170, 170, 176))
-		draw_rect(clip, KitStyle.INK, false, 1.0)
+		var r := Rect2(WALL_X, _other_top - 4, WALL_W, ceili(float(other.size()) / OTHER_COLS) * (SLOT + GAP) + 6)
+		draw_rect(r, Color8(110, 72, 46))
+		draw_rect(r.grow(-2), Color8(130, 88, 56))
+	# The rule between the pack and the wall, as on the jobs sheet.
+	draw_rect(Rect2(WALL_X - 5, PAPER_TOP + 14, 1, STRIP.position.y - PAPER_TOP - 20), Color(KitStyle.WOOD, 0.35))
 
 
 func _stitch_rect(r: Rect2, col: Color) -> void:
@@ -587,7 +650,7 @@ func _stitch_rect(r: Rect2, col: Color) -> void:
 
 func _draw_pack() -> void:
 	# The main compartment: canvas with a stitched seam.
-	var main := Rect2(PACK_X, MAIN_Y - 6, PACK_W, _main_bottom - MAIN_Y + 24)
+	var main := Rect2(PACK_X, MAIN_Y - 6, PACK_W, _main_bottom - MAIN_Y + 10)
 	draw_rect(Rect2(main.position + Vector2(1, 2), main.size), Color(KitStyle.INK, 0.4))
 	var canvas := _pic("ui_pack_canvas")
 	if canvas != null:
@@ -616,7 +679,7 @@ func _draw_pack() -> void:
 
 
 func _draw_gear_wall() -> void:
-	var y := 14.0
+	var y := GEAR_Y
 	var wire := Color8(190, 190, 196)
 	var peg_pic := _pic("ui_gear_peg")
 	var hanger := _pic("ui_gear_hanger")
@@ -646,11 +709,11 @@ func _draw_gear_wall() -> void:
 		y += 30.0
 	draw_line(Vector2(WALL_X + 2, y), Vector2(WALL_X + WALL_W - 2, y), Color(KitStyle.INK, 0.4))
 	# A rail of spare pegs.
-	for k in 3:
+	for k in 4:
 		var p := Vector2(WALL_X + 15 + k * 26, y + 13)
 		if peg_pic != null:
 			draw_texture_rect(peg_pic, Rect2(p - Vector2(3, 4), Vector2(6, 7)), false)
 		else:
 			draw_rect(Rect2(p - Vector2(1, 1), Vector2(3, 3)), KitStyle.WOOD_DARK)
 	if session.wardrobe.spare.is_empty():
-		draw_string(ThemeDB.fallback_font, Vector2(WALL_X + 4, y + 34), session.content.text("ui_gear_spare_none"), HORIZONTAL_ALIGNMENT_LEFT, WALL_W - 6, 7, Color(KitStyle.CREAM, 0.85))
+		draw_string(ThemeDB.fallback_font, Vector2(WALL_X + 4, y + 30), session.content.text("ui_gear_spare_none"), HORIZONTAL_ALIGNMENT_LEFT, WALL_W - 6, 6, Color(KitStyle.TEXT_DARK, 0.7))

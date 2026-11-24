@@ -669,15 +669,13 @@ func _tab_page() -> Array:
 	if dialog.visible or job_card.visible or pause_menu.visible or title_screen.visible:
 		return []
 	if inventory_screen.visible:
-		return ["backpack", inventory_screen.position] if inventory_screen.other == null else []
+		return ["backpack", Sheet.FRAME.position + Vector2(24, 4)] if inventory_screen.other == null else []
 	if clipboard.visible:
 		return ["jobs", ClipboardScreen.FRAME.position + Vector2(24, 4)]
 	if map_screen.visible:
-		return ["map", map_screen.position + Vector2(196, 0)]
+		return ["map", Sheet.FRAME.position + Vector2(24, 4)]
 	if social_screen.visible:
-		# Beside the leather strap that carries the page's title.
-		var paper := social_screen._paper("ui_social" if social_screen.page == "people" else "ui_calendar")
-		return ["people", Vector2(paper.get_center().x + 26, paper.position.y + 6)]
+		return ["people", Sheet.FRAME.position + Vector2(24, 4)]
 	if make_sheet.visible and make_sheet.station == "anywhere":
 		return ["crafting", Sheet.FRAME.position + Vector2(24, 4)]
 	if book_screen.visible:
@@ -845,7 +843,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	# The People page and calendar: Q and E turn between them.
 	if social_screen.visible:
-		if event.is_action_pressed("tab_prev") or event.is_action_pressed("tab_next"):
+		if social_screen.handle(event):
+			pass
+		elif event.is_action_pressed("tab_prev") or event.is_action_pressed("tab_next"):
 			social_screen.turn()
 		elif event.is_action_pressed("social") or event.is_action_pressed("cancel"):
 			social_screen.close()

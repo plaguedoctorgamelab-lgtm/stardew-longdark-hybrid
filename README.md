@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.7.16** (see [Version history](#version-history)). The
+**Current version: 0.7.17** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -119,6 +119,27 @@ phase is finished; the last number counts every build and runs on past 9
 | 0.10.x | Phase 7, Year one polish |
 | 0.11.x to 0.14.x | Phases 8 to 11, one region each |
 | 1.0.0 | every phase done |
+
+### 0.7.17 (24 November 2026): the Pack, Map and Town sheets
+
+The cozy UI plan's second step: three more pages moved onto the jobs clipboard, at its size.
+
+- **Pack** (`scripts/ui/inventory_screen.gd`):
+  - The hip belt and the pack are on the left, the gear wall on the right, as before but on the board. When a chest, the shelf or the pantry is open, its slots take the gear wall's place.
+  - **The item tag is gone.** A **label strip** (Mark's) along the foot shows whatever you point at, at once: its picture, name, kind, its facts as chips (energy, warmth when eaten or worn, what it sells for), and its line. With nothing pointed at, it shows the park, the day, the wallet and what you've earned (the old ID card's job).
+  - Repack, Drop and the bin are Mark's round stamps; Drop and the bin still take a dragged stack.
+  - The clothes' warmth is a chip on the gear wall.
+- **Map** (`scripts/ui/map_screen.gd`):
+  - The map sits in a window on the paper's left, no bigger than the board. It still pans with the walking keys and zooms with the wheel.
+  - **Trail travel** is a column of picture cards on the right: each place's map picture, its name, and a boot with the hours. Click one to walk there.
+  - The legend is a row of icons under the map instead of a box over it. The compass and "% mapped" sit above.
+- **Town** (`scripts/ui/social_screen.gd`), with People and Calendar tabs:
+  - **People:** a card for everyone met, with their face and hearts. The chosen one in full: Mark's portrait, the hearts (and a sweetheart's heart), and chips for their birthday, talked today, the week's gifts and where they are now.
+  - Tiles for what they **love** and **like**, with "?" for each one not found yet. A sweetheart has a **Just friends** stamp.
+  - **Calendar:** the season on the paper, with today, birthdays and the festival.
+- **Gifts are remembered.** Giving something teaches the ranger how that person felt about it (`Town.gifts_known`, saved), which fills in the Loves and Likes tiles.
+- Every sheet has its clip picture and key caps along the foot.
+- Tests: `tests/test_cozy_sheets_0717.gd`. Screenshots: `tests/support/screenshots_0717.gd`, `docs/status/0717_shots/`.
 
 ### 0.7.16 (24 November 2026): Mark's Art Request 24, and Wren
 
