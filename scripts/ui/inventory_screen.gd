@@ -536,8 +536,8 @@ func refresh() -> void:
 	for ch in _warmth.get_children():
 		ch.queue_free()
 	if other == null:
-		var wc := Sheet.chip(Sheet.pick(["icon_warmth"]), session.content.text("fx_warmth_worn", {"n": int(w.warmth())}), "good")
-		wc.position = Vector2(WALL_X + 34, GEAR_Y + 74)
+		var wc := Sheet.chip(Sheet.pick(["icon_warmth"]), session.content.text("fx_warmth", {"n": int(w.warmth())}), "good")
+		wc.position = Vector2(WALL_X + 58, GEAR_Y + 89)
 		_warmth.add_child(wc)
 	info.text = wearing_text()
 	if _strip_idle:

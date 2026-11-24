@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.7.17** (see [Version history](#version-history)). The
+**Current version: 0.7.18** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -119,6 +119,11 @@ phase is finished; the last number counts every build and runs on past 9
 | 0.10.x | Phase 7, Year one polish |
 | 0.11.x to 0.14.x | Phases 8 to 11, one region each |
 | 1.0.0 | every phase done |
+
+### 0.7.18 (24 November 2026): a tidier gear wall
+
+- The clothes' warmth chip sits beside "Spare pegs" and says "+1 warmth", so it no longer covers the boots' name or runs off the paper.
+- The label strip's hint, with nothing pointed at, is one short line: "Point at anything."
 
 ### 0.7.17 (24 November 2026): the Pack, Map and Town sheets
 
