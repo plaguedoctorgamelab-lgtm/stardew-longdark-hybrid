@@ -59,7 +59,7 @@ func test_handing_over_finishes_a_favor_and_gives_friendship(t: TestCase) -> voi
 	s.jobs.update(true)
 	t.check(s.jobs.is_done("gus_planks"), "ten planks for Gus: done")
 	t.equal(s.backpack.count("planks"), 0, "the planks are handed over")
-	t.equal(s.town.points("gus") - before, 120, "and Gus's friendship grows by 120")
+	t.equal(s.town.points("gus") - before, 120 + s.tuning.integer("friendship.talk_points"), "and Gus's friendship grows by 120, and handing over counts as talking (tracker #63)")
 	t.equal(s.town.gifts_left("gus"), gifts, "it doesn't count as one of the week's gifts")
 
 

@@ -30,8 +30,11 @@ func setup(s: GameSession) -> void:
 
 func open(at: String) -> void:
 	place = at
-	var r := session.shops.shop(place)
-	tab = "buy" if not (r.get("sells", []) as Array).is_empty() else "sell"
+	if place == "catalog":
+		tab = "buy"
+	else:
+		var r := session.shops.shop(place)
+		tab = "buy" if not (r.get("sells", []) as Array).is_empty() else "sell"
 	selected = ""
 	set_clip([CLIPS.get(place, ""), "clip_make"])
 	visible = true
@@ -79,6 +82,9 @@ func _icon(item: String) -> String:
 
 func refresh() -> void:
 	if not visible:
+		return
+	if place == "catalog":
+		_catalog()
 		return
 	var c := session.content
 	var r := session.shops.shop(place)
@@ -214,11 +220,129 @@ func _hand_on(option: String) -> void:
 	handed_on.emit(nxt)
 
 
+# --- the supply catalog (tracker #51) -----------------------------------------------
+# The catalog on the clipboard like a shop: its lines as cards, the chosen
+# one in full with an Order stamp, and what's already on order beside it,
+# like things stacked as one (not a list across the top).
+
+func _cat_icon(r: Dictionary) -> String:
+	if r.has("item"):
+		return _icon(str(r["item"]))
+	if r.has("facility"):
+		return pick([str(session.content.row("facilities", r["facility"]).get("sprite", "")), "kind_building"])
+	return ""
+
+
+func _pad_name(name: String, pad: String) -> String:
+	return session.content.text("ui_catalog_kit_for", {"name": name, "place": session.park.place_name(str(session.park.pad_row(pad).get("site", "")))})
+
+
+## The lines that can be ordered now: [{id, cat, name, price, icon, ok, count}].
+func catalog_lines() -> Array:
+	var c := session.content
+	var out := []
+	for o: Dictionary in session.park.catalog_options():
+		if str(o["id"]).begins_with("ordered:"):
+			continue
+		var r := c.row("catalog", str(o["cat"]))
+		var name := c.text(r["name"])
+		if str(o["pad"]) != "":
+			name = _pad_name(name, str(o["pad"]))
+		out.append({"id": str(o["id"]), "cat": str(o["cat"]), "name": name, "price": int(o["price"]), "icon": _cat_icon(r), "ok": bool(o["enabled"]), "count": int(r.get("count", 1))})
+	return out
+
+
+## What's on order, like things together: [{name, icon, n, waiting}].
+func catalog_cart() -> Array:
+	var c := session.content
+	var by := {}
+	var out := []
+	var entries := []
+	for o: Dictionary in session.park.orders:
+		var r := c.row("catalog", str(o["cat"]))
+		var name := c.text(r["name"])
+		if str(o.get("pad", "")) != "":
+			entries.append(["pad:" + str(o["pad"]), _pad_name(name, str(o["pad"])), _cat_icon(r), 1, false])
+		else:
+			entries.append(["o:" + str(o["cat"]), name, _cat_icon(r), int(r.get("count", 1)), false])
+	for w: Array in session.park.shelf_waiting:
+		entries.append(["w:" + str(w[0]), c.item_name(str(w[0])), _icon(str(w[0])), int(w[1]), true])
+	for e: Array in entries:
+		var key := str(e[0])
+		if by.has(key):
+			by[key]["n"] = int(by[key]["n"]) + int(e[3])
+		else:
+			by[key] = {"name": str(e[1]), "icon": str(e[2]), "n": int(e[3]), "waiting": bool(e[4])}
+			out.append(by[key])
+	return out
+
+
+func _catalog() -> void:
+	var c := session.content
+	var wallet := session.park.money.wallet
+	set_index_tabs([{"id": "buy", "label": c.text("cat_tab_order"), "icon": pick(["verb_read", "verb_buy"])}], "buy", func(_t: String) -> void: pass)
+	_title.text = c.text("cat_title")
+	_title.position = PAPER.position + Vector2(48, 1)
+	clear(list)
+	clear(detail)
+	clear(stamps)
+	var lines := catalog_lines()
+	empty_label.visible = lines.is_empty()
+	empty_label.text = c.text("cat_none")
+	if not lines.is_empty():
+		if selected == "" or not lines.any(func(g: Dictionary) -> bool: return str(g["id"]) == selected):
+			selected = str(lines[0]["id"])
+		var chosen := {}
+		for g: Dictionary in lines:
+			var id := str(g["id"])
+			var nm := str(g["name"]) + (" ×%d" % int(g["count"]) if int(g["count"]) > 1 else "")
+			list.add_child(card(str(g["icon"]), nm, _price_chip(int(g["price"]), bool(g["ok"])), id == selected, func() -> void: _choose(id), not bool(g["ok"])))
+			if id == selected:
+				chosen = g
+		var chips: Array[Control] = [_price_chip(int(chosen["price"]), bool(chosen["ok"])), Sheet.chip(pick(["icon_time"]), c.text("cat_here_at_six"))]
+		detail.add_child(header(str(chosen["icon"]), str(chosen["name"]) + (" ×%d" % int(chosen["count"]) if int(chosen["count"]) > 1 else ""), chips))
+		detail.add_child(Sheet.chip(pick(["icon_coin"]), c.text("shop_you_have", {"n": wallet})))
+		var oid := str(chosen["id"])
+		add_stamp(pick(["verb_buy"]), c.text("cat_order_for", {"n": int(chosen["price"])}), "X", bool(chosen["ok"]), func() -> void: _do_order(oid))
+	# The cart: what's coming, stacked.
+	var cart := catalog_cart()
+	detail.add_child(heading(c.text("cat_on_order")))
+	if cart.is_empty():
+		detail.add_child(voice(c.text("cat_nothing_on_order")))
+	else:
+		var row := tile_row()
+		for e: Dictionary in cart:
+			row.add_child(tile(str(e["icon"]), str(e["n"]) if int(e["n"]) > 1 else "", "grey" if bool(e["waiting"]) else "gold", str(e["name"])))
+		detail.add_child(row)
+		detail.add_child(voice(c.text("cat_cart_when")))
+	set_keys([[["W", "S"], c.text("key_list")], [["X"], c.text("cat_key_order")], [["Esc"], c.text("key_close")]])
+
+
+func _do_order(id: String) -> void:
+	session.answer_list("catalog", id)
+	refresh()
+
+
 ## Keys while the shop is open. True when the key was used.
 func handle(event: InputEvent) -> bool:
 	if event.is_action_pressed("cancel") or event.is_action_pressed("pause") or event.is_action_pressed("backpack"):
 		close()
 		return true
+	if place == "catalog":
+		if event.is_action_pressed("move_up") or event.is_action_pressed("move_down"):
+			var ids: Array = catalog_lines().map(func(g: Dictionary) -> String: return str(g["id"]))
+			if not ids.is_empty():
+				var i := ids.find(selected)
+				selected = str(ids[clampi(i + (1 if event.is_action_pressed("move_down") else -1), 0, ids.size() - 1)])
+				refresh()
+			return true
+		if event.is_action_pressed("interact") or event.is_action_pressed("confirm"):
+			for g: Dictionary in catalog_lines():
+				if str(g["id"]) == selected and bool(g["ok"]):
+					_do_order(selected)
+					break
+			return true
+		return false
 	if event.is_action_pressed("tab_prev") or event.is_action_pressed("tab_next"):
 		var r := session.shops.shop(place)
 		if tab == "buy" and r.has("buys"):

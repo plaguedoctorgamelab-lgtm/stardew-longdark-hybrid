@@ -1294,6 +1294,11 @@ func _hand_over(person: String, item: String, want: Dictionary) -> void:
 	if not keep:
 		backpack.remove(item, n)
 	town.met[person] = true
+	# Bringing someone what they asked for is a visit: it counts as talking
+	# to them today, with the day's talk points (tracker #63).
+	if int(town.talked_day.get(person, -1)) != clock.absolute_day():
+		town.talked_day[person] = clock.absolute_day()
+		town.add_points(person, tuning.integer("friendship.talk_points"))
 	jobs.event("give_to", {"person": person, "item": item, "n": n})
 	var who := shops.first_name(person)
 	var name := content.item_name(item).to_lower()
@@ -1321,6 +1326,10 @@ func _use_in_town() -> void:
 			message.emit(content.text(key, {"name": shops.first_name(person)}))
 		return
 	var want := jobs.wants(person, item)
+	# Something a favor pinned on the board asks of this person: take the
+	# favor on and hand it over, rather than it going as a gift (tracker #60).
+	if want.is_empty() and favors.take_for(person, item) != "":
+		want = jobs.wants(person, item)
 	if not want.is_empty():
 		_hand_over(person, item, want)
 		return
@@ -1410,6 +1419,16 @@ func interact() -> void:
 	if js != "":
 		work_job_spot(js)
 		return
+	# A spot that wants a tool: X uses it from the pack, or says which tool
+	# (tracker #48: the outlook's bench had an arrow but X did nothing).
+	for tool: String in ["hammer", "axe"]:
+		var ts := jobs.spot_in_reach(tool, outdoor_pos, reach)
+		if ts != "":
+			if backpack.has(tool):
+				work_job_spot(ts)
+			else:
+				message.emit(content.text("msg_spot_needs_tool", {"tool": content.item_name(tool).to_lower()}))
+			return
 	if _park_interact():
 		return
 	var pile := pile_in_reach()
@@ -1518,9 +1537,8 @@ func _interact_inside() -> void:
 			shelf_seen[location] = str((structures.shelves[location] as Inventory).to_array())
 			storage_opened.emit(content.text("ui_shelf"), structures.shelves[location])
 		"chest":
-			if bed_taken(location):
-				message.emit(content.text("msg_cabin_booked_note", {"party": park.booked_by}))
-				return
+			# The chest stays the ranger's while guests have the bed, so it can
+			# be stocked for them (tracker #57).
 			storage_opened.emit(content.text("ui_chest"), structures.chests[location])
 		"stove":
 			if structures.stove_lit(location):
@@ -1727,9 +1745,10 @@ func eat(item: String) -> bool:
 
 func hammer() -> Dictionary:
 	if not is_indoors():
-		var front := ranger_tile() + facing_vector()
-		if placed.has(front):
-			return {"ok": take_down(front), "reason": "took_down"}
+		# A sign or cairn in reach, not only the tile in front (tracker #56).
+		var pt := placed_in_reach()
+		if pt.x >= 0:
+			return {"ok": take_down(pt), "reason": "took_down"}
 		if camp_in_reach():
 			return {"ok": pack_up_camp(), "reason": "packed_camp"}
 		var th := thing_in_reach()
@@ -2768,7 +2787,28 @@ func sign_places() -> Array:
 	rest.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return float(a["d"]) < float(b["d"]))
 	for e: Dictionary in rest:
 		out.append({"id": e["id"], "label": e["label"]})
+	# Each with the way it lies from here (tracker #54).
+	var t := ranger_tile()
+	for e: Dictionary in out:
+		e["label"] = content.text("ui_sign_option", {"place": e["label"], "dir": content.text(sign_direction(t, str(e["id"])))})
 	return out
+
+
+## The sign question, saying first where the ranger is (tracker #54).
+func sign_where_title() -> String:
+	var here := ""
+	var best := INF
+	var station := content.text("ui_place_station")
+	for pl: String in ["ranger_station"] + Array(content.ids("landmarks")):
+		if pl != "ranger_station" and not map.is_landmark_mapped(pl):
+			continue
+		var d := outdoor_pos.distance_to(place_pos(pl))
+		if d < best:
+			best = d
+			here = station if pl == "ranger_station" else place_name(pl)
+	if here == "":
+		return content.text("ui_sign_where")
+	return content.text("ui_sign_here", {"place": here, "n": roundi(best)}) + " " + content.text("ui_sign_where")
 
 
 ## On a trail or boardwalk, or right beside one (tuned), where a sign belongs.
@@ -2851,7 +2891,7 @@ func begin_place() -> bool:
 		_pending_place = t
 		_pending_item = item
 		pending_confirm = "sign_place"
-		choice_requested.emit("sign_place", content.text("ui_sign_where"), sign_places())
+		choice_requested.emit("sign_place", sign_where_title(), sign_places())
 		return true
 	return put_up(t, item, "")
 
@@ -2882,6 +2922,7 @@ func put_up(t: Vector2i, item: String, place_id: String) -> bool:
 	if why != "" or not backpack.remove(item, 1):
 		message.emit(content.text(why if why != "" else "msg_place_bad_spot"))
 		return false
+	var said := jobs.placed_feedback(t, item, place_id)
 	placed[t] = {"item": item, "place": place_id}
 	var is_sign := item == "trail_sign"
 	needs.spend(tuning.num("signs.put_up_energy") * (skills.energy_for("sign") if is_sign else 1.0))
@@ -2898,6 +2939,8 @@ func put_up(t: Vector2i, item: String, place_id: String) -> bool:
 		message.emit(content.text("msg_cairn_up"))
 	else:
 		message.emit(content.text("msg_marker_up"))
+	for line in said:
+		message.emit(line)
 	if is_sign:
 		skills.act("sign")
 	pass_minutes(tuning.integer("signs.put_up_minutes"))
@@ -4488,9 +4531,12 @@ func place_park_thing() -> bool:
 		return false
 	if not backpack.remove(item, 1):
 		return false
+	var said := jobs.placed_feedback(t, id)
 	park.put_thing(t, id)
 	land_changed.emit(t)
 	message.emit(content.text("msg_thing_placed", {"name": content.item_name(item).to_lower()}))
+	for line in said:
+		message.emit(line)
 	pass_minutes(tuning.integer("signs.put_up_minutes"))
 	return true
 

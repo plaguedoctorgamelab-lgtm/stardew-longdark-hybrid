@@ -65,15 +65,8 @@
    ],
    "rewards": [
     {
-     "kind": "things",
-     "items": {
-      "trail_sign": 1
-     },
-     "label": "jr_blank_sign"
-    },
-    {
      "kind": "money",
-     "n": 15
+     "n": 25
     }
    ],
    "season": "until_done",

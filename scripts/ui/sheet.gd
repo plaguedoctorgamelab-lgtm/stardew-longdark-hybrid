@@ -217,7 +217,8 @@ func card(picture: String, name: String, foot: Control, chosen: bool, on_choose:
 	p.gui_input.connect(func(e: InputEvent) -> void:
 		if e is InputEventMouseButton and (e as InputEventMouseButton).pressed and (e as InputEventMouseButton).button_index == MOUSE_BUTTON_LEFT:
 			on_choose.call())
-	p.mouse_entered.connect(func() -> void: on_choose.call())
+	# Cards are chosen by a click (or W/S), not by passing over them: the
+	# mouse on its way to a stamp kept changing the choice (tracker #49).
 	if picture != "" and Art.has_picture(picture):
 		var pic := _pic(picture, Vector2(3, 3), Vector2(19, 19))
 		if dim:

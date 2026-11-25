@@ -47,6 +47,17 @@ func x_hint() -> String:
 	var js := s.jobs.spot_in_reach("x", s.outdoor_pos, reach)
 	if js != "":
 		return _t(str(s.jobs.spot_row(js)["verb"]))
+	# A landmark to map or declare open comes first, as it does for X.
+	var lm0 := s.world.interactive_near(s.outdoor_pos, reach + 0.5)
+	var lm_first := false
+	if not lm0.is_empty() and str(lm0["interact"]).begins_with("landmark:"):
+		var lid0 := str(lm0["interact"]).substr(9)
+		var site0 := s.site_for_landmark(lid0)
+		lm_first = not s.map.is_landmark_mapped(lid0) or (site0 != "" and not s.sites_open.has(site0) and s.site_ready(site0))
+	for tool: String in ([] if lm_first else ["hammer", "axe"]):
+		var ts := s.jobs.spot_in_reach(tool, s.outdoor_pos, reach)
+		if ts != "":
+			return _t("hint_x_spot_tool", {"verb": _t(str(s.jobs.spot_row(ts)["verb"])), "tool": s.content.item_name(tool).to_lower()})
 	var park := _x_park(s, reach)
 	if park != "":
 		return park

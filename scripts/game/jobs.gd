@@ -248,6 +248,8 @@ func step_label(key: String, i: int) -> String:
 	var args := {}
 	if known.has(key):
 		args = (known[key].get("blanks", {}) as Dictionary).duplicate()
+	if str(stp.get("at", "")) == "busiest":
+		args["place"] = s().park.place_name(busiest_for(key))
 	return _t(stp["label"], args)
 
 
@@ -411,6 +413,28 @@ func _atom(a: String) -> bool:
 	return false
 
 
+## Stock delivered for a job is used once the job is done, so it can't be
+## taken back out of the chest (tracker #59).
+func _use_up_stock(d: Dictionary) -> void:
+	var g := s()
+	for stp: Dictionary in d.get("steps", []):
+		if str(stp["kind"]) != "deliver" or stp.has("spot") or not stp.has("chest"):
+			continue
+		var chests: Array[String] = []
+		if str(stp["chest"]) == "open_buildings":
+			chests = _open_buildings()
+		else:
+			chests.append(str(stp["chest"]))
+		for c in chests:
+			if not g.structures.chests.has(c):
+				continue
+			var inv: Inventory = g.structures.chests[c]
+			for it: String in stp["items"]:
+				var n := mini(inv.count(it), int(stp["items"][it]))
+				if n > 0:
+					inv.remove(it, n)
+
+
 func _open_buildings() -> Array[String]:
 	var g := s()
 	var out: Array[String] = []
@@ -465,8 +489,20 @@ func _where(key: String, at: String) -> Vector2:
 			return Vector2.INF
 		return lost["center"] as Vector2
 	if at == "busiest":
-		return g.park.place_spot(_busiest())
+		return g.park.place_spot(busiest_for(key))
 	return Vector2.INF
+
+
+## The busiest place, chosen once when a job first asks and kept, so the
+## step can name it and it doesn't move under the ranger (tracker #62).
+func busiest_for(key: String) -> String:
+	if not known.has(key):
+		return _busiest()
+	var b: Dictionary = known[key].get("blanks", {})
+	if not b.has("busiest"):
+		b["busiest"] = _busiest()
+		known[key]["blanks"] = b
+	return str(b["busiest"])
 
 
 func _point(name: String, idx: int) -> Vector2:
@@ -1315,6 +1351,7 @@ func _finish(k: String) -> void:
 	if not bool(st["paid"]):
 		st["paid"] = true
 		var d := def(k)
+		_use_up_stock(d)
 		var before := order.duplicate()
 		for r: Dictionary in d.get("rewards", []):
 			var line := _give(k, r, card)
@@ -1663,6 +1700,11 @@ func candidates(tid: String) -> Array:
 		"lost_thing":
 			var things := ["lost_mitten", "lost_keys", "lost_locket", "lost_glasses"]
 			for id: String in _met_people():
+				# Someone who just had a lost thing found doesn't lose another
+				# for a season (tracker #65: Marge's keys again).
+				var prev := "tpl:%s:%s" % [tid, id]
+				if known.has(prev) and bool(known[prev].get("finished", false)) and g.clock.absolute_day() - int(known[prev].get("fin_day", -999)) < g.clock.days_per_season():
+					continue
 				var it: String = things[absi(hash(id)) % things.size()]
 				out.append(_person_blanks(id, {"item": it, "item_name": g.content.item_name(it).to_lower(), "at": "trail"}))
 		"shop_hand":
@@ -2047,7 +2089,52 @@ func map_marks() -> Array:
 		var p := step_pos(k, i)
 		if p == Vector2.INF:
 			continue
-		out.append({"pos": p, "color": type_color(def(k)["type"]), "pinned": k == shown, "name": def(k)["name"], "step": step_label(k, i), "key": k})
+		# A step that wants something put down within r shows its circle
+		# (tracker #55: which marker? the map didn't say).
+		var stp: Dictionary = def(k)["steps"][i]
+		var r := float(stp.get("r", 0)) if str(stp["kind"]) in ["sign", "place"] and not stp.has("site") else 0.0
+		out.append({"pos": p, "color": type_color(def(k)["type"]), "pinned": k == shown, "name": def(k)["name"], "step": step_label(k, i), "key": k, "r": r})
+	return out
+
+
+## What a sign, cairn or park thing about to go down at t will do for the
+## jobs, as lines to say (tracker #61: a sign that didn't count said
+## nothing). `thing` is the item for signs and markers, the placeable id
+## for park things.
+func placed_feedback(t: Vector2i, thing: String, place_id: String = "") -> Array[String]:
+	var out: Array[String] = []
+	var g := s()
+	var p := Vector2(t) + Vector2(0.5, 0.5)
+	for k: String in order:
+		if not is_active(k):
+			continue
+		var i := next_step(k)
+		if i < 0:
+			continue
+		var stp: Dictionary = def(k)["steps"][i]
+		var kind := str(stp["kind"])
+		var is_sign := kind == "sign" and thing == "trail_sign" and not stp.has("site")
+		if not is_sign and not (kind == "place" and str(stp.get("thing", "")) == thing):
+			continue
+		var at := _where(k, str(stp["at"]))
+		if at == Vector2.INF:
+			continue
+		var r := float(stp["r"])
+		var d := p.distance_to(at)
+		var name := str(def(k)["name"])
+		if d > r + 0.5:
+			if d <= r * 4.0 + 6.0:
+				out.append(_t("msg_job_place_far", {"job": name, "n": ceili(d - r)}))
+			continue
+		if is_sign:
+			var places: Array = stp.get("places", [])
+			if not places.has("any") and not places.has(place_id):
+				var names := PackedStringArray()
+				for pl in places:
+					names.append(g.place_name(str(pl)))
+				out.append(_t("msg_job_sign_wrong", {"job": name, "places": ", ".join(names)}))
+				continue
+		out.append(_t("msg_job_place_counts", {"job": name}))
 	return out
 
 

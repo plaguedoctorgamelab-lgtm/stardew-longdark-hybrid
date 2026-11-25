@@ -1742,7 +1742,10 @@ func _leave(p: Dictionary) -> void:
 		if rng.randf() < tuning.num("visitors.shelf_buy_share"):
 			var item: String = stocked[rng.randi() % stocked.size()]
 			gift_shelf.remove(item, 1)
-			money.earn(sim_day, "gift_shelf", int(content.row("items", item).get("sell", 0)))
+			var price := int(content.row("items", item).get("sell", 0))
+			money.earn(sim_day, "gift_shelf", price)
+			# Say so (tracker #53: a sale at the kiosk went by unseen).
+			note.emit(content.text("msg_shelf_sold", {"item": content.item_name(item).to_lower(), "n": price}))
 			if gift_shelf.count(item) == 0:
 				stocked.erase(item)
 	var span := tuning.num("visitors.mood_span")

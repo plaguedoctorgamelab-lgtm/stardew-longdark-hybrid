@@ -48,6 +48,7 @@ var hint_overlay: HintOverlay
 var options_panel: Panel
 var tips_button: Button
 var _dialog_kind: String = ""
+var _dialog_pages: Array[String] = []   # what a long note still has to show
 var _hover_wait: float = 0.0
 var _hover_forage: Vector2i = Vector2i(-1, -1)   # forage under the mouse, in reach (tracker #8)
 var _cursor: String = ""
@@ -134,6 +135,9 @@ func _ready() -> void:
 		if kind.begins_with("shop:"):
 			choice_screen.visible = false
 			shop_sheet.open(kind.substr(5))
+		elif kind == "catalog":
+			choice_screen.visible = false
+			shop_sheet.open("catalog")
 		else:
 			choice_screen.reopen(kind, title, options))
 	choice_screen.chosen.connect(func(kind: String, option_id: String) -> void:
@@ -259,7 +263,9 @@ func _build_menus() -> void:
 	root.add_child(shop_sheet)
 	shop_sheet.setup(session)
 	shop_sheet.handed_on.connect(func(nxt: String) -> void:
-		if nxt != "" and nxt != "close":
+		if nxt == "catalog":
+			shop_sheet.open("catalog")
+		elif nxt != "" and nxt != "close":
 			choice_screen.reopen(nxt, session.list_title(nxt), session.list_options(nxt)))
 	book_screen = BookScreen.new()
 	root.add_child(book_screen)
@@ -742,6 +748,49 @@ func _show_dialog(kind: String, text: String) -> void:
 	var inset := 76.0 if dialog_face.visible else 8.0
 	dialog_label.position.x = inset
 	dialog_label.size.x = dialog.size.x - inset - 8.0
+	# Too long for the screen: shown a page at a time, X turning on
+	# (tracker #50: the note after the cabin opened ran off the bottom).
+	_dialog_pages = dialog_pages(text)
+	_show_dialog_page()
+
+
+## The text cut into pages that fit the screen, at paragraphs where it
+## can, else between words.
+func dialog_pages(text: String) -> Array[String]:
+	var line_h := dialog_label.get_line_height() + dialog_label.get_theme_constant("line_spacing")
+	var most := maxi(3, int((VIEW.y - 34) / line_h) - 1)
+	var fits := func(t: String) -> bool:
+		dialog_label.text = t
+		return dialog_label.get_line_count() <= most
+	var pages: Array[String] = []
+	var page := ""
+	for para in text.split("\n\n"):
+		var joined := para if page == "" else page + "\n\n" + para
+		if fits.call(joined):
+			page = joined
+			continue
+		if page != "":
+			pages.append(page)
+			page = ""
+		if fits.call(para):
+			page = para
+			continue
+		for word in para.split(" "):
+			var w2 := word if page == "" else page + " " + word
+			if fits.call(w2):
+				page = w2
+			else:
+				pages.append(page)
+				page = word
+	if page != "" or pages.is_empty():
+		pages.append(page)
+	return pages
+
+
+func _show_dialog_page() -> void:
+	var text: String = _dialog_pages.pop_front()
+	if not _dialog_pages.is_empty():
+		text += "\n" + session.content.text("dialog_more")
 	dialog_label.text = text
 	dialog.visible = true
 	# Grow the box to fit the text, and keep it centred.
@@ -753,6 +802,9 @@ func _show_dialog(kind: String, text: String) -> void:
 
 
 func _close_dialog(yes: bool) -> void:
+	if not _dialog_pages.is_empty():
+		_show_dialog_page()
+		return
 	dialog.visible = false
 	var kind := _dialog_kind
 	_dialog_kind = ""

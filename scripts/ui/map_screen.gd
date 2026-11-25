@@ -500,6 +500,11 @@ func _draw_overlay() -> void:
 	for m: Dictionary in session.jobs.map_marks():
 		var p := map_rect.position + (m["pos"] as Vector2) * z
 		var col: Color = m["color"]
+		# Put-down steps show how close is close enough (tracker #55).
+		var rr := float(m.get("r", 0.0)) * z
+		if bool(m["pinned"]) and rr >= 2.0:
+			overlay.draw_circle(p, rr, Color(col, 0.18))
+			overlay.draw_arc(p, rr, 0.0, TAU, 32, Color(col, 0.9), 1.0)
 		if bool(m["pinned"]):
 			if Art.has_picture("map_job_flag"):
 				var tex := Art.texture("map_job_flag")

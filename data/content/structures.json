@@ -212,6 +212,20 @@
        2
       ],
       "sprite": "furniture_table_chairs"
+     },
+     {
+      "id": "stove",
+      "kind": "stove",
+      "pos": [
+       5,
+       8
+      ],
+      "size": [
+       2,
+       1
+      ],
+      "sprite": "int_stove",
+      "_why": "tracker #64: cooking (berry preserves) at home before the kitchen"
      }
     ],
     "note": "Laid out like the old cabin (tracker #27, 22 Nov 2026): a sleeping corner, a work corner, the office on the right, a table by the door, a clear way from the door to the back wall, and a tile between pieces."

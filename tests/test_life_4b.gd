@@ -345,9 +345,15 @@ func test_the_bed_moves_but_stays(t: TestCase) -> void:
 	s.interior_pos = Vector2(3.5, 4.5)
 	s.facing = GameSession.FACING_LEFT
 	s.home.use_empty_hand()
-	s.interior_pos = Vector2(6.5, 5.5)
-	s.facing = GameSession.FACING_RIGHT
-	t.equal(s.home.use_empty_hand(), "", "set down somewhere else")
+	# Somewhere free (the station's stove, tracker #64, took the old spot).
+	var down := "x"
+	for at: Array in [[Vector2(6.5, 5.5), GameSession.FACING_RIGHT], [Vector2(3.5, 4.5), GameSession.FACING_RIGHT], [Vector2(9.5, 7.5), GameSession.FACING_RIGHT], [Vector2(6.5, 6.5), GameSession.FACING_LEFT], [Vector2(7.5, 7.5), GameSession.FACING_UP]]:
+		s.interior_pos = at[0]
+		s.facing = at[1]
+		down = s.home.use_empty_hand()
+		if down == "":
+			break
+	t.equal(down, "", "set down somewhere else")
 	var moved := s.home.layout().find("bed")
 	t.check(int(moved["pos"][0]) != int(bed["pos"][0]), "the bed has moved")
 	t.check(s.home.way_ok(), "and nothing is blocked")

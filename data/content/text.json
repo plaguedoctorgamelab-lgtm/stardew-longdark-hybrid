@@ -4705,7 +4705,7 @@
   },
   {
    "id": "js_cans_busiest",
-   "text": "Put out 2 more trash cans at the busiest open place",
+   "text": "Put out 2 more trash cans at {place}, the busiest place",
    "placeholder": true
   },
   {
@@ -9506,6 +9506,98 @@
   {
    "id": "jt_key_map",
    "text": "map"
+  },
+  {
+   "id": "fv_taken_on",
+   "text": "You take on \"{name}\" from the board."
+  },
+  {
+   "id": "town_next_heart",
+   "text": "{n} of {of} to the next heart"
+  },
+  {
+   "id": "msg_spot_needs_tool",
+   "text": "This wants the {tool}. Have it in your pack and press X."
+  },
+  {
+   "id": "hint_x_spot_tool",
+   "text": "{verb} (with the {tool})"
+  },
+  {
+   "id": "msg_job_place_far",
+   "text": "Not close enough for \"{job}\": about {n} steps short of the circle on the map."
+  },
+  {
+   "id": "msg_job_sign_wrong",
+   "text": "The right spot for \"{job}\", but it wants a sign to {places}."
+  },
+  {
+   "id": "msg_job_place_counts",
+   "text": "That counts for \"{job}\"."
+  },
+  {
+   "id": "ui_sign_option",
+   "text": "{place} ({dir})"
+  },
+  {
+   "id": "ui_sign_here",
+   "text": "You're {n} steps from {place}."
+  },
+  {
+   "id": "msg_shelf_sold",
+   "text": "Sold from the gift shelf: {item}, {n} gold."
+  },
+  {
+   "id": "key_split",
+   "text": "right click: split a stack"
+  },
+  {
+   "id": "gear_name_warmth",
+   "text": "{name} +{n}"
+  },
+  {
+   "id": "dialog_more",
+   "text": "(X: more)"
+  },
+  {
+   "id": "letters_last_ranger",
+   "text": "From the last ranger"
+  },
+  {
+   "id": "cat_tab_order",
+   "text": "Order"
+  },
+  {
+   "id": "cat_title",
+   "text": "Supply catalog"
+  },
+  {
+   "id": "cat_none",
+   "text": "Nothing to order right now."
+  },
+  {
+   "id": "cat_here_at_six",
+   "text": "here at 6:00"
+  },
+  {
+   "id": "cat_order_for",
+   "text": "Order for {n}"
+  },
+  {
+   "id": "cat_on_order",
+   "text": "On order"
+  },
+  {
+   "id": "cat_nothing_on_order",
+   "text": "Nothing on order yet."
+  },
+  {
+   "id": "cat_cart_when",
+   "text": "Orders come to the supply shelf at 6:00. Grey ones are waiting for room on the shelf."
+  },
+  {
+   "id": "cat_key_order",
+   "text": "order"
   }
  ]
 }

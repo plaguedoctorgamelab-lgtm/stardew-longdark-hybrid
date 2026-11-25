@@ -128,6 +128,39 @@ func notes_up() -> int:
 	return board.size()
 
 
+## A favor on the board that wants this item from this person: takes it on
+## (as reading the board would) and returns its key, or "".
+func take_for(person: String, item: String) -> String:
+	var g := s()
+	for o: Dictionary in board.duplicate():
+		var steps: Array = []
+		var blanks: Dictionary = {}
+		if o.has("id"):
+			steps = g.content.row("town_favors", str(o["id"]))["steps"]
+		else:
+			steps = g.content.row("job_templates", str(o["tpl"]))["steps"]
+			blanks = o["blanks"]
+		for stp: Dictionary in steps:
+			if str(stp["kind"]) != "give_to":
+				continue
+			var who := str(stp["person"]).replace("{person}", str(blanks.get("person", "")))
+			var what := str(stp["item"]).replace("{item}", str(blanks.get("item", "")))
+			if who != person or what != item:
+				continue
+			var key := ""
+			if o.has("id"):
+				if g.jobs.add(str(o["id"]), "board"):
+					key = str(o["id"])
+			else:
+				key = g.jobs.draw(str(o["tpl"]), blanks)
+			board.erase(o)
+			if key != "":
+				put_out_lost(key)
+				g.message.emit(g.content.text("fv_taken_on", {"name": str(g.jobs.def(key)["name"])}))
+			return key
+	return ""
+
+
 # --- asked in person -------------------------------------------------------------
 
 ## A favor this person would ask for now, or "".

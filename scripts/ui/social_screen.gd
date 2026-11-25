@@ -181,6 +181,10 @@ func _fill_detail() -> void:
 	var per := session.tuning.integer("friendship.gifts_per_week")
 	chips.add_child(chip(pick(["verb_give", "ui_gift_tick"]), c.text("town_gifts", {"n": int(r["gifts"]), "of": per})))
 	chips.add_child(chip(pick(["icon_where", "icon_marks_map"]), t.where_now(id)))
+	# How far to the next heart (tracker #63: favors' points didn't show).
+	var pph := session.tuning.integer("friendship.points_per_heart")
+	if int(r["hearts"]) < int(r["cap"]):
+		chips.add_child(chip(pick(["ui_heart_empty"]), c.text("town_next_heart", {"n": t.points(id) % pph, "of": pph})))
 	detail.add_child(chips)
 	# Loves and likes: what giving has taught the ranger, "?" for the rest.
 	var known: Dictionary = t.gifts_known.get(id, {})

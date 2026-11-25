@@ -107,7 +107,7 @@ func setup(s: GameSession) -> void:
 	_keys.add_theme_constant_override("separation", 6)
 	_keys.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_keys)
-	Sheet.fill_keys(_keys, [[["Tab"], s.content.text("key_sheets")], [["E", "Esc"], s.content.text("key_close")], [["C"], s.content.text("key_use")], [[], s.content.text("key_drag")]])
+	Sheet.fill_keys(_keys, [[["Tab"], s.content.text("key_sheets")], [["E", "Esc"], s.content.text("key_close")], [["C"], s.content.text("key_use")], [[], s.content.text("key_drag")], [[], s.content.text("key_split")]])
 	session.clothes_changed.connect(refresh)
 	session.backpack.changed.connect(refresh)
 	_layout()
@@ -191,6 +191,13 @@ func _slot_pos(i: int, first_y: float) -> Vector2:
 
 func _wire(b: Button, i: int, is_pack: bool) -> void:
 	b.pressed.connect(_on_slot.bind(i, is_pack))
+	# A right click splits the stack in two (tracker #58).
+	b.gui_input.connect(func(e: InputEvent) -> void:
+		if e is InputEventMouseButton and (e as InputEventMouseButton).pressed and (e as InputEventMouseButton).button_index == MOUSE_BUTTON_RIGHT:
+			var inv := _inv(is_pack)
+			if inv != null and inv.split(i) < 0 and int(inv.slot(i).get("count", 0)) > 1:
+				session.message.emit(session.content.text("msg_backpack_full"))
+			refresh())
 	b.mouse_entered.connect(_on_hover.bind(i, is_pack))
 	b.mouse_exited.connect(_idle_strip)
 	b.set_drag_forwarding(_drag_from.bind(i, is_pack, b), _can_drop, _drop_on.bind(i, is_pack))
@@ -531,14 +538,14 @@ func refresh() -> void:
 	for slot: String in _wear:
 		var id := str(w.worn.get(slot, ""))
 		(_wear[slot] as Button).icon = _icon(id)
-		(_wear_names[slot] as Label).text = session.content.item_name(id) if id != "" else "-"
+		# Each thing's warmth beside its name, not a chip floating on the
+		# wall (tracker #52).
+		var name := session.content.item_name(id) if id != "" else "-"
+		var wv := int(w.row(id).get("warmth", 0)) if id != "" else 0
+		(_wear_names[slot] as Label).text = session.content.text("gear_name_warmth", {"name": name, "n": wv}) if wv != 0 else name
 	_refresh_spares()
 	for ch in _warmth.get_children():
 		ch.queue_free()
-	if other == null:
-		var wc := Sheet.chip(Sheet.pick(["icon_warmth"]), session.content.text("fx_warmth", {"n": int(w.warmth())}), "good")
-		wc.position = Vector2(WALL_X + 58, GEAR_Y + 89)
-		_warmth.add_child(wc)
 	info.text = wearing_text()
 	if _strip_idle:
 		_idle_strip()

@@ -388,6 +388,11 @@ func _draw_placed(t: Vector2i) -> void:
 	spr.texture = Art.texture(session.content.row("items", item)["sprite"])
 	spr.position = Vector2(t.x * TILE + TILE / 2.0, (t.y + 1) * TILE)
 	spr.offset = Vector2(-spr.texture.get_width() / 2.0, -spr.texture.get_height())
+	# The arrow is drawn pointing east; a sign to a place in the west turns
+	# round (tracker #54: the ford's sign to the station pointed away).
+	var place := str(session.placed[t].get("place", ""))
+	if place != "" and session.place_pos(place).x < t.x + 0.5:
+		spr.flip_h = true
 	sort_root.add_child(spr)
 	Shadow.attach(spr, TILE, session.tuning)
 	_placed_sprites[t] = spr

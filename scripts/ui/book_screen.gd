@@ -341,16 +341,31 @@ func _cards() -> void:
 
 func _letters() -> void:
 	var c := session.content
-	var read := session.park.letters.filter(func(x: Dictionary) -> bool: return bool(x["read"]))
+	var read := letters_to_reread()
 	if read.is_empty():
 		empty_label.visible = true
 		empty_label.text = c.text("letters_none")
 		return
 	selected = clampi(selected, 0, read.size() - 1)
 	for i in read.size():
-		list.add_child(_small(pick(["log_envelope_open", "log_envelope"]), _day(int(read[i]["day"])), str(read[i]["text"]), i))
+		var pic: Array = ["log_note_yellow", "log_envelope"] if bool(read[i]["ranger"]) else ["log_envelope_open", "log_envelope"]
+		list.add_child(_small(pick(pic), str(read[i]["when"]), str(read[i]["text"]), i))
 	var l: Dictionary = read[selected]
-	detail.add_child(_paper_page(pick(["log_letter_paper", "ui_paper"]), str(l["text"]), Color8(52, 40, 30), "", _day(int(l["day"]))))
+	detail.add_child(_paper_page(pick(["log_letter_paper", "ui_paper"]), str(l["text"]), Color8(52, 40, 30), "", str(l["when"])))
+
+
+## The letters read, then the last ranger's notes found on the boards, so
+## any can be read again (tracker #50).
+func letters_to_reread() -> Array:
+	var c := session.content
+	var out := []
+	for x: Dictionary in session.park.letters:
+		if bool(x["read"]):
+			out.append({"text": str(x["text"]), "when": _day(int(x["day"])), "ranger": false})
+	for n: Dictionary in c.rows("notes"):
+		if session.notes_read.has(n["id"]):
+			out.append({"text": c.text(n["text"]), "when": c.text("letters_last_ranger"), "ranger": true})
+	return out
 
 
 ## The doodle for a note: by its kind, and for strange ones by what's in it.

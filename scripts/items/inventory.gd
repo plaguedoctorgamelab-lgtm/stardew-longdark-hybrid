@@ -255,6 +255,32 @@ func move_to_slot(i: int, other: Inventory, j: int) -> bool:
 	return true
 
 
+## Splits the stack in slot i in two: half (rounded down) goes to the first
+## empty slot after it, else any empty slot (tracker #58). Returns the slot
+## the half went to, or -1 if there was nothing to split or no room.
+func split(i: int) -> int:
+	var s: Dictionary = slots[i]
+	if s.is_empty() or int(s["count"]) < 2:
+		return -1
+	var to := -1
+	for k in range(i + 1, slots.size()):
+		if (slots[k] as Dictionary).is_empty():
+			to = k
+			break
+	if to < 0:
+		for k in i:
+			if (slots[k] as Dictionary).is_empty():
+				to = k
+				break
+	if to < 0:
+		return -1
+	var half := int(s["count"]) / 2
+	s["count"] = int(s["count"]) - half
+	slots[to] = {"item": s["item"], "count": half}
+	changed.emit()
+	return to
+
+
 ## Takes the whole stack out of slot i: {item, count}, or {} if empty.
 func take_slot(i: int) -> Dictionary:
 	var s: Dictionary = slots[i]

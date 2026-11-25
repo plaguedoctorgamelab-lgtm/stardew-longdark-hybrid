@@ -190,6 +190,10 @@ func apply() -> void:
 	# The small things jobs put in the room, and a kit's workbench, stay.
 	var furn: Array = lay.furniture.filter(func(f: Dictionary) -> bool: return str(f["kind"]) == "job_spot" or bool(f.get("from_kit", false)))
 	for f: Dictionary in _base["furniture"]:
+		# The small stove stands where the kitchen's range goes, until then
+		# (tracker #64).
+		if str(f["id"]) == "stove" and has("kitchen"):
+			continue
 		furn.append(f.duplicate(true))
 	if has("kitchen"):
 		furn.append({"id": "range", "kind": "range", "pos": [4, 5], "size": [2, 1], "sprite": "furniture_cooking_range"})

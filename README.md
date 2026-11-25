@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.7.19** (see [Version history](#version-history)). The
+**Current version: 0.7.20** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -119,6 +119,37 @@ phase is finished; the last number counts every build and runs on past 9
 | 0.10.x | Phase 7, Year one polish |
 | 0.11.x to 0.14.x | Phases 8 to 11, one region each |
 | 1.0.0 | every phase done |
+
+### 0.7.20 (25 November 2026): Mark's tracker, #46 to #65
+
+Fixes for everything Mark logged on 0.7.19.
+
+- **Jobs and signs:**
+  - The ford sign job no longer gives a second blank sign (#47); it pays 25 instead.
+  - Putting down a sign, cairn or park thing now says whether it counts for a job, is too far (and by how much), or points to the wrong place (#61).
+  - The pinned job's map flag has a circle showing how close is close enough for put-down steps (#55).
+  - "Ready for crowds" names the busiest place and keeps it, so the cans have a place to go (#62).
+  - The sign question says where you are, and each place says which way it lies (#54). Signs to places in the west now point west.
+  - Stock delivered for a job is used up when the job is done, so it can't be taken back out (#59).
+- **Tools:**
+  - X at a spot that wants a tool (the old bench at the outlook) uses the tool from the pack, or says which tool it wants (#48).
+  - The hammer takes down a sign or cairn in reach, not only the one straight ahead (#56).
+- **Favours and friends:**
+  - Handing something to someone with a matching favour on the board takes the favour on, instead of giving it away as a gift (#60).
+  - Handing over counts as talking for the day, and the Town sheet shows how far it is to the next heart (#63).
+  - Someone who just had a lost thing found doesn't lose another for a season (#65).
+- **The cabin and the station:**
+  - The cabin chest opens while guests have the cabin, so it can be stocked (#57).
+  - The station has a small wood stove, so preserves can be made before the kitchen (#64).
+- **Menus:**
+  - Cards are chosen by a click, not by passing the mouse over them (#49).
+  - Long notes come a page at a time (X for more). The last ranger's notes can be read again on the Log's letters page (#50).
+  - The catalog is a sheet like the shops, with what's on order stacked beside the goods (#51).
+  - Worn things show their warmth beside their names, not as a chip floating on the wall (#52).
+  - A sale from the gift shelf says so (#53).
+  - Right click splits a stack in two (#58).
+- **Phase 5 is specced:** `docs/Phase 5 Spec.md` (creatures and night, in two halves) and its pictures in `docs/art/art_request_25_phase_5.md`.
+- **#46 (rain inside):** no rain, fog or weather tint is drawn in any room, the station, cabins or town rooms. It couldn't be made to happen here, so Mark is asked which room it was.
 
 ### 0.7.19 (24 November 2026): the Log, the shops, and no more tags
 
