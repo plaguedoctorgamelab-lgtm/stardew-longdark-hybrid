@@ -122,15 +122,23 @@
     "first_day": "clear"
   },
   "map": {
-    "survey_radius": 12,
-    "survey_minutes": 30,
-    "location_radius": 8,
+    "survey_radius": 50,
+    "survey_minutes": 20,
+    "location_radius": 16,
     "location_minutes": 20,
     "location_reach_tiles": 3,
-    "outlook_radius": 40,
+    "outlook_radius": 90,
     "outlook_reach_tiles": 3,
-    "home_reveal_radius": 20,
-    "tower_radius": 90
+    "home_reveal_radius": 40,
+    "tower_radius": 160,
+    "trail_reveal_radius": 4,
+    "lookout_radius": 60,
+    "lookout_reach_tiles": 4,
+    "lookouts": [
+      "bridge",
+      "pond"
+    ],
+    "note": "Tuned 0.8.1 so one or two surveys a day map about 95% of a region by late summer. trail_reveal_radius: walking a trail maps a strip either side (off the trail only the trace). lookouts: site spawns where a survey reaches lookout_radius."
   },
   "repair": {
     "actions_per_step": 3,

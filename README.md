@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.8.0** (see [Version history](#version-history)). The
+**Current version: 0.8.1** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -119,6 +119,16 @@ phase is finished; the last number counts every build and runs on past 9
 | 0.10.x | Phase 7, Year one polish |
 | 0.11.x to 0.14.x | Phases 8 to 11, one region each |
 | 1.0.0 | every phase done |
+
+### 0.8.1 (26 November 2026): mapping at a better pace
+
+Surveying was far too slow: at one or two surveys a day the forest would take well over a year to map. Tuned so one or two surveys a day map about 95% of the forest by late summer or early fall (`data/tuning/tuning.json`, `map`).
+
+- **Bigger, quicker surveys.** A survey reaches 50 tiles (was 12) and takes 20 minutes (was 30). Surveying 2 makes it 10 minutes (was 20); Surveying 3 adds 10 tiles (was 2), so 60, and the Cartographer half again, 90.
+- **Further views.** The scenic outlook reaches 90 tiles (was 40) and the fire tower 160 (was 90). The ranger station starts with 40 tiles mapped (was 20), and mapping a site maps twice the ground round it.
+- **Lookouts.** A survey at the broken bridge or on the Kettle Pond beach reaches 60 tiles (`map.lookouts`, `GameSession.on_lookout`).
+- **Walking a trail maps it.** On a trail the ground 4 tiles either side is mapped as you go, unless the weather hides the marker. Off the trail you still leave only the trace, so you can still get lost.
+- Tests: `tests/test_map.gd` (the trail strip, a lookout), the survey and perk tests follow the new numbers. A best-case check: with every trail walked and the views taken, 75 well-placed surveys map about 95%.
 
 ### 0.8.0 (26 November 2026): Phase 5a, out in the woods
 

@@ -759,6 +759,10 @@ func _update_trace() -> void:
 	if t != _last_tile:
 		_last_tile = t
 		map.record_trace(t, visible)
+		# Walking a trail maps a strip either side of it; off the trail the
+		# ranger leaves only the trace (Game Bible, Mapping).
+		if not is_indoors() and not in_town and on_trail() and not bool(weather_row().get("hides_marker", false)):
+			map.reveal_circle(outdoor_pos, tuning.num("map.trail_reveal_radius"))
 		_look_for_sites()
 		_watch_for_finds()
 		_watch_magic()
@@ -3538,18 +3542,35 @@ func survey_radius_here() -> float:
 		r = tuning.num("map.tower_radius")
 	elif on_outlook():
 		r = tuning.num("map.outlook_radius")
+	elif on_lookout():
+		r = tuning.num("map.lookout_radius")
 	return skills.value("survey_radius", r)
+
+
+## True at one of the lesser lookouts (the bridge, the pond beach): a site
+## with a long view, where a survey reaches further than in the woods.
+func on_lookout() -> bool:
+	if is_indoors() or in_town:
+		return false
+	var spawns: Dictionary = world.meta.get("spawns", {})
+	for id: String in tuning.value("map.lookouts"):
+		if spawns.has(id):
+			var p: Array = spawns[id]
+			if outdoor_pos.distance_to(Vector2(float(p[0]), float(p[1]))) <= tuning.num("map.lookout_reach_tiles"):
+				return true
+	return false
 
 
 func _finish_survey() -> void:
 	var outlook := on_outlook()
+	var lookout := not outlook and on_lookout()
 	var tower := in_tower()
 	var at := door_front(location) if tower else outdoor_pos
 	map.reveal_circle(at, survey_radius_here())
-	var action := "high_survey" if tower or outlook else "survey"
+	var action := "high_survey" if tower or outlook or lookout else "survey"
 	needs.spend(tuning.num("energy.survey") * skills.energy_for(action))
 	skills.act(action)
-	message.emit(content.text("msg_tower_survey" if tower else ("msg_outlook_survey" if outlook else "msg_survey_done")))
+	message.emit(content.text("msg_tower_survey" if tower else ("msg_outlook_survey" if outlook else ("msg_lookout_survey" if lookout else "msg_survey_done"))))
 	survey_changed.emit(false, 1.0)
 	_update_trace()
 	jobs.event("survey", {"pos": at})

@@ -32,9 +32,10 @@ func test_survey_reveals_its_radius(t: TestCase) -> void:
 	s.debug_force_weather("clear")
 	s.debug_set_time(9 * 60)
 	s.debug_teleport("fork")
+	s.debug_wipe_map()   # the trail strip the teleport mapped
 	t.check(s.start_survey(), "survey starts")
-	s.clock.advance_step()
-	s.clock.advance_step()
+	for i in s._survey_total_steps() - 1:
+		s.clock.advance_step()
 	t.equal(s.map.revealed_count, 0, "nothing until the survey is done")
 	s.clock.advance_step()
 	var r := s.tuning.num("map.survey_radius")
@@ -43,7 +44,7 @@ func test_survey_reveals_its_radius(t: TestCase) -> void:
 	t.check(not s.map.is_revealed(Vector2i(s.outdoor_pos + Vector2(r + 2, 0))), "beyond the survey not revealed")
 
 
-func test_survey_takes_thirty_minutes_and_moving_cancels(t: TestCase) -> void:
+func test_moving_cancels_a_survey(t: TestCase) -> void:
 	var s := TestCase.new_session()
 	s.debug_wipe_map()
 	s.debug_force_weather("overcast")
@@ -54,7 +55,8 @@ func test_survey_takes_thirty_minutes_and_moving_cancels(t: TestCase) -> void:
 	s.move(Vector2.RIGHT, 0.1)
 	s.clock.advance_step()
 	s.clock.advance_step()
-	t.equal(s.map.revealed_count, 0, "moving cancelled the survey")
+	# Only the trail strip walked, not the survey.
+	t.check(s.map.revealed_count < _area(s.tuning.num("map.trail_reveal_radius")) * 3.0, "moving cancelled the survey")
 	t.equal(s.survey_steps_left, 0, "no survey running")
 
 
@@ -98,7 +100,7 @@ func test_map_location_reveals_landmark(t: TestCase) -> void:
 	t.near(float(s.map.revealed_count), _area(r), _area(r) * 0.12, "location reveals radius %d" % r)
 
 
-func test_outlook_survey_reveals_forty(t: TestCase) -> void:
+func test_outlook_survey_reveals_its_radius(t: TestCase) -> void:
 	var s := TestCase.new_session()
 	s.debug_wipe_map()
 	s.debug_force_weather("clear")
@@ -123,6 +125,7 @@ func test_marker_three_conditions(t: TestCase) -> void:
 	s.debug_force_weather("clear")
 	s.debug_set_time(12 * 60)
 	s.debug_teleport("fork")
+	s.debug_wipe_map()   # the trail strip the teleport mapped
 	t.check(not s.marker_visible(), "hidden on unrevealed ground")
 	s.map.record_trace(s.ranger_tile(), true)
 	t.check(not s.marker_visible(), "a trace alone does not count")
@@ -189,6 +192,48 @@ func test_home_area_starts_mapped(t: TestCase) -> void:
 	var s := TestCase.new_session()
 	var r := s.tuning.num("map.home_reveal_radius")
 	t.check(s.map.is_revealed(s.ranger_tile()), "the station door is on mapped ground")
-	t.near(float(s.map.revealed_count), _area(r), _area(r) * 0.08, "home area of radius %d revealed" % r)
+	# The station sits by the park's west edge: count only the circle on the map.
+	var c := s.door_front("ranger_station")
+	var inside := 0
+	for y in range(floori(c.y - r), ceili(c.y + r) + 1):
+		for x in range(floori(c.x - r), ceili(c.x + r) + 1):
+			if x >= 0 and y >= 0 and x < s.world.width and y < s.world.height and s.map.explorable[y * s.world.width + x] == 1 and Vector2(x + 0.5, y + 0.5).distance_to(c) <= r:
+				inside += 1
+	t.near(float(s.map.revealed_count), float(inside), float(inside) * 0.05, "home area of radius %d revealed" % r)
 	t.check(s.marker_visible(), "the marker shows at the start")
 	t.check(not s.map.is_revealed(Vector2i(s.world.spawn("fork"))), "the rest of the map starts blank")
+
+
+func test_walking_a_trail_maps_a_strip(t: TestCase) -> void:
+	var s := TestCase.new_session()
+	s.debug_force_weather("clear")
+	s.debug_set_time(12 * 60)
+	s.debug_teleport("fork")
+	t.check(s.on_trail(), "on the trail")
+	var r := s.tuning.num("map.trail_reveal_radius")
+	t.check(s.map.is_revealed(Vector2i(s.outdoor_pos + Vector2(0, r - 1))), "the ground beside the trail is mapped")
+	# Off the trail, only the trace.
+	s.debug_wipe_map()
+	var off := Vector2(-1, -1)
+	for dy in range(-8, 9):
+		for dx in range(-8, 9):
+			var tt := s.ranger_tile() + Vector2i(dx, dy)
+			if s.world.ground_at(tt) == "forest_floor" and not s.world.is_solid(tt):
+				off = Vector2(tt.x + 0.5, tt.y + 0.5)
+	s.outdoor_pos = off
+	s._last_tile = Vector2i(-9999, -9999)
+	s._update_trace()
+	t.equal(s.map.revealed_count, 0, "off the trail nothing is mapped")
+	t.check(s.map.is_traced(s.ranger_tile()) or s.map.is_pending(s.ranger_tile()), "but the trace is kept")
+
+
+func test_a_lookout_survey_reaches_further(t: TestCase) -> void:
+	var s := TestCase.new_session()
+	s.debug_force_weather("clear")
+	s.debug_set_time(9 * 60)
+	s.debug_teleport("bridge")
+	t.check(s.on_lookout(), "the bridge is a lookout")
+	t.near(s.survey_radius_here(), s.tuning.num("map.lookout_radius"), 0.001, "a lookout's reach")
+	s.debug_teleport("fork")
+	t.check(not s.on_lookout(), "the fork is not")
+	t.near(s.survey_radius_here(), s.tuning.num("map.survey_radius"), 0.001, "an ordinary survey")

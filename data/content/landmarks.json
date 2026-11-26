@@ -4,7 +4,7 @@
    "id": "test_cabin",
    "name": "landmark_test_cabin",
    "kind": "cabin",
-   "reveal_radius": 8,
+   "reveal_radius": 16,
    "outlook": false,
    "hint": {
     "text": "landmark_hint_test_cabin",
@@ -20,7 +20,7 @@
    "id": "scenic_outlook",
    "name": "landmark_scenic_outlook",
    "kind": "outlook",
-   "reveal_radius": 8,
+   "reveal_radius": 16,
    "outlook": true,
    "hint": {
     "text": "landmark_hint_scenic_outlook",
@@ -36,7 +36,7 @@
    "id": "kettle_pond",
    "name": "landmark_kettle_pond",
    "kind": "site",
-   "reveal_radius": 14,
+   "reveal_radius": 28,
    "hint": {
     "text": "landmark_hint_kettle_pond",
     "offset": [
@@ -51,7 +51,7 @@
    "id": "static_tower",
    "name": "landmark_static_tower",
    "kind": "tower",
-   "reveal_radius": 10,
+   "reveal_radius": 20,
    "hint": {
     "text": "landmark_hint_static_tower",
     "offset": [
@@ -66,7 +66,7 @@
    "id": "broken_bridge",
    "name": "landmark_broken_bridge",
    "kind": "site",
-   "reveal_radius": 10,
+   "reveal_radius": 20,
    "hint": {
     "text": "landmark_hint_broken_bridge",
     "offset": [
