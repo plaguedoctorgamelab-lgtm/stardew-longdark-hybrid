@@ -1175,6 +1175,47 @@
     "names": {
       "dog": "Biscuit",
       "cat": "Soot"
-    }
+    },
+    "second_from_season": 3,
+    "spare_home_from_mailbox": [3.5, 1.5],
+    "spare_bowl_from_mailbox": [5.0, 1.5]
+  },
+  "moon": {
+    "note": "Phase 5b: two full moons a season, on the 7th and 21st (Mark's answer to question 1).",
+    "full_days": [7, 21],
+    "cycle_days": 14
+  },
+  "aurora": {
+    "note": "Phase 5b: aurora nights, picked each year from the seed: per_year of them, min_gap_days apart, one in winter, never on a full moon.",
+    "per_year": [2, 3],
+    "min_gap_days": 20
+  },
+  "creatures": {
+    "note": "Phase 5b: creature friendship and answers. 100 points a paw heart; gifts and an hour near once a day each. Plan points are tiles east and north of the park gate.",
+    "points_per_heart": 100,
+    "loves_points": 40,
+    "likes_points": 20,
+    "ok_points": 5,
+    "near_points": 10,
+    "step_points": 25,
+    "near_tiles": 6.0,
+    "near_minutes": 60,
+    "last_step_hearts": 2,
+    "secret_friend_mult": 1.5,
+    "public_friend_mult": 0.5,
+    "public_shy_mult": 1.5,
+    "public_visitor_add": 0.15,
+    "mischief_for_job": 3,
+    "burrows": 3,
+    "trail_spots": 5,
+    "deer_every_nights": 3,
+    "bell_energy": 10,
+    "gord_meadow_plan": [600, 505],
+    "jack_meadow_plan": [385, 395],
+    "gord_until": 1560,
+    "gord_cafe_hours": [1200, 1380],
+    "late_until": 1500,
+    "wren_hearts": 2,
+    "esme_hears_days": 14
   }
 }

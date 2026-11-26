@@ -140,6 +140,9 @@ func is_open(place: String, minute: int = -1) -> bool:
 		return false
 	if minute < 0:
 		minute = session().clock.minute
+	# Phase 5b: Wren keeps the Percolator open late on full moons.
+	if place == "percolator" and session().creatures.percolator_late(minute):
+		return true
 	if (r.get("closed", []) as Array).has(weekday()):
 		return false
 	return minute >= int(r["open"]) and minute < int(r["close"])
@@ -605,6 +608,11 @@ func calendar(season: int) -> Array:
 	for f: Dictionary in content.rows("festivals"):
 		if int(f["season"]) == season and int(f["day"]) <= out.size():
 			out[int(f["day"]) - 1]["festival"] = str(f["id"])
+	# Phase 5b: full moons, and the events the ranger has heard of.
+	var cr := session().creatures
+	for d: Dictionary in out:
+		d["moon"] = cr.is_full_moon_day(int(d["day"]))
+		d["events"] = cr.events_on(season, int(d["day"]))
 	return out
 
 

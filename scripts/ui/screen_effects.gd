@@ -55,6 +55,7 @@ void fragment() {
 const VIEW := Vector2(480, 270)
 
 var session: GameSession
+var sky: Node2D
 var tint_rect: ColorRect
 var fog_rect: ColorRect
 var streaks: Node2D
@@ -78,6 +79,10 @@ func setup(s: GameSession) -> void:
 	streaks = Node2D.new()
 	streaks.draw.connect(_draw_streaks)
 	add_child(streaks)
+	# Phase 5b: the full moon and the aurora, at the top of the sky.
+	sky = Node2D.new()
+	sky.draw.connect(_draw_sky)
+	add_child(sky)
 	_rng.seed = 7
 	for i in 220:
 		_drops.append(Vector3(_rng.randf() * VIEW.x, _rng.randf() * VIEW.y, _rng.randf()))
@@ -115,7 +120,17 @@ func current_tint() -> Color:
 	if warn > 0.0:
 		var next_id := session.weather.next_weather(session.clock.minute)
 		w = w.lerp(_c(session.weather.row(next_id)["tint"]), warn * 0.6)
-	return Color(day.r * w.r, day.g * w.g, day.b * w.b)
+	var col := Color(day.r * w.r, day.g * w.g, day.b * w.b)
+	# Phase 5b: green and violet under the aurora; a little brighter under a
+	# full moon.
+	var cr := session.creatures
+	var night := Daylight.night_amount(t, session.clock.season_name(), session.clock.minute)
+	if cr != null and night > 0.0:
+		if cr.aurora_on(session.clock.absolute_day()):
+			col = col.lerp(Color(0.55, 0.95, 0.8), 0.3 * night)
+		elif cr.is_full_moon_day():
+			col = col.lerp(Color(0.8, 0.85, 1.0), 0.22 * night)
+	return col
 
 
 func visibility_tiles() -> float:
@@ -157,6 +172,7 @@ func _process(delta: float) -> void:
 	_wind = 0.0 if (session.is_indoors() or session.in_town_room()) else session.weather.warning_amount(session.clock.minute)
 	_move_drops(delta)
 	streaks.queue_redraw()
+	sky.queue_redraw()
 
 
 func _move_drops(delta: float) -> void:
@@ -214,3 +230,19 @@ func _draw_streaks() -> void:
 			var d: Vector3 = _drops[(i * 7) % _drops.size()]
 			var p := Vector2(d.x, d.y)
 			streaks.draw_line(p, p + Vector2(-18 - 10 * d.z, 1), Color(1, 1, 1, 0.25 + 0.2 * _wind), 1.0)
+
+
+func _draw_sky() -> void:
+	if session == null or session.is_indoors() or session.in_town_room() or session.in_town:
+		return
+	var cr := session.creatures
+	var night := Daylight.night_amount(session.tuning, session.clock.season_name(), session.clock.minute)
+	if night <= 0.0:
+		return
+	var a := cr.aurora_amount()
+	if a > 0.0 and Art.has_picture("sky_aurora"):
+		var tex := Art.texture("sky_aurora")
+		var frame := int(Time.get_ticks_msec() / 1400) % 3
+		sky.draw_texture_rect_region(tex, Rect2(0, 0, VIEW.x, 64), Rect2(0, frame * 64, VIEW.x, 64), Color(1, 1, 1, 0.65 * a))
+	elif cr.is_full_moon_day() and Art.has_picture("sky_full_moon"):
+		sky.draw_texture_rect(Art.texture("sky_full_moon"), Rect2(Vector2(300, 8), Vector2(32, 32)), false, Color(1, 1, 1, night))

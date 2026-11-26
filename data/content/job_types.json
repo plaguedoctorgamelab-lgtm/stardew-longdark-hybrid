@@ -50,6 +50,16 @@
    "picture": "job_pic_townsfolk",
    "order": 5,
    "live": true
+  },
+  {
+   "id": "creature",
+   "name": "jt_type_creature",
+   "giver": "creature",
+   "color": "6a4c9c",
+   "icon": "job_type_creature",
+   "picture": "job_pic_creature",
+   "order": 6,
+   "live": true
   }
  ]
 }

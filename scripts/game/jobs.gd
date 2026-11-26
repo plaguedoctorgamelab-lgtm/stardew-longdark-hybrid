@@ -17,7 +17,7 @@ signal toast(icon: String, color: Color, text: String, sound: String)
 signal noticed_now(key: String)
 signal spots_changed
 
-const TYPE_ORDER: Array[String] = ["exploring", "upkeep", "trail", "visitor", "townsfolk"]
+const TYPE_ORDER: Array[String] = ["exploring", "upkeep", "trail", "visitor", "townsfolk", "creature"]
 
 var _s: WeakRef
 var known: Dictionary = {}          # key -> job state, see _new_state
@@ -47,7 +47,7 @@ var rng := RandomNumberGenerator.new()
 func _init(session: GameSession) -> void:
 	_s = weakref(session)
 	var c := session.content
-	for r: Dictionary in c.rows("jobs") + c.rows("spoiler_jobs") + c.rows("town_favors"):
+	for r: Dictionary in c.rows("jobs") + c.rows("spoiler_jobs") + c.rows("town_favors") + c.rows("creature_jobs"):
 		_rows[r["id"]] = r
 	for r: Dictionary in c.rows("job_templates"):
 		_tpl[r["id"]] = r
@@ -409,6 +409,8 @@ func _atom(a: String) -> bool:
 			return g.town.hearts(hp[0]) >= int(hp[1])
 		"town_open":
 			return g.town_open
+		"creature":
+			return g.creatures.cond(arg)
 	push_error("Jobs: unknown condition %s" % a)
 	return false
 
@@ -732,6 +734,11 @@ func check(key: String, i: int) -> Dictionary:
 	if (st["steps_done"] as Dictionary).has(str(i)):
 		return {"done": true, "n": 0, "total": 0}
 	var g := s()
+	# Phase 5b: a creature job's steps go in order, and read the creatures.
+	if Creatures.STEP_KINDS.has(kind):
+		var cr := g.creatures.step_check(stp)
+		cr["done"] = bool(cr["done"]) and _earlier_done(key, i)
+		return cr
 	match kind:
 		"pack":
 			var need := needs(key)
@@ -1953,6 +1960,8 @@ func step_pos(k: String, i: int) -> Vector2:
 	if i < 0:
 		return Vector2.INF
 	var stp: Dictionary = def(k)["steps"][i]
+	if Creatures.STEP_KINDS.has(str(stp["kind"])):
+		return g.creatures.step_pos(stp)
 	match str(stp["kind"]):
 		"pack":
 			return g.door_front("ranger_station")

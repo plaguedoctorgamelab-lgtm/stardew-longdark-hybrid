@@ -1427,6 +1427,30 @@
    "stack": 20,
    "icon": "item_pet_treat",
    "sell": 2
+  },
+  {
+   "id": "big_coat",
+   "name": "item_big_coat",
+   "kind": "material",
+   "stack": 1,
+   "icon": "item_wool_coat",
+   "sell": 0
+  },
+  {
+   "id": "old_bell",
+   "name": "item_old_bell",
+   "kind": "material",
+   "stack": 1,
+   "icon": "item_old_bell",
+   "sell": 0
+  },
+  {
+   "id": "creature_gift",
+   "name": "item_creature_gift",
+   "kind": "material",
+   "stack": 10,
+   "icon": "log_creature_gift",
+   "sell": 30
   }
  ],
  "note": "Everything that goes in the backpack. family: a tool and its refitted versions share one family, and anything that needs the tool takes any of them. refit: the magical ingredient a refitted tool holds. placeable: put on the faced tile (needs_tool: the tool it needs, \"\" for none; on: trail or open ground; map_when_revealed: shown on the map once that ground is revealed; lays: laid as that ground, on the grounds in tuning trail.boardwalk_on). kit: set up inside a building."

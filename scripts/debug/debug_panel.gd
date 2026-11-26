@@ -3,6 +3,8 @@ extends Panel
 ## F1 debug panel, test builds only. Every button calls a debug method on the
 ## game session, and the automated tests call the same methods.
 
+var _creature_pick: OptionButton
+var _creature_hearts: SpinBox
 var session: GameSession
 var _vbox: VBoxContainer
 var _weather_pick: OptionButton
@@ -273,6 +275,23 @@ func setup(s: GameSession) -> void:
 	days.assign(Town.DAYS)
 	_day_pick = _pick(r, days)
 	_btn(r, "Set weekday", func() -> void: session.debug_set_weekday(_day_pick.get_item_text(_day_pick.selected)))
+
+	# Phase 5b: the moon, the aurora, creature hearts and steps, the second pet.
+	r = _row()
+	_btn(r, "Next full moon", func() -> void:
+		session.debug_next_full_moon()
+		on_teleport.call())
+	_btn(r, "Aurora tonight", func() -> void: session.creatures.forced_aurora = session.clock.absolute_day())
+	_creature_pick = _pick(r, Creatures.IDS)
+	_creature_hearts = _spin(r, 0, 5, 2)
+	_btn(r, "Set paw hearts", func() -> void: session.debug_creature_hearts(_creature_pick.get_item_text(_creature_pick.selected), int(_creature_hearts.value)))
+	_btn(r, "Next creature step", func() -> void: session.message.emit(session.debug_creature_step(_creature_pick.get_item_text(_creature_pick.selected))))
+	_btn(r, "Second pet", func() -> void:
+		if session.pet.has_pet() and session.pet.spare.is_empty():
+			session.pet.adopt_spare())
+	_btn(r, "Hear all events", func() -> void:
+		for ev: String in session.content.ids("calendar_events"):
+			session.creatures.heard[ev] = true)
 
 	r = _row()
 	_btn(r, "Reveal map", session.debug_reveal_map)

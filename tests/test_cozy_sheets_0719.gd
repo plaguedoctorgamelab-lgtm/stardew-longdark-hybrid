@@ -11,7 +11,7 @@ func test_the_log_sits_on_the_clipboard(t: TestCase) -> void:
 	for pg in BookScreen.PAGES:
 		b.show_page(pg)
 		t.equal(b.page, pg, "%s opens" % pg)
-		var listed := pg in ["cards", "letters", "notes"]
+		var listed := pg in ["cards", "letters", "notes", "creatures"]
 		t.equal(b.list_scroll.visible, listed, "%s: a list only where there are things to pick" % pg)
 		t.check(Sheet.FRAME.encloses(b._full.get_rect()) and Sheet.FRAME.encloses(b.detail_scroll.get_rect()), "%s: on the board" % pg)
 	t.check(not b.lines_for("ledger").is_empty(), "the ledger's lines are still there for checks")

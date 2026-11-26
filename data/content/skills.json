@@ -162,7 +162,9 @@
     "photo": 10,
     "good_photo": 5,
     "pet": 2,
-    "feed_creature": 5
+    "feed_creature": 5,
+    "creature_step": 10,
+    "settle_creature": 50
    },
    "perks": [
     {

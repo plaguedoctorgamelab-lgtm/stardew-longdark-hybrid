@@ -187,7 +187,8 @@ func _place_people() -> void:
 	var here := session.shops.people_in(current)
 	for id: String in here:
 		if not _people.has(id):
-			var node := TownView.person_node(session, session.content.row("townsfolk", id))
+			var r := session.content.row("townsfolk", id) if session.content.has("townsfolk", id) else {"id": id, "sprite": "npc_gord_dressed", "look": {}}
+			var node := TownView.person_node(session, r)
 			sort_root.add_child(node)
 			_people[id] = node
 		var node: Node2D = _people[id]

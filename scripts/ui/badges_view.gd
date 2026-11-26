@@ -166,6 +166,22 @@ func _draw() -> void:
 		_spots.append([at, tip])
 		x += STEP
 	y += R + 10
+	# Phase 5b: the guide's and the creatures' badges.
+	_heading(c.text("badges_creatures"), y)
+	y += HEAD + R + 2
+	x = 4.0 + R
+	for b: Array in creature_badges(session):
+		var at := Vector2(x, y)
+		if not _art("badge_" + str(b[0]), at, bool(b[1])):
+			_patch(at, STRANGE, bool(b[1]))
+		var tip := c.text("badge_tip_" + str(b[0]))
+		_spots.append([at, tip if bool(b[1]) else tip + "
+" + c.text("badge_locked")])
+		x += STEP
+		if x > size.x - R:
+			x = 4.0 + R
+			y += STEP
+	y += R + 10
 	# Strange badges: what earns them stays a secret.
 	var ids: Array[String] = []
 	for f: Dictionary in c.rows("spoiler_finds"):
@@ -202,3 +218,29 @@ func _draw() -> void:
 	y += R + 6
 	if custom_minimum_size.y != y:
 		custom_minimum_size.y = y
+
+
+## The guide's and creatures' badges (Phase 5 Spec, Badges): [[id, earned]].
+static func creature_badges(g: GameSession) -> Array:
+	var w := g.wildlife
+	var animals := w.entries("animal")
+	var cousins := w.entries("cousin").filter(func(r: Dictionary) -> bool: return str(r["id"]) != "gord_moose")
+	var known_a := animals.filter(func(r: Dictionary) -> bool: return w.level_of(str(r["id"])) != "").size()
+	var known_c := cousins.filter(func(r: Dictionary) -> bool: return w.level_of(str(r["id"])) != "").size()
+	var settled := false
+	var friend := false
+	for c: String in Creatures.IDS:
+		settled = settled or g.creatures.settled(c)
+		friend = friend or g.creatures.hearts(c) >= 5
+	return [
+		["guide_10", w.count_known() >= 10],
+		["guide_half", known_a * 2 >= animals.size()],
+		["guide_animals", known_a >= animals.size()],
+		["guide_strange", known_c >= cousins.size()],
+		["photo_night", w.level_of("place_night") == "photo" or w.level_of("place_full_moon") == "photo"],
+		["photo_fog", w.level_of("place_fog") == "photo"],
+		["photo_aurora", w.level_of("place_aurora") == "photo"],
+		["creature_settled", settled],
+		["creature_friend", friend],
+		["gord_coffee", g.creatures.fact("gord_coffee") > 0],
+	]

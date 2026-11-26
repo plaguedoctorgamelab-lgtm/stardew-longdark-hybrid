@@ -10079,6 +10079,686 @@
    "id": "msg_lookout_survey",
    "text": "From here you can see a long way. The map fills in.",
    "placeholder": true
+  },
+  {
+   "id": "cr_name_troll_badgers",
+   "text": "The troll badgers",
+   "placeholder": true
+  },
+  {
+   "id": "cr_name_jackalopes",
+   "text": "The jackalopes",
+   "placeholder": true
+  },
+  {
+   "id": "cr_name_magic_deer",
+   "text": "The magic deer",
+   "placeholder": true
+  },
+  {
+   "id": "cr_name_gord",
+   "text": "Gord",
+   "placeholder": true
+  },
+  {
+   "id": "cr_name_gord_man",
+   "text": "Gord",
+   "placeholder": true
+  },
+  {
+   "id": "cr_heart_up",
+   "text": "{name}: {n} paw hearts now.",
+   "placeholder": true
+  },
+  {
+   "id": "cr_not_hungry",
+   "text": "{name} have eaten today. Tomorrow.",
+   "placeholder": true
+  },
+  {
+   "id": "cr_taste_loves",
+   "text": "{name} loved the {item}!",
+   "placeholder": true
+  },
+  {
+   "id": "cr_taste_likes",
+   "text": "{name} liked the {item}.",
+   "placeholder": true
+  },
+  {
+   "id": "cr_taste_ok",
+   "text": "{name} ate the {item} politely.",
+   "placeholder": true
+  },
+  {
+   "id": "cr_taste_wont",
+   "text": "{name} sniffed the {item} and wandered off.",
+   "placeholder": true
+  },
+  {
+   "id": "cr_burrows_dug",
+   "text": "Something has been digging at the campground.",
+   "placeholder": true
+  },
+  {
+   "id": "cr_gift_left",
+   "text": "{name} left something on {where}.",
+   "placeholder": true
+  },
+  {
+   "id": "cr_where_test_cabin",
+   "text": "the cabin's step",
+   "placeholder": true
+  },
+  {
+   "id": "cr_where_ranger_station",
+   "text": "the station's step",
+   "placeholder": true
+  },
+  {
+   "id": "pet_spare_waiting",
+   "text": "A {kind} is waiting on the cabin step, as if it knows you.",
+   "placeholder": true
+  },
+  {
+   "id": "pet_kind_dog",
+   "text": "dog",
+   "placeholder": true
+  },
+  {
+   "id": "pet_kind_cat",
+   "text": "cat",
+   "placeholder": true
+  },
+  {
+   "id": "cr_bolted",
+   "text": "Too close. It bolted.",
+   "placeholder": true
+  },
+  {
+   "id": "cr_near_hour",
+   "text": "{name} trust you a little more.",
+   "placeholder": true
+  },
+  {
+   "id": "cr_not_sure_yet",
+   "text": "{name} aren't sure of you yet. ({n} paw hearts first.)",
+   "placeholder": true
+  },
+  {
+   "id": "cr_look",
+   "text": "{name}. Paw hearts: {n}. Hold some food and press X to offer it.",
+   "placeholder": true
+  },
+  {
+   "id": "cr_stone",
+   "text": "A flat, mossy stone with a tiny badger face scratched on it.",
+   "placeholder": true
+  },
+  {
+   "id": "cr_burrow",
+   "text": "A neat round hole. Something lives here.",
+   "placeholder": true
+  },
+  {
+   "id": "cr_burrow_filled",
+   "text": "You pat the hole flat.",
+   "placeholder": true
+  },
+  {
+   "id": "cr_choice_title",
+   "text": "{name} are settled. Who should know?",
+   "placeholder": true
+  },
+  {
+   "id": "cr_choice_secret",
+   "text": "Secret: nobody hears of them",
+   "placeholder": true
+  },
+  {
+   "id": "cr_choice_hint",
+   "text": "Hint: a line on the brochure",
+   "placeholder": true
+  },
+  {
+   "id": "cr_choice_public",
+   "text": "Public: on the brochure and the map",
+   "placeholder": true
+  },
+  {
+   "id": "cr_choice_made_secret",
+   "text": "{name} stay a secret.",
+   "placeholder": true
+  },
+  {
+   "id": "cr_choice_made_hint",
+   "text": "The brochure hints at {name}.",
+   "placeholder": true
+  },
+  {
+   "id": "cr_choice_made_public",
+   "text": "{name} go on the brochure.",
+   "placeholder": true
+  },
+  {
+   "id": "cr_change",
+   "text": "{name}: {from} to {to}",
+   "placeholder": true
+  },
+  {
+   "id": "cr_change_title",
+   "text": "Change what visitors hear?",
+   "placeholder": true
+  },
+  {
+   "id": "cr_stamp_secret",
+   "text": "secret",
+   "placeholder": true
+  },
+  {
+   "id": "cr_stamp_hint",
+   "text": "hint",
+   "placeholder": true
+  },
+  {
+   "id": "cr_stamp_public",
+   "text": "public",
+   "placeholder": true
+  },
+  {
+   "id": "cr_brochure_hint_troll_badgers",
+   "text": "Keep your picnic lids on. Something is watching, politely.",
+   "placeholder": true
+  },
+  {
+   "id": "cr_brochure_hint_jackalopes",
+   "text": "Strange rabbits are seen past the pond at dusk.",
+   "placeholder": true
+  },
+  {
+   "id": "cr_brochure_hint_magic_deer",
+   "text": "Some winter nights, deer with lights in their antlers.",
+   "placeholder": true
+  },
+  {
+   "id": "cr_brochure_hint_gord",
+   "text": "Strange things are seen in the meadow by the tower road.",
+   "placeholder": true
+  },
+  {
+   "id": "cr_brochure_public_troll_badgers",
+   "text": "Meet the park's troll badgers (bring a snack).",
+   "placeholder": true
+  },
+  {
+   "id": "cr_brochure_public_jackalopes",
+   "text": "See the jackalopes of Jackalope Meadow!",
+   "placeholder": true
+  },
+  {
+   "id": "cr_brochure_public_magic_deer",
+   "text": "The magic deer: autumn and winter nights.",
+   "placeholder": true
+  },
+  {
+   "id": "cr_brochure_public_gord",
+   "text": "Gord's Meadow: home of a very self-conscious moose.",
+   "placeholder": true
+  },
+  {
+   "id": "cj_badgers",
+   "text": "A deal with the badgers",
+   "placeholder": true
+  },
+  {
+   "id": "cjnote_badgers",
+   "text": "The same badgers keep turning up at the same place. Maybe they want something.",
+   "placeholder": true
+  },
+  {
+   "id": "cj_badgers_again",
+   "text": "The badgers, again",
+   "placeholder": true
+  },
+  {
+   "id": "cjnote_badgers_again",
+   "text": "The park has grown, and so has the badgers' appetite. The deal could cover another place.",
+   "placeholder": true
+  },
+  {
+   "id": "cj_jackalopes",
+   "text": "Holes at the campground",
+   "placeholder": true
+  },
+  {
+   "id": "cjnote_jackalopes",
+   "text": "Jackalopes have dug in at the campground. A camper twisted an ankle, very slightly, and went home early with a story. Chasing them would only make them dig deeper.",
+   "placeholder": true
+  },
+  {
+   "id": "cj_magic_deer",
+   "text": "The deer in the yard",
+   "placeholder": true
+  },
+  {
+   "id": "cjnote_magic_deer",
+   "text": "A deer with glowing antlers comes to the station at night, looks at you, and leaves.",
+   "placeholder": true
+  },
+  {
+   "id": "cj_gord",
+   "text": "A coffee, like a normal person",
+   "placeholder": true
+  },
+  {
+   "id": "cjnote_gord",
+   "text": "There is something not quite right about the moose in the meadow by the tower road. On a full moon, go and see.",
+   "placeholder": true
+  },
+  {
+   "id": "cjs_badgers_watch",
+   "text": "Watch a badger at it through the binoculars",
+   "placeholder": true
+  },
+  {
+   "id": "cjs_badgers_near",
+   "text": "Spend an hour near the badgers at dusk, twice",
+   "placeholder": true
+  },
+  {
+   "id": "cjs_badgers_terms",
+   "text": "Agree terms at their stone",
+   "placeholder": true
+  },
+  {
+   "id": "cjs_badgers_weeks",
+   "text": "Leave the offering, the right way, two weeks running",
+   "placeholder": true
+  },
+  {
+   "id": "cjs_badgers_again",
+   "text": "Leave the offering one more week",
+   "placeholder": true
+  },
+  {
+   "id": "cjs_jack_love",
+   "text": "Find out what the jackalopes love",
+   "placeholder": true
+  },
+  {
+   "id": "cjs_jack_trail",
+   "text": "Lay a trail of it to a meadow of their own",
+   "placeholder": true
+  },
+  {
+   "id": "cjs_jack_wait",
+   "text": "Wait for them in the meadow at dusk",
+   "placeholder": true
+  },
+  {
+   "id": "cjs_jack_fill",
+   "text": "Fill the old burrows with the shovel",
+   "placeholder": true
+  },
+  {
+   "id": "cjs_deer_yard",
+   "text": "See the deer in the yard at night",
+   "placeholder": true
+  },
+  {
+   "id": "cjs_deer_clue",
+   "text": "Learn what it's looking for",
+   "placeholder": true
+  },
+  {
+   "id": "cjs_deer_find",
+   "text": "Find it",
+   "placeholder": true
+  },
+  {
+   "id": "cjs_deer_hang",
+   "text": "Put it back where it was",
+   "placeholder": true
+  },
+  {
+   "id": "cjs_deer_night",
+   "text": "Be in the yard at night",
+   "placeholder": true
+  },
+  {
+   "id": "cjs_gord_meet",
+   "text": "On a full moon, meet whoever is in the meadow",
+   "placeholder": true
+  },
+  {
+   "id": "cjs_gord_words",
+   "text": "Ask Wren how you order a coffee",
+   "placeholder": true
+  },
+  {
+   "id": "cjs_gord_coat",
+   "text": "Buy a coat big enough for him",
+   "placeholder": true
+  },
+  {
+   "id": "cjs_gord_practise",
+   "text": "Next full moon: the coat, and practice",
+   "placeholder": true
+  },
+  {
+   "id": "cjs_gord_late",
+   "text": "Ask Wren to stay open late on the next full moon",
+   "placeholder": true
+  },
+  {
+   "id": "cjs_gord_coffee",
+   "text": "Next full moon: walk Gord to the Percolator",
+   "placeholder": true
+  },
+  {
+   "id": "jt_type_creature",
+   "text": "Creatures",
+   "placeholder": true
+  },
+  {
+   "id": "jt_giver_creature",
+   "text": "The creature",
+   "placeholder": true
+  },
+  {
+   "id": "item_big_coat",
+   "text": "Very big coat",
+   "placeholder": true
+  },
+  {
+   "id": "item_old_bell",
+   "text": "Small brass bell",
+   "placeholder": true
+  },
+  {
+   "id": "item_creature_gift",
+   "text": "Bundle of leaves",
+   "placeholder": true
+  },
+  {
+   "id": "visitor_cryptid_hunter",
+   "text": "Cryptid hunters",
+   "placeholder": true
+  },
+  {
+   "id": "animal_gord_moose",
+   "text": "A moose (?)",
+   "placeholder": true
+  },
+  {
+   "id": "guide_line_gord_moose",
+   "text": "A big, gentle moose who looks a bit self-conscious. Is that a wristwatch?",
+   "placeholder": true
+  },
+  {
+   "id": "guide_place_aurora",
+   "text": "Under the aurora",
+   "placeholder": true
+  },
+  {
+   "id": "guide_place_line_aurora",
+   "text": "Green and violet over the pines. Nobody forecast it.",
+   "placeholder": true
+  },
+  {
+   "id": "guide_place_full_moon",
+   "text": "Full moon",
+   "placeholder": true
+  },
+  {
+   "id": "guide_place_line_full_moon",
+   "text": "Bright enough to read a map by.",
+   "placeholder": true
+  },
+  {
+   "id": "guide_when_full_moon",
+   "text": "full moon",
+   "placeholder": true
+  },
+  {
+   "id": "cal_full_moon",
+   "text": "full moon",
+   "placeholder": true
+  },
+  {
+   "id": "cal_ev_deer_outlook",
+   "text": "The magic deer at the outlook",
+   "placeholder": true
+  },
+  {
+   "id": "cal_ev_midsummer",
+   "text": "Midsummer: fireflies over every pond",
+   "placeholder": true
+  },
+  {
+   "id": "cal_ev_first_snow",
+   "text": "The jackalopes play in the first snow",
+   "placeholder": true
+  },
+  {
+   "id": "cal_ev_year_end",
+   "text": "Something at the station, after dark",
+   "placeholder": true
+  },
+  {
+   "id": "cal_ev_first_litter",
+   "text": "Jackalope kits",
+   "placeholder": true
+  },
+  {
+   "id": "book_creatures",
+   "text": "Creatures",
+   "placeholder": true
+  },
+  {
+   "id": "log_creatures_none",
+   "text": "No creatures settled yet. The guide's strange cousins are where to start.",
+   "placeholder": true
+  },
+  {
+   "id": "log_creature_hearts",
+   "text": "Paw hearts: {n} of 5",
+   "placeholder": true
+  },
+  {
+   "id": "log_creature_choice",
+   "text": "Visitors: {choice}",
+   "placeholder": true
+  },
+  {
+   "id": "log_creature_unsettled",
+   "text": "Not settled yet",
+   "placeholder": true
+  },
+  {
+   "id": "badges_creatures",
+   "text": "Creatures and the guide",
+   "placeholder": true
+  },
+  {
+   "id": "badge_tip_guide_10",
+   "text": "Ten guide entries",
+   "placeholder": true
+  },
+  {
+   "id": "badge_tip_guide_half",
+   "text": "Half the animals",
+   "placeholder": true
+  },
+  {
+   "id": "badge_tip_guide_animals",
+   "text": "All the animals",
+   "placeholder": true
+  },
+  {
+   "id": "badge_tip_guide_strange",
+   "text": "All the strange cousins",
+   "placeholder": true
+  },
+  {
+   "id": "badge_tip_photo_night",
+   "text": "A photo at night",
+   "placeholder": true
+  },
+  {
+   "id": "badge_tip_photo_fog",
+   "text": "A photo in the fog",
+   "placeholder": true
+  },
+  {
+   "id": "badge_tip_photo_aurora",
+   "text": "A photo under the aurora",
+   "placeholder": true
+  },
+  {
+   "id": "badge_tip_creature_settled",
+   "text": "A creature settled",
+   "placeholder": true
+  },
+  {
+   "id": "badge_tip_creature_friend",
+   "text": "A creature at five paw hearts",
+   "placeholder": true
+  },
+  {
+   "id": "badge_tip_gord_coffee",
+   "text": "Coffee, black",
+   "placeholder": true
+  },
+  {
+   "id": "town_paw_hearts",
+   "text": "{n} paw hearts",
+   "placeholder": true
+  },
+  {
+   "id": "pet_spare_adopted",
+   "text": "{name} comes home with you.",
+   "placeholder": true
+  },
+  {
+   "id": "pet_swap",
+   "text": "{name} comes along. {other} stays home.",
+   "placeholder": true
+  },
+  {
+   "id": "debug_moon",
+   "text": "Next full moon",
+   "placeholder": true
+  },
+  {
+   "id": "jt_kind_feed",
+   "text": "Feed",
+   "placeholder": true
+  },
+  {
+   "id": "jt_kind_be_near",
+   "text": "Be near",
+   "placeholder": true
+  },
+  {
+   "id": "jt_kind_hearts",
+   "text": "Hearts",
+   "placeholder": true
+  },
+  {
+   "id": "jt_kind_lay_trail",
+   "text": "Lay trail",
+   "placeholder": true
+  },
+  {
+   "id": "jt_kind_wait_at",
+   "text": "Wait at",
+   "placeholder": true
+  },
+  {
+   "id": "jt_kind_choose",
+   "text": "Choose",
+   "placeholder": true
+  },
+  {
+   "id": "jt_kind_keep",
+   "text": "Keep",
+   "placeholder": true
+  },
+  {
+   "id": "jt_kind_full_moon",
+   "text": "Full moon",
+   "placeholder": true
+  },
+  {
+   "id": "jt_kind_fill",
+   "text": "Fill",
+   "placeholder": true
+  },
+  {
+   "id": "jt_kind_learn",
+   "text": "Learn",
+   "placeholder": true
+  },
+  {
+   "id": "jt_kind_bring",
+   "text": "Bring",
+   "placeholder": true
+  },
+  {
+   "id": "jt_kind_talk_about",
+   "text": "Talk about",
+   "placeholder": true
+  },
+  {
+   "id": "jt_kind_have",
+   "text": "Have",
+   "placeholder": true
+  },
+  {
+   "id": "ui_leave_it",
+   "text": "Leave it as it is",
+   "placeholder": true
+  },
+  {
+   "id": "fortune_card_aurora",
+   "text": "The Sky",
+   "placeholder": true
+  },
+  {
+   "id": "fortune_sky_aurora",
+   "text": "Look up tomorrow night.",
+   "placeholder": true
+  },
+  {
+   "id": "cr_chief_secret",
+   "text": "Ranger, I hear there's something in the park you're keeping to yourself. Good. Some things are better for it. (I'd still like to know.) The Chief",
+   "placeholder": true
+  },
+  {
+   "id": "cr_chief_hint",
+   "text": "Ranger, a little mystery on the brochure does wonders. The cryptid people are already writing in. The Chief",
+   "placeholder": true
+  },
+  {
+   "id": "cr_chief_public",
+   "text": "Ranger, {name} on the brochure! The phones haven't stopped. Be kind to them; it's a lot of attention. The Chief",
+   "placeholder": true
+  },
+  {
+   "id": "item_desc_big_coat",
+   "text": "A buffalo-check coat in a size the outfitters call \"generous\". Not for you.",
+   "placeholder": true
+  },
+  {
+   "id": "item_desc_old_bell",
+   "text": "A small brass bell with a rag round it. It wants to be hung up somewhere.",
+   "placeholder": true
+  },
+  {
+   "id": "item_desc_creature_gift",
+   "text": "Leaves tied with grass, left on a step by someone shy. Gifts & Notions will buy it.",
+   "placeholder": true
   }
  ]
 }

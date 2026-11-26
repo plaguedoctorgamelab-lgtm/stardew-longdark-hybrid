@@ -68,7 +68,7 @@ func refresh() -> void:
 		var lv := w.level_of(id)
 		if lv != "":
 			known += 1
-		var name := c.text(str(r["name"])) if lv != "" else "?"
+		var name := entry_name(r) if lv != "" else "?"
 		var foot := HBoxContainer.new()
 		foot.add_theme_constant_override("separation", 2)
 		foot.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -157,7 +157,7 @@ func _fill_detail(progress: String) -> void:
 	top.add_child(picture(r, lv))
 	var v := VBoxContainer.new()
 	v.add_theme_constant_override("separation", 2)
-	v.add_child(text(c.text(str(r["name"])) if lv != "" else c.text("guide_unknown_name"), 10, KitStyle.TEXT_DARK, DETAIL_W - 110))
+	v.add_child(text(entry_name(r) if lv != "" else c.text("guide_unknown_name"), 10, KitStyle.TEXT_DARK, DETAIL_W - 110))
 	v.add_child(text(progress, 7, KitStyle.TEXT_DARK, DETAIL_W - 110))
 	var chips := HFlowContainer.new()
 	chips.add_theme_constant_override("h_separation", 3)
@@ -176,6 +176,16 @@ func _fill_detail(progress: String) -> void:
 		chips.add_child(chip(pick(["icon_have"]), c.text("guide_seen_times", {"n": int(e.get("count", 1))}), "good"))
 		if bool(e.get("good", false)):
 			chips.add_child(chip(pick(["guide_good_stamp"]), c.text("guide_good_photo"), "good"))
+	# Phase 5b: a creature's paw hearts, and the foods tried on it.
+	var cid := creature_of(str(r["id"]))
+	if cid != "" and lv != "":
+		var cr := session.creatures
+		chips.add_child(chip(pick(["ui_paw_heart_full"]), c.text("town_paw_hearts", {"n": cr.hearts(cid)}), "good"))
+		var tried: Dictionary = cr.tastes.get(cid, {})
+		for item: String in tried:
+			var ta := str(tried[item])
+			var pic: String = {"loves": "chip_loves", "likes": "chip_likes", "ok": "chip_likes", "wont": "chip_wont"}[ta]
+			chips.add_child(chip(pick([pic]), c.item_name(item)))
 	if lv == "photo" and str(r.get("eats", "")) != "":
 		chips.add_child(chip(pick(["verb_give", "icon_gift_like"]), c.text("guide_eats", {"food": c.text(str(r["eats"]))})))
 	if lv != "" and session.skills.flag("guide_homes"):
@@ -195,6 +205,20 @@ func _fill_detail(progress: String) -> void:
 		detail.add_child(voice(c.text(str(r["line"]))))
 	else:
 		detail.add_child(voice(c.text("guide_hint_" + str(r["kind"]))))
+
+
+## Gord's page says "A moose (?)" until you've met him.
+func entry_name(r: Dictionary) -> String:
+	if str(r["id"]) == "gord_moose" and session.creatures.fact("gord_met") > 0:
+		return session.content.text("cr_name_gord")
+	return session.content.text(str(r["name"]))
+
+
+static func creature_of(animal: String) -> String:
+	for c: String in Creatures.ANIMAL:
+		if str(Creatures.ANIMAL[c]) == animal:
+			return c
+	return ""
 
 
 func _home_place(id: String) -> String:

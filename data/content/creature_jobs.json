@@ -1,0 +1,239 @@
+{
+ "note": "Phase 5b: the creature jobs (each creature's answer). Step kinds are in job_steps; each step names a fact that Creatures counts (scripts/living/creatures.gd). at: where the step's circle goes on the map.",
+ "rows": [
+  {
+   "id": "cj_badgers",
+   "type": "creature",
+   "giver": "creature",
+   "appears": "creature:badger_trouble",
+   "name": "cj_badgers",
+   "note": "cjnote_badgers",
+   "size": "large",
+   "season": "until_done",
+   "steps": [
+    {
+     "kind": "wait_at",
+     "label": "cjs_badgers_watch",
+     "fact": "badgers_watched",
+     "at": "stone"
+    },
+    {
+     "kind": "be_near",
+     "label": "cjs_badgers_near",
+     "fact": "near:troll_badgers",
+     "n": 2,
+     "at": "stone"
+    },
+    {
+     "kind": "choose",
+     "label": "cjs_badgers_terms",
+     "fact": "badgers_terms",
+     "at": "stone"
+    },
+    {
+     "kind": "keep",
+     "label": "cjs_badgers_weeks",
+     "fact": "badgers_weeks",
+     "n": 2,
+     "at": "stone"
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "xp",
+     "skill": "lore",
+     "n": 50
+    },
+    {
+     "kind": "money",
+     "n": 60
+    }
+   ]
+  },
+  {
+   "id": "cj_badgers_again",
+   "type": "creature",
+   "giver": "creature",
+   "appears": "job_done:cj_badgers and creature:badger_trouble_again",
+   "name": "cj_badgers_again",
+   "note": "cjnote_badgers_again",
+   "size": "large",
+   "season": "until_done",
+   "steps": [
+    {
+     "kind": "keep",
+     "label": "cjs_badgers_again",
+     "fact": "badgers_weeks2",
+     "n": 1,
+     "at": "stone"
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "xp",
+     "skill": "lore",
+     "n": 20
+    }
+   ]
+  },
+  {
+   "id": "cj_jackalopes",
+   "type": "creature",
+   "giver": "creature",
+   "appears": "creature:jack_trouble",
+   "name": "cj_jackalopes",
+   "note": "cjnote_jackalopes",
+   "size": "large",
+   "season": "until_done",
+   "steps": [
+    {
+     "kind": "feed",
+     "label": "cjs_jack_love",
+     "fact": "fed_love:jackalopes",
+     "at": "campground"
+    },
+    {
+     "kind": "lay_trail",
+     "label": "cjs_jack_trail",
+     "fact": "trail",
+     "n": 5,
+     "at": "trail"
+    },
+    {
+     "kind": "wait_at",
+     "label": "cjs_jack_wait",
+     "fact": "jack_waited",
+     "at": "jack_meadow"
+    },
+    {
+     "kind": "fill",
+     "label": "cjs_jack_fill",
+     "fact": "burrows_filled",
+     "n": 3,
+     "at": "burrows"
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "xp",
+     "skill": "lore",
+     "n": 50
+    },
+    {
+     "kind": "money",
+     "n": 60
+    }
+   ]
+  },
+  {
+   "id": "cj_magic_deer",
+   "type": "creature",
+   "giver": "creature",
+   "appears": "creature:deer_autumn",
+   "name": "cj_magic_deer",
+   "note": "cjnote_magic_deer",
+   "size": "large",
+   "season": "until_done",
+   "steps": [
+    {
+     "kind": "wait_at",
+     "label": "cjs_deer_yard",
+     "fact": "deer_seen_yard",
+     "at": "yard"
+    },
+    {
+     "kind": "learn",
+     "label": "cjs_deer_clue",
+     "fact": "deer_clue",
+     "at": "station"
+    },
+    {
+     "kind": "have",
+     "label": "cjs_deer_find",
+     "fact": "bell_found",
+     "item": "old_bell",
+     "at": "tower"
+    },
+    {
+     "kind": "bring",
+     "label": "cjs_deer_hang",
+     "fact": "bell_hung",
+     "at": "hook"
+    },
+    {
+     "kind": "wait_at",
+     "label": "cjs_deer_night",
+     "fact": "deer_rang",
+     "at": "yard"
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "xp",
+     "skill": "lore",
+     "n": 50
+    },
+    {
+     "kind": "money",
+     "n": 60
+    }
+   ]
+  },
+  {
+   "id": "cj_gord",
+   "type": "creature",
+   "giver": "creature",
+   "appears": "creature:gord_seen",
+   "name": "cj_gord",
+   "note": "cjnote_gord",
+   "size": "large",
+   "season": "until_done",
+   "steps": [
+    {
+     "kind": "full_moon",
+     "label": "cjs_gord_meet",
+     "fact": "gord_met",
+     "at": "gord_meadow"
+    },
+    {
+     "kind": "talk_about",
+     "label": "cjs_gord_words",
+     "fact": "gord_words",
+     "at": "percolator"
+    },
+    {
+     "kind": "have",
+     "label": "cjs_gord_coat",
+     "fact": "gord_coat",
+     "item": "big_coat",
+     "at": "percolator"
+    },
+    {
+     "kind": "full_moon",
+     "label": "cjs_gord_practise",
+     "fact": "gord_practised",
+     "at": "gord_meadow"
+    },
+    {
+     "kind": "talk_about",
+     "label": "cjs_gord_late",
+     "fact": "wren_late",
+     "at": "percolator"
+    },
+    {
+     "kind": "full_moon",
+     "label": "cjs_gord_coffee",
+     "fact": "gord_coffee",
+     "at": "gord_meadow"
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "xp",
+     "skill": "lore",
+     "n": 50
+    }
+   ]
+  }
+ ]
+}

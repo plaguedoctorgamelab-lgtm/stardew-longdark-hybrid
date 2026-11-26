@@ -42,6 +42,7 @@ var _camp_fire: Sprite2D
 var _time: float = 0.0
 var park_view: ParkView
 var wildlife_view: WildlifeView
+var creature_view: CreatureView
 var _pile_sprites: Array[Sprite2D] = []
 var polish: Polish
 var _ranger: Node2D
@@ -124,6 +125,9 @@ func setup(s: GameSession, ranger_node: Node2D) -> void:
 	wildlife_view = WildlifeView.new()
 	add_child(wildlife_view)
 	wildlife_view.setup(session, sort_root)
+	creature_view = CreatureView.new()
+	add_child(creature_view)
+	creature_view.setup(session, sort_root)
 	session.binoculars_changed.connect(func(on: bool) -> void:
 		if on:
 			update_chunks(true))

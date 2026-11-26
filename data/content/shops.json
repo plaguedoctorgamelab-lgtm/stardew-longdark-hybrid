@@ -162,6 +162,11 @@
      "item": "pet_treat",
      "count": 5,
      "price": 10
+    },
+    {
+     "item": "big_coat",
+     "price": 90,
+     "fact": "gord_met"
     }
    ]
   },

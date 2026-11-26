@@ -929,6 +929,8 @@ func eligible_kinds() -> Array:
 				ok = not dock_pads(g, start).is_empty()
 			"tour":
 				ok = sites_in_reach(g, start).size() >= 2
+			"creature_hint":
+				ok = hike and s().creatures.shown_count() > 0
 		if ok and r.has("most_at_once"):
 			var n := 0
 			for p: Dictionary in parties:
@@ -1913,6 +1915,9 @@ func _badger_mischief() -> void:
 			continue
 		b["nap"] = ""
 		var place: String = b["place"]
+		# Phase 5b: a deal with the badgers keeps the peace there.
+		if s().creatures.badger_peace(place):
+			continue
 		var options := []
 		var cans := things_with("trash").filter(func(t: Vector2i) -> bool: return place_of(Vector2(t)) == place and int(things[t]["trash"]) > 0 and not bool(things[t]["tipped"]))
 		if not cans.is_empty():
@@ -1971,6 +1976,7 @@ func do_mischief(b: Dictionary, what: String) -> bool:
 			net.mark_dirty()
 			s().land_changed.emit(t)
 	events.append({"type": "badger", "place": place})
+	s().creatures.on_mischief(place)
 	changed.emit()
 	return true
 

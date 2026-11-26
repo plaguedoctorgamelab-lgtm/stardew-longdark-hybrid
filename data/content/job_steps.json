@@ -120,6 +120,71 @@
    "id": "find_thing",
    "stays_done": true,
    "label": "jt_kind_find_thing"
+  },
+  {
+   "id": "feed",
+   "stays_done": true,
+   "label": "jt_kind_feed"
+  },
+  {
+   "id": "be_near",
+   "stays_done": true,
+   "label": "jt_kind_be_near"
+  },
+  {
+   "id": "hearts",
+   "stays_done": true,
+   "label": "jt_kind_hearts"
+  },
+  {
+   "id": "lay_trail",
+   "stays_done": true,
+   "label": "jt_kind_lay_trail"
+  },
+  {
+   "id": "wait_at",
+   "stays_done": true,
+   "label": "jt_kind_wait_at"
+  },
+  {
+   "id": "choose",
+   "stays_done": true,
+   "label": "jt_kind_choose"
+  },
+  {
+   "id": "keep",
+   "stays_done": true,
+   "label": "jt_kind_keep"
+  },
+  {
+   "id": "full_moon",
+   "stays_done": true,
+   "label": "jt_kind_full_moon"
+  },
+  {
+   "id": "fill",
+   "stays_done": true,
+   "label": "jt_kind_fill"
+  },
+  {
+   "id": "learn",
+   "stays_done": true,
+   "label": "jt_kind_learn"
+  },
+  {
+   "id": "bring",
+   "stays_done": true,
+   "label": "jt_kind_bring"
+  },
+  {
+   "id": "talk_about",
+   "stays_done": true,
+   "label": "jt_kind_talk_about"
+  },
+  {
+   "id": "have",
+   "stays_done": true,
+   "label": "jt_kind_have"
   }
  ]
 }

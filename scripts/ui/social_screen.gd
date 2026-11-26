@@ -237,6 +237,11 @@ func _draw_calendar() -> void:
 				on.draw_texture_rect(Art.texture(cake), Rect2(cell.position + Vector2(2, cell.size.y - 12), Vector2(10, 10)), false)
 		if str(d["festival"]) != "" and Art.has_picture("ui_cal_festival"):
 			on.draw_texture_rect(Art.texture("ui_cal_festival"), Rect2(cell.position + Vector2(2, cell.size.y - 12), Vector2(10, 10)), false)
+		# Phase 5b: the full moon, and events heard of.
+		if bool(d.get("moon", false)) and Art.has_picture("ui_cal_moon"):
+			on.draw_texture_rect(Art.texture("ui_cal_moon"), Rect2(Vector2(cell.end.x - 11, cell.position.y + 1), Vector2(10, 10)), false)
+		if not (d.get("events", []) as Array).is_empty() and Art.has_picture("ui_cal_event"):
+			on.draw_texture_rect(Art.texture("ui_cal_event"), Rect2(Vector2(cell.end.x - 11, cell.end.y - 11), Vector2(10, 10)), false)
 	# Today's events, under the grid.
 	var today: Dictionary = days[c.day - 1] if c.day - 1 < days.size() else {}
 	var notes := PackedStringArray()
@@ -244,6 +249,10 @@ func _draw_calendar() -> void:
 		notes.append(session.content.text("cal_birthday", {"name": str(session.content.row("townsfolk", id)["name"]).get_slice(" ", 0)}))
 	if str(today.get("festival", "")) != "":
 		notes.append(session.content.text("cal_festival", {"name": session.content.text(str(session.content.row("festivals", today["festival"])["name"]))}))
+	if bool(today.get("moon", false)):
+		notes.append(session.content.text("cal_full_moon"))
+	for ev: String in today.get("events", []):
+		notes.append(session.content.text(str(session.content.row("calendar_events", ev)["name"])))
 	if not notes.is_empty():
 		on.draw_string(f, Vector2(0, on.size.y - 3), session.content.text("cal_today") + ": " + ", ".join(notes), HORIZONTAL_ALIGNMENT_CENTER, on.size.x, 7, KitStyle.TEXT_DARK)
 

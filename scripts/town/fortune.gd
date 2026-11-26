@@ -218,8 +218,16 @@ func reading(force: bool = false) -> Dictionary:
 		g.park.money.spend(g.clock.absolute_day(), "shops", price)
 	read_day = g.clock.absolute_day()
 	g.town.met["esme"] = true
+	# Phase 5b: the day before an aurora, the Sky is the aurora card; and
+	# the magic deer's clue comes on the Path.
+	var sky := {"card": "sky", "text": sky_text()}
+	if g.creatures.aurora_tomorrow():
+		sky = {"card": "aurora", "text": content.text("fortune_sky_aurora")}
+	if g.creatures.current("magic_deer") in ["deer_clue", "bell_found"]:
+		path = content.text("crs_esme_bell")
+	g.creatures.on_reading()
 	last = {"cards": [
-		{"card": "sky", "text": sky_text()},
+		sky,
 		{"card": "path", "text": path if path != "" else line("path_none")},
 		{"card": "heart", "text": heart if heart != "" else line("heart_none")},
 	], "price": price, "free": free, "intro": line("intro_free" if free else "intro")}

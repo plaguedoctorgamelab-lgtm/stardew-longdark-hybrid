@@ -14,8 +14,8 @@ extends Sheet
 ##   each is about (strange ones on purple paper); the chosen one large.
 ## - Badges: the patches earned.
 
-const PAGES: Array[String] = ["park", "ledger", "cards", "letters", "notes", "badges"]
-const TAB_PICTURES := {"park": ["log_site", "ui_tab_book"], "ledger": ["icon_coin", "ui_tab_ledger"], "cards": ["log_card"], "letters": ["log_envelope"], "notes": ["log_note_yellow"], "badges": ["badge_locked"]}
+const PAGES: Array[String] = ["park", "ledger", "cards", "letters", "notes", "creatures", "badges"]
+const TAB_PICTURES := {"park": ["log_site", "ui_tab_book"], "ledger": ["icon_coin", "ui_tab_ledger"], "cards": ["log_card"], "letters": ["log_envelope"], "notes": ["log_note_yellow"], "creatures": ["job_type_creature", "guide_tab_strange"], "badges": ["badge_locked"]}
 const NOTE_PAPER := {"strange": "log_note_purple", "badger": "log_note_green", "story": "log_note_blue", "heart": "log_note_yellow", "found": "log_note_yellow", "": "log_note_yellow"}
 const NOTE_INK := {"strange": Color8(47, 38, 80), "badger": Color8(30, 70, 30), "story": Color8(30, 50, 90), "": Color8(70, 52, 20)}
 
@@ -98,7 +98,7 @@ func refresh() -> void:
 	if _badges.get_parent() != null:
 		_badges.get_parent().remove_child(_badges)
 	clear(_full_box)
-	var listed := page in ["cards", "letters", "notes"]
+	var listed := page in ["cards", "letters", "notes", "creatures"]
 	list_scroll.visible = listed
 	detail_scroll.visible = listed
 	_full.visible = not listed
@@ -114,6 +114,8 @@ func refresh() -> void:
 			_letters()
 		"notes":
 			_notes()
+		"creatures":
+			_creatures()
 		"badges":
 			_full_box.add_child(_badges)
 			_badges.refresh()
@@ -407,6 +409,49 @@ func _notes() -> void:
 	detail.add_child(_paper_page(pick(["log_note_big", "ui_paper"]), str(nt["text"]), NOTE_INK.get(kind, NOTE_INK[""]), doodle_for(nt), _day(int(nt["day"]))))
 	if kind == "strange":
 		detail.get_child(0).self_modulate = Color(0.86, 0.8, 1.0)
+
+
+## Phase 5b: the creatures met, each with its paw hearts and its stamp.
+func _creatures() -> void:
+	var c := session.content
+	var cr := session.creatures
+	var ids: Array = Creatures.IDS.filter(func(id: String) -> bool: return session.jobs.known.has(str(cr.row(id).get("job", ""))))
+	if ids.is_empty():
+		empty_label.visible = true
+		empty_label.text = c.text("log_creatures_none")
+		return
+	selected = clampi(selected, 0, ids.size() - 1)
+	for i in ids.size():
+		var id: String = ids[i]
+		var ch := str(cr.choice.get(id, ""))
+		var foot := c.text("log_creature_hearts", {"n": cr.hearts(id)})
+		list.add_child(_small(pick(["stamp_" + ch, "job_type_creature"]) if ch != "" else pick(["job_type_creature"]), cr.name_of(id), foot, i))
+	var id: String = ids[selected]
+	var ch := str(cr.choice.get(id, ""))
+	var hearts := HBoxContainer.new()
+	hearts.add_theme_constant_override("separation", 1)
+	for k in 5:
+		var pic := "ui_paw_heart_full" if k < cr.hearts(id) else "ui_paw_heart_empty"
+		if Art.has_picture(pic):
+			var tr := TextureRect.new()
+			tr.texture = Art.texture(pic)
+			tr.custom_minimum_size = Vector2(8, 8)
+			tr.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			hearts.add_child(tr)
+	detail.add_child(text(cr.name_of(id), 10, KitStyle.TEXT_DARK, DETAIL_W - 10))
+	detail.add_child(hearts)
+	if ch == "":
+		detail.add_child(voice(c.text("log_creature_unsettled")))
+	else:
+		detail.add_child(Sheet.chip(pick(["stamp_" + ch]), c.text("log_creature_choice", {"choice": c.text("cr_stamp_" + ch)})))
+		if ch == "public" and Art.has_picture("brochure_creature"):
+			var b := TextureRect.new()
+			b.texture = Art.texture("brochure_creature")
+			b.custom_minimum_size = Vector2(96, 72)
+			b.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			detail.add_child(b)
+		if ch != "secret":
+			detail.add_child(voice(c.text("cr_brochure_%s_%s" % [ch, id])))
 
 
 ## Keys while the Log is open. True when the key was used.

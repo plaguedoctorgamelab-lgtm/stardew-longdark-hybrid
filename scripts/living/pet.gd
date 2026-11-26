@@ -30,6 +30,9 @@ var moving: bool = false
 var _sniffed: Dictionary = {}    # find tile key -> day
 var _stared: Dictionary = {}     # cousin seed -> true
 var _hint_wait: float = 0.0
+## Phase 5b: the second pet, at home while the first is the one about.
+## {kind, name, points, petted, bowl}; X at it swaps the two.
+var spare: Dictionary = {}
 
 
 func _init(session: GameSession) -> void:
@@ -214,8 +217,49 @@ func lantern_add() -> float:
 	return 0.0
 
 
+# --- the second pet (Phase 5b) ------------------------------------------------------------
+
+func other_kind() -> String:
+	return "cat" if kind == "dog" else "dog"
+
+
+## The second pet's bed, beside the first.
+func spare_spot() -> Vector2:
+	return s().mailbox_pos() + tuning_vec("pet.spare_home_from_mailbox")
+
+
+func spare_bowl_spot() -> Vector2:
+	return s().mailbox_pos() + tuning_vec("pet.spare_bowl_from_mailbox")
+
+
+func spare_in_reach(p: Vector2, reach: float) -> bool:
+	return not spare.is_empty() and p.distance_to(spare_spot()) <= reach + 0.6
+
+
+## The other animal, waiting on the cabin step, comes home.
+func adopt_spare() -> void:
+	var k := other_kind()
+	spare = {"kind": k, "name": default_name(k), "points": 0, "petted": -1, "bowl": -1}
+	s().message.emit(s().content.text("pet_spare_adopted", {"name": spare["name"]}))
+
+
+## X at the pet at home: that one comes along, the other stays.
+func swap() -> void:
+	var g := s()
+	var was := {"kind": kind, "name": name, "points": points, "petted": petted_day, "bowl": bowl_day}
+	kind = str(spare["kind"])
+	name = str(spare["name"])
+	points = int(spare["points"])
+	petted_day = int(spare["petted"])
+	bowl_day = int(spare["bowl"])
+	spare = was
+	along = true
+	pos = spare_spot()
+	g.message.emit(g.content.text("pet_swap", {"name": name, "other": spare["name"]}))
+
+
 func to_dict() -> Dictionary:
-	return {"kind": kind, "name": name, "points": points, "petted": petted_day, "bowl": bowl_day, "offered": offered}
+	return {"kind": kind, "name": name, "points": points, "petted": petted_day, "bowl": bowl_day, "offered": offered, "spare": spare}
 
 
 func from_dict(d: Dictionary) -> void:
@@ -225,5 +269,6 @@ func from_dict(d: Dictionary) -> void:
 	petted_day = int(d.get("petted", -1))
 	bowl_day = int(d.get("bowl", -1))
 	offered = bool(d.get("offered", false))
+	spare = d.get("spare", {})
 	along = false
 	pos = Vector2.INF

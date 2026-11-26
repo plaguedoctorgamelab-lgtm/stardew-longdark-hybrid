@@ -67,6 +67,10 @@ func people_in(place: String) -> Dictionary:
 	var gi := 0
 	var ids := town.people.keys()
 	ids.sort()
+	# Phase 5b: Gord by the Percolator's window on full-moon evenings.
+	if place == "percolator" and session().creatures.gord_in_cafe() and not guests.is_empty():
+		var gs: Array = guests[guests.size() - 1]
+		out["gord"] = Vector2(float(gs[0]) + 0.5, float(gs[1]) + 0.5)
 	for id: String in ids:
 		var p: Dictionary = town.people[id]
 		if str(p["goal"]) != place or not (p["path"] as Array).is_empty():
@@ -141,6 +145,9 @@ func buy_options(place: String) -> Array:
 		var item := str(it["item"])
 		# Seeds are sold in their own season.
 		if it.has("season") and str(it["season"]) != session().clock.season_name():
+			continue
+		# Phase 5b: Gord's coat is stocked once you've met him.
+		if it.has("fact") and session().creatures.fact(str(it["fact"])) <= 0:
 			continue
 		var name := content.item_name(item)
 		var count := int(it.get("count", 1))

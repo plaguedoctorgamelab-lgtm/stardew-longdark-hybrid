@@ -1,0 +1,89 @@
+{
+ "note": "SPOILERS. What each creature loves, likes and won't eat, and the badgers' offerings.",
+ "rows": [
+  {
+   "id": "troll_badgers",
+   "loves": [
+    "churros"
+   ],
+   "likes": [
+    "trail_mix",
+    "tin_of_beans",
+    "muffin"
+   ],
+   "wont": [
+    "rose_hip_tea"
+   ],
+   "offerings": [
+    {
+     "id": "beans",
+     "item": "tin_of_beans",
+     "label": "crs_terms_beans"
+    },
+    {
+     "id": "churros",
+     "item": "churros",
+     "label": "crs_terms_churros"
+    },
+    {
+     "id": "boots",
+     "item": "waterproof_boots",
+     "label": "crs_terms_boots",
+     "one_season": true
+    }
+   ]
+  },
+  {
+   "id": "jackalopes",
+   "loves": [
+    "fiddleheads"
+   ],
+   "likes": [
+    "wild_onion",
+    "garden_salad",
+    "apple"
+   ],
+   "wont": [
+    "hot_soup",
+    "fiddlehead_fry",
+    "tamales",
+    "pozole",
+    "enchiladas",
+    "churros",
+    "pumpkin_pie",
+    "tomato_soup",
+    "roast_hazelnuts",
+    "sandwich",
+    "trail_breakfast"
+   ]
+  },
+  {
+   "id": "magic_deer",
+   "loves": [
+    "rose_hips"
+   ],
+   "likes": [
+    "apple",
+    "berries"
+   ],
+   "wont": [
+    "tamales",
+    "enchiladas",
+    "pozole",
+    "tin_of_beans"
+   ]
+  },
+  {
+   "id": "gord",
+   "loves": [
+    "muffin"
+   ],
+   "likes": [
+    "apple",
+    "hazelnuts",
+    "hot_chocolate"
+   ],
+   "wont": []
+  }
+ ]
+}

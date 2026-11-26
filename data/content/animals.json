@@ -625,6 +625,144 @@
    "eats": "",
    "shy": 0.0,
    "speed": 0.0
+  },
+  {
+   "id": "gord_moose",
+   "kind": "cousin",
+   "cousin_of": "moose",
+   "park": true,
+   "hours": [
+    "dawn",
+    "day",
+    "dusk"
+   ],
+   "seasons": [
+    "spring",
+    "summer",
+    "autumn",
+    "winter"
+   ],
+   "chance": 0.0,
+   "shy": 0.0,
+   "speed": 0.8,
+   "frame": [
+    48,
+    48
+   ],
+   "cols": 6,
+   "sprite": "creature_gord_moose",
+   "chips": [
+    "chip_meadow",
+    "chip_full_moon"
+   ],
+   "name": "animal_gord_moose",
+   "line": "guide_line_gord_moose",
+   "ground": [],
+   "group": [
+    1,
+    1
+   ],
+   "homes": 0,
+   "eats": ""
+  },
+  {
+   "hours": [],
+   "seasons": [
+    "spring",
+    "summer",
+    "autumn",
+    "winter"
+   ],
+   "frame": [
+    0,
+    0
+   ],
+   "cols": 0,
+   "sprite": "",
+   "cousin_of": "",
+   "ground": [],
+   "group": [
+    1,
+    1
+   ],
+   "homes": 0,
+   "eats": "",
+   "shy": 0.0,
+   "speed": 0.0,
+   "id": "place_aurora",
+   "kind": "place",
+   "when": "aurora",
+   "name": "guide_place_aurora",
+   "line": "guide_place_line_aurora",
+   "chips": [
+    "chip_aurora"
+   ]
+  },
+  {
+   "hours": [],
+   "seasons": [
+    "spring",
+    "summer",
+    "autumn",
+    "winter"
+   ],
+   "frame": [
+    0,
+    0
+   ],
+   "cols": 0,
+   "sprite": "",
+   "cousin_of": "",
+   "ground": [],
+   "group": [
+    1,
+    1
+   ],
+   "homes": 0,
+   "eats": "",
+   "shy": 0.0,
+   "speed": 0.0,
+   "id": "place_full_moon",
+   "kind": "place",
+   "when": "full_moon",
+   "name": "guide_place_full_moon",
+   "line": "guide_place_line_full_moon",
+   "chips": [
+    "chip_full_moon"
+   ]
+  },
+  {
+   "hours": [],
+   "seasons": [
+    "spring",
+    "summer",
+    "autumn",
+    "winter"
+   ],
+   "frame": [
+    0,
+    0
+   ],
+   "cols": 0,
+   "sprite": "",
+   "cousin_of": "",
+   "ground": [],
+   "group": [
+    1,
+    1
+   ],
+   "homes": 0,
+   "eats": "",
+   "shy": 0.0,
+   "speed": 0.0,
+   "id": "place_tower_tune",
+   "kind": "place",
+   "when": "never",
+   "name": "guide_place_tower_tune",
+   "line": "guide_place_line_tower_tune",
+   "chips": [
+    "chip_aurora"
+   ]
   }
  ]
 }

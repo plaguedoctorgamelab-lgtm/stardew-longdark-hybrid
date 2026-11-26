@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.8.3** (see [Version history](#version-history)). The
+**Current version: 0.8.4** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -119,6 +119,30 @@ phase is finished; the last number counts every build and runs on past 9
 | 0.10.x | Phase 7, Year one polish |
 | 0.11.x to 0.14.x | Phases 8 to 11, one region each |
 | 1.0.0 | every phase done |
+
+### 0.8.4 (26 November 2026): Phase 5b, Gord and the night
+
+The second half of Phase 5 (`docs/Phase 5b Spec.md`), built in one go on Mark's answers (all seven suggested answers approved), with his Art Request 25 Part B and Art Request 26 pictures.
+
+- **Creatures** (`scripts/living/creatures.gd`, `data/content/creatures.json`):
+  - The troll badgers, the jackalopes, the magic deer and Gord each have five paw hearts.
+  - Hold a food and press X by one to give it: loved, liked, eaten politely or sniffed at. Once a day each; what each thinks is learned and shown in the guide.
+  - An hour near one at its hour, without startling it, counts once a day. Friendship never goes down.
+  - At one paw heart it lets you walk slowly right up to it; the last step of its job wants two.
+- **Creature jobs**, a sixth job type in violet (`data/content/creature_jobs.json`): steps in order, each with its map circle.
+  - **The troll badgers:** after a place's third bit of mischief, watch them, sit with them, agree terms at their stone, and leave the offering the right way. No more mischief there; the deal can be renegotiated as the park grows.
+  - **The jackalopes:** in spring they dig into the campground. Find what they love, lay a trail to a meadow of their own over five evenings, wait for them at dusk, fill the old burrows.
+  - **The magic deer:** from the first autumn it comes to the yard at night. Its clues lead to something it misses.
+  - **Gord:** a moose with a wristwatch in the meadow by the tower road. On a full moon he's a man who'd like a coffee. Three full moons: meet him, bring the coat and practise, then walk him to the Percolator, which Wren keeps open late.
+- **Secret, hint or public:** chosen with Mark's stamps when a creature is settled, changed at the station's note board one step a season. Hint brings cryptid hunters; public brings more visitors and a shyer creature; secret creatures leave gifts. The Chief writes. The Log has a Creatures page.
+- **The moon:** full on the 7th and 21st of every season, on the calendar and beside the clock at night, a big moon in the sky. Cousins are out twice as often.
+- **Calendar events** show once heard of (from Esme, a chat, or the guide).
+- **Aurora nights:** two or three a year, one in winter, never forecast. Esme's Sky card the day before is the only hint. The sky fills with green and violet ribbons and every strange cousin is out.
+- **The second pet:** from the first winter the other animal waits on a cabin step. Both live at the station; X at the one at home swaps which comes along.
+- **Badges:** the guide's and the creatures' ten, in the Log.
+- **Debug (F1):** next full moon, aurora tonight, set paw hearts, next creature step, second pet, hear all events.
+- **Art:** `tools/cut_ar25b_26.py` cuts Mark's Part B and Art Request 26 sheets.
+- Tests: `tests/test_phase5b.gd`. Screenshots: `docs/status/0804_shots/` (`tests/support/screenshots_5b.gd`).
 
 ### 0.8.3 (26 November 2026): the Phase 5b spec and Art Request 26
 

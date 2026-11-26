@@ -365,6 +365,226 @@
    "id": "fest_story_5",
    "text": "My mother told me the park keeps a list. Not of the people who come in, but of the people who come back. Every time you walk through the gate again, your name goes a little higher. She said that's why the gate creaks. It's writing.",
    "_4b": "4b"
+  },
+  {
+   "id": "guide_place_tower_tune",
+   "text": "The tower's tune",
+   "placeholder": true
+  },
+  {
+   "id": "guide_place_line_tower_tune",
+   "text": "The radio played it all the way through. Teo would know it.",
+   "placeholder": true
+  },
+  {
+   "id": "crs_terms_title",
+   "text": "The badgers wait. What will you offer, each week?",
+   "placeholder": true
+  },
+  {
+   "id": "crs_terms_beans",
+   "text": "A tin of beans each week",
+   "placeholder": true
+  },
+  {
+   "id": "crs_terms_churros",
+   "text": "Churros each week",
+   "placeholder": true
+  },
+  {
+   "id": "crs_terms_boots",
+   "text": "Your old boots, once (good for a season)",
+   "placeholder": true
+  },
+  {
+   "id": "crs_terms_agreed",
+   "text": "Agreed: {item}. They nod, gravely.",
+   "placeholder": true
+  },
+  {
+   "id": "crs_stone_wants",
+   "text": "The deal was {item}.",
+   "placeholder": true
+  },
+  {
+   "id": "crs_not_morning_badgers",
+   "text": "They're not morning badgers. Leave it at dusk.",
+   "placeholder": true
+  },
+  {
+   "id": "crs_offered_already",
+   "text": "They've had this week's.",
+   "placeholder": true
+  },
+  {
+   "id": "crs_offering_left",
+   "text": "You leave it on the stone with the lid off. Something rustles, approvingly.",
+   "placeholder": true
+  },
+  {
+   "id": "crs_trail_wants",
+   "text": "They'd follow something they love.",
+   "placeholder": true
+  },
+  {
+   "id": "crs_trail_tomorrow",
+   "text": "They'll eat this one tonight. The next spot tomorrow.",
+   "placeholder": true
+  },
+  {
+   "id": "crs_trail_laid",
+   "text": "Trail spot {n} of {of} laid.",
+   "placeholder": true
+  },
+  {
+   "id": "crs_hook",
+   "text": "An empty hook by the door. Something used to hang here.",
+   "placeholder": true
+  },
+  {
+   "id": "crs_bell_hangs",
+   "text": "The little bell hangs on its hook again.",
+   "placeholder": true
+  },
+  {
+   "id": "crs_bell_hung",
+   "text": "You hang the bell on its hook. It rings once, softly, on its own.",
+   "placeholder": true
+  },
+  {
+   "id": "crs_bell_found",
+   "text": "Behind the tower's radio, wrapped in a rag: a small brass bell, and a label in the last ranger's hand. \"Yard. Back soon.\"",
+   "placeholder": true
+  },
+  {
+   "id": "crs_bell_note",
+   "text": "An old list pinned under the others, in the last ranger's hand: \"Bell: lent to tower (temp.)\"",
+   "placeholder": true
+  },
+  {
+   "id": "crs_bell_rang",
+   "text": "In the night, the bell rang once. You slept well.",
+   "placeholder": true
+  },
+  {
+   "id": "crs_deer_rings",
+   "text": "The deer walks to the door, touches the bell with its nose, and it rings. It lies down by the step and stays till dawn.",
+   "placeholder": true
+  },
+  {
+   "id": "crs_esme_bell",
+   "text": "Something that rang in your yard is missing. Things that ring want to be heard.",
+   "placeholder": true
+  },
+  {
+   "id": "crs_gord_meet",
+   "text": "Oh! Hello. Sorry. I'm Gord. I'm usually... taller. Lower. Anyway. I was wondering, and you can say no: how does a person go into town and have a coffee? Like a normal person. Just once.",
+   "placeholder": true
+  },
+  {
+   "id": "crs_gord_hello",
+   "text": "Evening! Lovely moon. I've been practising standing.",
+   "placeholder": true
+  },
+  {
+   "id": "crs_gord_waiting",
+   "text": "No rush. There's always another full moon. That's the one thing I can count on.",
+   "placeholder": true
+  },
+  {
+   "id": "crs_gord_needs_coat",
+   "text": "I did think about clothes. I have these. Are these enough? They feel like not enough.",
+   "placeholder": true
+  },
+  {
+   "id": "crs_practise_title",
+   "text": "Gord practises ordering. You're Wren. What do you say?",
+   "placeholder": true
+  },
+  {
+   "id": "crs_practise_0",
+   "text": "\"Morning! What can I get you?\"",
+   "placeholder": true
+  },
+  {
+   "id": "crs_practise_1",
+   "text": "\"Next!\"",
+   "placeholder": true
+  },
+  {
+   "id": "crs_practise_2",
+   "text": "\"You're a moose.\"",
+   "placeholder": true
+  },
+  {
+   "id": "crs_practise_reply_0",
+   "text": "\"A... coffee, please. Black. Thank you. Thank YOU.\" He's beaming. \"Again?\"",
+   "placeholder": true
+  },
+  {
+   "id": "crs_practise_reply_1",
+   "text": "He jumps a little. \"Coffee! Please! Sorry!\" Then, quietly: \"I'll get better.\"",
+   "placeholder": true
+  },
+  {
+   "id": "crs_practise_reply_2",
+   "text": "\"I'm Gord,\" he says, very firmly. Then he laughs, and it's fine.",
+   "placeholder": true
+  },
+  {
+   "id": "crs_gord_ready",
+   "text": "Tonight? Tonight. Right. I'm ready. I'll walk behind you. Is that normal? I'll walk beside you.",
+   "placeholder": true
+  },
+  {
+   "id": "crs_gord_after",
+   "text": "Same again next month, I think. I have a usual now. Do you know what that's like?",
+   "placeholder": true
+  },
+  {
+   "id": "crs_gord_coffee_scene",
+   "text": "The bell over the door. Gord ducks under it. Wren looks up.\n\n\"Evening! What can I get you?\"\n\n\"A coffee,\" says Gord. \"Black. Please.\"\n\nShe pours it. He holds it in both hands. Someone by the window says, \"Evening,\" and goes back to their paper.\n\nGord sits down very carefully and looks at you as if you'd hung the moon.",
+   "placeholder": true
+  },
+  {
+   "id": "crs_wren_words",
+   "text": "Wren laughs. \"Easy. You say what you want and please, and I say what it costs. Want to try?\" You don't say who it's for. She doesn't ask.",
+   "placeholder": true
+  },
+  {
+   "id": "crs_wren_late_yes",
+   "text": "\"Stay open late? On the full moon?\" Wren thinks. \"For you, sure. Day {day}. I'll put a sign out.\"",
+   "placeholder": true
+  },
+  {
+   "id": "crs_wren_late_not_yet",
+   "text": "Wren smiles. \"Late? I hardly know you.\" (She'll stay open late for a friend.)",
+   "placeholder": true
+  },
+  {
+   "id": "crs_tower_tune",
+   "text": "Under the aurora the tower's radio stops hissing and plays a tune, clearly, all the way through. Then the static comes back.",
+   "placeholder": true
+  },
+  {
+   "id": "crs_five_troll_badgers",
+   "text": "The badgers have made you something: a hat of leaves. They hold a very short ceremony. You are now, it seems, an honorary badger.",
+   "placeholder": true
+  },
+  {
+   "id": "crs_five_jackalopes",
+   "text": "One of the jackalopes followed you home and is asleep in the pet's bed. The pet is appalled, then isn't.",
+   "placeholder": true
+  },
+  {
+   "id": "crs_five_magic_deer",
+   "text": "At dawn the deer leads you to the outlook and stands beside you while the sun comes up. Nothing else happens. That's the point.",
+   "placeholder": true
+  },
+  {
+   "id": "crs_five_gord",
+   "text": "\"I knew someone who worked in this park,\" Gord says. \"Wore a hat like yours.\" He doesn't say who.",
+   "placeholder": true
   }
  ]
 }

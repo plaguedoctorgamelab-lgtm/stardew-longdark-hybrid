@@ -6,6 +6,7 @@ extends CanvasLayer
 
 const SLOT := 18
 
+var moon_icon: TextureRect
 var session: GameSession
 var root: Control
 var date_label: Label
@@ -132,6 +133,11 @@ func setup(s: GameSession, theme: Theme) -> void:
 	root.add_child(mbox)
 	money_label = _label(Vector2(404, 42 if art_sign else 37))
 	money_label.add_theme_color_override("font_color", KitStyle.GOLD)
+	moon_icon = TextureRect.new()
+	moon_icon.position = Vector2(445, 20 if art_sign else 16)
+	moon_icon.size = Vector2(12, 12)
+	moon_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	root.add_child(moon_icon)
 	weather_icon = TextureRect.new()
 	weather_icon.position = Vector2(458, 19 if art_sign else 15)
 	_fit_icon(weather_icon)
@@ -327,6 +333,14 @@ func _process(delta: float) -> void:
 	time_label.text = c.time_text()
 	money_label.text = session.content.text("hud_money", {"n": session.park.money.wallet})
 	weather_icon.texture = Art.texture(session.weather_icon())
+	# Phase 5b: the moon's phase beside the clock at night.
+	var night := Daylight.is_night(session.tuning, c.season_name(), c.minute)
+	moon_icon.visible = night and Art.has_picture("hud_moon") and not session.is_indoors()
+	if moon_icon.visible:
+		var at := AtlasTexture.new()
+		at.atlas = Art.texture("hud_moon")
+		at.region = Rect2(session.creatures.moon_phase() * 12, 0, 12, 12)
+		moon_icon.texture = at
 	energy_bar.max_value = session.needs.max_energy()
 	energy_bar.value = session.needs.energy
 	warmth_bar.max_value = session.needs.max_warmth()

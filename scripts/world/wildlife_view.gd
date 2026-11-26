@@ -166,6 +166,9 @@ func _draw_flies() -> void:
 	if session.is_indoors() or session.in_town or not session.wildlife.is_night() or session.clock.season_name() != "summer":
 		return
 	var n := session.tuning.integer("wildlife.firefly_count")
+	# Phase 5b: midsummer night, fireflies over every pond (three times as many).
+	if session.clock.day == 14:
+		n *= 3
 	var near := session.tuning.integer("wildlife.firefly_near_tiles")
 	var c := session.ranger_tile()
 	var rng := RandomNumberGenerator.new()

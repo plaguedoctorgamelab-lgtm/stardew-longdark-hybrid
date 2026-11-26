@@ -105,6 +105,22 @@
    "most_at_once": 1,
    "litter_badge": true,
    "waves": true
+  },
+  {
+   "id": "cryptid_hunter",
+   "name": "visitor_cryptid_hunter",
+   "party": [
+    1,
+    2
+   ],
+   "nights": [
+    0,
+    0
+   ],
+   "weight": 2,
+   "plan": "hike",
+   "needs": "creature_hint",
+   "looks": "hiker"
   }
  ]
 }

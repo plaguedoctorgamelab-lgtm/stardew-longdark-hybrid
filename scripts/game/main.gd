@@ -108,6 +108,8 @@ func _ready() -> void:
 	session.townsperson_spoke.connect(func(talk: Dictionary) -> void:
 		var h := int(talk["hearts"])
 		var hearts := session.content.text("town_heart_1") if h == 1 else session.content.text("town_hearts", {"n": h})
+		if bool(talk.get("paw", false)):
+			hearts = session.content.text("town_paw_hearts", {"n": h})
 		_face(str(talk.get("person", "")), str(talk.get("mood", "neutral")))
 		_show_dialog("talk", "%s  ·  %s\n\n%s" % [talk["name"], hearts, talk["text"]]))
 	session.storage_opened.connect(func(title: String, inv: Inventory) -> void: inventory_screen.open(inv, title))
@@ -652,7 +654,7 @@ func _update_look() -> void:
 	if session.in_town:
 		var who := session.town_person_in_reach()
 		if who != "":
-			hud.look_text = str(session.content.row("townsfolk", who)["name"])
+			hud.look_text = str(session.content.row("townsfolk", who)["name"]) if session.content.has("townsfolk", who) else session.content.text("cr_name_gord_man")
 			var head := interior_view.head_of(who) if session.in_town_room() else town_view.head_of(who)
 			hud.look_at = world_view.get_canvas_transform() * head
 			return
@@ -731,7 +733,7 @@ func menu_open() -> bool:
 ## drawn. "" hides it.
 func _face(person: String, mood: String) -> void:
 	dialog_face.texture = null
-	if person == "" or not session.content.has("townsfolk", person):
+	if person == "" or (not session.content.has("townsfolk", person) and person != "gord"):
 		return
 	var pic := "portrait_%s_%s" % [person, mood]
 	if not Art.has_picture(pic):
@@ -739,7 +741,7 @@ func _face(person: String, mood: String) -> void:
 	if Art.has_picture(pic):
 		dialog_face.texture = Art.texture(pic)
 		return
-	var sheet := str(session.content.row("townsfolk", person).get("sprite", ""))
+	var sheet := str(session.content.row("townsfolk", person).get("sprite", "")) if session.content.has("townsfolk", person) else ""
 	if sheet != "" and Art.has_picture(sheet):
 		var head := AtlasTexture.new()
 		head.atlas = Art.texture(sheet)

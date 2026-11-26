@@ -240,8 +240,29 @@ func _turn_out(ph: String) -> void:
 				var ch := float(c["chance"])
 				ch = float((c.get("chance_season", {}) as Dictionary).get(g.clock.season_name(), ch))
 				ch = g.skills.value("cousin_chance", ch)
+				# Phase 5b: twice as many on a full moon; all of them under the aurora.
+				if g.creatures.aurora_now():
+					ch = 1.0
+				elif g.creatures.is_full_moon_day() and ph in ["dusk", "night"]:
+					ch *= 2.0
 				if rng.randf() < ch:
 					animals.append(_animal(str(c["id"]), id, home, rng))
+	refresh_creatures()
+
+
+## Phase 5b: the creatures' own animals (at the badgers' stone, the
+## jackalopes' meadow, the yard, Gord's meadow), put out again when their
+## jobs move on.
+func refresh_creatures() -> void:
+	var g := s()
+	animals = animals.filter(func(a: Dictionary) -> bool: return not a.has("creature"))
+	var ph := phase()
+	var rng := _rng("creatures" + ph)
+	for o: Dictionary in g.creatures.out_at(ph):
+		for k in int(o["n"]):
+			var a := _animal(str(o["id"]), str(row(str(o["id"])).get("cousin_of", o["id"])), o["home"], rng)
+			a["creature"] = str(o["creature"])
+			animals.append(a)
 
 
 func _animal(id: String, kind: String, home: Vector2, rng: RandomNumberGenerator) -> Dictionary:
@@ -263,7 +284,10 @@ func shy_distance(id: String) -> float:
 	var d := float(row(id).get("shy", 0.0))
 	if d <= 0.0:
 		return 0.0
-	d = g.skills.value("shy_mult", d)
+	d = g.skills.value("shy_mult", d) * g.creatures.shy_mult(id)
+	# Phase 5b: at one paw heart a creature lets you walk slowly right up.
+	if g.walking_slow and g.creatures.calm(id):
+		return 0.0
 	if g.walking_slow:
 		if g.skills.flag("slow_never_shy"):
 			return 0.0
@@ -457,11 +481,16 @@ func _look(dt: float) -> void:
 		looking = false
 		return
 	var reach := tuning.num("wildlife.binocular_range")
+	# A park badger caught at it, through the binoculars (Phase 5b).
+	if g.park.badger_near(g.outdoor_pos, reach) >= 0:
+		g.creatures.watched("troll_badger")
 	for a: Dictionary in visible_animals():
 		if Vector2(a["pos"]).distance_to(g.outdoor_pos) > reach:
 			continue
 		a["look"] = float(a["look"]) + dt
 		var id := str(a["id"])
+		if float(a["look"]) >= tuning.num("wildlife.sketch_seconds"):
+			g.creatures.watched(id)
 		if float(a["look"]) >= tuning.num("wildlife.sketch_seconds") and level_of(id) == "":
 			if record(id, "sketch"):
 				g.skills.act("sketch")
@@ -499,7 +528,7 @@ func take_photo() -> Dictionary:
 	var a := in_frame()
 	if not a.is_empty():
 		var id := str(a["id"])
-		var good := str(a["state"]) in ["eat", "rest"] or g.skills.flag("every_photo_good")
+		var good := str(a["state"]) in ["eat", "rest"] or g.skills.flag("every_photo_good") or g.creatures.aurora_now()
 		var new := record(id, "photo", good)
 		var nm := content.text(str(row(id)["name"]))
 		if new:
@@ -526,6 +555,8 @@ func take_photo() -> Dictionary:
 ## What's special about the light now, for a place's photo, or "".
 func place_condition() -> String:
 	var g := s()
+	if g.creatures.aurora_now():
+		return "aurora"
 	var w := g.current_weather()
 	if w in ["fog"]:
 		return "fog"
@@ -534,6 +565,8 @@ func place_condition() -> String:
 	if w in ["snow", "blizzard"]:
 		return "snow"
 	var ph := phase()
+	if ph == "night" and g.creatures.is_full_moon_day():
+		return "full_moon"
 	return ph if ph in ["dawn", "dusk", "night"] else ""
 
 

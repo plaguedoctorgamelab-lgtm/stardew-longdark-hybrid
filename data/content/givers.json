@@ -42,6 +42,12 @@
    "name": "jt_giver_radio",
    "how": "given",
    "voice": "The radio."
+  },
+  {
+   "id": "creature",
+   "name": "jt_giver_creature",
+   "how": "noticed",
+   "voice": "The creature itself: what it does says what it wants."
   }
  ]
 }

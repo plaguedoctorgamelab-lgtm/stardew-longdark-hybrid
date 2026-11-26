@@ -163,6 +163,8 @@ var garden: Garden
 # Phase 5a, out in the woods: the animals, the field guide, and a pet.
 var wildlife: Wildlife
 var pet: Pet
+# Phase 5b, Gord and the night: the magical creatures, the moon, auroras.
+var creatures: Creatures
 var walking_slow: bool = false       # Shift: quieter, and animals let you nearer
 var _reading_offer: bool = false     # talking to Esme at her caravan offers a reading
 
@@ -220,6 +222,8 @@ func _init(tuning_path: String = Tuning.DEFAULT_PATH, content_dir: String = Cont
 	garden = Garden.new(self)
 	wildlife = Wildlife.new(self)
 	pet = Pet.new(self)
+	creatures = Creatures.new(self)
+	jobs.job_done.connect(func(key: String) -> void: creatures.on_job_done(key))
 
 
 # --- starting and loading ---------------------------------------------------
@@ -245,6 +249,7 @@ func new_game(new_seed: int = -1) -> void:
 	structures.restock_shelves()
 	wildlife.from_dict({})
 	pet.from_dict({})
+	creatures.from_dict({})
 	map.wipe()
 	# The ground around the station starts mapped, so home is never lost.
 	map.reveal_circle(door_front("ranger_station"), tuning.num("map.home_reveal_radius"))
@@ -366,6 +371,7 @@ func to_dict() -> Dictionary:
 		"garden": garden.to_dict(),
 		"wildlife": wildlife.to_dict(),
 		"pet": pet.to_dict(),
+		"creatures": creatures.to_dict(),
 		"bench_boxes": bench_boxes.keys().map(func(k: String) -> Array: return [k, (bench_boxes[k] as Inventory).to_array()]),
 		"piles": piles.keys().map(func(t: Vector2i) -> Array: return [t.x, t.y, (piles[t] as Inventory).to_array()]),
 	}
@@ -502,6 +508,7 @@ func from_dict(d: Dictionary) -> void:
 	garden.from_dict(d.get("garden", {}))
 	wildlife.from_dict(d.get("wildlife", {}))
 	pet.from_dict(d.get("pet", {}))
+	creatures.from_dict(d.get("creatures", {}))
 	_after_home()
 	if location == Home.STATION and (interiors[location] as InteriorLayout).is_solid(Vector2i(floori(interior_pos.x), floori(interior_pos.y))):
 		interior_pos = clear_spot(interiors[location], (interiors[location] as InteriorLayout).entry)
@@ -697,6 +704,7 @@ func process(real_delta: float) -> void:
 	life.check(real_delta)
 	wildlife.update(real_delta)
 	pet.update(real_delta)
+	creatures.update(real_delta)
 
 
 ## The clock's minute with the part of the current ten minutes gone by, so
@@ -1083,6 +1091,7 @@ func enter_building(structure_id: String) -> bool:
 	if bed_taken(structure_id):
 		message.emit(content.text("msg_cabin_booked_note", {"party": park.booked_by}))
 	location = structure_id
+	creatures.on_enter(structure_id)
 	interior_pos = (interiors[structure_id] as InteriorLayout).entry
 	facing = FACING_UP
 	location_changed.emit(location)
@@ -1201,6 +1210,7 @@ func enter_town_room(place: String) -> void:
 	facing = FACING_UP
 	town_changed.emit(true)
 	message.emit(place_line(place))
+	creatures.on_enter_room(place)
 	# A favor's parcel waiting here is handed over.
 	for item: String in jobs.collect_here(place):
 		backpack.add(item, 1)
@@ -1254,6 +1264,12 @@ func mailbox_pos() -> Vector2:
 ## Talks to someone in town. A favor step that wanted a word counts, and
 ## if they have a favor to ask, it waits until their line is read.
 func _talk_to(person: String) -> void:
+	# Gord at the Percolator's window on a full moon (Phase 5b).
+	if person == "gord":
+		creatures.talk_gord()
+		return
+	creatures.on_talk(person)
+	creatures.on_chat(person)
 	var talk := town.talk(person)
 	talk["person"] = person
 	jobs.event("talk", {"person": person})
@@ -1343,6 +1359,10 @@ func _use_in_town() -> void:
 		return
 	if person == "" or item == "":
 		return
+	if person == "gord":
+		if content.has("foods", item):
+			creatures.feed("gord", item)
+		return
 	# The bouquet (Phase 4b, romance).
 	if item == "bouquet":
 		var key := life.give_bouquet(person)
@@ -1400,6 +1420,12 @@ func interact() -> void:
 		if selected_item() == "pet_treat" and pet.give_treat():
 			return
 		pet.touch()
+		return
+	if not at_door and pet.spare_in_reach(outdoor_pos, reach):
+		pet.swap()
+		return
+	# Phase 5b: a creature, its stone, burrows, trail, the bell's hook, Gord.
+	if not at_door and creatures.interact(outdoor_pos, reach):
 		return
 	var nf := wildlife.night_find_in_reach(outdoor_pos, reach)
 	if nf != "":
@@ -2956,6 +2982,10 @@ func answer_choice(kind: String, option_id: String) -> void:
 		if option_id != "":
 			pet.choose(option_id)
 		return
+	if kind.begins_with("creature"):
+		if option_id != "":
+			creatures.on_choice(kind, option_id)
+		return
 	if kind == "pin_card" and option_id != "":
 		park.pin_card(int(option_id))
 		message.emit(content.text("msg_box_pinned"))
@@ -3468,6 +3498,7 @@ func read_note_board() -> String:
 					rumors[lm] = true
 					heard = true
 	if here == "ranger_station":
+		texts.append_array(creatures.board_lines())
 		for l: Dictionary in park.unread_letters():
 			texts.append(str(l["text"]))
 			l["read"] = true
@@ -3480,6 +3511,11 @@ func read_note_board() -> String:
 		texts.append(content.text("msg_note_board_empty"))
 	var text := "\n\n".join(texts)
 	note_read.emit(text)
+	# Settled creatures: what visitors hear can change, a step a season.
+	if here == "ranger_station" and not creatures.change_options().is_empty():
+		var opts := creatures.change_options()
+		opts.append({"id": "", "label": content.text("ui_leave_it")})
+		choice_requested.emit("creature_change", content.text("cr_change_title"), opts)
 	if heard:
 		message.emit(content.text("msg_rumor_added"))
 	return text
@@ -5080,3 +5116,55 @@ func debug_set_weekday(day: String) -> void:
 	var want := Town.DAYS.find(day)
 	while want >= 0 and town.weekday() != day:
 		clock.start_next_day()
+
+
+# --- Phase 5b debug ---------------------------------------------------------------------
+
+## Jumps to the next full moon's dusk.
+func debug_next_full_moon() -> void:
+	clock.start_next_day()
+	while not creatures.is_full_moon_day():
+		clock.start_next_day()
+	var sun: Array = tuning.value("light.sun." + clock.season_name())
+	clock.set_minute(int(sun[1]) + 20)
+	wildlife.morning()
+	creatures.morning()
+	wildlife.refresh_creatures()
+
+
+func debug_creature_hearts(c: String, n: int) -> void:
+	creatures.points[c] = n * tuning.integer("creatures.points_per_heart")
+	creatures.changed.emit()
+	jobs.mark_dirty()
+
+
+## Finishes the current step of a creature's job (adding the job first if
+## it hasn't appeared). Returns what happened.
+func debug_creature_step(c: String) -> String:
+	var key := str(creatures.row(c).get("job", ""))
+	if not jobs.known.has(key):
+		jobs.add(key, "given")
+		return "Added " + key
+	var f := creatures.current(c)
+	if f == "":
+		return "No step to do"
+	var i := jobs.next_step(key)
+	var stp: Dictionary = jobs.def(key)["steps"][i]
+	var want := int(stp.get("n", 1))
+	if f == "trail":
+		creatures.trail_laid = creatures.trail_spots().size()
+		want = creatures.trail_laid
+	if f == "burrows_filled":
+		for t: Vector2i in creatures.burrows:
+			creatures.filled[t] = true
+		want = maxi(1, creatures.burrows.size())
+	if str(stp["kind"]) == "have":
+		backpack.add(str(stp["item"]), 1)
+	if f == "bell_hung":
+		creatures.bell_hung = true
+	if f == "badgers_terms" and creatures.terms == "":
+		creatures.terms = "beans"
+	creatures.facts[f] = maxi(creatures.fact(f), want)
+	jobs.mark_dirty()
+	jobs.update(true)
+	return "Done: " + f

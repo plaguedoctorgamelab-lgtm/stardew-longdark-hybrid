@@ -103,6 +103,10 @@ func generate_day(abs_day: int, prev: String) -> Array[String]:
 	for i in 3:
 		last = next_block(last, s, d, rng)
 		out.append(last)
+	# Phase 5b: an aurora night is always clear (and the radio never says why).
+	var year := abs_day / (tuning.integer("time.days_per_season") * 4) + 1
+	if Creatures.aurora_days_for(seed_value, year, tuning).has(abs_day):
+		out[2] = "clear"
 	return out
 
 

@@ -1,0 +1,33 @@
+{
+ "note": "Phase 5b: the park's four magical creatures. animal: their guide entry; job: their creature job (creature_jobs); stays: what settling does (Phase 5b Spec, 3 and 6).",
+ "rows": [
+  {
+   "id": "troll_badgers",
+   "name": "cr_name_troll_badgers",
+   "animal": "troll_badger",
+   "job": "cj_badgers",
+   "stays": "stay"
+  },
+  {
+   "id": "jackalopes",
+   "name": "cr_name_jackalopes",
+   "animal": "jackalope",
+   "job": "cj_jackalopes",
+   "stays": "move"
+  },
+  {
+   "id": "magic_deer",
+   "name": "cr_name_magic_deer",
+   "animal": "magic_deer",
+   "job": "cj_magic_deer",
+   "stays": "seasons"
+  },
+  {
+   "id": "gord",
+   "name": "cr_name_gord",
+   "animal": "gord_moose",
+   "job": "cj_gord",
+   "stays": "stay"
+  }
+ ]
+}

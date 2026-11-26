@@ -1,0 +1,41 @@
+{
+ "note": "Phase 5b: calendar events. They show on the Town sheet's calendar once heard of (heard: always, esme, chat, settled). when: first_snow for the one that follows the weather.",
+ "rows": [
+  {
+   "id": "deer_outlook",
+   "season": 2,
+   "day": 7,
+   "name": "cal_ev_deer_outlook",
+   "heard": "esme"
+  },
+  {
+   "id": "midsummer",
+   "season": 1,
+   "day": 14,
+   "name": "cal_ev_midsummer",
+   "heard": "chat"
+  },
+  {
+   "id": "first_snow",
+   "when": "first_snow",
+   "name": "cal_ev_first_snow",
+   "heard": "settled",
+   "creature": "jackalopes"
+  },
+  {
+   "id": "year_end",
+   "season": 3,
+   "day": 28,
+   "name": "cal_ev_year_end",
+   "heard": "esme"
+  },
+  {
+   "id": "first_litter",
+   "season": 0,
+   "day": 1,
+   "name": "cal_ev_first_litter",
+   "heard": "settled",
+   "creature": "jackalopes"
+  }
+ ]
+}
