@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.8.2** (see [Version history](#version-history)). The
+**Current version: 0.8.3** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -119,6 +119,13 @@ phase is finished; the last number counts every build and runs on past 9
 | 0.10.x | Phase 7, Year one polish |
 | 0.11.x to 0.14.x | Phases 8 to 11, one region each |
 | 1.0.0 | every phase done |
+
+### 0.8.3 (26 November 2026): the Phase 5b spec and Art Request 26
+
+No change to the game. The plan for the second half of Phase 5.
+
+- **`docs/Phase 5b Spec.md`:** creature friendship with paw hearts, the creature job type and its step kinds, the troll badgers' deal, the jackalopes coaxed, the magic deer's wish, the secret, hint or public choice, two full moons a season, calendar events, Gord's three full moons, aurora nights, the second pet and the last badges. It ends with seven questions, each with a suggested answer, and the build order (0.8.4 to 0.8.13).
+- **`docs/art/art_request_26_phase_5b.md`:** the few pictures 5b needs beyond Art Request 25 Part B, in three sheets.
 
 ### 0.8.2 (26 November 2026): the pet waits for summer, and out of the doorway
 
