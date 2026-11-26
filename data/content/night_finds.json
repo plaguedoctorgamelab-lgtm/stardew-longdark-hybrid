@@ -1,0 +1,31 @@
+{
+ "note": "Phase 5a: what's only there after dark. kind moonflower: a flower that opens at night (picked once a night); kind glow: a glowing spot at the end of a path of glowing stones, one path for each site open (the night grows as the park does).",
+ "rows": [
+  {
+   "id": "moonflower",
+   "kind": "moonflower",
+   "count": 10,
+   "ground": [
+    "grass",
+    "tall_grass"
+   ],
+   "gives": {
+    "moonflower": 1
+   },
+   "sprite_open": "forage_moonflower_open",
+   "sprite_closed": "forage_moonflower_closed"
+  },
+  {
+   "id": "glow",
+   "kind": "glow",
+   "stones": 5,
+   "gives": {
+    "glowcap": 1
+   },
+   "every_days": 3,
+   "sprite": "night_glow_spot",
+   "stone": "night_path_stone",
+   "stone_day": "night_path_stone_dim"
+  }
+ ]
+}

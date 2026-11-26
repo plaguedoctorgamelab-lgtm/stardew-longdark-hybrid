@@ -15,6 +15,7 @@ const TABS := [
 	["people", ["ui_patch_town", "ui_heart_full"], "menu_tab_people", Color8(232, 115, 95)],
 	["crafting", ["ui_patch_make", "item_hammer"], "menu_tab_crafting", Color8(157, 102, 62)],
 	["book", ["ui_patch_book", "ui_tab_book"], "menu_tab_book", Color8(120, 92, 150)],
+	["guide", ["clip_guide", "guide_tab_animals"], "menu_tab_guide", Color8(70, 124, 96)],
 ]
 const R := 10.0          # a patch's radius
 const R_OPEN := 12.0
@@ -88,7 +89,7 @@ func _draw() -> void:
 		var open := str(TABS[i][0]) == current
 		var r := R_OPEN if open else R
 		var c := _center(i) + (Vector2(0, 0) if open else Vector2(0, 1))
-		var art: String = "ui_patch_" + str(["pack", "jobs", "map", "town", "make", "book"][i])
+		var art: String = "ui_patch_" + str(["pack", "jobs", "map", "town", "make", "book", "guide"][i])
 		if Art.has_picture(art):
 			# Mark's patches (Art Request 22): the open one bigger, the rest
 			# a touch dimmer until pointed at.

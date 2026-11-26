@@ -1393,6 +1393,40 @@
    "stack": 1,
    "icon": "item_marge_coat",
    "_4b": "4b"
+  },
+  {
+   "id": "binoculars",
+   "name": "item_binoculars",
+   "kind": "tool",
+   "stack": 1,
+   "icon": "item_binoculars",
+   "family": "binoculars",
+   "sell": 0
+  },
+  {
+   "id": "camera",
+   "name": "item_camera",
+   "kind": "tool",
+   "stack": 1,
+   "icon": "item_camera",
+   "family": "camera",
+   "sell": 0
+  },
+  {
+   "id": "moonflower",
+   "name": "item_moonflower",
+   "kind": "gift",
+   "stack": 30,
+   "icon": "item_moonflower",
+   "sell": 18
+  },
+  {
+   "id": "pet_treat",
+   "name": "item_pet_treat",
+   "kind": "material",
+   "stack": 20,
+   "icon": "item_pet_treat",
+   "sell": 2
   }
  ],
  "note": "Everything that goes in the backpack. family: a tool and its refitted versions share one family, and anything that needs the tool takes any of them. refit: the magical ingredient a refitted tool holds. placeable: put on the faced tile (needs_tool: the tool it needs, \"\" for none; on: trail or open ground; map_when_revealed: shown on the map once that ground is revealed; lays: laid as that ground, on the grounds in tuning trail.boardwalk_on). kit: set up inside a building."

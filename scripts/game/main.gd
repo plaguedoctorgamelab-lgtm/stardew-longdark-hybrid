@@ -31,6 +31,8 @@ var title_note: Label
 var pause_menu: Panel
 var book_screen: BookScreen
 var social_screen: SocialScreen
+var guide_screen: GuideScreen   # the field guide (Phase 5a), on G
+var lens: LensView              # binoculars and camera over the screen (Phase 5a)
 var menu_tabs: MenuTabs   # the game menu's picture tabs over the open page (0.7.9)
 var scene_player: ScenePlayer     # heart events (Phase 4b)
 var fortune_screen: FortuneScreen # Esme's cards (Phase 4b)
@@ -91,6 +93,10 @@ func _ready() -> void:
 	hud.root.add_child(job_note)
 	job_note.setup(session)
 	_build_menus()
+	lens = LensView.new()
+	hud.root.add_child(lens)
+	hud.root.move_child(lens, 0)
+	lens.setup(session)
 	job_note.note_clicked.connect(func(key: String) -> void:
 		if not menu_open():
 			clipboard.open(key))
@@ -273,6 +279,9 @@ func _build_menus() -> void:
 	social_screen = SocialScreen.new()
 	root.add_child(social_screen)
 	social_screen.setup(session)
+	guide_screen = GuideScreen.new()
+	root.add_child(guide_screen)
+	guide_screen.setup(session)
 	clipboard = ClipboardScreen.new()
 	root.add_child(clipboard)
 	clipboard.setup(session)
@@ -666,7 +675,7 @@ func _update_look() -> void:
 func open_tab(id: String) -> void:
 	if inventory_screen.visible:
 		inventory_screen.close()
-	for scr: Control in [clipboard, map_screen, social_screen, book_screen, make_sheet]:
+	for scr: Control in [clipboard, map_screen, social_screen, book_screen, make_sheet, guide_screen]:
 		if scr.visible:
 			scr.call("close")
 	if choice_screen.visible:
@@ -684,6 +693,8 @@ func open_tab(id: String) -> void:
 			make_sheet.open("anywhere")
 		"book":
 			book_screen.open()
+		"guide":
+			guide_screen.open()
 
 
 ## Which game-menu page is open, and its top-left corner, for the tabs.
@@ -702,6 +713,8 @@ func _tab_page() -> Array:
 		return ["crafting", Sheet.FRAME.position + Vector2(24, 4)]
 	if book_screen.visible:
 		return ["book", Sheet.FRAME.position + Vector2(24, 4)]
+	if guide_screen.visible:
+		return ["guide", Sheet.FRAME.position + Vector2(24, 4)]
 	return []
 
 
@@ -710,7 +723,7 @@ func menu_open() -> bool:
 		return true
 	if fortune_screen != null and fortune_screen.visible:
 		return true
-	return title_screen.visible or pause_menu.visible or options_panel.visible or inventory_screen.visible or map_screen.visible or dialog.visible or choice_screen.visible or make_sheet.visible or shop_sheet.visible or book_screen.visible or social_screen.visible or clipboard.visible or job_card.visible
+	return title_screen.visible or pause_menu.visible or options_panel.visible or inventory_screen.visible or map_screen.visible or dialog.visible or choice_screen.visible or make_sheet.visible or shop_sheet.visible or book_screen.visible or social_screen.visible or clipboard.visible or job_card.visible or guide_screen.visible
 
 
 ## The speaker's portrait for the talk box: Mark's portrait in the mood
@@ -871,7 +884,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo and (event as InputEventKey).keycode == KEY_TAB:
 		var pg := _tab_page()
 		if not pg.is_empty():
-			var order := ["backpack", "jobs", "map", "people", "crafting", "book"]
+			var order := ["backpack", "jobs", "map", "people", "crafting", "book", "guide"]
 			var d := -1 if (event as InputEventKey).shift_pressed else 1
 			open_tab(order[(order.find(pg[0]) + order.size() + d) % order.size()])
 			get_viewport().set_input_as_handled()
@@ -896,6 +909,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			choice_screen.close()
 		elif book_screen.visible:
 			book_screen.close()
+		elif guide_screen.visible:
+			guide_screen.close()
+		elif session.wildlife.looking:
+			session.wildlife.looking = false
 		elif social_screen.visible:
 			social_screen.close()
 		elif map_screen.visible:
@@ -916,6 +933,12 @@ func _unhandled_input(event: InputEvent) -> void:
 	if choice_screen.visible:
 		if event.is_action_pressed("backpack") or event.is_action_pressed("cancel") or (event.is_action_pressed("craft") and choice_screen.kind == "anywhere"):
 			choice_screen.close()
+		return
+	if guide_screen.visible:
+		if guide_screen.handle(event):
+			return
+		if event.is_action_pressed("guide") or event.is_action_pressed("cancel") or event.is_action_pressed("backpack"):
+			guide_screen.close()
 		return
 	if book_screen.visible:
 		if book_screen.handle(event):
@@ -965,6 +988,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if event.is_action_pressed("book") and not menu_open():
 		book_screen.open()
+		return
+	if event.is_action_pressed("guide") and not menu_open():
+		guide_screen.open()
 		return
 	if event.is_action_pressed("open_map"):
 		if map_screen.visible:
@@ -1044,7 +1070,12 @@ func _process(delta: float) -> void:
 			map_screen.open_flourish(_map_changes, " ".join(_map_lines))
 			_map_changes = []
 			_map_lines = PackedStringArray()
+	# The Chief's letter offering a dog or a cat (Phase 5a), once play is on.
+	if not menu_open() and session.pending_confirm == "" and not session.pet.has_pet() and not session.pet.offered and not session.is_indoors():
+		session.pet.offered = true
+		choice_screen.open("pet", session.content.text("pet_offer_title"), session.pet.offer_options())
 	if not menu_open():
+		session.walking_slow = Input.is_action_pressed("walk_slow")
 		var dir := Input.get_vector("move_left", "move_right", "move_up", "move_down")
 		# A hit-stop holds the ranger still; the world keeps moving.
 		session.move(dir if ranger.frozen == 0 else Vector2.ZERO, delta)
@@ -1059,6 +1090,9 @@ func _process(delta: float) -> void:
 		camera.position = interior_view.room_center_px()
 	else:
 		camera.position = px.round()
+	# Through the binoculars the view reaches twice as far.
+	var z := session.tuning.num("wildlife.binocular_zoom") if session.wildlife.looking and not session.is_indoors() else 1.0
+	camera.zoom = Vector2(z, z) if camera.zoom.x != z else camera.zoom
 	camera.force_update_scroll()
 	_update_world_hint(delta)
 	effects.ranger_screen = ranger.get_global_transform_with_canvas().origin

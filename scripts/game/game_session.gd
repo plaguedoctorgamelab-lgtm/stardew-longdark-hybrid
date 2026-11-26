@@ -42,6 +42,9 @@ signal clothes_changed
 ## Phase 4b: a heart event starts (ScenePlayer plays it), and Esme's cards.
 signal scene_started(id: String)
 signal fortune_read(reading: Dictionary)
+signal photo_taken(result: Dictionary)
+signal binoculars_changed(on: bool)
+signal pet_offered
 
 const FACING_DOWN := 0
 const FACING_RIGHT := 1
@@ -157,6 +160,10 @@ var fortune: Fortune
 var festivals: Festivals
 var home: Home
 var garden: Garden
+# Phase 5a, out in the woods: the animals, the field guide, and a pet.
+var wildlife: Wildlife
+var pet: Pet
+var walking_slow: bool = false       # Shift: quieter, and animals let you nearer
 var _reading_offer: bool = false     # talking to Esme at her caravan offers a reading
 
 
@@ -211,6 +218,8 @@ func _init(tuning_path: String = Tuning.DEFAULT_PATH, content_dir: String = Cont
 	festivals = Festivals.new(self)
 	home = Home.new(self)
 	garden = Garden.new(self)
+	wildlife = Wildlife.new(self)
+	pet = Pet.new(self)
 
 
 # --- starting and loading ---------------------------------------------------
@@ -234,6 +243,8 @@ func new_game(new_seed: int = -1) -> void:
 		backpack.add(item)
 	structures.place_found_supplies(seed_value)
 	structures.restock_shelves()
+	wildlife.from_dict({})
+	pet.from_dict({})
 	map.wipe()
 	# The ground around the station starts mapped, so home is never lost.
 	map.reveal_circle(door_front("ranger_station"), tuning.num("map.home_reveal_radius"))
@@ -353,6 +364,8 @@ func to_dict() -> Dictionary:
 		"festivals": festivals.to_dict(),
 		"home": home.to_dict(),
 		"garden": garden.to_dict(),
+		"wildlife": wildlife.to_dict(),
+		"pet": pet.to_dict(),
 		"bench_boxes": bench_boxes.keys().map(func(k: String) -> Array: return [k, (bench_boxes[k] as Inventory).to_array()]),
 		"piles": piles.keys().map(func(t: Vector2i) -> Array: return [t.x, t.y, (piles[t] as Inventory).to_array()]),
 	}
@@ -487,6 +500,8 @@ func from_dict(d: Dictionary) -> void:
 		festivals.active = ""
 	home.from_dict(d.get("home", {}))
 	garden.from_dict(d.get("garden", {}))
+	wildlife.from_dict(d.get("wildlife", {}))
+	pet.from_dict(d.get("pet", {}))
 	_after_home()
 	if location == Home.STATION and (interiors[location] as InteriorLayout).is_solid(Vector2i(floori(interior_pos.x), floori(interior_pos.y))):
 		interior_pos = clear_spot(interiors[location], (interiors[location] as InteriorLayout).entry)
@@ -616,9 +631,10 @@ func lantern_lit() -> bool:
 
 ## How far the held lantern lights, in tiles.
 func lantern_radius() -> float:
+	var add := pet.lantern_add() if pet != null else 0.0
 	if refit_of(selected_item()) == "glowcap":
-		return tuning.num("refits.glowcap_lantern_radius")
-	return tuning.num("light.lantern_radius_tiles")
+		return tuning.num("refits.glowcap_lantern_radius") + add
+	return tuning.num("light.lantern_radius_tiles") + add
 
 
 ## The three marker rules: on revealed ground, weather that allows it, and
@@ -679,6 +695,8 @@ func process(real_delta: float) -> void:
 			message.emit(content.text("town_home_late" if home else "town_closing", {"keeper": shops.first_name(k)}))
 		festivals.update()
 	life.check(real_delta)
+	wildlife.update(real_delta)
+	pet.update(real_delta)
 
 
 ## The clock's minute with the part of the current ten minutes gone by, so
@@ -704,7 +722,7 @@ func move(direction: Vector2, real_delta: float) -> void:
 		_cancel_survey()
 	var box_arr: Array = tuning.value("movement.ranger_box_tiles")
 	var box := Vector2(float(box_arr[0]), float(box_arr[1]))
-	var motion := dir * speed_tiles_per_second() * real_delta
+	var motion := dir * speed_tiles_per_second() * real_delta * (tuning.num("wildlife.slow_walk_speed") if walking_slow else 1.0)
 	if in_town_room():
 		var room: InteriorLayout = shops.rooms[town_inside]
 		interior_pos = Mover.move(interior_pos, motion, box, room.is_solid)
@@ -834,6 +852,8 @@ func _on_day_started(_day: int, _season: int, _year: int) -> void:
 	home.morning()
 	_after_home()
 	garden.morning(int(jobs.flags.get("rain_day", -9)) == clock.absolute_day() - 1)
+	wildlife.morning()
+	pet.morning()
 	day_began.emit()
 
 
@@ -1366,6 +1386,19 @@ func interact() -> void:
 			parts.append(mail)
 		note_read.emit("\n\n".join(parts))
 		return
+	# The pet and its bowl, and what's only there after dark (Phase 5a).
+	if pet.bowl_in_reach(outdoor_pos, reach) and not pet.in_reach(outdoor_pos, reach):
+		pet.fill_bowl()
+		return
+	if pet.in_reach(outdoor_pos, reach):
+		if selected_item() == "pet_treat" and pet.give_treat():
+			return
+		pet.touch()
+		return
+	var nf := wildlife.night_find_in_reach(outdoor_pos, reach)
+	if nf != "":
+		wildlife.take_night_find(nf)
+		return
 	# The garden: pick what's ripe, clear what's withered, or see how it's doing.
 	var gt := garden.faced()
 	if gt.x >= 0:
@@ -1687,6 +1720,12 @@ func use_item() -> void:
 			tool_landed.emit(item, ranger_tile() + facing_vector(), "hammer")
 	elif item == "map":
 		start_survey()
+	elif item == "binoculars" and not is_indoors() and not in_town:
+		var on := wildlife.toggle_binoculars()
+		binoculars_changed.emit(on)
+		message.emit(content.text("guide_binoculars_on" if on else "guide_binoculars_off"))
+	elif item == "camera" and not is_indoors() and not in_town:
+		photo_taken.emit(wildlife.take_photo())
 	elif item == "axe":
 		if not obstacle_in_reach("axe").is_empty():
 			_landed(item, clear_obstacle())
@@ -2906,6 +2945,10 @@ func answer_choice(kind: String, option_id: String) -> void:
 	if kind.begins_with("fest:"):
 		if option_id != "":
 			answer_festival(kind, option_id)
+		return
+	if kind == "pet":
+		if option_id != "":
+			pet.choose(option_id)
 		return
 	if kind == "pin_card" and option_id != "":
 		park.pin_card(int(option_id))

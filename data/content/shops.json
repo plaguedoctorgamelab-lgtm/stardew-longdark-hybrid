@@ -153,6 +153,15 @@
      "item": "seeds_kale",
      "price": 15,
      "season": "autumn"
+    },
+    {
+     "item": "camera",
+     "price": 120
+    },
+    {
+     "item": "pet_treat",
+     "count": 5,
+     "price": 10
     }
    ]
   },

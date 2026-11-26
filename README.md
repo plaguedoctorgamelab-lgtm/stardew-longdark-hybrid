@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.7.20** (see [Version history](#version-history)). The
+**Current version: 0.8.0** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -119,6 +119,42 @@ phase is finished; the last number counts every build and runs on past 9
 | 0.10.x | Phase 7, Year one polish |
 | 0.11.x to 0.14.x | Phases 8 to 11, one region each |
 | 1.0.0 | every phase done |
+
+### 0.8.0 (26 November 2026): Phase 5a, out in the woods
+
+The first half of Phase 5 (`docs/Phase 5 Spec.md`), with Mark's Art Request 25 pictures (Part A).
+
+- **Animals** (`scripts/living/wildlife.gd`, `data/content/animals.json`):
+  - Rabbits, red squirrels, hedgehogs, raccoons, badgers, deer, moose and black bears.
+  - Each kind has its ground, its hours (dawn, day, dusk, night), its seasons and how many at once. Each morning picks a few home places for each kind.
+  - They wander, eat and rest. Come closer than a kind's shy distance and one moves off and is gone for a while. A bear doesn't; it looks at you.
+  - **Shift** walks slowly: half speed, and animals let you twice as near.
+- **Strange cousins:**
+  - Now and then a jackalope is among the rabbits at dusk, or a magic deer among the deer, its antlers glowing after dark.
+  - The park's troll badgers count for the guide when seen.
+- **Binoculars and camera:**
+  - The last ranger's binoculars wait in the station's chest. Looking through them shows the view twice as far, through Mark's two lenses, and sketches any animal you rest on for a moment.
+  - The camera is sold at the outfitters. It photographs the nearest animal in front of you. An animal eating or resting makes a good photo, with a gold star.
+  - With no animal in the frame, a photo of a site at dawn, dusk, at night, or in fog, rain or snow fills the guide's third page.
+- **The field guide** (G, and on the Tab ring; `scripts/ui/guide_screen.gd`):
+  - A sheet with three pages: Animals, Strange cousins, and Places and nights.
+  - Entries go from silhouette to sketch to photo. Chips show when and where each is out. An unknown cousin's chips are its hint.
+  - Every five entries the Chief writes, with a little money.
+- **Lore**, the fifth skill:
+  - It grows by sketching, photographing and petting.
+  - Perks: animals let you a quarter nearer; the guide says where each lives today; cousins are out more often.
+  - Specialties at level 5: Naturalist and Whisperer.
+- **Night:**
+  - Moonflowers open on meadows after dark, one pick a night each.
+  - For each site open, a short path of glowing stones leads to glowing moss with a glowcap in it, every few nights.
+  - Fireflies drift over water on summer nights.
+- **A pet** (`scripts/living/pet.gd`):
+  - The Chief's letter offers a dog (Biscuit) or a cat (Soot). Saves from before get the letter too.
+  - The pet waits by the station door, beside its water bowl. X pets it once a day, then tells it to come along or stay. Treats from the outfitters help.
+  - The dog barks near hidden finds and says which way a lost party went.
+  - The cat makes animals trusting (shy distances halved), lets the lantern reach further at night, and stares at a strange cousin nearby.
+- **Art:** `tools/cut_ar25.py` cuts Mark's sheets. Every animal gets one scale for all its frames. The binocular lenses are cleared, and the sketches keep their pencil lines.
+- Tests: `tests/test_phase5a.gd`. Screenshots: `docs/status/080_shots/` (`tests/support/screenshots_080.gd`).
 
 ### 0.7.20 (25 November 2026): Mark's tracker, #46 to #65
 

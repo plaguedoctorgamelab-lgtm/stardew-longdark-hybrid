@@ -128,6 +128,38 @@
      "mult": 0.5
     }
    ]
+  },
+  {
+   "id": "naturalist",
+   "skill": "lore",
+   "name": "spec_naturalist",
+   "desc": "spec_naturalist_desc",
+   "effects": [
+    {
+     "key": "slow_never_shy",
+     "set": 1
+    },
+    {
+     "key": "every_photo_good",
+     "set": 1
+    }
+   ]
+  },
+  {
+   "id": "whisperer",
+   "skill": "lore",
+   "name": "spec_whisperer",
+   "desc": "spec_whisperer_desc",
+   "effects": [
+    {
+     "key": "creature_friend",
+     "mult": 1.5
+    },
+    {
+     "key": "creature_gifts",
+     "set": 1
+    }
+   ]
   }
  ]
 }

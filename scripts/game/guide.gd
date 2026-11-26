@@ -44,6 +44,14 @@ func x_hint() -> String:
 			return _t("hint_x_camp_sleep")
 		if s.outdoor_pos.distance_to(Vector2(s.camp["fire"]) + Vector2(0.5, 0.5)) <= reach:
 			return _t("hint_x_cook") if s.campfire_lit() else _t("hint_x_feed_fire")
+	# The pet, its bowl, and what's only there after dark (Phase 5a).
+	if s.pet.in_reach(s.outdoor_pos, reach):
+		return _t("hint_x_pet" if s.pet.petted_day != s.clock.absolute_day() else ("hint_x_pet_stay" if s.pet.along else "hint_x_pet_along"), {"name": s.pet.name})
+	if s.pet.bowl_in_reach(s.outdoor_pos, reach):
+		return _t("hint_x_pet_bowl")
+	var nf := s.wildlife.night_find_in_reach(s.outdoor_pos, reach)
+	if nf != "":
+		return _t("hint_x_" + nf.get_slice(":", 0))
 	var js := s.jobs.spot_in_reach("x", s.outdoor_pos, reach)
 	if js != "":
 		return _t(str(s.jobs.spot_row(js)["verb"]))
@@ -194,6 +202,10 @@ func use_hint(item: String = "") -> String:
 	match item:
 		"hammer":
 			return _hammer_hint(s, front)
+		"binoculars":
+			return "" if s.is_indoors() or s.in_town else _t("hint_c_binoculars_off" if s.wildlife.looking else "hint_c_binoculars")
+		"camera":
+			return "" if s.is_indoors() or s.in_town else _t("hint_c_camera")
 		"map":
 			var why := s._survey_conditions_ok()
 			return _t("hint_c_survey") if why == "" else _t("hint_c_cant", {"why": _t(why)})

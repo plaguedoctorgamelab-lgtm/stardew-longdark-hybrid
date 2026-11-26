@@ -1,5 +1,5 @@
 {
- "note": "Four skills. xp: the experience each action gives. Levels need the totals in tuning skills.xp_levels; every level cuts the energy of that skill's actions by tuning skills.energy_saved_per_level. perks: what a level also gives: effects on a key (set replaces the game's value, add adds to it, mult multiplies it; applied set, then add, then mult) and recipes it teaches. At tuning skills.specialty_level the ranger picks one of the skill's two specialties (the specialties table).",
+ "note": "Five skills (Lore came with Phase 5a). xp: the experience each action gives. Levels need the totals in tuning skills.xp_levels; every level cuts the energy of that skill's actions by tuning skills.energy_saved_per_level. perks: what a level also gives: effects on a key (set replaces the game's value, add adds to it, mult multiplies it; applied set, then add, then mult) and recipes it teaches. At tuning skills.specialty_level the ranger picks one of the skill's two specialties (the specialties table).",
  "rows": [
   {
    "id": "trailcraft",
@@ -149,6 +149,49 @@
       {
        "key": "double_pick_chance",
        "set": 0.1
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "lore",
+   "name": "skill_lore",
+   "xp": {
+    "sketch": 5,
+    "photo": 10,
+    "good_photo": 5,
+    "pet": 2,
+    "feed_creature": 5
+   },
+   "perks": [
+    {
+     "level": 2,
+     "text": "perk_lore_2",
+     "effects": [
+      {
+       "key": "shy_mult",
+       "mult": 0.75
+      }
+     ]
+    },
+    {
+     "level": 3,
+     "text": "perk_lore_3",
+     "effects": [
+      {
+       "key": "guide_homes",
+       "set": 1
+      }
+     ]
+    },
+    {
+     "level": 4,
+     "text": "perk_lore_4",
+     "effects": [
+      {
+       "key": "cousin_chance",
+       "mult": 1.5
       }
      ]
     }

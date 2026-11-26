@@ -9598,6 +9598,482 @@
   {
    "id": "cat_key_order",
    "text": "order"
+  },
+  {
+   "id": "animal_rabbit",
+   "text": "Rabbit"
+  },
+  {
+   "id": "animal_squirrel",
+   "text": "Red squirrel"
+  },
+  {
+   "id": "animal_hedgehog",
+   "text": "Hedgehog"
+  },
+  {
+   "id": "animal_raccoon",
+   "text": "Raccoon"
+  },
+  {
+   "id": "animal_badger",
+   "text": "Badger"
+  },
+  {
+   "id": "animal_deer",
+   "text": "White-tailed deer"
+  },
+  {
+   "id": "animal_moose",
+   "text": "Moose"
+  },
+  {
+   "id": "animal_bear",
+   "text": "Black bear"
+  },
+  {
+   "id": "animal_jackalope",
+   "text": "Jackalope"
+  },
+  {
+   "id": "animal_magic_deer",
+   "text": "Magic deer"
+  },
+  {
+   "id": "animal_troll_badger",
+   "text": "Troll badger"
+  },
+  {
+   "id": "guide_line_rabbit",
+   "text": "Sits up on the meadow edges from dawn to dusk. Twitchy. Very good at pretending to be a stone."
+  },
+  {
+   "id": "guide_line_squirrel",
+   "text": "Busy in the trees in the mornings. Has opinions about you, and shares them."
+  },
+  {
+   "id": "guide_line_hedgehog",
+   "text": "Out at dusk, snuffling. Curls up if you hurry. Walk slowly and it might not bother."
+  },
+  {
+   "id": "guide_line_raccoon",
+   "text": "A night visitor with clever hands. Checks the trash cans the way an inspector would."
+  },
+  {
+   "id": "guide_line_badger",
+   "text": "Digs in at dusk. Keeps to itself. Its troll cousin does not."
+  },
+  {
+   "id": "guide_line_deer",
+   "text": "Comes to the tree line at dawn and dusk. Shy: walk slowly, or watch through the binoculars."
+  },
+  {
+   "id": "guide_line_moose",
+   "text": "Big, gentle, a little gangly. Stands in the bog as if it's waiting for a bus."
+  },
+  {
+   "id": "guide_line_bear",
+   "text": "Out in summer and autumn, asleep all winter. Unbothered. If it's in your way, you step aside."
+  },
+  {
+   "id": "guide_line_jackalope",
+   "text": "A rabbit with antlers. Otherwise a perfectly ordinary rabbit. Nobody in town finds this odd."
+  },
+  {
+   "id": "guide_line_magic_deer",
+   "text": "A deer whose antlers glow softly after dark. It comes and goes as it likes."
+  },
+  {
+   "id": "guide_line_troll_badger",
+   "text": "Mossy, round, and very interested in snacks and shiny things. Bothers the facilities."
+  },
+  {
+   "id": "guide_place_dawn",
+   "text": "A site at dawn"
+  },
+  {
+   "id": "guide_place_dusk",
+   "text": "A site at dusk"
+  },
+  {
+   "id": "guide_place_night",
+   "text": "A site at night"
+  },
+  {
+   "id": "guide_place_fog",
+   "text": "A site in the fog"
+  },
+  {
+   "id": "guide_place_rain",
+   "text": "A site in the rain"
+  },
+  {
+   "id": "guide_place_snow",
+   "text": "A site in the snow"
+  },
+  {
+   "id": "guide_place_line_dawn",
+   "text": "First light, and the park still asleep."
+  },
+  {
+   "id": "guide_place_line_dusk",
+   "text": "The sky going orange behind the pines."
+  },
+  {
+   "id": "guide_place_line_night",
+   "text": "Dark, and the stars out. Something rustles somewhere."
+  },
+  {
+   "id": "guide_place_line_fog",
+   "text": "Everything soft and grey. You could be anywhere."
+  },
+  {
+   "id": "guide_place_line_rain",
+   "text": "Rain on the lens. Worth it."
+  },
+  {
+   "id": "guide_place_line_snow",
+   "text": "Snow on everything, and very quiet."
+  },
+  {
+   "id": "guide_new_sketch",
+   "text": "Sketched: {name}. It's in the field guide (G)."
+  },
+  {
+   "id": "guide_new_photo",
+   "text": "Photo: {name}. It's in the field guide."
+  },
+  {
+   "id": "guide_new_photo_good",
+   "text": "A good photo: {name}, caught in the act. It's in the field guide."
+  },
+  {
+   "id": "guide_photo_again",
+   "text": "Another photo of {name}."
+  },
+  {
+   "id": "guide_new_place",
+   "text": "Photo: {name}. It's in the field guide."
+  },
+  {
+   "id": "guide_photo_nothing",
+   "text": "Nothing in the frame. Point the camera at an animal, or at a site in special light."
+  },
+  {
+   "id": "guide_chief_letter",
+   "text": "Ranger, I hear the field guide has {n} entries. Good work. Here's {money} gold for film you don't need. - The Chief"
+  },
+  {
+   "id": "guide_binoculars_on",
+   "text": "You look through the binoculars. Stand still and the animals won't notice you. (C again to lower them)"
+  },
+  {
+   "id": "guide_binoculars_off",
+   "text": "You lower the binoculars."
+  },
+  {
+   "id": "night_moonflower_taken",
+   "text": "You pick a moonflower. It's still faintly glowing."
+  },
+  {
+   "id": "night_glow_taken",
+   "text": "At the end of the glowing stones, something's growing in the moss."
+  },
+  {
+   "id": "skill_lore",
+   "text": "Lore"
+  },
+  {
+   "id": "perk_lore_2",
+   "text": "Animals let you come a quarter closer"
+  },
+  {
+   "id": "perk_lore_3",
+   "text": "The field guide says where each animal lives today"
+  },
+  {
+   "id": "perk_lore_4",
+   "text": "Strange cousins are out a little more often"
+  },
+  {
+   "id": "spec_naturalist",
+   "text": "Naturalist"
+  },
+  {
+   "id": "spec_naturalist_desc",
+   "text": "Animals don't move off at all while you walk slowly, and every animal photo is a good one"
+  },
+  {
+   "id": "spec_whisperer",
+   "text": "Whisperer"
+  },
+  {
+   "id": "spec_whisperer_desc",
+   "text": "Creatures' friendship grows half again as fast, and settled creatures leave small gifts"
+  },
+  {
+   "id": "item_binoculars",
+   "text": "Binoculars"
+  },
+  {
+   "id": "item_camera",
+   "text": "Camera"
+  },
+  {
+   "id": "item_moonflower",
+   "text": "Moonflower"
+  },
+  {
+   "id": "item_pet_treat",
+   "text": "Pet treats"
+  },
+  {
+   "id": "item_desc_binoculars",
+   "text": "The last ranger's pair. Look at an animal a moment and it's sketched into the field guide."
+  },
+  {
+   "id": "item_desc_camera",
+   "text": "Point it at an animal, or a site in special light, and press C."
+  },
+  {
+   "id": "item_desc_moonflower",
+   "text": "Opens only at night. A lovely gift."
+  },
+  {
+   "id": "item_desc_pet_treat",
+   "text": "Hold them and press X on your pet."
+  },
+  {
+   "id": "pet_offer_title",
+   "text": "The Chief writes: a dog and a cat both need a home. Which comes to live at the station?"
+  },
+  {
+   "id": "pet_pick_dog",
+   "text": "The dog, {name}: a practical trail partner"
+  },
+  {
+   "id": "pet_pick_cat",
+   "text": "The cat, {name}: a bit of a mystery"
+  },
+  {
+   "id": "pet_chosen_dog",
+   "text": "{name} the dog trots into the station yard and sits by the door, tail going."
+  },
+  {
+   "id": "pet_chosen_cat",
+   "text": "{name} the cat appears on the station step as if it had always lived there."
+  },
+  {
+   "id": "pet_dog_sniff",
+   "text": "{name} stops and barks once. Something's hidden near here."
+  },
+  {
+   "id": "pet_dog_lost",
+   "text": "{name} picks up a scent: the lost party is somewhere {dir}."
+  },
+  {
+   "id": "pet_cat_stare",
+   "text": "{name} sits down and stares very hard at something nearby."
+  },
+  {
+   "id": "pet_petted_dog",
+   "text": "You scratch {name} behind the ears. Tail going."
+  },
+  {
+   "id": "pet_petted_cat",
+   "text": "You stroke {name}. A small, approving rumble."
+  },
+  {
+   "id": "pet_along",
+   "text": "{name} comes along."
+  },
+  {
+   "id": "pet_stay",
+   "text": "{name} stays home."
+  },
+  {
+   "id": "pet_bowl_full",
+   "text": "{name}'s bowl is already full."
+  },
+  {
+   "id": "pet_bowl_filled",
+   "text": "You fill {name}'s water bowl."
+  },
+  {
+   "id": "pet_treat",
+   "text": "{name} takes the treat very seriously."
+  },
+  {
+   "id": "hint_c_binoculars",
+   "text": "C: look through the binoculars"
+  },
+  {
+   "id": "hint_c_binoculars_off",
+   "text": "C: lower the binoculars"
+  },
+  {
+   "id": "hint_c_camera",
+   "text": "C: take a photo"
+  },
+  {
+   "id": "hint_x_pet",
+   "text": "X: pet {name}"
+  },
+  {
+   "id": "hint_x_pet_stay",
+   "text": "X: tell {name} to stay home"
+  },
+  {
+   "id": "hint_x_pet_along",
+   "text": "X: bring {name} along"
+  },
+  {
+   "id": "hint_x_pet_bowl",
+   "text": "X: fill the water bowl"
+  },
+  {
+   "id": "hint_x_moonflower",
+   "text": "X: pick the moonflower"
+  },
+  {
+   "id": "hint_x_glow",
+   "text": "X: look in the glowing moss"
+  },
+  {
+   "id": "guide_tab_animal",
+   "text": "Animals"
+  },
+  {
+   "id": "guide_tab_cousin",
+   "text": "Strange cousins"
+  },
+  {
+   "id": "guide_tab_place",
+   "text": "Places and nights"
+  },
+  {
+   "id": "guide_level_none",
+   "text": "not seen"
+  },
+  {
+   "id": "guide_level_sketch",
+   "text": "sketched"
+  },
+  {
+   "id": "guide_level_photo",
+   "text": "photo"
+  },
+  {
+   "id": "guide_progress",
+   "text": "{n} of {of} on this page"
+  },
+  {
+   "id": "guide_key_pages",
+   "text": "pages"
+  },
+  {
+   "id": "guide_unknown_name",
+   "text": "Not seen yet"
+  },
+  {
+   "id": "guide_when_dawn",
+   "text": "dawn"
+  },
+  {
+   "id": "guide_when_day",
+   "text": "by day"
+  },
+  {
+   "id": "guide_when_dusk",
+   "text": "dusk"
+  },
+  {
+   "id": "guide_when_night",
+   "text": "night"
+  },
+  {
+   "id": "guide_chip_meadow",
+   "text": "meadows"
+  },
+  {
+   "id": "guide_chip_forest",
+   "text": "forest"
+  },
+  {
+   "id": "guide_chip_water",
+   "text": "near water"
+  },
+  {
+   "id": "guide_chip_rock",
+   "text": "rocks"
+  },
+  {
+   "id": "guide_chip_snow",
+   "text": "snow"
+  },
+  {
+   "id": "guide_chip_dawn",
+   "text": "dawn"
+  },
+  {
+   "id": "guide_chip_dusk",
+   "text": "dusk"
+  },
+  {
+   "id": "guide_chip_night",
+   "text": "night"
+  },
+  {
+   "id": "guide_chip_day",
+   "text": "day"
+  },
+  {
+   "id": "guide_chip_full_moon",
+   "text": "full moon"
+  },
+  {
+   "id": "guide_among",
+   "text": "among the {name}"
+  },
+  {
+   "id": "guide_seen_times",
+   "text": "seen {n}"
+  },
+  {
+   "id": "guide_good_photo",
+   "text": "good photo"
+  },
+  {
+   "id": "guide_eats",
+   "text": "eats {food}"
+  },
+  {
+   "id": "guide_lives_near",
+   "text": "today near {place}"
+  },
+  {
+   "id": "guide_seen_near",
+   "text": "Seen near {places}."
+  },
+  {
+   "id": "guide_hint_animal",
+   "text": "Not seen yet. Look for it where and when the chips say, through the binoculars or with the camera."
+  },
+  {
+   "id": "guide_hint_cousin",
+   "text": "Not seen yet. Folk say it's out where the chips say, among its ordinary cousins."
+  },
+  {
+   "id": "guide_hint_place",
+   "text": "Take a photo of any site in this light."
+  },
+  {
+   "id": "menu_tab_guide",
+   "text": "Field guide (G)"
+  },
+  {
+   "id": "key_walk_slow",
+   "text": "Shift: walk slowly"
   }
  ]
 }

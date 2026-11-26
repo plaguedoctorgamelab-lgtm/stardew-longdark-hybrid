@@ -1,0 +1,630 @@
+{
+ "note": "Phase 5a: the park's animals, their strange cousins, and the guide's places-and-nights page. kind: animal, cousin or place. hours: dawn, day, dusk, night. shy: tiles before it moves off (0: never). Sprites: 3 rows (down, right, up; left is right flipped), cols frames: stand, walk x3, eat, rest (+pleased).",
+ "rows": [
+  {
+   "id": "rabbit",
+   "kind": "animal",
+   "ground": [
+    "grass",
+    "tall_grass"
+   ],
+   "hours": [
+    "dawn",
+    "day",
+    "dusk"
+   ],
+   "seasons": [
+    "spring",
+    "summer",
+    "autumn",
+    "winter"
+   ],
+   "group": [
+    2,
+    4
+   ],
+   "homes": 3,
+   "shy": 4.0,
+   "speed": 1.6,
+   "frame": [
+    16,
+    16
+   ],
+   "cols": 6,
+   "sprite": "animal_rabbit",
+   "eats": "item_berries",
+   "chips": [
+    "chip_meadow"
+   ],
+   "name": "animal_rabbit",
+   "line": "guide_line_rabbit",
+   "cousin_of": ""
+  },
+  {
+   "id": "squirrel",
+   "kind": "animal",
+   "ground": [
+    "forest_floor"
+   ],
+   "hours": [
+    "dawn",
+    "day"
+   ],
+   "seasons": [
+    "spring",
+    "summer",
+    "autumn"
+   ],
+   "group": [
+    1,
+    2
+   ],
+   "homes": 3,
+   "shy": 3.0,
+   "speed": 1.9,
+   "frame": [
+    16,
+    16
+   ],
+   "cols": 6,
+   "sprite": "animal_squirrel",
+   "eats": "item_hazelnuts",
+   "chips": [
+    "chip_forest"
+   ],
+   "name": "animal_squirrel",
+   "line": "guide_line_squirrel",
+   "cousin_of": ""
+  },
+  {
+   "id": "hedgehog",
+   "kind": "animal",
+   "ground": [
+    "grass",
+    "forest_floor"
+   ],
+   "hours": [
+    "dusk",
+    "night"
+   ],
+   "seasons": [
+    "spring",
+    "summer",
+    "autumn"
+   ],
+   "group": [
+    1,
+    1
+   ],
+   "homes": 2,
+   "shy": 2.0,
+   "speed": 0.8,
+   "frame": [
+    16,
+    16
+   ],
+   "cols": 6,
+   "sprite": "animal_hedgehog",
+   "eats": "item_mushrooms",
+   "chips": [
+    "chip_meadow",
+    "chip_forest"
+   ],
+   "name": "animal_hedgehog",
+   "line": "guide_line_hedgehog",
+   "cousin_of": ""
+  },
+  {
+   "id": "raccoon",
+   "kind": "animal",
+   "ground": [
+    "forest_floor",
+    "grass"
+   ],
+   "hours": [
+    "dusk",
+    "night"
+   ],
+   "seasons": [
+    "spring",
+    "summer",
+    "autumn"
+   ],
+   "group": [
+    1,
+    3
+   ],
+   "homes": 2,
+   "shy": 4.0,
+   "speed": 1.3,
+   "frame": [
+    16,
+    16
+   ],
+   "cols": 6,
+   "sprite": "animal_raccoon",
+   "eats": "item_berries",
+   "chips": [
+    "chip_forest",
+    "chip_water"
+   ],
+   "name": "animal_raccoon",
+   "line": "guide_line_raccoon",
+   "cousin_of": ""
+  },
+  {
+   "id": "badger",
+   "kind": "animal",
+   "ground": [
+    "forest_floor",
+    "grass"
+   ],
+   "hours": [
+    "dusk",
+    "night"
+   ],
+   "seasons": [
+    "spring",
+    "summer",
+    "autumn",
+    "winter"
+   ],
+   "group": [
+    1,
+    2
+   ],
+   "homes": 2,
+   "shy": 3.0,
+   "speed": 1.0,
+   "frame": [
+    16,
+    16
+   ],
+   "cols": 6,
+   "sprite": "animal_badger",
+   "eats": "item_mushrooms",
+   "chips": [
+    "chip_forest"
+   ],
+   "name": "animal_badger",
+   "line": "guide_line_badger",
+   "cousin_of": ""
+  },
+  {
+   "id": "deer",
+   "kind": "animal",
+   "ground": [
+    "grass",
+    "forest_floor",
+    "tall_grass"
+   ],
+   "hours": [
+    "dawn",
+    "dusk"
+   ],
+   "seasons": [
+    "spring",
+    "summer",
+    "autumn",
+    "winter"
+   ],
+   "group": [
+    2,
+    3
+   ],
+   "homes": 2,
+   "shy": 7.0,
+   "speed": 2.0,
+   "frame": [
+    32,
+    32
+   ],
+   "cols": 6,
+   "sprite": "animal_deer",
+   "eats": "item_fiddleheads",
+   "chips": [
+    "chip_meadow",
+    "chip_forest"
+   ],
+   "name": "animal_deer",
+   "line": "guide_line_deer",
+   "cousin_of": ""
+  },
+  {
+   "id": "moose",
+   "kind": "animal",
+   "ground": [
+    "bog",
+    "shallows",
+    "tall_grass",
+    "grass"
+   ],
+   "hours": [
+    "dawn",
+    "day",
+    "dusk"
+   ],
+   "seasons": [
+    "spring",
+    "summer",
+    "autumn",
+    "winter"
+   ],
+   "group": [
+    1,
+    1
+   ],
+   "homes": 1,
+   "shy": 6.0,
+   "speed": 1.2,
+   "frame": [
+    48,
+    48
+   ],
+   "cols": 6,
+   "sprite": "animal_moose",
+   "eats": "item_fiddleheads",
+   "chips": [
+    "chip_water",
+    "chip_meadow"
+   ],
+   "name": "animal_moose",
+   "line": "guide_line_moose",
+   "cousin_of": ""
+  },
+  {
+   "id": "bear",
+   "kind": "animal",
+   "ground": [
+    "forest_floor",
+    "grass"
+   ],
+   "hours": [
+    "day",
+    "dusk"
+   ],
+   "seasons": [
+    "summer",
+    "autumn"
+   ],
+   "group": [
+    1,
+    1
+   ],
+   "homes": 1,
+   "shy": 0.0,
+   "speed": 0.9,
+   "frame": [
+    48,
+    32
+   ],
+   "cols": 6,
+   "sprite": "animal_bear",
+   "eats": "item_berries",
+   "chips": [
+    "chip_forest"
+   ],
+   "name": "animal_bear",
+   "line": "guide_line_bear",
+   "cousin_of": ""
+  },
+  {
+   "id": "jackalope",
+   "kind": "cousin",
+   "cousin_of": "rabbit",
+   "hours": [
+    "dusk"
+   ],
+   "seasons": [
+    "spring",
+    "summer",
+    "autumn",
+    "winter"
+   ],
+   "chance": 0.2,
+   "chance_season": {
+    "spring": 0.35
+   },
+   "shy": 5.0,
+   "speed": 1.8,
+   "frame": [
+    16,
+    16
+   ],
+   "cols": 6,
+   "sprite": "creature_jackalope",
+   "chips": [
+    "chip_meadow",
+    "chip_dusk"
+   ],
+   "name": "animal_jackalope",
+   "line": "guide_line_jackalope",
+   "ground": [],
+   "group": [
+    1,
+    1
+   ],
+   "homes": 0,
+   "eats": ""
+  },
+  {
+   "id": "magic_deer",
+   "kind": "cousin",
+   "cousin_of": "deer",
+   "hours": [
+    "dusk",
+    "night"
+   ],
+   "seasons": [
+    "spring",
+    "summer",
+    "autumn",
+    "winter"
+   ],
+   "chance": 0.15,
+   "chance_season": {
+    "winter": 0.3
+   },
+   "shy": 8.0,
+   "speed": 2.0,
+   "frame": [
+    32,
+    32
+   ],
+   "cols": 6,
+   "sprite": "creature_magic_deer",
+   "glow": "creature_magic_deer_glow",
+   "chips": [
+    "chip_forest",
+    "chip_night",
+    "chip_snow"
+   ],
+   "name": "animal_magic_deer",
+   "line": "guide_line_magic_deer",
+   "ground": [],
+   "group": [
+    1,
+    1
+   ],
+   "homes": 0,
+   "eats": ""
+  },
+  {
+   "id": "troll_badger",
+   "kind": "cousin",
+   "cousin_of": "badger",
+   "hours": [
+    "dawn",
+    "day",
+    "dusk",
+    "night"
+   ],
+   "seasons": [
+    "spring",
+    "summer",
+    "autumn",
+    "winter"
+   ],
+   "chance": 0.0,
+   "shy": 0.0,
+   "speed": 1.0,
+   "frame": [
+    16,
+    16
+   ],
+   "cols": 7,
+   "sprite": "troll_badger_sheet",
+   "park": true,
+   "chips": [
+    "chip_meadow"
+   ],
+   "name": "animal_troll_badger",
+   "line": "guide_line_troll_badger",
+   "ground": [],
+   "group": [
+    1,
+    1
+   ],
+   "homes": 0,
+   "eats": ""
+  },
+  {
+   "id": "place_dawn",
+   "kind": "place",
+   "when": "dawn",
+   "name": "guide_place_dawn",
+   "line": "guide_place_line_dawn",
+   "chips": [
+    "chip_dawn"
+   ],
+   "hours": [],
+   "seasons": [
+    "spring",
+    "summer",
+    "autumn",
+    "winter"
+   ],
+   "frame": [
+    0,
+    0
+   ],
+   "cols": 0,
+   "sprite": "",
+   "cousin_of": "",
+   "ground": [],
+   "group": [
+    1,
+    1
+   ],
+   "homes": 0,
+   "eats": "",
+   "shy": 0.0,
+   "speed": 0.0
+  },
+  {
+   "id": "place_dusk",
+   "kind": "place",
+   "when": "dusk",
+   "name": "guide_place_dusk",
+   "line": "guide_place_line_dusk",
+   "chips": [
+    "chip_dusk"
+   ],
+   "hours": [],
+   "seasons": [
+    "spring",
+    "summer",
+    "autumn",
+    "winter"
+   ],
+   "frame": [
+    0,
+    0
+   ],
+   "cols": 0,
+   "sprite": "",
+   "cousin_of": "",
+   "ground": [],
+   "group": [
+    1,
+    1
+   ],
+   "homes": 0,
+   "eats": "",
+   "shy": 0.0,
+   "speed": 0.0
+  },
+  {
+   "id": "place_night",
+   "kind": "place",
+   "when": "night",
+   "name": "guide_place_night",
+   "line": "guide_place_line_night",
+   "chips": [
+    "chip_night"
+   ],
+   "hours": [],
+   "seasons": [
+    "spring",
+    "summer",
+    "autumn",
+    "winter"
+   ],
+   "frame": [
+    0,
+    0
+   ],
+   "cols": 0,
+   "sprite": "",
+   "cousin_of": "",
+   "ground": [],
+   "group": [
+    1,
+    1
+   ],
+   "homes": 0,
+   "eats": "",
+   "shy": 0.0,
+   "speed": 0.0
+  },
+  {
+   "id": "place_fog",
+   "kind": "place",
+   "when": "fog",
+   "name": "guide_place_fog",
+   "line": "guide_place_line_fog",
+   "chips": [
+    "chip_rock"
+   ],
+   "hours": [],
+   "seasons": [
+    "spring",
+    "summer",
+    "autumn",
+    "winter"
+   ],
+   "frame": [
+    0,
+    0
+   ],
+   "cols": 0,
+   "sprite": "",
+   "cousin_of": "",
+   "ground": [],
+   "group": [
+    1,
+    1
+   ],
+   "homes": 0,
+   "eats": "",
+   "shy": 0.0,
+   "speed": 0.0
+  },
+  {
+   "id": "place_rain",
+   "kind": "place",
+   "when": "rain",
+   "name": "guide_place_rain",
+   "line": "guide_place_line_rain",
+   "chips": [
+    "chip_water"
+   ],
+   "hours": [],
+   "seasons": [
+    "spring",
+    "summer",
+    "autumn",
+    "winter"
+   ],
+   "frame": [
+    0,
+    0
+   ],
+   "cols": 0,
+   "sprite": "",
+   "cousin_of": "",
+   "ground": [],
+   "group": [
+    1,
+    1
+   ],
+   "homes": 0,
+   "eats": "",
+   "shy": 0.0,
+   "speed": 0.0
+  },
+  {
+   "id": "place_snow",
+   "kind": "place",
+   "when": "snow",
+   "name": "guide_place_snow",
+   "line": "guide_place_line_snow",
+   "chips": [
+    "chip_snow"
+   ],
+   "hours": [],
+   "seasons": [
+    "spring",
+    "summer",
+    "autumn",
+    "winter"
+   ],
+   "frame": [
+    0,
+    0
+   ],
+   "cols": 0,
+   "sprite": "",
+   "cousin_of": "",
+   "ground": [],
+   "group": [
+    1,
+    1
+   ],
+   "homes": 0,
+   "eats": "",
+   "shy": 0.0,
+   "speed": 0.0
+  }
+ ]
+}

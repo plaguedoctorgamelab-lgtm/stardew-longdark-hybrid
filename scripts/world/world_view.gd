@@ -41,6 +41,7 @@ var _ripple: Node2D
 var _camp_fire: Sprite2D
 var _time: float = 0.0
 var park_view: ParkView
+var wildlife_view: WildlifeView
 var _pile_sprites: Array[Sprite2D] = []
 var polish: Polish
 var _ranger: Node2D
@@ -120,6 +121,12 @@ func setup(s: GameSession, ranger_node: Node2D) -> void:
 	park_view = ParkView.new()
 	add_child(park_view)
 	park_view.setup(session, sort_root)
+	wildlife_view = WildlifeView.new()
+	add_child(wildlife_view)
+	wildlife_view.setup(session, sort_root)
+	session.binoculars_changed.connect(func(on: bool) -> void:
+		if on:
+			update_chunks(true))
 	session.piles_changed.connect(refresh_piles)
 	refresh_piles()
 	session.jobs.spots_changed.connect(refresh_job_spots)
@@ -794,6 +801,9 @@ func wanted_chunks() -> Dictionary:
 	var w := session.world
 	var cs := w.chunk_size
 	var vp := Vector2(480, 270) / TILE
+	# Through the binoculars the view reaches further (Phase 5a).
+	if session.wildlife.looking and not session.is_indoors():
+		vp /= session.tuning.num("wildlife.binocular_zoom")
 	var margin := session.tuning.num("world.load_margin_tiles")
 	var c := session.outdoor_pos
 	var x0 := floori((c.x - vp.x / 2.0 - margin) / cs)

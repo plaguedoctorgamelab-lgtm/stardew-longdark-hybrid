@@ -1127,5 +1127,43 @@
       6,
       3
     ]
+  },
+  "wildlife": {
+    "note": "Phase 5a. Distances in tiles, speeds in tiles a real second.",
+    "dawn_dusk_minutes": 75,
+    "home_radius": 6,
+    "home_search_tiles": 34,
+    "spawn_near_tiles": 40,
+    "slow_walk_speed": 0.5,
+    "slow_walk_shy": 0.5,
+    "flee_seconds": 3.0,
+    "back_after_minutes": 60,
+    "binocular_range": 16,
+    "binocular_zoom": 0.5,
+    "sketch_seconds": 1.0,
+    "camera_range": 6,
+    "camera_cone_degrees": 70,
+    "place_photo_tiles": 14,
+    "letter_every": 5,
+    "letter_money": 40,
+    "firefly_count": 14,
+    "firefly_near_tiles": 12
+  },
+  "pet": {
+    "note": "Phase 5a: the dog or the cat.",
+    "follow_tiles": 1.6,
+    "speed": 4.2,
+    "pet_points": 15,
+    "bowl_points": 10,
+    "treat_points": 20,
+    "hearts_points": 100,
+    "dog_sniff_tiles": 7,
+    "cat_shy_mult": 0.5,
+    "cat_night_lantern_add": 1.5,
+    "cat_stare_tiles": 12,
+    "names": {
+      "dog": "Biscuit",
+      "cat": "Soot"
+    }
   }
 }
