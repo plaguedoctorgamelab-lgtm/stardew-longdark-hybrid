@@ -1390,11 +1390,13 @@ func interact() -> void:
 			parts.append(mail)
 		note_read.emit("\n\n".join(parts))
 		return
-	# The pet and its bowl, and what's only there after dark (Phase 5a).
-	if pet.bowl_in_reach(outdoor_pos, reach) and not pet.in_reach(outdoor_pos, reach):
+	# The pet and its bowl, and what's only there after dark (Phase 5a). A
+	# door comes first: a pet along waits by it and mustn't keep you out.
+	var at_door := structure_at_door(outdoor_pos) != ""
+	if not at_door and pet.bowl_in_reach(outdoor_pos, reach) and not pet.in_reach(outdoor_pos, reach):
 		pet.fill_bowl()
 		return
-	if pet.in_reach(outdoor_pos, reach):
+	if not at_door and pet.in_reach(outdoor_pos, reach):
 		if selected_item() == "pet_treat" and pet.give_treat():
 			return
 		pet.touch()

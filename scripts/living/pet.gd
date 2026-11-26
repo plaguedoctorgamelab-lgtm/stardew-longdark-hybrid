@@ -45,6 +45,13 @@ func has_pet() -> bool:
 	return kind != ""
 
 
+## The Chief's letter comes from summer of the first year (0.8.2: not on
+## the first morning, when there's enough to learn already).
+func offer_due() -> bool:
+	var c := s().clock
+	return c.year > 1 or c.season >= tuning.integer("pet.offer_from_season")
+
+
 ## The options for the Chief's letter.
 func offer_options() -> Array:
 	var c := s().content
@@ -66,13 +73,21 @@ func choose(k: String) -> void:
 
 
 ## Where the pet waits at home: beside the station door.
+## Its bed: round the east side of the station, past the mailbox, well
+## clear of the door (0.8.2: by the door, X kept patting it instead of
+## going in).
 func home_spot() -> Vector2:
-	return s().door_front("ranger_station") + Vector2(1.5, 0.6)
+	return s().mailbox_pos() + tuning_vec("pet.home_from_mailbox")
 
 
-## The water bowl, by the door.
+## The water bowl, beside its bed.
 func bowl_spot() -> Vector2:
-	return s().door_front("ranger_station") + Vector2(-1.5, 0.6)
+	return s().mailbox_pos() + tuning_vec("pet.bowl_from_mailbox")
+
+
+func tuning_vec(key: String) -> Vector2:
+	var a: Array = tuning.value(key)
+	return Vector2(float(a[0]), float(a[1]))
 
 
 func hearts() -> int:

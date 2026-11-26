@@ -1071,7 +1071,7 @@ func _process(delta: float) -> void:
 			_map_changes = []
 			_map_lines = PackedStringArray()
 	# The Chief's letter offering a dog or a cat (Phase 5a), once play is on.
-	if not menu_open() and session.pending_confirm == "" and not session.pet.has_pet() and not session.pet.offered and not session.is_indoors():
+	if not menu_open() and session.pending_confirm == "" and not session.pet.has_pet() and not session.pet.offered and not session.is_indoors() and session.pet.offer_due():
 		session.pet.offered = true
 		choice_screen.open("pet", session.content.text("pet_offer_title"), session.pet.offer_options())
 	if not menu_open():

@@ -1158,7 +1158,10 @@
     "firefly_near_tiles": 12
   },
   "pet": {
-    "note": "Phase 5a: the dog or the cat.",
+    "note": "Phase 5a: the dog or the cat. The Chief offers one from offer_from_season (1: summer) of the first year. Its bed and bowl sit east of the station, from the mailbox.",
+    "offer_from_season": 1,
+    "home_from_mailbox": [3.5, -0.5],
+    "bowl_from_mailbox": [5.0, -0.5],
     "follow_tiles": 1.6,
     "speed": 4.2,
     "pet_points": 15,

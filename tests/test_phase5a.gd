@@ -201,3 +201,25 @@ func test_lore_is_the_fifth_skill(t: TestCase) -> void:
 	var s := TestCase.new_session()
 	t.check(s.content.has("skills", "lore"), "Lore")
 	t.equal(s.skills.offered_specialties("lore").size(), 2, "with two specialties")
+
+
+func test_the_pet_comes_in_summer(t: TestCase) -> void:
+	var s := TestCase.new_session()
+	t.check(not s.pet.offer_due(), "not in the first spring")
+	s.clock.season = 1
+	t.check(s.pet.offer_due(), "from summer")
+
+
+func test_the_pet_never_keeps_you_out(t: TestCase) -> void:
+	var s := TestCase.new_session()
+	s.pet.choose("dog")
+	var door := s.door_front("ranger_station")
+	t.check(s.pet.home_spot().distance_to(door) > 5.0 and s.pet.bowl_spot().distance_to(door) > 5.0, "its bed and bowl are well away from the door")
+	t.check(not s.world.is_solid(Vector2i(s.pet.home_spot())) and not s.world.is_solid(Vector2i(s.pet.bowl_spot())), "on open ground")
+	# Even with the pet along, sitting right by the door, X goes in.
+	s.pet.along = true
+	s.outdoor_pos = door
+	s.pet.pos = door + Vector2(0.4, 0.2)
+	s.facing = GameSession.FACING_UP
+	s.interact()
+	t.check(s.is_indoors(), "X at the door goes in")

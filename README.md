@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.8.1** (see [Version history](#version-history)). The
+**Current version: 0.8.2** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -119,6 +119,12 @@ phase is finished; the last number counts every build and runs on past 9
 | 0.10.x | Phase 7, Year one polish |
 | 0.11.x to 0.14.x | Phases 8 to 11, one region each |
 | 1.0.0 | every phase done |
+
+### 0.8.2 (26 November 2026): the pet waits for summer, and out of the doorway
+
+- **The pet comes in summer.** The Chief's letter offering a dog or a cat now comes from the first summer (`pet.offer_from_season`), not on the first morning (`Pet.offer_due`).
+- **Out of the doorway.** The pet's bed and water bowl were right by the station door, so X patted the pet and never went in. They're now round the east side of the station, past the mailbox (`pet.home_from_mailbox`, `pet.bowl_from_mailbox`). And X at any door always goes in, even with the pet along and sitting by it.
+- Tests: `tests/test_phase5a.gd` (the pet comes in summer; the pet never keeps you out).
 
 ### 0.8.1 (26 November 2026): mapping at a better pace
 
