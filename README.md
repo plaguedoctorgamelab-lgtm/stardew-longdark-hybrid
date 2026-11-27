@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.8.4** (see [Version history](#version-history)). The
+**Current version: 0.8.5** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -119,6 +119,12 @@ phase is finished; the last number counts every build and runs on past 9
 | 0.10.x | Phase 7, Year one polish |
 | 0.11.x to 0.14.x | Phases 8 to 11, one region each |
 | 1.0.0 | every phase done |
+
+### 0.8.5 (27 November 2026): Art Request 27, new festivals and birds
+
+No change to the game. The pictures for two changes, coded once the art is back.
+
+- **`docs/art/art_request_27_festivals_and_birds.md`:** a new festival year (Lantern Night in spring, Midsummer with the wicker moose in summer, Samhain in autumn, the Big Foot Supper in winter) and six birds: the crow, owl, blue jay and cardinal, the magic crow and the magic owl, with sketches, a Birds tab and feathers.
 
 ### 0.8.4 (26 November 2026): Phase 5b, Gord and the night
 
