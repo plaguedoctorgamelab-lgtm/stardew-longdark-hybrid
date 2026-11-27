@@ -729,6 +729,76 @@
    "price": 60,
    "sold": "carpentry",
    "surface": true
+  },
+  {
+   "id": "decor_wicker_moose",
+   "sprite": "decor_wicker_moose",
+   "place": "floor",
+   "size": [
+    1,
+    1
+   ],
+   "price": 0
+  },
+  {
+   "id": "decor_ribbon_samhain",
+   "sprite": "decor_ribbon_samhain",
+   "place": "wall",
+   "size": [
+    1,
+    2
+   ],
+   "price": 0
+  },
+  {
+   "id": "decor_jack_friendly",
+   "sprite": "fest_jack_o_lantern_friendly",
+   "place": "floor",
+   "size": [
+    1,
+    1
+   ],
+   "price": 0
+  },
+  {
+   "id": "decor_jack_spooky",
+   "sprite": "fest_jack_o_lantern_spooky",
+   "place": "floor",
+   "size": [
+    1,
+    1
+   ],
+   "price": 0
+  },
+  {
+   "id": "decor_jack_silly",
+   "sprite": "fest_jack_o_lantern_silly",
+   "place": "floor",
+   "size": [
+    1,
+    1
+   ],
+   "price": 0
+  },
+  {
+   "id": "decor_jack_cat",
+   "sprite": "fest_jack_o_lantern_cat",
+   "place": "floor",
+   "size": [
+    1,
+    1
+   ],
+   "price": 0
+  },
+  {
+   "id": "decor_jack_moose",
+   "sprite": "fest_jack_o_lantern_moose",
+   "place": "floor",
+   "size": [
+    1,
+    1
+   ],
+   "price": 0
   }
  ]
 }

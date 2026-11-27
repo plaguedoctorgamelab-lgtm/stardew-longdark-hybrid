@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.8.5** (see [Version history](#version-history)). The
+**Current version: 0.8.6** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -119,6 +119,20 @@ phase is finished; the last number counts every build and runs on past 9
 | 0.10.x | Phase 7, Year one polish |
 | 0.11.x to 0.14.x | Phases 8 to 11, one region each |
 | 1.0.0 | every phase done |
+
+### 0.8.6 (27 November 2026): a new festival year, and birds
+
+Mark's Art Request 27 sheets, cut by `tools/cut_ar27.py`.
+
+- **The festival year:**
+  - **Spring 20: Lantern Night**, moved from summer, with jars of pussy willow.
+  - **Summer 14: Midsummer**, new. Mark's wicker moose (a moose-headed giant) stands in the square; tuck something into it for luck and it burns, then Agnes tells her yearly story. Everyone, the ranger too, wears a flower crown. The prize is a little wicker moose.
+  - **Autumn 28: Samhain**, new. Carve a pumpkin with one of five faces; a pumpkin you grew yourself wins Best Pumpkin (the rosette and 100g), and you keep your jack-o'-lantern either way. Bob for apples, and take sweets from the three bowls. The town is in costume.
+  - **Winter 18: the Big Foot Supper**, moved from autumn, in the snow with braziers and lit spruces.
+  - The Thaw Fair and the Long Night are retired. New lines for every townsperson at Midsummer and Samhain.
+- **Birds:** crows, barred owls, blue jays and cardinals, with a starry crow and a three-eyed owl now and then among their cousins (their stars and eyes glow). Birds fly over anything when they move, and one that flies off sometimes leaves a feather to pick up. The field guide has a Birds tab.
+- **Stand-ins:** the costume sheets weren't on the sheets, so ghosts and witch hats are made from each person's own picture for now; skeletons wait for Mark's sheet.
+- `tests/test_birds_and_festivals_086.gd`; screenshots `tests/support/screenshots_086.gd`.
 
 ### 0.8.5 (27 November 2026): Art Request 27, new festivals and birds
 

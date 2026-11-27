@@ -1451,6 +1451,124 @@
    "stack": 10,
    "icon": "log_creature_gift",
    "sell": 30
+  },
+  {
+   "id": "sweets",
+   "name": "item_sweets",
+   "kind": "food",
+   "stack": 20,
+   "icon": "item_sweets",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "decor_wicker_moose",
+   "name": "item_decor_wicker_moose",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "decor_wicker_moose",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "decor_ribbon_samhain",
+   "name": "item_decor_ribbon_samhain",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "decor_ribbon_samhain",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "decor_jack_friendly",
+   "name": "item_decor_jack_friendly",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "fest_jack_o_lantern_friendly",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "decor_jack_spooky",
+   "name": "item_decor_jack_spooky",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "fest_jack_o_lantern_spooky",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "decor_jack_silly",
+   "name": "item_decor_jack_silly",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "fest_jack_o_lantern_silly",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "decor_jack_cat",
+   "name": "item_decor_jack_cat",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "fest_jack_o_lantern_cat",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "decor_jack_moose",
+   "name": "item_decor_jack_moose",
+   "kind": "furniture",
+   "stack": 1,
+   "icon": "fest_jack_o_lantern_moose",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "feather_crow",
+   "name": "item_feather_crow",
+   "kind": "material",
+   "stack": 20,
+   "icon": "item_feather_crow",
+   "sell": 6,
+   "_086": "0.8.6"
+  },
+  {
+   "id": "feather_owl",
+   "name": "item_feather_owl",
+   "kind": "material",
+   "stack": 20,
+   "icon": "item_feather_owl",
+   "sell": 6,
+   "_086": "0.8.6"
+  },
+  {
+   "id": "feather_blue_jay",
+   "name": "item_feather_blue_jay",
+   "kind": "material",
+   "stack": 20,
+   "icon": "item_feather_blue_jay",
+   "sell": 6,
+   "_086": "0.8.6"
+  },
+  {
+   "id": "feather_cardinal",
+   "name": "item_feather_cardinal",
+   "kind": "material",
+   "stack": 20,
+   "icon": "item_feather_cardinal",
+   "sell": 6,
+   "_086": "0.8.6"
+  },
+  {
+   "id": "feather_magic_crow",
+   "name": "item_feather_magic_crow",
+   "kind": "material",
+   "stack": 20,
+   "icon": "item_feather_magic_crow",
+   "sell": 45,
+   "_086": "0.8.6"
+  },
+  {
+   "id": "feather_magic_owl",
+   "name": "item_feather_magic_owl",
+   "kind": "material",
+   "stack": 20,
+   "icon": "item_feather_magic_owl",
+   "sell": 45,
+   "_086": "0.8.6"
   }
  ],
  "note": "Everything that goes in the backpack. family: a tool and its refitted versions share one family, and anything that needs the tool takes any of them. refit: the magical ingredient a refitted tool holds. placeable: put on the faced tile (needs_tool: the tool it needs, \"\" for none; on: trail or open ground; map_when_revealed: shown on the map once that ground is revealed; lays: laid as that ground, on the grounds in tuning trail.boardwalk_on). kit: set up inside a building."

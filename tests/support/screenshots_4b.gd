@@ -48,7 +48,7 @@ func _run() -> void:
 		s.town.met[str(r["id"])] = true
 	s.park.money.earn(s.clock.absolute_day(), "test", 6000)
 	# The festivals, each in the square.
-	for id: String in ["thaw_fair", "lantern_night", "big_foot_supper", "long_night"]:
+	for id: String in ["lantern_night", "midsummer", "samhain", "big_foot_supper"]:
 		s.debug_start_festival(id)
 		var c: Array = s.festivals.row(id)["center"]
 		s.town_pos = Vector2(float(c[0]) + 0.5, float(c[1]) + 3.5)

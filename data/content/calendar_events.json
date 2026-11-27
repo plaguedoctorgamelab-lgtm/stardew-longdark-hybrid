@@ -9,13 +9,6 @@
    "heard": "esme"
   },
   {
-   "id": "midsummer",
-   "season": 1,
-   "day": 14,
-   "name": "cal_ev_midsummer",
-   "heard": "chat"
-  },
-  {
    "id": "first_snow",
    "when": "first_snow",
    "name": "cal_ev_first_snow",

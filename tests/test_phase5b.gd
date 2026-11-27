@@ -280,8 +280,7 @@ func test_calendar_events_once_heard(t: TestCase) -> void:
 	s.clock.day = 25
 	s.creatures.on_reading()
 	t.check(not (s.town.calendar(2)[6]["events"] as Array).is_empty(), "Esme mentions the deer at the outlook")
-	s.creatures.on_chat("rosa")
-	t.check(not (s.town.calendar(1)[13]["events"] as Array).is_empty(), "midsummer heard in a chat")
+	t.equal(str(s.town.calendar(1)[13]["festival"]), "midsummer", "midsummer is a festival now")
 
 
 func test_the_second_pet(t: TestCase) -> void:

@@ -11,8 +11,8 @@ extends Sheet
 ## photographed, and a line in the ranger's voice. An unknown strange
 ## cousin's chips are its hint: when it's out and where.
 
-const PAGES: Array[String] = ["animal", "cousin", "place"]
-const TAB_PICS := {"animal": ["guide_tab_animals"], "cousin": ["guide_tab_strange"], "place": ["guide_tab_places"]}
+const PAGES: Array[String] = ["animal", "bird", "cousin", "place"]
+const TAB_PICS := {"animal": ["guide_tab_animals"], "bird": ["guide_tab_birds"], "cousin": ["guide_tab_strange"], "place": ["guide_tab_places"]}
 
 var page: String = "animal"
 var selected: String = ""

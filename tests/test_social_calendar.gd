@@ -32,7 +32,10 @@ func test_the_calendar_shows_birthdays_and_festivals(t: TestCase) -> void:
 	var spring := s.town.calendar(0)
 	t.equal(spring.size(), s.clock.days_per_season(), "every day of the season")
 	t.check((spring[5]["birthdays"] as Array).has("bev"), "Bev's birthday on spring 6")
-	t.equal(str(spring[12]["festival"]), "thaw_fair", "the Thaw Fair on spring 13")
+	t.equal(str(spring[19]["festival"]), "lantern_night", "Lantern Night on spring 20")
+	t.equal(str(s.town.calendar(1)[13]["festival"]), "midsummer", "Midsummer on summer 14")
+	t.equal(str(s.town.calendar(2)[27]["festival"]), "samhain", "Samhain on autumn 28")
+	t.equal(str(s.town.calendar(3)[17]["festival"]), "big_foot_supper", "the Big Foot Supper on winter 18")
 	var all := 0
 	for season in 4:
 		for d: Dictionary in s.town.calendar(season):

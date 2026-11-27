@@ -1,5 +1,5 @@
 {
- "note": "Phase 5a: the park's animals, their strange cousins, and the guide's places-and-nights page. kind: animal, cousin or place. hours: dawn, day, dusk, night. shy: tiles before it moves off (0: never). Sprites: 3 rows (down, right, up; left is right flipped), cols frames: stand, walk x3, eat, rest (+pleased).",
+ "note": "Phase 5a: the park's animals, their strange cousins, and the guide's places-and-nights page. kind: animal, cousin or place. hours: dawn, day, dusk, night. shy: tiles before it moves off (0: never). Sprites: 3 rows (down, right, up; left is right flipped), cols frames: stand, walk x3, eat, rest (+pleased). 0.8.6: kind bird, with flies (moves over anything, lifted while flying) and feather (sometimes dropped when it flies off). A bird with cousin_of is a magic bird among its ordinary cousins.",
  "rows": [
   {
    "id": "rabbit",
@@ -763,6 +763,251 @@
    "chips": [
     "chip_aurora"
    ]
+  },
+  {
+   "id": "crow",
+   "kind": "bird",
+   "ground": [
+    "grass",
+    "tall_grass",
+    "forest_floor"
+   ],
+   "hours": [
+    "dawn",
+    "day",
+    "dusk"
+   ],
+   "seasons": [
+    "spring",
+    "summer",
+    "autumn",
+    "winter"
+   ],
+   "group": [
+    2,
+    4
+   ],
+   "homes": 3,
+   "shy": 5.0,
+   "speed": 3.0,
+   "frame": [
+    16,
+    16
+   ],
+   "cols": 6,
+   "sprite": "animal_crow",
+   "eats": "item_berries",
+   "chips": [
+    "chip_meadow"
+   ],
+   "name": "animal_crow",
+   "line": "guide_line_crow",
+   "cousin_of": "",
+   "flies": true,
+   "feather": "feather_crow",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "owl",
+   "kind": "bird",
+   "ground": [
+    "forest_floor"
+   ],
+   "hours": [
+    "dusk",
+    "night"
+   ],
+   "seasons": [
+    "spring",
+    "summer",
+    "autumn",
+    "winter"
+   ],
+   "group": [
+    1,
+    1
+   ],
+   "homes": 2,
+   "shy": 6.0,
+   "speed": 2.6,
+   "frame": [
+    16,
+    16
+   ],
+   "cols": 6,
+   "sprite": "animal_owl",
+   "eats": "",
+   "chips": [
+    "chip_forest"
+   ],
+   "name": "animal_owl",
+   "line": "guide_line_owl",
+   "cousin_of": "",
+   "flies": true,
+   "feather": "feather_owl",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "blue_jay",
+   "kind": "bird",
+   "ground": [
+    "forest_floor"
+   ],
+   "hours": [
+    "dawn",
+    "day"
+   ],
+   "seasons": [
+    "spring",
+    "summer",
+    "autumn",
+    "winter"
+   ],
+   "group": [
+    1,
+    2
+   ],
+   "homes": 3,
+   "shy": 4.0,
+   "speed": 3.2,
+   "frame": [
+    16,
+    16
+   ],
+   "cols": 6,
+   "sprite": "animal_blue_jay",
+   "eats": "item_hazelnuts",
+   "chips": [
+    "chip_forest"
+   ],
+   "name": "animal_blue_jay",
+   "line": "guide_line_blue_jay",
+   "cousin_of": "",
+   "flies": true,
+   "feather": "feather_blue_jay",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "cardinal",
+   "kind": "bird",
+   "ground": [
+    "grass",
+    "forest_floor"
+   ],
+   "hours": [
+    "dawn",
+    "dusk"
+   ],
+   "seasons": [
+    "spring",
+    "summer",
+    "autumn",
+    "winter"
+   ],
+   "group": [
+    1,
+    2
+   ],
+   "homes": 2,
+   "shy": 4.0,
+   "speed": 3.2,
+   "frame": [
+    16,
+    16
+   ],
+   "cols": 6,
+   "sprite": "animal_cardinal",
+   "eats": "item_berries",
+   "chips": [
+    "chip_meadow",
+    "chip_forest"
+   ],
+   "name": "animal_cardinal",
+   "line": "guide_line_cardinal",
+   "cousin_of": "",
+   "flies": true,
+   "feather": "feather_cardinal",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "magic_crow",
+   "kind": "bird",
+   "ground": [],
+   "hours": [
+    "dusk"
+   ],
+   "seasons": [
+    "spring",
+    "summer",
+    "autumn",
+    "winter"
+   ],
+   "group": [
+    1,
+    1
+   ],
+   "homes": 0,
+   "shy": 6.0,
+   "speed": 3.0,
+   "frame": [
+    16,
+    16
+   ],
+   "cols": 6,
+   "sprite": "creature_magic_crow",
+   "eats": "",
+   "chips": [
+    "chip_meadow",
+    "chip_dusk"
+   ],
+   "name": "animal_magic_crow",
+   "line": "guide_line_magic_crow",
+   "cousin_of": "crow",
+   "flies": true,
+   "feather": "feather_magic_crow",
+   "_086": "0.8.6",
+   "chance": 0.15,
+   "glow": "creature_magic_crow_glow"
+  },
+  {
+   "id": "magic_owl",
+   "kind": "bird",
+   "ground": [],
+   "hours": [
+    "night"
+   ],
+   "seasons": [
+    "spring",
+    "summer",
+    "autumn",
+    "winter"
+   ],
+   "group": [
+    1,
+    1
+   ],
+   "homes": 0,
+   "shy": 7.0,
+   "speed": 2.6,
+   "frame": [
+    16,
+    16
+   ],
+   "cols": 6,
+   "sprite": "creature_magic_owl",
+   "eats": "",
+   "chips": [
+    "chip_forest",
+    "chip_night"
+   ],
+   "name": "animal_magic_owl",
+   "line": "guide_line_magic_owl",
+   "cousin_of": "owl",
+   "flies": true,
+   "feather": "feather_magic_owl",
+   "_086": "0.8.6",
+   "chance": 0.15,
+   "glow": "creature_magic_owl_glow"
   }
  ]
 }

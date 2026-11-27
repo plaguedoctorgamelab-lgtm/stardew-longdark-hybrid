@@ -29,6 +29,9 @@ var _fest_id: String = ""
 var _fest_nodes: Array[Node2D] = []
 var _animated: Array = []        # [sprite, base picture name, frames]
 var _floats: Array = []          # [sprite, colour]
+var _moose: Sprite2D = null      # Midsummer's wicker moose
+static var _costumes: Dictionary = {}   # "sheet:kind" -> stand-in costume sheet
+static var _heads: Dictionary = {}      # sheet -> top row of the head in frame 0
 
 
 func setup(s: GameSession) -> void:
@@ -247,6 +250,7 @@ func _process(delta: float) -> void:
 		var suit := node.get_node_or_null("Suit")
 		if suit != null:
 			(suit as Node2D).visible = session.festivals.in_suit(id)
+		_dress(id, node)
 		if not node.visible:
 			continue
 		var p: Dictionary = town.people[id]
@@ -271,6 +275,7 @@ func _update_festival() -> void:
 		_fest_nodes.clear()
 		_animated.clear()
 		_floats.clear()
+		_moose = null
 		if id != "":
 			for d: Array in f.get("decor", []):
 				var art := str(d[0])
@@ -283,6 +288,8 @@ func _update_festival() -> void:
 				var spr := _stand(first, Vector2(float(d[1]) + 0.5, float(d[2]) + 1.0))
 				spr.z_index = 0
 				_fest_nodes.append(spr)
+				if art == "fest_wicker_moose":
+					_moose = spr
 				if frames > 1:
 					_animated.append([spr, art, frames])
 			var colours := ["red", "orange", "yellow", "green", "blue", "violet"]
@@ -307,12 +314,216 @@ func _update_festival() -> void:
 					node.add_child(suit)
 	for a: Array in _animated:
 		(a[0] as Sprite2D).texture = Art.texture("%s_%d" % [a[1], int(_time * 6.0) % int(a[2])])
+	# Midsummer's moose: standing, then burning once the ranger has given it
+	# something, then embers.
+	if _moose != null and is_instance_valid(_moose):
+		var art := "fest_wicker_moose"
+		match session.festivals.moose_stage():
+			"burning":
+				art = "fest_wicker_moose_burn_%d" % (1 + int(_time * 5.0) % 2)
+			"embers":
+				art = "fest_wicker_moose_embers"
+		if Art.has_picture(art) and _moose.texture != Art.texture(art):
+			_moose.texture = Art.texture(art)
+			_moose.offset = Vector2(-_moose.texture.get_width() / 2.0, -_moose.texture.get_height())
 	# The lanterns float only once the walk has begun, in the festival's hours.
 	var lit := session.festivals.on_now() or session.festivals.active != ""
 	for e: Array in _floats:
 		var spr: Sprite2D = e[0]
 		spr.visible = lit
 		spr.texture = Art.texture("fest_lantern_float_%s_%d" % [e[1], int(_time * 2.0 + spr.position.x) % 2])
+
+
+## A townsperson's festival dress: a flower crown at Midsummer, a costume at
+## Samhain (Mark's costume sheet when drawn, else a stand-in made from their
+## own sheet: a bedsheet ghost or a witch's hat).
+func _dress(id: String, node: Node2D) -> void:
+	var base := _base_sheet(node)
+	if base == null:
+		return
+	var crown := node.get_node_or_null("Crown") as Sprite2D
+	var crowned := session.festivals.crowned()
+	if crowned and crown == null and Art.has_picture("fest_flower_crown_small"):
+		crown = Sprite2D.new()
+		crown.name = "Crown"
+		crown.centered = false
+		crown.texture = Art.texture("fest_flower_crown_small")
+		crown.offset = Vector2(-5.0, base.offset.y + float(head_top(base.texture)) - 2.0)
+		node.add_child(crown)
+	if crown != null:
+		crown.visible = crowned
+	var kind := session.festivals.costume_of(id)
+	var cos := node.get_node_or_null("Costume") as Sprite2D
+	if kind != "" and (cos == null or str(cos.get_meta("kind", "")) != kind):
+		var tex := costume_texture(base.texture, kind)
+		if tex != null:
+			if cos == null:
+				cos = Sprite2D.new()
+				cos.name = "Costume"
+				cos.centered = false
+				cos.hframes = 4
+				cos.vframes = 4
+				node.add_child(cos)
+			cos.texture = tex
+			cos.offset = base.offset
+			cos.set_meta("kind", kind)
+	if cos != null:
+		cos.visible = kind != "" and str(cos.get_meta("kind", "")) == kind
+
+
+static func _base_sheet(node: Node2D) -> Sprite2D:
+	for c: Node in node.get_children():
+		if c is Sprite2D and (c as Sprite2D).hframes == 4 and c.name not in ["Suit", "Costume"]:
+			return c as Sprite2D
+	return null
+
+
+static func _image(tex: Texture2D) -> Image:
+	var img := tex.get_image()
+	if img == null:
+		return null
+	if img.is_compressed():
+		img.decompress()
+	img.convert(Image.FORMAT_RGBA8)
+	return img
+
+
+## The top row of a sheet's first frame that has anything drawn on it.
+static func head_top(tex: Texture2D) -> int:
+	var key := tex.resource_path if tex.resource_path != "" else str(tex.get_instance_id())
+	if _heads.has(key):
+		return int(_heads[key])
+	var top := 4
+	var img := _image(tex)
+	if img != null:
+		var fw := img.get_width() / 4
+		var fh := img.get_height() / 4
+		for y in fh:
+			var hit := false
+			for x in fw:
+				if img.get_pixel(x, y).a > 0.0:
+					hit = true
+					break
+			if hit:
+				top = y
+				break
+	_heads[key] = top
+	return top
+
+
+## A costume sheet for someone: Mark's fest_costume_<kind> when drawn, else
+## a stand-in (ghost or witch) shaped to their own sheet, or null.
+static func costume_texture(sheet: Texture2D, kind: String) -> Texture2D:
+	if Art.has_picture("fest_costume_" + kind):
+		return Art.texture("fest_costume_" + kind)
+	if not kind in ["ghost", "witch"]:
+		return null
+	var key := "%s:%s" % [sheet.resource_path if sheet.resource_path != "" else str(sheet.get_instance_id()), kind]
+	if _costumes.has(key):
+		return _costumes[key]
+	var img := _image(sheet)
+	if img == null:
+		return null
+	var w := img.get_width()
+	var h := img.get_height()
+	var fw := w / 4
+	var fh := h / 4
+	var out := Image.create(w, h, false, Image.FORMAT_RGBA8)
+	for fy in 4:
+		for fx in 4:
+			var x0 := fw
+			var x1 := -1
+			var y0 := fh
+			var y1 := -1
+			for y in fh:
+				for x in fw:
+					if img.get_pixel(fx * fw + x, fy * fh + y).a > 0.0:
+						x0 = mini(x0, x)
+						x1 = maxi(x1, x)
+						y0 = mini(y0, y)
+						y1 = maxi(y1, y)
+			if x1 < 0:
+				continue
+			var cx := (x0 + x1 + 1) / 2
+			if kind == "ghost":
+				_ghost(out, fx * fw, fy * fh, fw, fh, x0, x1, y0, y1, cx, fy)
+			else:
+				_witch_hat(out, fx * fw, fy * fh, fw, y0, cx)
+	var tex := ImageTexture.create_from_image(out)
+	_costumes[key] = tex
+	return tex
+
+
+static func _put_px(img: Image, x: int, y: int, c: Color) -> void:
+	if x >= 0 and y >= 0 and x < img.get_width() and y < img.get_height():
+		img.set_pixel(x, y, c)
+
+
+## A bedsheet over the whole person, eye holes on the side they face (rows:
+## down, right, up, left).
+static func _ghost(out: Image, ox: int, oy: int, fw: int, fh: int, x0: int, x1: int, y0: int, y1: int, cx: int, facing: int) -> void:
+	var sheet := Color8(244, 244, 238)
+	var shade := Color8(208, 212, 226)
+	var edge := Color8(96, 96, 120)
+	var top := maxi(0, y0 - 1)
+	var bottom := mini(fh - 1, y1 - 1)
+	var body := maxi(6, (x1 - x0 + 1) / 2 + 1)
+	# A round head on a body that flares out to a wavy hem.
+	var dome := [3, 4, 5, 6, 6, 6, 6]
+	var spans := {}
+	for y in range(top, bottom + 1):
+		var k := y - top
+		var hw: int = dome[k] if k < dome.size() else mini(body, 6 + (k - dome.size()) / 3)
+		spans[y] = hw
+	for y in range(top, bottom + 1):
+		var hw: int = spans[y]
+		for x in range(cx - hw, cx + hw):
+			if x < 0 or x >= fw:
+				continue
+			if y == bottom and (x - cx + 64) % 3 == 1:
+				continue
+			var outer := x == cx - hw or x == cx + hw - 1 or y == top or y == bottom
+			if not outer and y > top:
+				var above: int = spans[y - 1]
+				outer = x < cx - above or x >= cx + above
+			var col := sheet
+			if outer:
+				col = edge
+			elif x >= cx + hw - 2 or y >= bottom - 1:
+				col = shade
+			_put_px(out, ox + x, oy + y, col)
+	var eye := Color8(30, 26, 40)
+	var ey := top + 3
+	match facing:
+		0:
+			for dy in 2:
+				_put_px(out, ox + cx - 2, oy + ey + dy, eye)
+				_put_px(out, ox + cx + 1, oy + ey + dy, eye)
+		1:
+			for dy in 2:
+				_put_px(out, ox + cx + 2, oy + ey + dy, eye)
+		3:
+			for dy in 2:
+				_put_px(out, ox + cx - 3, oy + ey + dy, eye)
+
+
+## A pointed black witch's hat with a purple band, on top of the head.
+static func _witch_hat(out: Image, ox: int, oy: int, fw: int, y0: int, cx: int) -> void:
+	var hat := Color8(40, 30, 52)
+	var band := Color8(126, 70, 170)
+	# Pulled down low, so the point stays inside the frame.
+	var brim := y0 + 4
+	for x in range(cx - 6, cx + 6):
+		if x >= 0 and x < fw:
+			_put_px(out, ox + x, oy + brim, hat)
+	var widths := [8, 6, 4, 3, 2]
+	for k in widths.size():
+		var wd: int = widths[k]
+		var y := brim - 1 - k
+		var shift := 1 if k >= 3 else 0
+		for x in range(cx - wd / 2 + shift, cx - wd / 2 + wd + shift):
+			if x >= 0 and x < fw:
+				_put_px(out, ox + x, oy + y, band if k == 0 else hat)
 
 
 ## Night and season: lit pictures and glowing windows at night, seasonal

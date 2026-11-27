@@ -621,7 +621,7 @@
   {
    "id": "lyle_07",
    "speaker": "lyle",
-   "text": "Spring! The Thaw Fair is coming. It'll be exactly as nice as last year. I'm very excited.",
+   "text": "Spring! Lantern Night is coming. It'll be exactly as nice as last year. I'm very excited.",
    "season": "spring"
   },
   {
@@ -1011,7 +1011,7 @@
   {
    "id": "lyle_14",
    "speaker": "lyle",
-   "text": "I'm drafting a speech for the Thaw Fair. It's about the importance of thawing."
+   "text": "I'm drafting a speech for Lantern Night. It's about the importance of creeks."
   },
   {
    "id": "lyle_15",
@@ -1166,90 +1166,6 @@
    "speaker": "rosa",
    "text": "Mijo says you've got a lot of friends. Very good friends. Hmm.",
    "notice_many": true,
-   "_4b": "4b"
-  },
-  {
-   "id": "wren_fest_thaw_fair",
-   "speaker": "wren",
-   "text": "I made a coffee cake shaped like the bandstand. It collapsed. Like the real one won't.",
-   "festival": "thaw_fair",
-   "_4b": "4b"
-  },
-  {
-   "id": "rosa_fest_thaw_fair",
-   "speaker": "rosa",
-   "text": "I'm judging! I'm very strict. I'm going to cry at everything.",
-   "festival": "thaw_fair",
-   "_4b": "4b"
-  },
-  {
-   "id": "teo_fest_thaw_fair",
-   "speaker": "teo",
-   "text": "Mom made me enter my guitar. It's not even a thing I made. Well, I tuned it.",
-   "festival": "thaw_fair",
-   "_4b": "4b"
-  },
-  {
-   "id": "marge_fest_thaw_fair",
-   "speaker": "marge",
-   "text": "Seeds at the stall are half price till noon. Don't tell Bev.",
-   "festival": "thaw_fair",
-   "_4b": "4b"
-  },
-  {
-   "id": "nell_fest_thaw_fair",
-   "speaker": "nell",
-   "text": "Every year I enter a rock. Every year it doesn't win. It's a very good rock.",
-   "festival": "thaw_fair",
-   "_4b": "4b"
-  },
-  {
-   "id": "agnes_fest_thaw_fair",
-   "speaker": "agnes",
-   "text": "The fair's been held here every spring since the railway didn't come. I've the minutes to prove it.",
-   "festival": "thaw_fair",
-   "_4b": "4b"
-  },
-  {
-   "id": "bev_fest_thaw_fair",
-   "speaker": "bev",
-   "text": "I'm not entering. I'm watching what people enter. For business reasons.",
-   "festival": "thaw_fair",
-   "_4b": "4b"
-  },
-  {
-   "id": "gus_fest_thaw_fair",
-   "speaker": "gus",
-   "text": "Birdhouse.",
-   "festival": "thaw_fair",
-   "_4b": "4b"
-  },
-  {
-   "id": "sol_fest_thaw_fair",
-   "speaker": "sol",
-   "text": "I entered a painting of last year's fair. I painted it from memory. Badly.",
-   "festival": "thaw_fair",
-   "_4b": "4b"
-  },
-  {
-   "id": "lyle_fest_thaw_fair",
-   "speaker": "lyle",
-   "text": "Welcome, welcome! Another perfectly ordinary Thaw Fair. My favourite kind.",
-   "festival": "thaw_fair",
-   "_4b": "4b"
-  },
-  {
-   "id": "esme_fest_thaw_fair",
-   "speaker": "esme",
-   "text": "Enter something you love. The judges can tell. So can I.",
-   "festival": "thaw_fair",
-   "_4b": "4b"
-  },
-  {
-   "id": "pip_fest_thaw_fair",
-   "speaker": "pip",
-   "text": "I entered a drawing of a footprint. It's the best one yet. Grandma helped with the toes.",
-   "festival": "thaw_fair",
    "_4b": "4b"
   },
   {
@@ -1421,88 +1337,172 @@
    "_4b": "4b"
   },
   {
-   "id": "wren_fest_long_night",
+   "id": "wren_fest_midsummer",
    "speaker": "wren",
-   "text": "Cocoa's free tonight. Don't tell anyone, they'll all want some. They're all having some.",
-   "festival": "long_night",
-   "_4b": "4b"
+   "text": "Iced coffee tonight. It's Midsummer. I'm a different person at Midsummer.",
+   "festival": "midsummer",
+   "_086": "0.8.6"
   },
   {
-   "id": "rosa_fest_long_night",
+   "id": "rosa_fest_midsummer",
    "speaker": "rosa",
-   "text": "The longest night, and then every day gets a bit longer. I love that. Like soup getting warmer.",
-   "festival": "long_night",
-   "_4b": "4b"
+   "text": "Every year the moose gets bigger. Every year I say it's too big. It's the right size. Burn it.",
+   "festival": "midsummer",
+   "_086": "0.8.6"
   },
   {
-   "id": "teo_fest_long_night",
+   "id": "teo_fest_midsummer",
    "speaker": "teo",
-   "text": "I brought a page of old verses to burn. For luck. Mostly to get rid of them.",
-   "festival": "long_night",
-   "_4b": "4b"
+   "text": "I wrote a song about the moose. It's mostly about the moose. A little about me.",
+   "festival": "midsummer",
+   "_086": "0.8.6"
   },
   {
-   "id": "marge_fest_long_night",
+   "id": "marge_fest_midsummer",
    "speaker": "marge",
-   "text": "Coat's buttoned? Good. Hat? Good. Sit closer, then.",
-   "festival": "long_night",
-   "_4b": "4b"
+   "text": "Bucket of water by every bench. I've said it every year for thirty years.",
+   "festival": "midsummer",
+   "_086": "0.8.6"
   },
   {
-   "id": "nell_fest_long_night",
+   "id": "nell_fest_midsummer",
    "speaker": "nell",
-   "text": "I'm burning last year's trip map. Not because I gave up. Because I'm drawing a better one.",
-   "festival": "long_night",
-   "_4b": "4b"
+   "text": "I tucked my trip map into its hoof. Not to give up on it. So it gets there first.",
+   "festival": "midsummer",
+   "_086": "0.8.6"
   },
   {
-   "id": "agnes_fest_long_night",
+   "id": "agnes_fest_midsummer",
    "speaker": "agnes",
-   "text": "Sit down, sit down. The story starts when the fire's ready. The fire will let me know.",
-   "festival": "long_night",
-   "_4b": "4b"
+   "text": "Sit down, sit down. The story starts when the moose falls. The moose will let me know.",
+   "festival": "midsummer",
+   "_086": "0.8.6"
   },
   {
-   "id": "bev_fest_long_night",
+   "id": "bev_fest_midsummer",
    "speaker": "bev",
-   "text": "I brought a receipt to burn. Don't ask whose. It's for luck, financially.",
-   "festival": "long_night",
-   "_4b": "4b"
+   "text": "Gus wove the frame. I sold him the willow. Everyone wins at Midsummer.",
+   "festival": "midsummer",
+   "_086": "0.8.6"
   },
   {
-   "id": "gus_fest_long_night",
+   "id": "gus_fest_midsummer",
    "speaker": "gus",
-   "text": "Good fire. Good wood.",
-   "festival": "long_night",
-   "_4b": "4b"
+   "text": "Good willow. Good moose.",
+   "festival": "midsummer",
+   "_086": "0.8.6"
   },
   {
-   "id": "sol_fest_long_night",
+   "id": "sol_fest_midsummer",
    "speaker": "sol",
    "text": "Firelight makes everyone look like an old painting. Look at the mayor. A masterpiece.",
-   "festival": "long_night",
-   "_4b": "4b"
+   "festival": "midsummer",
+   "_086": "0.8.6"
   },
   {
-   "id": "lyle_fest_long_night",
+   "id": "lyle_fest_midsummer",
    "speaker": "lyle",
-   "text": "The Long Night! Our longest-running tradition, if you measure by darkness.",
-   "festival": "long_night",
-   "_4b": "4b"
+   "text": "Midsummer! The night we set fire to an enormous moose. Entirely normal. A lovely tradition.",
+   "festival": "midsummer",
+   "_086": "0.8.6"
   },
   {
-   "id": "esme_fest_long_night",
+   "id": "esme_fest_midsummer",
    "speaker": "esme",
-   "text": "Watch the sparks. Some of them go up. Some of them go east.",
-   "festival": "long_night",
-   "_4b": "4b"
+   "text": "Watch the sparks. Most go up. Some go off towards the tower road.",
+   "festival": "midsummer",
+   "_086": "0.8.6"
   },
   {
-   "id": "pip_fest_long_night",
+   "id": "pip_fest_midsummer",
    "speaker": "pip",
-   "text": "I'm burning a drawing of a monster so it won't come back. It's a friendly monster though. Just to be safe.",
-   "festival": "long_night",
-   "_4b": "4b"
+   "text": "I made a wish tag for the moose. I hope it doesn't mind. I said sorry on the back.",
+   "festival": "midsummer",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "wren_fest_samhain",
+   "speaker": "wren",
+   "text": "I'm a witch tonight. A coffee witch. Ask me about my potions. They're all coffee.",
+   "festival": "samhain",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "rosa_fest_samhain",
+   "speaker": "rosa",
+   "text": "I'm judging the pumpkins! I'm very strict. I'm going to cry at all of them.",
+   "festival": "samhain",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "teo_fest_samhain",
+   "speaker": "teo",
+   "text": "I'm a skeleton. It's a metaphor. Mom says it's a onesie.",
+   "festival": "samhain",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "marge_fest_samhain",
+   "speaker": "marge",
+   "text": "My costume is warm, practical, and a skeleton. Mind the bowls, they tip.",
+   "festival": "samhain",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "nell_fest_samhain",
+   "speaker": "nell",
+   "text": "Every year I'm a witch. Every year Pip says I'm the best one. Pip's very fair.",
+   "festival": "samhain",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "agnes_fest_samhain",
+   "speaker": "agnes",
+   "text": "Samhain's the old name. The year turns tonight. Mind what you say near the door.",
+   "festival": "samhain",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "bev_fest_samhain",
+   "speaker": "bev",
+   "text": "Sweets are free. The bowls are for sale. Ask me after.",
+   "festival": "samhain",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "gus_fest_samhain",
+   "speaker": "gus",
+   "text": "Town hall. In a pumpkin. Took a week.",
+   "festival": "samhain",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "sol_fest_samhain",
+   "speaker": "sol",
+   "text": "I'm a ghost. I cut the eyes too high. I can see the stars and nothing else. It's lovely.",
+   "festival": "samhain",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "lyle_fest_samhain",
+   "speaker": "lyle",
+   "text": "Welcome, welcome! A perfectly ordinary Samhain. My favourite kind of ordinary: spooky.",
+   "festival": "samhain",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "esme_fest_samhain",
+   "speaker": "esme",
+   "text": "Carve something you love. The candle can tell. So can I.",
+   "festival": "samhain",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "pip_fest_samhain",
+   "speaker": "pip",
+   "text": "I'm a ghost! Boo! That's the whole costume. Grandma did the eye holes.",
+   "festival": "samhain",
+   "_086": "0.8.6"
   }
  ]
 }

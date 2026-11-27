@@ -52,6 +52,8 @@ func x_hint() -> String:
 	var nf := s.wildlife.night_find_in_reach(s.outdoor_pos, reach)
 	if nf != "":
 		return _t("hint_x_" + nf.get_slice(":", 0))
+	if s.wildlife.feather_in_reach(s.outdoor_pos, reach) >= 0:
+		return _t("hint_x_feather")
 	var js := s.jobs.spot_in_reach("x", s.outdoor_pos, reach)
 	if js != "":
 		return _t(str(s.jobs.spot_row(js)["verb"]))

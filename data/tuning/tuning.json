@@ -1141,6 +1141,8 @@
     "dawn_dusk_minutes": 75,
     "home_radius": 6,
     "home_search_tiles": 34,
+    "feather_chance": 0.35,
+    "fly_lift_px": 6,
     "spawn_near_tiles": 40,
     "slow_walk_speed": 0.5,
     "slow_walk_shy": 0.5,

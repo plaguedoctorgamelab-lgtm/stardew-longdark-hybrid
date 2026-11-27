@@ -9,12 +9,17 @@ extends RefCounted
 ## to the festival's end. Skipping one costs nothing; it comes round next
 ## year, with its stall's stock a little different.
 ##
-## Each festival has one gentle activity, chosen at its spot with X:
-## - The Thaw Fair: enter one thing made, grown or found; the judges praise it.
-## - Lantern Night: choose a lantern's colour and a wish; someone answers it.
-## - The Big Foot Supper: judge the look-alike contest; the supper table
-##   restores full energy and warmth.
-## - The Long Night: give the fire something for luck; then Agnes's story.
+## Each festival has a gentle activity, chosen at its spot with X (the
+## festival year was reworked in 0.8.6):
+## - Spring, Lantern Night: choose a lantern's colour and a wish; someone
+##   answers it.
+## - Summer, Midsummer: tuck something into the wicker moose for luck; it's
+##   lit, and then Agnes tells a story. Everyone wears a flower crown.
+## - Autumn, Samhain: carve a pumpkin (one you grew yourself wins Best
+##   Pumpkin), bob for apples, and take sweets from the bowls. The town is in
+##   costume.
+## - Winter, the Big Foot Supper: judge the look-alike contest; the supper
+##   table restores full energy and warmth.
 
 var _s: WeakRef
 var content: ContentDB
@@ -35,9 +40,15 @@ func s() -> GameSession:
 
 
 ## What the ranger wears on top for the festival on now: the judge's sash
-## at the Big Foot Supper (Mark's Art Request 23, facing down only).
+## at the Big Foot Supper (Mark's Art Request 23, facing down only), a
+## flower crown at Midsummer.
 func overlay() -> String:
-	return "ranger_wear_sash" if active == "big_foot_supper" else ""
+	match active:
+		"big_foot_supper":
+			return "ranger_wear_sash"
+		"midsummer":
+			return "ranger_wear_crown"
+	return ""
 
 
 func row(id: String) -> Dictionary:
@@ -126,7 +137,7 @@ func end() -> void:
 ## Where a person stands at the festival: the contest's line-up at the Big
 ## Foot Supper, otherwise their own spot round the square.
 func spot_of(person: String) -> Vector2i:
-	var r := row(active if active != "" else str(today().get("id", "thaw_fair")))
+	var r := row(active if active != "" else str(today().get("id", content.ids("festivals")[0])))
 	var cont: Array = r.get("contestants", [])
 	if cont.has(person):
 		var c: Array = r["contest_spots"][cont.find(person)]
@@ -140,6 +151,30 @@ func spot_of(person: String) -> Vector2i:
 ## Whether a person is in the Bigfoot suit now.
 func in_suit(person: String) -> bool:
 	return active == "big_foot_supper" and (row(active).get("contestants", []) as Array).has(person)
+
+
+## A person's Samhain costume now ("ghost", "witch", "skeleton"), or "".
+func costume_of(person: String) -> String:
+	if active == "" or not row(active).has("costumes"):
+		return ""
+	return str((row(active)["costumes"] as Dictionary).get(person, ""))
+
+
+## Whether everyone is in a flower crown now (Midsummer).
+func crowned() -> bool:
+	return active != "" and bool(row(active).get("crowns", false))
+
+
+## The wicker moose today: "" (not Midsummer), "standing" until the ranger
+## has given it something, "burning" from then, "embers" once it's over.
+func moose_stage() -> String:
+	var r := today()
+	if r.is_empty() or not r.has("moose"):
+		return ""
+	var id := str(r["id"])
+	if done.has(_key(id, "gave")):
+		return "burning" if active == id else "embers"
+	return "standing"
 
 
 ## Park visitors double on a festival's weekend and pick up the week before.
@@ -170,12 +205,21 @@ func _near(key: String, pos: Vector2, reach: float = 1.8) -> bool:
 	return pos.distance_to(Vector2(float(p[0]) + 0.5, float(p[1]) + 0.5)) <= reach
 
 
-## What X does at the festival here: "activity", "stall", "supper" or "".
+## What X does at the festival here: "activity", "stall", "supper",
+## "apples", "sweets:<bowl>" or "".
 func spot_here(pos: Vector2) -> String:
 	if _near("supper", pos, 2.2):
 		return "supper"
 	if _near("activity", pos, 2.0):
 		return "activity"
+	if _near("apples", pos, 1.6):
+		return "apples"
+	if active != "":
+		var bowls: Array = row(active).get("sweets", [])
+		for i in bowls.size():
+			var b: Array = bowls[i]
+			if pos.distance_to(Vector2(float(b[0]) + 0.5, float(b[1]) + 0.5)) <= 1.4:
+				return "sweets:%d" % i
 	if _near("stall", pos, 2.0):
 		return "stall"
 	return ""
@@ -220,20 +264,13 @@ func buy(item: String) -> void:
 func activity() -> Dictionary:
 	var g := s()
 	match active:
-		"thaw_fair":
-			if done.has(_key(active, "entry")):
-				return {"text": content.text("fest_thaw_done")}
+		"samhain":
+			if done.has(_key(active, "carved")):
+				return {"text": content.text("fest_carve_done")}
 			var opts := []
-			var seen := {}
-			for i in g.backpack.slots.size():
-				var item := g.backpack.item_at(i)
-				if item == "" or seen.has(item) or category(item) == "":
-					continue
-				seen[item] = true
-				opts.append({"id": item, "label": content.item_name(item)})
-			if opts.is_empty():
-				return {"text": content.text("fest_thaw_nothing")}
-			return {"kind": "fest:entry", "title": content.text("fest_thaw_title"), "options": opts}
+			for f: Variant in row(active)["faces"]:
+				opts.append({"id": str(f), "label": content.text("face_" + str(f))})
+			return {"kind": "fest:carve", "title": content.text("fest_carve_title"), "options": opts}
 		"lantern_night":
 			if not done.has(_key(active, "colour")):
 				var opts := []
@@ -253,7 +290,7 @@ func activity() -> Dictionary:
 			for p: Variant in row(active)["contestants"]:
 				opts.append({"id": str(p), "label": "%s: %s" % [g.shops.first_name(str(p)), content.text("bigfoot_" + str(p))]})
 			return {"kind": "fest:winner", "title": content.text("fest_bigfoot_title"), "options": opts}
-		"long_night":
+		"midsummer":
 			if done.has(_key(active, "gave")):
 				return {"text": content.text("fest_bonfire_done")}
 			var opts := [{"id": "_word", "label": content.text("fest_bonfire_word")}]
@@ -268,32 +305,27 @@ func activity() -> Dictionary:
 	return {}
 
 
-## A Thaw Fair entry's kind, for the judges: "crop", "food" (cooked),
-## "made" (crafted), "find" (from the park), "other", or "" if it can't be
-## entered (tools, kits, pages).
-func category(item: String) -> String:
-	if not content.has("items", item):
-		return ""
-	var kind := str(content.row("items", item)["kind"])
-	if kind in ["tool", "kit", "page", "favor", "furniture", "wallpaper", "flooring", "seed", "romance"]:
-		return ""
-	if kind == "crop":
-		return "crop"
-	var made := false
-	for r: Dictionary in content.rows("recipes"):
-		if str((r["result"] as Dictionary).get("item", "")) == item:
-			made = true
-			if str(r["station"]) == "fire":
-				return "food"
-	if made:
-		return "made"
-	if kind in ["magic", "keepsake"] or content.has("forage", item):
-		return "find"
-	return "other"
+## Samhain's apple bobbing: the choice of apple, once a year.
+func apples() -> Dictionary:
+	if done.has(_key(active, "apples")):
+		return {"text": content.text("fest_apples_done")}
+	var opts := []
+	for k: String in ["red", "green", "deep"]:
+		opts.append({"id": k, "label": content.text("apple_" + k)})
+	return {"kind": "fest:apples", "title": content.text("fest_apples_title"), "options": opts}
 
 
-func score(item: String) -> float:
-	return float({"crop": 4.0, "food": 4.0, "made": 3.0, "find": 3.0, "other": 1.0}.get(category(item), 0.0))
+## Trick or treat: a handful of sweets from each bowl, once a year.
+func sweets(bowl: int) -> String:
+	var g := s()
+	var k := _key(active, "sweets%d" % bowl)
+	if done.has(k):
+		return content.text("fest_sweets_done")
+	if g.backpack.room_for("sweets") < 1:
+		return content.text("shop_no_room")
+	done[k] = true
+	g.backpack.add("sweets", 1)
+	return content.text("fest_sweets")
 
 
 ## Answers a pick. Returns the lines to show (several paragraphs).
@@ -301,21 +333,35 @@ func choose(kind: String, option: String) -> String:
 	var g := s()
 	var out := PackedStringArray()
 	match kind:
-		"fest:entry":
-			var cat := category(option)
-			if cat == "":
+		"fest:carve":
+			if not (row(active)["faces"] as Array).has(option):
 				return ""
-			done[_key(active, "entry")] = option
+			done[_key(active, "carved")] = option
+			# A pumpkin the ranger grew wins Best Pumpkin; the town's own
+			# pumpkins get kind words.
+			var own := g.backpack.has("pumpkin")
+			if own:
+				g.backpack.remove("pumpkin", 1)
+			out.append(content.text("fest_carve_own" if own else "fest_carve_town"))
 			for j: Variant in row(active)["judges"]:
-				out.append("%s: %s" % [g.shops.first_name(str(j)), content.text("judge_%s_%s" % [j, cat])])
+				out.append("%s: %s" % [g.shops.first_name(str(j)), content.text("judge_%s_face_%s" % [j, option])])
 				g.town.add_points(str(j), tuning.integer("festivals.judge_points"))
-			out.append(content.text("fest_thaw_rival"))
-			if score(option) >= tuning.num("festivals.admired_score") and score(option) > tuning.num("festivals.rival_score"):
-				out.append(content.text("fest_thaw_win", {"item": content.item_name(option).to_lower()}))
+			out.append(content.text("fest_carve_rival"))
+			if own:
+				out.append(content.text("fest_carve_win"))
 				g.park.money.earn(g.clock.absolute_day(), "budget", int(row(active)["prize_money"]))
 				prize()
 			else:
-				out.append(content.text("fest_thaw_lose"))
+				out.append(content.text("fest_carve_lose"))
+			out.append(content.text("fest_carve_keep"))
+			g.life.give_keepsake("decor_jack_" + option)
+		"fest:apples":
+			if done.has(_key(active, "apples")):
+				return ""
+			done[_key(active, "apples")] = option
+			out.append(content.text("fest_apples_" + option))
+			if g.backpack.room_for("apple") >= 1:
+				g.backpack.add("apple", 1)
 		"fest:colour":
 			done[_key(active, "colour")] = option
 			return content.text("fest_lantern_set", {"colour": content.text("lantern_" + option).to_lower()})
@@ -356,7 +402,7 @@ func _answerer() -> String:
 	return best
 
 
-## The Long Night's story this year: a new one each year, then round again.
+## Midsummer's story this year: a new one each year, then round again.
 func story_id() -> String:
 	var n := 0
 	while content.has("text", "fest_story_%d" % (n + 1)):

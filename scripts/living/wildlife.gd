@@ -27,6 +27,11 @@ extends RefCounted
 ##
 ## After dark: moonflowers open on meadows, and for each site open a short
 ## path of glowing stones leads to a glowing spot with something to find.
+##
+## 0.8.6, birds: crows, owls, blue jays and cardinals have homes like the
+## animals, with a starry crow and a three-eyed owl now and then among
+## them. Birds fly (over anything) when they move, and one that flies off
+## from the ranger sometimes leaves a feather behind, to pick up that day.
 
 signal guide_changed
 signal sketched(kind: String)
@@ -49,6 +54,7 @@ var _phase: String = ""
 var _seen_badger: Dictionary = {}
 var flowers: Array[Vector2i] = []
 var paths: Array = []           # [{stones: Array[Vector2i], spot: Vector2i, site}]
+var feathers: Array = []        # today's dropped feathers: {pos: Vector2, item}
 
 
 func _init(session: GameSession) -> void:
@@ -67,6 +73,21 @@ func row(id: String) -> Dictionary:
 
 func kinds(kind: String) -> Array:
 	return content.rows("animals").filter(func(r: Dictionary) -> bool: return str(r["kind"]) == kind)
+
+
+## The kinds that have homes of their own: the animals and the ordinary
+## birds (a magic bird lives among its ordinary cousins).
+func home_kinds() -> Array:
+	return content.rows("animals").filter(func(r: Dictionary) -> bool: return str(r["kind"]) == "animal" or (str(r["kind"]) == "bird" and str(r["cousin_of"]) == ""))
+
+
+## The strange ones that turn up among a kind: its cousins and magic birds.
+func cousins_of(id: String) -> Array:
+	return content.rows("animals").filter(func(r: Dictionary) -> bool: return str(r["kind"]) in ["cousin", "bird"] and str(r.get("cousin_of", "")) == id)
+
+
+func flies(id: String) -> bool:
+	return bool(row(id).get("flies", false))
 
 
 # --- time of day ---------------------------------------------------------------------
@@ -130,7 +151,8 @@ func morning() -> void:
 	_day = g.clock.absolute_day()
 	animals = []
 	homes = {}
-	for r: Dictionary in kinds("animal"):
+	feathers = []
+	for r: Dictionary in home_kinds():
 		var rng := _rng(str(r["id"]))
 		var list: Array = []
 		for i in int(r["homes"]):
@@ -222,7 +244,7 @@ func _turn_out(ph: String) -> void:
 	var have := {}
 	for a: Dictionary in animals:
 		have[str(a["id"]) + "@" + str(a["home"])] = true
-	for r: Dictionary in kinds("animal"):
+	for r: Dictionary in home_kinds():
 		if not is_out(r, ph):
 			continue
 		var id := str(r["id"])
@@ -234,8 +256,8 @@ func _turn_out(ph: String) -> void:
 			for k in n:
 				animals.append(_animal(id, id, home, rng))
 			# A strange cousin, now and then, among them.
-			for c: Dictionary in kinds("cousin"):
-				if str(c["cousin_of"]) != id or bool(c.get("park", false)) or not is_out(c, ph):
+			for c: Dictionary in cousins_of(id):
+				if bool(c.get("park", false)) or not is_out(c, ph):
 					continue
 				var ch := float(c["chance"])
 				ch = float((c.get("chance_season", {}) as Dictionary).get(g.clock.season_name(), ch))
@@ -314,13 +336,14 @@ func _move(a: Dictionary, dt: float) -> void:
 	if str(a["state"]) == "flee":
 		a["t"] = float(a["t"]) - dt
 		var away := -to_ranger.normalized() if to_ranger.length() > 0.01 else Vector2.RIGHT
-		_step(a, away, float(r["speed"]) * 1.5 * dt)
+		_step(a, away, float(r["speed"]) * (2.5 if flies(id) else 1.5) * dt)
 		if float(a["t"]) <= 0.0:
 			a["gone_until"] = now + tuning.integer("wildlife.back_after_minutes")
 		return
 	if shy > 0.0 and to_ranger.length() < shy:
 		a["state"] = "flee"
 		a["t"] = tuning.num("wildlife.flee_seconds")
+		_maybe_feather(a)
 		return
 	if float(r.get("shy", 0.0)) <= 0.0 and to_ranger.length() < 2.5:
 		# A bear in the way just looks.
@@ -360,7 +383,7 @@ func _decide(a: Dictionary) -> void:
 func _step(a: Dictionary, dir: Vector2, dist: float) -> void:
 	var g := s()
 	var p := Vector2(a["pos"]) + dir * dist
-	if g.world.in_bounds(Vector2i(p)) and not g.world.is_solid(Vector2i(p)):
+	if g.world.in_bounds(Vector2i(p)) and (flies(str(a["id"])) or not g.world.is_solid(Vector2i(p))):
 		a["pos"] = p
 	elif str(a["state"]) == "walk":
 		a["target"] = a["pos"]
@@ -371,6 +394,47 @@ static func _facing_of(v: Vector2) -> int:
 	if absf(v.x) > absf(v.y):
 		return GameSession.FACING_RIGHT if v.x > 0.0 else GameSession.FACING_LEFT
 	return GameSession.FACING_DOWN if v.y > 0.0 else GameSession.FACING_UP
+
+
+## Whether an animal is in the air now (a bird on the move).
+func in_air(a: Dictionary) -> bool:
+	return flies(str(a["id"])) and str(a["state"]) in ["walk", "flee"]
+
+
+## A bird flying off from the ranger sometimes leaves a feather (one of each
+## kind a day).
+func _maybe_feather(a: Dictionary) -> void:
+	var item := str(row(str(a["id"])).get("feather", ""))
+	if item == "" or not content.has("items", item):
+		return
+	for f: Dictionary in feathers:
+		if str(f["item"]) == item:
+			return
+	var rng := RandomNumberGenerator.new()
+	rng.seed = int(a["seed"]) ^ 0x5eed
+	if rng.randf() < tuning.num("wildlife.feather_chance"):
+		feathers.append({"pos": Vector2(a["pos"]), "item": item})
+
+
+## A feather within reach, by its place in today's list, or -1.
+func feather_in_reach(pos: Vector2, reach: float) -> int:
+	for i in feathers.size():
+		if pos.distance_to(Vector2(feathers[i]["pos"])) <= reach + 0.5:
+			return i
+	return -1
+
+
+func take_feather(i: int) -> bool:
+	var g := s()
+	var item := str(feathers[i]["item"])
+	if g.backpack.room_for(item) < 1:
+		g.message.emit(content.text("msg_backpack_full"))
+		return false
+	g.backpack.add(item, 1)
+	feathers.remove_at(i)
+	g.skills.act("pick")
+	g.message.emit(content.text("feather_taken", {"item": content.item_name(item).to_lower()}))
+	return true
 
 
 ## The sheet frame for an animal now: row by facing, column by state.

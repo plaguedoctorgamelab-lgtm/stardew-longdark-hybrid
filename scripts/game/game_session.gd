@@ -1431,6 +1431,10 @@ func interact() -> void:
 	if nf != "":
 		wildlife.take_night_find(nf)
 		return
+	var fe := wildlife.feather_in_reach(outdoor_pos, reach)
+	if fe >= 0:
+		wildlife.take_feather(fe)
+		return
 	# The garden: pick what's ripe, clear what's withered, or see how it's doing.
 	var gt := garden.faced()
 	if gt.x >= 0:
@@ -5043,6 +5047,16 @@ func _interact_festival() -> bool:
 		"supper":
 			note_read.emit(festivals.supper())
 			return true
+		"apples":
+			var ap := festivals.apples()
+			if ap.has("text"):
+				note_read.emit(str(ap["text"]))
+			else:
+				choice_requested.emit(str(ap["kind"]), str(ap["title"]), ap["options"])
+			return true
+	if spot.begins_with("sweets:"):
+		message.emit(festivals.sweets(int(spot.get_slice(":", 1))))
+		return true
 	return false
 
 

@@ -89,8 +89,8 @@ func test_the_heart_card_tells_the_truth(t: TestCase) -> void:
 
 func test_a_festival_starts_stops_time_and_ends(t: TestCase) -> void:
 	var s := _session()
-	s.debug_start_festival("thaw_fair")
-	t.equal(s.festivals.active, "thaw_fair", "walking into the square starts it")
+	s.debug_start_festival("samhain")
+	t.equal(s.festivals.active, "samhain", "walking into the square starts it")
 	var m := s.clock.minute
 	for i in 50:
 		s.process(1.0)
@@ -100,7 +100,7 @@ func test_a_festival_starts_stops_time_and_ends(t: TestCase) -> void:
 	s.town_pos = Vector2(80.5, 30.5)
 	s.process(0.1)
 	t.equal(s.festivals.active, "", "walking out ends it")
-	t.equal(s.clock.minute, int(s.festivals.row("thaw_fair")["end"]), "the clock jumps to its end")
+	t.equal(s.clock.minute, int(s.festivals.row("samhain")["end"]), "the clock jumps to its end")
 	s.town_pos = Vector2(35.5, 35.5)
 	s.process(0.1)
 	t.equal(s.festivals.active, "", "it doesn't start again")
@@ -139,18 +139,40 @@ func test_skipping_a_festival_costs_nothing(t: TestCase) -> void:
 
 func test_each_activity_gives_its_prize(t: TestCase) -> void:
 	var s := _session()
-	# The Thaw Fair: a grown thing is most admired.
-	s.backpack.add("tomato", 1)
-	s.debug_start_festival("thaw_fair")
+	# Samhain: a pumpkin the ranger grew wins Best Pumpkin.
+	s.backpack.add("pumpkin", 1)
+	s.debug_start_festival("samhain")
 	var a := s.festivals.activity()
-	t.equal(str(a["kind"]), "fest:entry", "the Grand Display asks for an entry")
+	t.equal(str(a["kind"]), "fest:carve", "pumpkin carving asks for a face")
 	var w := s.park.money.wallet
-	var text := s.festivals.choose("fest:entry", "tomato")
+	var text := s.festivals.choose("fest:carve", "moose")
 	t.check(text.contains("Agnes"), "the judges speak")
-	t.equal(s.park.money.wallet, w + 100, "100g for the most admired")
-	t.check(s.have("decor_ribbon_thaw") > 0, "and the ribbon")
-	t.check(s.festivals.activity().has("text"), "one entry")
+	t.equal(s.park.money.wallet, w + 100, "100g for Best Pumpkin")
+	t.check(s.have("decor_ribbon_samhain") > 0, "and the rosette")
+	t.check(s.have("decor_jack_moose") > 0, "and the jack-o'-lantern to keep")
+	t.equal(s.have("pumpkin"), 0, "the pumpkin was carved")
+	t.check(s.festivals.activity().has("text"), "one carving")
+	t.equal(str(s.festivals.apples()["kind"]), "fest:apples", "apple bobbing")
+	s.festivals.choose("fest:apples", "deep")
+	t.check(s.have("apple") > 0, "an apple won")
+	t.check(s.festivals.apples().has("text"), "one go")
+	s.festivals.sweets(0)
+	s.festivals.sweets(0)
+	s.festivals.sweets(1)
+	t.equal(s.have("sweets"), 2, "sweets from each bowl, once")
+	t.equal(s.festivals.costume_of("pip"), "ghost", "Pip is a ghost")
+	t.check(TownView.costume_texture(Art.texture("npc_pip"), "ghost") != null, "a ghost sheet for Pip")
 	s.festivals.end()
+	t.equal(s.festivals.costume_of("pip"), "", "costumes off after")
+	# The town's own pumpkin: kind words, no prize.
+	s.clock.year = 2
+	s.debug_start_festival("samhain")
+	w = s.park.money.wallet
+	s.festivals.choose("fest:carve", "cat")
+	t.equal(s.park.money.wallet, w, "no prize for a town pumpkin")
+	t.check(s.have("decor_jack_cat") > 0, "but you keep the carving")
+	s.festivals.end()
+	s.clock.year = 1
 	# Lantern Night: a colour, a wish, a kind word, a lantern.
 	s.debug_start_festival("lantern_night")
 	t.equal(str(s.festivals.activity()["kind"]), "fest:colour", "a colour first")
@@ -175,32 +197,39 @@ func test_each_activity_gives_its_prize(t: TestCase) -> void:
 	t.check(Art.has_picture("ranger_wear_sash"), "Mark's sash is drawn")
 	s.festivals.end()
 	t.equal(s.festivals.overlay(), "", "and off again after the supper")
-	# The Long Night: give the fire something; Agnes's story goes in the notebook.
-	s.debug_start_festival("long_night")
+	# Midsummer: give the wicker moose something; it burns; Agnes's story
+	# goes in the notebook.
+	s.debug_start_festival("midsummer")
+	t.equal(s.festivals.moose_stage(), "standing", "the moose stands")
+	t.check(s.festivals.crowned(), "flower crowns on")
+	t.equal(s.festivals.overlay(), "ranger_wear_crown", "the ranger's too")
 	var notes := s.park.notes.size()
 	var story := s.festivals.choose("fest:gave", "_word")
 	t.check(story.contains(s.content.text("fest_story_1")), "year one's story")
 	t.equal(s.park.notes.size(), notes + 1, "added to the notebook")
-	t.check(s.have("decor_blanket") > 0, "the blanket")
+	t.check(s.have("decor_wicker_moose") > 0, "the little wicker moose")
+	t.equal(s.festivals.moose_stage(), "burning", "and it burns")
+	s.festivals.end()
+	t.equal(s.festivals.moose_stage(), "embers", "embers after")
 	s.clock.year = 2
 	t.equal(s.festivals.story_id(), "fest_story_2", "a different story next year")
 
 
 func test_festival_lines_and_stall(t: TestCase) -> void:
 	var s := _session()
-	s.debug_start_festival("thaw_fair")
+	s.debug_start_festival("samhain")
 	for id: String in s.content.ids("townsfolk"):
 		var line := s.town.choose_line(id, false)
-		t.equal(str(line.get("festival", "")), "thaw_fair", "%s has a Thaw Fair line" % id)
+		t.equal(str(line.get("festival", "")), "samhain", "%s has a Samhain line" % id)
 	var opts := s.festivals.stall_options()
 	t.check(opts.size() > 2, "the stall sells things")
 	s.clock.year = 2
-	t.check(str(s.festivals.stall_stock()[0]["item"]) != str(s.festivals.row("thaw_fair")["sells"][0]["item"]), "and different things next year")
+	t.check(str(s.festivals.stall_stock()[0]["item"]) != str(s.festivals.row("samhain")["sells"][0]["item"]), "and different things next year")
 
 
 func test_festival_weekends_bring_visitors(t: TestCase) -> void:
 	var s := _session()
-	var r := s.festivals.row("thaw_fair")
+	var r := s.festivals.row("lantern_night")
 	s.clock.season = 0
 	s.clock.day = int(r["day"])
 	t.check(s.festivals.visitor_mult() > 1.0, "the festival's day is busy")
@@ -477,9 +506,8 @@ func test_everything_saves_and_loads_exactly(t: TestCase) -> void:
 	s.life.dating["sol"] = true
 	s.life.mail_gifts.append(["sol", "painted_stone"])
 	s.fortune.reading(true)
-	s.debug_start_festival("thaw_fair")
-	s.backpack.add("apple", 1)
-	s.festivals.choose("fest:entry", "apple")
+	s.debug_start_festival("lantern_night")
+	s.festivals.choose("fest:colour", "green")
 	s.festivals.end()
 	s.debug_finish_upgrade()
 	s.debug_finish_upgrade()
@@ -502,7 +530,7 @@ func test_everything_saves_and_loads_exactly(t: TestCase) -> void:
 	t.equal(s2.life.mail_gifts.size(), 1, "the mailbox gift")
 	t.equal(s2.fortune.paths.size(), s.fortune.paths.size(), "Esme's circles")
 	t.equal(s2.fortune.read_day, s.fortune.read_day, "today's reading")
-	t.check(s2.festivals.been_this_year("thaw_fair"), "festivals been to")
+	t.check(s2.festivals.been_this_year("lantern_night"), "festivals been to")
 	t.equal(s2.home.level, 2, "the upgrades")
 	t.equal(s2.home.placed.size(), 1, "the furniture placed")
 	t.equal(s2.home.pantry.count("tomato"), 3, "the pantry")

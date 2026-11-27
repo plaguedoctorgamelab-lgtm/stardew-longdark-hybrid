@@ -3,6 +3,7 @@
   "rows": [
     {"id": "tin_of_beans", "item": "tin_of_beans", "energy": 60, "warmth": 0},
     {"id": "apple", "item": "apple", "energy": 25, "warmth": 0},
+    {"id": "sweets", "item": "sweets", "energy": 10, "warmth": 0},
     {"id": "sandwich", "item": "sandwich", "energy": 50, "warmth": 0},
     {"id": "berries", "item": "berries", "energy": 10, "warmth": 0, "raw": true},
     {"id": "hazelnuts", "item": "hazelnuts", "energy": 8, "warmth": 0, "raw": true},

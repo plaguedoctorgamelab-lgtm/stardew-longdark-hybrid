@@ -14,6 +14,8 @@ var _pet: Sprite2D
 var _bowl: Sprite2D
 var _night: Array = []           # flowers, stones and spots
 var _night_key: String = ""
+var _feathers: Array = []        # today's dropped feathers
+var _feather_key: String = ""
 var _flies: Node2D
 var _time: float = 0.0
 
@@ -53,6 +55,7 @@ func _process(delta: float) -> void:
 	_draw_animals(outside)
 	_draw_pet(outside)
 	_draw_night(outside)
+	_draw_feathers(outside)
 	_flies.queue_redraw()
 
 
@@ -80,6 +83,9 @@ func _draw_animals(outside: bool) -> void:
 			spr.frame_coords = fr
 			spr.flip_h = int(a["facing"]) == GameSession.FACING_LEFT
 			spr.offset = Vector2(-fw / 2.0, -fh)
+			# A bird on the wing is drawn a little above the ground.
+			if session.wildlife.in_air(a):
+				spr.offset.y -= session.tuning.num("wildlife.fly_lift_px")
 			spr.position = (Vector2(a["pos"]) * TILE).round()
 			if _glows.has(key):
 				var gl: Sprite2D = _glows[key]
@@ -149,6 +155,29 @@ func _draw_night(outside: bool) -> void:
 			_night.append(st)
 		if night:
 			_night.append(_put(str(gr["sprite"]), w.paths[i]["spot"]))
+
+
+## Feathers left by birds that flew off, lying where they fell.
+func _draw_feathers(outside: bool) -> void:
+	var w := session.wildlife
+	var key := "%s:%d:%d" % [outside, w.feathers.size(), session.clock.absolute_day()]
+	if key == _feather_key:
+		return
+	_feather_key = key
+	for n: Node in _feathers:
+		n.queue_free()
+	_feathers = []
+	if not outside:
+		return
+	for f: Dictionary in w.feathers:
+		var art := str(session.content.row("items", str(f["item"]))["icon"])
+		if not Art.has_picture(art):
+			continue
+		var spr := _put(art, Vector2i(f["pos"]))
+		spr.scale = Vector2(0.5, 0.5)
+		spr.position = (Vector2(f["pos"]) * TILE).round() + Vector2(0, 4)
+		spr.z_index = -2
+		_feathers.append(spr)
 
 
 func _put(art: String, t: Vector2i) -> Sprite2D:

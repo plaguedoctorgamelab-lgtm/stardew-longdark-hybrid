@@ -5894,7 +5894,7 @@
   },
   {
    "id": "town_notice_board",
-   "text": "The Humdrum notice board. A lost glove, a lost cat (found), the Thaw Fair's date, and a card that says: \"Odd jobs? Ask in person.\" Favors will be pinned here soon."
+   "text": "The Humdrum notice board. A lost glove, a lost cat (found), Lantern Night's date, and a card that says: \"Odd jobs? Ask in person.\" Favors will be pinned here soon."
   },
   {
    "id": "town_door_home",
@@ -7368,7 +7368,7 @@
   },
   {
    "id": "fv_board_none",
-   "text": "Nothing new pinned up today. The Thaw Fair poster, a lost cat (found), and a card: \"Odd jobs? Ask in person.\""
+   "text": "Nothing new pinned up today. The Lantern Night poster, a lost cat (found), and a card: \"Odd jobs? Ask in person.\""
   },
   {
    "id": "fv_ask",
@@ -8918,27 +8918,27 @@
   },
   {
    "id": "fest_bonfire_title",
-   "text": "The Bonfire: what will you give the fire, for luck?",
+   "text": "The Wicker Moose: what will you tuck into it, for luck?",
    "_4b": "4b"
   },
   {
    "id": "fest_bonfire_word",
-   "text": "A kind word for the year",
+   "text": "A wish on a paper tag",
    "_4b": "4b"
   },
   {
    "id": "fest_bonfire_gave",
-   "text": "You give the fire your {item}. It flares bright, and the town says \"luck!\" together.",
+   "text": "You tuck your {item} into the wicker moose. At dusk the mayor lights it, and the whole town says \"luck!\" together.",
    "_4b": "4b"
   },
   {
    "id": "fest_bonfire_gave_word",
-   "text": "You say your kind word into the fire. It crackles, as if pleased. \"Luck!\" says everyone.",
+   "text": "You write a wish on a paper tag and tie it to the moose's knee. At dusk it's lit, and everyone says \"luck!\" together.",
    "_4b": "4b"
   },
   {
    "id": "fest_bonfire_done",
-   "text": "Agnes's story is told. The fire burns low and friendly.",
+   "text": "The wicker moose burns tall and bright. The fireflies keep a polite distance.",
    "_4b": "4b"
   },
   {
@@ -10759,6 +10759,426 @@
    "id": "item_desc_creature_gift",
    "text": "Leaves tied with grass, left on a step by someone shy. Gifts & Notions will buy it.",
    "placeholder": true
+  },
+  {
+   "id": "fest_midsummer",
+   "text": "Midsummer",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "fest_samhain",
+   "text": "Samhain",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "fest_carve_title",
+   "text": "Pumpkin carving: what face will you carve?",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "face_friendly",
+   "text": "A friendly grin",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "face_spooky",
+   "text": "A spooky scowl",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "face_silly",
+   "text": "A silly wink",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "face_cat",
+   "text": "A cat",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "face_moose",
+   "text": "A moose",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "fest_carve_own",
+   "text": "You carve the pumpkin you grew yourself. It's lopsided in exactly the right places.",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "fest_carve_town",
+   "text": "You carve one of the town's pumpkins from the pile.",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "fest_carve_rival",
+   "text": "Gus carves a pumpkin into a perfect little town hall, with a candle in every window. Of course he does.",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "fest_carve_win",
+   "text": "The mayor clears his throat. \"Best Pumpkin: the ranger's, grown right here!\" You win the rosette and 100g.",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "fest_carve_lose",
+   "text": "\"Best Pumpkin: Gus's town hall!\" Rosa whispers that yours was her favourite. \"Grow your own next year,\" says Agnes. \"The judges notice.\"",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "fest_carve_keep",
+   "text": "You keep your jack-o'-lantern, for the station.",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "fest_carve_done",
+   "text": "Your jack-o'-lantern is glowing on the table with all the others.",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "fest_apples_title",
+   "text": "Apple bobbing: which apple will you go for?",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "apple_red",
+   "text": "The shiny red one",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "apple_green",
+   "text": "The green one by the edge",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "apple_deep",
+   "text": "The one right at the bottom",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "fest_apples_red",
+   "text": "You go in face first and come up with the red one, and most of the water. Everyone cheers.",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "fest_apples_green",
+   "text": "You nudge the green one against the side of the tub and catch it first try. Pip calls it cheating. Rosa calls it clever.",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "fest_apples_deep",
+   "text": "You go all the way down. You come up with the apple and a very wet hat. The applause is enormous.",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "fest_apples_done",
+   "text": "You've had your turn. Your hair is still dripping.",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "fest_sweets",
+   "text": "Trick or treat! You take a handful of sweets from the bowl.",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "fest_sweets_done",
+   "text": "You've had sweets from this bowl already. Leave some for Pip.",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "item_sweets",
+   "text": "Sweets",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "item_desc_sweets",
+   "text": "Wrapped sweets from a Samhain bowl. Mostly toffee.",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "item_decor_wicker_moose",
+   "text": "Little wicker moose",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "item_desc_decor_wicker_moose",
+   "text": "Woven at Midsummer. This one isn't for burning.",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "item_decor_ribbon_samhain",
+   "text": "Samhain rosette",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "item_desc_decor_ribbon_samhain",
+   "text": "Best Pumpkin, Humdrum Samhain.",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "guide_tab_bird",
+   "text": "Birds",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "guide_hint_bird",
+   "text": "Not seen yet. Look up as well as down, where and when the chips say.",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "animal_crow",
+   "text": "Crow",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "animal_owl",
+   "text": "Barred owl",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "animal_blue_jay",
+   "text": "Blue jay",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "animal_cardinal",
+   "text": "Cardinal",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "animal_magic_crow",
+   "text": "Starry crow",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "animal_magic_owl",
+   "text": "Three-eyed owl",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "guide_line_crow",
+   "text": "Struts about the meadows from dawn to dusk. Knows exactly what's in your pack.",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "guide_line_owl",
+   "text": "Out from dusk, deep in the pines. You hear \"who cooks for you?\" long before you see it.",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "guide_line_blue_jay",
+   "text": "Loud, bright and nosy, in the woods by day. Buries hazelnuts and forgets half of them.",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "guide_line_cardinal",
+   "text": "A flash of red at the meadow's edge at dawn and dusk, all year. Brightest against snow.",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "guide_line_magic_crow",
+   "text": "A crow with a scrap of night sky in its feathers, out at dusk among the crows. It looks at you as if it knows your name.",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "guide_line_magic_owl",
+   "text": "An owl among the owls at night, with a third eye on its brow. The third eye opens when the other two close.",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "feather_taken",
+   "text": "You pick up a {item}.",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "item_feather_crow",
+   "text": "Crow feather",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "item_desc_feather_crow",
+   "text": "Glossy black, with a blue shine when it turns.",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "item_feather_owl",
+   "text": "Owl feather",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "item_desc_feather_owl",
+   "text": "Soft as anything. It makes no sound at all when it falls.",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "item_feather_blue_jay",
+   "text": "Blue jay feather",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "item_desc_feather_blue_jay",
+   "text": "Bright blue, with neat black bars.",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "item_feather_cardinal",
+   "text": "Cardinal feather",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "item_desc_feather_cardinal",
+   "text": "A red you could see from the road.",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "item_feather_magic_crow",
+   "text": "Starry feather",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "item_desc_feather_magic_crow",
+   "text": "There are stars in it. Small ones, but real.",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "item_feather_magic_owl",
+   "text": "Moon-gold feather",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "item_desc_feather_magic_owl",
+   "text": "Warm, and faintly gold. It feels as if it's watching you.",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "judge_lyle_face_friendly",
+   "text": "\"A friendly face! Like a good neighbour. Like me, frankly.\"",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "judge_lyle_face_spooky",
+   "text": "\"Goodness. I'll be sleeping with the lamp on. Splendid.\"",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "judge_lyle_face_silly",
+   "text": "\"Is it winking at me? I'm winking back. Officially.\"",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "judge_lyle_face_cat",
+   "text": "\"A cat! The most ordinary animal. Top marks for ordinariness.\"",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "judge_lyle_face_moose",
+   "text": "\"A moose. How... locally appropriate.\" He looks out at the dark, briefly.",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "judge_agnes_face_friendly",
+   "text": "\"My mother carved them just like that. Hers smiled less.\"",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "judge_agnes_face_spooky",
+   "text": "\"Proper Samhain. The old way. I'll write it in the minutes.\"",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "judge_agnes_face_silly",
+   "text": "\"Hm. It's laughing at something. I'd like to know what.\"",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "judge_agnes_face_cat",
+   "text": "\"Whiskers in a pumpkin. Steady hands, ranger.\"",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "judge_agnes_face_moose",
+   "text": "\"A moose. We had a moose once.\" She doesn't say any more.",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "judge_rosa_face_friendly",
+   "text": "\"Ay, look at him! I want to give him soup!\"",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "judge_rosa_face_spooky",
+   "text": "\"No. No. I love it. Turn it round, I can't look at it.\"",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "judge_rosa_face_silly",
+   "text": "\"Teo! Come and see! It looks like you when you're lying!\"",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "judge_rosa_face_cat",
+   "text": "\"A little cat! I'm going to cry. I'm crying.\"",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "judge_rosa_face_moose",
+   "text": "\"Antlers on a pumpkin! How did you even fit them?\"",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "item_decor_jack_friendly",
+   "text": "Jack-o'-lantern (friendly)",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "item_desc_decor_jack_friendly",
+   "text": "Your Samhain carving. The candle never quite goes out.",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "item_decor_jack_spooky",
+   "text": "Jack-o'-lantern (spooky)",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "item_desc_decor_jack_spooky",
+   "text": "Your Samhain carving. The candle never quite goes out.",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "item_decor_jack_silly",
+   "text": "Jack-o'-lantern (silly)",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "item_desc_decor_jack_silly",
+   "text": "Your Samhain carving. The candle never quite goes out.",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "item_decor_jack_cat",
+   "text": "Jack-o'-lantern (cat)",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "item_desc_decor_jack_cat",
+   "text": "Your Samhain carving. The candle never quite goes out.",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "item_decor_jack_moose",
+   "text": "Jack-o'-lantern (moose)",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "item_desc_decor_jack_moose",
+   "text": "Your Samhain carving. The candle never quite goes out.",
+   "_086": "0.8.6"
+  },
+  {
+   "id": "hint_x_feather",
+   "text": "X: pick up the feather",
+   "_086": "0.8.6"
   }
  ]
 }
