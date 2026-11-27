@@ -5,6 +5,8 @@ His AR27 sheets are drawn on a flat cream background, so the background
 test is swapped for a cream one before cutting.
 
 Run: python -I tools/cut_ar27.py <folder with raw_ar27_B_birds.png and raw_ar27_F_festivals.png> [--list]
+Mark's follow-up (the costumes and the sweets):
+     python -I tools/cut_ar27.py <folder> --followup
 """
 import os
 import sys
@@ -137,5 +139,88 @@ def main():
         (do_birds if tag == "B_birds" else do_festivals)(s, rows)
 
 
-if __name__ == "__main__":
+if __name__ == "__main__" and "--followup" not in sys.argv:
     main()
+
+
+# --- Mark's follow-up sheets: the costumes and the sweets -------------------------
+
+def keep_biggest(s, x0, y0, x1, y1):
+    """In one cell, keeps only the biggest drawn blob (drops the specks)."""
+    from collections import deque
+    seen = set()
+    blobs = []
+    for y in range(y0, y1):
+        for x in range(x0, x1):
+            if (x, y) in seen or not s.opaque(x, y):
+                continue
+            q = deque([(x, y)])
+            seen.add((x, y))
+            pts = []
+            while q:
+                px_, py_ = q.popleft()
+                pts.append((px_, py_))
+                for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+                    nx, ny = px_ + dx, py_ + dy
+                    if x0 <= nx < x1 and y0 <= ny < y1 and (nx, ny) not in seen and s.opaque(nx, ny):
+                        seen.add((nx, ny))
+                        q.append((nx, ny))
+            blobs.append(pts)
+    if not blobs:
+        return None
+    big = max(blobs, key=len)
+    keep = set(big)
+    for b in blobs:
+        if b is not big:
+            for p in b:
+                s.clear(*p)
+    xs = [p[0] for p in big]
+    ys = [p[1] for p in big]
+    return [min(xs), min(ys), max(xs) + 1, max(ys) + 1]
+
+
+COSTUME_W, COSTUME_H, COSTUME_TALL = 20, 32, 29
+
+
+def do_costumes(path):
+    """Three 4 x 4 sheets side by side (ghost, witch, skeleton; rows down,
+    right, up, left). Each becomes fest_costume_<kind>: 4 x 4 frames of
+    20 x 32, a little wider than a person so the costume can flare."""
+    s = C.Sheet(path)
+    for k in range(3, len(s.px), 4):
+        if s.px[k] < 160:
+            s.px[k] = 0
+    third = s.w // 3
+    for n, kind in enumerate(["ghost", "witch", "skeleton"]):
+        rows = []
+        for r in range(4):
+            row = []
+            for c in range(4):
+                x0 = n * third + c * third // 4
+                y0 = r * s.h // 4
+                b = keep_biggest(s, x0, y0, x0 + third // 4, y0 + s.h // 4)
+                row.append(b)
+            rows.append(row)
+        allb = [b for r in rows for b in r if b]
+        sc = min(COSTUME_W / max(b[2] - b[0] for b in allb), COSTUME_TALL / max(b[3] - b[1] for b in allb))
+        w, h = 4 * COSTUME_W, 4 * COSTUME_H
+        px = bytearray(w * h * 4)
+        for ry, r in enumerate(rows):
+            for cx, b in enumerate(r):
+                if b:
+                    C.shrink(s, b, sc, COSTUME_W, COSTUME_H, px, cx * COSTUME_W, ry * COSTUME_H, w)
+        C.save("fest_costume_" + kind, w, h, px)
+
+
+def do_sweets(path):
+    s = C.Sheet(path)
+    for k in range(3, len(s.px), 4):
+        if s.px[k] < 128:
+            s.px[k] = 0
+    b = max(C.pieces(s, 6), key=lambda b: b[4])
+    C.cut_piece(s, b, "item_sweets", 32, 32)
+
+
+if __name__ == "__main__" and "--followup" in sys.argv:
+    do_costumes(os.path.join(sys.argv[1], "raw_ar27_fest_costumes.png"))
+    do_sweets(os.path.join(sys.argv[1], "raw_ar27_item_sweets.png"))

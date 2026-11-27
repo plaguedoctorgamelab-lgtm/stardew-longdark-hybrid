@@ -365,7 +365,9 @@ func _dress(id: String, node: Node2D) -> void:
 				cos.vframes = 4
 				node.add_child(cos)
 			cos.texture = tex
-			cos.offset = base.offset
+			# Mark's costume frames are 20 wide, a little wider than a person:
+			# centred on them, feet on the same line.
+			cos.offset = Vector2(-tex.get_width() / 8.0, base.offset.y)
 			cos.set_meta("kind", kind)
 	if cos != null:
 		cos.visible = kind != "" and str(cos.get_meta("kind", "")) == kind

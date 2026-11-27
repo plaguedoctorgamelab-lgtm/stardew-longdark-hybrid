@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.8.6** (see [Version history](#version-history)). The
+**Current version: 0.8.7** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -119,6 +119,12 @@ phase is finished; the last number counts every build and runs on past 9
 | 0.10.x | Phase 7, Year one polish |
 | 0.11.x to 0.14.x | Phases 8 to 11, one region each |
 | 1.0.0 | every phase done |
+
+### 0.8.7 (27 November 2026): Mark's Samhain costumes and sweets
+
+- **Costumes:** Mark's ghost, witch and skeleton sheets replace the stand-ins. They're cut a little wider than a person (20 x 32 frames) and centred, so the cape and sheet can flare. Teo and Marge are skeletons now.
+- **Sweets:** Mark's handful of wrapped sweets is the backpack icon.
+- The male cardinal stays on its own for now.
 
 ### 0.8.6 (27 November 2026): a new festival year, and birds
 
