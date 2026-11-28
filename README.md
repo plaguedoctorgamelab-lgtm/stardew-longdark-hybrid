@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.9.0** (see [Version history](#version-history)). The
+**Current version: 0.9.1** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -119,6 +119,14 @@ phase is finished; the last number counts every build and runs on past 9
 | 0.10.x | Phase 7, Year one polish |
 | 0.11.x to 0.14.x | Phases 8 to 11, one region each |
 | 1.0.0 | every phase done |
+
+### 0.9.1 (28 November 2026): the split station spec and Art Request 29
+
+No change to the game. A small plan, written before play testing 5b and 6a starts.
+
+- **`docs/Split Station Spec.md`:** the station gets a living half on its left (bed, nightstand, table and chair, woodstove, a chest) with its own door, and a doorway through the wall to the station half (radio, note board, supply closet, employee board, desk, workbench, a second chest). Still one room on one screen. The kitchen and second-room upgrades are reworked to fit. Six questions, each with a suggested answer.
+- **`docs/art/art_request_29_split_station.md`:** one sheet: the station outside with its wing, the nightstand, the supply closet, a park footlocker, and the inside wall.
+- **`docs/art/split_station_mock.png`:** a rough view from the game's own art, drawn by `tools/mock_split_station.py`.
 
 ### 0.9.0 (27 November 2026): Phase 6a, the far bank
 
