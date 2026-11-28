@@ -19,6 +19,8 @@ signal camp_changed
 signal tree_changed(tile: Vector2i)
 signal note_read(text: String)
 signal land_changed(tile: Vector2i)
+## Phase 6a: the season changed the land in many places at once.
+signal land_season_changed
 signal workbench_opened
 signal choice_requested(kind: String, title: String, options: Array)
 signal cooking_opened
@@ -165,6 +167,7 @@ var wildlife: Wildlife
 var pet: Pet
 # Phase 5b, Gord and the night: the magical creatures, the moon, auroras.
 var creatures: Creatures
+var vehicles: Vehicles           # Phase 6a: the canoe, the cart, the toll, the land's seasons
 var walking_slow: bool = false       # Shift: quieter, and animals let you nearer
 var _reading_offer: bool = false     # talking to Esme at her caravan offers a reading
 
@@ -223,6 +226,7 @@ func _init(tuning_path: String = Tuning.DEFAULT_PATH, content_dir: String = Cont
 	wildlife = Wildlife.new(self)
 	pet = Pet.new(self)
 	creatures = Creatures.new(self)
+	vehicles = Vehicles.new(self)
 	jobs.job_done.connect(func(key: String) -> void: creatures.on_job_done(key))
 
 
@@ -250,6 +254,7 @@ func new_game(new_seed: int = -1) -> void:
 	wildlife.from_dict({})
 	pet.from_dict({})
 	creatures.from_dict({})
+	vehicles.new_game()
 	map.wipe()
 	# The ground around the station starts mapped, so home is never lost.
 	map.reveal_circle(door_front("ranger_station"), tuning.num("map.home_reveal_radius"))
@@ -372,6 +377,7 @@ func to_dict() -> Dictionary:
 		"wildlife": wildlife.to_dict(),
 		"pet": pet.to_dict(),
 		"creatures": creatures.to_dict(),
+		"vehicles": vehicles.to_dict(),
 		"bench_boxes": bench_boxes.keys().map(func(k: String) -> Array: return [k, (bench_boxes[k] as Inventory).to_array()]),
 		"piles": piles.keys().map(func(t: Vector2i) -> Array: return [t.x, t.y, (piles[t] as Inventory).to_array()]),
 	}
@@ -509,6 +515,7 @@ func from_dict(d: Dictionary) -> void:
 	wildlife.from_dict(d.get("wildlife", {}))
 	pet.from_dict(d.get("pet", {}))
 	creatures.from_dict(d.get("creatures", {}))
+	vehicles.from_dict(d.get("vehicles", {}))
 	_after_home()
 	if location == Home.STATION and (interiors[location] as InteriorLayout).is_solid(Vector2i(floori(interior_pos.x), floori(interior_pos.y))):
 		interior_pos = clear_spot(interiors[location], (interiors[location] as InteriorLayout).entry)
@@ -705,6 +712,7 @@ func process(real_delta: float) -> void:
 	wildlife.update(real_delta)
 	pet.update(real_delta)
 	creatures.update(real_delta)
+	vehicles.update()
 
 
 ## The clock's minute with the part of the current ten minutes gone by, so
@@ -750,6 +758,14 @@ func move(direction: Vector2, real_delta: float) -> void:
 		var t := Vector2i(floori(interior_pos.x), floori(interior_pos.y))
 		if t == layout.door_tile:
 			leave_building()
+		return
+	# Phase 6a: in the canoe or the cart, the vehicle's speed and ground.
+	if vehicles.riding != "":
+		var vm := dir * vehicles.speed(dir) * real_delta
+		var was := outdoor_pos
+		outdoor_pos = Mover.move(outdoor_pos, vm, box, vehicles.blocks)
+		_walked_this_step += was.distance_to(outdoor_pos)
+		_update_trace()
 		return
 	var before := outdoor_pos
 	outdoor_pos = Mover.move(outdoor_pos, motion, box, world.is_solid)
@@ -1399,6 +1415,17 @@ func interact() -> void:
 		_interact_inside()
 		return
 	var reach := tuning.num("world.interact_reach_tiles")
+	# Phase 6a: out of the canoe or the cart, or into one; the bridge's toll box.
+	if vehicles.riding != "":
+		message.emit(vehicles.leave())
+		return
+	var vk := vehicles.in_reach(outdoor_pos, reach)
+	if vk != "":
+		message.emit(vehicles.board(vk))
+		return
+	if outdoor_pos.distance_to(vehicles.toll_box_pos()) <= reach + 0.5:
+		message.emit(vehicles.pay_toll())
+		return
 	# The station's mailbox: letters from town (Phase 4, Townsfolk Favors).
 	if town_open and outdoor_pos.distance_to(mailbox_pos()) <= 1.5:
 		var gifts := life.take_mail_gifts()
@@ -2263,6 +2290,18 @@ func dig() -> Dictionary:
 	# Something buried here comes up first.
 	if forage.magic_at(t) != "" and forage.has_magic(t, clock.absolute_day(), forage_ctx()):
 		return dig_up(t)
+	# Phase 6a: the shovel on trail widens it to cart trail.
+	if world.ground_at(t) in ["trail", "boards"] and not vehicles.is_cart_trail(t):
+		var wide := vehicles.widen(t, facing_vector())
+		if wide.is_empty():
+			message.emit(content.text("msg_cant_dig"))
+			return {"ok": false, "reason": "here"}
+		needs.spend(tuning.num("trail.energy") * skills.value("dig_energy", 1.0) * skills.energy_for("dig_tile"))
+		skills.act("dig_tile", wide.size())
+		message.emit(content.text("fb_widened"))
+		pass_minutes(tuning.integer("trail.minutes"))
+		_check_collapse()
+		return {"ok": true, "tiles": wide}
 	for i in dig_tiles():
 		if not can_dig(t):
 			break
@@ -3164,6 +3203,9 @@ func find_moment_now(find_id: String) -> bool:
 
 ## Some things are only there in some seasons.
 func _apply_seasons() -> void:
+	# Phase 6a: the melt, low water, the ice and the snowed-in trails.
+	if vehicles != null and vehicles.apply_land():
+		land_season_changed.emit()
 	var season := clock.season_name()
 	var spots: Dictionary = world.meta.get("finds", {})
 	for row: Dictionary in content.rows("spoiler_finds"):
@@ -5085,6 +5127,38 @@ func debug_play_event(id: String) -> void:
 		if town.hearts(who) < int(life.row(id)["hearts"]):
 			debug_set_hearts(who, int(life.row(id)["hearts"]))
 		life.start(id)
+
+
+## Phase 6a debug tools (F1): mend the bridge; put the ranger in the canoe
+## at the landing or the cart at the camp; jump to the melt, low water or
+## the freeze.
+func debug_far_bank(what: String) -> String:
+	match what:
+		"bridge":
+			jobs.spots_done["bridge_mend"] = true
+			jobs.mark_dirty()
+			vehicles.update()
+			return "Bridge mended."
+		"canoe", "cart":
+			jobs.unlocks[what] = true
+			vehicles.riding = ""
+			vehicles.place_new()
+			if in_town:
+				leave_town()
+			if is_indoors():
+				leave_building()
+			if what == "canoe" and clock.season == 3:
+				clock.season = 2
+				_apply_seasons()
+			outdoor_pos = (vehicles.canoe_pos if what == "canoe" else vehicles.cart_pos)
+			vehicles.board(what)
+			return "In the %s." % what
+		"melt", "summer", "freeze":
+			clock.season = {"melt": 0, "summer": 1, "freeze": 3}[what]
+			clock.day = {"melt": 2, "summer": 10, "freeze": 20}[what]
+			_apply_seasons()
+			return "Season set: %s %d." % [clock.season_name(), clock.day]
+	return ""
 
 
 func debug_start_festival(id: String) -> void:

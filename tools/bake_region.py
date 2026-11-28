@@ -93,6 +93,9 @@ def bake(out_dir, quiet=False):
     if "ring_two" in G:
         import ring_two
         otypes.update(ring_two.bake(R, G, L, r1, structures, ox, oy))
+    if "ring_three" in G:
+        import ring_three
+        otypes.update(ring_three.bake(R, G, r1, ox, oy))
     write(R, out_dir, L, otypes, ox, oy, r1)
     import bake_forage
     fo = bake_forage.bake(R, out_dir, L["seed"], R.spawns["station"])

@@ -1086,6 +1086,7 @@ func _process(delta: float) -> void:
 		session.moving = false
 	var px := session.ranger_pos() * TILE
 	ranger.motion = Settings.flag("motion")
+	ranger.set_vehicle(session.vehicles.riding)
 	ranger.show_state(px, session.facing, session.moving, delta)
 	_update_look()
 	if session.is_indoors() or session.in_town_room():

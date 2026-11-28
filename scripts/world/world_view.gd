@@ -7,7 +7,7 @@ extends Node2D
 
 const TILE := 16
 ## Which ground spills over its neighbours: higher wins.
-const GROUND_ORDER: Array[String] = ["deep_water", "shallows", "boards", "trail", "dug_earth", "bog", "grass", "tall_grass", "forest_floor", "rock"]
+const GROUND_ORDER: Array[String] = ["deep_water", "lake", "shallows", "ice", "sandbar", "boards", "trail", "cart_trail", "trail_snowed", "dug_earth", "bog", "fen", "grass", "tall_grass", "forest_floor", "rock"]
 
 var session: GameSession
 var ground_layer: TileMapLayer
@@ -43,6 +43,7 @@ var _time: float = 0.0
 var park_view: ParkView
 var wildlife_view: WildlifeView
 var creature_view: CreatureView
+var vehicle_view: VehicleView
 var _pile_sprites: Array[Sprite2D] = []
 var polish: Polish
 var _ranger: Node2D
@@ -128,6 +129,10 @@ func setup(s: GameSession, ranger_node: Node2D) -> void:
 	creature_view = CreatureView.new()
 	add_child(creature_view)
 	creature_view.setup(session, sort_root)
+	vehicle_view = VehicleView.new()
+	add_child(vehicle_view)
+	vehicle_view.setup(session, sort_root)
+	session.land_season_changed.connect(redraw_land)
 	session.binoculars_changed.connect(func(on: bool) -> void:
 		if on:
 			update_chunks(true))
@@ -251,8 +256,11 @@ func _build_tileset() -> TileSet:
 		_detail_source = ts.add_source(dsrc)
 	var water: Dictionary = session.tuning.value("look.water")
 	var grounds: Array = session.world.ground_codes.values()
-	# Ground the park can make at run time: a troll badger's diggings.
-	grounds.append("dug_earth")
+	# Ground the park can make at run time: a troll badger's diggings, and
+	# (Phase 6a) what the seasons and the shovel make.
+	for extra: String in ["dug_earth", "ice", "sandbar", "trail_snowed", "cart_trail", "lake", "fen"]:
+		if not grounds.has(extra):
+			grounds.append(extra)
 	for g: String in grounds:
 		var look := _variety("ground_" + g)
 		var pics: Array = look["pictures"]
@@ -472,6 +480,9 @@ func _draw_ground(t: Vector2i) -> void:
 	if not w.in_bounds(t):
 		return
 	var g := w.ground_at(t)
+	# Phase 6a: trail widened for the cart is drawn with its wheel ruts.
+	if g == "trail" and session.vehicles.is_cart_trail(t):
+		g = "cart_trail"
 	ground_layer.set_cell(t, _ground_source[g], Vector2i(pick(t, _ground_weights[g], 0) * int(_ground_frames.get(g, 1)), 0))
 	_draw_detail(t)
 	var gi := _ground_index(g)
@@ -926,6 +937,16 @@ func _unload_rows(c: Vector2i, row0: int, count: int) -> void:
 
 func reset_chunks() -> void:
 	update_chunks(true)
+
+
+## Phase 6a: the season changed the land; every loaded tile's ground is
+## drawn again.
+func redraw_land() -> void:
+	var cs := session.world.chunk_size
+	for c: Vector2i in loaded:
+		for ly in cs:
+			for lx in cs:
+				_draw_ground(c * cs + Vector2i(lx, ly))
 
 
 func _draw_borders() -> void:

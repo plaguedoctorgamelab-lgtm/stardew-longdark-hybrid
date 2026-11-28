@@ -374,5 +374,199 @@
    "tower": 420,
    "bridge": 540
   }
+ },
+ "ring_three": {
+  "note": "Phase 6a: the far bank and Skull Lake, baked around ring two's far side. Plan coordinates.",
+  "seed": 20261127,
+  "box": {
+   "e": [
+    880,
+    1460
+   ],
+   "n": [
+    -30,
+    870
+   ]
+  },
+  "river_out": [
+   [
+    940,
+    598
+   ],
+   [
+    980,
+    600
+   ],
+   [
+    1020,
+    605
+   ],
+   [
+    1052,
+    612
+   ]
+  ],
+  "lake": {
+   "cranium": {
+    "c": [
+     1200,
+     615
+    ],
+    "rx": 160,
+    "ry": 115
+   },
+   "jaw": {
+    "c": [
+     1200,
+     475
+    ],
+    "rx": 100,
+    "ry": 55
+   },
+   "shallow": 3,
+   "islands": {
+    "left_eye_island": {
+     "c": [
+      1140,
+      655
+     ],
+     "rx": 16,
+     "ry": 12
+    },
+    "right_eye_island": {
+     "c": [
+      1260,
+      655
+     ],
+     "rx": 16,
+     "ry": 12
+    },
+    "nose_island": {
+     "c": [
+      1200,
+      580
+     ],
+     "rx": 9,
+     "ry": 11
+    }
+   }
+  },
+  "jaw_creek": {
+   "points": [
+    [
+     1200,
+     424
+    ],
+    [
+     1210,
+     360
+    ],
+    [
+     1240,
+     250
+    ],
+    [
+     1270,
+     120
+    ],
+    [
+     1290,
+     -40
+    ]
+   ],
+   "radius": 2.0
+  },
+  "trail": {
+   "points": [
+    [
+     897,
+     621
+    ],
+    [
+     920,
+     617
+    ],
+    [
+     946,
+     617
+    ],
+    [
+     975,
+     650
+    ],
+    [
+     1000,
+     700
+    ],
+    [
+     1030,
+     750
+    ],
+    [
+     1070,
+     790
+    ],
+    [
+     1100,
+     818
+    ]
+   ],
+   "radius": 1.0,
+   "snows_in_from": 0.75
+  },
+  "hill": {
+   "c": [
+    1100,
+    820
+   ],
+   "r": 14
+  },
+  "landing": {
+   "boathouse": [
+    946,
+    611
+   ],
+   "spawn": [
+    946,
+    616
+   ]
+  },
+  "logging_camp": {
+   "sawmill": [
+    752,
+    592
+   ],
+   "spawn": [
+    752,
+    587
+   ]
+  },
+  "summer_ford": {
+   "n": 730,
+   "e": [
+    848,
+    880
+   ],
+   "half_width": 1
+  },
+  "ice_crossing": {
+   "n": 690,
+   "e": [
+    850,
+    886
+   ],
+   "half_width": 1
+  },
+  "forest": {
+   "tree": 0.17,
+   "shore_tree": 0.1,
+   "island_tree": 0.2,
+   "boulder": 0.01,
+   "hemlock_from_n": 730
+  },
+  "edge": {
+   "rock": 3,
+   "trees": 4
+  }
  }
 }

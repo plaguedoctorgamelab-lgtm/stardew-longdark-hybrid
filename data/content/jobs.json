@@ -998,6 +998,262 @@
      "r": 8
     }
    }
+  },
+  {
+   "id": "mend_bridge",
+   "type": "exploring",
+   "giver": "chief",
+   "name": "jn_mend_bridge",
+   "note": "jnote_mend_bridge",
+   "size": "medium",
+   "appears": "job_done:find_bridge",
+   "steps": [
+    {
+     "kind": "pack",
+     "label": "js_pack",
+     "items": {
+      "planks": 12,
+      "nails": 6
+     }
+    },
+    {
+     "kind": "repair",
+     "label": "js_mend_bridge",
+     "spot": "bridge_mend"
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "rumor",
+     "landmark": "dusk_river_landing",
+     "job": "open_landing"
+    },
+    {
+     "kind": "money",
+     "n": 120
+    },
+    {
+     "kind": "xp",
+     "skill": "trailcraft",
+     "n": 150
+    }
+   ],
+   "season": "until_done",
+   "handy": [
+    "hammer"
+   ],
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "open_landing",
+   "type": "exploring",
+   "giver": "last_ranger",
+   "name": "jn_open_landing",
+   "note": "jnote_open_landing",
+   "size": "large",
+   "appears": "job_done:mend_bridge or site_found:river_landing",
+   "steps": [
+    {
+     "kind": "pack",
+     "label": "js_pack"
+    },
+    {
+     "kind": "find",
+     "label": "js_find_landing",
+     "site": "river_landing"
+    },
+    {
+     "kind": "map",
+     "label": "js_map_landing",
+     "site": "river_landing"
+    },
+    {
+     "kind": "repair",
+     "label": "js_repair_landing",
+     "spot": "landing_boathouse"
+    },
+    {
+     "kind": "join_trail",
+     "label": "js_join_landing",
+     "site": "river_landing"
+    },
+    {
+     "kind": "sign",
+     "label": "js_sign_landing",
+     "site": "river_landing"
+    },
+    {
+     "kind": "open",
+     "label": "js_open_landing",
+     "site": "river_landing"
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "job",
+     "job": "build_canoe"
+    },
+    {
+     "kind": "money",
+     "n": 150
+    },
+    {
+     "kind": "xp",
+     "skill": "surveying",
+     "n": 200
+    }
+   ],
+   "season": "until_done",
+   "handy": [
+    "hammer"
+   ],
+   "on_add": {
+    "rumor": "dusk_river_landing"
+   },
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "build_canoe",
+   "type": "exploring",
+   "giver": "last_ranger",
+   "name": "jn_build_canoe",
+   "note": "jnote_build_canoe",
+   "size": "small",
+   "appears": "site_open:river_landing",
+   "steps": [
+    {
+     "kind": "pack",
+     "label": "js_pack",
+     "items": {
+      "planks": 6,
+      "rope": 2
+     }
+    },
+    {
+     "kind": "repair",
+     "label": "js_build_canoe",
+     "spot": "canoe_build"
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "unlock",
+     "what": "canoe"
+    },
+    {
+     "kind": "xp",
+     "skill": "woodcraft",
+     "n": 120
+    }
+   ],
+   "season": "until_done",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "open_logging_camp",
+   "type": "exploring",
+   "giver": "last_ranger",
+   "name": "jn_open_logging_camp",
+   "note": "jnote_open_logging_camp",
+   "size": "large",
+   "appears": "site_open:static_tower or site_found:logging_camp",
+   "steps": [
+    {
+     "kind": "pack",
+     "label": "js_pack"
+    },
+    {
+     "kind": "find",
+     "label": "js_find_logging_camp",
+     "site": "logging_camp"
+    },
+    {
+     "kind": "map",
+     "label": "js_map_logging_camp",
+     "site": "logging_camp"
+    },
+    {
+     "kind": "repair",
+     "label": "js_repair_logging_camp",
+     "spot": "sawmill"
+    },
+    {
+     "kind": "join_trail",
+     "label": "js_join_logging_camp",
+     "site": "logging_camp",
+     "link": "clear_old_road"
+    },
+    {
+     "kind": "sign",
+     "label": "js_sign_logging_camp",
+     "site": "logging_camp"
+    },
+    {
+     "kind": "open",
+     "label": "js_open_logging_camp",
+     "site": "logging_camp"
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "job",
+     "job": "fix_cart"
+    },
+    {
+     "kind": "money",
+     "n": 120
+    },
+    {
+     "kind": "xp",
+     "skill": "surveying",
+     "n": 150
+    }
+   ],
+   "season": "until_done",
+   "handy": [
+    "hammer"
+   ],
+   "on_add": {
+    "rumor": "logging_camp"
+   },
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "fix_cart",
+   "type": "exploring",
+   "giver": "last_ranger",
+   "name": "jn_fix_cart",
+   "note": "jnote_fix_cart",
+   "size": "small",
+   "appears": "site_open:logging_camp",
+   "steps": [
+    {
+     "kind": "pack",
+     "label": "js_pack",
+     "items": {
+      "repair_kit": 1,
+      "rope": 2
+     }
+    },
+    {
+     "kind": "repair",
+     "label": "js_fix_cart",
+     "spot": "cart_fix"
+    }
+   ],
+   "rewards": [
+    {
+     "kind": "unlock",
+     "what": "cart"
+    },
+    {
+     "kind": "xp",
+     "skill": "woodcraft",
+     "n": 120
+    }
+   ],
+   "season": "until_done",
+   "_6a": "0.9.0"
   }
  ]
 }

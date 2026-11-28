@@ -234,6 +234,127 @@
    "verb": "jt_verb_fit_valve",
    "done_text": "jt_spot_radio_done",
    "minutes": 20
+  },
+  {
+   "id": "bridge_mend",
+   "where": "outdoor",
+   "pos": "point:bridge_gap:0",
+   "size": [
+    1,
+    1
+   ],
+   "sprite": "",
+   "action": "hammer",
+   "needs": {
+    "planks": 12,
+    "nails": 6
+   },
+   "verb": "fb_verb_mend",
+   "done_text": "fb_bridge_mended",
+   "minutes": 90,
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "landing_boathouse",
+   "where": "outdoor",
+   "pos": "point:landing_boathouse:0",
+   "size": [
+    5,
+    2
+   ],
+   "sprite": "building_boathouse_broken",
+   "sprite_done": "building_boathouse_repaired",
+   "action": "hammer",
+   "needs": {
+    "planks": 8,
+    "nails": 4,
+    "roofing": 2
+   },
+   "verb": "fb_verb_repair",
+   "done_text": "fb_boathouse_done",
+   "minutes": 90,
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "canoe_build",
+   "where": "outdoor",
+   "pos": "point:canoe_build:0",
+   "size": [
+    1,
+    1
+   ],
+   "sprite": "item_canoe_kit",
+   "sprite_done": "",
+   "shows": "site_open:river_landing",
+   "action": "x",
+   "needs": {
+    "planks": 6,
+    "rope": 2
+   },
+   "verb": "fb_verb_build_canoe",
+   "done_text": "fb_canoe_built",
+   "minutes": 120,
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "sawmill",
+   "where": "outdoor",
+   "pos": "point:sawmill:0",
+   "size": [
+    6,
+    2
+   ],
+   "sprite": "building_sawmill_broken",
+   "sprite_done": "building_sawmill_repaired",
+   "action": "hammer",
+   "needs": {
+    "nails": 6,
+    "roofing": 3
+   },
+   "verb": "fb_verb_repair",
+   "done_text": "fb_sawmill_done",
+   "minutes": 90,
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "plank_pile",
+   "where": "outdoor",
+   "pos": "point:plank_pile:0",
+   "size": [
+    2,
+    1
+   ],
+   "sprite": "obj_plank_pile",
+   "sprite_done": "",
+   "action": "x",
+   "gives": {
+    "planks": 12
+   },
+   "verb": "fb_verb_take_planks",
+   "done_text": "fb_planks_taken",
+   "minutes": 10,
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "cart_fix",
+   "where": "outdoor",
+   "pos": "point:cart:0",
+   "size": [
+    2,
+    1
+   ],
+   "sprite": "obj_cart_broken",
+   "sprite_done": "",
+   "shows": "site_open:logging_camp",
+   "action": "hammer",
+   "needs": {
+    "repair_kit": 1,
+    "rope": 2
+   },
+   "verb": "fb_verb_fix_cart",
+   "done_text": "fb_cart_fixed",
+   "minutes": 120,
+   "_6a": "0.9.0"
   }
  ]
 }

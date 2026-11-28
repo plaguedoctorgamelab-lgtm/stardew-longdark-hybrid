@@ -76,6 +76,38 @@
     "radius": 32,
     "rumor": true
    }
+  },
+  {
+   "id": "dusk_river_landing",
+   "name": "landmark_dusk_river_landing",
+   "kind": "site",
+   "reveal_radius": 20,
+   "hint": {
+    "text": "landmark_hint_dusk_river_landing",
+    "offset": [
+     8,
+     -6
+    ],
+    "radius": 30,
+    "rumor": true
+   },
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "logging_camp",
+   "name": "landmark_logging_camp",
+   "kind": "site",
+   "reveal_radius": 20,
+   "hint": {
+    "text": "landmark_hint_logging_camp",
+    "offset": [
+     -9,
+     7
+    ],
+    "radius": 30,
+    "rumor": true
+   },
+   "_6a": "0.9.0"
   }
  ]
 }

@@ -269,6 +269,118 @@
     1,
     1
    ]
+  },
+  {
+   "id": "ground_lake",
+   "pictures": [
+    "ground_lake",
+    "ground_lake_alt_1",
+    "ground_lake_alt_2",
+    "ground_lake_alt_3"
+   ],
+   "weights": [
+    40,
+    4,
+    3,
+    3
+   ]
+  },
+  {
+   "id": "ground_ice",
+   "pictures": [
+    "ground_ice",
+    "ground_ice_alt_1",
+    "ground_ice_alt_2",
+    "ground_ice_alt_3"
+   ],
+   "weights": [
+    30,
+    6,
+    4,
+    2
+   ]
+  },
+  {
+   "id": "ground_sandbar",
+   "pictures": [
+    "ground_sandbar",
+    "ground_sandbar_alt_1",
+    "ground_sandbar_alt_2",
+    "ground_sandbar_alt_3"
+   ],
+   "weights": [
+    20,
+    6,
+    4,
+    2
+   ]
+  },
+  {
+   "id": "ground_fen",
+   "pictures": [
+    "ground_fen",
+    "ground_fen_alt_1",
+    "ground_fen_alt_2",
+    "ground_fen_alt_3"
+   ],
+   "weights": [
+    12,
+    6,
+    6,
+    4
+   ]
+  },
+  {
+   "id": "ground_trail_snowed",
+   "pictures": [
+    "ground_trail_snowed",
+    "ground_trail_snowed_alt_1",
+    "ground_trail_snowed_alt_2",
+    "ground_trail_snowed_alt_3"
+   ],
+   "weights": [
+    30,
+    4,
+    3,
+    3
+   ]
+  },
+  {
+   "id": "ground_cart_trail",
+   "pictures": [
+    "ground_cart_trail",
+    "ground_cart_trail_alt_1",
+    "ground_cart_trail_alt_2",
+    "ground_cart_trail_alt_3",
+    "ground_cart_trail_alt_4",
+    "ground_cart_trail_alt_5"
+   ],
+   "weights": [
+    30,
+    6,
+    6,
+    4,
+    2,
+    2
+   ]
+  },
+  {
+   "id": "obj_tree_birch",
+   "pictures": [
+    "obj_tree_birch"
+   ],
+   "weights": [
+    1
+   ]
+  },
+  {
+   "id": "obj_tree_hemlock",
+   "pictures": [
+    "obj_tree_hemlock"
+   ],
+   "weights": [
+    1
+   ]
   }
  ]
 }

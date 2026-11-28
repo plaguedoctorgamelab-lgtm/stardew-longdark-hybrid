@@ -293,6 +293,19 @@ func setup(s: GameSession) -> void:
 		for ev: String in session.content.ids("calendar_events"):
 			session.creatures.heard[ev] = true)
 
+	# Phase 6a: the far bank, its seasons, the canoe and the cart.
+	r = _row()
+	_btn(r, "Mend bridge", func() -> void: session.message.emit(session.debug_far_bank("bridge")))
+	_btn(r, "Canoe at landing", func() -> void:
+		session.message.emit(session.debug_far_bank("canoe"))
+		on_teleport.call())
+	_btn(r, "Cart at camp", func() -> void:
+		session.message.emit(session.debug_far_bank("cart"))
+		on_teleport.call())
+	_btn(r, "Spring melt", func() -> void: session.message.emit(session.debug_far_bank("melt")))
+	_btn(r, "Summer low water", func() -> void: session.message.emit(session.debug_far_bank("summer")))
+	_btn(r, "Lake frozen", func() -> void: session.message.emit(session.debug_far_bank("freeze")))
+
 	r = _row()
 	_btn(r, "Reveal map", session.debug_reveal_map)
 	_btn(r, "Wipe map", session.debug_wipe_map)

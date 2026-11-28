@@ -11179,6 +11179,281 @@
    "id": "hint_x_feather",
    "text": "X: pick up the feather",
    "_086": "0.8.6"
+  },
+  {
+   "id": "landmark_dusk_river_landing",
+   "text": "Dusk River Landing",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "landmark_hint_dusk_river_landing",
+   "text": "Landing?",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "landmark_logging_camp",
+   "text": "Old Logging Camp",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "landmark_hint_logging_camp",
+   "text": "Sawmill?",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "jn_mend_bridge",
+   "text": "Mend the bridge",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "jnote_mend_bridge",
+   "text": "The Chief: \"That bridge is the only way over the Dusk River. Twelve planks and a handful of nails should see it right. Mind the badgers, they've got opinions about it.\"",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "js_mend_bridge",
+   "text": "Mend the gap: hammer at the bridge",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "fb_verb_mend",
+   "text": "Mend the bridge",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "fb_bridge_mended",
+   "text": "The last plank goes down. The bridge creaks, then holds. Somewhere under it, a badger sniffs.",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "jn_open_landing",
+   "text": "Open Dusk River Landing",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "jnote_open_landing",
+   "text": "A page of the last ranger's journal: \"Boathouse below the bridge, on the far side. River runs east from there into the big lake. Best way to Skull Lake there is, if the roof holds.\"",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "js_find_landing",
+   "text": "Find the landing",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "js_map_landing",
+   "text": "Map it",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "js_repair_landing",
+   "text": "Mend the boathouse: hammer",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "js_join_landing",
+   "text": "Join it to the park's trails",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "js_sign_landing",
+   "text": "Put up a sign naming it",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "js_open_landing",
+   "text": "Declare it open",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "fb_verb_repair",
+   "text": "Repair",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "fb_boathouse_done",
+   "text": "The boathouse stands straight again. There's room inside for a canoe.",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "jn_build_canoe",
+   "text": "Build a canoe",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "jnote_build_canoe",
+   "text": "The last ranger left plans pinned in the boathouse: a canvas canoe, planks for the ribs, rope to lash it. \"Six planks, two rope, one afternoon.\"",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "js_build_canoe",
+   "text": "Build it at the landing: X",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "fb_verb_build_canoe",
+   "text": "Build the canoe",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "fb_canoe_built",
+   "text": "It's done: a red canvas canoe, a little lopsided, completely watertight. It's waiting at the water's edge.",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "jt_r_unlock_canoe",
+   "text": "The canoe: X by it to paddle, X again to step ashore",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "jn_open_logging_camp",
+   "text": "Open the Old Logging Camp",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "jnote_open_logging_camp",
+   "text": "A page of the last ranger's journal: \"Old sawmill off the logging road, east of the tower. There's a truck up there that ran once. Might run again.\"",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "js_find_logging_camp",
+   "text": "Find the sawmill",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "js_map_logging_camp",
+   "text": "Map it",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "js_repair_logging_camp",
+   "text": "Mend the sawmill: hammer",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "js_join_logging_camp",
+   "text": "Join it to the park's trails",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "js_sign_logging_camp",
+   "text": "Put up a sign naming it",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "js_open_logging_camp",
+   "text": "Declare it open",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "fb_sawmill_done",
+   "text": "The sawmill's roof is on and the big blade turns. It's a museum now, mostly. The planks under the tarp are still good.",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "fb_verb_take_planks",
+   "text": "Take the old planks",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "fb_planks_taken",
+   "text": "Twelve good old planks, dry as a bone.",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "jn_fix_cart",
+   "text": "Fix the old cart",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "jnote_fix_cart",
+   "text": "The park's old utility cart is still in the yard, with a fern growing in the back. A repair kit and some rope, the Chief reckons.",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "js_fix_cart",
+   "text": "Fix it: hammer",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "fb_verb_fix_cart",
+   "text": "Fix the cart",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "fb_cart_fixed",
+   "text": "The engine coughs, then runs. The fern is staying.",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "jt_r_unlock_cart",
+   "text": "The cart: drives on cart trail, three times as fast. Widen any trail with the shovel",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "fb_canoe_in",
+   "text": "You push off.",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "fb_canoe_out",
+   "text": "You step ashore and pull the canoe up.",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "fb_canoe_winter",
+   "text": "The canoe's put away for the winter.",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "fb_cart_in",
+   "text": "You climb into the cart.",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "fb_cart_out",
+   "text": "You park the cart.",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "fb_no_room_out",
+   "text": "There's nowhere to step out here.",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "fb_widened",
+   "text": "You widen the trail. Wide enough for the cart now.",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "fb_toll_paid",
+   "text": "You drop a {item} in the toll box. From under the bridge, contented chomping.",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "fb_toll_paid_already",
+   "text": "You've paid today's toll. The box is very full of crumbs.",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "fb_toll_nothing",
+   "text": "The toll box waits. The badgers take snacks, or shiny trash.",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "fb_toll_grumble",
+   "text": "From under the bridge, a badger clears its throat. The toll box is right there.",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "fb_melt",
+   "text": "The spring melt: the fords run deep this week.",
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "fb_freeze",
+   "text": "Skull Lake has frozen over.",
+   "_6a": "0.9.0"
   }
  ]
 }

@@ -31,6 +31,11 @@ const GROUND_COLORS := {
 	"rock": Color8(198, 204, 210),
 	"bog": Color8(182, 162, 110),
 	"boards": Color8(93, 62, 48),
+	"lake": Color8(30, 96, 140),
+	"ice": Color8(196, 226, 240),
+	"sandbar": Color8(232, 214, 160),
+	"fen": Color8(160, 150, 96),
+	"trail_snowed": Color8(236, 240, 246),
 }
 const ZOOMS: Array[float] = [0.25, 0.5, 1.0, 2.0]
 const VIEW_SIZE := Vector2(272, 160)

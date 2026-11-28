@@ -4,7 +4,7 @@ A cozy top-down pixel game about a park ranger in a vast, quietly magical
 wilderness. This repository holds phases one, 2a, 2b and 3. See `docs/` for the
 game bible, roadmap, phase specs and working rules.
 
-**Current version: 0.8.8** (see [Version history](#version-history)). The
+**Current version: 0.9.0** (see [Version history](#version-history)). The
 version shows on the title screen and in the debug panel, and V shows it in
 play.
 
@@ -119,6 +119,18 @@ phase is finished; the last number counts every build and runs on past 9
 | 0.10.x | Phase 7, Year one polish |
 | 0.11.x to 0.14.x | Phases 8 to 11, one region each |
 | 1.0.0 | every phase done |
+
+### 0.9.0 (27 November 2026): Phase 6a, the far bank
+
+The first part of Phase 6 (`docs/Phase 6 Spec.md`, sections 1 to 3), with Mark's Art Request 28 sheets G1 to G3 cut by `tools/cut_ar28.py`. Mark plays 5b and 6a together.
+
+- **The far bank:** a third ring of the forest, baked by `tools/ring_three.py`. East of the Dusk River and the mire, out to about 1,460 tiles from the gate. The river runs on into **Skull Lake**, skull-shaped, with Left Eye, Right Eye and Nose islands; a creek drains its jaw south. Hemlock in the north woods, birches along the shore, a bald hill for the Ring of Nine later.
+- **Troll Badger Bridge:** a new job, Mend the bridge (12 planks, 6 nails), after Find the bridge. Mended, it's the only way across. The toll box on the far end takes a snack a day for the badgers below (a little friendship); cross without paying and one clears its throat.
+- **Seasons change the land:** the spring melt floods the fords for a week (from the second year); summer's low water opens a ford on the river; Skull Lake freezes from the 7th of winter, so the islands can be walked to; the river's ice crossing from the 14th; the high trails (the tower steps, the far bank's hill) snow in all winter, with "trail closed" signs.
+- **Dusk River Landing:** find, map, mend the boathouse, join, sign, open. Then **build the canoe** (6 planks, 2 rope). X by it to paddle, X to step ashore. Fast downstream, slow upstream, no upstream at all in the melt, put away for winter.
+- **The Old Logging Camp:** east of Static Tower on the old road. Mend the sawmill, take the old planks, then **fix the cart** (a repair kit, 2 rope). It drives only on cart trail, three times walking speed: the old logging road to start with, and any trail widened with the shovel.
+- **F1:** mend the bridge, canoe at the landing, cart at the camp, spring melt, summer low water, lake frozen.
+- `tests/test_far_bank_6a.gd`; screenshots `tests/support/screenshots_6a.gd` in `docs/status/0900_shots/`.
 
 ### 0.8.8 (27 November 2026): the Phase 6 spec and Art Request 28
 

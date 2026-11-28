@@ -31,8 +31,10 @@ GROUND_CODES = {
     "rock": "r",
     "bog": "k",
     "boards": "b",
+    "lake": "L",
+    "fen": "F",
 }
-SOLID_GROUNDS = {"deep_water", "rock"}
+SOLID_GROUNDS = {"deep_water", "rock", "lake"}
 
 
 class Noise:

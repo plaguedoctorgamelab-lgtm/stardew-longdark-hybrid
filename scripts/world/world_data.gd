@@ -145,6 +145,45 @@ func ground_at(t: Vector2i) -> String:
 		return "rock"
 	if _ground_override.has(t):
 		return _ground_override[t]
+	if _season_tiles.has(t):
+		return _season_tiles[t]
+	var g := _raw_ground(t)
+	if g == "lake" and frozen:
+		return "ice"
+	return g
+
+
+## Phase 6: grounds a tile can't be walked on, whatever made it so.
+const SOLID_GROUNDS: Array[String] = ["deep_water", "rock", "lake", "trail_snowed"]
+
+## Phase 6, seasons change the land (Phase 6 Spec, section 2): the lake's
+## ice, and the tiles the season has changed (flooded fords, the summer
+## ford's sandbar, the ice crossing, the snowed-in high trails).
+var frozen: bool = false
+var _season_tiles: Dictionary = {}   # tile -> the ground this season
+
+
+## Sets the land for the season. state: {frozen, melt, low_water,
+## ice_crossing, snowed}. Returns whether anything changed.
+func set_land_season(state: Dictionary) -> bool:
+	var sea: Dictionary = meta.get("seasonal", {})
+	var tiles := {}
+	var plan := [["lake_shore", "frozen", "ice"], ["fords", "melt", "deep_water"], ["summer_ford", "low_water", "sandbar"], ["ice_crossing", "ice_crossing", "ice"], ["snow_closed", "snowed", "trail_snowed"]]
+	for p: Array in plan:
+		if not bool(state.get(p[1], false)):
+			continue
+		for v: Array in sea.get(p[0], []):
+			tiles[Vector2i(int(v[0]), int(v[1]))] = p[2]
+	var fz := bool(state.get("frozen", false))
+	if fz == frozen and tiles == _season_tiles:
+		return false
+	frozen = fz
+	_season_tiles = tiles
+	return true
+
+
+## The ground as baked, before anything the game or the season changed.
+func _raw_ground(t: Vector2i) -> String:
 	var d := chunk(chunk_of(t))
 	if d.is_empty():
 		return "rock"
@@ -163,14 +202,21 @@ func is_solid(t: Vector2i) -> bool:
 	if _blocked.has(t):
 		return true
 	if _cleared.has(t):
-		var g := ground_at(t)
-		return g == "deep_water" or g == "rock"
+		return SOLID_GROUNDS.has(ground_at(t))
 	var c := chunk_of(t)
 	var d := chunk(c)
 	if d.is_empty():
 		return true
 	var row: String = d["solid"][t.y - c.y * chunk_size]
-	return row[t.x - c.x * chunk_size] == "1"
+	var baked_solid := row[t.x - c.x * chunk_size] == "1"
+	# Where the game or the season changed the ground, the ground decides,
+	# unless something baked stands there (a tree on dug ground stays solid).
+	if _ground_override.has(t) or _season_tiles.has(t) or (frozen and baked_solid):
+		var raw := _raw_ground(t)
+		if baked_solid and not SOLID_GROUNDS.has(raw):
+			return true
+		return SOLID_GROUNDS.has(ground_at(t))
+	return baked_solid
 
 
 func objects_in_chunk(c: Vector2i) -> Array:

@@ -273,6 +273,8 @@ def bake(R, G, L, r1, structures, ox, oy):
     else:
         for t in disc(ford[0], ford[1], cr["ford_radius"]):
             deep_tiles.discard(t)
+        # Phase 6: the ford floods in the spring melt.
+        R.ford_tiles = sorted(t for t in disc(ford[0], ford[1], cr["ford_radius"]) if t in creek_tiles)
     for (x, y) in creek_tiles:
         if in_r1(x, y):
             continue
@@ -327,9 +329,11 @@ def bake(R, G, L, r1, structures, ox, oy):
     sdx, sdy = sdx / sl, sdy / sl
     foot = (tcx + sdx * (tw["rock_radius"] + tw["wobble"] + 2), tcy + sdy * (tw["rock_radius"] + tw["wobble"] + 2))
     steps_pts = bw.resample([(tcx + sdx * (tw["plateau"] - 1), tcy + sdy * (tw["plateau"] - 1)), foot], 0.5)
+    R.steps_tiles = set()
     for (px, py) in steps_pts:
         for t in disc(px, py, tw["steps_radius"]):
             ground[t[1]][t[0]] = "trail"
+            R.steps_tiles.add(t)
         for t in disc(px, py, 2.5):
             protected.add(t)
 
@@ -671,6 +675,12 @@ def bake(R, G, L, r1, structures, ox, oy):
     R.extra["ring_two_estimate_minutes"] = times
     types = dict(OBJECT_TYPES)
     types.update(find_types)
+    # What ring three (Phase 6, the far bank) builds on.
+    R.r2_far = {t for t, z in zone.items() if z == "far"}
+    R.r2_box = (bx0, by0, bx1, by1)
+    R.river_pts = river_pts
+    R.road_tiles = {t for (px, py) in road_pts for t in disc(px, py, ro["radius"]) if ground[t[1]][t[0]] == "trail"}
+    R.steps_foot = foot
     R.extra["ring_two_lengths"] = {"trail": round(bw.polyline_length(trail_pts), 1), "road": round(bw.polyline_length(road_pts), 1), "stakes": round(bw.polyline_length(stake_line), 1)}
     R.extra["ring_two_estimate_base"] = round(base, 1)
     R.extra["trail_job_gaps"] = {

@@ -68,7 +68,10 @@
       "shallows": 0.5,
       "bog": 0.5,
       "boards": 1.0,
-      "dug_earth": 0.8
+      "dug_earth": 0.8,
+      "ice": 0.85,
+      "sandbar": 0.8,
+      "fen": 0.5
     },
     "exhausted_speed": 0.6,
     "ranger_box_tiles": [
@@ -434,7 +437,8 @@
       "note": "Water's look (Mark's water picture, 21 Nov 2026, used for the feel only): open water sways its ripple marks and catches small glints; where it meets land a wet-sand rim and a foam line run along the shore and lap in and out.",
       "grounds": [
         "shallows",
-        "deep_water"
+        "deep_water",
+        "lake"
       ],
       "sway": [
         0,
@@ -454,6 +458,11 @@
           95,
           172,
           207
+        ],
+        "lake": [
+          120,
+          190,
+          200
         ]
       },
       "shore_from": [
@@ -1135,6 +1144,25 @@
       6,
       3
     ]
+  },
+  "far_bank": {
+    "note": "Phase 6a: the far bank. Speeds are times walking speed on trail. Seasons: the melt floods the fords for melt_days of spring; the lake freezes from freeze_day of winter, the river's ice crossing from ice_crossing_day.",
+    "canoe_speed": 1.6,
+    "canoe_downstream": 1.6,
+    "canoe_upstream": 0.55,
+    "melt_downstream": 1.4,
+    "canoe_current_reach": 14,
+    "cart_speed": 3.0,
+    "toll_points": 6,
+    "toll_trash": [
+      "trash",
+      "old_bell"
+    ],
+    "seasons": {
+      "melt_days": 7,
+      "freeze_day": 7,
+      "ice_crossing_day": 14
+    }
   },
   "wildlife": {
     "note": "Phase 5a. Distances in tiles, speeds in tiles a real second.",

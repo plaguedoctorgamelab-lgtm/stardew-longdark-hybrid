@@ -39,6 +39,30 @@
     1104
    ],
    "magic": false
+  },
+  {
+   "id": "river_landing",
+   "name": "landmark_dusk_river_landing",
+   "structure": "",
+   "landmark": "dusk_river_landing",
+   "spot": [
+    948,
+    826
+   ],
+   "magic": false,
+   "_6a": "0.9.0"
+  },
+  {
+   "id": "logging_camp",
+   "name": "landmark_logging_camp",
+   "structure": "",
+   "landmark": "logging_camp",
+   "spot": [
+    754,
+    855
+   ],
+   "magic": false,
+   "_6a": "0.9.0"
   }
  ]
 }

@@ -16,6 +16,11 @@ var bob_delay: float = 2.0
 var bob_period: float = 2.4
 var motion: bool = true
 var _overlays: Array[Sprite2D] = []   # clothes drawn over the ranger (Phase 4)
+## Phase 6a: in the canoe or the cart the ranger is drawn as the vehicle's
+## sheet (4 rows: down, right, up, left; 32 x 32 frames).
+var vehicle: String = ""
+var _base_texture: Texture2D
+const VEHICLE_SHEETS := {"canoe": ["ranger_canoe", 2], "cart": ["vehicle_cart", 1]}
 
 
 func _init() -> void:
@@ -31,7 +36,9 @@ func _init() -> void:
 ## a new hat) and an overlay sheet for each piece worn over it.
 func set_clothes(base: String, overlays: Array[String]) -> void:
 	if Art.has_picture(base):
-		sprite.texture = Art.texture(base)
+		_base_texture = Art.texture(base)
+		if vehicle == "":
+			sprite.texture = _base_texture
 	for o in _overlays:
 		o.queue_free()
 	_overlays.clear()
@@ -55,11 +62,36 @@ func freeze(frames: int) -> void:
 		frozen = maxi(frozen, frames)
 
 
+## Draws the ranger in a vehicle ("canoe", "cart"), or on foot ("").
+func set_vehicle(kind: String) -> void:
+	if kind == vehicle:
+		return
+	if vehicle == "":
+		_base_texture = sprite.texture
+	vehicle = kind
+	for o in _overlays:
+		o.visible = kind == ""
+	if kind == "" or not VEHICLE_SHEETS.has(kind) or not Art.has_picture(VEHICLE_SHEETS[kind][0]):
+		vehicle = ""
+		sprite.texture = _base_texture if _base_texture != null else Art.texture("ranger")
+		sprite.offset = Vector2(-FRAME.x / 2.0, -FRAME.y + 2)
+		return
+	sprite.texture = Art.texture(VEHICLE_SHEETS[kind][0])
+	sprite.offset = Vector2(-16, -26)
+
+
 func show_state(pixel_pos: Vector2, facing: int, walking: bool, delta: float) -> void:
 	if frozen > 0:
 		frozen -= 1
 		return
 	position = pixel_pos.round()
+	if vehicle != "":
+		if walking:
+			_anim += delta * 3.0
+		var cols: int = VEHICLE_SHEETS[vehicle][1]
+		sprite.region_rect = Rect2((int(_anim) % cols) * 32, facing * 32, 32, 32)
+		sprite.position.y = 0.0
+		return
 	if walking:
 		_anim += delta * FRAMES_PER_SECOND
 		_still = 0.0
